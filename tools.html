@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tools &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Workflow Simplification and Performance Plan" href="workflow-performance-plan.html" />
+    <link rel="prev" title="Glossary" href="glossary.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Tools</a><ul>
+<li><a class="reference internal" href="#sphinx">Sphinx</a></li>
+<li><a class="reference internal" href="#lean">Lean</a><ul>
+<li><a class="reference internal" href="#lean-libraries">Lean Libraries</a><ul>
+<li><a class="reference internal" href="#mathlib">Mathlib</a></li>
+<li><a class="reference internal" href="#physlib">Physlib</a></li>
+<li><a class="reference internal" href="#qeclean">QECLean</a></li>
+<li><a class="reference internal" href="#signals">Signals</a><ul>
+<li><a class="reference internal" href="#numerical-adapter">numerical_adapter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#signals-blueprint">Signals blueprint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lake">Lake</a></li>
+<li><a class="reference internal" href="#lean-blueprint">Lean Blueprint</a></li>
+<li><a class="reference internal" href="#lean-architect">Lean Architect</a></li>
+<li><a class="reference internal" href="#schematool">schematool</a></li>
+<li><a class="reference internal" href="#transform-md">transform_md</a></li>
+<li><a class="reference internal" href="#docindex">docindex</a><ul>
+<li><a class="reference internal" href="#toctreeyaml">toctreeyaml</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="glossary.html" title="Glossary" accesskey="P">previous </a></li>
+              <li><a href="workflow-performance-plan.html" title="Workflow Simplification and Performance Plan" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/tools.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Tools</a><ul>
+<li><a class="reference internal" href="#sphinx">Sphinx</a></li>
+<li><a class="reference internal" href="#lean">Lean</a><ul>
+<li><a class="reference internal" href="#lean-libraries">Lean Libraries</a><ul>
+<li><a class="reference internal" href="#mathlib">Mathlib</a></li>
+<li><a class="reference internal" href="#physlib">Physlib</a></li>
+<li><a class="reference internal" href="#qeclean">QECLean</a></li>
+<li><a class="reference internal" href="#signals">Signals</a><ul>
+<li><a class="reference internal" href="#numerical-adapter">numerical_adapter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#signals-blueprint">Signals blueprint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lake">Lake</a></li>
+<li><a class="reference internal" href="#lean-blueprint">Lean Blueprint</a></li>
+<li><a class="reference internal" href="#lean-architect">Lean Architect</a></li>
+<li><a class="reference internal" href="#schematool">schematool</a></li>
+<li><a class="reference internal" href="#transform-md">transform_md</a></li>
+<li><a class="reference internal" href="#docindex">docindex</a><ul>
+<li><a class="reference internal" href="#toctreeyaml">toctreeyaml</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="glossary.html"
+                          title="previous chapter">Glossary</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="workflow-performance-plan.html"
+                          title="next chapter">Workflow Simplification and Performance Plan</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tools.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tools">
+<h1>Tools<a class="headerlink" href="#tools" title="Link to this heading">¶</a></h1>
+<p>Tools used in the sustainablefactory project</p>
+<section id="sphinx">
+<h2>Sphinx<a class="headerlink" href="#sphinx" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Commands:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx-build</span> <span class="pre">--help</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="lean">
+<h2>Lean<a class="headerlink" href="#lean" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Features:</p>
+<ul>
+<li><p>type verification, theorem modeling, thereom proving</p></li>
+<li><p>machine-checkable proofs</p></li>
+</ul>
+</li>
+<li><p>Commands:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">lean</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">leanc</span></code></p></li>
+</ul>
+</li>
+</ul>
+<section id="lean-libraries">
+<h3>Lean Libraries<a class="headerlink" href="#lean-libraries" title="Link to this heading">¶</a></h3>
+<section id="mathlib">
+<h4>Mathlib<a class="headerlink" href="#mathlib" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Path: <code class="docutils literal notranslate"><span class="pre">src/Mathlib</span></code></p></li>
+</ul>
+</section>
+<section id="physlib">
+<h4>Physlib<a class="headerlink" href="#physlib" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Path: <code class="docutils literal notranslate"><span class="pre">src/Physlib</span></code></p></li>
+</ul>
+</section>
+<section id="qeclean">
+<h4>QECLean<a class="headerlink" href="#qeclean" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Path: <code class="docutils literal notranslate"><span class="pre">src/QECLean</span></code></p></li>
+</ul>
+</section>
+<section id="signals">
+<h4>Signals<a class="headerlink" href="#signals" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Path: <code class="docutils literal notranslate"><span class="pre">src/signals</span></code></p></li>
+</ul>
+<section id="numerical-adapter">
+<h5>numerical_adapter<a class="headerlink" href="#numerical-adapter" title="Link to this heading">¶</a></h5>
+<ul class="simple">
+<li><p>Path: <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter</span></code></p></li>
+<li><p>Features</p>
+<ul>
+<li><p>Rust-based fluid analysis</p>
+<ul>
+<li><p>Verify that Lyapunov exponents predict observed real fluids from JHTDB</p></li>
+</ul>
+</li>
+<li><p>Rust code produced from src/signals</p>
+<ul>
+<li><p>cannon_mask_cad.rs</p></li>
+<li><p><a class="reference external" href="http://cylinder.rs">cylinder.rs</a></p></li>
+<li><p>double_slit.rs</p></li>
+<li><p><a class="reference external" href="http://jhtdb.rs">jhtdb.rs</a></p></li>
+<li><p>madelung_lagrangian.rs</p></li>
+<li><p>orbital_splat.rs</p></li>
+<li><p>polariton_spp.rs</p></li>
+<li><p>thermal_inelastic.rs</p></li>
+</ul>
+</li>
+<li><p>Python code produced from src/signals</p>
+<ul>
+<li><p>jhtdb_cutout_probe.py</p></li>
+<li><p>jhtdb_probe.py</p></li>
+<li><p>matlab_piv_probe.py</p></li>
+<li><p>rspid_subset_probe.py</p></li>
+</ul>
+</li>
+<li><p>WebGL GLSL Shaders produced from src/signals</p>
+<ul>
+<li><p>double_slit.frag.glsl</p></li>
+<li><p>double_slit.vert.glsl</p></li>
+<li><p>orbital_splat.frag.glsl</p></li>
+<li><p>orbital_split.vert.glsl</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="signals-blueprint">
+<h4>Signals blueprint<a class="headerlink" href="#signals-blueprint" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Path: <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code></p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="lake">
+<h2>Lake<a class="headerlink" href="#lake" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Features</p>
+<ul>
+<li><p>package manager for Lean modules</p></li>
+</ul>
+</li>
+<li><p>Commands</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">lake</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="lean-blueprint">
+<h2>Lean Blueprint<a class="headerlink" href="#lean-blueprint" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Features</p>
+<ul>
+<li><p>annotate Lean modules with structured docstrings</p></li>
+</ul>
+</li>
+<li><p>Commands</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">leanblueprint</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="lean-architect">
+<h2>Lean Architect<a class="headerlink" href="#lean-architect" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Features</p>
+<ul>
+<li><p>build Lean modules with Lean Blueprint annotations into HTML</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="schematool">
+<h2>schematool<a class="headerlink" href="#schematool" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Features</p>
+<ul>
+<li><p>recursively download RDFS and OWL schemas into an on-disk file layout</p></li>
+</ul>
+</li>
+<li><p>Commands</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">schematool</span> <span class="pre">--help</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="transform-md">
+<h2>transform_md<a class="headerlink" href="#transform-md" title="Link to this heading">¶</a></h2>
+<p>transform_md parses industrial process descriptions (like <a class="reference internal" href="paper.html"><span class="std std-doc">paper.md</span></a>) and converts them into a structured graph linked data representation
+using the <strong>Industrial Ontologies Foundry (IOF)</strong> and sustainablefactory process schema.
+[ <a class="reference internal" href="schema.html"><span class="std std-doc">schema</span></a> ]</p>
+<ul class="simple">
+<li><p><strong>Parser</strong>: Extracts steps, properties, and Mermaid diagrams.</p></li>
+<li><p><strong>RDF Generator</strong>: Produces Turtle-star (<code class="docutils literal notranslate"><span class="pre">.ttl</span></code>) with reified confidence metrics.</p></li>
+<li><p><strong>Visualizer</strong>: Integrated Mermaid diagrams for process flow overview.</p></li>
+<li><p>Commands</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">transform_md</span> <span class="pre">--help</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="docindex">
+<h2>docindex<a class="headerlink" href="#docindex" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Features</p>
+<ul>
+<li><p>YAML toctrees and tagged chat overlays</p></li>
+</ul>
+</li>
+<li><p>Commands</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">docindex</span> <span class="pre">--help</span></code></p></li>
+</ul>
+</li>
+</ul>
+<section id="toctreeyaml">
+<h3>toctreeyaml<a class="headerlink" href="#toctreeyaml" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">toctreeyaml</span></code> directive extends Sphinx’s native <code class="docutils literal notranslate"><span class="pre">toctree</span></code> directive with a
+Jupyter Book-compatible YAML tree. It reads <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code> by default, or a file
+selected with <code class="docutils literal notranslate"><span class="pre">:file:</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="err">```</span><span class="p p-Indicator">{</span><span class="nv">toctreeyaml</span><span class="p p-Indicator">}</span>
+<span class="nt">:file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_toc.yml</span>
+<span class="nt">:maxdepth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="err">```</span>
+</pre></div>
+</div>
+<p>The same attributes can be supplied inline as YAML content. <code class="docutils literal notranslate"><span class="pre">root</span></code>,
+<code class="docutils literal notranslate"><span class="pre">chapters</span></code>, nested <code class="docutils literal notranslate"><span class="pre">sections</span></code>, <code class="docutils literal notranslate"><span class="pre">parts</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span></code>, and <code class="docutils literal notranslate"><span class="pre">title</span></code> are supported.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="err">```</span><span class="p p-Indicator">{</span><span class="nv">toctreeyaml</span><span class="p p-Indicator">}</span>
+<span class="nt">maxdepth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">chapters</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">readme</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">schema</span>
+<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Project Schema</span>
+<span class="err">```</span>
+</pre></div>
+</div>
+<p>Chat source selection and tag overlays are configured in
+<code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code> under <code class="docutils literal notranslate"><span class="pre">sustainablefactory.chat_sources</span></code>. Run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">chat_overlays</span></code> to create the <code class="docutils literal notranslate"><span class="pre">chats__all</span></code>
+overlay and one <code class="docutils literal notranslate"><span class="pre">chats/TAG</span></code> symlink directory for each source-document tag.
+The transformation targets use the all overlay and generate only MyST and
+notebook outputs; <code class="docutils literal notranslate"><span class="pre">docindex</span></code> indexes the MyST files.</p>
+<p>The optional <code class="docutils literal notranslate"><span class="pre">sphinxcontrib-webmcp</span></code> extension exposes theme-independent tools
+for page context, navigation, documentation metadata, and search through
+<code class="docutils literal notranslate"><span class="pre">document.modelContext</span></code>. Enable it with <code class="docutils literal notranslate"><span class="pre">docindex_webmcp_enabled</span></code> and configure
+the public behavior with <code class="docutils literal notranslate"><span class="pre">docindex_webmcp</span></code>. It emits <code class="docutils literal notranslate"><span class="pre">webmcp.json</span></code> from the
+Sphinx build, including navigation and compact doctree metadata. WebMCP remains
+inactive in browsers that do not implement the API or that deny the <code class="docutils literal notranslate"><span class="pre">tools</span></code>
+permissions policy.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">docindex_searchtools_enhanced</span></code> is enabled, <code class="docutils literal notranslate"><span class="pre">docs/_templates/search.html</span></code>
+shows native Sphinx and DocIndex as separate modes. Enable either configured
+backend under <code class="docutils literal notranslate"><span class="pre">docindex_searchtools.docindex</span></code>; <code class="docutils literal notranslate"><span class="pre">oxirs.url</span></code> must accept the existing
+form-encoded <code class="docutils literal notranslate"><span class="pre">query</span></code> request, and <code class="docutils literal notranslate"><span class="pre">meilisearch.url</span></code> must be reachable from the
+browser. Only a Meilisearch public search key may be placed in
+<code class="docutils literal notranslate"><span class="pre">public_api_key</span></code>; never put an administrative key in a static documentation
+build.</p>
+<p>See <a class="reference internal" href="workflow-performance-plan.html"><span class="std std-doc">Workflow Performance Plan</span></a> for the staged
+plan to simplify and accelerate the complete transformation, documentation,
+and search-index workflow.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="glossary.html" title="Glossary" >previous</a></li>
+        <li><a href="workflow-performance-plan.html" title="Workflow Simplification and Performance Plan" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

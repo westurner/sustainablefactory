@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>_Quantum Annealing Monotone Spectrum &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="../index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="../_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="../_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="../_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="../_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="../_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">_Quantum Annealing Monotone Spectrum</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#response-1">Response: 1</a><ul>
+<li><a class="reference internal" href="#the-qrt-framework-gibbs-distance-as-resource">1. The QRT Framework: Gibbs Distance as Resource</a><ul>
+<li><a class="reference internal" href="#the-spectrum-of-monotones">The Spectrum of Monotones</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-to-simulated-annealing-sa">2. Application to Simulated Annealing (SA)</a></li>
+<li><a class="reference internal" href="#application-to-quantum-annealing-qa">3. Application to Quantum Annealing (QA)</a></li>
+<li><a class="reference internal" href="#summary-table">Summary Table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prompt-2">Prompt: 2</a></li>
+<li><a class="reference internal" href="#response-2">Response: 2</a><ul>
+<li><a class="reference internal" href="#the-tts-foundation">1. The TTS Foundation</a></li>
+<li><a class="reference internal" href="#how-renyi-monotones-bound-p-s">2. How Rényi Monotones Bound <span class="math notranslate nohighlight">\(P_s\)</span></a></li>
+<li><a class="reference internal" href="#nisq-context-noise-as-a-resource-drain">3. NISQ Context: Noise as a Resource Drain</a></li>
+<li><a class="reference internal" href="#summary-the-bound-on-tts">4. Summary: The Bound on TTS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/chats/_Quantum Annealing Monotone Spectrum .myst.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">_Quantum Annealing Monotone Spectrum</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#response-1">Response: 1</a><ul>
+<li><a class="reference internal" href="#the-qrt-framework-gibbs-distance-as-resource">1. The QRT Framework: Gibbs Distance as Resource</a><ul>
+<li><a class="reference internal" href="#the-spectrum-of-monotones">The Spectrum of Monotones</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-to-simulated-annealing-sa">2. Application to Simulated Annealing (SA)</a></li>
+<li><a class="reference internal" href="#application-to-quantum-annealing-qa">3. Application to Quantum Annealing (QA)</a></li>
+<li><a class="reference internal" href="#summary-table">Summary Table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prompt-2">Prompt: 2</a></li>
+<li><a class="reference internal" href="#response-2">Response: 2</a><ul>
+<li><a class="reference internal" href="#the-tts-foundation">1. The TTS Foundation</a></li>
+<li><a class="reference internal" href="#how-renyi-monotones-bound-p-s">2. How Rényi Monotones Bound <span class="math notranslate nohighlight">\(P_s\)</span></a></li>
+<li><a class="reference internal" href="#nisq-context-noise-as-a-resource-drain">3. NISQ Context: Noise as a Resource Drain</a></li>
+<li><a class="reference internal" href="#summary-the-bound-on-tts">4. Summary: The Bound on TTS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chats/_Quantum Annealing Monotone Spectrum .myst.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quantum-annealing-monotone-spectrum">
+<h1>_Quantum Annealing Monotone Spectrum<a class="headerlink" href="#quantum-annealing-monotone-spectrum" title="Link to this heading">¶</a></h1>
+<blockquote>
+<div><p>From: <a class="reference external" href="https://gemini.google.com/app/6fd1bf9246a02fce">https://gemini.google.com/app/6fd1bf9246a02fce</a></p>
+</div></blockquote>
+<span class="target" id="chat-prompt-1"></span><section id="prompt-1">
+<h2>Prompt: 1<a class="headerlink" href="#prompt-1" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>Describe a Spectrum of Monotones QRT approach (with Gibbs distance as Resource).</p>
+<p>How does this apply to :
+Simulated annealing and quantum annealing</p>
+<p>—</p>
+<span class="target" id="chat-response-1"></span></div></blockquote>
+</section>
+<section id="response-1">
+<h2>Response: 1<a class="headerlink" href="#response-1" title="Link to this heading">¶</a></h2>
+<p>Thinking</p>
+<p><strong>Defining the Core Concept</strong></p>
+<p>I’ve clarified the fundamental “Spectrum of Monotones QRT approach” using Gibbs distance as the resource.</p>
+<p><strong>Refining the Framework</strong></p>
+<p>I’m now focusing on the “Spectrum of Monotones” aspect, connecting it to Rényi divergences and majorization within Thermal Operations for state transformations.</p>
+<p><strong>Refining the Framework</strong></p>
+<p>I am now connecting the spectrum of Rényi divergences within the Spectrum of Monotones to state transformations via Majorization/Thermo-majorization, readying application to Simulated Annealing.</p>
+<p><strong>Defining the Core Terms</strong></p>
+<p>The initial search clarified terminology, pinpointing QRT, thermal states, and Gibbs state deviation as key research focuses.</p>
+<p><strong>Clarifying Resource Concepts</strong></p>
+<p>I’ve defined the Gibbs distance as work potential, and synthesized SA/QA within the QRT framework using the spectrum of monotones.</p>
+<p><strong>Defining Resource and Monotones</strong></p>
+<p>I have successfully identified the core resource as non-Gibbs states and the monotones as the spectrum within the framework.</p>
+<p><strong>Generalizing Entropy Conditions</strong></p>
+<p>I’ve transitioned from a single “Second Law” to an entire spectrum of conditions using Rényi divergences.</p>
+<p>In the context of <strong>Quantum Resource Theory (QRT)</strong>, a <strong>Spectrum of Monotones</strong> approach shifts the focus from a single macroscopic quantity (like Helmholtz Free Energy) to a complete set of measures that characterize the “distance” from a target equilibrium state.</p>
+<p>When you designate <strong>Gibbs distance</strong> as the primary resource, you are working within the <strong>Resource Theory of Thermodynamics</strong> (or Thermal States).</p>
+<section id="the-qrt-framework-gibbs-distance-as-resource">
+<span id="chat-heading-3"></span><h3>1. The QRT Framework: Gibbs Distance as Resource<a class="headerlink" href="#the-qrt-framework-gibbs-distance-as-resource" title="Link to this heading">¶</a></h3>
+<p>In this theory, the “Free State” is the <strong>Gibbs state</strong> <span class="math notranslate nohighlight">\(\gamma = e^{-\beta H} / Z\)</span> at an ambient temperature <span class="math notranslate nohighlight">\(T = (k_B \beta)^{-1}\)</span>. Any state <span class="math notranslate nohighlight">\(\rho\)</span> that deviates from <span class="math notranslate nohighlight">\(\gamma\)</span> possesses “resource” (a-thermalily), which can be used to perform work or process information.</p>
+<section id="the-spectrum-of-monotones">
+<span id="id1"></span><h4>The Spectrum of Monotones<a class="headerlink" href="#the-spectrum-of-monotones" title="Link to this heading">¶</a></h4>
+<p>In classical thermodynamics, a transformation <span class="math notranslate nohighlight">\(\rho \to \sigma\)</span> is possible if <span class="math notranslate nohighlight">\(F(\rho) \ge F(\sigma)\)</span>. However, at the quantum scale or for small systems, this single condition is insufficient. Instead, a transformation via <strong>Thermal Operations</strong> is possible if and only if a whole <strong>spectrum of monotones</strong> decreases. These are typically the <strong>Rényi <span class="math notranslate nohighlight">\(\alpha\)</span>-relative entropies</strong>:</p>
+<div class="math notranslate nohighlight">
+\[D_\alpha(\rho || \gamma) = \frac{1}{\alpha - 1} \ln \text{Tr}(\rho^\alpha \gamma^{1-\alpha})\]</div>
+<p>For all <span class="math notranslate nohighlight">\(\alpha \in [0, \infty]\)</span>, these <span class="math notranslate nohighlight">\(D_\alpha\)</span> values act as “Gibbs distances.” This spectrum provides a more granular “provenance” of state transformation, ensuring that the system doesn’t just satisfy the average energy constraint but also respects the fine-grained statistics of the thermal bath.</p>
+<hr />
+</section>
+</section>
+<section id="application-to-simulated-annealing-sa">
+<span id="chat-heading-5"></span><h3>2. Application to Simulated Annealing (SA)<a class="headerlink" href="#application-to-simulated-annealing-sa" title="Link to this heading">¶</a></h3>
+<p>In <strong>Simulated Annealing</strong>, the goal is to drive a system toward the ground state of a cost Hamiltonian <span class="math notranslate nohighlight">\(H\)</span> by slowly lowering the temperature <span class="math notranslate nohighlight">\(T\)</span>.</p>
+<ul class="simple">
+<li><p><strong>Resource Depletion:</strong> At any point in the schedule, the “resource” is the distance between the current distribution <span class="math notranslate nohighlight">\(P_t\)</span> and the instantaneous Gibbs distribution <span class="math notranslate nohighlight">\(\gamma_{T(t)}\)</span>.</p></li>
+<li><p><strong>The Monotone Path:</strong> The annealing schedule defines a trajectory in the state space. The Spectrum of Monotones allows us to quantify the <strong>irreversibility</strong> of the cooling. If the cooling is too fast (a quench), the “Gibbs distance” for higher <span class="math notranslate nohighlight">\(\alpha\)</span> values increases, indicating the formation of local minima traps (unwanted resource accumulation in excited states).</p></li>
+<li><p><strong>Classical Majorization:</strong> In SA, this approach is often visualized via <strong>Lorenz curves</strong> (or Thermo-majorization curves). A successful anneal ensures that the state at <span class="math notranslate nohighlight">\(t+1\)</span> is thermo-majorized by the state at <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+</ul>
+<hr />
+</section>
+<section id="application-to-quantum-annealing-qa">
+<span id="chat-heading-6"></span><h3>3. Application to Quantum Annealing (QA)<a class="headerlink" href="#application-to-quantum-annealing-qa" title="Link to this heading">¶</a></h3>
+<p>In <strong>Quantum Annealing</strong>, we introduce a transverse field (kinetic term) to allow for quantum tunneling through potential barriers.</p>
+<ul class="simple">
+<li><p><strong>Coherence as an Auxiliary Resource:</strong> In QA, the resource is no longer just the “distance to Gibbs” in the computational basis. We must account for the <strong>Quantum Relative Entropy</strong> across the spectrum. The presence of non-diagonal elements (coherence) in <span class="math notranslate nohighlight">\(\rho\)</span> acts as a catalyst that can lower the “Gibbs distance” more efficiently than thermal fluctuations alone.</p></li>
+<li><p><strong>Tunneling and the Spectrum:</strong> Quantum fluctuations allow the system to “shortcut” the thermo-majorization path required by classical SA. By monitoring the spectrum of <span class="math notranslate nohighlight">\(D_\alpha\)</span>, researchers can identify exactly where a quantum speedup occurs: specifically when the quantum state can reach a “target” Gibbs distance that is classically inaccessible within the same time <span class="math notranslate nohighlight">\(t\)</span> due to entropy barriers.</p></li>
+<li><p><strong>Diabatic Transitions:</strong> The QRT approach helps model the “work cost” of staying in the instantaneous ground state. If the annealing is too fast, the system undergoes diabatic transitions. The Spectrum of Monotones quantifies the <strong>Work Fluctuations</strong>; whereas classical SA might only care about the mean energy, QA performance is often limited by the “tails” of the distribution (captured by the <span class="math notranslate nohighlight">\(\alpha \to \infty\)</span> monotone).</p></li>
+</ul>
+</section>
+<section id="summary-table">
+<span id="id2"></span><h3>Summary Table<a class="headerlink" href="#summary-table" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Feature</p></th>
+<th class="head text-left"><p>Simulated Annealing (SA)</p></th>
+<th class="head text-left"><p>Quantum Annealing (QA)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Resource</strong></p></td>
+<td class="text-left"><p>Classical Gibbs Distance (KL Divergence)</p></td>
+<td class="text-left"><p>Quantum Relative Entropy (including Coherence)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Primary Monotone</strong></p></td>
+<td class="text-left"><p>Thermo-majorization (Lorenz Curves)</p></td>
+<td class="text-left"><p>Rényi Divergences <span class="math notranslate nohighlight">\(D_\alpha(\rho | \gamma)\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Mechanism</strong></p></td>
+<td class="text-left"><p>Thermal jumping over barriers</p></td>
+<td class="text-left"><p>Tunneling through barriers</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Failure Mode</strong></p></td>
+<td class="text-left"><p>Trapping in local minima (monotone stall)</p></td>
+<td class="text-left"><p>Diabatic excitations (monotone increase)</p></td>
+</tr>
+</tbody>
+</table>
+<p>In your work as a <strong>Provenance Architect</strong>, this approach essentially treats the annealing process as a <strong>verifiable trace of resource conversion</strong>, where the “Second Laws” (the spectrum of monotones) act as the validation rules for the system’s evolution toward the ground state.</p>
+<p>Would you like to explore how these Rényi monotones specifically bound the “Time-to-Solution” (TTS) in noisy intermediate-scale quantum (NISQ) devices?</p>
+<hr />
+<span class="target" id="chat-prompt-2"></span></section>
+</section>
+<section id="prompt-2">
+<h2>Prompt: 2<a class="headerlink" href="#prompt-2" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>Yes</p>
+<p>—</p>
+<span class="target" id="chat-response-2"></span></div></blockquote>
+</section>
+<section id="response-2">
+<h2>Response: 2<a class="headerlink" href="#response-2" title="Link to this heading">¶</a></h2>
+<p>Thinking</p>
+<p><strong>Defining the Relationship</strong></p>
+<p>I’ve begun explaining how Rényi monotones will bound the Time-to-Solution in NISQ devices, per the user’s positive response.</p>
+<p><strong>Analyzing Rényi Bounds</strong></p>
+<p>My exploration now connects Rényi divergences with success probability, specifically focusing on the min-entropy in NISQ noise environments.</p>
+<p>In the NISQ (Noisy Intermediate-Scale Quantum) era, the <strong>Time-to-Solution (TTS)</strong> is the primary metric for evaluating an annealer’s performance. The spectrum of Rényi monotones provides the rigorous “governance” for how quickly a system can achieve a high-fidelity ground state.</p>
+<section id="the-tts-foundation">
+<span id="chat-heading-10"></span><h3>1. The TTS Foundation<a class="headerlink" href="#the-tts-foundation" title="Link to this heading">¶</a></h3>
+<p>The Time-to-Solution is defined as:
+$<span class="math notranslate nohighlight">\(TTS = t_a \frac{\ln(1 - p_d)}{\ln(1 - P_s(t_a))}\)</span><span class="math notranslate nohighlight">\(
+Where \)</span>t_a<span class="math notranslate nohighlight">\( is the annealing time, \)</span>p_d<span class="math notranslate nohighlight">\( is the desired cumulative success probability (e.g., \)</span>0.99<span class="math notranslate nohighlight">\(), and \)</span>P_s(t_a)$ is the probability of finding the ground state at the end of a single run.</p>
+<p>The “Spectrum of Monotones” approach treats <span class="math notranslate nohighlight">\(P_s(t_a)\)</span> not as a random variable, but as a quantity bounded by the initial resource (the “a-thermality” of the starting state) and the efficiency of the transformation.</p>
+<hr />
+</section>
+<section id="how-renyi-monotones-bound-p-s">
+<span id="chat-heading-11"></span><h3>2. How Rényi Monotones Bound <span class="math notranslate nohighlight">\(P_s\)</span><a class="headerlink" href="#how-renyi-monotones-bound-p-s" title="Link to this heading">¶</a></h3>
+<p>In the resource theory of thermodynamics, the transformation from an initial state <span class="math notranslate nohighlight">\(\rho\)</span> to a final state <span class="math notranslate nohighlight">\(\sigma\)</span> is constrained by the Rényi divergences. Specifically, for a target ground state <span class="math notranslate nohighlight">\(|0\rangle\)</span>, the <strong>max-relative entropy</strong> (<span class="math notranslate nohighlight">\(\alpha \to \infty\)</span>) provides the strictest bound on the success probability:</p>
+<div class="math notranslate nohighlight">
+\[D_\infty(\rho || \gamma) = \ln || \gamma^{-1/2} \rho \gamma^{-1/2} ||_\infty\]</div>
+<p>The probability <span class="math notranslate nohighlight">\(P_s\)</span> is essentially the “conversion rate” of the Gibbs distance resource into the target configuration. If <span class="math notranslate nohighlight">\(D_\alpha\)</span> decreases too rapidly (due to noise), the “budget” required to reach the ground state is depleted before the annealing cycle completes.</p>
+<ul class="simple">
+<li><p><strong>The <span class="math notranslate nohighlight">\(\alpha = 1\)</span> Monotone (Kullback-Leibler):</strong> Bounds the <strong>average</strong> energy of the system. In SA, this is often the only monotone considered.</p></li>
+<li><p><strong>The <span class="math notranslate nohighlight">\(\alpha = \infty\)</span> Monotone (Min-Entropy):</strong> Bounds the <strong>peak</strong> probability. This is crucial for QA because TTS is highly sensitive to the “tail” of the distribution—if the ground state is missed, the “cost” is a full restart.</p></li>
+</ul>
+<hr />
+</section>
+<section id="nisq-context-noise-as-a-resource-drain">
+<span id="chat-heading-12"></span><h3>3. NISQ Context: Noise as a Resource Drain<a class="headerlink" href="#nisq-context-noise-as-a-resource-drain" title="Link to this heading">¶</a></h3>
+<p>In a perfect quantum annealer, <span class="math notranslate nohighlight">\(D_\alpha\)</span> is preserved (unitary evolution) or changes only via the schedule. In <strong>NISQ devices</strong>, the environment acts as a “sink” that prematurely thermalizes the system.</p>
+<ul class="simple">
+<li><p><strong>Entropy Injection:</strong> Decoherence increases the Von Neumann entropy (<span class="math notranslate nohighlight">\(D_1\)</span>), which effectively “pulls” the system toward the Gibbs state <span class="math notranslate nohighlight">\(\gamma\)</span> of the environment too early.</p></li>
+<li><p><strong>The “Gap” Problem:</strong> If the minimum spectral gap <span class="math notranslate nohighlight">\(\Delta_{min}\)</span> is small, the system requires a very large <span class="math notranslate nohighlight">\(D_\infty\)</span> to avoid diabatic transitions. Noise narrows the “corridor” in the spectrum of monotones where a quantum speedup is possible.</p></li>
+<li><p><strong>Provenance of the Speedup:</strong> By tracking the “trace” of these monotones, we can distinguish between a “true” quantum speedup (where <span class="math notranslate nohighlight">\(D_\infty\)</span> remains high due to tunneling) and a “thermal assist” (where the environment helps jump over barriers but ultimately lowers the <span class="math notranslate nohighlight">\(P_s\)</span> ceiling).</p></li>
+</ul>
+<hr />
+</section>
+<section id="summary-the-bound-on-tts">
+<span id="chat-heading-13"></span><h3>4. Summary: The Bound on TTS<a class="headerlink" href="#summary-the-bound-on-tts" title="Link to this heading">¶</a></h3>
+<p>From a systems architecture perspective, the TTS is bounded by the <strong>monotone decay rate</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Lower Bound:</strong> If the monotones decay slower than the spectral gap closes, the system maintains “Quantum Advantage.”</p></li>
+<li><p><strong>Upper Bound:</strong> If environmental noise drives the Gibbs distance to zero (thermal equilibrium) faster than <span class="math notranslate nohighlight">\(t_a\)</span>, the TTS diverges, and the “resource” is lost to the heat bath.</p></li>
+</ol>
+<p>This framework allows you to treat the entire annealing schedule as a <strong>verifiable resource transformation pipeline</strong>, where any deviation from the expected monotone spectrum indicates a “leak” in the quantum provenance of the computation.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

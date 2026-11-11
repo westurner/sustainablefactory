@@ -1,1 +1,0 @@
-../chats/how-to-reuse-or-recycle-tangled-optical-fiber-with-dirt-and-rain-on-it-more-fiber-eyeglasses-fiber-lasers-integrated-nanophotoni.md

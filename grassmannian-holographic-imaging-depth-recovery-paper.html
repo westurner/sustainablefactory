@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Holographic \(Gr_{\mathbb{C}}(2,4)\) Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="3D Vectorial Wave Model for Longitudinal Polarization (\(E_z\)) and Higher-Rank \(Gr_{\mathbb{C}}(3,n)\) Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4" href="grassmannian-vectorial-longitudinal-polarization-paper.html" />
+    <link rel="prev" title="Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic \(Gr_{\mathbb{C}}(2,4)\) &amp; \(Gr_{\mathbb{C}}(3,6)\) Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications" href="gaussian-splat-tensors-normed-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#the-axial-depth-bottleneck-in-2d-projection-imaging-and-how-gr-mathbb-c-2-4-solves-it">1. The Axial Depth Bottleneck in 2D Projection Imaging and How <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Solves It</a><ul>
+<li><a class="reference internal" href="#why-standard-2d-projections-lose-sigma-3-2-and-entangle-z-c">1.1 Why Standard 2D Projections Lose <span class="math notranslate nohighlight">\(\sigma_3^2\)</span> and Entangle <span class="math notranslate nohighlight">\(z_c\)</span></a></li>
+<li><a class="reference internal" href="#dual-twistor-gr-mathbb-c-2-4-times-gr-mathbb-c-2-4-encoding-of-a-3d-voxel">1.2 Dual-Twistor <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)\)</span> Encoding of a 3D Voxel</a></li>
+<li><a class="reference internal" href="#direct-higher-rank-gr-mathbb-c-3-6-gr-mathbb-c-3-n-volumetric-splat-imaging-normedtensorgaussiansplat3d-gr36-volumetric-imaging-and-plucker-identities">1.3 Direct Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, 6)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, n)\)</span> Volumetric Splat Imaging (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#synthesis-with-our-convergent-holography-discussions-in-docs-chats">2. Synthesis with Our Convergent Holography Discussions in <code class="docutils literal notranslate"><span class="pre">docs/chats/</span></code></a></li>
+<li><a class="reference internal" href="#formal-theorems-machine-checked-lean-4-verification">3. Formal Theorems &amp; Machine-Checked Lean 4 Verification</a><ul>
+<li><a class="reference internal" href="#summary-of-the-11-laws-in-normedtensorgaussiansplat3d-holographic-gr24-imaging-depth-recovery-and-convergent-beam-identities">3.1 Summary of the 11 Laws in <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code></a></li>
+<li><a class="reference internal" href="#self-contained-machine-checked-lean-4-proof-block">3.2 Self-Contained Machine-Checked Lean 4 Proof Block</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practical-imaging-workflows-falsifiable-validation-protocol">4. Practical Imaging Workflows &amp; Falsifiable Validation Protocol</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="gaussian-splat-tensors-normed-paper.html" title="Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic \(Gr_{\mathbb{C}}(2,4)\) &amp; \(Gr_{\mathbb{C}}(3,6)\) Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-vectorial-longitudinal-polarization-paper.html" title="3D Vectorial Wave Model for Longitudinal Polarization (\(E_z\)) and Higher-Rank \(Gr_{\mathbb{C}}(3,n)\) Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-holographic-imaging-depth-recovery-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#the-axial-depth-bottleneck-in-2d-projection-imaging-and-how-gr-mathbb-c-2-4-solves-it">1. The Axial Depth Bottleneck in 2D Projection Imaging and How <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Solves It</a><ul>
+<li><a class="reference internal" href="#why-standard-2d-projections-lose-sigma-3-2-and-entangle-z-c">1.1 Why Standard 2D Projections Lose <span class="math notranslate nohighlight">\(\sigma_3^2\)</span> and Entangle <span class="math notranslate nohighlight">\(z_c\)</span></a></li>
+<li><a class="reference internal" href="#dual-twistor-gr-mathbb-c-2-4-times-gr-mathbb-c-2-4-encoding-of-a-3d-voxel">1.2 Dual-Twistor <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)\)</span> Encoding of a 3D Voxel</a></li>
+<li><a class="reference internal" href="#direct-higher-rank-gr-mathbb-c-3-6-gr-mathbb-c-3-n-volumetric-splat-imaging-normedtensorgaussiansplat3d-gr36-volumetric-imaging-and-plucker-identities">1.3 Direct Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, 6)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, n)\)</span> Volumetric Splat Imaging (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#synthesis-with-our-convergent-holography-discussions-in-docs-chats">2. Synthesis with Our Convergent Holography Discussions in <code class="docutils literal notranslate"><span class="pre">docs/chats/</span></code></a></li>
+<li><a class="reference internal" href="#formal-theorems-machine-checked-lean-4-verification">3. Formal Theorems &amp; Machine-Checked Lean 4 Verification</a><ul>
+<li><a class="reference internal" href="#summary-of-the-11-laws-in-normedtensorgaussiansplat3d-holographic-gr24-imaging-depth-recovery-and-convergent-beam-identities">3.1 Summary of the 11 Laws in <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code></a></li>
+<li><a class="reference internal" href="#self-contained-machine-checked-lean-4-proof-block">3.2 Self-Contained Machine-Checked Lean 4 Proof Block</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practical-imaging-workflows-falsifiable-validation-protocol">4. Practical Imaging Workflows &amp; Falsifiable Validation Protocol</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="gaussian-splat-tensors-normed-paper.html"
+                          title="previous chapter">Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-vectorial-longitudinal-polarization-paper.html"
+                          title="next chapter">3D Vectorial Wave Model for Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>) and Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-holographic-imaging-depth-recovery-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="holographic-gr-mathbb-c-2-4-depth-recovery-and-convergent-multi-beam-volumetric-imaging-plucker-axial-variance-inversion-perspective-range-tomography-and-self-calibrating-phase-conjugation-in-lean-4">
+<span id="grassmannian-holographic-imaging-depth-recovery-paper"></span><h1>Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4<a class="headerlink" href="#holographic-gr-mathbb-c-2-4-depth-recovery-and-convergent-multi-beam-volumetric-imaging-plucker-axial-variance-inversion-perspective-range-tomography-and-self-calibrating-phase-conjugation-in-lean-4" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Medical Physics (<code class="docutils literal notranslate"><span class="pre">physics.med-ph</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Computational Physics (<code class="docutils literal notranslate"><span class="pre">physics.comp-ph</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/35409b7c906c083bd0add148a14aa0f7/NonDestructive.lean"><span class="xref download myst">…/src/signals/Signals/NonDestructive.lean</span></a>, <a class="reference download internal" download="" href="_downloads/a92eb06ea1edc0b239d9642079cf274e/Homodyne.lean"><span class="xref download myst">…/src/signals/Signals/Homodyne.lean</span></a>, <a class="reference download internal" download="" href="_downloads/be5d23811fd3419ead82aa9dd1e3652d/DirectionalBroadbandAntenna.lean"><span class="xref download myst">…/src/signals/Signals/DirectionalBroadbandAntenna.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> LeanArchitect Blueprint (<a class="reference download internal" download="" href="_downloads/83f1c657b6beda0595bd85cd103de33b/content.tex"><span class="xref download myst">…/src/signals/blueprint/src/content.tex</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM/GLSL Crate (<a class="reference download internal" download="" href="_downloads/e58d11253e8426e968d4c0ab5f675aad/orbital_splat.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/orbital_splat.rs</span></a>)</p></li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <span class="xref myst">…/src/signals/docs/grassmannian-holographic-imaging-depth-recovery-paper.md</span></p></li>
+</ul>
+</li>
+<li><p><strong>Companion <code class="docutils literal notranslate"><span class="pre">grassmannian-*-paper.md</span></code> Series:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-vectorial-longitudinal-polarization-paper.html"><span class="std std-doc">3D Vectorial Wave Model for Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>) and Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>A fundamental bottleneck in 2D projection imaging—spanning off-axis digital holography (<a class="reference internal" href="#gabor1948"><span class="xref myst">Gabor 1948</span></a>; <a class="reference internal" href="#leith1962"><span class="xref myst">Leith &amp; Upatnieks 1962</span></a>; <a class="reference internal" href="#bell-chat2026"><span class="xref myst">Bell Correlations Chat 2026</span></a>), X-ray / phase-contrast radiography (<code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>), EWA / 3D Gaussian Splatting (<span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id61" title="Matthias Zwicker, Hanspeter Pfister, Jeroen van Baar, and Markus Gross. Ewa volume splatting. Proceedings Visualization, 2001. VIS '01, pages 29–538, 2001. URL: https://doi.org/10.1109/VISUAL.2001.964490, doi:10.1109/VISUAL.2001.964490.">Zwicker <em>et al.</em>, 2001</a>]</span>; <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id60" title="Bernhard Kerbl, Georgios Kopanas, Thomas Leimkühler, and George Drettakis. 3d gaussian splatting for real-time radiance field rendering. ACM Transactions on Graphics, 42(4):1–14, 2023. URL: https://doi.org/10.1145/3592433, doi:10.1145/3592433.">Kerbl <em>et al.</em>, 2023</a>]</span>), and convergent multi-beam volumetric synthesis (<a class="reference internal" href="#iq-chat2026"><span class="xref myst">IQ-Sampling Chat 2026</span></a>)—is the <strong>loss of axial depth information</strong>: integrating a 3D Gaussian voxel (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D</span></code>) along the optical axis <span class="math notranslate nohighlight">\(z\)</span> projects out its 3rd principal variance <span class="math notranslate nohighlight">\(\sigma_3^2\)</span> and entangles its intrinsic lateral widths <span class="math notranslate nohighlight">\((\sigma_1, \sigma_2)\)</span> with the perspective focal scale <span class="math notranslate nohighlight">\(s = f / z_c\)</span>.</p>
+<p>In this paper, we show how the <strong>Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery Theorem</strong> (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities</span></code> and <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) solves this problem in four complementary ways:</p>
+<ol class="arabic">
+<li><p><strong>Exact Plücker Inversion of the Unseen 3rd Principal Variance <span class="math notranslate nohighlight">\(\sigma_3^2\)</span> (<code class="docutils literal notranslate"><span class="pre">recoverDepthVarianceSq</span></code>)</strong>:
+By encoding the lateral-to-axial variance anisotropy <span class="math notranslate nohighlight">\(\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1)\)</span> into a complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> twistor matrix <span class="math notranslate nohighlight">\(M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z)\)</span> (measured experimentally via dual-plane defocus homodyne in <code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code>, off-axis digital holography quadratures, or dispersive phase-fingerprint channels in <code class="docutils literal notranslate"><span class="pre">Signals.NonDestructive</span></code>), the ratio of the two uncrossed <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel intensities is <span class="math notranslate nohighlight">\(R_{\mathrm{depth}} = \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}\)</span>. Combining <span class="math notranslate nohighlight">\(R_{\mathrm{depth}}\)</span> with the 2D screen trace <span class="math notranslate nohighlight">\(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2\)</span> reconstructs in closed form:</p>
+<div class="math notranslate nohighlight">
+\[
+   \sigma_3^2 = \frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{R_{\mathrm{depth}}}, \qquad \operatorname{Tr}\Sigma_{\mathrm{3D}} = \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\!\left(1 + \frac{1}{R_{\mathrm{depth}}}\right), \qquad \det\Sigma_{\mathrm{3D}} = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\,\frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{R_{\mathrm{depth}}},
+   \]</div>
+<p>and recovers the full 3D repulsive core Bohm quantum potential <span class="math notranslate nohighlight">\(Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}\)</span>.</p>
+</li>
+<li><p><strong>Depth-Invariant Lateral Fingerprinting &amp; Perspective Range (<span class="math notranslate nohighlight">\(z_c^2\)</span>) Tomography (<code class="docutils literal notranslate"><span class="pre">recoverFocalDepthSq</span></code>)</strong>:
+Under perspective projection <span class="math notranslate nohighlight">\(s = f / z_c\)</span>, the lateral <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> anisotropy <span class="math notranslate nohighlight">\(\frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2}\)</span> is strictly independent of <span class="math notranslate nohighlight">\(z_c\)</span>, enabling range-free shape classification, while the focal depth <span class="math notranslate nohighlight">\(z_c^2\)</span> is recovered from the trace ratio or 2D Bohm potential ratio:</p>
+<div class="math notranslate nohighlight">
+\[
+   z_c^2 = f^2\,\frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}} = f^2\,\frac{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}})}{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})}.
+   \]</div>
+</li>
+<li><p><strong>Convergent Multi-Beam Confocal Axial Precision Compression (<code class="docutils literal notranslate"><span class="pre">convergentCrossedAxialPrecision</span></code>)</strong>:
+Connecting our formalization to the convergent holography discussions in <a class="reference internal" href="chats/IQ-Sampling-for-Signal-Phase.myst.html#L9073-L9300"><span class="std std-ref">docs/chats/IQ-Sampling-for-Signal-Phase.myst.md</span></a> and <a class="reference internal" href="chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.html#L5320"><span class="std std-ref">docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md</span></a>, we prove that crossing orthogonal convergent Gaussian beams with transverse waist <span class="math notranslate nohighlight">\(\sigma_\perp\)</span> and elongated axial Rayleigh depth <span class="math notranslate nohighlight">\(\sigma_\parallel &gt; \sigma_\perp\)</span> sums their inverse-covariance precisions (<span class="math notranslate nohighlight">\(\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2} &gt; 2\sigma_\parallel^{-2}\)</span>), eliminating the single-beam axial depth-of-focus bottleneck while synchronous <span class="math notranslate nohighlight">\(N_{\mathrm{beam}}\)</span> phase locking boosts coherent focal intensity by <span class="math notranslate nohighlight">\((N_{\mathrm{beam}} A_0)^2 = N_{\mathrm{beam}}(N_{\mathrm{beam}} A_0^2)\)</span>.</p></li>
+<li><p><strong>Self-Calibrating Pilot-Tone Phase Conjugation &amp; Orthogonal Multi-Flash Thermal Controls</strong>:
+We formalize how opposite-mask pilot-tone phase conjugation cancels thermal/mechanical phase drift <span class="math notranslate nohighlight">\(\phi_{\mathrm{err}}\)</span> in <code class="docutils literal notranslate"><span class="pre">ddfThermalGr24Matrix</span></code>, and how <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> (<code class="docutils literal notranslate"><span class="pre">MultiBeamHolographyResult</span></code>, <code class="docutils literal notranslate"><span class="pre">MultiBeamTrilateration</span></code>, <code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code>, <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code>) enforces strict falsifiability boundaries between verified classical optics and unverified metamaterial/Proca hypotheses.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="the-axial-depth-bottleneck-in-2d-projection-imaging-and-how-gr-mathbb-c-2-4-solves-it">
+<h2>1. The Axial Depth Bottleneck in 2D Projection Imaging and How <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Solves It<a class="headerlink" href="#the-axial-depth-bottleneck-in-2d-projection-imaging-and-how-gr-mathbb-c-2-4-solves-it" title="Link to this heading">¶</a></h2>
+<section id="why-standard-2d-projections-lose-sigma-3-2-and-entangle-z-c">
+<h3>1.1 Why Standard 2D Projections Lose <span class="math notranslate nohighlight">\(\sigma_3^2\)</span> and Entangle <span class="math notranslate nohighlight">\(z_c\)</span><a class="headerlink" href="#why-standard-2d-projections-lose-sigma-3-2-and-entangle-z-c" title="Link to this heading">¶</a></h3>
+<p>Consider a 3D volumetric Gaussian feature <code class="docutils literal notranslate"><span class="pre">splat</span> <span class="pre">:</span> <span class="pre">NormedTensorGaussianSplat3D</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) centered at <span class="math notranslate nohighlight">\((x_c, y_c, z_c)\)</span> with principal variances <span class="math notranslate nohighlight">\((\sigma_1^2, \sigma_2^2, \sigma_3^2)\)</span>. When imaged onto a 2D detector plane <span class="math notranslate nohighlight">\((x, y)\)</span>:</p>
+<ol class="arabic">
+<li><p><strong>Orthographic X-Ray / Radon Marginal Projection (<code class="docutils literal notranslate"><span class="pre">projectOrthographic2D</span></code>)</strong>:
+Integrating along the beam axis <span class="math notranslate nohighlight">\(z\)</span> integrates the normalized axial Gaussian factor <span class="math notranslate nohighlight">\(\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}\sigma_3}\exp\!\left(-\frac{(z-z_c)^2}{2\sigma_3^2}\right)dz = 1\)</span> to unity. The resulting 2D screen splat retains <code class="docutils literal notranslate"><span class="pre">(centerX,</span> <span class="pre">centerY,</span> <span class="pre">weight,</span> <span class="pre">sigma1,</span> <span class="pre">sigma2,</span> <span class="pre">orientationAngle)</span></code> but <strong>completely erases <code class="docutils literal notranslate"><span class="pre">centerZ</span></code> and <code class="docutils literal notranslate"><span class="pre">sigma3</span></code></strong>.</p></li>
+<li><p><strong>Perspective Pinhole / EWA Projection (<code class="docutils literal notranslate"><span class="pre">projectPerspective2D</span></code>)</strong>:
+Projecting from bulk depth <span class="math notranslate nohighlight">\(z_c &gt; 0\)</span> through focal length <span class="math notranslate nohighlight">\(f &gt; 0\)</span> scales the screen coordinates and lateral widths by <span class="math notranslate nohighlight">\(s = f / z_c\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \sigma_{1,\mathrm{persp}} = \frac{f}{z_c}\,\sigma_1, \qquad \sigma_{2,\mathrm{persp}} = \frac{f}{z_c}\,\sigma_2.
+   \]</div>
+<p>A small object close to the lens (<span class="math notranslate nohighlight">\(z_c\)</span> small) and a large object far from the lens (<span class="math notranslate nohighlight">\(z_c\)</span> large) produce identical 2D screen widths unless an independent depth channel is available.</p>
+</li>
+</ol>
+</section>
+<section id="dual-twistor-gr-mathbb-c-2-4-times-gr-mathbb-c-2-4-encoding-of-a-3d-voxel">
+<h3>1.2 Dual-Twistor <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)\)</span> Encoding of a 3D Voxel<a class="headerlink" href="#dual-twistor-gr-mathbb-c-2-4-times-gr-mathbb-c-2-4-encoding-of-a-3d-voxel" title="Link to this heading">¶</a></h3>
+<p>The key insight of <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) and <code class="docutils literal notranslate"><span class="pre">holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) is that a 3D anisotropic covariance tensor <span class="math notranslate nohighlight">\((\sigma_1^2, \sigma_2^2, \sigma_3^2)\)</span> is completely determined by the 2D lateral trace <span class="math notranslate nohighlight">\(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2\)</span> together with <strong>two</strong> complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> twistor matrices:</p>
+<pre  class="mermaid">
+        flowchart LR
+    subgraph Voxel3D[&quot;3D Voxel: NormedTensorGaussianSplat3D&quot;]
+        V[&quot;(x_c, y_c, z_c)\nVariances (σ₁², σ₂², σ₃²)&quot;]
+    end
+
+    subgraph TwistorPair[&quot;Dual Gr_C(2,4) Twistor Channels&quot;]
+        Mlat[&quot;Lateral Twistor M_lat ∈ Gr_C(2,4)\nδ_lat = (σ₁² - σ₂²) / (σ₁² + σ₂²)\nDepth-Invariant under s = f / z_c!&quot;]
+        Mdep[&quot;Depth Twistor M_depth ∈ Gr_C(2,4)\nδ_depth = (σ₁² + σ₂² - σ₃²) / (σ₁² + σ₂² + σ₃²)\nR_depth = |w_A^C|² / |w_B^C|² = (σ₁² + σ₂²) / σ₃²&quot;]
+    end
+
+    subgraph Reconstruction[&quot;Exact 3D Tomographic Inversion&quot;]
+        InvS3[&quot;σ₃² = Tr Σ_ortho / R_depth\nTr Σ_3D = Tr Σ_ortho (1 + 1/R_depth)\ndet Σ_3D = det Σ_ortho · (Tr Σ_ortho / R_depth)&quot;]
+        InvZ[&quot;z_c² = f² (Tr Σ_ortho / Tr Σ_persp)\n= f² (Q_core,2D^persp / Q_core,2D^ortho)&quot;]
+        InvBohm[&quot;Q_core,3D = Q_core,2D^ortho + (ℏ²/4m)(R_depth / Tr Σ_ortho)&quot;]
+    end
+
+    V --&gt; Mlat
+    V --&gt; Mdep
+    Mlat --&gt; InvZ
+    Mdep --&gt; InvS3
+    Mdep --&gt; InvBohm
+    </pre><ol class="arabic">
+<li><p><strong>Lateral <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Channel (<span class="math notranslate nohighlight">\(M_{\mathrm{lat}}\)</span>)</strong>:
+Encodes the in-plane principal variance asymmetry:</p>
+<div class="math notranslate nohighlight">
+\[
+   \delta_{\mathrm{lat}} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2} = \frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} \in (-1, 1).
+   \]</div>
+<p>Because <span class="math notranslate nohighlight">\((f/z_c)^2\)</span> cancels identically between numerator and denominator (<code class="docutils literal notranslate"><span class="pre">h_depth_inv</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>), <span class="math notranslate nohighlight">\(\delta_{\mathrm{lat}}\)</span> is an <strong>exact projective depth invariant</strong>: a 2D sensor immediately reads out the intrinsic lateral eccentricity of the 3D feature at any unknown depth <span class="math notranslate nohighlight">\(z_c &gt; 0\)</span>.</p>
+</li>
+<li><p><strong>Holographic Depth <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Channel (<span class="math notranslate nohighlight">\(M_{\mathrm{depth}}\)</span>)</strong>:
+Encodes the lateral-to-axial variance balance (<code class="docutils literal notranslate"><span class="pre">holographicDepthAnisotropy</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+   \delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1), \qquad M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z).
+   \]</div>
+<p>Evaluating the two uncrossed <span class="math notranslate nohighlight">\(2 \times 2\)</span> Plücker channel intensities <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2 = 1 + \delta_{\mathrm{depth}}\)</span> and <span class="math notranslate nohighlight">\(|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2 = 1 - \delta_{\mathrm{depth}}\)</span> yields the <strong>Plücker Depth Ratio</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   R_{\mathrm{depth}} := \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{1 + \delta_{\mathrm{depth}}}{1 - \delta_{\mathrm{depth}}} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}.
+   \]</div>
+</li>
+<li><p><strong>Physical Realization of the Depth Channel <span class="math notranslate nohighlight">\(M_{\mathrm{depth}}\)</span> in Optical, Holographic, and X-Ray Imaging</strong>:
+How does a physical imaging instrument measure <span class="math notranslate nohighlight">\(R_{\mathrm{depth}}\)</span> or <span class="math notranslate nohighlight">\(\delta_{\mathrm{depth}}\)</span>?</p>
+<ul class="simple">
+<li><p><strong>Off-Axis Digital Holography &amp; Dual-Plane Defocus Homodyne</strong> (<a class="reference internal" href="chats/Bell-Correlations-in-Atomic-Momentum.myst.html#L1021-L1025"><span class="std std-ref">Bell-Correlations-in-Atomic-Momentum.myst.md, lines 1021–1025</span></a>; <code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code> in <a class="reference download internal" download="" href="_downloads/a92eb06ea1edc0b239d9642079cf274e/Homodyne.lean"><span class="xref download myst">…/src/signals/Signals/Homodyne.lean</span></a>): Mixing the object wave with a reference local oscillator on a 2D sensor (or recording two slightly defocused planes <span class="math notranslate nohighlight">\(z_0 \pm \Delta z\)</span>) extracts the longitudinal phase curvature <span class="math notranslate nohighlight">\(\partial_x^2\phi + \partial_y^2\phi \propto k_z / R_{\mathrm{curv}}\)</span>, which by the paraxial transport-of-intensity equation (TIE) measures the axial spread <span class="math notranslate nohighlight">\(\sigma_3^2\)</span> relative to <span class="math notranslate nohighlight">\(\sigma_1^2 + \sigma_2^2\)</span>.</p></li>
+<li><p><strong>Non-Destructive Dispersive Phase Fingerprinting</strong> (<code class="docutils literal notranslate"><span class="pre">PhaseFingerprint</span></code>, <code class="docutils literal notranslate"><span class="pre">DispersiveReadout</span></code>, and <code class="docutils literal notranslate"><span class="pre">DispersivePhaseFingerprint</span></code> in <a class="reference download internal" download="" href="_downloads/35409b7c906c083bd0add148a14aa0f7/NonDestructive.lean"><span class="xref download myst">…/src/signals/Signals/NonDestructive.lean</span></a>): The optical path length <span class="math notranslate nohighlight">\(\Delta\phi_z \propto \Delta n \cdot \sigma_3\)</span> accumulated through the voxel thickness <span class="math notranslate nohighlight">\(\sigma_3\)</span> directly parameterizes the phase angle <span class="math notranslate nohighlight">\(\theta_z\)</span> and channel weight ratio <span class="math notranslate nohighlight">\(R_{\mathrm{depth}}\)</span> while preserving probe energy (<code class="docutils literal notranslate"><span class="pre">zero_absorbed_energy</span></code>).</p></li>
+<li><p><strong>Oblique / Dual-Energy Direct-Conversion X-Ray &amp; Tomosynthesis</strong> (<code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>): Comparing a normal-incidence projection (<span class="math notranslate nohighlight">\(\psi = 0\)</span>, variance <span class="math notranslate nohighlight">\(\sigma_1^2\)</span>) with a tilted projection at angle <span class="math notranslate nohighlight">\(\psi \ne 0\)</span> (<span class="math notranslate nohighlight">\(\sigma_{\psi}^2 = \sigma_1^2\cos^2\psi + \sigma_3^2\sin^2\psi\)</span>) directly determines <span class="math notranslate nohighlight">\(R_{\mathrm{depth}} = (\sigma_1^2 + \sigma_2^2)/\sigma_3^2\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="direct-higher-rank-gr-mathbb-c-3-6-gr-mathbb-c-3-n-volumetric-splat-imaging-normedtensorgaussiansplat3d-gr36-volumetric-imaging-and-plucker-identities">
+<h3>1.3 Direct Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, 6)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, n)\)</span> Volumetric Splat Imaging (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities</span></code>)<a class="headerlink" href="#direct-higher-rank-gr-mathbb-c-3-6-gr-mathbb-c-3-n-volumetric-splat-imaging-normedtensorgaussiansplat3d-gr36-volumetric-imaging-and-plucker-identities" title="Link to this heading">¶</a></h3>
+<p>Rather than factoring a 3D voxel into two rank-2 <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> projections (<span class="math notranslate nohighlight">\(M_{\mathrm{lat}}, M_{\mathrm{depth}}\)</span>), we can embed all three principal axes <span class="math notranslate nohighlight">\((\sigma_1 e^{i\phi_1}, \sigma_2 e^{i\phi_2}, \sigma_3 e^{i\phi_3})\)</span>—or the 3-element Debye–Wolf focal electric field <span class="math notranslate nohighlight">\((E_x, E_y, E_z)^T \in \mathbb{C}^3\)</span>—directly into the self-dual rank-3 complex Grassmannian <strong><span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3, 6)\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.gr36TwistorMatrix</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>; see the full companion paper <a class="reference internal" href="grassmannian-vectorial-longitudinal-polarization-paper.html"><span class="std std-doc">grassmannian-vectorial-longitudinal-polarization-paper.md</span></a>). Theorem <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities</span></code> (<code class="docutils literal notranslate"><span class="pre">&#64;[blueprint</span> <span class="pre">&quot;thm:signals-ddf-gr36-volumetric-imaging-identities&quot;]</span></code>) proves that the <span class="math notranslate nohighlight">\(3 \times 3\)</span> complex Plücker minors <span class="math notranslate nohighlight">\(\Delta_{abc}^{\mathbb{C}}(M_3)\)</span> (<code class="docutils literal notranslate"><span class="pre">complexThreeRowMinor</span></code>) directly yield:</p>
+<ul class="simple">
+<li><p><strong>All three 1D principal variances</strong>: <span class="math notranslate nohighlight">\(|\Delta_{045}^{\mathbb{C}}|^2 = \sigma_1^2\)</span>, <span class="math notranslate nohighlight">\(|\Delta_{315}^{\mathbb{C}}|^2 = \sigma_2^2\)</span>, <span class="math notranslate nohighlight">\(|\Delta_{342}^{\mathbb{C}}|^2 = \sigma_3^2\)</span>,</p></li>
+<li><p><strong>All three 2D orthographic marginal determinants (<span class="math notranslate nohighlight">\(xy, xz, yz\)</span>)</strong>: <span class="math notranslate nohighlight">\(|\Delta_{015}^{\mathbb{C}}|^2 = \sigma_1^2\sigma_2^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\)</span>, <span class="math notranslate nohighlight">\(|\Delta_{042}^{\mathbb{C}}|^2 = \sigma_1^2\sigma_3^2\)</span>, <span class="math notranslate nohighlight">\(|\Delta_{312}^{\mathbb{C}}|^2 = \sigma_2^2\sigma_3^2\)</span>,</p></li>
+<li><p><strong>The 3D volumetric determinant &amp; trace</strong>: <span class="math notranslate nohighlight">\(|\Delta_{012}^{\mathbb{C}}|^2 = \det\Sigma_{\mathrm{3D}}\)</span> and <span class="math notranslate nohighlight">\(|\Delta_{045}^{\mathbb{C}}|^2 + |\Delta_{315}^{\mathbb{C}}|^2 + |\Delta_{342}^{\mathbb{C}}|^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}\)</span>,</p></li>
+<li><p><strong>The 3D core Bohm quantum potential</strong>: <span class="math notranslate nohighlight">\(\frac{\hbar^2}{4m}\frac{|\Delta_{312}^{\mathbb{C}}|^2 + |\Delta_{042}^{\mathbb{C}}|^2 + |\Delta_{015}^{\mathbb{C}}|^2}{|\Delta_{012}^{\mathbb{C}}|^2} = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}})\)</span>, and</p></li>
+<li><p><strong>Exact bridge to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> depth recovery</strong>: <span class="math notranslate nohighlight">\(\frac{|\Delta_{045}^{\mathbb{C}}|^2 + |\Delta_{315}^{\mathbb{C}}|^2}{|\Delta_{342}^{\mathbb{C}}|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2} = R_{\mathrm{depth}}\)</span>, while obeying the 4-term quadratic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> Plücker syzygy (<code class="docutils literal notranslate"><span class="pre">complexThreeRowMinor_pluecker</span></code>).</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="synthesis-with-our-convergent-holography-discussions-in-docs-chats">
+<h2>2. Synthesis with Our Convergent Holography Discussions in <code class="docutils literal notranslate"><span class="pre">docs/chats/</span></code><a class="headerlink" href="#synthesis-with-our-convergent-holography-discussions-in-docs-chats" title="Link to this heading">¶</a></h2>
+<p>Across the research chat corpus, convergent multi-beam holography was developed to overcome the serial scanning bottleneck and axial depth-of-focus limits of single-beam lithography and imaging. Below we map each chat-derived concept to its verified mathematical counterpart in <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> and its falsifiable boundary contract in <code class="docutils literal notranslate"><span class="pre">Signals.Antennas</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Convergent Holography Mechanism &amp; Chat Source</p></th>
+<th class="head"><p>Physical Problem Addressed</p></th>
+<th class="head"><p>Verified <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> / <code class="docutils literal notranslate"><span class="pre">Signals.Antennas</span></code> Theorem or Structure</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Falsifiability &amp; Calibration Guard</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Multi-Mask Volumetric Holographic Synthesis &amp; Confocal Crossed Beams</strong> (<a class="reference internal" href="chats/IQ-Sampling-for-Signal-Phase.myst.html#L9073-L9179"><span class="std std-ref">IQ-Sampling-for-Signal-Phase.myst.md, lines 9073–9179</span></a>; <a class="reference internal" href="chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.html#L5320"><span class="std std-ref">CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651 &amp; 5320</span></a>)</p></td>
+<td><p>A single focused beam has an elongated axial Rayleigh zone (<span class="math notranslate nohighlight">\(\sigma_\parallel \gg \sigma_\perp\)</span>), causing depth blur and out-of-plane exposure</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">convergentCrossedAxialPrecision</span></code> (<code class="docutils literal notranslate"><span class="pre">h_img.2.2.2.2.2.2.2.1</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>): crossing orthogonal beams sums their inverse variances <span class="math notranslate nohighlight">\(\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2} &gt; 2\sigma_\parallel^{-2}\)</span>, compressing the axial voxel to transverse resolution</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MultiBeamHolographyResult.withinTolerances</span></code> (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>): requires <span class="math notranslate nohighlight">\(N_{\mathrm{beam}} \ge 4\)</span>, explicit <code class="docutils literal notranslate"><span class="pre">targetFieldRMSE</span></code>, <code class="docutils literal notranslate"><span class="pre">sideLobeRatio</span></code>, <code class="docutils literal notranslate"><span class="pre">crosstalkError</span></code>, and held-out pattern validation</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Self-Calibrating Pilot-Tone Phase Conjugation Across Opposite Masks</strong> (<a class="reference internal" href="chats/IQ-Sampling-for-Signal-Phase.myst.html#L9235-L9285"><span class="std std-ref">IQ-Sampling-for-Signal-Phase.myst.md, lines 9235–9285</span></a>)</p></td>
+<td><p>Nanometer thermal expansion or mechanical tilt <span class="math notranslate nohighlight">\(\phi_{\mathrm{err}}\)</span> between independent masks blurs the 3D interference pattern</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">h_phase_conj</span></code> (<code class="docutils literal notranslate"><span class="pre">h_img.2.2.2.2.2.2.2.2.2.2</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>): pre-distorting the twistor phase by <span class="math notranslate nohighlight">\(-\phi_{\mathrm{err}}\)</span> restores <span class="math notranslate nohighlight">\(\operatorname{ddfThermalGr24Matrix}(\delta_d, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}\)</span> identically</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MultiBeamTrilateration</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">HolographyMaskTransfer</span></code> (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>): requires independent range sensors and 4-state ablation (<code class="docutils literal notranslate"><span class="pre">noMask</span></code>, <code class="docutils literal notranslate"><span class="pre">passiveMask</span></code>, <code class="docutils literal notranslate"><span class="pre">activatedMask</span></code>, <code class="docutils literal notranslate"><span class="pre">shamActivation</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Synchronous “Orthogonal Multi-Flash” Firing &amp; Inter-Flash Thermal Dissipation</strong> (<a class="reference internal" href="chats/IQ-Sampling-for-Signal-Phase.myst.html#L10793-L10860"><span class="std std-ref">IQ-Sampling-for-Signal-Phase.myst.md, lines 10793–10860</span></a>; <a class="reference internal" href="flat-light-proca-nlig-validation-plan.html#L635-L638"><span class="std std-ref">flat-light-proca-nlig-validation-plan.md, lines 635–638</span></a>)</p></td>
+<td><p>Firing all <span class="math notranslate nohighlight">\(N_{\mathrm{beam}}\)</span> heads synchronously is required for coherent interference, but sequential flashes accumulate phonon heat</p></td>
+<td><p>Coherent focal gain <span class="math notranslate nohighlight">\((N_{\mathrm{beam}}A_0)^2 = N_{\mathrm{beam}}(N_{\mathrm{beam}}A_0^2)\)</span> (<code class="docutils literal notranslate"><span class="pre">h_img.2.2.2.2.2.2.2.2.1</span></code>) reduces per-beam entrance power by <span class="math notranslate nohighlight">\(1/N_{\mathrm{beam}}\)</span>, while <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.evolveThermal</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) models inter-flash thermal diffusion</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CWApplicationReadiness</span></code> (<a class="reference download internal" download="" href="_downloads/be5d23811fd3419ead82aa9dd1e3652d/DirectionalBroadbandAntenna.lean"><span class="xref download myst">…/src/signals/Signals/DirectionalBroadbandAntenna.lean</span></a>): enforces passive power conservation (<span class="math notranslate nohighlight">\(P_{\mathrm{out}} \le P_{\mathrm{in}}\)</span>) and causal information speed</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Off-Axis Digital Holography of FTLE Phase-Fracture Ridges &amp; Speckle Whitening</strong> (<a class="reference internal" href="chats/Bell-Correlations-in-Atomic-Momentum.myst.html#L1021-L1025"><span class="std std-ref">Bell-Correlations-in-Atomic-Momentum.myst.md, lines 1021–1025</span></a>; <a class="reference internal" href="chats/Speckle%2C%20Metamaterials%2C%20and%20Fast%20Sensing%20.myst.html#L803-L825"><span class="std std-ref">Speckle, Metamaterials, and Fast Sensing .myst.md, lines 803–825 &amp; 2435</span></a>)</p></td>
+<td><p>Reconstructing 3D superfluid / optical vortex cores and FTLE shear ridges from a 2D CCD hologram without singular <span class="math notranslate nohighlight">\(1/r\)</span> blowup</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.complexTwistorWavepacket</span></code> + <code class="docutils literal notranslate"><span class="pre">splitMajor3D_and_holographic_gr24_projection_identities</span></code>: adaptive splat splitting along FTLE ridges preserves <span class="math notranslate nohighlight">\(L^1\)</span> mass and variance while regularizing the core Bohm potential <span class="math notranslate nohighlight">\(Q_{\mathrm{core,3D}}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code> (<a class="reference internal" href="#../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md"><span class="xref myst">…/src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md</span></a>): separates classical Kerr/acoustic transfer (<code class="docutils literal notranslate"><span class="pre">H0</span></code>) from DDF phonon hypotheses (<code class="docutils literal notranslate"><span class="pre">HDDF</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Direct-Conversion X-Ray &amp; Phase-Contrast Tomographic Imaging</strong> (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">LVP Direct-Conversion &amp; Proca Imaging in Pending.lean, lines 743–795 &amp; 1838–1872</span></a>)</p></td>
+<td><p>Minimizing patient/sample radiation dose while recovering 3D internal microstructure from 2D projections</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">recoverDepthVarianceSq</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">recoverFocalDepthSq</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>): reconstructs <span class="math notranslate nohighlight">\(\sigma_3^2\)</span>, <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{3D}}\)</span>, and <span class="math notranslate nohighlight">\(z_c^2\)</span> from 2D projection traces and <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel ratios</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code>: requires dark-current subtraction, linear dose calibration, phantom MTF/NPS validation, and massless Maxwell controls</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="formal-theorems-machine-checked-lean-4-verification">
+<h2>3. Formal Theorems &amp; Machine-Checked Lean 4 Verification<a class="headerlink" href="#formal-theorems-machine-checked-lean-4-verification" title="Link to this heading">¶</a></h2>
+<section id="summary-of-the-11-laws-in-normedtensorgaussiansplat3d-holographic-gr24-imaging-depth-recovery-and-convergent-beam-identities">
+<h3>3.1 Summary of the 11 Laws in <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code><a class="headerlink" href="#summary-of-the-11-laws-in-normedtensorgaussiansplat3d-holographic-gr24-imaging-depth-recovery-and-convergent-beam-identities" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a> (Blueprint node <code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-holographic-gr24-imaging-depth-recovery</span></code>), we prove for any <code class="docutils literal notranslate"><span class="pre">splat</span> <span class="pre">:</span> <span class="pre">NormedTensorGaussianSplat3D</span></code> with <span class="math notranslate nohighlight">\(z_c &gt; 0\)</span>, focal scale <span class="math notranslate nohighlight">\(f &gt; 0\)</span>, <span class="math notranslate nohighlight">\(m &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\hbar \ne 0\)</span>, transverse waist <span class="math notranslate nohighlight">\(0 &lt; \sigma_\perp &lt; \sigma_\parallel\)</span>, beam count <span class="math notranslate nohighlight">\(N_{\mathrm{beam}} &gt; 1\)</span>, and per-beam amplitude <span class="math notranslate nohighlight">\(A_0 &gt; 0\)</span>:</p>
+<ol class="arabic">
+<li><p><strong>Exact 3rd Principal Variance Inversion</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{recoverDepthVarianceSq}\bigl(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, R_{\mathrm{depth}}\bigr) = \frac{\sigma_1^2 + \sigma_2^2}{\left(\frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}\right)} = \sigma_3^2.
+   \]</div>
+</li>
+<li><p><strong>Exact 3D Covariance Trace Reconstruction</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} + \sigma_{3,\mathrm{rec}}^2 = \sigma_1^2 + \sigma_2^2 + \sigma_3^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}.
+   \]</div>
+</li>
+<li><p><strong>Exact 3D Covariance Determinant (Volume) Reconstruction</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} \cdot \sigma_{3,\mathrm{rec}}^2 = (\sigma_1^2\sigma_2^2)\sigma_3^2 = \det\Sigma_{\mathrm{3D}}.
+   \]</div>
+</li>
+<li><p><strong>Exact 3D Core Bohm Quantum Potential Reconstruction from 2D Screen Data</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   Q_{\mathrm{core,2D}}\bigl(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\bigr) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}} = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} + \frac{1}{\sigma_3^2}\right) = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}).
+   \]</div>
+</li>
+<li><p><strong>Exact Focal-Depth Squared (<span class="math notranslate nohighlight">\(z_c^2\)</span>) Tomography from 2D Screen Traces</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{recoverFocalDepthSq}\bigl(f,\, \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}\bigr) = f^2\,\frac{\sigma_1^2 + \sigma_2^2}{(f/z_c)^2(\sigma_1^2 + \sigma_2^2)} = z_c^2.
+   \]</div>
+</li>
+<li><p><strong>Exact Focal-Depth Squared (<span class="math notranslate nohighlight">\(z_c^2\)</span>) Tomography from 2D Core Bohm Potentials</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   f^2\,\frac{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}})}{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})} = z_c^2.
+   \]</div>
+</li>
+<li><p><strong>Collinear Two-Beam vs. Single-Beam Axial Precision</strong>:
+$<span class="math notranslate nohighlight">\(\frac{1}{\sigma_\parallel^2} &lt; \frac{2}{\sigma_\parallel^2}.\)</span>$</p></li>
+<li><p><strong>Crossed Orthogonal Convergent-Beam Confocal Axial Precision Boost</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{2}{\sigma_\parallel^2} &lt; \frac{1}{\sigma_\parallel^2} + \frac{1}{\sigma_\perp^2} = \operatorname{convergentCrossedAxialPrecision}(\sigma_\perp, \sigma_\parallel).
+   \]</div>
+</li>
+<li><p><strong>Synchronous <span class="math notranslate nohighlight">\(N\)</span>-Beam Coherent vs. Incoherent Focal Intensity Ratio</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   (N_{\mathrm{beam}}\,A_0)^2 = N_{\mathrm{beam}} \cdot \bigl(N_{\mathrm{beam}}\,A_0^2\bigr).
+   \]</div>
+</li>
+<li><p><strong>Strict Coherent Multi-Beam Focal Intensity Gain (<span class="math notranslate nohighlight">\(N_{\mathrm{beam}} &gt; 1\)</span>)</strong>:
+$<span class="math notranslate nohighlight">\(N_{\mathrm{beam}}\,A_0^2 &lt; (N_{\mathrm{beam}}\,A_0)^2.\)</span>$</p></li>
+<li><p><strong>Self-Calibrating Pilot-Tone Phase-Conjugate Aberration Cancellation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+    \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}},\, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}.
+    \]</div>
+</li>
+</ol>
+</section>
+<section id="self-contained-machine-checked-lean-4-proof-block">
+<h3>3.2 Self-Contained Machine-Checked Lean 4 Proof Block<a class="headerlink" href="#self-contained-machine-checked-lean-4-proof-block" title="Link to this heading">¶</a></h3>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">HolographicGr24ImagingPaperVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+
+<span class="c1">-- Full verification of 3D-to-2D holographic Gr_C(2,4) depth recovery, focal range tomography,</span>
+<span class="c1">-- crossed convergent-beam confocal precision boost, N-beam coherent focal gain, and pilot-tone phase conjugation</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">splat</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat3D</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hz</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">splat.centerZ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">θ_z</span><span class="w"> </span><span class="n">φ_err</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">s_ortho</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.projectOrthographic2D</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">s_persp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.projectPerspective2D</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hz</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">δ_d</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.holographicDepthAnisotropy</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_depth</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="n">δ_d</span><span class="w"> </span><span class="n">θ_z</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">R_depth</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">      </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_depth</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_depth</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">sigma3_sq_rec</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">recoverDepthVarianceSq</span><span class="w"> </span><span class="n">s_ortho.covTrace</span><span class="w"> </span><span class="n">R_depth</span>
+<span class="w">    </span><span class="n">sigma3_sq_rec</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.sigma3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s_ortho.covTrace</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">sigma3_sq_rec</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.covTrace</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s_ortho.covDet</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">sigma3_sq_rec</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.covDet</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s_ortho.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span>
+<span class="w">        </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="o">))</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">R_depth</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">s_ortho.covTrace</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">splat.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">recoverFocalDepthSq</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">s_ortho.covTrace</span><span class="w"> </span><span class="n">s_persp.covTrace</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">splat.centerZ</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="o">(</span><span class="n">s_persp.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">s_ortho.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">splat.centerZ</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">convergentCrossedAxialPrecision</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">((</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">((</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="o">((</span><span class="mi">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="n">δ_d</span><span class="w"> </span><span class="o">(</span><span class="n">θ_z</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">φ_err</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">φ_err</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">M_depth</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="n">splat.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ_z</span><span class="w"> </span><span class="n">φ_err</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hz</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">HolographicGr24ImagingPaperVerification</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="practical-imaging-workflows-falsifiable-validation-protocol">
+<h2>4. Practical Imaging Workflows &amp; Falsifiable Validation Protocol<a class="headerlink" href="#practical-imaging-workflows-falsifiable-validation-protocol" title="Link to this heading">¶</a></h2>
+<p>To apply Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery in real laboratory and clinical/industrial imaging pipelines while respecting the verification boundaries in <a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">flat-light-proca-nlig-validation-plan.md</span></a> and <a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a>:</p>
+<ol class="arabic simple">
+<li><p><strong>Step 1 — 2D Lateral Gaussian Splat Fitting &amp; Depth-Invariant Classification</strong>:
+Fit or project the 2D screen intensity onto <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> primitives to extract <span class="math notranslate nohighlight">\((\sigma_{1,\mathrm{persp}}^2, \sigma_{2,\mathrm{persp}}^2, \theta)\)</span> and compute the depth-invariant lateral <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> anisotropy <span class="math notranslate nohighlight">\(\delta_{\mathrm{lat}} = \frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2}\)</span>.</p></li>
+<li><p><strong>Step 2 — Dual-Channel Plücker Depth Ratio (<span class="math notranslate nohighlight">\(R_{\mathrm{depth}}\)</span>) Acquisition</strong>:
+Measure the uncrossed Plücker channel ratio <span class="math notranslate nohighlight">\(R_{\mathrm{depth}} = |w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2 / |w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2\)</span> via off-axis digital holography quadratures (<code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code>), dual-plane defocus transport-of-intensity, dispersive phase readout (<code class="docutils literal notranslate"><span class="pre">Signals.NonDestructive.DispersivePhaseFingerprint</span></code>), or multi-angle tomosynthesis.</p></li>
+<li><p><strong>Step 3 — Tomographic Inversion of <span class="math notranslate nohighlight">\(\sigma_3^2\)</span>, <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{3D}}\)</span>, <span class="math notranslate nohighlight">\(Q_{\mathrm{core,3D}}\)</span>, and <span class="math notranslate nohighlight">\(z_c^2\)</span></strong>:
+Apply <code class="docutils literal notranslate"><span class="pre">recoverDepthVarianceSq</span></code> and <code class="docutils literal notranslate"><span class="pre">recoverFocalDepthSq</span></code> (<code class="docutils literal notranslate"><span class="pre">holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code>) to reconstruct the full 3D covariance ellipsoid and focal range without 3D voxel-grid memory explosion.</p></li>
+<li><p><strong>Step 4 — Convergent Multi-Beam Confocal Refinement &amp; Pilot-Tone Calibration</strong>:
+When operating an active <span class="math notranslate nohighlight">\(N_{\mathrm{beam}} \ge 4\)</span> convergent holographic chamber, run the pilot-tone handshake (<code class="docutils literal notranslate"><span class="pre">HolographyMaskTransfer</span></code> across <code class="docutils literal notranslate"><span class="pre">noMask</span></code>, <code class="docutils literal notranslate"><span class="pre">passiveMask</span></code>, <code class="docutils literal notranslate"><span class="pre">activatedMask</span></code>, and <code class="docutils literal notranslate"><span class="pre">shamActivation</span></code>) to pre-cancel phase drift <span class="math notranslate nohighlight">\(\phi_{\mathrm{err}}\)</span> before synchronous multi-flash exposure.</p></li>
+<li><p><strong>Step 5 — Extension to Layered Multi-Sensor Arrays (<span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)\)</span>), <code class="docutils literal notranslate"><span class="pre">LIFU</span></code>/<code class="docutils literal notranslate"><span class="pre">AOT</span></code>/<code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Sub-Surface Focusing, &amp; <span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span> Nanoimaging</strong>:
+In <a class="reference internal" href="grassmannian-multispectral-hubble-medical-nanoimaging-paper.html"><span class="std std-doc">grassmannian-multispectral-hubble-medical-nanoimaging-paper.md</span></a> (<code class="docutils literal notranslate"><span class="pre">Signals.MultiArrayImaging</span></code> in <a class="reference download internal" download="" href="_downloads/8a1ca10f994550b6ae80814e20d38392/MultiArrayImaging.lean"><span class="xref download myst">…/src/signals/Signals/MultiArrayImaging.lean</span></a>), we extend this single-voxel <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(3,6)\)</span> depth recovery to:</p>
+<ul class="simple">
+<li><p><strong>Hubble <span class="math notranslate nohighlight">\(2\times\)</span> CCD Mosaics (<code class="docutils literal notranslate"><span class="pre">ACS/WFC</span></code>, <code class="docutils literal notranslate"><span class="pre">WFC3/UVIS</span></code>, <code class="docutils literal notranslate"><span class="pre">WFPC2</span></code> <code class="docutils literal notranslate"><span class="pre">NGC</span> <span class="pre">4151</span></code> <code class="docutils literal notranslate"><span class="pre">u5780205r</span></code>)</strong>: Where <span class="math notranslate nohighlight">\(k = 4\)</span> dithered intensity exposures span <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(4, 8{,}388{,}608)\)</span> per chip, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(4, 16{,}777{,}216)\)</span> across the full <span class="math notranslate nohighlight">\(2\times\)</span> mosaic, or <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(4, 6{,}800{,}000)\)</span> on a cropped/medical array (<span class="math notranslate nohighlight">\(\dim_{\mathbb{R}} = 27{,}199{,}984\)</span>, and <span class="math notranslate nohighlight">\(\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(4, 6.8\times 10^6) = 54{,}399{,}968\)</span> for coherent arrays), paired with <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)\)</span> across <span class="math notranslate nohighlight">\(\Lambda\)</span> filter bands or stacked detector layers;</p></li>
+<li><p><strong>Conformal <code class="docutils literal notranslate"><span class="pre">LVP</span></code> Direct-Conversion X-Ray (<code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code>) vs. Pending <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code></strong>: Proving a <span class="math notranslate nohighlight">\(292/45 \approx 6.49\times\)</span> direct-conversion charge yield gain and <span class="math notranslate nohighlight">\(16\times\)</span> stopping-power dose reduction over silicon while guarding speculative Proca claims under <code class="docutils literal notranslate"><span class="pre">MultiModalSubSurfaceImagingHypothesis</span></code>;</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">LIFU</span></code> + <code class="docutils literal notranslate"><span class="pre">AOT</span></code> + <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Sub-Surface Optical Focusing</strong>: Where Low-Intensity Focused Ultrasound (<span class="math notranslate nohighlight">\(\lambda_{\mathrm{US}} = 1\text{ mm}\)</span> at <span class="math notranslate nohighlight">\(1.54\text{ MHz}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{MI}^2 = 18/77 &lt; 1.9^2\)</span>) tags deep multiply-scattered light at <span class="math notranslate nohighlight">\(\omega_{\pm 1} = \omega_0 \pm \omega_{\mathrm{US}}\)</span> (decoded via the <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker channel ratio <span class="math notranslate nohighlight">\(\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}\)</span>), and <span class="math notranslate nohighlight">\(m\)</span>-iteration <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>/<code class="docutils literal notranslate"><span class="pre">DORT</span></code> time reversal compresses the sub-surface focus to <span class="math notranslate nohighlight">\(\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m\)</span>; and</p></li>
+<li><p><strong>Sub-Nanometer (<span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span>) Convergent Longitudinal/Transverse Nanoimaging</strong>: Reaching <span class="math notranslate nohighlight">\(\sigma_{\mathrm{loc}} = 135/224\text{ nm} \approx 0.603\text{ nm} &lt; 1\text{ nm}\)</span> via homodyne phase-slope localization and <span class="math notranslate nohighlight">\(w_{\mathrm{nano}} = 0.75\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(n_{\mathrm{eff}} = 15, M = 2, \zeta_{\mathrm{STED}} = 80\)</span>) to <span class="math notranslate nohighlight">\(0.50\text{ nm} = 5\text{ \AA} &lt; 1\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(n_{\mathrm{eff}} = 13.5, M = 3, \zeta_{\mathrm{STED}} = 99\)</span>) via <code class="docutils literal notranslate"><span class="pre">cascadedNanoImagingLinewidthSq</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a id="gabor1948"></a> Gabor, D. (1948). A New Microscopic Principle. <em>Nature</em>, 161(4098), 777–778. DOI: <code class="docutils literal notranslate"><span class="pre">10.1038/161777a0</span></code>. <a class="reference external" href="https://www.academia.edu/7114469/A_new_microscopic_principle_Gabor">https://www.academia.edu/7114469/A_new_microscopic_principle_Gabor</a> <a class="reference external" href="https://www.academia.edu/7114469/A_new_microscopic_principle_Gabor">https://www.academia.edu/7114469/A_new_microscopic_principle_Gabor</a></p></li>
+<li><p><a id="leith1962"></a> Leith, E. N., &amp; Upatnieks, J. (1962). Reconstructed Wavefronts and Communication Theory. <em>Journal of the Optical Society of America</em>, 52(10), 1123–1130. DOI: <code class="docutils literal notranslate"><span class="pre">10.1364/JOSA.52.001123</span></code>. <a class="reference external" href="https://doi.org/10.1364/JOSA.52.001123">https://doi.org/10.1364/JOSA.52.001123</a></p></li>
+<li><p><a id="zwicker2001"></a> Zwicker, M., Pfister, H., van Baar, J., &amp; Gross, M. (2001). EWA Volume Splatting. <em>Proceedings of IEEE Visualization 2001</em>, 29–36. DOI: <code class="docutils literal notranslate"><span class="pre">10.1109/VISUAL.2001.964490</span></code>. <a class="reference external" href="https://www.cs.umd.edu/~zwicker/publications/EWAVolumeSplatting-VIS01.pdf">https://www.cs.umd.edu/~zwicker/publications/EWAVolumeSplatting-VIS01.pdf</a></p></li>
+<li><p><a id="kerbl2023"></a> Kerbl, B., Kopanas, G., Leimkühler, T., &amp; Drettakis, G. (2023). 3D Gaussian Splatting for Real-Time Radiance Field Rendering. <em>ACM Transactions on Graphics (SIGGRAPH 2023)</em>, 42(4), 139:1–139:14. DOI: <code class="docutils literal notranslate"><span class="pre">10.1145/3592433</span></code>. <a class="reference external" href="https://arxiv.org/abs/2308.04079">https://arxiv.org/abs/2308.04079</a></p></li>
+<li><p><a id="iq-chat2026"></a> Provenance Chat Log (2026). <em>IQ Sampling for Signal Phase (Prompts 93–94 &amp; 101–102: Volumetric Holographic Lithography, Self-Calibrating Grassmannians, and Orthogonal Multi-Flash Synthesis)</em>. Local corpus: <a class="reference internal" href="chats/IQ-Sampling-for-Signal-Phase.myst.html#L9073-L9300"><span class="std std-ref">docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 9073–9300 &amp; 10793–10860</span></a>.</p></li>
+<li><p><a id="bell-chat2026"></a> Provenance Chat Log (2026). <em>Bell Correlations in Atomic Momentum (Response 10, Step 4: Measuring FTLE Ridges with Off-Axis Digital Holography)</em>. Local corpus: <a class="reference internal" href="chats/Bell-Correlations-in-Atomic-Momentum.myst.html#L980-L1025"><span class="std std-ref">docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md, lines 980–1025</span></a>.</p></li>
+<li><p><a id="cnt-chat2026"></a> Provenance Chat Log (2026). <em>CNT Bandgap Creation with Lignin Vitrimer (Convergence Optics: Bessel Beams + Holography + Pulse Shaping)</em>. Local corpus: <a class="reference internal" href="chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.html#L5320"><span class="std std-ref">docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651–1655 &amp; 5320</span></a>.</p></li>
+<li><p><a id="rgo-chat2026"></a> Provenance Chat Log (2026). <em>rGO-Vitrimer Applications and Properties (Computer-Generated Holography Multi-Head SLM)</em>. Local corpus: <a class="reference internal" href="chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.myst.html#L1362"><span class="std std-ref">docs/chats/_rGO-Vitrimer Applications and Properties .myst.md, lines 1362–1370</span></a>.</p></li>
+<li><p><a id="speckle-chat2026"></a> Provenance Chat Log (2026). <em>Speckle, Metamaterials, and Fast Sensing (Temporal Speckle Reduction and Time-Division Multiplexed Holography)</em>. Local corpus: <a class="reference internal" href="chats/Speckle%2C%20Metamaterials%2C%20and%20Fast%20Sensing%20.myst.html#L803-L825"><span class="std std-ref">docs/chats/Speckle, Metamaterials, and Fast Sensing .myst.md, lines 803–825 &amp; 2435</span></a>.</p></li>
+</ul>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">gabor1948_holography</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Gabor, Dennis}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{A New Microscopic Principle}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Nature}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{161}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{4098}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{777--778}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1948}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1038/161777a0}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1038/161777a0}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">leith1962_offaxis</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Leith, Emmett N. and Upatnieks, Juris}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Reconstructed Wavefronts and Communication Theory}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Journal of the Optical Society of America}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{52}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{10}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{1123--1130}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1962}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1364/JOSA.52.001123}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1364/JOSA.52.001123}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_iq_sampling_holography_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{IQ Sampling for Signal Phase: Volumetric Holography and Self-Calibrating Grassmannians}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 9073-9300 and 10793-10860}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{chats/IQ-Sampling-for-Signal-Phase.myst.md}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_bell_offaxis_holography_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Bell Correlations in Atomic Momentum: Off-Axis Digital Holography of FTLE Ridges}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md, lines 980-1025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{chats/Bell-Correlations-in-Atomic-Momentum.myst.md}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_cnt_convergence_optics_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{CNT Bandgap Creation with Lignin Vitrimer: Convergence Optics and Holography}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651-1655 and 5320}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Holographic Gr_C(2,4) Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plucker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-25"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/NonDestructive.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Homodyne.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Pending.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/chats/IQ-Sampling-for-Signal-Phase.myst.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Holographic Gr_C(2,4) Depth Recovery"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Convergent Multi-Beam Holography"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Volumetric Tomography"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Off-Axis Digital Holography"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Phase-Conjugate Self-Calibration"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="gaussian-splat-tensors-normed-paper.html" title="Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic \(Gr_{\mathbb{C}}(2,4)\) &amp; \(Gr_{\mathbb{C}}(3,6)\) Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications" >previous</a></li>
+        <li><a href="grassmannian-vectorial-longitudinal-polarization-paper.html" title="3D Vectorial Wave Model for Longitudinal Polarization (\(E_z\)) and Higher-Rank \(Gr_{\mathbb{C}}(3,n)\) Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

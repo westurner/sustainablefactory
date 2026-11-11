@@ -1,1 +1,0 @@
-../_THz Resonators and Quantum Dots_ .md

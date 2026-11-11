@@ -1,1 +1,0 @@
-../_Quantum Computing Hardware Architectures Review  .md

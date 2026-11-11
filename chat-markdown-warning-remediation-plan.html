@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chat Markdown Warning Remediation Plan &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Plan Index: Research, Validation, and Implementation Roadmaps" href="plan-index.html" />
+    <link rel="prev" title="Workflow Simplification and Performance Plan" href="workflow-performance-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Chat Markdown Warning Remediation Plan</a><ul>
+<li><a class="reference internal" href="#goal-and-scope">Goal and scope</a></li>
+<li><a class="reference internal" href="#baseline-and-diagnosis">Baseline and diagnosis</a></li>
+<li><a class="reference internal" href="#remediation-phases">Remediation phases</a><ul>
+<li><a class="reference internal" href="#phase-0-make-the-baseline-reproducible">Phase 0: make the baseline reproducible</a></li>
+<li><a class="reference internal" href="#phase-1-fix-the-heading-hierarchy-contract">Phase 1: fix the heading hierarchy contract</a></li>
+<li><a class="reference internal" href="#phase-2-repair-generated-tocs-and-anchors">Phase 2: repair generated TOCs and anchors</a></li>
+<li><a class="reference internal" href="#phase-3-handle-transitions-and-remaining-markdown-structures">Phase 3: handle transitions and remaining Markdown structures</a></li>
+<li><a class="reference internal" href="#phase-4-invalidate-stale-outputs-and-regenerate">Phase 4: invalidate stale outputs and regenerate</a></li>
+<li><a class="reference internal" href="#phase-5-close-the-authored-document-remainder">Phase 5: close the authored-document remainder</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tests-and-acceptance-criteria">Tests and acceptance criteria</a></li>
+<li><a class="reference internal" href="#first-implementation-slice">First implementation slice</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="workflow-performance-plan.html" title="Workflow Simplification and Performance Plan" accesskey="P">previous </a></li>
+              <li><a href="plan-index.html" title="Plan Index: Research, Validation, and Implementation Roadmaps" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/chat-markdown-warning-remediation-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Chat Markdown Warning Remediation Plan</a><ul>
+<li><a class="reference internal" href="#goal-and-scope">Goal and scope</a></li>
+<li><a class="reference internal" href="#baseline-and-diagnosis">Baseline and diagnosis</a></li>
+<li><a class="reference internal" href="#remediation-phases">Remediation phases</a><ul>
+<li><a class="reference internal" href="#phase-0-make-the-baseline-reproducible">Phase 0: make the baseline reproducible</a></li>
+<li><a class="reference internal" href="#phase-1-fix-the-heading-hierarchy-contract">Phase 1: fix the heading hierarchy contract</a></li>
+<li><a class="reference internal" href="#phase-2-repair-generated-tocs-and-anchors">Phase 2: repair generated TOCs and anchors</a></li>
+<li><a class="reference internal" href="#phase-3-handle-transitions-and-remaining-markdown-structures">Phase 3: handle transitions and remaining Markdown structures</a></li>
+<li><a class="reference internal" href="#phase-4-invalidate-stale-outputs-and-regenerate">Phase 4: invalidate stale outputs and regenerate</a></li>
+<li><a class="reference internal" href="#phase-5-close-the-authored-document-remainder">Phase 5: close the authored-document remainder</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tests-and-acceptance-criteria">Tests and acceptance criteria</a></li>
+<li><a class="reference internal" href="#first-implementation-slice">First implementation slice</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="workflow-performance-plan.html"
+                          title="previous chapter">Workflow Simplification and Performance Plan</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="plan-index.html"
+                          title="next chapter">Plan Index: Research, Validation, and Implementation Roadmaps</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/chat-markdown-warning-remediation-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chat-markdown-warning-remediation-plan">
+<span id="id1"></span><h1>Chat Markdown Warning Remediation Plan<a class="headerlink" href="#chat-markdown-warning-remediation-plan" title="Link to this heading">¶</a></h1>
+<section id="goal-and-scope">
+<h2>Goal and scope<a class="headerlink" href="#goal-and-scope" title="Link to this heading">¶</a></h2>
+<p>Eliminate warnings introduced when canonical chat exports are transformed into
+MyST Markdown, fixing the owning implementation in <code class="docutils literal notranslate"><span class="pre">src/transform_md</span></code> and
+regenerating its outputs. Do not patch generated <code class="docutils literal notranslate"><span class="pre">docs/chats/*.myst.md</span></code> files
+by hand or suppress warning classes. The broader goal is a clean Sphinx build;
+warnings from authored documentation and other extensions must be tracked and
+fixed at their own source rather than attributed to the chat transformer.</p>
+<p>The configured route is <code class="docutils literal notranslate"><span class="pre">data/chats</span></code> and chat-source settings in
+<a class="reference download internal" download="" href="_downloads/056806de8da745a0c59599887088495d/_toc.yml"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code></span></a>, through <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">transform_md_all</span></code>
+(<a class="reference download internal" download="" href="_downloads/24f75eabab1fe4730ed764eb3a94b2a7/Makefile"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Makefile</span></code></span></a>) and
+<a class="reference download internal" download="" href="_downloads/8e7b4fd3c6b21a7dd28cdb94cabf6004/workflow_transform.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">tools/workflow_transform.py</span></code></span></a>, into
+<code class="docutils literal notranslate"><span class="pre">docs/chats/*.myst.md</span></code> and notebook outputs. The transform settings and
+incremental manifest are assembled in
+<a class="reference download internal" download="" href="_downloads/751edc4a44b049aa9334ec2cdaeaf766/create_symlinks.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">data/create_symlinks.py</span></code></span></a>.</p>
+</section>
+<section id="baseline-and-diagnosis">
+<h2>Baseline and diagnosis<a class="headerlink" href="#baseline-and-diagnosis" title="Link to this heading">¶</a></h2>
+<p>A fresh serial Sphinx build on 2026-11-09 recorded 43,663 warnings
+(<code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:44515</span></code>). The category counts below were grouped from that
+full log; the cited log lines show representative diagnostics. This is a local
+build capture, not a committed baseline artifact, so Phase 0 must make the
+inventory reproducible.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Warning family</p></th>
+<th class="head text-right"><p>Count</p></th>
+<th class="head"><p>Example evidence</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H1 to H3 heading jumps</p></td>
+<td class="text-right"><p>9,919</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:305</span></code>; generated page <code class="docutils literal notranslate"><span class="pre">docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md:336</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>H3 to H6 heading jumps</p></td>
+<td class="text-right"><p>430</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:10474</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Nested transitions in invalid positions</p></td>
+<td class="text-right"><p>325</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:401</span></code>; generated page <code class="docutils literal notranslate"><span class="pre">docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md:238</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Missing <code class="docutils literal notranslate"><span class="pre">table-of-contents</span></code> targets</p></td>
+<td class="text-right"><p>911</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:38080</span></code>; generated contents links at <code class="docutils literal notranslate"><span class="pre">docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md:7-15</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Missing Prompt/Response targets</p></td>
+<td class="text-right"><p>Hundreds</p></td>
+<td><p>Generated links at <code class="docutils literal notranslate"><span class="pre">docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md:12-13</span></code>; warning at <code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:11807</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The heading warnings have a concrete generator-level cause. In
+<a class="reference download internal" download="" href="_downloads/472d98ad0dd76e6c3a69b5e6c0068136/transform_md.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">transform_md.py</span></code></span></a>,
+<code class="docutils literal notranslate"><span class="pre">_normalize_chat_headings()</span></code> keeps nested headings at H3 or deeper, while
+<code class="docutils literal notranslate"><span class="pre">transform_text()</span></code> emits Prompt and Response headings as H1
+(<a class="reference download internal" download="" href="_downloads/472d98ad0dd76e6c3a69b5e6c0068136/transform_md.py"><span class="xref download myst">lines 382-397</span></a>).
+The generated page consequently places <code class="docutils literal notranslate"><span class="pre">###</span> <span class="pre">Reinterpreting</span> <span class="pre">...</span></code> below
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Response:</span> <span class="pre">2</span></code>, producing the H1-to-H3 jump; the source heading is also H3
+(<code class="docutils literal notranslate"><span class="pre">data/chats/Bell-Correlations-in-Atomic-Momentum.md:100</span></code>).
+The normalizer’s docstring describes chat headings at H2, so the two stages
+currently violate their intended hierarchy contract.</p>
+<p>Not every warning belongs to <code class="docutils literal notranslate"><span class="pre">src/transform_md</span></code>: the same clean build reports
+missing MyST targets in authored pages such as
+<code class="docutils literal notranslate"><span class="pre">docs/anti-fire-cannon-review.md:317</span></code> (<code class="docutils literal notranslate"><span class="pre">.tmp/make-docs-fresh-j1.log:11741</span></code>).
+Those residuals need a separately owned
+documentation track; they must not be hidden in the chat-transformer fix.</p>
+</section>
+<section id="remediation-phases">
+<h2>Remediation phases<a class="headerlink" href="#remediation-phases" title="Link to this heading">¶</a></h2>
+<section id="phase-0-make-the-baseline-reproducible">
+<h3>Phase 0: make the baseline reproducible<a class="headerlink" href="#phase-0-make-the-baseline-reproducible" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Run a clean Sphinx build with the environment and dependency versions
+recorded; use <code class="docutils literal notranslate"><span class="pre">-E</span> <span class="pre">-j1</span></code> for the comparable serial baseline.</p></li>
+<li><p>Produce a machine-readable report grouped by Sphinx warning type, message,
+source document, and whether the document is generated or authored.</p></li>
+<li><p>Join generated outputs back to canonical inputs using the chat manifest.
+Record total warning count, per-family counts, and representative source and
+output paths. Keep transient logs and reports under <code class="docutils literal notranslate"><span class="pre">.tmp/</span></code>.</p></li>
+<li><p>Classify each warning as transformer-owned, authored-document-owned,
+extension/toolchain-owned, or unresolved. Do not assume all 43,663 warnings
+are Markdown syntax errors or originate in chat exports.</p></li>
+</ol>
+</section>
+<section id="phase-1-fix-the-heading-hierarchy-contract">
+<h3>Phase 1: fix the heading hierarchy contract<a class="headerlink" href="#phase-1-fix-the-heading-hierarchy-contract" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Define one document H1, Prompt/Response turn headings at H2, and nested
+content headings below the active turn. Rebase source heading depths without
+losing their relative nesting; cap or otherwise handle levels beyond H6
+explicitly.</p></li>
+<li><p>Implement the policy in one coherent transform pass so the chat-heading
+normalizer and Prompt/Response emitter cannot disagree. Preserve headings in
+fenced code, literal examples, front matter, and non-chat documents.</p></li>
+<li><p>Add fixtures for top-level and nested ATX/Setext headings, consecutive
+turns, headings inside code fences, and source files with no turn markers.</p></li>
+<li><p>Assert the exact emitted heading sequence and run MyST/Sphinx parsing on the
+fixture. The immediate regression test is that the current H1-to-H3 example
+becomes a valid H1-to-H2-to-H3 structure without changing body text.</p></li>
+</ol>
+</section>
+<section id="phase-2-repair-generated-tocs-and-anchors">
+<h3>Phase 2: repair generated TOCs and anchors<a class="headerlink" href="#phase-2-repair-generated-tocs-and-anchors" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Generate contents only after final heading normalization, using the same
+slug/ID rules as MyST, or remove stale copied contents in favor of a
+generated TOC whose targets are verified.</p></li>
+<li><p>Resolve <code class="docutils literal notranslate"><span class="pre">table-of-contents</span></code>, <code class="docutils literal notranslate"><span class="pre">prompt-N</span></code>, and <code class="docutils literal notranslate"><span class="pre">response-N</span></code> references from
+actual emitted headings or explicit stable labels. Drop empty and stale
+targets rather than emitting links that cannot resolve.</p></li>
+<li><p>Add tests that compare every generated same-page TOC target against parsed
+heading IDs, including punctuation, math, duplicate headings, and Unicode.</p></li>
+<li><p>Preserve valid user-supplied labels and cross-document links; do not
+regenerate anchors by ad hoc regular-expression replacement.</p></li>
+</ol>
+</section>
+<section id="phase-3-handle-transitions-and-remaining-markdown-structures">
+<h3>Phase 3: handle transitions and remaining Markdown structures<a class="headerlink" href="#phase-3-handle-transitions-and-remaining-markdown-structures" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>For each <code class="docutils literal notranslate"><span class="pre">docutils</span></code> transition warning, trace the generated line to its
+canonical input and record the surrounding list, quote, directive, or
+section structure.</p></li>
+<li><p>Make separator handling context-aware. Do not globally delete <code class="docutils literal notranslate"><span class="pre">---</span></code> lines:
+they may be front matter, Setext underlines, horizontal rules, or literal
+examples.</p></li>
+<li><p>Add parser-backed fixtures for transitions in lists/quotes and for code
+fences, directives, tables, math, and unclosed fences. Confirm parsing does
+not reinterpret literal content as structure.</p></li>
+<li><p>Inventory remaining MyST/docutils warning families after the dominant
+heading, anchor, and transition cases fall. Assign non-transformer warnings
+to their actual owner.</p></li>
+</ol>
+</section>
+<section id="phase-4-invalidate-stale-outputs-and-regenerate">
+<h3>Phase 4: invalidate stale outputs and regenerate<a class="headerlink" href="#phase-4-invalidate-stale-outputs-and-regenerate" title="Link to this heading">¶</a></h3>
+<p>The current <code class="docutils literal notranslate"><span class="pre">_transform_fingerprint()</span></code> includes output formats and configuration
+but not the <code class="docutils literal notranslate"><span class="pre">transform_md</span></code> implementation version
+(<a class="reference download internal" download="" href="_downloads/751edc4a44b049aa9334ec2cdaeaf766/create_symlinks.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">data/create_symlinks.py</span></code></span></a>). A code-only
+fix can therefore leave unchanged sources marked current. Add an explicit
+transformer version or source fingerprint to the manifest, and test that a
+transformer-version change marks all affected outputs stale.</p>
+<p>After the fixes land, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">transform_md_all</span></code> to regenerate from
+<code class="docutils literal notranslate"><span class="pre">data/chats/</span></code>, inspect the generated diff for content preservation, then run a
+fresh Sphinx build. Do not hand-edit generated files to make the warning count
+look lower.</p>
+</section>
+<section id="phase-5-close-the-authored-document-remainder">
+<h3>Phase 5: close the authored-document remainder<a class="headerlink" href="#phase-5-close-the-authored-document-remainder" title="Link to this heading">¶</a></h3>
+<p>Use the Phase 0 report to fix remaining authored-page cross-references,
+headings, downloads, citations, and extension warnings at their sources. Keep
+this work separate from <code class="docutils literal notranslate"><span class="pre">src/transform_md</span></code> so a clean chat output cannot mask
+unrelated documentation defects. If a third-party warning cannot yet be fixed,
+record the exact warning, owner, upstream issue, and removal condition; do not
+add a blanket filter.</p>
+</section>
+</section>
+<section id="tests-and-acceptance-criteria">
+<h2>Tests and acceptance criteria<a class="headerlink" href="#tests-and-acceptance-criteria" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">src/transform_md/tests</span></code> covers heading policy, TOC/anchor validity,
+transitions, code-fence preservation, deterministic output, and manifest
+invalidation after transformer changes.</p></li>
+<li><p>A representative corpus slice produces byte-stable MyST and notebook outputs
+when rerun with identical inputs and settings.</p></li>
+<li><p>A clean Sphinx build reports zero warnings from generated chat pages. The
+final project goal is zero project-owned warnings across the whole clean
+build; any temporary external exception is individually documented and
+tracked to closure.</p></li>
+<li><p>The baseline report shows category-by-category reductions to zero for
+transformer-owned warnings, rather than only a lower aggregate number.</p></li>
+<li><p>Incremental and fresh builds agree on the warning inventory. No warning class
+is disabled to achieve the target.</p></li>
+</ul>
+</section>
+<section id="first-implementation-slice">
+<h2>First implementation slice<a class="headerlink" href="#first-implementation-slice" title="Link to this heading">¶</a></h2>
+<p>Start with a focused unit fixture in
+<a class="reference download internal" download="" href="_downloads/333336cef128af7724e8cd711aef3270/test_transform_md.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">src/transform_md/tests/test_transform_md.py</span></code></span></a>
+that captures the current <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Response:</span> <span class="pre">2</span></code> followed by <code class="docutils literal notranslate"><span class="pre">###</span> <span class="pre">Reinterpreting</span> <span class="pre">...</span></code>
+case. Then change the generator’s heading contract, run the focused test, and
+only after it passes regenerate the corpus and compare a clean-build warning
+inventory. This tests the highest-volume, directly evidenced cause before
+expanding into anchors and transition parsing.</p>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="workflow-performance-plan.html" title="Workflow Simplification and Performance Plan" >previous</a></li>
+        <li><a href="plan-index.html" title="Plan Index: Research, Validation, and Implementation Roadmaps" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RDF-HDT Implementation Plan &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">RDF-HDT Implementation Plan</a><ul>
+<li><a class="reference internal" href="#scope-and-constraints">Scope and Constraints</a></li>
+<li><a class="reference internal" href="#proposed-architecture">Proposed Architecture</a></li>
+<li><a class="reference internal" href="#phase-b-streaming-rust-bridge">Phase B: Streaming Rust Bridge</a><ul>
+<li><a class="reference internal" href="#b1-create-a-small-rust-adapter">B1. Create a small Rust adapter</a></li>
+<li><a class="reference internal" href="#b2-export-from-oxigraph-without-python-materialization">B2. Export from Oxigraph without Python materialization</a></li>
+<li><a class="reference internal" href="#b3-import-hdt-into-oxigraph">B3. Import HDT into Oxigraph</a></li>
+<li><a class="reference internal" href="#b4-named-graph-policy">B4. Named-graph policy</a></li>
+<li><a class="reference internal" href="#b5-sphinx-integration">B5. Sphinx integration</a></li>
+<li><a class="reference internal" href="#b6-packaging-and-ci">B6. Packaging and CI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-b-tests-and-benchmarks">Phase B Tests and Benchmarks</a></li>
+<li><a class="reference internal" href="#phase-c-direct-bulk-builder">Phase C: Direct Bulk Builder</a><ul>
+<li><a class="reference internal" href="#c1-confirm-the-missing-public-api">C1. Confirm the missing public API</a></li>
+<li><a class="reference internal" href="#c2-implement-dictionary-and-triple-construction">C2. Implement dictionary and triple construction</a></li>
+<li><a class="reference internal" href="#c3-replace-the-b-export-path">C3. Replace the B export path</a></li>
+<li><a class="reference internal" href="#c4-upstream-contribution-strategy">C4. Upstream contribution strategy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#browser-wasm-follow-up">Browser WASM Follow-Up</a></li>
+<li><a class="reference internal" href="#delivery-order">Delivery Order</a></li>
+<li><a class="reference internal" href="#acceptance-criteria">Acceptance Criteria</a></li>
+<li><a class="reference internal" href="#risks-and-decisions">Risks and Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/rdfhdt-implementation-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">RDF-HDT Implementation Plan</a><ul>
+<li><a class="reference internal" href="#scope-and-constraints">Scope and Constraints</a></li>
+<li><a class="reference internal" href="#proposed-architecture">Proposed Architecture</a></li>
+<li><a class="reference internal" href="#phase-b-streaming-rust-bridge">Phase B: Streaming Rust Bridge</a><ul>
+<li><a class="reference internal" href="#b1-create-a-small-rust-adapter">B1. Create a small Rust adapter</a></li>
+<li><a class="reference internal" href="#b2-export-from-oxigraph-without-python-materialization">B2. Export from Oxigraph without Python materialization</a></li>
+<li><a class="reference internal" href="#b3-import-hdt-into-oxigraph">B3. Import HDT into Oxigraph</a></li>
+<li><a class="reference internal" href="#b4-named-graph-policy">B4. Named-graph policy</a></li>
+<li><a class="reference internal" href="#b5-sphinx-integration">B5. Sphinx integration</a></li>
+<li><a class="reference internal" href="#b6-packaging-and-ci">B6. Packaging and CI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-b-tests-and-benchmarks">Phase B Tests and Benchmarks</a></li>
+<li><a class="reference internal" href="#phase-c-direct-bulk-builder">Phase C: Direct Bulk Builder</a><ul>
+<li><a class="reference internal" href="#c1-confirm-the-missing-public-api">C1. Confirm the missing public API</a></li>
+<li><a class="reference internal" href="#c2-implement-dictionary-and-triple-construction">C2. Implement dictionary and triple construction</a></li>
+<li><a class="reference internal" href="#c3-replace-the-b-export-path">C3. Replace the B export path</a></li>
+<li><a class="reference internal" href="#c4-upstream-contribution-strategy">C4. Upstream contribution strategy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#browser-wasm-follow-up">Browser WASM Follow-Up</a></li>
+<li><a class="reference internal" href="#delivery-order">Delivery Order</a></li>
+<li><a class="reference internal" href="#acceptance-criteria">Acceptance Criteria</a></li>
+<li><a class="reference internal" href="#risks-and-decisions">Risks and Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/rdfhdt-implementation-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="rdf-hdt-implementation-plan">
+<h1>RDF-HDT Implementation Plan<a class="headerlink" href="#rdf-hdt-implementation-plan" title="Link to this heading">¶</a></h1>
+<p>This document plans RDF-HDT import/export for the local Oxigraph-backed DocIndex
+backend. It deliberately delivers the streaming bridge first, then evaluates a
+direct bulk-builder API in <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code>.</p>
+<section id="scope-and-constraints">
+<h2>Scope and Constraints<a class="headerlink" href="#scope-and-constraints" title="Link to this heading">¶</a></h2>
+<p>The current backend stores RDF in <code class="docutils literal notranslate"><span class="pre">pyoxigraph.Store</span></code> and creates an in-memory
+store when no remote URL or persistent storage path is configured. See
+<a class="reference download internal" download="" href="_downloads/6fde68da666bd48f668b2b807affd0f8/oxirs.py"><span class="xref download myst">oxirs.py</span></a>.
+Static export currently iterates the store’s quads, formats each subject,
+predicate, and object as N-Triples, and returns one large <code class="docutils literal notranslate"><span class="pre">bytes</span></code> value
+(<a class="reference download internal" download="" href="_downloads/6fde68da666bd48f668b2b807affd0f8/oxirs.py"><span class="xref download myst">oxirs.py</span></a>).
+The Sphinx hook writes that data to <code class="docutils literal notranslate"><span class="pre">docindex.nt</span></code> and probes for an optional HDT
+encoder (<a class="reference download internal" download="" href="_downloads/a395e3f6e7ee4462accd5e5aad65131f/hooks.py"><span class="xref download myst">hooks.py</span></a>).</p>
+<p>The target crate is <a class="reference external" href="https://docs.rs/hdt/latest/hdt/"><code class="docutils literal notranslate"><span class="pre">hdt</span></code></a>, currently version
+<code class="docutils literal notranslate"><span class="pre">0.7.3</span></code>. Its public API can read HDT, read N-Triples with the experimental <code class="docutils literal notranslate"><span class="pre">nt</span></code>
+feature, iterate triple patterns, write HDT, and write N-Triples. It does not
+currently expose a public mutable HDT builder that accepts Oxigraph terms
+directly.</p>
+<p>The implementation must therefore distinguish these goals:</p>
+<ul class="simple">
+<li><p><strong>B:</strong> eliminate Python materialization and temporary-file overhead with a
+streaming Rust bridge that connects Oxigraph output to <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code>.</p></li>
+<li><p><strong>C:</strong> remove the RDF serialization and reparsing step by adding or adopting a
+public bulk-builder API in <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code>.</p></li>
+</ul>
+<p>HDT is a triple format, while Oxigraph can contain named quads. Full named-graph
+round-tripping is out of scope for the first version and must not be implied by
+the API.</p>
+</section>
+<section id="proposed-architecture">
+<h2>Proposed Architecture<a class="headerlink" href="#proposed-architecture" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    Store[Oxigraph Store] --&gt; Iterator[Streaming quad iterator]
+    Iterator --&gt; Terms[Term adapter and graph policy]
+    Terms --&gt; NT[Buffered N-Triples stream]
+    NT --&gt; ReadNT[hdt::Hdt::read_nt]
+    ReadNT --&gt; Write[hdt::Hdt::write]
+    Write --&gt; HDT[.hdt artifact]
+
+    HDT --&gt; ReadHDT[hdt::Hdt::read]
+    ReadHDT --&gt; All[hdt::Hdt::triples_all]
+    All --&gt; Insert[Oxigraph insertion]
+    Insert --&gt; Store
+    </pre><p>The B implementation keeps the <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> public API unchanged. It uses a
+Rust-side buffered stream and avoids the current Python <code class="docutils literal notranslate"><span class="pre">list[str]</span></code>, joined
+string, and temporary-file path. C replaces the <code class="docutils literal notranslate"><span class="pre">NT</span></code> and <code class="docutils literal notranslate"><span class="pre">ReadNT</span></code> stages with a
+direct <code class="docutils literal notranslate"><span class="pre">Hdt::from_triples</span></code>-style builder if that API becomes available.</p>
+</section>
+<section id="phase-b-streaming-rust-bridge">
+<h2>Phase B: Streaming Rust Bridge<a class="headerlink" href="#phase-b-streaming-rust-bridge" title="Link to this heading">¶</a></h2>
+<section id="b1-create-a-small-rust-adapter">
+<h3>B1. Create a small Rust adapter<a class="headerlink" href="#b1-create-a-small-rust-adapter" title="Link to this heading">¶</a></h3>
+<p>Add a focused Rust crate under <code class="docutils literal notranslate"><span class="pre">src/docindex</span></code>, preferably as a standalone
+library plus command-line binary. Pin the dependency and enable only the
+features needed for the first bridge:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[dependencies]</span>
+<span class="n">hdt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"0.7.3"</span><span class="p">,</span><span class="w"> </span><span class="n">default-features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"nt"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The adapter should expose these operations:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>export_hdt(input_ntriples, output_hdt)
+import_hdt(input_hdt, output_target)
+</pre></div>
+</div>
+<p>The first CLI can use paths or stdin/stdout. A library API should use
+<code class="docutils literal notranslate"><span class="pre">Read</span></code>/<code class="docutils literal notranslate"><span class="pre">Write</span></code> so the Python integration can eventually use pipes without
+creating an intermediate file.</p>
+</section>
+<section id="b2-export-from-oxigraph-without-python-materialization">
+<h3>B2. Export from Oxigraph without Python materialization<a class="headerlink" href="#b2-export-from-oxigraph-without-python-materialization" title="Link to this heading">¶</a></h3>
+<p>Add a Rust-side Oxigraph iterator adapter that:</p>
+<ol class="arabic simple">
+<li><p>Iterates Oxigraph triples or quads.</p></li>
+<li><p>Applies the named-graph policy.</p></li>
+<li><p>Converts Oxigraph terms to valid N-Triples lexical forms.</p></li>
+<li><p>Writes through a <code class="docutils literal notranslate"><span class="pre">BufWriter</span></code> or pipe.</p></li>
+<li><p>Feeds the stream to the <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> N-Triples reader.</p></li>
+<li><p>Writes the resulting <code class="docutils literal notranslate"><span class="pre">Hdt</span></code> to the destination with <code class="docutils literal notranslate"><span class="pre">Hdt::write</span></code>.</p></li>
+</ol>
+<p>The adapter must not sort or canonicalize N-Triples before handing them to
+<code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code>; HDT construction owns dictionary and triple ordering. Stable ordering
+should be a separate option only if reproducible byte output is required.</p>
+<p>For the current Python backend, use one of these boundaries:</p>
+<ul class="simple">
+<li><p>Preferred initial boundary: invoke the Rust helper with a stream or a local
+source file and destination file.</p></li>
+<li><p>Later optimization: expose the bridge through PyO3/maturin and pass encoded
+buffers or an iterator-backed callback.</p></li>
+</ul>
+<p>The Python backend should add <code class="docutils literal notranslate"><span class="pre">dump_hdt(path)</span></code> and retain <code class="docutils literal notranslate"><span class="pre">dump_ntriples()</span></code> for
+browser fallback. It should report capability errors distinctly from data
+errors.</p>
+</section>
+<section id="b3-import-hdt-into-oxigraph">
+<h3>B3. Import HDT into Oxigraph<a class="headerlink" href="#b3-import-hdt-into-oxigraph" title="Link to this heading">¶</a></h3>
+<p>Implement the inverse operation:</p>
+<ol class="arabic simple">
+<li><p>Open the HDT file with <code class="docutils literal notranslate"><span class="pre">hdt::Hdt::read</span></code> or <code class="docutils literal notranslate"><span class="pre">read_from_path</span></code> when the cache
+feature is intentionally enabled.</p></li>
+<li><p>Iterate <code class="docutils literal notranslate"><span class="pre">triples_all()</span></code> for bulk loading, not one pattern query per triple.</p></li>
+<li><p>Convert HDT string terms to Oxigraph named nodes, blank nodes, or literals.</p></li>
+<li><p>Insert triples in batches into Oxigraph.</p></li>
+<li><p>Return the imported triple count and elapsed time.</p></li>
+</ol>
+<p>Term conversion needs explicit tests for:</p>
+<ul class="simple">
+<li><p>IRIs</p></li>
+<li><p>blank nodes</p></li>
+<li><p>plain literals</p></li>
+<li><p>language-tagged literals</p></li>
+<li><p>typed literals</p></li>
+<li><p>escaped Unicode and control characters</p></li>
+</ul>
+<p>A malformed term must fail the import with a useful error rather than being
+silently converted to an IRI.</p>
+</section>
+<section id="b4-named-graph-policy">
+<h3>B4. Named-graph policy<a class="headerlink" href="#b4-named-graph-policy" title="Link to this heading">¶</a></h3>
+<p>Add an explicit configuration field, for example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OXIRS_HDT_NAMED_GRAPH_POLICY=reject|flatten
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">reject</span></code> by default for general import/export APIs. Permit <code class="docutils literal notranslate"><span class="pre">flatten</span></code> for the
+existing static DocIndex artifact, but log that graph identity was discarded.
+Do not encode graph names into ordinary HDT triples without a documented
+vocabulary and a corresponding import policy.</p>
+</section>
+<section id="b5-sphinx-integration">
+<h3>B5. Sphinx integration<a class="headerlink" href="#b5-sphinx-integration" title="Link to this heading">¶</a></h3>
+<p>Update the existing static asset hook so that it can select the Rust bridge:</p>
+<ul class="simple">
+<li><p>Always retain <code class="docutils literal notranslate"><span class="pre">docindex.nt</span></code> as the guaranteed fallback.</p></li>
+<li><p>Prefer the Rust bridge when the helper is installed.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">docindex.hdt</span></code> only after checking that it exists and is non-empty.</p></li>
+<li><p>Log triple count, N-Triples size, HDT size, and elapsed export time.</p></li>
+<li><p>Add an explicit required mode for CI or release builds, such as
+<code class="docutils literal notranslate"><span class="pre">docindex_rdf_hdt_required</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
+<li><p>Keep optional mode for developer builds.</p></li>
+</ul>
+<p>The current configuration already exposes HDT-related settings in
+<a class="reference download internal" download="" href="_downloads/fb0d0d7ff27f33697ba3b787ec894677/conf.py"><span class="xref download myst">conf.py</span></a>, while browser loading remains optional and falls
+back to OxiRS WASM/N-Triples when no HDT module is configured
+(<a class="reference download internal" download="" href="_downloads/2a4d133e81b8453de03f301e2d883286/docindex-search.js"><span class="xref download myst">docindex-search.js</span></a>).</p>
+</section>
+<section id="b6-packaging-and-ci">
+<h3>B6. Packaging and CI<a class="headerlink" href="#b6-packaging-and-ci" title="Link to this heading">¶</a></h3>
+<p>Add a reproducible build path for the Rust helper:</p>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">Cargo.lock</span></code> for the adapter.</p></li>
+<li><p>Document the minimum Rust toolchain required by the selected <code class="docutils literal notranslate"><span class="pre">hdt</span></code> release.</p></li>
+<li><p>Build the helper in CI and cache Cargo dependencies.</p></li>
+<li><p>Add a platform capability check to the Python package.</p></li>
+<li><p>Keep the helper optional for installations that only use remote search.</p></li>
+<li><p>Do not depend on an untracked system <code class="docutils literal notranslate"><span class="pre">rdf2hdt</span></code> or C++ HDT binary.</p></li>
+</ul>
+<p>The documentation build should fail only when HDT is explicitly required. In
+optional mode it should preserve the current N-Triples output and emit a clear
+capability warning.</p>
+</section>
+</section>
+<section id="phase-b-tests-and-benchmarks">
+<h2>Phase B Tests and Benchmarks<a class="headerlink" href="#phase-b-tests-and-benchmarks" title="Link to this heading">¶</a></h2>
+<p>Add Rust tests for:</p>
+<ul class="simple">
+<li><p>N-Triples stream to HDT and back.</p></li>
+<li><p>HDT import into an empty Oxigraph store.</p></li>
+<li><p>Triple count preservation.</p></li>
+<li><p>RDF term preservation.</p></li>
+<li><p>Empty datasets.</p></li>
+<li><p>Invalid HDT and invalid N-Triples.</p></li>
+<li><p>Named-graph rejection and flattening.</p></li>
+<li><p>Repeated imports and exports.</p></li>
+</ul>
+<p>Add Python tests near the existing backend tests in
+<a class="reference download internal" download="" href="_downloads/dfdea753d7bd805e94f6f74f61a74aba/test_oxirs.py"><span class="xref download myst">test_oxirs.py</span></a>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dump_hdt()</span></code> creates a non-empty artifact.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_hdt()</span></code> makes the expected documents searchable.</p></li>
+<li><p>Missing Rust helper produces a capability error.</p></li>
+<li><p>Optional mode falls back to N-Triples.</p></li>
+<li><p>Required mode fails when HDT export is unavailable.</p></li>
+</ul>
+<p>Benchmark three implementations using the same generated dataset:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A. Existing Python materialization -&gt; N-Triples file
+B. Rust streaming Oxigraph iterator -&gt; hdt-rs N-Triples reader
+C. Direct hdt-rs bulk builder
+</pre></div>
+</div>
+<p>Record:</p>
+<ul class="simple">
+<li><p>wall-clock export time</p></li>
+<li><p>peak resident memory</p></li>
+<li><p>temporary disk usage</p></li>
+<li><p>N-Triples size</p></li>
+<li><p>HDT size</p></li>
+<li><p>HDT reload time</p></li>
+<li><p>Oxigraph import time</p></li>
+<li><p>query latency for fixed triple patterns</p></li>
+</ul>
+<p>The B milestone is complete when it reduces peak memory and temporary I/O while
+preserving all supported RDF terms and producing an HDT file that <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> can
+reload.</p>
+</section>
+<section id="phase-c-direct-bulk-builder">
+<h2>Phase C: Direct Bulk Builder<a class="headerlink" href="#phase-c-direct-bulk-builder" title="Link to this heading">¶</a></h2>
+<section id="c1-confirm-the-missing-public-api">
+<h3>C1. Confirm the missing public API<a class="headerlink" href="#c1-confirm-the-missing-public-api" title="Link to this heading">¶</a></h3>
+<p>Before implementing C, verify the selected <code class="docutils literal notranslate"><span class="pre">hdt</span></code> release’s public API and
+feature behavior. The current documented implementation has private dictionary
+and triple-section construction details, so C may require an upstream change or
+a maintained fork.</p>
+<p>The desired API is conceptually:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">Hdt</span><span class="p">::</span><span class="n">from_triples</span><span class="p">(</span>
+<span class="w">    </span><span class="n">triples</span><span class="p">:</span><span class="w"> </span><span class="nc">impl</span><span class="w"> </span><span class="nb">IntoIterator</span><span class="o">&lt;</span><span class="n">Item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">;</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="o">&gt;</span>
+<span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">Hdt</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>A more efficient API should avoid allocating three new strings when the source
+terms can be borrowed or interned:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">HdtBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span><span class="w"> </span><span class="n">predicate</span><span class="p">,</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="o">?</span>
+<span class="w">    </span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The builder must define ownership, duplicate handling, ordering, invalid-term
+behavior, and memory limits.</p>
+</section>
+<section id="c2-implement-dictionary-and-triple-construction">
+<h3>C2. Implement dictionary and triple construction<a class="headerlink" href="#c2-implement-dictionary-and-triple-construction" title="Link to this heading">¶</a></h3>
+<p>If upstream accepts the feature, implement the builder in <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> with these
+properties:</p>
+<ol class="arabic simple">
+<li><p>Consume an iterator of RDF terms or an HDT-specific triple representation.</p></li>
+<li><p>Intern shared, subject, predicate, and object terms without N-Triples
+escaping.</p></li>
+<li><p>Build the dictionary sections in the format expected by the existing reader.</p></li>
+<li><p>Sort or index triples according to the HDT section requirements.</p></li>
+<li><p>Construct the bitmap/triple section.</p></li>
+<li><p>Write through the existing <code class="docutils literal notranslate"><span class="pre">Hdt::write</span></code> method.</p></li>
+<li><p>Preserve compatibility with files generated by the existing reader and
+supported HDT implementations.</p></li>
+</ol>
+<p>The builder should be parallelizable only after the single-threaded version is
+correct. A parallel dictionary build can reduce wall time but increases memory
+and synchronization complexity.</p>
+</section>
+<section id="c3-replace-the-b-export-path">
+<h3>C3. Replace the B export path<a class="headerlink" href="#c3-replace-the-b-export-path" title="Link to this heading">¶</a></h3>
+<p>Once the builder is available, change only the export half of the bridge:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Oxigraph iterator
+  -&gt; direct HDT term adapter
+  -&gt; HdtBuilder
+  -&gt; Hdt::write
+</pre></div>
+</div>
+<p>Keep B as a compatibility fallback. Runtime selection should be explicit or
+capability-based, and the generated files from B and C must pass the same
+round-trip and query tests.</p>
+</section>
+<section id="c4-upstream-contribution-strategy">
+<h3>C4. Upstream contribution strategy<a class="headerlink" href="#c4-upstream-contribution-strategy" title="Link to this heading">¶</a></h3>
+<p>Prefer contributing the builder API to <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> rather than maintaining private
+fork patches. The upstream contribution should include:</p>
+<ul class="simple">
+<li><p>public builder documentation</p></li>
+<li><p>unit tests for RDF term classes</p></li>
+<li><p>round-trip tests against existing HDT fixtures</p></li>
+<li><p>benchmarks against <code class="docutils literal notranslate"><span class="pre">read_nt</span></code></p></li>
+<li><p>feature-gated compilation behavior</p></li>
+<li><p>a clear statement of supported HDT variants</p></li>
+</ul>
+<p>If upstream does not accept the API, keep the adapter on B and document that
+HDT construction is intentionally streaming through the crate’s N-Triples
+reader.</p>
+</section>
+</section>
+<section id="browser-wasm-follow-up">
+<h2>Browser WASM Follow-Up<a class="headerlink" href="#browser-wasm-follow-up" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">hdt</span></code> crate documents experimental WebAssembly support, but compiled npm
+artifacts are not supplied by the crate. Browser support should therefore be a
+separate milestone after B or C:</p>
+<ol class="arabic simple">
+<li><p>Build the crate for <code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code> with <code class="docutils literal notranslate"><span class="pre">wasm-pack</span></code>.</p></li>
+<li><p>Publish or copy the generated module as a versioned static asset.</p></li>
+<li><p>Expose a small browser API for loading an HDT file and querying triple
+patterns.</p></li>
+<li><p>Configure <code class="docutils literal notranslate"><span class="pre">hdt_module</span></code> only when that artifact is present.</p></li>
+<li><p>Retain OxiRS WASM/N-Triples fallback.</p></li>
+<li><p>Add a small fixture test before attempting the production dataset.</p></li>
+</ol>
+<p>Do not make browser HDT the only search path until the generated module has a
+real Playwright test and a bounded load-time budget.</p>
+</section>
+<section id="delivery-order">
+<h2>Delivery Order<a class="headerlink" href="#delivery-order" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Add the Rust adapter and prove B on a small fixture.</p></li>
+<li><p>Add Oxigraph import/export methods and term-policy validation.</p></li>
+<li><p>Add Sphinx capability detection, required/optional modes, and metrics.</p></li>
+<li><p>Add Python, Rust, and documentation-build tests.</p></li>
+<li><p>Benchmark A versus B on the generated DocIndex dataset.</p></li>
+<li><p>Decide whether B is fast enough for production.</p></li>
+<li><p>If required, implement and upstream C as an <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> bulk-builder API.</p></li>
+<li><p>Replace B export with C behind a capability flag and retain B fallback.</p></li>
+<li><p>Build and test browser WASM support separately.</p></li>
+</ol>
+</section>
+<section id="acceptance-criteria">
+<h2>Acceptance Criteria<a class="headerlink" href="#acceptance-criteria" title="Link to this heading">¶</a></h2>
+<p>B is accepted when:</p>
+<ul class="simple">
+<li><p>Oxigraph data exports to a valid HDT file without Python-side list
+materialization.</p></li>
+<li><p>HDT imports into Oxigraph with supported RDF terms preserved.</p></li>
+<li><p>Named-graph behavior is explicit and tested.</p></li>
+<li><p>N-Triples fallback remains available.</p></li>
+<li><p>The docs build can require HDT in CI and remain optional locally.</p></li>
+<li><p>Benchmarks report memory, time, and artifact sizes.</p></li>
+</ul>
+<p>C is accepted only when:</p>
+<ul class="simple">
+<li><p>A public, versioned <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> builder exists.</p></li>
+<li><p>Direct construction is measurably faster or smaller than B on representative
+data.</p></li>
+<li><p>B and C produce mutually readable HDT files.</p></li>
+<li><p>The builder has upstream-compatible tests and documentation.</p></li>
+<li><p>No private assumptions about <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> internal dictionary structures remain in
+the application adapter.</p></li>
+</ul>
+</section>
+<section id="risks-and-decisions">
+<h2>Risks and Decisions<a class="headerlink" href="#risks-and-decisions" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>HDT is immutable:</strong> use it for compact distribution and read-heavy search,
+not as a mutable replacement for Oxigraph.</p></li>
+<li><p><strong>HDT is triple-only:</strong> named-graph identity needs an explicit policy.</p></li>
+<li><p><strong>Crate features are experimental:</strong> pin versions and test with and without
+<code class="docutils literal notranslate"><span class="pre">sophia</span></code>, <code class="docutils literal notranslate"><span class="pre">nt</span></code>, <code class="docutils literal notranslate"><span class="pre">cache</span></code>, and <code class="docutils literal notranslate"><span class="pre">sparql</span></code> as applicable.</p></li>
+<li><p><strong>Memory can move rather than disappear:</strong> B removes Python and temporary-file
+overhead, but <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> still builds dictionaries and indexes in memory.</p></li>
+<li><p><strong>Canonical output is not required:</strong> do not sort N-Triples unless reproducible
+bytes are a release requirement.</p></li>
+<li><p><strong>Browser artifacts are separate:</strong> native Rust support does not automatically
+provide a browser decoder.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

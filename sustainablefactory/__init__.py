@@ -1,1 +1,0 @@
-# Sustainable Factory Package

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lean Blueprint and Sphinxdocrs Roadmap &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Chat Physics Catalog" href="chat-physics-catalog.html" />
+    <link rel="prev" title="Sphinx-Meilisearch Integration Architecture" href="sphinx-meilisearch-architecture.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Lean Blueprint and Sphinxdocrs Roadmap</a><ul>
+<li><a class="reference internal" href="#current-baseline">Current Baseline</a></li>
+<li><a class="reference internal" href="#design-boundaries">Design Boundaries</a></li>
+<li><a class="reference internal" href="#proposed-phases">Proposed Phases</a><ul>
+<li><a class="reference internal" href="#phase-0-pin-and-capture-the-baseline">Phase 0: Pin and Capture the Baseline</a></li>
+<li><a class="reference internal" href="#phase-1-ratex-pdf-compatibility-spike">Phase 1: Ratex PDF Compatibility Spike</a></li>
+<li><a class="reference internal" href="#phase-2-define-a-versioned-blueprint-export">Phase 2: Define a Versioned Blueprint Export</a></li>
+<li><a class="reference internal" href="#phase-2-5-optional-lean-lsp-semantic-enrichment">Phase 2.5: Optional Lean LSP Semantic Enrichment</a></li>
+<li><a class="reference internal" href="#phase-3-rust-importer-and-validator">Phase 3: Rust Importer and Validator</a></li>
+<li><a class="reference internal" href="#phase-4-sphinxdocrs-blueprint-extension">Phase 4: Sphinxdocrs Blueprint Extension</a></li>
+<li><a class="reference internal" href="#phase-5-rust-leanblueprint-compatible-cli">Phase 5: Rust leanblueprint-Compatible CLI</a></li>
+<li><a class="reference internal" href="#phase-6-parity-ci-and-cutover">Phase 6: Parity, CI, and Cutover</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#immediate-next-steps">Immediate Next Steps</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="sphinx-meilisearch-architecture.html" title="Sphinx-Meilisearch Integration Architecture" accesskey="P">previous </a></li>
+              <li><a href="chat-physics-catalog.html" title="Chat Physics Catalog" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/lean-blueprint-rust-port-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Lean Blueprint and Sphinxdocrs Roadmap</a><ul>
+<li><a class="reference internal" href="#current-baseline">Current Baseline</a></li>
+<li><a class="reference internal" href="#design-boundaries">Design Boundaries</a></li>
+<li><a class="reference internal" href="#proposed-phases">Proposed Phases</a><ul>
+<li><a class="reference internal" href="#phase-0-pin-and-capture-the-baseline">Phase 0: Pin and Capture the Baseline</a></li>
+<li><a class="reference internal" href="#phase-1-ratex-pdf-compatibility-spike">Phase 1: Ratex PDF Compatibility Spike</a></li>
+<li><a class="reference internal" href="#phase-2-define-a-versioned-blueprint-export">Phase 2: Define a Versioned Blueprint Export</a></li>
+<li><a class="reference internal" href="#phase-2-5-optional-lean-lsp-semantic-enrichment">Phase 2.5: Optional Lean LSP Semantic Enrichment</a></li>
+<li><a class="reference internal" href="#phase-3-rust-importer-and-validator">Phase 3: Rust Importer and Validator</a></li>
+<li><a class="reference internal" href="#phase-4-sphinxdocrs-blueprint-extension">Phase 4: Sphinxdocrs Blueprint Extension</a></li>
+<li><a class="reference internal" href="#phase-5-rust-leanblueprint-compatible-cli">Phase 5: Rust leanblueprint-Compatible CLI</a></li>
+<li><a class="reference internal" href="#phase-6-parity-ci-and-cutover">Phase 6: Parity, CI, and Cutover</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#immediate-next-steps">Immediate Next Steps</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sphinx-meilisearch-architecture.html"
+                          title="previous chapter">Sphinx-Meilisearch Integration Architecture</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="chat-physics-catalog.html"
+                          title="next chapter">Chat Physics Catalog</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/lean-blueprint-rust-port-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lean-blueprint-and-sphinxdocrs-roadmap">
+<h1>Lean Blueprint and Sphinxdocrs Roadmap<a class="headerlink" href="#lean-blueprint-and-sphinxdocrs-roadmap" title="Link to this heading">¶</a></h1>
+<p>Status as of 2026-10-04. This plan extends dsport’s existing Sphinxdocrs H14
+work; it does not restart the Rust port of Sphinx.</p>
+<section id="current-baseline">
+<h2>Current Baseline<a class="headerlink" href="#current-baseline" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Signals uses Lean <code class="docutils literal notranslate"><span class="pre">v4.35.0-rc3</span></code> and pins Mathlib to the matching release. Its
+<code class="docutils literal notranslate"><span class="pre">blueprint</span></code> target runs LeanArchitect’s package-wide facet for all four
+Signals libraries (<code class="docutils literal notranslate"><span class="pre">:blueprint</span></code> and <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code>, completing at 3,715
+Lake jobs across <code class="docutils literal notranslate"><span class="pre">Signals.Plabic</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Coherence</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.OAM</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Huygens</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Quadrature</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.CanonicalForms</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Signals.MHD</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.Propagation</span></code>),
+then renders the HTML with plasTeX. See <code class="docutils literal notranslate"><span class="pre">src/signals/Makefile:2,27-32</span></code>,
+<code class="docutils literal notranslate"><span class="pre">src/signals/lakefile.toml:5-15</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code>,
+and <a class="reference internal" href="plan-index.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">plan-index.md</span></code></span></a>.</p></li>
+<li><p>The Sphinx HTML build runs that target, copies its output under
+<code class="docutils literal notranslate"><span class="pre">signals-blueprint/</span></code>, and exposes it through the documentation TOC. The PDF
+target still uses <code class="docutils literal notranslate"><span class="pre">latexmk</span></code> and TeX Live. See <code class="docutils literal notranslate"><span class="pre">docs/conf.py:202-238</span></code>,
+<code class="docutils literal notranslate"><span class="pre">docs/_toc.yml:43</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/signals-blueprint.md:1-13</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">src/signals/Makefile:31-32</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">leoliu0/ratex</span></code> is cloned at <code class="docutils literal notranslate"><span class="pre">v0.5.2</span></code> under <code class="docutils literal notranslate"><span class="pre">src/ratex</span></code>; it is a complete,
+self-contained TeX engine. The local checkout occupies about 1.2 GB. Building
+it from source requires Rust 1.88. See <code class="docutils literal notranslate"><span class="pre">src/ratex/Cargo.toml:17</span></code> and
+<code class="docutils literal notranslate"><span class="pre">src/ratex/README.md:50-52,399-406</span></code>.</p></li>
+<li><p>dsport is cloned at <code class="docutils literal notranslate"><span class="pre">af216e1</span></code> under <code class="docutils literal notranslate"><span class="pre">src/dsport</span></code>. Its H14 work already
+includes a versioned source-analysis model, Arborium-based Lean syntax
+analysis, a Lean domain/xref path, and source-neutral autodoc. H14 explicitly
+says Lean analysis is syntax-level, not elaboration or typeclass information.
+See <code class="docutils literal notranslate"><span class="pre">src/dsport/README.md:273-285</span></code>,
+<code class="docutils literal notranslate"><span class="pre">src/dsport/docs/sphinxdocrs-port-plan.md:2196-2212,2349-2380,2436-2475</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">src/dsport/src/sphinxdocrs/src/source_analysis/lean.rs:1-4</span></code>.</p></li>
+<li><p>dsport has a separate source-documentation LSP integration plan, but it is
+marked proposed, not implemented. It recommends static analysis by default
+with opt-in <code class="docutils literal notranslate"><span class="pre">lsp</span></code> and <code class="docutils literal notranslate"><span class="pre">hybrid</span></code> modes. Its planned LSP mapping covers symbols,
+source ranges, detail/signature text, hover, locations, and diagnostics; it
+leaves visibility, aliases, <code class="docutils literal notranslate"><span class="pre">noindex</span></code>, and stable IDs to static analysis.
+See <code class="docutils literal notranslate"><span class="pre">src/dsport/docs/source-docs-lsp-integration-plan.md:3,45,368-399</span></code>.</p></li>
+<li><p>The dsport Sphinx submodule is an exception: its gitlink requests
+<code class="docutils literal notranslate"><span class="pre">4ef6748f097b4315a9989d039f29408d5bde0e7d</span></code>, which was unavailable from both
+declared upstream and the westurner fork. The worktree is restored at the
+available upstream master <code class="docutils literal notranslate"><span class="pre">b04a210</span></code>; dsport reports this submodule as
+modified. Resolve and record a valid upstream pin before using that checkout
+for version-sensitive parity tests. The URL is in <code class="docutils literal notranslate"><span class="pre">src/dsport/.gitmodules:25-27</span></code>.</p></li>
+<li><p>dsport also has a <code class="docutils literal notranslate"><span class="pre">src/RaTeX</span></code> submodule from <code class="docutils literal notranslate"><span class="pre">erweixin/RaTeX</span></code>, a math renderer.
+It is distinct from the full TeX engine <code class="docutils literal notranslate"><span class="pre">leoliu0/ratex</span></code> cloned at
+<code class="docutils literal notranslate"><span class="pre">src/ratex</span></code>. See <code class="docutils literal notranslate"><span class="pre">src/dsport/.gitmodules:4-6</span></code>.</p></li>
+</ul>
+</section>
+<section id="design-boundaries">
+<h2>Design Boundaries<a class="headerlink" href="#design-boundaries" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Lean’s elaborated environment remains authoritative for declaration identity,
+proof status, and inferred dependencies. Do not infer <code class="docutils literal notranslate"><span class="pre">leanok</span></code>, <code class="docutils literal notranslate"><span class="pre">sorry</span></code>
+status, <code class="docutils literal notranslate"><span class="pre">uses</span></code>, or <code class="docutils literal notranslate"><span class="pre">proofUses</span></code> from Arborium syntax.</p></li>
+<li><p>LSP is a useful route to elaborated symbol details, but generic LSP responses
+are not automatically blueprint evidence. The proposed dsport adapter maps
+document symbols, hover, definitions, references, and diagnostics; it does
+not specify theorem proof-completion or <code class="docutils literal notranslate"><span class="pre">uses</span></code>/<code class="docutils literal notranslate"><span class="pre">proofUses</span></code> extraction. Keep
+LeanArchitect’s Lake export authoritative for those fields unless a
+Lean-specific RPC or equivalent semantic export is implemented and parity-
+tested. See <code class="docutils literal notranslate"><span class="pre">src/dsport/docs/source-docs-lsp-integration-plan.md:61,368,389</span></code>.</p></li>
+<li><p>Keep blueprint records separate from generic <code class="docutils literal notranslate"><span class="pre">SourceDeclaration</span></code>. The latter
+is suitable for names, signatures, documentation, visibility, and source
+spans; blueprint readiness and proof/dependency semantics need their own
+schema. See <code class="docutils literal notranslate"><span class="pre">src/dsport/src/sphinxdocrs/src/source_analysis.rs:15,151,270-362</span></code>.</p></li>
+<li><p>Keep the current LeanArchitect/leanblueprint path available until Rust output
+passes parity checks. Ratex replaces only the print/PDF engine; it does not
+replace Lean extraction or the HTML renderer.</p></li>
+<li><p>Prefer an incremental Sphinxdocrs extension and its existing Python/Rust
+compatibility boundary over replacing the complete Sphinx application in
+one step. Existing H14 domain, source-analysis, and autodoc behavior should
+be reused.</p></li>
+</ul>
+</section>
+<section id="proposed-phases">
+<h2>Proposed Phases<a class="headerlink" href="#proposed-phases" title="Link to this heading">¶</a></h2>
+<section id="phase-0-pin-and-capture-the-baseline">
+<h3>Phase 0: Pin and Capture the Baseline<a class="headerlink" href="#phase-0-pin-and-capture-the-baseline" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Resolve dsport’s missing Sphinx gitlink. Either recover the exact object or
+intentionally update the parent gitlink to an available commit and record
+the new parity baseline. Do not silently treat the current master fallback
+as the recorded version.</p></li>
+<li><p>Record the Signals toolchain, Mathlib/Physlib revisions, LeanArchitect tag,
+dsport revision, and Ratex tag used for each comparison.</p></li>
+<li><p>Save reproducible outputs from the current workflow: package-wide
+LeanArchitect JSON/TeX, blueprint HTML, dependency graph, and print source.</p></li>
+<li><p>Acceptance: a clean build can regenerate all four library indexes and the
+current HTML graph from pinned inputs.</p></li>
+</ul>
+</section>
+<section id="phase-1-ratex-pdf-compatibility-spike">
+<h3>Phase 1: Ratex PDF Compatibility Spike<a class="headerlink" href="#phase-1-ratex-pdf-compatibility-spike" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Build or install Ratex <code class="docutils literal notranslate"><span class="pre">v0.5.2</span></code>; for source builds, use the documented Rust
+1.88+ toolchain. Test the existing <code class="docutils literal notranslate"><span class="pre">blueprint/src/print.tex</span></code> with explicit
+XeLaTeX mode and the Ratex multipass driver.</p></li>
+<li><p>Check <code class="docutils literal notranslate"><span class="pre">unicode-math</span></code>, <code class="docutils literal notranslate"><span class="pre">expl3</span></code>, <code class="docutils literal notranslate"><span class="pre">mathtools</span></code>, <code class="docutils literal notranslate"><span class="pre">hyperref</span></code>, <code class="docutils literal notranslate"><span class="pre">geometry</span></code>, local
+macro files, links, theorem text, and generated Lean inputs. Compare PDF text,
+page count, and link destinations against a TeX Live reference.</p></li>
+<li><p>If compatible, add a configurable <code class="docutils literal notranslate"><span class="pre">RATEX</span></code> backend to <code class="docutils literal notranslate"><span class="pre">blueprint-pdf</span></code>, keeping
+TeX Live as a fallback until CI passes. If it is not compatible, retain the
+current PDF target while recording the unsupported package or command.</p></li>
+<li><p>The prior Ubuntu 24.04 package estimate for a minimal XeLaTeX/latexmk setup
+was roughly 0.4 GB installed; reserve about 0.5 GB because apt dependencies
+and recommends vary. <code class="docutils literal notranslate"><span class="pre">latexmk</span></code> itself is under 1 MB installed. Package
+references: <a class="reference external" href="https://packages.ubuntu.com/noble/latexmk">latexmk</a>,
+<a class="reference external" href="https://packages.ubuntu.com/noble/texlive-xetex">XeTeX</a>, and
+<a class="reference external" href="https://packages.ubuntu.com/noble/texlive-latex-extra">LaTeX extras</a>.</p></li>
+<li><p>Acceptance: the current print document builds reproducibly with Ratex in CI
+and has no unexplained differences from the reference PDF.</p></li>
+</ul>
+</section>
+<section id="phase-2-define-a-versioned-blueprint-export">
+<h3>Phase 2: Define a Versioned Blueprint Export<a class="headerlink" href="#phase-2-define-a-versioned-blueprint-export" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Use LeanArchitect’s Lake JSON facet as the producer. Inspect its exact current
+JSON output before fixing a Rust schema; normalize it into a versioned
+<code class="docutils literal notranslate"><span class="pre">BlueprintSnapshot</span></code> containing nodes, labels, node kinds, statements/proofs,
+Lean declarations, module/source locations, <code class="docutils literal notranslate"><span class="pre">uses</span></code>, <code class="docutils literal notranslate"><span class="pre">proofUses</span></code>, readiness,
+and diagnostics.</p></li>
+<li><p>Keep source declarations linked by stable IDs, but store blueprint metadata
+independently. Preserve the distinction between declaration existence and
+proof readiness.</p></li>
+<li><p>Capture fixtures for all four Signals libraries, including custom labels,
+multiple Lean declarations per node, missing dependencies, <code class="docutils literal notranslate"><span class="pre">sorry</span></code>, and
+theorem-to-theorem edges.</p></li>
+<li><p>Acceptance: deterministic JSON with explicit schema/toolchain/backend
+versions; invalid labels or references fail validation with actionable
+diagnostics.</p></li>
+</ul>
+</section>
+<section id="phase-2-5-optional-lean-lsp-semantic-enrichment">
+<h3>Phase 2.5: Optional Lean LSP Semantic Enrichment<a class="headerlink" href="#phase-2-5-optional-lean-lsp-semantic-enrichment" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Reuse dsport’s planned <code class="docutils literal notranslate"><span class="pre">SourceLspClient</span></code> and source-provider boundary rather
+than creating a blueprint-specific LSP process manager. Start with its
+<code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">lsp</span></code>, <code class="docutils literal notranslate"><span class="pre">hybrid</span></code>, and <code class="docutils literal notranslate"><span class="pre">auto</span></code> policy; static remains the default for
+reproducible CI. The current dsport document explicitly marks this LSP path
+proposed, so first land and verify that provider independently.</p></li>
+<li><p>Configure the Lean server per Signals workspace, initially through the
+Lake-selected toolchain and a command such as <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">env</span> <span class="pre">lean</span> <span class="pre">--server</span></code>. Probe
+the exact server version, capabilities, workspace root, initialize/open
+lifecycle, request limits, and shutdown behavior. Do not assume that an
+editor’s already-running server has loaded the same Lake environment.</p></li>
+<li><p>Use standard document-symbol, hover, definition/reference, and diagnostic
+responses to enrich declaration names, spans, signatures, source links, and
+diagnostics. Reconcile to static declarations by canonical file URI, source
+range, then qualified name. Preserve static IDs and policy metadata; report
+conflicts instead of silently choosing a value.</p></li>
+<li><p>Separately probe whether the pinned Lean server exposes a supported
+Lean-specific RPC for declaration constants, theorem proof completion, and
+proof dependencies. <code class="docutils literal notranslate"><span class="pre">textDocument/hover</span></code>, references, and diagnostics alone
+are not sufficient to set <code class="docutils literal notranslate"><span class="pre">leanok</span></code> or derive <code class="docutils literal notranslate"><span class="pre">uses</span></code>/<code class="docutils literal notranslate"><span class="pre">proofUses</span></code>.</p></li>
+<li><p>Until such an RPC is verified, merge LSP-enriched source records with the
+authoritative LeanArchitect JSON nodes. If a future RPC produces blueprint
+semantics, compare it field-for-field with <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">:blueprintJson</span></code> before
+allowing it to replace those fields.</p></li>
+<li><p>Keep LSP opt-in, timeout-bounded, shell-free, and explicit about fallback.
+Default documentation builds must not start a language server. Protected LSP
+mode requires process/stdio lifecycle and platform sandbox guarantees; do not
+label an unsandboxed child as protected. See
+<code class="docutils literal notranslate"><span class="pre">src/dsport/docs/source-docs-lsp-integration-plan.md:399,536</span></code>.</p></li>
+<li><p>Acceptance: the static path works without an installed server; <code class="docutils literal notranslate"><span class="pre">lsp</span></code> mode
+fails clearly when the configured server is unavailable; <code class="docutils literal notranslate"><span class="pre">hybrid</span></code> mode is
+deterministic; and the fixture matrix records exactly which fields came
+from static analysis, LSP, or LeanArchitect semantic output.</p></li>
+</ul>
+</section>
+<section id="phase-3-rust-importer-and-validator">
+<h3>Phase 3: Rust Importer and Validator<a class="headerlink" href="#phase-3-rust-importer-and-validator" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add a focused Rust module in <code class="docutils literal notranslate"><span class="pre">sphinxdocrs</span></code> (or a separate crate only if the
+interface warrants it) to read the export, validate node identity and edges,
+and map declaration IDs into dsport’s existing source-domain records.</p></li>
+<li><p>Preserve snapshots and cache identity using the source hashes and request
+identity already present in dsport’s source-analysis model.</p></li>
+<li><p>Do not make the Rust importer parse Lean source or interpret generic LSP
+responses to reconstruct proof status or dependency edges. The Arborium
+adapter remains useful for syntax; LSP may enrich declaration details; the
+LeanArchitect export remains the semantic source until a tested Lean RPC
+replacement exists.</p></li>
+<li><p>Acceptance: Rust round-trips the fixture schema deterministically and reports
+unsupported schema versions instead of dropping fields.</p></li>
+</ul>
+</section>
+<section id="phase-4-sphinxdocrs-blueprint-extension">
+<h3>Phase 4: Sphinxdocrs Blueprint Extension<a class="headerlink" href="#phase-4-sphinxdocrs-blueprint-extension" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add a small extension that consumes a validated snapshot and registers
+blueprint theorem/definition nodes, cross-references, source links, and
+dependency edges through the existing Sphinxdocrs extension/domain pipeline.</p></li>
+<li><p>First run it through the current Python Sphinx build with the Rust extension
+behind dsport’s compatibility bridge. This isolates blueprint parity from
+remaining native builder/theme gaps.</p></li>
+<li><p>Render both the graph and an accessible textual dependency list. Reuse
+existing Lean domain anchors; do not duplicate declarations in a parallel
+object index.</p></li>
+<li><p>Acceptance: the Sphinx page has stable URLs, working theorem links, searchable
+labels, and graph edges exactly matching LeanArchitect’s export.</p></li>
+</ul>
+</section>
+<section id="phase-5-rust-leanblueprint-compatible-cli">
+<h3>Phase 5: Rust leanblueprint-Compatible CLI<a class="headerlink" href="#phase-5-rust-leanblueprint-compatible-cli" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add a Rust command layer for <code class="docutils literal notranslate"><span class="pre">extract</span></code>, <code class="docutils literal notranslate"><span class="pre">validate</span></code>, <code class="docutils literal notranslate"><span class="pre">web</span></code>, and <code class="docutils literal notranslate"><span class="pre">pdf</span></code>. Initially
+<code class="docutils literal notranslate"><span class="pre">extract</span></code> orchestrates the existing Lake facet; <code class="docutils literal notranslate"><span class="pre">web</span></code> uses the Sphinxdocrs
+extension; <code class="docutils literal notranslate"><span class="pre">pdf</span></code> delegates to the proven Ratex target.</p></li>
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">leanblueprint</span> <span class="pre">new</span></code> and its existing Python path until a separate
+non-interactive project-init contract is defined. Do not port setup prompts
+merely for nominal API parity.</p></li>
+<li><p>Acceptance: a single documented command builds the JSON, site, and optional
+PDF while preserving Python fallback and clear error reporting.</p></li>
+</ul>
+</section>
+<section id="phase-6-parity-ci-and-cutover">
+<h3>Phase 6: Parity, CI, and Cutover<a class="headerlink" href="#phase-6-parity-ci-and-cutover" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Compare Rust and current outputs for every fixture: labels, declarations,
+statements, proof-ready status, dependency edges, source links, rendered
+graph, and PDF artifacts. For LSP-enabled fixtures, also compare each
+enriched field, provenance, fallback decision, and cache invalidation against
+the static-plus-LeanArchitect baseline.</p></li>
+<li><p>Run both paths in CI until the Rust route is stable. Then make the Rust route
+the default while keeping an opt-in Python fallback for at least one release
+cycle.</p></li>
+<li><p>Remove leanblueprint Python dependencies only after output parity, failure
+diagnostics, docs deployment, and the rollback path are verified.</p></li>
+</ul>
+</section>
+</section>
+<section id="immediate-next-steps">
+<h2>Immediate Next Steps<a class="headerlink" href="#immediate-next-steps" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Decide whether to repair dsport’s Sphinx pin to a known reachable commit.</p></li>
+<li><p>Inspect <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">:blueprintJson</span></code> output and save a small baseline fixture.</p></li>
+<li><p>Read and reconcile dsport’s proposed <code class="docutils literal notranslate"><span class="pre">source-docs-lsp-integration-plan.md</span></code>
+with this blueprint-specific semantic contract.</p></li>
+<li><p>Prototype the Lean LSP provider on one propagation declaration, recording
+symbol/type/location responses separately from blueprint proof/dependency
+metadata.</p></li>
+<li><p>Build Ratex and compile the existing <code class="docutils literal notranslate"><span class="pre">print.tex</span></code> before changing the PDF
+target.</p></li>
+<li><p>Prototype one Rust importer for the two existing propagation nodes and their
+single dependency edge; do not begin with a whole-library rewrite.</p></li>
+</ol>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="sphinx-meilisearch-architecture.html" title="Sphinx-Meilisearch Integration Architecture" >previous</a></li>
+        <li><a href="chat-physics-catalog.html" title="Chat Physics Catalog" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

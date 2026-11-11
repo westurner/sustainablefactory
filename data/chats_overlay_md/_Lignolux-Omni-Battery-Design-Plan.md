@@ -1,1 +1,0 @@
-../chats/_Lignolux-Omni-Battery-Design-Plan.md

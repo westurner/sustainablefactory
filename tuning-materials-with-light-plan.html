@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Solving Discovered Materials Problem 04 (Tuning Materials with Light) via Unified Grassmannian Mechanics &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (G-GKBA) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, \(\mathrm{WSe}_2\), Graphite, and \(\mathrm{MgB}_2\) in Lean 4, Python, and Rust" href="grassmannian-tuning-materials-with-light-paper.html" />
+    <link rel="prev" title="Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (QCI-GXC), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and def2-QZVP WTMAD-2 / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust" href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Solving Discovered Materials Problem 04 (<em>Tuning Materials with Light</em>) via Unified Grassmannian Mechanics</a><ul>
+<li><a class="reference internal" href="#executive-summary-theoretical-synthesis">1. Executive Summary &amp; Theoretical Synthesis</a></li>
+<li><a class="reference internal" href="#staged-execution-plan-across-the-four-reproduction-targets">2. Staged Execution Plan Across the Four Reproduction Targets</a><ul>
+<li><a class="reference internal" href="#phase-1-mathematical-formalization-in-lean-4-signals-dft-sections-1314-signals-pending-section-32">Phase 1: Mathematical Formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sections 13–14 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 32)</a></li>
+<li><a class="reference internal" href="#phase-2-rust-python-numerical-implementation-verification">Phase 2: Rust &amp; Python Numerical Implementation &amp; Verification</a></li>
+<li><a class="reference internal" href="#phase-3-myst-paper-unification-integration-build-verification">Phase 3: MyST Paper, Unification Integration, &amp; Build Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html" title="Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (QCI-GXC), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and def2-QZVP WTMAD-2 / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-tuning-materials-with-light-paper.html" title="Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (G-GKBA) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, \(\mathrm{WSe}_2\), Graphite, and \(\mathrm{MgB}_2\) in Lean 4, Python, and Rust" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/tuning-materials-with-light-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Solving Discovered Materials Problem 04 (<em>Tuning Materials with Light</em>) via Unified Grassmannian Mechanics</a><ul>
+<li><a class="reference internal" href="#executive-summary-theoretical-synthesis">1. Executive Summary &amp; Theoretical Synthesis</a></li>
+<li><a class="reference internal" href="#staged-execution-plan-across-the-four-reproduction-targets">2. Staged Execution Plan Across the Four Reproduction Targets</a><ul>
+<li><a class="reference internal" href="#phase-1-mathematical-formalization-in-lean-4-signals-dft-sections-1314-signals-pending-section-32">Phase 1: Mathematical Formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sections 13–14 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 32)</a></li>
+<li><a class="reference internal" href="#phase-2-rust-python-numerical-implementation-verification">Phase 2: Rust &amp; Python Numerical Implementation &amp; Verification</a></li>
+<li><a class="reference internal" href="#phase-3-myst-paper-unification-integration-build-verification">Phase 3: MyST Paper, Unification Integration, &amp; Build Verification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html"
+                          title="previous chapter">Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and <code class="docutils literal notranslate"><span class="pre">def2-QZVP</span></code> <code class="docutils literal notranslate"><span class="pre">WTMAD-2</span></code> / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-tuning-materials-with-light-paper.html"
+                          title="next chapter">Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span>, Graphite, and <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span> in Lean 4, Python, and Rust</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tuning-materials-with-light-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-solving-discovered-materials-problem-04-tuning-materials-with-light-via-unified-grassmannian-mechanics">
+<span id="tuning-materials-with-light-plan"></span><h1>Written Plan: Solving Discovered Materials Problem 04 (<em>Tuning Materials with Light</em>) via Unified Grassmannian Mechanics<a class="headerlink" href="#written-plan-solving-discovered-materials-problem-04-tuning-materials-with-light-via-unified-grassmannian-mechanics" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Target Challenge</strong>: <a class="reference external" href="https://discoveredmaterials.com/grand-challenges/tuning-materials-with-light/">Discovered Materials — Problem 04: Tuning Materials with Light</a> (<span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id65" title="Discovered Materials and Felipe H. da Jornada. Problem 04: tuning materials with light — compute what a laser pulse does to a real material, with electrons and lattice vibrations treated together, in a computationally tractable way over long time scales. 2026. URL: https://discoveredmaterials.com/grand-challenges/tuning-materials-with-light/.">Discovered Materials and da Jornada, 2026</a>]</span>, written with inputs from Prof. Felipe H. da Jornada, Stanford University)</p></li>
+<li><p><strong>Companion Paper</strong>: <a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">grassmannian-tuning-materials-with-light-paper.md</span></a></p></li>
+<li><p><strong>Verification &amp; Simulation Artifacts</strong>:</p>
+<ul>
+<li><p>Lean 4: <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">…/src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a></p></li>
+<li><p>Rust: <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></li>
+<li><p>Python: <a class="reference download internal" download="" href="_downloads/fae8049359c5e6db0893f0f4a0187e9b/qci_grassmannian_dft.py"><span class="xref download myst">…/sustainablefactory/qci_grassmannian_dft.py</span></a>, <a class="reference download internal" download="" href="_downloads/03129d2d175bc3194769a24abfa2010a/test_qci_grassmannian_dft.py"><span class="xref download myst">…/tests/test_qci_grassmannian_dft.py</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="executive-summary-theoretical-synthesis">
+<h2>1. Executive Summary &amp; Theoretical Synthesis<a class="headerlink" href="#executive-summary-theoretical-synthesis" title="Link to this heading">¶</a></h2>
+<p>Simulating a laser-driven solid over picosecond-to-hundred-picosecond timescales requires evolving <strong>electron–electron (<span class="math notranslate nohighlight">\(\mathrm{e\text{-}e}\)</span>)</strong>, <strong>electron–phonon (<span class="math notranslate nohighlight">\(\mathrm{e\text{-}ph}\)</span>)</strong>, and <strong>phonon–phonon (<span class="math notranslate nohighlight">\(\mathrm{ph\text{-}ph}\)</span>)</strong> interactions simultaneously out of equilibrium. While the two-time <strong>Kadanoff–Baym Equations (KBE)</strong> of non-equilibrium Green’s function (NEGF) theory <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id70" title="Leo P. Kadanoff and Gordon Baym. Quantum Statistical Mechanics: Green's Function Methods in Equilibrium and Nonequilibrium Problems. W. A. Benjamin, 1962.">Kadanoff and Baym, 1962</a>]</span> are formally exact, their cubic scaling in time steps <span class="math notranslate nohighlight">\(O(N_t^3)\)</span> and cubic/quartic scaling in basis size <span class="math notranslate nohighlight">\(O(N_{\mathrm{basis}}^3)\)</span> restrict direct KBE simulations to a few lattice sites and tens of femtoseconds.</p>
+<p>Our written plan synthesizes six already-verified pillars of the <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Grassmannian library into a single <strong>Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>)</strong> framework:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Grassmannian Pillar in <code class="docutils literal notranslate"><span class="pre">Signals</span></code></p></th>
+<th class="head"><p>Existing Module &amp; Paper</p></th>
+<th class="head"><p>Role in Problem 04 (<em>Tuning Materials with Light</em>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Unrestricted Spin-Polarized Grassmannian &amp; Unitary Cayley Retraction</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> (<a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Paper 22</span></a>, <a class="reference internal" href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html"><span class="std std-doc">Paper 23</span></a>)</p></td>
+<td><p>Evolves the coherent 1-RDM projector <span class="math notranslate nohighlight">\(P_\sigma(t) \in \mathrm{Gr}_{\mathbb{C}}(N_\sigma, N_{\mathrm{basis}})\)</span> in <span class="math notranslate nohighlight">\(O(N_{\mathrm{occ}}^2 N_{\mathrm{basis}})\)</span> per step via <span class="math notranslate nohighlight">\(U(\Omega_\sigma) = (I - \frac{1}{2}\Omega_\sigma)^{-1}(I + \frac{1}{2}\Omega_\sigma)\)</span>, yielding a <span class="math notranslate nohighlight">\((N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = 144\times\)</span> basis speedup.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. McWeeny Idempotency Defect &amp; Cumulant Splitting</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DFT.mcweenyPurificationPoly</span></code>, <code class="docutils literal notranslate"><span class="pre">twoOrbitalLinearCorrelationEntropy</span></code></p></td>
+<td><p>Decomposes the non-equilibrium 1-RDM into a pure Grassmannian frame plus a correlated cumulant defect <span class="math notranslate nohighlight">\(\delta\rho_\sigma(t) = \rho_\sigma(t) - (3\rho_\sigma^2 - 2\rho_\sigma^3)\)</span>, tracking <span class="math notranslate nohighlight">\(\mathrm{e\text{-}e}\)</span> double occupancy and quasiparticle depletion in <span class="math notranslate nohighlight">\(O(N_t)\)</span> time.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Complex Homogeneous Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Plabic.VectorRelationConfiguration</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference.GrassmannianCausalBackend</span></code></p></td>
+<td><p>Resolves on-shell exciton/polariton/Cooper-pair resonances at <span class="math notranslate nohighlight">\(x_X = -1\)</span> without Plabic rational chart poles (<span class="math notranslate nohighlight">\(V K^\top = 0\)</span>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Multi-Lag Plücker Memory &amp; Jeffrey Kinematic Engine</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> (<a class="reference internal" href="grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.html"><span class="std std-doc">Paper 20</span></a>, <a class="reference internal" href="grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.html"><span class="std std-doc">Paper 21</span></a>)</p></td>
+<td><p>Compresses non-Markovian KBE collision memory <span class="math notranslate nohighlight">\(\int_{t_0}^t d\bar{t}\,\Sigma(t,\bar{t})G(\bar{t},t)\)</span> into <span class="math notranslate nohighlight">\(m_{\mathrm{lags}}\)</span> Plücker wedges (<span class="math notranslate nohighlight">\(O(N_t^3) \to O(N_t)\)</span>), yielding an overall <span class="math notranslate nohighlight">\(N_t^2(N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = \mathbf{1.44\times 10^8\times}\)</span> speedup.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Bose–Einstein Phonon Kinetics, Cattaneo–Vernotte Second Sound, &amp; 2D/3D Tensor Gaussian Splats</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Paper 6</span></a>, <a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">Paper 10</span></a>)</p></td>
+<td><p>Evolves mode-resolved optical (<span class="math notranslate nohighlight">\(K\text{-}A_1'\)</span>, <span class="math notranslate nohighlight">\(\Gamma\text{-}E_{2g}\)</span>) and acoustic (<code class="docutils literal notranslate"><span class="pre">LA</span></code>, <code class="docutils literal notranslate"><span class="pre">TA</span></code>) phonon populations <span class="math notranslate nohighlight">\(n_{\mathbf{q},\nu}(t)\)</span> and represents diffuse scattering maps <span class="math notranslate nohighlight">\(I(\mathbf{q}, t)\)</span> via anisotropic Gaussian splats.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6. Dual-Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span> Nambu–Bogoliubov Pairing &amp; <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span> Phase Bounds</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30 (<a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Paper 19</span></a>), <code class="docutils literal notranslate"><span class="pre">Signals.Pending.CryogenicSpoolAMBHypothesis</span></code></p></td>
+<td><p>Models two-band (<span class="math notranslate nohighlight">\(\sigma, \pi\)</span>) Anderson pseudospins, <span class="math notranslate nohighlight">\(T_c = 38\text{ K}\)</span> gap closure, <span class="math notranslate nohighlight">\(0.63\text{ THz}\)</span> 1st/3rd harmonic generation, the <span class="math notranslate nohighlight">\(1\text{ THz}\)</span> Higgs/pair-breaking resonance at <span class="math notranslate nohighlight">\(7\text{ K}\)</span>, and <span class="math notranslate nohighlight">\(150\text{ kV/cm}\)</span> conductivity quenching at <span class="math notranslate nohighlight">\(2\text{ ps}\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="staged-execution-plan-across-the-four-reproduction-targets">
+<h2>2. Staged Execution Plan Across the Four Reproduction Targets<a class="headerlink" href="#staged-execution-plan-across-the-four-reproduction-targets" title="Link to this heading">¶</a></h2>
+<section id="phase-1-mathematical-formalization-in-lean-4-signals-dft-sections-1314-signals-pending-section-32">
+<h3>Phase 1: Mathematical Formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sections 13–14 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 32)<a class="headerlink" href="#phase-1-mathematical-formalization-in-lean-4-signals-dft-sections-1314-signals-pending-section-32" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Complexity &amp; Scaling Proofs (<code class="docutils literal notranslate"><span class="pre">grassmannGKBASpeedupRatio</span></code>, <code class="docutils literal notranslate"><span class="pre">effectiveGGKBASpeedupWithCumulants</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">twoTimeKBEFlops</span></code>, <code class="docutils literal notranslate"><span class="pre">timeLinearGrassmannGKBAFlops</span></code>, <code class="docutils literal notranslate"><span class="pre">grassmannGKBASpeedupRatio</span></code>, <code class="docutils literal notranslate"><span class="pre">ggkbaTotalFlopsWithCumulants</span></code>, and <code class="docutils literal notranslate"><span class="pre">effectiveGGKBASpeedupWithCumulants</span></code>, proving <span class="math notranslate nohighlight">\(\mathcal{S}_{\mathrm{G\text{-}GKBA}} = N_t^2 (N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = 1.44 \times 10^8\)</span> bare and <span class="math notranslate nohighlight">\(\mathbf{1.44 \times 10^7 &gt; 10^7}\)</span> even with <span class="math notranslate nohighlight">\(9\times\)</span> G1–G2 two-particle/phonon cumulant overhead (<span class="math notranslate nohighlight">\(C_{\mathrm{cum}} = 108{,}000\text{ FLOPs/step}\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Target 1 — Hubbard 11-Site Chain &amp; <span class="math notranslate nohighlight">\(6\times 2\)</span> Ladder (<code class="docutils literal notranslate"><span class="pre">arXiv:2606.10773</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">hubbardCorrelatedDoubleOccupancy</span></code>, <code class="docutils literal notranslate"><span class="pre">hubbardDensityImbalance</span></code>, <code class="docutils literal notranslate"><span class="pre">hubbardDoublonDecayRate</span></code>, <code class="docutils literal notranslate"><span class="pre">hubbardSuperexchangeScale</span></code> (<span class="math notranslate nohighlight">\(J_{\mathrm{ex}} = 4J^2/U\)</span>), and <code class="docutils literal notranslate"><span class="pre">hubbardOpticalConductivityThreshold</span></code>.</p></li>
+<li><p>Prove monotonic double-occupancy suppression across <span class="math notranslate nohighlight">\(U/J \in \{0, 5, 15, 20\}\)</span>, slower doublon decay at <span class="math notranslate nohighlight">\(U/J = 15\)</span> than <span class="math notranslate nohighlight">\(U/J = 5\)</span>, superexchange ordering <span class="math notranslate nohighlight">\(J_{\mathrm{ex}}(1,15) &lt; J_{\mathrm{ex}}(1,5) &lt; J_{\mathrm{ex}}(1,3)\)</span>, and strict ordering of the <span class="math notranslate nohighlight">\(6\times 2\)</span> ladder optical conductivity thresholds at <span class="math notranslate nohighlight">\(U/J = 3, 6, 12\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Target 2 — <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span> Bright &amp; Momentum-Dark Exciton Dynamics &amp; High-Density Pauli Mott Screening (<code class="docutils literal notranslate"><span class="pre">Science</span></code> 370, 1199 (2020))</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">wse2ResonantPumpEv</span></code> (<span class="math notranslate nohighlight">\(1.72\text{ eV}\)</span>), <code class="docutils literal notranslate"><span class="pre">wse2AboveGapPumpEv</span></code> (<span class="math notranslate nohighlight">\(2.48\text{ eV}\)</span>), <code class="docutils literal notranslate"><span class="pre">wse2DarkExcitonEnergyEv</span></code> (<span class="math notranslate nohighlight">\(1.675\text{ eV}\)</span>), <code class="docutils literal notranslate"><span class="pre">wse2DarkExcitonBuildupFs</span></code> (<span class="math notranslate nohighlight">\(400\text{ fs}\)</span>), <code class="docutils literal notranslate"><span class="pre">wse2LateTimeBrightToDarkRatio</span></code> (<span class="math notranslate nohighlight">\(0.5\)</span>), <code class="docutils literal notranslate"><span class="pre">excitonPauliPhaseSpaceFillingFactor</span></code> (<span class="math notranslate nohighlight">\(1 - n_{\mathrm{ex}}/n_{\mathrm{Mott}}\)</span>), and <code class="docutils literal notranslate"><span class="pre">excitonHighDensityEffectiveBinding</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Target 3 — Graphite Electron–Lattice Energy Flow, Coupled 5-Reservoir ODE Rate Conservation, &amp; Anharmonic Relaxation (<code class="docutils literal notranslate"><span class="pre">PRB</span></code> 100, 214115 (2019))</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">graphiteTotalEnergyBalance</span></code> across the five coupled reservoirs (<span class="math notranslate nohighlight">\(E_{\mathrm{el}}, E_{A_1'}, E_{E_{2g}}, E_{\mathrm{LA}}, E_{\mathrm{TA}}\)</span>), <code class="docutils literal notranslate"><span class="pre">graphiteFiveReservoirRateSum</span></code> (<span class="math notranslate nohighlight">\(\sum_r \dot{E}_r = P_{\mathrm{laser}}(t)\)</span>), and <code class="docutils literal notranslate"><span class="pre">graphiteA1pOpticalRiseAndDecay</span></code> across the <span class="math notranslate nohighlight">\(0.5, 1.5, 5, 100\text{ ps}\)</span> snapshots.</p></li>
+</ul>
+</li>
+<li><p><strong>Target 4 — <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span> Equilibrium Pairing, Driven THz Superconductivity, Out-of-Equilibrium <span class="math notranslate nohighlight">\(T_c^{\mathrm{neq}}\)</span>, &amp; <span class="math notranslate nohighlight">\(3\omega\)</span> Saturation (<code class="docutils literal notranslate"><span class="pre">PRL</span></code> 135, 036902 (2025))</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">mgb2KatsumiCriticalTempK</span></code> (<span class="math notranslate nohighlight">\(38\text{ K}\)</span>), <code class="docutils literal notranslate"><span class="pre">mgb2LowerPiGapSq</span></code>, <code class="docutils literal notranslate"><span class="pre">mgb2NormalizedFirstHarmonic</span></code>, <code class="docutils literal notranslate"><span class="pre">mgb2ThirdHarmonicResonanceDenomSq</span></code> (minimized at <span class="math notranslate nohighlight">\(1.0\text{ THz}\)</span> at <span class="math notranslate nohighlight">\(7\text{ K}\)</span>), <code class="docutils literal notranslate"><span class="pre">mgb2DrivenSuperfluidConductivityIm</span></code> (quenched at <span class="math notranslate nohighlight">\(2\text{ ps}\)</span> after a <span class="math notranslate nohighlight">\(150\text{ kV/cm}\)</span> pump), <code class="docutils literal notranslate"><span class="pre">mgb2NonEquilibriumCriticalTemp</span></code> (<span class="math notranslate nohighlight">\(T_c^{\mathrm{neq}} = T_{c0}(1 - 2n_{\mathrm{qp}})\)</span>), and <code class="docutils literal notranslate"><span class="pre">mgb2SaturatedThirdHarmonicAmplitude</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Evidentiary Boundary Contract (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.LightDrivenMaterialsPendingHypothesis</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Isolate full Brillouin-zone <span class="math notranslate nohighlight">\(GW\text{-}\mathrm{BSE}\)</span> / DFPT matrix-element calibration and experimental trARPES / UEDS / THz-TDS validation in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> (<code class="docutils literal notranslate"><span class="pre">light_driven_materials_gkba_and_four_target_bounds</span></code>, <code class="docutils literal notranslate"><span class="pre">light_driven_materials_critique_and_gap_closure_bounds</span></code>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-2-rust-python-numerical-implementation-verification">
+<h3>Phase 2: Rust &amp; Python Numerical Implementation &amp; Verification<a class="headerlink" href="#phase-2-rust-python-numerical-implementation-verification" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Rust (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Implement all Problem 04 functions and constants and verify in <code class="docutils literal notranslate"><span class="pre">test_tuning_materials_with_light_problem04_check_figures</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Python (<code class="docutils literal notranslate"><span class="pre">sustainablefactory/qci_grassmannian_dft.py</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">tests/test_qci_grassmannian_dft.py</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">TuningMaterialsWithLightEngine</span></code> with <code class="docutils literal notranslate"><span class="pre">simulate_hubbard_chain_and_ladder</span></code>, <code class="docutils literal notranslate"><span class="pre">simulate_wse2_exciton_dynamics</span></code>, <code class="docutils literal notranslate"><span class="pre">simulate_graphite_electron_lattice_flow</span></code>, <code class="docutils literal notranslate"><span class="pre">simulate_mgb2_driven_superconductivity</span></code>, and <code class="docutils literal notranslate"><span class="pre">run_all_four_targets_benchmark</span></code>, verified by <code class="docutils literal notranslate"><span class="pre">test_tuning_materials_with_light_problem04_all_four_targets</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-3-myst-paper-unification-integration-build-verification">
+<h3>Phase 3: MyST Paper, Unification Integration, &amp; Build Verification<a class="headerlink" href="#phase-3-myst-paper-unification-integration-build-verification" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Write <a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">grassmannian-tuning-materials-with-light-paper.md</span></a> and synchronize with <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code>.</p></li>
+<li><p>Update <a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">grassmannian-unification-applications-roadmap-paper.md</span></a>, <code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/citations.bib</span></code>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/README.md</span></code>, <code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code>, and <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, markdown math linters, Sphinx HTML build, and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code>.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html" title="Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (QCI-GXC), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and def2-QZVP WTMAD-2 / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust" >previous</a></li>
+        <li><a href="grassmannian-tuning-materials-with-light-paper.html" title="Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (G-GKBA) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, \(\mathrm{WSe}_2\), Graphite, and \(\mathrm{MgB}_2\) in Lean 4, Python, and Rust" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

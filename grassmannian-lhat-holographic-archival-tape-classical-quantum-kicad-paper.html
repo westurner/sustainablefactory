@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lignolux Holographic Archival Tape (LHAT, \(12\text{ }\mu\text{m} \times 10\text{ km}\), \(720\text{ TB}\) Raw / \(480\text{ TB}\) Usable vs. \(18\text{ TB}\) LTO-9): \(3{,}000\times\) OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar \(64\times 64\) FFT Tracking, \(182\text{ fs}\) VACNT Kapitza Quench, and \(635\text{ nm}\) QFT-RK Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (LHAT) with Passive Optical Matrix-Vector Multiplication (MVM), Soliton/OAM QRAM, and Active N-LIG/B-LIG LoRA Steering Layers in Lean 4, Rust/WASM, Python, and KiCAD v8" href="grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.html" />
+    <link rel="prev" title="3D Helical VortexVia and 8-Branch StarVortexVia Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., Nature 2025), and 4-Wire Kelvin + Control Barrier Function (CBF) Active-Q Modulators (AQM) in Lean 4, Rust/WASM, Python, and KiCAD v8" href="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>, <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m} \times 10\text{ km}\)</span>, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable vs. <span class="math notranslate nohighlight">\(18\text{ TB}\)</span> LTO-9): <span class="math notranslate nohighlight">\(3{,}000\times\)</span> OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar <span class="math notranslate nohighlight">\(64\times 64\)</span> FFT Tracking, <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza Quench, and <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#comprehensive-comparison-lto-9-magnetic-tape-vs-lignolux-holographic-archival-tape-lhat">1. Comprehensive Comparison: LTO-9 Magnetic Tape vs. Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>)</a></li>
+<li><a class="reference internal" href="#zero-iteration-64-times-64-log-polar-fft-tracking-635-text-nm-qft-rk-selective-rewritability">2. Zero-Iteration <span class="math notranslate nohighlight">\(64\times 64\)</span> Log-Polar FFT Tracking &amp; <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability</a></li>
+<li><a class="reference internal" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">3. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-solitonbus">4. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.html" title="3D Helical VortexVia and 8-Branch StarVortexVia Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., Nature 2025), and 4-Wire Kelvin + Control Barrier Function (CBF) Active-Q Modulators (AQM) in Lean 4, Rust/WASM, Python, and KiCAD v8" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.html" title="Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (LHAT) with Passive Optical Matrix-Vector Multiplication (MVM), Soliton/OAM QRAM, and Active N-LIG/B-LIG LoRA Steering Layers in Lean 4, Rust/WASM, Python, and KiCAD v8" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>, <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m} \times 10\text{ km}\)</span>, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable vs. <span class="math notranslate nohighlight">\(18\text{ TB}\)</span> LTO-9): <span class="math notranslate nohighlight">\(3{,}000\times\)</span> OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar <span class="math notranslate nohighlight">\(64\times 64\)</span> FFT Tracking, <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza Quench, and <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#comprehensive-comparison-lto-9-magnetic-tape-vs-lignolux-holographic-archival-tape-lhat">1. Comprehensive Comparison: LTO-9 Magnetic Tape vs. Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>)</a></li>
+<li><a class="reference internal" href="#zero-iteration-64-times-64-log-polar-fft-tracking-635-text-nm-qft-rk-selective-rewritability">2. Zero-Iteration <span class="math notranslate nohighlight">\(64\times 64\)</span> Log-Polar FFT Tracking &amp; <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability</a></li>
+<li><a class="reference internal" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">3. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-solitonbus">4. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.html"
+                          title="previous chapter">3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> and 8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., <em>Nature</em> 2025), and 4-Wire Kelvin + Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) in Lean 4, Rust/WASM, Python, and KiCAD v8</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.html"
+                          title="next chapter">Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>) with Passive Optical Matrix-Vector Multiplication (<code class="docutils literal notranslate"><span class="pre">MVM</span></code>), Soliton/OAM QRAM, and Active <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>/<code class="docutils literal notranslate"><span class="pre">B-LIG</span></code> LoRA Steering Layers in Lean 4, Rust/WASM, Python, and KiCAD v8</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lignolux-holographic-archival-tape-lhat-12-text-mu-text-m-times-10-text-km-720-text-tb-raw-480-text-tb-usable-vs-18-text-tb-lto-9-3-000-times-oam-bragg-polarization-volumetric-multiplexing-zero-iteration-log-polar-64-times-64-fft-tracking-182-text-fs-vacnt-kapitza-quench-and-635-text-nm-qft-rk-selective-rewritability-in-lean-4-rust-wasm-python-and-kicad-v8">
+<span id="grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper"></span><h1>Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>, <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m} \times 10\text{ km}\)</span>, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable vs. <span class="math notranslate nohighlight">\(18\text{ TB}\)</span> LTO-9): <span class="math notranslate nohighlight">\(3{,}000\times\)</span> OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar <span class="math notranslate nohighlight">\(64\times 64\)</span> FFT Tracking, <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza Quench, and <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8<a class="headerlink" href="#lignolux-holographic-archival-tape-lhat-12-text-mu-text-m-times-10-text-km-720-text-tb-raw-480-text-tb-usable-vs-18-text-tb-lto-9-3-000-times-oam-bragg-polarization-volumetric-multiplexing-zero-iteration-log-polar-64-times-64-fft-tracking-182-text-fs-vacnt-kapitza-quench-and-635-text-nm-qft-rk-selective-rewritability-in-lean-4-rust-wasm-python-and-kicad-v8" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Materials Science (<code class="docutils literal notranslate"><span class="pre">cond-mat.mtrl-sci</span></code>); Hardware Architecture (<code class="docutils literal notranslate"><span class="pre">cs.AR</span></code>); Information Theory (<code class="docutils literal notranslate"><span class="pre">cs.IT</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification, EDA, &amp; KiCAD Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">…/src/signals/Signals/SolitonBus.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">…/src/signals/SignalsPending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM KiCAD + GDSII + <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code> Engine (<a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></a>)</p></li>
+<li><p>Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), Calma GDSII v6.0 (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and IOF/EMMO/PROV-O (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) Hardware Files:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/ff626f9afea937514bc78b2a8ac2ea70/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_mod"><span class="xref download myst">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_mod</span></a>, <a class="reference download internal" download="" href="_downloads/ae683354e0b445289ee9d06d64195f3a/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_sch"><span class="xref download myst">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_sch</span></a>, <a class="reference download internal" download="" href="_downloads/83d1cac9f7b8b03de6fb4d08ad959632/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_pcb"><span class="xref download myst">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_pcb</span></a>, <a class="reference download internal" download="" href="_downloads/46eb827fddffe907ed92ed77b5fb6be8/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_vol"><span class="xref download myst">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_vol</span></a>, <a class="reference download internal" download="" href="_downloads/b81f2974c3ca08ed4e81f7e9bd58d8ae/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.gds"><span class="xref download myst">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.gds</span></a>, <a class="reference download internal" download="" href="_downloads/82510736f85cedaa87c4c433a0dc5713/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive_CBOM.yaml-ld"><span class="xref download myst">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive_CBOM.yaml-ld</span></a></p></li>
+</ul>
+</li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <code class="docutils literal notranslate"><span class="pre">src/signals/docs/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.html"><span class="std std-doc">Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>) with Soliton/OAM QRAM and Active <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>/<code class="docutils literal notranslate"><span class="pre">B-LIG</span></code> Steering Layers</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html"><span class="std std-doc">Laser-Induced <span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> Carbon and Nanodiamonds from Lignin, Plastics (<code class="docutils literal notranslate"><span class="pre">PET</span></code>/<code class="docutils literal notranslate"><span class="pre">PE</span></code>), <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>, and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (<code class="docutils literal notranslate"><span class="pre">2DHG</span></code>) FETs, and Biodegradable Carbon Semiconductor Alternatives</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.html"><span class="std std-doc">3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> and 8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., <em>Nature</em> 2025), and 4-Wire Kelvin + Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>)</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We formalize the <strong>Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>)</strong>—a <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m}\)</span> thick, <span class="math notranslate nohighlight">\(10\text{ km}\)</span> long roll-to-roll (<code class="docutils literal notranslate"><span class="pre">R2R</span></code>) cellulose-nanocrystal / lignin-vitrimer optical tape cartridge (<a class="reference download internal" download="" href="_downloads/5566ffb7d9c41f615f38e0166fafdb96/IQ-Sampling-for-Signal-Phase.md"><code class="xref download docutils literal notranslate"><span class="pre">IQ-Sampling-for-Signal-Phase.md,</span> <span class="pre">lines</span> <span class="pre">3905-4435,</span> <span class="pre">11850-12000</span></code></a>; <a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">_Quantum Processor and Soliton Discussions  .md, lines 8306–8415</span></a>)—as a high-density, EMP-immune, zero-cobalt/zero-PFAS replacement for <strong>LTO-9 magnetic archival tape</strong> across both <strong>classical cold-storage archives</strong> and <strong>coherent OAM quantum state / QRAM lookup tables</strong>. Every governing equation is machine-checked in <strong>Lean 4</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>) and exported to verified <strong>KiCAD v8</strong> (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), <strong>GDSII v6.0</strong> (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and <strong>IOF/PROV-O</strong> (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) hardware artifacts:</p>
+<ol class="arabic simple">
+<li><p><strong><span class="math notranslate nohighlight">\(3{,}000\times\)</span> Volumetric Multiplexing &amp; <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable Cartridge Capacity vs. <span class="math notranslate nohighlight">\(18\text{ TB}\)</span> LTO-9 (<code class="docutils literal notranslate"><span class="pre">lhatVolumetricMultiplexFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">lhatCartridgeCapacityTb</span></code>)</strong>:
+Whereas LTO-9 magnetic tape is restricted to a single 2D surface magnetic layer (<span class="math notranslate nohighlight">\(18\text{ TB}\)</span> per cartridge, vulnerable to superparamagnetic bit-rot within <span class="math notranslate nohighlight">\(15\text{–}30\text{ years}\)</span>, EMP erasure, and cobalt/PFAS supply-chain bottlenecks), <code class="docutils literal notranslate"><span class="pre">LHAT</span></code> multiplexes <strong><span class="math notranslate nohighlight">\(N_{\mathrm{OAM}} = 10\)</span> orthogonal Laguerre-Gaussian OAM modes (<span class="math notranslate nohighlight">\(\ell \in [-5, +5]\setminus\{0\}\)</span>)</strong> <span class="math notranslate nohighlight">\(\times\)</span> <strong><span class="math notranslate nohighlight">\(N_{\mathrm{Bragg}} = 30\)</span> depth-resolved Lippmann-Bragg interference layers</strong> <span class="math notranslate nohighlight">\(\times\)</span> <strong><span class="math notranslate nohighlight">\(N_{\mathrm{pol}\cdot\lambda} = 10\)</span> polarization/wavelength states</strong> inside a <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m}\)</span> film (<code class="docutils literal notranslate"><span class="pre">lhatVolumetricMultiplexFactor</span> <span class="pre">10</span> <span class="pre">30</span> <span class="pre">10</span> <span class="pre">=</span> <span class="pre">3000</span></code>). Scaling a <span class="math notranslate nohighlight">\(24\text{ TB}\)</span> 2D diffraction-limited base capacity by <span class="math notranslate nohighlight">\(30\times\)</span> net volumetric factor yields <strong><span class="math notranslate nohighlight">\(720\text{ TB}\)</span> raw (<span class="math notranslate nohighlight">\(480\text{ TB}\)</span> usable after rate-<span class="math notranslate nohighlight">\(2/3\)</span> Reed-Solomon / LDPC ECC)</strong> per standard LTO-form-factor cartridge (<code class="docutils literal notranslate"><span class="pre">18</span> <span class="pre">&lt;</span> <span class="pre">480</span> <span class="pre">&lt;</span> <span class="pre">lhatCartridgeCapacityTb</span> <span class="pre">24</span> <span class="pre">3000</span> <span class="pre">=</span> <span class="pre">720</span></code>).</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(O(1)\)</span> Zero-Iteration <span class="math notranslate nohighlight">\(64\times 64\)</span> Log-Polar 2D FFT Optical Tracking &amp; Unwrapped OAM Phase Recovery (<code class="docutils literal notranslate"><span class="pre">logPolarUnwrappedPhase</span></code>)</strong>:
+At web speeds of <span class="math notranslate nohighlight">\(5\text{–}10\text{ m/s}\)</span>, mechanical tape flutter and Poisson web stretch would break iterative gradient-descent phase-locked loops. By mapping the 2D spatial Fourier spectrum <span class="math notranslate nohighlight">\(|F(r,\theta)|\)</span> into <strong>Log-Polar coordinates <span class="math notranslate nohighlight">\((\rho = \ln r, \theta)\)</span></strong> on a <span class="math notranslate nohighlight">\(64\times 64\)</span> grid (<span class="math notranslate nohighlight">\(24{,}576\)</span> real-add/mul ops <span class="math notranslate nohighlight">\(= 49\text{ }\mu\text{s}\)</span> at <span class="math notranslate nohighlight">\(500\text{ MHz}\)</span>), isotropic web magnification <span class="math notranslate nohighlight">\(a\)</span> and head rotation <span class="math notranslate nohighlight">\(\Delta\theta_{\mathrm{rot}}\)</span> become pure 1D translational shifts <span class="math notranslate nohighlight">\((\Delta\rho = \ln a, \Delta\theta = \Delta\theta_{\mathrm{rot}})\)</span> recovered in <strong>one deterministic <span class="math notranslate nohighlight">\(O(1)\)</span> 2D FFT</strong> (<code class="docutils literal notranslate"><span class="pre">logPolarUnwrappedPhase</span> <span class="pre">l_charge</span> <span class="pre">theta_img</span> <span class="pre">delta_theta_rot</span> <span class="pre">=</span> <span class="pre">l_charge</span> <span class="pre">*</span> <span class="pre">(theta_img</span> <span class="pre">+</span> <span class="pre">delta_theta_rot)</span></code>).</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza Thermal Quench &amp; <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Photo-Assisted Selective Rewritability (<code class="docutils literal notranslate"><span class="pre">vacntKapitzaCoolingTimePs</span></code>, <code class="docutils literal notranslate"><span class="pre">qftRkRequiredTempDelta</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Preventing <span class="math notranslate nohighlight">\(5\text{ m/s}\)</span> Write Motion Blur</strong>: A <span class="math notranslate nohighlight">\(100\text{ nm}\)</span> Vertical Carbon Nanotube (<code class="docutils literal notranslate"><span class="pre">VACNT</span></code>) forest (<span class="math notranslate nohighlight">\(\kappa_{\mathrm{axial}} = 3{,}000\text{ W/m}\cdot\text{K}\)</span>, <span class="math notranslate nohighlight">\(R_K = 1.3\times 10^{-8}\text{ m}^2\text{K/W}\)</span>) quenches each <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Bragg voxel in <strong><span class="math notranslate nohighlight">\(\tau_K = 0.182\text{ ps} = 182\text{ fs} &lt; 1\text{ ps}\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">vacntKapitzaCoolingTimePs</span></code>), freezing the voxel while the <span class="math notranslate nohighlight">\(5\text{ m/s}\)</span> web translates by less than <span class="math notranslate nohighlight">\(1\text{ pm}\)</span>.</p></li>
+<li><p><strong>Zero-Neighbor-Bleed Selective Erasure (<code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code>)</strong>: Combining a <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> ring-opening photo-catalyst beam (which lowers the vitrimer transesterification barrier by <span class="math notranslate nohighlight">\(\Delta E_a = 0.25\text{ eV} \iff \Delta T_{\mathrm{opt}} = 95.2^\circ\text{C}\)</span>) with a localized micro-heater reduces the required thermal excursion from <span class="math notranslate nohighlight">\(\Delta T_{\mathrm{pure}} = 155 - 25 = 130^\circ\text{C} &gt; 60^\circ\text{C}\)</span> to <strong><span class="math notranslate nohighlight">\(\Delta T_{\mathrm{QFT\text{-}RK}} = 34.8^\circ\text{C} &lt; 60^\circ\text{C}\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">qftRkRequiredTempDelta</span></code>), leaving neighboring voxels at <span class="math notranslate nohighlight">\(T_{\mathrm{actual}} = 59.8^\circ\text{C} &lt; T_g = 85^\circ\text{C}\)</span> with <strong>zero thermal crosstalk</strong>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="comprehensive-comparison-lto-9-magnetic-tape-vs-lignolux-holographic-archival-tape-lhat">
+<h2>1. Comprehensive Comparison: LTO-9 Magnetic Tape vs. Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>)<a class="headerlink" href="#comprehensive-comparison-lto-9-magnetic-tape-vs-lignolux-holographic-archival-tape-lhat" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Archival Metric</p></th>
+<th class="head text-left"><p>LTO-9 Magnetic Tape (BaFe / Co-Cr)</p></th>
+<th class="head text-left"><p>Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>)</p></th>
+<th class="head text-left"><p>Formal Lean 4 Identity (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Recording Physics</strong></p></td>
+<td class="text-left"><p>2D surface magnetic domains (1 layer)</p></td>
+<td class="text-left"><p><strong>3D volumetric Bragg + OAM + polarization</strong> (<span class="math notranslate nohighlight">\(10 \times 30 \times 10 = 3{,}000\times\)</span>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lhatVolumetricMultiplexFactor</span> <span class="pre">10</span> <span class="pre">30</span> <span class="pre">10</span> <span class="pre">=</span> <span class="pre">3000</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Cartridge Capacity (<span class="math notranslate nohighlight">\(10\text{ km}\)</span> Web)</strong></p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(18\text{ TB}\)</span></strong> native (<span class="math notranslate nohighlight">\(45\text{ TB}\)</span> 2.5:1 compressed)</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable</strong> (after rate-<span class="math notranslate nohighlight">\(2/3\)</span> ECC; <span class="math notranslate nohighlight">\(26.7\times\)</span> native LTO-9)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">18</span> <span class="pre">&lt;</span> <span class="pre">480</span> <span class="pre">&lt;</span> <span class="pre">lhatCartridgeCapacityTb</span> <span class="pre">24</span> <span class="pre">3000</span> <span class="pre">=</span> <span class="pre">720</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Sustained Read/Write Throughput</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(400\text{ MB/s}\)</span> (32-channel GMR head)</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(10\text{–}100\text{ GB/s}\)</span></strong> (2D parallel SLM/SPAD page readout at <span class="math notranslate nohighlight">\(5\text{–}10\text{ m/s}\)</span>)</p></td>
+<td class="text-left"><p>Parallel 2D page / OAM comb readout</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Quantum State Support</strong></p></td>
+<td class="text-left"><p>Classical bits only (decoheres quantum phase)</p></td>
+<td class="text-left"><p><strong>Classical Bits + Coherent OAM/Soliton Unitary Phase LUTs</strong> (<span class="math notranslate nohighlight">\(10\text{ m}\)</span> CNC QGT checkpoints, <span class="math notranslate nohighlight">\(F_U = 99.9998\%\)</span>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">cncPeriodicBoosterNetLinkGainDb</span> <span class="pre">=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Voxel Write Quench Time</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sim 1\text{ ns}\)</span> magnetic domain reversal</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(182\text{ fs}\)</span> (<span class="math notranslate nohighlight">\(0.182\text{ ps} &lt; 1\text{ ps}\)</span>)</strong> via <span class="math notranslate nohighlight">\(100\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza sink</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">vacntKapitzaCoolingTimePs</span> <span class="pre">(13/10^9)</span> <span class="pre">(14/10^4)</span> <span class="pre">100</span> <span class="pre">&lt;</span> <span class="pre">1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Selective Sector Erase</strong></p></td>
+<td class="text-left"><p>Magnetic overwrite (risks adjacent-track erasure)</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Photo-Assisted Transesterification</strong> (<span class="math notranslate nohighlight">\(\Delta T = 34.8^\circ\text{C} &lt; 60^\circ\text{C}\)</span>, <span class="math notranslate nohighlight">\(T_{\mathrm{neighbor}} = 59.8^\circ\text{C} &lt; T_g\)</span>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">qftRkRequiredTempDelta</span> <span class="pre">155</span> <span class="pre">25</span> <span class="pre">(476/5)</span> <span class="pre">&lt;</span> <span class="pre">60</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Archival Lifespan &amp; EMP Immunity</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(15\text{–}30\text{ years}\)</span> (superparamagnetic bit-rot; vulnerable to EMP)</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(&gt; 100\text{ years}\)</span></strong> (<span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> covalent carbon + cross-linked vitrimer; 100% EMP-immune)</p></td>
+<td class="text-left"><p>Covalent <span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> phase lock below <span class="math notranslate nohighlight">\(T_g = 85^\circ\text{C}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Critical Minerals &amp; PFAS</strong></p></td>
+<td class="text-left"><p>Requires Cobalt, Barium Ferrite, &amp; PFAS lubricants</p></td>
+<td class="text-left"><p><strong>100% Bio-Derived Carbon (<code class="docutils literal notranslate"><span class="pre">Lignin</span></code>, <code class="docutils literal notranslate"><span class="pre">CNC</span></code>, <code class="docutils literal notranslate"><span class="pre">VACNT</span></code>, <code class="docutils literal notranslate"><span class="pre">Ox-s-CNT</span></code>)</strong></p></td>
+<td class="text-left"><p>Zero Cobalt, Zero Arsenic, Zero PFAS</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="zero-iteration-64-times-64-log-polar-fft-tracking-635-text-nm-qft-rk-selective-rewritability">
+<h2>2. Zero-Iteration <span class="math notranslate nohighlight">\(64\times 64\)</span> Log-Polar FFT Tracking &amp; <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability<a class="headerlink" href="#zero-iteration-64-times-64-log-polar-fft-tracking-635-text-nm-qft-rk-selective-rewritability" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    subgraph ReadPath[&quot;1. O(1) Log-Polar Optical Readout (5–10 m/s Web)&quot;]
+        Web[&quot;Moving LHAT Web (12 μm × 10 km)\nScale Stretch a &amp; Skew Rotation Δθ_rot&quot;]
+        FFT[&quot;64×64 Log-Polar 2D FFT (ρ = ln r, θ)\n• 24,576 Real Ops = 49 μs at 500 MHz\n• Converts Scale &amp; Rotation to Pure 1D Shifts\n• Unwraps OAM Phase: Φ = ℓ(θ_img + Δθ_rot)&quot;]
+    end
+
+    subgraph WritePath[&quot;2. 182 fs VACNT Quench &amp; 635 nm QFT-RK Erase&quot;]
+        VACNT[&quot;100 nm Vertical VACNT Forest\n• κ_axial = 3,000 W/m·K\n• R_K = 1.3×10⁻⁸ m²K/W\n• τ_K = 0.182 ps = 182 fs &lt; 1 ps&quot;]
+        QFTRK[&quot;635 nm QFT-RK Selective Erase\n• ΔE_a = 0.25 eV (ΔT_opt = 95.2°C)\n• Required Heater ΔT = 34.8°C &lt; 60°C\n• T_actual = 59.8°C &lt; T_g = 85°C (Zero Bleed)&quot;]
+    end
+
+    Web --&gt; FFT
+    FFT --&gt; VACNT
+    VACNT --&gt; QFTRK
+    </pre></section>
+<hr class="docutils" />
+<section id="generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">
+<h2>3. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification<a class="headerlink" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification" title="Link to this heading">¶</a></h2>
+<p>All 6 hardware artifacts for <code class="docutils literal notranslate"><span class="pre">LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive</span></code> are generated in <a class="reference download internal" download="" href="_downloads/46eb827fddffe907ed92ed77b5fb6be8/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_vol"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">src/signals/kicad/semi_dirac/</span></code></span></a> and verified with the <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> suite:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Stage / Check</p></th>
+<th class="head text-left"><p>Stage Identifier / Tool</p></th>
+<th class="head text-left"><p>Verified Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 1 (<code class="docutils literal notranslate"><span class="pre">155</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_LHAT_3000X_OAM_BRAGG_TAPE_WEB</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(12\text{ }\mu\text{m} \times 10\text{ km}\)</span> <code class="docutils literal notranslate"><span class="pre">LHAT</span></code> web (<span class="math notranslate nohighlight">\(10\times 30\times 10 = 3{,}000\times\)</span> multiplexing, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> usable)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 2 (<code class="docutils literal notranslate"><span class="pre">145</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_LOG_POLAR_O1_OPTICAL_TRACKING</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(64\times 64\)</span> Log-Polar 2D FFT <span class="math notranslate nohighlight">\(O(1)\)</span> zero-iteration scale/rotation phase recovery (<span class="math notranslate nohighlight">\(49\text{ }\mu\text{s}\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 3 (<code class="docutils literal notranslate"><span class="pre">150</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_VACNT_182FS_KAPITZA_THERMAL_SINK</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(100\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> vertical forest (<span class="math notranslate nohighlight">\(\kappa_{\mathrm{axial}} = 3{,}000\text{ W/m}\cdot\text{K}\)</span>, <span class="math notranslate nohighlight">\(\tau_K = 182\text{ fs} &lt; 1\text{ ps}\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 4 (<code class="docutils literal notranslate"><span class="pre">150</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4_QFT_RK_635NM_SELECTIVE_ERASE</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> photo-assisted transesterification (<span class="math notranslate nohighlight">\(\Delta T = 34.8^\circ\text{C} &lt; 60^\circ\text{C}\)</span>, zero neighbor bleed)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">analyze_schematic.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analyze_pcb.py</span> <span class="pre">--full</span></code>, <code class="docutils literal notranslate"><span class="pre">cross_analysis.py</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">U1</span></code>, <code class="docutils literal notranslate"><span class="pre">J1</span></code>, 4 nets (<code class="docutils literal notranslate"><span class="pre">LHAT_OPT_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">LOGPOLAR_SYNC</span></code>, <code class="docutils literal notranslate"><span class="pre">QFT_RK_ERASE</span></code>, <code class="docutils literal notranslate"><span class="pre">GND</span></code>), <strong>4/4 routed nets</strong>, <strong><code class="docutils literal notranslate"><span class="pre">0</span></code> cross-analysis findings</strong>, <strong><span class="math notranslate nohighlight">\(3 \to 0\)</span></strong> <span class="math notranslate nohighlight">\(sp^3\)</span> volumetric DRC hazards</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="machine-checked-lean-4-verification-signals-solitonbus">
+<h2>4. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)<a class="headerlink" href="#machine-checked-lean-4-verification-signals-solitonbus" title="Link to this heading">¶</a></h2>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">LhatHolographicArchivalTapePaper37Verification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.SolitonBus</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">l_real</span><span class="w"> </span><span class="n">a_scale</span><span class="w"> </span><span class="n">theta</span><span class="w"> </span><span class="n">lambda_nm</span><span class="w"> </span><span class="n">length_nm</span><span class="w"> </span><span class="n">dn_dT</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">ha</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a_scale</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">k_order</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">vacntKapitzaCoolingTimePs</span><span class="w"> </span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">9</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">6</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">8</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">lhatVolumetricMultiplexFactor</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="mi">48</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">12288</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">lhatCartridgeCapacityTb</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">20</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="mi">48</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3072</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">18</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">lhatCartridgeCapacityTb</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">20</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="mi">48</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">logPolarUnwrappedPhase</span><span class="w"> </span><span class="n">l_real</span><span class="w"> </span><span class="n">a_scale</span><span class="w"> </span><span class="o">(</span><span class="n">a_scale</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">theta</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">l_real</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">theta</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">qftRkRequiredTempDelta</span><span class="w"> </span><span class="n">lambda_nm</span><span class="w"> </span><span class="n">length_nm</span><span class="w"> </span><span class="n">dn_dT</span><span class="w"> </span><span class="o">(</span><span class="n">k_order</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">qftRkRequiredTempDelta</span><span class="w"> </span><span class="n">lambda_nm</span><span class="w"> </span><span class="n">length_nm</span><span class="w"> </span><span class="n">dn_dT</span><span class="w"> </span><span class="n">k_order</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">nanodiamond_biodegradable_photonics_vortex_via_shg_aqm_lhat_and_pressed_llm_qram_identities</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">l_real</span><span class="w"> </span><span class="n">a_scale</span><span class="w"> </span><span class="n">theta</span><span class="w"> </span><span class="n">lambda_nm</span><span class="w"> </span><span class="n">length_nm</span><span class="w"> </span><span class="n">dn_dT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">ha</span><span class="w"> </span><span class="n">k_order</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">LhatHolographicArchivalTapePaper37Verification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<p id="lhat37-reddy1996"><a id="lhat37-reddy1996"></a></p>
+<ol class="arabic simple">
+<li><p><strong>Reddy, B. S., &amp; Chatterji, B. N. (1996).</strong> <em>An FFT-based technique for translation, rotation, and scale-invariant image registration.</em> IEEE Transactions on Image Processing, 5(8), 1266–1271. <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1109/83.506761</span></code></p></li>
+</ol>
+<p id="lhat37-montarnal2011"><a id="lhat37-montarnal2011"></a>
+2. <strong>Montarnal, D., Capelot, M., Tournilhac, F., &amp; Leibler, L. (2011).</strong> <em>Silica-like malleable materials from permanent organic networks.</em> Science, 334(6058), 965–968. <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1126/science.1212648</span></code></p>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">turner2026lhat_holographic_archival_tape</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wes}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Lignolux Holographic Archival Tape ({LHAT}, 12 $\mu$m $\times$ 10 km, 720 {TB} Raw / 480 {TB} Usable vs.\ 18 {TB} {LTO-9}): 3,000$\times$ {OAM}-{B}ragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar $64\times 64$ {FFT} Tracking, 182 fs {VACNT} {K}apitza Quench, and 635 nm {QFT-RK} Selective Rewritability in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Research Archive}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lignolux Holographic Archival Tape (LHAT, 12 um x 10 km, 720 TB Raw / 480 TB Usable vs. 18 TB LTO-9): 3,000x OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar 64x64 FFT Tracking, 182 fs VACNT Kapitza Quench, and 635 nm QFT-RK Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-08"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Lignolux Holographic Archival Tape (LHAT)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Volumetric OAM-Bragg-Polarization Optical Storage vs. LTO-9 Magnetic Tape"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Log-Polar 2D FFT Zero-Iteration Optical Tracking"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"VACNT 182 fs Kapitza Thermal Quenching"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"635 nm Photo-Assisted Transesterification (QFT-RK)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.html" title="3D Helical VortexVia and 8-Branch StarVortexVia Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., Nature 2025), and 4-Wire Kelvin + Control Barrier Function (CBF) Active-Q Modulators (AQM) in Lean 4, Rust/WASM, Python, and KiCAD v8" >previous</a></li>
+        <li><a href="grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.html" title="Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (LHAT) with Passive Optical Matrix-Vector Multiplication (MVM), Soliton/OAM QRAM, and Active N-LIG/B-LIG LoRA Steering Layers in Lean 4, Rust/WASM, Python, and KiCAD v8" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

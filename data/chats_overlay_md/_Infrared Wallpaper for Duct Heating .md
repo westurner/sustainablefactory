@@ -1,1 +1,0 @@
-../chats/_Infrared Wallpaper for Duct Heating .md

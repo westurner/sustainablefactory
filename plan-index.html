@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Plan Index: Research, Validation, and Implementation Roadmaps &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Sphinx-Meilisearch Integration Architecture" href="sphinx-meilisearch-architecture.html" />
+    <link rel="prev" title="Chat Markdown Warning Remediation Plan" href="chat-markdown-warning-remediation-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Plan Index: Research, Validation, and Implementation Roadmaps</a><ul>
+<li><a class="reference internal" href="#routing-matrix-what-belongs-in-reference-papers-vs-existing-plan-documents">1. Routing Matrix: What Belongs in Reference Papers vs. Existing Plan Documents</a></li>
+<li><a class="reference internal" href="#summary-of-all-fourteen-project-plan-documents">2. Summary of All Fourteen Project Plan Documents</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="chat-markdown-warning-remediation-plan.html" title="Chat Markdown Warning Remediation Plan" accesskey="P">previous </a></li>
+              <li><a href="sphinx-meilisearch-architecture.html" title="Sphinx-Meilisearch Integration Architecture" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/plan-index.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Plan Index: Research, Validation, and Implementation Roadmaps</a><ul>
+<li><a class="reference internal" href="#routing-matrix-what-belongs-in-reference-papers-vs-existing-plan-documents">1. Routing Matrix: What Belongs in Reference Papers vs. Existing Plan Documents</a></li>
+<li><a class="reference internal" href="#summary-of-all-fourteen-project-plan-documents">2. Summary of All Fourteen Project Plan Documents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="chat-markdown-warning-remediation-plan.html"
+                          title="previous chapter">Chat Markdown Warning Remediation Plan</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sphinx-meilisearch-architecture.html"
+                          title="next chapter">Sphinx-Meilisearch Integration Architecture</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plan-index.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="plan-index-research-validation-and-implementation-roadmaps">
+<span id="plan-index"></span><h1>Plan Index: Research, Validation, and Implementation Roadmaps<a class="headerlink" href="#plan-index-research-validation-and-implementation-roadmaps" title="Link to this heading">¶</a></h1>
+<p>This document indexes the nine project plan and specification documents across <a class="reference internal" href="index.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/</span></code></span></a> and <a class="reference download internal" download="" href="_downloads/181215391bfc5bbb3d52ad41942d94c1/README.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/README.md</span></code></a>, and maps how each component of the <a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Unification</span></a> routes to its owning reference paper and implementation plan.</p>
+<hr class="docutils" />
+<section id="routing-matrix-what-belongs-in-reference-papers-vs-existing-plan-documents">
+<h2>1. Routing Matrix: What Belongs in Reference Papers vs. Existing Plan Documents<a class="headerlink" href="#routing-matrix-what-belongs-in-reference-papers-vs-existing-plan-documents" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Content / Capability from the Unification</p></th>
+<th class="head"><p>Where It Belongs in Reference / Paper Docs</p></th>
+<th class="head"><p>Which Existing Plan Document Owns the Next Steps</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Master 19-Domain <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(k, N)\)</span> Plücker Dictionary &amp; Synthesis</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">grassmannian-unification-applications-roadmap-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/3af88e2d5f99b5321c2ed95978e7bab3/README.md"><code class="xref download docutils literal notranslate"><span class="pre">README.md</span></code></a>, <a class="reference download internal" download="" href="_downloads/181215391bfc5bbb3d52ad41942d94c1/README.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/README.md</span></code></a></p></td>
+<td><p><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> (Iterations 24–33 &amp; Synthesis section)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>3D Fresnel-to-Fraunhofer Remainder, Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(k,n)\)</span> (<span class="math notranslate nohighlight">\(k \ge 3\)</span>), &amp; LGV Disjoint-Path Positivity</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">src/signals/Signals/Geometry.lean</span></a>, <a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">src/signals/Signals/Plabic.lean</span></a></p></td>
+<td><p><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> (Iteration 33 &amp; Phase 2, Phase 3, and Phase 6 Acceptance Obligations)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> SHG-OPA Squeezing (<code class="docutils literal notranslate"><span class="pre">opaSqueezedTensorSplat</span></code>), Dispersive QND Readout, &amp; Soliton-Bus QEC</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">grassmannian-polariton-spp-mechanics-paper.md</span></a>, <a class="reference internal" href="soliton-bus.html"><span class="std std-doc">soliton-bus.md</span></a>, <a class="reference internal" href="anti-fire-cannon-review.html"><span class="std std-doc">anti-fire-cannon-review.md</span></a></p></td>
+<td><p><a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a> (updated with cross-links to <code class="docutils literal notranslate"><span class="pre">second_harmonic_opa_and_centrosymmetry_identities</span></code> and <code class="docutils literal notranslate"><span class="pre">opaSqueezed_splat_and_continuum_identities</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>N-LIG Graphene SPP Waveguides, Transverse (<span class="math notranslate nohighlight">\(v_{\mathrm{ph},\perp}&gt;c\)</span>) vs. Longitudinal (<span class="math notranslate nohighlight">\(v_{\mathrm{ph},\parallel}&lt;c\)</span>) Cutoff, &amp; CW Laser Controls</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">grassmannian-polariton-spp-mechanics-paper.md</span></a>, <a class="reference internal" href="flat-light-nanolithography-scholarly.html"><span class="std std-doc">flat-light-nanolithography-scholarly.md</span></a>, <a class="reference internal" href="chat-physics-catalog.html"><span class="std std-doc">chat-physics-catalog.md</span></a></p></td>
+<td><p><a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">flat-light-proca-nlig-validation-plan.md</span></a> (updated with cross-links to <code class="docutils literal notranslate"><span class="pre">csr_spp_cherenkov_cavity_and_grover_identities</span></code> and <code class="docutils literal notranslate"><span class="pre">sppContinuum_gr24_and_semigroup_identities</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DDF Active-Radiation Null (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>), Vortex Circulation, &amp; JHTDB/PIV Cutouts</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">grassmannian-ddf-moving-sheath-paper.md</span></a>, <a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">grassmannian-holographic-principle-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/9aa14bfc1a3a4ec6e0df229d3bd26944/DDF_FRACTURE_COMMUNICATION_PLAN.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md</span></code></a></p></td>
+<td><p><a class="reference download internal" download="" href="_downloads/9aa14bfc1a3a4ec6e0df229d3bd26944/DDF_FRACTURE_COMMUNICATION_PLAN.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md</span></code></a> (<code class="docutils literal notranslate"><span class="pre">HDDF-active-null</span></code> crossed-beam discriminator &amp; Magnus control)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>AdS/CFT Dictionary, Planar Integrability (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>), &amp; <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Secret Symmetries (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>)</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">grassmannian-ads-cft-ddf-paper.md</span></a>, <a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">grassmannian-qism-bethe-ansatz-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/83f1c657b6beda0595bd85cd103de33b/content.tex"><span class="xref download myst">src/signals/blueprint/src/content.tex</span></a></p></td>
+<td><p><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> (Iterations 32–33) and <a class="reference internal" href="lean-blueprint-rust-port-plan.html"><span class="std std-doc">lean-blueprint-rust-port-plan.md</span></a> (<code class="docutils literal notranslate"><span class="pre">:blueprint</span></code> / <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code> export)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>2D/3D Normed Tensor Gaussian Splats, Simultaneous Splitting Conservation, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> Depth Recovery, 3D Vectorial Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>), &amp; <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> ENZ / Hyperbolic Metamaterials</strong></p></td>
+<td><p><a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">gaussian-splat-tensors-normed-paper.md</span></a>, <a class="reference internal" href="grassmannian-holographic-imaging-depth-recovery-paper.html"><span class="std std-doc">grassmannian-holographic-imaging-depth-recovery-paper.md</span></a>, <a class="reference internal" href="grassmannian-vectorial-longitudinal-polarization-paper.html"><span class="std std-doc">grassmannian-vectorial-longitudinal-polarization-paper.md</span></a>, <a class="reference internal" href="grassmannian-enz-hyperbolic-metamaterials-paper.html"><span class="std std-doc">grassmannian-enz-hyperbolic-metamaterials-paper.md</span></a>, <a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">grassmannian-splat-mechanics-paper.md</span></a></p></td>
+<td><p><a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">flat-light-proca-nlig-validation-plan.md</span></a> and <a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a> (<code class="docutils literal notranslate"><span class="pre">orbital_splat.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">polariton_spp.rs</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, Euler–Lagrange QHJ/Euler Equations, Dilatant Jamming Recovery (<span class="math notranslate nohighlight">\(\Lambda_\parallel = \gamma_\varphi\)</span>), &amp; <span class="math notranslate nohighlight">\(405\text{ nm}/532\text{ nm}\)</span> Carbon RISC-V Nanolithography</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc">grassmannian-madelung-lagrangian-ddf-jamming-paper.md</span></a>, <a class="reference internal" href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html"><span class="std std-doc">grassmannian-riscv-holographic-nanolithography-kicad-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/1246b311f0cf7ff7ad76d81ff57555c8/Nanolithography.lean"><span class="xref download myst">src/signals/Signals/Nanolithography.lean</span></a></p></td>
+<td><p><a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">flat-light-proca-nlig-validation-plan.md</span></a> (<code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Hawking Horizon Thermodynamics (<code class="docutils literal notranslate"><span class="pre">Signals.HawkingRadiation</span></code>), Gordon Acoustic Metric, Penrose Pauli Spinors, S301 Pericenter Wake, 2D/3D Splat Fracture, <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Unwinding, &amp; <code class="docutils literal notranslate"><span class="pre">HawkingRadiationDecoding</span></code> / <code class="docutils literal notranslate"><span class="pre">toyHawkingNonzeroAmplituhedronMap</span></code></strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc">grassmannian-hawking-radiation-decoding-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/29b68d3520a80417954b9dddcc9eea18/HawkingRadiation.lean"><span class="xref download myst">src/signals/Signals/HawkingRadiation.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+<td><p><a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a> and <a class="reference download internal" download="" href="_downloads/9aa14bfc1a3a4ec6e0df229d3bd26944/DDF_FRACTURE_COMMUNICATION_PLAN.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Multi-Spectral &amp; Multi-Array Grassmannian Imaging (<code class="docutils literal notranslate"><span class="pre">Signals.MultiArrayImaging</span></code>): Hubble <span class="math notranslate nohighlight">\(2\times\)</span> CCDs (<span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)\)</span>), Cosmic-Ray CCL &amp; 3D <code class="docutils literal notranslate"><span class="pre">dE/dx</span></code>, <code class="docutils literal notranslate"><span class="pre">LVP</span></code> Medical Arrays, <code class="docutils literal notranslate"><span class="pre">LIFU</span></code>/<code class="docutils literal notranslate"><span class="pre">AOT</span></code>/<code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Focusing, &amp; <span class="math notranslate nohighlight">\(&lt;1\text{ nm}\)</span> Nanolithography</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-multispectral-hubble-medical-nanoimaging-paper.html"><span class="std std-doc">grassmannian-multispectral-hubble-medical-nanoimaging-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/8a1ca10f994550b6ae80814e20d38392/MultiArrayImaging.lean"><span class="xref download myst">src/signals/Signals/MultiArrayImaging.lean</span></a>, <a class="reference download internal" download="" href="_downloads/a6a92b6264b575610d33c71e3f1bb8db/multi_array_imaging.rs"><span class="xref download myst">src/signals/numerical_adapter/src/multi_array_imaging.rs</span></a></p></td>
+<td><p><a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a> (<code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code>, <code class="docutils literal notranslate"><span class="pre">MultiModalSubSurfaceImagingHypothesis</span></code>) and <a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">flat-light-proca-nlig-validation-plan.md</span></a> (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1</span> <span class="pre">nm</span></code> gates)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Grassmannian Quantum Causal Inference (<code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code>): Plabic/LGV Trek Bottlenecks, Pearl’s <span class="math notranslate nohighlight">\(\operatorname{do}(X)\)</span> Surgery, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Quantum Switch &amp; OCB Inequality, 3D <span class="math notranslate nohighlight">\(P\text{--}V\text{--}T\)</span> / Landau vs. QRT Mpemba Shortcuts, Constructor Theory, &amp; Conditional Landauer / Werner Audit</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">grassmannian-quantum-causal-inference-mpemba-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/c5c42a2bb6515c8206671663673c6d59/QuantumCausalInference.lean"><span class="xref download myst">src/signals/Signals/QuantumCausalInference.lean</span></a>, <a class="reference download internal" download="" href="_downloads/5d43e252d87433649e0782df69b62ab4/quantum_causal_inference.rs"><span class="xref download myst">src/signals/numerical_adapter/src/quantum_causal_inference.rs</span></a>, <a class="reference internal" href="chat-physics-catalog.html"><span class="std std-doc">chat-physics-catalog.md</span></a></p></td>
+<td><p><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> (Plabic LGV trek bottlenecks) and <code class="docutils literal notranslate"><span class="pre">QuantumCausalMpembaSynthesisContract</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study GPE, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Madelung Hydrodynamics, &amp; Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), &amp; GW (Models 14a/14b) Models</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">grassmannian-complex-gpe-igpe-plucker-madelung-paper.md</span></a>, <a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">grassmannian-gravity-from-qed-scattering-paper.md</span></a>, <a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b6056d7b3d1a5f753054f7f0089451f3/madelung_lagrangian.rs"><span class="xref download myst">src/signals/numerical_adapter/src/madelung_lagrangian.rs</span></a></p></td>
+<td><p><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> and <a class="reference download internal" download="" href="_downloads/9aa14bfc1a3a4ec6e0df229d3bd26944/DDF_FRACTURE_COMMUNICATION_PLAN.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Quantum Causal Grassmannian Transformers, JEV vs. <span class="math notranslate nohighlight">\(\operatorname{do}\)</span>-Calculus Decision Models, Zhang (2025) Grassmann Flows (<code class="docutils literal notranslate"><span class="pre">arXiv:2512.19428</span></code>), De Clercq (2026) Tautological <code class="docutils literal notranslate"><span class="pre">Bundle-Transformer</span></code>, &amp; Spatiotemporal <code class="docutils literal notranslate"><span class="pre">VideoGen</span></code></strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.html"><span class="std std-doc">grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/c5c42a2bb6515c8206671663673c6d59/QuantumCausalInference.lean"><span class="xref download myst">src/signals/Signals/QuantumCausalInference.lean</span></a>, <a class="reference download internal" download="" href="_downloads/5d43e252d87433649e0782df69b62ab4/quantum_causal_inference.rs"><span class="xref download myst">src/signals/numerical_adapter/src/quantum_causal_inference.rs</span></a>, <a class="reference internal" href="paper-model-review.html"><span class="std std-doc">paper-model-review.md</span></a></p></td>
+<td><p><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> and <a class="reference internal" href="lean-blueprint-rust-port-plan.html"><span class="std std-doc">lean-blueprint-rust-port-plan.md</span></a> (<code class="docutils literal notranslate"><span class="pre">83</span></code> Rust/WASM unit tests passing)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Beyond <span class="math notranslate nohighlight">\(6{,}400\times\)</span> Volumetric Splat Efficiency (<code class="docutils literal notranslate"><span class="pre">13,107.2x</span></code>, <code class="docutils literal notranslate"><span class="pre">104,857.6x</span></code>, <code class="docutils literal notranslate"><span class="pre">1,310,720x</span></code>), Jeffrey’s Kinematic Engine (<code class="docutils literal notranslate"><span class="pre">jeffreyKinematicUpdate</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumJeffreyPluckerKinematicUpdate</span></code>), 3D Normed Tensor Gaussian Splat Nanoimaging &amp; Surgical Navigation (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate</span></code>), &amp; Quantum Causal Semantic GraphRAG (<code class="docutils literal notranslate"><span class="pre">quantumCausalGraphRAGScore</span></code>)</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.html"><span class="std std-doc">grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md</span></a>, <a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">grassmannian-quantum-causal-inference-mpemba-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/c5c42a2bb6515c8206671663673c6d59/QuantumCausalInference.lean"><span class="xref download myst">src/signals/Signals/QuantumCausalInference.lean</span></a>, <a class="reference download internal" download="" href="_downloads/5d43e252d87433649e0782df69b62ab4/quantum_causal_inference.rs"><span class="xref download myst">src/signals/numerical_adapter/src/quantum_causal_inference.rs</span></a></p></td>
+<td><p><a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a>, <a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a>, and <code class="docutils literal notranslate"><span class="pre">QuantumCausalSurgicalSplatGraphRAGHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Discovered Materials Problem 04 (<em>Tuning Materials with Light</em>): Time-Linear Grassmannian <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code> (<span class="math notranslate nohighlight">\(1.44\times 10^8\times\)</span> bare / <span class="math notranslate nohighlight">\(1.44\times 10^7\times\)</span> cumulant-inclusive speedup), Hubbard Chains/Ladders, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span>, Graphite, &amp; <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span></strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">grassmannian-tuning-materials-with-light-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></td>
+<td><p><a class="reference internal" href="tuning-materials-with-light-plan.html"><span class="std std-doc">tuning-materials-with-light-plan.md</span></a> and <code class="docutils literal notranslate"><span class="pre">LightDrivenMaterialsPendingHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Discovered Materials Problem 05 (<em>Predicting Heat Transport across Solid Interfaces</em>): Grassmannian Thermal Boundary Conductance (<code class="docutils literal notranslate"><span class="pre">G-TBC</span></code>), <span class="math notranslate nohighlight">\(\mathrm{Al/Si}\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Al/GaN}\)</span> <span class="math notranslate nohighlight">\(80\text{--}700\text{ K}\)</span> Curves, <span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span> <span class="math notranslate nohighlight">\(1.48\times\)</span> Bridge, <span class="math notranslate nohighlight">\(\mathrm{Au/M/PMMA/Si}\)</span> Stacks, &amp; <span class="math notranslate nohighlight">\(\mathrm{AlN/GaN}\)</span> Transferability</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-interfacial-heat-transport-paper.html"><span class="std std-doc">grassmannian-interfacial-heat-transport-paper.md</span></a>, <a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">grassmannian-thermal-compton-raman-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></td>
+<td><p><a class="reference internal" href="interfacial-heat-transport-plan.html"><span class="std std-doc">interfacial-heat-transport-plan.md</span></a> and <code class="docutils literal notranslate"><span class="pre">InterfacialHeatTransportPendingHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Discovered Materials Problem 01 (<em>A Predictive Theory of Cuprate Superconductivity</em>): Grassmannian Zhang–Rice Plücker Pairing (<code class="docutils literal notranslate"><span class="pre">G-CSC</span></code>), <span class="math notranslate nohighlight">\(T_c(p)\)</span> Dome, <span class="math notranslate nohighlight">\(d_{x^2-y^2}\)</span> Gap, Pseudogap <span class="math notranslate nohighlight">\(T^*(p)\)</span> &amp; Fermi Arcs, Planckian Strange Metal, Loram Entropy, Uemura <span class="math notranslate nohighlight">\(\rho_s\)</span>, AF &amp; Persistent Paramagnons, <span class="math notranslate nohighlight">\(p=1/8\)</span> CDW, <span class="math notranslate nohighlight">\(245\text{ K}\)</span> YBCO Ultrasound, &amp; STM Charge-Transfer Superexchange</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-cuprate-superconductivity-paper.html"><span class="std std-doc">grassmannian-cuprate-superconductivity-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></td>
+<td><p><a class="reference internal" href="cuprate-superconductivity-plan.html"><span class="std std-doc">cuprate-superconductivity-plan.md</span></a> and <code class="docutils literal notranslate"><span class="pre">CuprateSuperconductivityPendingHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Discovered Materials Problem 02 (<em>Interfacial Electrical Properties from Processing History</em>): Grassmannian Process-to-Electrical Modeling (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>), Planar <span class="math notranslate nohighlight">\(\mathrm{Si/SiO_2}\)</span> Orientation &amp; Passivation, Curved <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> Nanowires/Nanosheets, <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span> Carbon Kinetics, <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span> Regrowth, &amp; <span class="math notranslate nohighlight">\(\mathrm{Ge/SiGe}\)</span> Desorption/Snowplow</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-interfacial-electrical-properties-paper.html"><span class="std std-doc">grassmannian-interfacial-electrical-properties-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></td>
+<td><p><a class="reference internal" href="interfacial-electrical-properties-plan.html"><span class="std std-doc">interfacial-electrical-properties-plan.md</span></a> and <code class="docutils literal notranslate"><span class="pre">InterfacialElectricalPropertiesPendingHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Multilayer Graphene Superconductivity, QAHE/FQAH, Supersolid Vortices, &amp; Topological Quantum Computing (<code class="docutils literal notranslate"><span class="pre">G-MGS</span></code>): Rhombohedral Trilayer (<span class="math notranslate nohighlight">\(N=3\)</span>, <code class="docutils literal notranslate"><span class="pre">RTG</span></code> <span class="math notranslate nohighlight">\(\mathrm{SC}_1, \mathrm{SC}_2\)</span>), Twisted Trilayer (<code class="docutils literal notranslate"><span class="pre">MATTG</span></code> Light–Heavy Kondo SC), Rhombohedral Pentalayer (<span class="math notranslate nohighlight">\(N=5\)</span>, <code class="docutils literal notranslate"><span class="pre">R5G</span></code> Chiral SC, <code class="docutils literal notranslate"><span class="pre">R5G–WS2</span></code> <span class="math notranslate nohighlight">\(C=\pm 5\)</span> QAHE, <code class="docutils literal notranslate"><span class="pre">R5G/hBN</span></code> <span class="math notranslate nohighlight">\(C=1\)</span> Anomalous Hall Crystal &amp; Jain <code class="docutils literal notranslate"><span class="pre">FQAH</span></code>), Fubini–Study Optical Sum Rule, &amp; Majorana/Parafermion Qubits</strong></p></td>
+<td><p><a class="reference internal" href="grassmannian-rhombohedral-graphene-superconductivity-qc-paper.html"><span class="std std-doc">grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md</span></a>, <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></td>
+<td><p><a class="reference internal" href="rhombohedral-graphene-superconductivity-plan.html"><span class="std std-doc">rhombohedral-graphene-superconductivity-plan.md</span></a> and <code class="docutils literal notranslate"><span class="pre">RhombohedralGrapheneSuperconductivityPendingHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">src/signals/Signals/Pending.lean</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="summary-of-all-fourteen-project-plan-documents">
+<h2>2. Summary of All Fourteen Project Plan Documents<a class="headerlink" href="#summary-of-all-fourteen-project-plan-documents" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong><a class="reference internal" href="huygens-grassmannian-amplituhedron-plan.html"><span class="std std-doc">huygens-grassmannian-amplituhedron-plan.md</span></a> (<em>Huygens Diffraction, Grassmannians, and Positive Geometry</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Master 33-iteration Lean 4 and Rust/WASM roadmap progressing from finite aperture sums, measured-cell quadrature, and plabic network routing to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span>, QISM/Bethe ansatz, DDF moving sheaths, BCJ/planetary gravity, normed Tensor Gaussian Splats, Inverse Compton/Raman/second-sound heat, polaritons/SPPs, ‘t Hooft–Susskind holography, AdS/CFT integrability, and <span class="math notranslate nohighlight">\(16 \times 16\)</span> <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> secret symmetries.</p></li>
+<li><p><strong>Status</strong>: Iterations 1–33 complete (<code class="docutils literal notranslate"><span class="pre">3,715</span></code> Lake jobs, 10 companion papers, 48 Rust/WASM tests passing), including the paraxial Fresnel-to-Fraunhofer remainder bound (<code class="docutils literal notranslate"><span class="pre">fresnel_to_fraunhofer_remainder_bound</span></code>, <code class="docutils literal notranslate"><span class="pre">CellQuadrature.fresnelFraunhoferComparison</span></code>), higher-rank <span class="math notranslate nohighlight">\(Gr(3,n)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> 4-term Plücker relations (<code class="docutils literal notranslate"><span class="pre">threeRowMinor_pluecker</span></code>), multi-layer &amp; 3-channel LGV disjoint-path positivity (<code class="docutils literal notranslate"><span class="pre">lgv_multiLayer_det_positive</span></code>, <code class="docutils literal notranslate"><span class="pre">planar_threeChannel_lgv_and_bottleneck_identities</span></code>), full <span class="math notranslate nohighlight">\(16 \times 16\)</span> <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> worldsheet <span class="math notranslate nohighlight">\(R\)</span>-matrix and Yangian-tail secret intertwining (<code class="docutils literal notranslate"><span class="pre">psl22_rmatrix16_secret_coproduct_intertwining</span></code>), and adaptive two-child splat splitting conservation (<code class="docutils literal notranslate"><span class="pre">splitMajor_conservation_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">split_if_anisotropic</span></code>).</p></li>
+<li><p><strong>Remaining</strong>: Non-paraxial 3D Rayleigh–Sommerfeld vector boundary-integral remainder, arbitrary-rank (<span class="math notranslate nohighlight">\(k \ge 4\)</span>) Plücker syzygies, and calibrated laboratory interferometric/Raman/thermal-wave dataset ingestion.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">flat-light-proca-nlig-validation-plan.md</span></a> (<em>Flat Light, Proca, and N-LIG Waveguide Validation Plan</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Preregistered experimental and computational adjudication program separating five claims: (1) N-LIG material synthesis, (2) classical guided optical/THz/SPP modes, (3) multi-beam holography, (4) low-power CW graphitization, and (5) Pending Proca/Flat Light hypotheses.</p></li>
+<li><p><strong>Status</strong>: Classical &amp; Pending contracts implemented (<code class="docutils literal notranslate"><span class="pre">LongitudinalBeamApplicationEvidence</span></code>, <code class="docutils literal notranslate"><span class="pre">sppEffectiveIndexSq</span></code>, <code class="docutils literal notranslate"><span class="pre">transversePlasmaPhaseVelSq</span></code> vs. <code class="docutils literal notranslate"><span class="pre">longitudinalPlasmaPhaseVelSq</span></code>).</p></li>
+<li><p><strong>Remaining</strong>: Dose-stepped CW vs. pulsed N-LIG Raman/XPS/HAZ experiments and high-NA vectorial PSF/MTF imaging controls.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="dispersive-homodyne-plan.html"><span class="std std-doc">dispersive-homodyne-plan.md</span></a> (<em>Dispersive Homodyne Coverage and Implementation Plan</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Audits and plans <code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.NonDestructive</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.MHD</span></code>, dual-homodyne CHSH/Bell traces, dispersive QND parity readout, <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> OPA squeezing, Hawking-like CP/ALS decoding, and Argon MHD power ledgers.</p></li>
+<li><p><strong>Status</strong>: Substantially implemented (<code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.NonDestructive</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.MHD</span></code>, <code class="docutils literal notranslate"><span class="pre">SecondHarmonicResonantOpaModel</span></code>, <code class="docutils literal notranslate"><span class="pre">opaSqueezedTensorSplat</span></code>).</p></li>
+<li><p><strong>Remaining</strong>: Contract regression fixtures (<code class="docutils literal notranslate"><span class="pre">WaveguideSpec.propagationLoss</span></code>, <code class="docutils literal notranslate"><span class="pre">DualHomodyneTrace.missingSamples</span></code>, CMRR dB-to-linear conversion) and calibrated detector-loss/shot-noise trace ingestion.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference download internal" download="" href="_downloads/9aa14bfc1a3a4ec6e0df229d3bd26944/DDF_FRACTURE_COMMUNICATION_PLAN.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md</span></code></a> (<em>DDF Fracture-Communication Validation Plan</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Replaces earlier SQG fracture framing with a three-part hypothesis test: <code class="docutils literal notranslate"><span class="pre">H0</span></code> (ordinary calibrated acoustic/elastic/optical transfer + classical Magnus lift <span class="math notranslate nohighlight">\(L' = \rho U \Gamma\)</span>), <code class="docutils literal notranslate"><span class="pre">HDDF</span></code> (causal transverse-phonon perturbation tied to an independently measured vortex/pressure-deficit observable), and <code class="docutils literal notranslate"><span class="pre">HDDF-active-null</span></code> (crossed-laser-beam deflection test of <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>).</p></li>
+<li><p><strong>Status</strong>: Contracts (<code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code>, <code class="docutils literal notranslate"><span class="pre">MagnusEffectControl</span></code>) and JHTDB/PIV/RSPID dataset probes implemented.</p></li>
+<li><p><strong>Remaining</strong>: Populate <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code> from an independent defect measurement with blinded waveform replication.</p></li>
+</ul>
+</li>
+<li><p><strong>Rust Numerical Adapter (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Defines the Lean-to-Rust/WASM/WebGL2 boundary: Vortex <code class="docutils literal notranslate"><span class="pre">0.86.1</span></code> columnar arrays, PDEBench HDF5, Zenodo cylinder PIV, RSPID synthetic controls, JHTDB 3D cutouts, RK2 FTLE/LCS advection, and the eight physics, imaging, causal, and CAD modules (<code class="docutils literal notranslate"><span class="pre">double_slit.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">orbital_splat.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">thermal_inelastic.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">polariton_spp.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">multi_array_imaging.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">quantum_causal_inference.rs</span></code>).</p></li>
+<li><p><strong>Status</strong>: Native core, Vortex/HDF5/JHTDB/FITS readers, and all eight <code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code> / WebGL2 physics, imaging, causal, and CAD modules implemented (81 tests passing).</p></li>
+<li><p><strong>Remaining</strong>: Vortex vs. Arrow/Parquet large-cutout benchmarks and adaptive splat splitting/remeshing under high Anosov/OPA aspect ratios.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="lean-blueprint-rust-port-plan.html"><span class="std std-doc">lean-blueprint-rust-port-plan.md</span></a> (<em>Lean Blueprint and Sphinxdocrs Roadmap</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Integrates LeanArchitect’s <code class="docutils literal notranslate"><span class="pre">:blueprint</span></code> / <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code> facets with <code class="docutils literal notranslate"><span class="pre">dsport</span></code>’s Rust <code class="docutils literal notranslate"><span class="pre">sphinxdocrs</span></code> engine, optional Lean LSP semantic enrichment, and <code class="docutils literal notranslate"><span class="pre">ratex</span></code> PDF generation.</p></li>
+<li><p><strong>Status</strong>: Package-wide <code class="docutils literal notranslate"><span class="pre">:blueprint</span></code> and <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code> facets active across all four <code class="docutils literal notranslate"><span class="pre">Signals</span></code> targets (3,727 Lake jobs).</p></li>
+<li><p><strong>Remaining</strong>: Phase 1 <code class="docutils literal notranslate"><span class="pre">ratex</span></code> XeLaTeX PDF parity check and Phase 3–4 Rust <code class="docutils literal notranslate"><span class="pre">BlueprintSnapshot</span></code> importer in <code class="docutils literal notranslate"><span class="pre">sphinxdocrs</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="rdfhdt-implementation-plan.html"><span class="std std-doc">rdfhdt-implementation-plan.md</span></a> (<em>RDF-HDT Implementation Plan</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Plans a streaming Rust <code class="docutils literal notranslate"><span class="pre">hdt-rs</span></code> (<code class="docutils literal notranslate"><span class="pre">0.7.3</span></code>) bridge (<code class="docutils literal notranslate"><span class="pre">export_hdt</span></code> / <code class="docutils literal notranslate"><span class="pre">import_hdt</span></code>) between <code class="docutils literal notranslate"><span class="pre">pyoxigraph.Store</span></code> and static <code class="docutils literal notranslate"><span class="pre">.hdt</span></code> search artifacts (<code class="docutils literal notranslate"><span class="pre">docindex.hdt</span></code>), avoiding Python string materialization while retaining <code class="docutils literal notranslate"><span class="pre">docindex.nt</span></code> fallback.</p></li>
+<li><p><strong>Status</strong>: Architecture and <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code> hooks defined (<code class="docutils literal notranslate"><span class="pre">docindex_rdf_hdt_enabled</span></code>).</p></li>
+<li><p><strong>Remaining</strong>: Implement the standalone Rust helper crate under <code class="docutils literal notranslate"><span class="pre">src/docindex</span></code> and benchmark against N-Triples export.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="workflow-performance-plan.html"><span class="std std-doc">workflow-performance-plan.md</span></a> (<em>Workflow Simplification and Performance Plan</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Content-hash manifest pipeline (<code class="docutils literal notranslate"><span class="pre">.tmp/workflow/chat-manifest.json</span></code>) driving incremental <code class="docutils literal notranslate"><span class="pre">transform-md</span></code>, Sphinx HTML builds, and <code class="docutils literal notranslate"><span class="pre">docindex</span></code> OxiRS/Meilisearch indexing from <a class="reference download internal" download="" href="_downloads/056806de8da745a0c59599887088495d/_toc.yml"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code></span></a>.</p></li>
+<li><p><strong>Status</strong>: Phase 0 &amp; Phase 1 incremental runner active (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">chat_overlays</span></code>, <code class="docutils literal notranslate"><span class="pre">tools/workflow_transform.py</span></code>).</p></li>
+<li><p><strong>Remaining</strong>: Single-pass in-memory MyST+notebook fan-out in <code class="docutils literal notranslate"><span class="pre">transform-md</span></code>, Sphinx changed-page instrumentation for incremental <code class="docutils literal notranslate"><span class="pre">docindex</span></code> upserts, and <code class="docutils literal notranslate"><span class="pre">.tmp/workflow/last-run.json</span></code> metrics.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="#wiki-plan.md"><span class="xref myst">wiki-plan.md</span></a> (<em>Products Catalog &amp; Docs Wiki Structure Plan</em>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Defines the R&amp;D Wiki hierarchy, CamelCase Hashtaggable names (“hames”, e.g., <code class="docutils literal notranslate"><span class="pre">ProductOmniCarbonBattery</span></code>, <code class="docutils literal notranslate"><span class="pre">LignoluxUnderground</span></code>), PEP 440 semver+git-hash product versioning, and RDF 1.2 / IOF / ValueFlows / EMMO <code class="docutils literal notranslate"><span class="pre">(input,</span> <span class="pre">process,</span> <span class="pre">output)</span></code> templates in YAML-LD / JSON-LD for digital-twin factory layout synthesis.</p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="tuning-materials-with-light-plan.html"><span class="std std-doc">tuning-materials-with-light-plan.md</span></a> (<em>Written Plan for Discovered Materials Problem 04: Tuning Materials with Light via Time-Linear Grassmannian G-GKBA</em>)</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Synthesizes Unrestricted Spin-Polarized Grassmannian Cayley retraction, McWeeny idempotency-defect cumulants, Complex Homogeneous VRCs, multi-lag Plücker memory compression, 2D/3D Normed Tensor Gaussian Splats, and Dual-Grassmannian Nambu–Bogoliubov pairing into a time-linear <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code> solver (<code class="docutils literal notranslate"><span class="pre">1.44e8x</span></code> bare and <code class="docutils literal notranslate"><span class="pre">1.44e7x</span></code> cumulant-inclusive speedup over two-time KBE).</p></li>
+<li><p><strong>Status</strong>: Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sections 13–14, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 32), Rust (<code class="docutils literal notranslate"><span class="pre">dft_plabic_vrc.rs</span></code>), Python (<code class="docutils literal notranslate"><span class="pre">TuningMaterialsWithLightEngine</span></code>), and <a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">grassmannian-tuning-materials-with-light-paper.md</span></a> implemented across all four reproduction targets (Hubbard chains/ladders, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span>, Graphite, and <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span>).</p></li>
+<li><p><strong>Remaining</strong>: Full Brillouin-zone <span class="math notranslate nohighlight">\(GW\text{-}\mathrm{BSE}\)</span> / DFPT matrix-element integration and experimental trARPES, UEDS, and THz-TDS dataset ingestion (<code class="docutils literal notranslate"><span class="pre">LightDrivenMaterialsPendingHypothesis</span></code>).</p></li>
+</ul>
+<ol class="arabic simple" start="11">
+<li><p><strong><a class="reference internal" href="interfacial-heat-transport-plan.html"><span class="std std-doc">interfacial-heat-transport-plan.md</span></a> (<em>Written Plan for Discovered Materials Problem 05: Predicting Heat Transport across Solid Interfaces via Grassmannian Thermal Boundary Conductance (G-TBC)</em>)</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Unites <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker phonon transmission, <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> DFT work-of-adhesion bond stiffness <span class="math notranslate nohighlight">\(K_{\mathrm{bond}} = W_{\mathrm{ad}}/d_0^2\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,5)\)</span> three-phonon anharmonic up/down-conversion above <span class="math notranslate nohighlight">\(400\text{ K}\)</span>, metal-side electron–phonon coupling (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>), geometric-mean Plücker interlayer impedance bridging, and polymer stack series resistance into the transferable <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> framework.</p></li>
+<li><p><strong>Status</strong>: Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 15, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 33), Rust (<code class="docutils literal notranslate"><span class="pre">dft_plabic_vrc.rs</span></code>), Python (<code class="docutils literal notranslate"><span class="pre">InterfacialHeatTransportEngine</span></code>), and <a class="reference internal" href="grassmannian-interfacial-heat-transport-paper.html"><span class="std std-doc">grassmannian-interfacial-heat-transport-paper.md</span></a> implemented across all three literature benchmarks (<span class="math notranslate nohighlight">\(\mathrm{Al/Si}\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Al/GaN}\)</span> <span class="math notranslate nohighlight">\(80\text{--}700\text{ K}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span> <span class="math notranslate nohighlight">\(1.48\times\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Au/M/PMMA/Si}\)</span> <span class="math notranslate nohighlight">\(59/115/139\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>) plus frozen-model transferability to <span class="math notranslate nohighlight">\(\mathrm{AlN/GaN}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{GaN/SiC}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{GaN/diamond}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{N\text{-}LIG/AlN}\)</span>.</p></li>
+<li><p><strong>Remaining</strong>: Specimen-resolved interfacial TEM roughness, native oxide thickness characterization, and TDTR/FDTR spot-size calibration (<code class="docutils literal notranslate"><span class="pre">InterfacialHeatTransportPendingHypothesis</span></code>).</p></li>
+</ul>
+<ol class="arabic simple" start="12">
+<li><p><strong><a class="reference internal" href="cuprate-superconductivity-plan.html"><span class="std std-doc">cuprate-superconductivity-plan.md</span></a> (<em>Written Plan for Discovered Materials Problem 01: A Predictive Theory of Cuprate Superconductivity via Grassmannian Zhang–Rice Plücker Pairing (G-CSC)</em>)</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Unites three-band Emery to Zhang–Rice singlet projection on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(1,4)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker antisymmetric <span class="math notranslate nohighlight">\(d_{x^2-y^2}\)</span> pairing, Gutzwiller–Plabic hole mobility, Dual-Grassmannian Nambu–Bogoliubov pseudogap Fermi arcs, Fubini–Study Planckian strange-metal dissipation, and 4th-order charge-transfer superexchange across all 12 benchmark targets of Problem 01 and 5 cuprate families (<code class="docutils literal notranslate"><span class="pre">LSCO</span></code>, <code class="docutils literal notranslate"><span class="pre">Bi2212</span></code>, <code class="docutils literal notranslate"><span class="pre">YBCO</span></code>, <code class="docutils literal notranslate"><span class="pre">Tl2201</span></code>, <code class="docutils literal notranslate"><span class="pre">Hg1201</span></code>).</p></li>
+<li><p><strong>Status</strong>: Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 16, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 34), Rust (<code class="docutils literal notranslate"><span class="pre">dft_plabic_vrc.rs</span></code>), Python (<code class="docutils literal notranslate"><span class="pre">CuprateSuperconductivityEngine</span></code>), and <a class="reference internal" href="grassmannian-cuprate-superconductivity-paper.html"><span class="std std-doc">grassmannian-cuprate-superconductivity-paper.md</span></a> implemented across all 12 benchmark observables.</p></li>
+<li><p><strong>Remaining</strong>: Full 3D interlayer vortex-lattice transport and high-field quantum-oscillation Fermi-surface reconstruction (<code class="docutils literal notranslate"><span class="pre">CuprateSuperconductivityPendingHypothesis</span></code>).</p></li>
+</ul>
+<ol class="arabic simple" start="13">
+<li><p><strong><a class="reference internal" href="interfacial-electrical-properties-plan.html"><span class="std std-doc">interfacial-electrical-properties-plan.md</span></a> (<em>Written Plan for Discovered Materials Problem 02: Interfacial Electrical Properties from Processing History via Grassmannian Process-to-Electrical Modeling (G-IEP)</em>)</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Unites Plabic 3-flux Deal–Grove–Massoud oxidation kinetics (<span class="math notranslate nohighlight">\(F_1 = F_2 = F_3\)</span>), <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(2,4)\)</span> crystal-plane bond projection, <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> fractional-idempotency defect density (<span class="math notranslate nohighlight">\(D_{\mathrm{it}}(E)\)</span> and <span class="math notranslate nohighlight">\(Q_f\)</span>) and McWeeny/Brower–Stesmans <span class="math notranslate nohighlight">\(\mathrm{H_2}/\mathrm{NO}\)</span> passivation, DDF/Splat viscoelastic stress-retarded nanowire oxidation, and advection–diffusion composition profiles <span class="math notranslate nohighlight">\(C(z)\)</span> across all five required semiconductor interfaces (planar <span class="math notranslate nohighlight">\(\mathrm{Si/SiO_2}\)</span>, curved <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> nanowires/nanosheets, <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Ge/GeO_2}\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{SiGe/oxide}\)</span>).</p></li>
+<li><p><strong>Status</strong>: Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 17, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 35), Rust (<code class="docutils literal notranslate"><span class="pre">dft_plabic_vrc.rs</span></code>), Python (<code class="docutils literal notranslate"><span class="pre">InterfacialElectricalProcessEngine</span></code>), and <a class="reference internal" href="grassmannian-interfacial-electrical-properties-paper.html"><span class="std std-doc">grassmannian-interfacial-electrical-properties-paper.md</span></a> implemented across all five benchmark interfaces.</p></li>
+<li><p><strong>Remaining</strong>: Tool-specific chamber ambient calibration and in-house CV/DLTS/charge-pumping wafer measurements (<code class="docutils literal notranslate"><span class="pre">InterfacialElectricalPropertiesPendingHypothesis</span></code>).</p></li>
+</ul>
+<ol class="arabic simple" start="14">
+<li><p><strong><a class="reference internal" href="rhombohedral-graphene-superconductivity-plan.html"><span class="std std-doc">rhombohedral-graphene-superconductivity-plan.md</span></a> (<em>Written Plan: Grassmannian Multilayer Graphene Superconductivity, QAHE/FQAH, Supersolid Vortices, and Topological Quantum Computing (G-MGS)</em>)</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Scope</strong>: Unites <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2, 2N)\)</span> boundary sublattice projection (<span class="math notranslate nohighlight">\(N=3\)</span> trilayer vs. <span class="math notranslate nohighlight">\(N=5\)</span> pentalayer rhombohedral graphene), <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(f, 4)\)</span> Stoner isospin cascade (<span class="math notranslate nohighlight">\(\mathrm{SC}_1\)</span> IVC singlet, <span class="math notranslate nohighlight">\(\mathrm{SC}_2\)</span> <span class="math notranslate nohighlight">\(&gt;10\times\)</span> Pauli-violating half-metal triplet, and <code class="docutils literal notranslate"><span class="pre">R5G</span></code> quarter-metal chiral <span class="math notranslate nohighlight">\(p_x \pm i p_y\)</span> <span class="math notranslate nohighlight">\(\mathrm{SC}_{\mathrm{chiral}}\)</span>), <code class="docutils literal notranslate"><span class="pre">MATTG</span></code> light–heavy Kondo hybridization, the low-energy optical sum rule and Peotta–Törmä Fubini–Study superfluid stiffness, <code class="docutils literal notranslate"><span class="pre">R5G–WS2</span></code> <span class="math notranslate nohighlight">\(C = \pm 5\)</span> QAHE, <code class="docutils literal notranslate"><span class="pre">R5G/hBN</span></code> <span class="math notranslate nohighlight">\(C=1\)</span> Anomalous Hall Crystal and Jain <code class="docutils literal notranslate"><span class="pre">FQAH</span></code> fractions, supersolid vortex nucleation and room-temperature hydrodynamic whirlpools, and symbiotic QAHE/FQAH–SC Majorana/parafermion quantum computing (<code class="docutils literal notranslate"><span class="pre">0.64%</span></code> overall 8-benchmark MAPE).</p></li>
+<li><p><strong>Status</strong>: Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 18, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 36), Rust (<code class="docutils literal notranslate"><span class="pre">dft_plabic_vrc.rs</span></code>), Python (<code class="docutils literal notranslate"><span class="pre">RhombohedralGrapheneSuperconductivityEngine</span></code>), and <a class="reference internal" href="grassmannian-rhombohedral-graphene-superconductivity-qc-paper.html"><span class="std std-doc">grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md</span></a> implemented across all 8 regimes.</p></li>
+<li><p><strong>Remaining</strong>: Dilution-refrigerator magnetotransport, nanoSQUID-on-tip imaging, and interferometric non-Abelian Majorana/parafermion braiding validation (<code class="docutils literal notranslate"><span class="pre">RhombohedralGrapheneSuperconductivityPendingHypothesis</span></code>).</p></li>
+</ul>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="chat-markdown-warning-remediation-plan.html" title="Chat Markdown Warning Remediation Plan" >previous</a></li>
+        <li><a href="sphinx-meilisearch-architecture.html" title="Sphinx-Meilisearch Integration Architecture" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

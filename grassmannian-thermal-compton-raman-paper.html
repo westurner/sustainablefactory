@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, \(Gr_{\mathbb{C}}(2,4)\) Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4" href="grassmannian-polariton-spp-mechanics-paper.html" />
+    <link rel="prev" title="Normed Tensor Gaussian Splat Mechanics for Complex \(Gr_{\mathbb{C}}(2,4)\) Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4" href="grassmannian-splat-mechanics-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#relativistic-inverse-compton-scattering-gr-mathbb-c-2-4-plucker-channels">1. Relativistic Inverse Compton Scattering &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels</a><ul>
+<li><a class="reference internal" href="#the-gr-mathbb-c-2-4-plucker-ratio-as-the-exact-relativistic-doppler-upshift">1.1 The <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Ratio as the Exact Relativistic Doppler Upshift</a></li>
+<li><a class="reference internal" href="#kleinnishina-quantum-recoil-suppression">1.2 Klein–Nishina Quantum Recoil Suppression</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stokes-anti-stokes-raman-scattering-gr-mathbb-c-2-4-channel-inversion-and-raman-thermometry">2. Stokes &amp; Anti-Stokes Raman Scattering, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Channel Inversion, and Raman Thermometry</a><ul>
+<li><a class="reference internal" href="#exact-gr-mathbb-c-2-4-plucker-dictionary-raman-boltzmann-thermometry">2.1 Exact <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Dictionary &amp; Raman Boltzmann Thermometry</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain">3. What Doesn’t <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Cover in This Domain?</a></li>
+<li><a class="reference internal" href="#the-heat-problem-review-of-methods-fourier-cattaneovernotte-dual-phase-lag-and-our-unified-grassmannianddf-method">4. The Heat Problem: Review of Methods (Fourier, Cattaneo–Vernotte, Dual-Phase-Lag) and Our Unified Grassmannian–DDF Method</a><ul>
+<li><a class="reference internal" href="#comparative-review-of-heat-conduction-thermal-wave-paradigms">4.1 Comparative Review of Heat Conduction &amp; Thermal Wave Paradigms</a></li>
+<li><a class="reference internal" href="#mathematical-derivation-of-our-unified-grassmannian-gr-mathbb-c-2-4-ddf-thermal-method-splat-free-continuum-tensor-splat-formulations">4.2 Mathematical Derivation of Our Unified Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Thermal Method (Splat-Free Continuum &amp; Tensor Splat Formulations)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rust-webassembly-wasm32-unknown-unknown-implementation-and-verification">5. Rust &amp; WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) Implementation and Verification</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-splat-mechanics-paper.html" title="Normed Tensor Gaussian Splat Mechanics for Complex \(Gr_{\mathbb{C}}(2,4)\) Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-polariton-spp-mechanics-paper.html" title="Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, \(Gr_{\mathbb{C}}(2,4)\) Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-thermal-compton-raman-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#relativistic-inverse-compton-scattering-gr-mathbb-c-2-4-plucker-channels">1. Relativistic Inverse Compton Scattering &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels</a><ul>
+<li><a class="reference internal" href="#the-gr-mathbb-c-2-4-plucker-ratio-as-the-exact-relativistic-doppler-upshift">1.1 The <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Ratio as the Exact Relativistic Doppler Upshift</a></li>
+<li><a class="reference internal" href="#kleinnishina-quantum-recoil-suppression">1.2 Klein–Nishina Quantum Recoil Suppression</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stokes-anti-stokes-raman-scattering-gr-mathbb-c-2-4-channel-inversion-and-raman-thermometry">2. Stokes &amp; Anti-Stokes Raman Scattering, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Channel Inversion, and Raman Thermometry</a><ul>
+<li><a class="reference internal" href="#exact-gr-mathbb-c-2-4-plucker-dictionary-raman-boltzmann-thermometry">2.1 Exact <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Dictionary &amp; Raman Boltzmann Thermometry</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain">3. What Doesn’t <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Cover in This Domain?</a></li>
+<li><a class="reference internal" href="#the-heat-problem-review-of-methods-fourier-cattaneovernotte-dual-phase-lag-and-our-unified-grassmannianddf-method">4. The Heat Problem: Review of Methods (Fourier, Cattaneo–Vernotte, Dual-Phase-Lag) and Our Unified Grassmannian–DDF Method</a><ul>
+<li><a class="reference internal" href="#comparative-review-of-heat-conduction-thermal-wave-paradigms">4.1 Comparative Review of Heat Conduction &amp; Thermal Wave Paradigms</a></li>
+<li><a class="reference internal" href="#mathematical-derivation-of-our-unified-grassmannian-gr-mathbb-c-2-4-ddf-thermal-method-splat-free-continuum-tensor-splat-formulations">4.2 Mathematical Derivation of Our Unified Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Thermal Method (Splat-Free Continuum &amp; Tensor Splat Formulations)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rust-webassembly-wasm32-unknown-unknown-implementation-and-verification">5. Rust &amp; WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) Implementation and Verification</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-splat-mechanics-paper.html"
+                          title="previous chapter">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-polariton-spp-mechanics-paper.html"
+                          title="next chapter">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-thermal-compton-raman-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="inelastic-scattering-and-the-heat-problem-in-unified-grassmannianddf-mechanics-inverse-compton-stokes-anti-stokes-raman-fourier-vs-cattaneovernotte-and-subluminal-second-sound-tensor-splatting-in-lean-4">
+<span id="grassmannian-thermal-compton-raman-paper"></span><h1>Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4<a class="headerlink" href="#inelastic-scattering-and-the-heat-problem-in-unified-grassmannianddf-mechanics-inverse-compton-stokes-anti-stokes-raman-fourier-vs-cattaneovernotte-and-subluminal-second-sound-tensor-splatting-in-lean-4" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Statistical Mechanics (<code class="docutils literal notranslate"><span class="pre">cond-mat.stat-mech</span></code>); Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Computational Physics (<code class="docutils literal notranslate"><span class="pre">physics.comp-ph</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM Crate (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/thermal_inelastic.rs</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>How do <strong>inelastic photon scattering</strong> (relativistic <strong>Inverse Compton Scattering</strong> and <strong>Stokes / Anti-Stokes Raman Scattering</strong>) and <strong>non-equilibrium thermal transport</strong> (the <strong>Heat Problem</strong>) embed into the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) framework—and what physical phenomena lie strictly <strong>outside</strong> homogeneous projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>? In this paper, we provide machine-checked theorems in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>) together with a zero-dependency Rust and WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) implementation (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/thermal_inelastic.rs</span></code>) establishing four core results:</p>
+<ol class="arabic">
+<li><p><strong>Relativistic Inverse Compton Scattering on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; Klein–Nishina Recoil Boundary (<code class="docutils literal notranslate"><span class="pre">MovingSheath.inverseCompton_gr24_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">inverseCompton_thomson_and_recoil_identities</span></code>)</strong>:
+For a subluminal DDF moving sheath <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">:</span> <span class="pre">MovingSheath</span> <span class="pre">sub</span></code> with reduced speed <span class="math notranslate nohighlight">\(\beta = v/c \in [0, 1)\)</span> and canonical twistor matrix <span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{\mathrm{DDF}}(s) \in Gr_{\mathbb{C}}(2,4)\)</span>, the ratio of the forward-to-backward uncrossed Plücker channel densities <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}|^2 = 1 + \beta\)</span> and <span class="math notranslate nohighlight">\(|w_B^{\mathbb{C}}|^2 = 1 - \beta\)</span> equals the exact head-on relativistic Inverse Compton frequency upshift in the Thomson regime:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0} = \frac{|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})|^2}{|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})|^2} = \frac{1 + \beta}{1 - \beta} = \gamma_\varphi(v)^2\,(1 + \beta)^2, \qquad \frac{P_{\mathrm{ICS}}}{P_{\mathrm{Thomson}}} = \frac{4}{3}\bigl(\gamma_\varphi(v)^2 - 1\bigr) = \frac{4}{3}\,\gamma_\varphi(v)^2\,\beta^2.
+   \]</div>
+<p>When quantum photon recoil <span class="math notranslate nohighlight">\(\epsilon_{\mathrm{rec}} = \frac{2\gamma\hbar\omega_0}{m_e c^2}(1 + \beta) &gt; 0\)</span> is non-negligible, the Klein–Nishina upshift ratio satisfies <span class="math notranslate nohighlight">\(\frac{(1+\beta)/(1-\beta)}{1 + \epsilon_{\mathrm{rec}}} &lt; \frac{1+\beta}{1-\beta}\)</span>, pinpointing the absolute electron rest-mass scale <span class="math notranslate nohighlight">\(m_e c^2\)</span> that breaks scale-free projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> invariance.</p>
+</li>
+<li><p><strong>Stokes &amp; Anti-Stokes Raman Scattering, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Channel Inversion, and Raman Thermometry (<code class="docutils literal notranslate"><span class="pre">raman_stokes_antiStokes_gr24_identities</span></code>)</strong>:
+Inelastic Raman scattering off a vibrational or Bogoliubov phonon mode <span class="math notranslate nohighlight">\(\Omega_v \in [0, \omega_L)\)</span> splits the pump <span class="math notranslate nohighlight">\(\omega_L\)</span> into Stokes (<span class="math notranslate nohighlight">\(\omega_S = \omega_L - \Omega_v\)</span>) and anti-Stokes (<span class="math notranslate nohighlight">\(\omega_{AS} = \omega_L + \Omega_v\)</span>) channels with normalized barycentric shift <span class="math notranslate nohighlight">\(\delta_R = \Omega_v / \omega_L\)</span>. The QISM channel inversions <code class="docutils literal notranslate"><span class="pre">reconstructSpectralDiff</span></code> and <code class="docutils literal notranslate"><span class="pre">reconstructYangCoupling</span></code> recover <span class="math notranslate nohighlight">\((\omega_L, \Omega_v)\)</span> identically from <span class="math notranslate nohighlight">\((\omega_{AS}, \omega_S)\)</span>, while <span class="math notranslate nohighlight">\(\frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R}\)</span> and <span class="math notranslate nohighlight">\(\omega_S\omega_{AS} = \omega_L^2(1 - \delta_R^2)\)</span>. Pairing the coherent Plücker ratio with the Bose–Einstein thermal phonon factor <span class="math notranslate nohighlight">\(\exp(-\xi)\)</span> (<span class="math notranslate nohighlight">\(\xi = \frac{\hbar\Omega_v}{k_B T} &gt; 0\)</span>) yields the Raman thermometer <span class="math notranslate nohighlight">\(R_{AS/S}(\xi) = (\omega_{AS}/\omega_S)^4 e^{-\xi} &lt; (\omega_{AS}/\omega_S)^4\)</span>.</p></li>
+<li><p><strong>Explicit Audit of What <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Covers vs. Does Not Cover</strong>:
+We prove and catalog the four exact boundaries of homogeneous projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \subset \mathbb{P}(\wedge^2 \mathbb{C}^4)\)</span>: (i) absolute mass/Compton recoil scales (<span class="math notranslate nohighlight">\(m_e c^2\)</span>), (ii) spontaneous vacuum fluctuations (<span class="math notranslate nohighlight">\(\bar{n}+1\)</span> vs. <span class="math notranslate nohighlight">\(\bar{n}\)</span>) and thermal bath populations, (iii) <span class="math notranslate nohighlight">\(N \ge 3\)</span> multi-phonon overtone and Brillouin–Raman–Rayleigh cascades (requiring <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span>), and (iv) irreversible entropy production (<span class="math notranslate nohighlight">\(\sigma_S \ge 0\)</span>).</p></li>
+<li><p><strong>The Heat Problem — Fourier, Cattaneo–Vernotte, and Our Unified Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Method (Both Splat-Free Continuum and Normed Tensor Splat Formulations: <code class="docutils literal notranslate"><span class="pre">FourierHeatModel</span></code>, <code class="docutils literal notranslate"><span class="pre">CattaneoVernotteHeatModel</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_continuum_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_and_splat_identities</span></code>)</strong>:
+We review classical parabolic Fourier diffusion (proving its acausal high-frequency phase-speed blow-up <span class="math notranslate nohighlight">\(v_{\mathrm{phase}}^2(\omega_*) &gt; V^2\)</span> for any ceiling <span class="math notranslate nohighlight">\(V\)</span>, including <span class="math notranslate nohighlight">\(c\)</span>), hyperbolic Cattaneo–Vernotte telegrapher conduction (<span class="math notranslate nohighlight">\(c_{\mathrm{CV}} = \sqrt{\alpha / \tau_r} &gt; 0\)</span>), and Guyer–Krumhansl / Dual-Phase-Lag phonon hydrodynamics, and then formulate our <strong>Unified Grassmannian–DDF Thermal Method</strong> in both <strong>splat-free continuum PDE / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> characteristic</strong> form and <strong>normed Tensor Gaussian Splat</strong> form, proving:</p>
+<ul>
+<li><p>Strict subluminal second-sound causality <span class="math notranslate nohighlight">\(0 &lt; c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s) = c_{\mathrm{th},0}/\gamma_\varphi(v) \le c_{\mathrm{th},0} \le c\)</span>,</p></li>
+<li><p><strong>Splat-Free Continuum PDE &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Laws (<code class="docutils literal notranslate"><span class="pre">ddfThermalTransport_continuum_identities</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+     \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \gamma_\varphi(v)^{-2}, \qquad \frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2} T_{tt} + \frac{\gamma_\varphi(v)^2}{\alpha_0} T_t - T_{xx},
+     \]</div>
+<p>and for the splat-free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> thermal characteristic matrix <span class="math notranslate nohighlight">\(M_{\mathrm{th}} = \operatorname{ddfThermalGr24Matrix}(j_q, \theta)\)</span>, <span class="math notranslate nohighlight">\(\frac{|w_A^{\mathbb{C}}|^2 - |w_B^{\mathbb{C}}|^2}{2} = j_q\)</span> and <span class="math notranslate nohighlight">\(0 &lt; |w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2 = 1 - j_q^2\)</span> (enforcing the relativistic Cattaneo flux limiter <span class="math notranslate nohighlight">\(|q| &lt; \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0\)</span>),</p>
+</li>
+<li><p><strong>Normed Tensor Gaussian Splat Bridge (<code class="docutils literal notranslate"><span class="pre">ddfThermalTransport_and_splat_identities</span></code>)</strong>:
+<span class="math notranslate nohighlight">\(\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \gamma_\varphi(v)^{-2}\)</span> and exact <span class="math notranslate nohighlight">\(L^1\)</span>-conserving variance evolution <span class="math notranslate nohighlight">\(\operatorname{Tr}\Sigma(t + \Delta t) = \operatorname{Tr}\Sigma(t) + 2(\alpha_1 + \alpha_2)\Delta t\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="relativistic-inverse-compton-scattering-gr-mathbb-c-2-4-plucker-channels">
+<h2>1. Relativistic Inverse Compton Scattering &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels<a class="headerlink" href="#relativistic-inverse-compton-scattering-gr-mathbb-c-2-4-plucker-channels" title="Link to this heading">¶</a></h2>
+<p>In relativistic astrophysics, laser-plasma Compton light sources (<a class="reference internal" href="#thermal-chat-cnt2026"><span class="xref myst">Provenance Chat Log: CNT Bandgap &amp; Laser Compton Scattering (2026)</span></a>, lines 390–398), and DDF moving-sheath electrodynamics, <strong>Inverse Compton Scattering (ICS)</strong> occurs when a relativistic charged particle or shear-jammed condensate parcel moving at speed <span class="math notranslate nohighlight">\(v = \beta c\)</span> (<span class="math notranslate nohighlight">\(\beta \in [0, 1)\)</span>, Lorentz/jamming factor <span class="math notranslate nohighlight">\(\gamma_\varphi(v) = (1 - \beta^2)^{-1/2}\)</span>) collides with a low-energy photon of frequency <span class="math notranslate nohighlight">\(\omega_0\)</span>.</p>
+<section id="the-gr-mathbb-c-2-4-plucker-ratio-as-the-exact-relativistic-doppler-upshift">
+<h3>1.1 The <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Ratio as the Exact Relativistic Doppler Upshift<a class="headerlink" href="#the-gr-mathbb-c-2-4-plucker-ratio-as-the-exact-relativistic-doppler-upshift" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>), the canonical DDF moving-sheath twistor matrix <span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{\mathrm{DDF}}(s) \in \mathbb{C}^{2 \times 4}\)</span> has uncrossed Plücker channel amplitudes <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}} = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}\)</span> and <span class="math notranslate nohighlight">\(w_B^{\mathbb{C}} = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}\)</span> with Madelung densities:</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})\bigr|^2 = 1 + \beta, \qquad
+\bigl|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})\bigr|^2 = 1 - \beta.
+\]</div>
+<p>In the Thomson regime (<span class="math notranslate nohighlight">\(\gamma \hbar \omega_0 \ll m_e c^2\)</span>, negligible electron recoil), a head-on collision (<span class="math notranslate nohighlight">\(\theta_{\mathrm{in}} = \pi\)</span>) followed by backscattering (<span class="math notranslate nohighlight">\(\theta_{\mathrm{out}} = 0\)</span>) applies two successive relativistic Doppler boosts:</p>
+<ol class="arabic simple">
+<li><p>Transformation from the laboratory frame to the moving-sheath rest frame multiplies frequency by <span class="math notranslate nohighlight">\(\gamma_\varphi(v)(1 + \beta) = \sqrt{\frac{1+\beta}{1-\beta}}\)</span>,</p></li>
+<li><p>Transformation from the rest frame back to the laboratory frame multiplies frequency by a second factor of <span class="math notranslate nohighlight">\(\gamma_\varphi(v)(1 + \beta) = \sqrt{\frac{1+\beta}{1-\beta}}\)</span>.</p></li>
+</ol>
+<p>Consequently, the head-on Inverse Compton frequency upshift ratio is <strong>identically the ratio of the two uncrossed <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel densities</strong> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.inverseCompton_gr24_identities</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0}
+= \gamma_\varphi(v)^2\,(1 + \beta)^2
+= \frac{1 + \beta}{1 - \beta}
+= \frac{\bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})\bigr|^2}{\bigl|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})\bigr|^2} \ge 1,
+\]</div>
+<p>while the angle-averaged Inverse Compton radiated power boost over an isotropic photon bath is:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P_{\mathrm{ICS}}}{P_{\mathrm{Thomson}}}
+= \frac{4}{3}\bigl(\gamma_\varphi(v)^2 - 1\bigr)
+= \frac{4}{3}\,\gamma_\varphi(v)^2\,\beta^2.
+\]</div>
+</section>
+<section id="kleinnishina-quantum-recoil-suppression">
+<h3>1.2 Klein–Nishina Quantum Recoil Suppression<a class="headerlink" href="#kleinnishina-quantum-recoil-suppression" title="Link to this heading">¶</a></h3>
+<p>When the incident photon energy in the electron rest frame is comparable to the electron rest mass-energy <span class="math notranslate nohighlight">\(m_e c^2\)</span>, 4-momentum conservation <span class="math notranslate nohighlight">\(p^\mu + \hbar k^\mu = p^{\prime\mu} + \hbar k^{\prime\mu}\)</span> introduces the dimensionless quantum recoil parameter <span class="math notranslate nohighlight">\(\epsilon_{\mathrm{rec}} = \frac{2\gamma\hbar\omega_0}{m_e c^2}(1 + \beta) &gt; 0\)</span>. In <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> (<a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">src/signals/Signals/Scattering.lean</span></a>), <code class="docutils literal notranslate"><span class="pre">inverseCompton_thomson_and_recoil_identities</span></code> proves:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\omega_{\mathrm{KN}}^{\mathrm{ICS}}}{\omega_0}
+= \frac{(1 + \beta)/(1 - \beta)}{1 + \epsilon_{\mathrm{rec}}}
+&lt; \frac{1 + \beta}{1 - \beta} \quad (\forall\,\epsilon_{\mathrm{rec}} &gt; 0),
+\]</div>
+<p>with exact recovery of the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Thomson ratio at <span class="math notranslate nohighlight">\(\epsilon_{\mathrm{rec}} = 0\)</span>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="stokes-anti-stokes-raman-scattering-gr-mathbb-c-2-4-channel-inversion-and-raman-thermometry">
+<h2>2. Stokes &amp; Anti-Stokes Raman Scattering, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Channel Inversion, and Raman Thermometry<a class="headerlink" href="#stokes-anti-stokes-raman-scattering-gr-mathbb-c-2-4-channel-inversion-and-raman-thermometry" title="Link to this heading">¶</a></h2>
+<p>Across our materials and sensing workflows—including inline Raman quality assurance for boron-doped CNS/lignin-vitrimer busbars (<a class="reference internal" href="#thermal-chat-raman2026"><span class="xref myst">Provenance Chat Log: Aluminum &amp; Inline Raman QA (2026)</span></a>, lines 1490–1589), carbon-nanotube radial-breathing and <span class="math notranslate nohighlight">\(I_D/I_G\)</span> strain metrology (<a class="reference internal" href="#thermal-chat-cnt2026"><span class="xref myst">Provenance Chat Log: CNT Bandgap &amp; Laser Compton Scattering (2026)</span></a>, lines 8453–8463), and Distributed Fiber Optic Sensing (DFOS) temperature profiling (<a class="reference internal" href="#thermal-chat-fiber2026"><span class="xref myst">Provenance Chat Log: Fiber Optic Raman Thermometry (2026)</span></a>, lines 95–228)—<strong>Raman scattering</strong> couples an optical pump <span class="math notranslate nohighlight">\(\omega_L &gt; 0\)</span> to an internal vibrational phonon or Bogoliubov mode <span class="math notranslate nohighlight">\(\Omega_v \in [0, \omega_L)\)</span>:</p>
+<ul class="simple">
+<li><p><strong>Stokes Channel (<span class="math notranslate nohighlight">\(B\)</span>, phonon creation)</strong>: <span class="math notranslate nohighlight">\(\omega_S = \omega_L - \Omega_v = \omega_L(1 - \delta_R)\)</span>,</p></li>
+<li><p><strong>Anti-Stokes Channel (<span class="math notranslate nohighlight">\(A\)</span>, phonon absorption)</strong>: <span class="math notranslate nohighlight">\(\omega_{AS} = \omega_L + \Omega_v = \omega_L(1 + \delta_R)\)</span>,</p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(\delta_R = \Omega_v / \omega_L \in [0, 1)\)</span> is the normalized Raman shift (<code class="docutils literal notranslate"><span class="pre">ramanNormalizedShift</span></code>).</p>
+<section id="exact-gr-mathbb-c-2-4-plucker-dictionary-raman-boltzmann-thermometry">
+<h3>2.1 Exact <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Dictionary &amp; Raman Boltzmann Thermometry<a class="headerlink" href="#exact-gr-mathbb-c-2-4-plucker-dictionary-raman-boltzmann-thermometry" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> (<a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">src/signals/Signals/Scattering.lean</span></a>), <code class="docutils literal notranslate"><span class="pre">raman_stokes_antiStokes_gr24_identities</span></code> proves that setting the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> barycentric shift to <span class="math notranslate nohighlight">\(d_{\mathrm{bary}} = \delta_R = \Omega_v / \omega_L\)</span> yields:</p>
+<ol class="arabic">
+<li><p><strong>Exact Inverse Spectral Recovery via QISM Channel Operators</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{reconstructSpectralDiff}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} + \omega_S}{2} = \omega_L, \qquad \operatorname{reconstructYangCoupling}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} - \omega_S}{2} = \Omega_v.
+   \]</div>
+</li>
+<li><p><strong>Coherent <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Ratio and Determinant Product</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}, \qquad \omega_S\,\omega_{AS} = \omega_L^2(1 - \delta_R^2) = \omega_L^2\,\frac{\det\Sigma}{\sigma_0^4}.
+   \]</div>
+</li>
+<li><p><strong>Thermal Anti-Stokes / Stokes Boltzmann Asymmetry, Bose–Einstein Vacuum Fluctuations, &amp; Complete Thermometer Inversion (<code class="docutils literal notranslate"><span class="pre">raman_boseEinstein_and_thermometer_inversion</span></code>, <code class="docutils literal notranslate"><span class="pre">inelastic_compton_and_raman_temperature_inversion</span></code>)</strong>:
+In a medium at temperature <span class="math notranslate nohighlight">\(T &gt; 0\)</span> with characteristic vibrational temperature <span class="math notranslate nohighlight">\(\Theta_v = \frac{\hbar\Omega_v}{k_B} &gt; 0\)</span>, dimensionless Boltzmann exponent <span class="math notranslate nohighlight">\(\xi = \frac{\Theta_v}{T} &gt; 0\)</span>, and Bose–Einstein thermal phonon occupancy <span class="math notranslate nohighlight">\(\bar{n}_{\mathrm{BE}}(\xi) = \frac{1}{\exp(\xi) - 1} &gt; 0\)</span>, anti-Stokes phonon absorption is proportional to <span class="math notranslate nohighlight">\(\bar{n}_{\mathrm{BE}}(\xi)\)</span> whereas Stokes phonon creation includes the <span class="math notranslate nohighlight">\(+1\)</span> zero-point vacuum fluctuation (<span class="math notranslate nohighlight">\(\bar{n}_{\mathrm{BE}}(\xi) + 1\)</span>), satisfying:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \exp(-\xi), \qquad R_{AS/S}(\xi) = \left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right)^4 \frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \left(\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}\right)^4 \exp(-\xi) &lt; \left(\frac{\omega_{AS}}{\omega_S}\right)^4,
+   \]</div>
+<p>with exact closed-form inversion for the Boltzmann exponent <span class="math notranslate nohighlight">\(\xi = 4\ln(\omega_{AS}/\omega_S) - \ln(R_{AS/S}(\xi))\)</span> (<code class="docutils literal notranslate"><span class="pre">reconstructRamanBoltzmannExponent</span></code>), physical absolute temperature <span class="math notranslate nohighlight">\(T = \frac{\Theta_v}{\xi}\)</span> (<code class="docutils literal notranslate"><span class="pre">reconstructRamanTemperature</span></code>), Inverse Compton reduced speed <span class="math notranslate nohighlight">\(\beta = \frac{D - 1}{D + 1}\)</span> (<code class="docutils literal notranslate"><span class="pre">reconstructInverseComptonBeta</span></code>), and Klein–Nishina recoil <span class="math notranslate nohighlight">\(\epsilon_{\mathrm{rec}} = \frac{D}{R_{\mathrm{KN}}} - 1\)</span> (<code class="docutils literal notranslate"><span class="pre">reconstructKleinNishinaRecoil</span></code>).</p>
+</li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivThermalComptonRamanVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Scattering</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+
+<span class="c1">-- 1. Relativistic Inverse Compton Gr_C(2,4) Plücker ratio, Klein-Nishina recoil inversion, and Stokes/anti-Stokes Raman temperature inversion</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">d</span><span class="w"> </span><span class="n">wavelength</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Δℓ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr24TwistorMatrix</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="n">wavelength</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">inverseComptonDopplerRatio</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">R_KN</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">inverseComptonKleinNishinaRatio</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">R_Raman</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ramanAntiStokesToStokesThermalRatio</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">150</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">300</span><span class="o">)</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_C</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_C</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">inverseComptonDopplerRatio</span><span class="w"> </span><span class="n">s.beta</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructInverseComptonBeta</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructKleinNishinaRecoil</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="n">R_KN</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructSpectralDiff</span><span class="w"> </span><span class="o">(</span><span class="n">ramanAntiStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ramanStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructYangCoupling</span><span class="w"> </span><span class="o">(</span><span class="n">ramanAntiStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ramanStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">boseEinsteinOccupancy</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="n">boseEinsteinOccupancy</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">Real.exp</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">))</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructRamanTemperature</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">150</span><span class="w"> </span><span class="n">R_Raman</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">300</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="n">R_KN</span><span class="w"> </span><span class="n">R_Raman</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ics_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.inverseCompton_gr24_identities</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="n">wavelength</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ram</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">raman_stokes_antiStokes_gr24_identities</span>
+<span class="w">    </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_be</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">raman_boseEinstein_and_thermometer_inversion</span>
+<span class="w">    </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_inv</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">inelastic_compton_and_raman_temperature_inversion</span>
+<span class="w">    </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">150</span><span class="w"> </span><span class="mi">300</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h_ics_ddf</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_inv</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_inv</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_ram</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_ram</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_be</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_inv</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">⟩</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain">
+<h2>3. What Doesn’t <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Cover in This Domain?<a class="headerlink" href="#what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain" title="Link to this heading">¶</a></h2>
+<p>A central methodological requirement of the <code class="docutils literal notranslate"><span class="pre">Signals</span></code> formalization is to make the <strong>exact domain boundaries</strong> of each algebraic structure explicit. While a complex 2-plane <span class="math notranslate nohighlight">\(M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)\)</span> (with Penrose incidence <span class="math notranslate nohighlight">\(\mu^{\dot{\alpha}} = -i x^{\alpha\dot{\alpha}}\lambda_\alpha\)</span> on <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span>) completely characterizes <strong>scale-free, unitary, two-channel phase and barycentric coherence</strong>, four specific physical mechanisms in inelastic scattering and thermal transport lie <strong>outside</strong> bare projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and require explicit auxiliary structures:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Physical Mechanism in Compton, Raman, &amp; Heat Transport</p></th>
+<th class="head"><p>What Homogeneous Projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Covers</p></th>
+<th class="head"><p>What <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Does <strong>Not</strong> Cover by Itself</p></th>
+<th class="head"><p>Required Extension in <code class="docutils literal notranslate"><span class="pre">Signals</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Quantum Recoil &amp; Absolute Rest Mass in Inverse Compton Scattering</strong></p></td>
+<td><p>Collinear relativistic Doppler upshift <span class="math notranslate nohighlight">\(\frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0} = \frac{1+\beta}{1-\beta} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}\)</span> and angle-averaged boost <span class="math notranslate nohighlight">\(\frac{4}{3}\gamma^2\beta^2\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.inverseCompton_gr24_identities</span></code>)</p></td>
+<td><p><strong>Absolute rest-mass scale <span class="math notranslate nohighlight">\(m_e c^2\)</span> (Compton wavelength <span class="math notranslate nohighlight">\(\lambda_C = h/(m_e c)\)</span>)</strong> and the Klein–Nishina recoil denominator <span class="math notranslate nohighlight">\(1 + \frac{\hbar\omega_0}{m_e c^2}\gamma(1 - \cos\theta)\)</span>, because <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> is projectively/conformally scale-free (<span class="math notranslate nohighlight">\(M_{\mathbb{C}} \sim g M_{\mathbb{C}}\)</span>)</p></td>
+<td><p>Explicit recoil parameter <span class="math notranslate nohighlight">\(\epsilon_{\mathrm{rec}} &gt; 0\)</span> in <code class="docutils literal notranslate"><span class="pre">inverseComptonKleinNishinaRatio</span></code>, infinity twistor <span class="math notranslate nohighlight">\(I_{\alpha\beta}\)</span> breaking <span class="math notranslate nohighlight">\(SU(2,2) \to \text{Poincaré}\)</span>, or DDF substrate cutoff <span class="math notranslate nohighlight">\((\varrho_{\max}^\varphi, j_{\min}^\varphi)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Spontaneous vs. Stimulated Raman Scattering &amp; Zero-Point Fluctuations</strong></p></td>
+<td><p>Coherent 4-wave mixing (CARS, SRS, Raman–Nath waveguide gates) and the Stokes/anti-Stokes frequency ratio <span class="math notranslate nohighlight">\(\frac{\omega_{AS}}{\omega_S} = \frac{1+\delta_R}{1-\delta_R}\)</span></p></td>
+<td><p><strong>Spontaneous vacuum fluctuations</strong> (<span class="math notranslate nohighlight">\(\bar{n}_{\mathrm{BE}} + 1\)</span> for Stokes vs. <span class="math notranslate nohighlight">\(\bar{n}_{\mathrm{BE}}\)</span> for anti-Stokes, which makes Stokes nonzero at <span class="math notranslate nohighlight">\(T = 0\)</span> while anti-Stokes vanishes) and the thermal Boltzmann factor <span class="math notranslate nohighlight">\(e^{-\hbar\Omega_v/(k_B T)}\)</span></p></td>
+<td><p>Coupling the coherent <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> channel ratio to the Bose–Einstein thermal exponent <span class="math notranslate nohighlight">\(\xi = \frac{\hbar\Omega_v}{k_B T} &gt; 0\)</span> in <code class="docutils literal notranslate"><span class="pre">ramanAntiStokesToStokesThermalRatio</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Multi-Phonon Overtones &amp; Rayleigh–Brillouin–Raman Cascades</strong></p></td>
+<td><p>Binary 2-channel inelastic splitting (e.g., single-mode Stokes vs. anti-Stokes or forward vs. backward Compton) via <span class="math notranslate nohighlight">\(\binom{4}{2} = 6\)</span> Plücker minors</p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(N \ge 3\)</span> simultaneous inelastic channels</strong> (e.g., unshifted Rayleigh + acoustic Brillouin doublet + optical Raman Stokes/anti-Stokes + <span class="math notranslate nohighlight">\(2\Omega_v\)</span> overtones)</p></td>
+<td><p>Lifting from <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> to the <span class="math notranslate nohighlight">\(N\)</span>-ary Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<code class="docutils literal notranslate"><span class="pre">complexGr2NChannelMatrix</span></code>) formalized in <a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">grassmannian-ddf-moving-sheath-paper.md</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Irreversible Entropy Production &amp; Thermal Relaxation (<span class="math notranslate nohighlight">\(\sigma_S \ge 0\)</span>)</strong></p></td>
+<td><p>Reversible ballistic wave transport, Anosov symplectic stretching (<span class="math notranslate nohighlight">\(\det\Sigma = \text{const}\)</span>), and hyperbolic characteristic splitting <span class="math notranslate nohighlight">\(R_\pm = \frac{1}{2}(\theta_T \pm J_q)\)</span></p></td>
+<td><p><strong>Time-irreversible dissipation</strong> (<span class="math notranslate nohighlight">\(\partial_t S \ge 0\)</span>, relaxation damping <span class="math notranslate nohighlight">\(-q/\tau_r\)</span>, and diffusive variance growth <span class="math notranslate nohighlight">\(\det\Sigma(t) &gt; \det\Sigma(0)\)</span>)</p></td>
+<td><p>Explicit relaxation time <span class="math notranslate nohighlight">\(\tau_r &gt; 0\)</span> in <code class="docutils literal notranslate"><span class="pre">CattaneoVernotteHeatModel</span></code> and semigroup variance addition <span class="math notranslate nohighlight">\(\sigma_i^2 \mapsto \sigma_i^2 + 2\alpha_i\Delta t\)</span> in <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.evolveThermal</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="the-heat-problem-review-of-methods-fourier-cattaneovernotte-dual-phase-lag-and-our-unified-grassmannianddf-method">
+<h2>4. The Heat Problem: Review of Methods (Fourier, Cattaneo–Vernotte, Dual-Phase-Lag) and Our Unified Grassmannian–DDF Method<a class="headerlink" href="#the-heat-problem-review-of-methods-fourier-cattaneovernotte-dual-phase-lag-and-our-unified-grassmannianddf-method" title="Link to this heading">¶</a></h2>
+<section id="comparative-review-of-heat-conduction-thermal-wave-paradigms">
+<h3>4.1 Comparative Review of Heat Conduction &amp; Thermal Wave Paradigms<a class="headerlink" href="#comparative-review-of-heat-conduction-thermal-wave-paradigms" title="Link to this heading">¶</a></h3>
+<p>The classical <strong>Heat Problem</strong>—first debated between Fourier, Lagrange, and Biot (<a class="reference internal" href="#thermal-chat-fourier2026"><span class="xref myst">Provenance Chat Log: Singular Basins &amp; Fourier’s Heat Memoir (2026)</span></a>, line 179) and made acute by special relativity and cryogenic superfluids—asks how thermal energy propagates without violating relativistic causality (<span class="math notranslate nohighlight">\(v_{\mathrm{signal}} \le c\)</span>) while accurately capturing both diffusive dissipation and wave-like “second sound”:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Thermal Transport Method</p></th>
+<th class="head"><p>Governing Constitutive &amp; PDE Equations</p></th>
+<th class="head"><p>Wave / Front Propagation Speed</p></th>
+<th class="head"><p>Key Strengths &amp; Physical Regime</p></th>
+<th class="head"><p>Fundamental Limitations</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Classical Parabolic Fourier Diffusion (1822)</strong> (<code class="docutils literal notranslate"><span class="pre">FourierHeatModel</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{q} = -k_{\mathrm{th}}\nabla T\)</span><br><span class="math notranslate nohighlight">\(\partial_t T = \alpha\nabla^2 T\)</span>, <span class="math notranslate nohighlight">\(\alpha = \frac{k_{\mathrm{th}}}{\rho c_v}\)</span></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(v_{\mathrm{phase}}(\omega) = \sqrt{2\alpha\omega} \to \infty\)</span></strong> as <span class="math notranslate nohighlight">\(\omega \to \infty\)</span> (<code class="docutils literal notranslate"><span class="pre">diffusivity_pos_and_acausal_speed</span></code>)</p></td>
+<td><p>Simple, unconditional <span class="math notranslate nohighlight">\(L^1\)</span> positivity, exact isotropic Gaussian Green’s function <span class="math notranslate nohighlight">\(\sigma^2(t) = \sigma_0^2 + 2\alpha t\)</span></p></td>
+<td><p><strong>Acausal Infinite Propagation Speed</strong>: violates relativistic causality (<span class="math notranslate nohighlight">\(v &gt; c\)</span> at high <span class="math notranslate nohighlight">\(\omega\)</span>) and misses cryogenic/ultrafast thermal waves</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Hyperbolic Cattaneo–Vernotte (CV) Telegrapher Conduction (1948, 1958)</strong> (<code class="docutils literal notranslate"><span class="pre">CattaneoVernotteHeatModel</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau_r \partial_t \mathbf{q} + \mathbf{q} = -k_{\mathrm{th}}\nabla T\)</span><br><span class="math notranslate nohighlight">\(\frac{1}{c_{\mathrm{CV}}^2}\partial_t^2 T + \frac{1}{\alpha}\partial_t T = \nabla^2 T\)</span></p></td>
+<td><p><strong>Finite second-sound speed</strong><br><span class="math notranslate nohighlight">\(c_{\mathrm{CV}} = \sqrt{\frac{\alpha}{\tau_r}} &gt; 0\)</span> (<code class="docutils literal notranslate"><span class="pre">CattaneoVernotteHeatModel.identities</span></code>)</p></td>
+<td><p>Restores finite wavefront speed <span class="math notranslate nohighlight">\(c_{\mathrm{CV}}\)</span>; reduces to Fourier as <span class="math notranslate nohighlight">\(\tau_r \to 0\)</span> or <span class="math notranslate nohighlight">\(\partial_t \mathbf{q} = \mathbf{0}\)</span></p></td>
+<td><p>Does not by itself enforce <span class="math notranslate nohighlight">\(c_{\mathrm{CV}} \le c\)</span> under relativistic shear, lacks nonlocal phonon length scales, and can overshoot into negative <span class="math notranslate nohighlight">\(T\)</span> if <span class="math notranslate nohighlight">\(|\mathbf{q}|\)</span> is unbounded</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Guyer–Krumhansl (1966) &amp; Dual-Phase-Lag (Tzou, 1995)</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau_r \partial_t \mathbf{q} + \mathbf{q} = -k_{\mathrm{th}}\nabla T + \ell_{\mathrm{ph}}^2(\nabla^2\mathbf{q} + 2\nabla(\nabla\cdot\mathbf{q}))\)</span></p></td>
+<td><p>Phonon second sound <span class="math notranslate nohighlight">\(c_{\mathrm{GK}} = \frac{v_{\mathrm{Debye}}}{\sqrt{3}}\)</span> damped by phonon mean free path <span class="math notranslate nohighlight">\(\ell_{\mathrm{ph}}\)</span></p></td>
+<td><p>Captures Poiseuille phonon flow and ballistic-to-diffusive crossover in solid-state dielectrics and CNTs</p></td>
+<td><p>Higher-order spatial derivatives require complex boundary conditions; higher-order Taylor expansions of Dual-Phase-Lag can become thermodynamically unstable</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4A. Unified Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Continuum Method — Splat-Free PDE &amp; Plücker Characteristics (Ours)</strong> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_continuum_identities</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2}\partial_t^2 T + \frac{\gamma_\varphi(v)^2}{\alpha_0}\partial_t T = \partial_x^2 T\)</span><br><span class="math notranslate nohighlight">\(\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = |w_A^{\mathbb{C}}(M_{\mathrm{sheath}})|^2|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})|^2 = \gamma_\varphi(v)^{-2}\)</span><br><span class="math notranslate nohighlight">\(M_{\mathrm{th}}(j_q, \theta) \in Gr_{\mathbb{C}}(2,4)\)</span></p></td>
+<td><p><strong>Strictly subluminal</strong>:<br><span class="math notranslate nohighlight">\(0 &lt; c_{\mathrm{th}}^{\mathrm{DDF}}(s) = \frac{c_{\mathrm{th},0}}{\gamma_\varphi(v)} \le c_{\mathrm{th},0} \le c\)</span></p></td>
+<td><p>• <strong>Zero-Splat Pure Continuum PDE &amp; Plücker Geometry</strong>: Directly governs continuum Eulerian/telegrapher fields <span class="math notranslate nohighlight">\((T(x,t), q(x,t))\)</span><br>• <strong>Exact <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Flux Limiter</strong>: <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 &gt; 0\)</span> enforces <span class="math notranslate nohighlight">\(|q| &lt; \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0\)</span>, preventing negative-<span class="math notranslate nohighlight">\(T\)</span> overshoot</p></td>
+<td><p>Eulerian grid discretization requires CFL step <span class="math notranslate nohighlight">\(\Delta t \le \Delta x / c_{\mathrm{th}}^{\mathrm{DDF}}(s)\)</span> (<code class="docutils literal notranslate"><span class="pre">step_1d_continuum_periodic</span></code> in Rust/WASM)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>4B. Unified Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Normed Tensor Splat Method (Ours)</strong> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_and_splat_identities</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \gamma_\varphi(v)^{-2}\)</span><br><span class="math notranslate nohighlight">\(\sigma_i^2(t+\Delta t) = \sigma_i^2(t) + 2\alpha_i\Delta t\)</span></p></td>
+<td><p><strong>Strictly subluminal</strong> (<span class="math notranslate nohighlight">\(c_{\mathrm{th}}^{\mathrm{DDF}}(s) \le c\)</span>) with unconditional Lagrangian variance update</p></td>
+<td><p>• <strong>Exact <span class="math notranslate nohighlight">\(L^1\)</span> Conservation</strong>: Normed Tensor Gaussian Splats conserve thermal energy for any <span class="math notranslate nohighlight">\(\Delta t \ge 0\)</span> without grid dissipation<br>• <strong>Direct WebGL2 GLSL Rendering</strong>: Evaluates in 12 FLOPs per fragment</p></td>
+<td><p>Smooths sharp step discontinuities over the core width <span class="math notranslate nohighlight">\(\sigma_1\)</span> unless paired with multi-splat refinement</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mathematical-derivation-of-our-unified-grassmannian-gr-mathbb-c-2-4-ddf-thermal-method-splat-free-continuum-tensor-splat-formulations">
+<h3>4.2 Mathematical Derivation of Our Unified Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Thermal Method (Splat-Free Continuum &amp; Tensor Splat Formulations)<a class="headerlink" href="#mathematical-derivation-of-our-unified-grassmannian-gr-mathbb-c-2-4-ddf-thermal-method-splat-free-continuum-tensor-splat-formulations" title="Link to this heading">¶</a></h3>
+<p>Our unified method resolves the limitations of both classical Fourier diffusion and uncalibrated Cattaneo–Vernotte waves, and is formalized in <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> both <strong>without splats</strong> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_continuum_identities</span></code>) and <strong>with normed Tensor Gaussian Splats</strong> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_and_splat_identities</span></code>):</p>
+<ol class="arabic">
+<li><p><strong>Constitutive DDF Second-Sound Speed &amp; Splat-Free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Diffusivity Bridge (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_continuum_identities</span></code>)</strong>:
+In a DDF substrate <code class="docutils literal notranslate"><span class="pre">sub</span> <span class="pre">:</span> <span class="pre">DDFSubstrate</span></code> with transverse phonon speed <span class="math notranslate nohighlight">\(c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}\)</span>, let <span class="math notranslate nohighlight">\(c_{\mathrm{th},0} \in (0, c]\)</span> be the rest-frame Landau second-sound speed (for a relativistic 3D phonon gas, <span class="math notranslate nohighlight">\(c_{\mathrm{th},0} = c_\phi / \sqrt{3} \le c\)</span>). Inside a moving sheath <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">:</span> <span class="pre">MovingSheath</span> <span class="pre">sub</span></code>, the longitudinal coherence visibility <span class="math notranslate nohighlight">\(\mathcal{V}(s) = \sqrt{1 - \beta^2} = \gamma_\varphi(v)^{-1} \in (0, 1]\)</span> contracts the longitudinal second-sound speed and thermal diffusivity (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfSecondSoundSpeed</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfLongitudinalDiffusivity</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+   c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s) = \frac{c_{\mathrm{th},0}}{\gamma_\varphi(v)} \le c_{\mathrm{th},0} \le c,
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{c_{\mathrm{th},0}^2\,\tau_r} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \bigl(\gamma_\varphi(v)^2\bigr)^{-1},
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(M_{\mathrm{sheath}} = s.\mathrm{gr24TwistorMatrix}\;d\;\lambda\;L\;\Delta\ell\;\varphi\;x \in Gr_{\mathbb{C}}(2,4)\)</span> is the pure complex twistor matrix of the sheath (requiring <strong>no Gaussian splat</strong>). Dividing the continuum DDF telegrapher residual <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx}) = \tau_r T_{tt} + T_t - \alpha_\parallel^{\mathrm{DDF}}(s) T_{xx}\)</span> by <span class="math notranslate nohighlight">\(\alpha_\parallel^{\mathrm{DDF}}(s)\)</span> yields the exact Lorentz-jammed continuum wave operator:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx})}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2}\,T_{tt} + \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2\,\tau_r}\,T_t - T_{xx}.
+   \]</div>
+</li>
+<li><p><strong>Splat-Free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Characteristic Split, Continuum Semigroup Additivity, &amp; Continuum Bohm Potential Relaxation (<code class="docutils literal notranslate"><span class="pre">ddfThermalGr24Matrix</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfContinuum_semigroup_and_bohm_decay</span></code>)</strong>:
+Decomposing a 1D continuum hyperbolic Cattaneo–Vernotte / DDF state <span class="math notranslate nohighlight">\((T(x,t), q(x,t))\)</span> into right-moving (<span class="math notranslate nohighlight">\(A\)</span>) and left-moving (<span class="math notranslate nohighlight">\(B\)</span>) second-sound Riemann invariants on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> with dimensionless reduced heat flux <span class="math notranslate nohighlight">\(j_q = \frac{q}{q_{\max}^{\mathrm{DDF}}(s)} = \frac{q}{\rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0} \in (-1, 1)\)</span> defines the splat-free complex Grassmannian matrix <span class="math notranslate nohighlight">\(M_{\mathrm{th}} = \operatorname{ddfThermalGr24Matrix}(j_q, \theta) \in \mathbb{C}^{2 \times 4}\)</span>, whose Plücker channel amplitudes satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+   |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 + j_q, \qquad |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q, \qquad \frac{|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2}{2} = j_q,
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   0 &lt; |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 \iff |q| &lt; q_{\max}^{\mathrm{DDF}}(s) = \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0 \le \rho c_v c T_0.
+   \]</div>
+<p>Furthermore, in <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfContinuum_semigroup_and_bohm_decay</span></code>, we prove (with <strong>zero splats</strong>):</p>
+<ul class="simple">
+<li><p><strong>Splat-Free Chapman–Kolmogorov Semigroup Identity &amp; Additivity</strong>: Both the continuum thermal mode evolution <span class="math notranslate nohighlight">\(\operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t, A) = A\exp(-\alpha k^2 \Delta t)\)</span> and the Cattaneo heat-flux relaxation <span class="math notranslate nohighlight">\(\operatorname{evolveContinuumReducedHeatFlux}(\tau_r, \Delta t, j_q) = j_q\exp(-\Delta t / \tau_r)\)</span> satisfy the identity law at <span class="math notranslate nohighlight">\(\Delta t = 0\)</span> and exact semigroup composition over <span class="math notranslate nohighlight">\(\Delta t_1 + \Delta t_2\)</span>,</p></li>
+<li><p><strong>Splat-Free Continuum Bohm Quantum-Potential Relaxation</strong>: <span class="math notranslate nohighlight">\(Q_{\mathrm{cont}}\bigl(m, \hbar, \operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t_1, \kappa_0)\bigr) = Q_{\mathrm{cont}}(m, \hbar, \kappa_0)\exp(-2\alpha k^2 \Delta t_1) \le Q_{\mathrm{cont}}(m, \hbar, \kappa_0)\)</span>, and</p></li>
+<li><p><strong>Splat-Free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Second-Law Relaxation</strong>: Under Cattaneo heat-flux relaxation <span class="math notranslate nohighlight">\(j_q \mapsto j_q\exp(-\Delta t_1/\tau_r)\)</span>, the uncrossed Plücker channel product increases monotonically by <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_1)|^2\,|w_B^{\mathbb{C}}(M_1)|^2 - |w_A^{\mathbb{C}}(M_0)|^2\,|w_B^{\mathbb{C}}(M_0)|^2 = j_q^2(1 - \exp(-2\Delta t_1/\tau_r)) \ge 0\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Optional Lagrangian Layer: Anisotropic Normed Tensor Gaussian Splat Thermal Evolution, Chapman–Kolmogorov Semigroup Additivity, &amp; Second-Law Determinant Growth (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermalTransport_and_splat_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth</span></code>, <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay</span></code>)</strong>:
+When a Lagrangian/WebGL2 representation is desired, each thermal packet is represented by a normed 2D anisotropic Tensor Gaussian Splat <span class="math notranslate nohighlight">\(G(x,y;t)\)</span> whose covariance determinant satisfies <span class="math notranslate nohighlight">\(\frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \gamma_\varphi(v)^{-2}\)</span> and whose principal widths evolve over <span class="math notranslate nohighlight">\(\Delta t \ge 0\)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[
+   \sigma_1(t + \Delta t) = \sqrt{\sigma_1(t)^2 + 2\alpha_\parallel^{\mathrm{DDF}}(s)\,\Delta t}, \qquad \sigma_2(t + \Delta t) = \sqrt{\sigma_2(t)^2 + 2\alpha_0\,\Delta t},
+   \]</div>
+<p>conserving total thermal energy <span class="math notranslate nohighlight">\(\int_{\mathbb{R}^2} G(x,y;t)\,dx\,dy = w\)</span> <strong>identically</strong> at every step, obeying the exact Chapman–Kolmogorov semigroup identity <span class="math notranslate nohighlight">\(\mathcal{E}(0) = \mathrm{id}\)</span> and composition law <span class="math notranslate nohighlight">\(\mathcal{E}(\Delta t_2)\circ\mathcal{E}(\Delta t_1) = \mathcal{E}(\Delta t_1 + \Delta t_2)\)</span>, relaxing the core Bohm potential monotonically <span class="math notranslate nohighlight">\(Q_{\mathrm{core}}(\Sigma(t+\Delta t)) \le Q_{\mathrm{core}}(\Sigma(t))\)</span>, and expanding the covariance determinant monotonically (<code class="docutils literal notranslate"><span class="pre">ddfThermal_fluxLimiter_and_entropy_growth</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+   \det\Sigma(t + \Delta t) = \det\Sigma(t) + 2\bigl(\alpha_1\sigma_2^2 + \alpha_2\sigma_1^2\bigr)\Delta t + 4\alpha_1\alpha_2(\Delta t)^2 &gt; \det\Sigma(t) \quad (\alpha_1, \Delta t &gt; 0).
+   \]</div>
+</li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 2. Fourier acausal blow-up, Cattaneo-Vernotte second sound, Splat-Free Continuum vs. Tensor Splat Semigroup &amp; Bohm Relaxation</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">m_cv</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">CattaneoVernotteHeatModel</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">splat</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hc_pos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">c_th0</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hc_le</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">sub.c</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">θ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">m_f</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">m_cv.toFourierHeatModel</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ω_star</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">sub.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m_f.diffusivity</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_sheath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr24TwistorMatrix</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_th</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">evolveContinuumThermalMode</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">jq1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">evolveContinuumReducedHeatFlux</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_th1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="n">jq1</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfTensorSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_evol</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.evolveThermal</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_evol2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat_evol.evolveThermal</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.evolveThermal</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="c1">-- (A) Classical Fourier diffusion exceeds the speed of light c at high frequency ω_star:</span>
+<span class="w">    </span><span class="n">sub.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">m_f.highFreqPhaseSpeedSq</span><span class="w"> </span><span class="n">ω_star</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (B) Cattaneo-Vernotte has positive second-sound speed and reduces to Fourier at dq/dt = 0:</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">m_cv.secondSoundSpeed</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">m_cv.cattaneoFluxResidual</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">m_f.fourierFlux</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (C) Splat-Free Continuum Grassmannian-DDF second sound, Plücker product bridge, telegrapher wave operator, semigroup additivity, Bohm decay, and Plücker Second Law:</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">s.ddfSecondSoundSpeed</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s.ddfSecondSoundSpeed</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">sub.c</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s.ddfLongitudinalDiffusivity</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_sheath</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_sheath</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s.ddfTelegrapherResidual</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="n">s.ddfLongitudinalDiffusivity</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">+</span>
+<span class="w">        </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="o">))</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_th</span><span class="o">)</span><span class="w"> </span><span class="bp">-</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_th</span><span class="o">))</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">evolveContinuumThermalMode</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">evolveContinuumThermalMode</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">continuumBohmPotentialMode</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="bp">≤</span>
+<span class="w">      </span><span class="n">continuumBohmPotentialMode</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_th</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_th</span><span class="o">)</span><span class="w"> </span><span class="bp">≤</span>
+<span class="w">      </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_th1</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_th1</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (D) Normed Tensor Gaussian Splat covariance bridge, L1 conservation, Second-Law determinant growth, semigroup additivity, and Bohm potential relaxation:</span>
+<span class="w">    </span><span class="n">s.ddfLongitudinalDiffusivity</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">splat_ddf.covDet</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol.weight</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.weight</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol.covTrace</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.covTrace</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat.covDet</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">splat_evol.covDet</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat_sum</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">splat.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">m_f</span><span class="w"> </span><span class="n">ω_star</span><span class="w"> </span><span class="n">M_sheath</span><span class="w"> </span><span class="n">M_th</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="n">jq1</span><span class="w"> </span><span class="n">M_th1</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="n">splat_evol</span><span class="w"> </span><span class="n">splat_evol2</span><span class="w"> </span><span class="n">splat_sum</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_f</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">m_f.diffusivity_pos_and_acausal_speed</span><span class="w"> </span><span class="n">sub.c</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_cv</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">m_cv.identities</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_cont</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfThermalTransport_continuum_identities</span>
+<span class="w">    </span><span class="n">c_th0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="n">m_cv.relaxationTime_pos</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_cont_semi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfContinuum_semigroup_and_bohm_decay</span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">zero_div</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">zero_div</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="n">m_cv.relaxationTime_pos</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfThermalTransport_and_splat_identities</span>
+<span class="w">    </span><span class="n">splat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="n">m_cv.relaxationTime</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="n">m_cv.relaxationTime_pos</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ent</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfThermal_fluxLimiter_and_entropy_growth</span>
+<span class="w">    </span><span class="n">splat</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">zero_div</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">zero_div</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_semi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay</span>
+<span class="w">    </span><span class="n">splat</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h_f</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_cv</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cv</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_cont_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_ddf</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_ddf</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_ddf</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_ent</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="w"> </span><span class="o">⟨</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">,</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">⟩,</span><span class="w"> </span><span class="n">h_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivThermalComptonRamanVerification</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rust-webassembly-wasm32-unknown-unknown-implementation-and-verification">
+<h2>5. Rust &amp; WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) Implementation and Verification<a class="headerlink" href="#rust-webassembly-wasm32-unknown-unknown-implementation-and-verification" title="Link to this heading">¶</a></h2>
+<p>In <a class="reference download internal" download="" href="_downloads/71ba1d3c9eba77104d2107d72099e8fb/thermal_inelastic.rs"><span class="xref download myst">src/signals/numerical_adapter/src/thermal_inelastic.rs</span></a>, all four modules—relativistic Inverse Compton (<code class="docutils literal notranslate"><span class="pre">inverse_compton_doppler_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">inverse_compton_klein_nishina_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">ddf_sheath_inverse_compton_gr24_invariants</span></code>), Stokes/anti-Stokes Raman thermometry (<code class="docutils literal notranslate"><span class="pre">RamanChannelModel</span></code>), classical Fourier vs. hyperbolic Cattaneo–Vernotte PDEs (<code class="docutils literal notranslate"><span class="pre">FourierHeatModel</span></code>, <code class="docutils literal notranslate"><span class="pre">CattaneoVernotteHeatModel</span></code>), and unified Grassmannian–DDF thermal splat evolution (<code class="docutils literal notranslate"><span class="pre">DdfGrassmannianThermalTransport</span></code>)—are implemented in pure Rust with C-ABI WebAssembly exports (<code class="docutils literal notranslate"><span class="pre">wasm_inverse_compton_klein_nishina_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">wasm_raman_antistokes_to_stokes_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">wasm_ddf_second_sound_speed</span></code>), parametric <code class="docutils literal notranslate"><span class="pre">rstest</span></code> suites, and <code class="docutils literal notranslate"><span class="pre">insta</span></code> regression snapshots (<a class="reference download internal" download="" href="_downloads/06c0f205e84c2a1c793de29b3a5fa9ea/signals_numerical_adapter__thermal_inelastic__tests__thermal_inelastic_compton_raman_ddf_summary.snap"><span class="xref download myst">signals_numerical_adapter__thermal_inelastic__tests__thermal_inelastic_compton_raman_ddf_summary.snap</span></a>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>signals_build
+<span class="nb">pushd</span><span class="w"> </span>src/signals
+lake<span class="w"> </span>build<span class="w"> </span>:blueprint<span class="w"> </span>:blueprintJson
+<span class="nb">pushd</span><span class="w"> </span>numerical_adapter
+cargo<span class="w"> </span><span class="nb">test</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--lib<span class="w"> </span>--target<span class="w"> </span>wasm32-unknown-unknown<span class="w"> </span>--release
+<span class="nb">popd</span>
+<span class="nb">popd</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="thermal-cattaneo1958"></a></p>
+<ol class="arabic simple">
+<li><p>Cattaneo, C. (1958). <em>A Form of Heat-Conduction Equations Which Eliminates the Paradox of Instantaneous Propagation</em>. Comptes Rendus de l’Académie des Sciences 247, 431–433.</p></li>
+</ol>
+<p><a id="thermal-vernotte1958"></a>
+2. Vernotte, P. (1958). <em>Les paradoxes de la théorie continue de l’équation de la chaleur</em>. Comptes Rendus de l’Académie des Sciences 246, 3154–3155.</p>
+<p><a id="thermal-joseph1989"></a>
+3. Joseph, D. D., and Preziosi, L. (1989). <em>Heat Waves</em>. Reviews of Modern Physics 61(1), 41–73. <a class="reference external" href="https://doi.org/10.1103/RevModPhys.61.41">DOI: 10.1103/RevModPhys.61.41</a>.</p>
+<p><a id="thermal-blumenthal1970"></a>
+4. Blumenthal, G. R., and Gould, R. J. (1970). <em>Bremsstrahlung, Synchrotron Radiation, and Compton Scattering of High-Energy Electrons Traversing Dilute Gases</em>. Reviews of Modern Physics 42(2), 237–270. <a class="reference external" href="https://doi.org/10.1103/RevModPhys.42.237">DOI: 10.1103/RevModPhys.42.237</a>.</p>
+<p><a id="thermal-fedi2026"></a>
+5. Fedi, M. (2026). <em>Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology</em>. SSRN Preprint 7406660.</p>
+<p><a id="thermal-chat-raman2026"></a>
+6. Provenance Chat Log (2026). <em>Aluminum Production: Electrolytic vs. Plasma (Inline Raman Spectroscopy QA)</em>. (<code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Aluminum</span> <span class="pre">Production_</span> <span class="pre">Electrolytic</span> <span class="pre">vs.</span> <span class="pre">Plasma</span>&#160; <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">1415-1845</span></code>).</p>
+<p><a id="thermal-chat-cnt2026"></a>
+7. Provenance Chat Log (2026). <em>CNT Bandgap Creation with Lignin Vitrimer (Laser Compton Scattering &amp; Raman G-Band Strain)</em>. (<a class="reference download internal" download="" href="_downloads/77898e3b0100d6ee7bbbf3e88a49d32f/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/CNT</span> <span class="pre">Bandgap</span> <span class="pre">Creation</span> <span class="pre">with</span> <span class="pre">Lignin</span> <span class="pre">Vitrimer</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">390-398</span> <span class="pre">and</span> <span class="pre">8453-8463</span></code></a>).</p>
+<p><a id="thermal-chat-fiber2026"></a>
+8. Provenance Chat Log (2026). <em>Fiber Optics For Acoustic Monitoring (Raman Distributed Temperature Sensing)</em>. (<a class="reference download internal" download="" href="_downloads/76c506a791ddba31a4ef2778d4c10f18/_Fiber%20Optics%20For%20Acoustic%20Monitoring%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Fiber</span> <span class="pre">Optics</span> <span class="pre">For</span> <span class="pre">Acoustic</span> <span class="pre">Monitoring</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">95-228</span></code></a>).</p>
+<p><a id="thermal-chat-fourier2026"></a>
+9. Provenance Chat Log (2026). <em>Review of Singular Basins in Multiscale Systems (Fourier’s Propagation of Heat Memoir)</em>. (<a class="reference download internal" download="" href="_downloads/13c90313b22362e87188723dff6610d8/Review-of-Singular-Basins-in-Multiscale-Systems.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Review-of-Singular-Basins-in-Multiscale-Systems.md,</span> <span class="pre">lines</span> <span class="pre">179-185</span></code></a>).</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">cattaneo1958form</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Cattaneo, Carlo}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{A Form of Heat-Conduction Equations Which Eliminates the Paradox of Instantaneous Propagation}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Comptes Rendus de l'Acad{\'e}mie des Sciences}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{247}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{431--433}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1958}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">joseph1989heat</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Joseph, Daniel D. and Preziosi, Luigi}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Heat Waves}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Reviews of Modern Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{61}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{1}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{41--73}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1989}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1103/RevModPhys.61.41}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1103/RevModPhys.61.41}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">blumenthal1970compton</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Blumenthal, George R. and Gould, Robert J.}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Bremsstrahlung, Synchrotron Radiation, and {C}ompton Scattering of High-Energy Electrons Traversing Dilute Gases}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Reviews of Modern Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{42}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{2}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{237--270}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1970}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1103/RevModPhys.42.237}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1103/RevModPhys.42.237}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">fedi2026ddf</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Fedi, Marco}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Electronic Journal}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Preprint 7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.2139/ssrn.7406660}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-24"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Inverse Compton Scattering"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Raman Scattering"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Fourier Heat Conduction"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Cattaneo-Vernotte Hyperbolic Heat Equation"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian Gr_C(2,4)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Dilatant Dark Fluid"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Normed Tensor Gaussian Splatting"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Scattering.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/thermal_inelastic.rs"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-splat-mechanics-paper.md"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-splat-mechanics-paper.html" title="Normed Tensor Gaussian Splat Mechanics for Complex \(Gr_{\mathbb{C}}(2,4)\) Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-polariton-spp-mechanics-paper.html" title="Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, \(Gr_{\mathbb{C}}(2,4)\) Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

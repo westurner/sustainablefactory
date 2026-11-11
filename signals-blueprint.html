@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Signals Lean Blueprint &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Flat Light and N-LIG Waveguides for Nanolithography" href="flat-light-nanolithography-scholarly.html" />
+    <link rel="prev" title="Water" href="water.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Signals Lean Blueprint</a><ul>
+<li><a class="reference internal" href="#annotation-workflow">Annotation Workflow</a></li>
+<li><a class="reference internal" href="#electricity-plants-and-thrusters-blueprint-twistors-and-positive-grassmannian-interference">Electricity Plants and Thrusters Blueprint (<code class="docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference</span></code>)</a><ul>
+<li><a class="reference internal" href="#comparative-architecture-matrix">Comparative Architecture Matrix</a></li>
+<li><a class="reference internal" href="#neon-glow-discharge-lamp-2-cathode-ray-tube-crt-benchmarks">1. Neon Glow-Discharge Lamp &amp; 2. Cathode Ray Tube (CRT) Benchmarks</a></li>
+<li><a class="reference internal" href="#argon-mhd-wakefield-electricity-plant-pulsed-monolithic-thruster">3. Argon MHD Wakefield Electricity Plant &amp; Pulsed Monolithic Thruster</a><ul>
+<li><a class="reference internal" href="#a-resonant-langmuir-cavity-inverse-landau-amplification-sections-67">A. Resonant Langmuir Cavity &amp; Inverse Landau Amplification (Sections 6–7)</a></li>
+<li><a class="reference internal" href="#b-halbach-transverse-mhd-extraction-uhv-substation-hull-sections-4-9">B. Halbach Transverse MHD Extraction &amp; UHV Substation Hull (Sections 4 &amp; 9)</a></li>
+<li><a class="reference internal" href="#c-ponderomotive-thruster-aerodynamic-hull-moments-bi-twistor-sink-sections-12">C. Ponderomotive Thruster, Aerodynamic Hull Moments, &amp; Bi-Twistor Sink (Sections 1–2)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deborah-number-shear-fracture-dilatant-dark-fluid-ddf-thruster-sections-3-8">4. Deborah-Number Shear-Fracture / Dilatant Dark Fluid (DDF) Thruster (Sections 3 &amp; 8)</a></li>
+<li><a class="reference internal" href="#text-d-he3-aneutronic-deep-space-reactor-amb-centrifugal-cooling-spool-section-5">5. <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> Aneutronic Deep-Space Reactor &amp; AMB Centrifugal Cooling Spool (Section 5)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="water.html" title="Water" accesskey="P">previous </a></li>
+              <li><a href="flat-light-nanolithography-scholarly.html" title="Flat Light and N-LIG Waveguides for Nanolithography" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/signals-blueprint.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Signals Lean Blueprint</a><ul>
+<li><a class="reference internal" href="#annotation-workflow">Annotation Workflow</a></li>
+<li><a class="reference internal" href="#electricity-plants-and-thrusters-blueprint-twistors-and-positive-grassmannian-interference">Electricity Plants and Thrusters Blueprint (<code class="docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference</span></code>)</a><ul>
+<li><a class="reference internal" href="#comparative-architecture-matrix">Comparative Architecture Matrix</a></li>
+<li><a class="reference internal" href="#neon-glow-discharge-lamp-2-cathode-ray-tube-crt-benchmarks">1. Neon Glow-Discharge Lamp &amp; 2. Cathode Ray Tube (CRT) Benchmarks</a></li>
+<li><a class="reference internal" href="#argon-mhd-wakefield-electricity-plant-pulsed-monolithic-thruster">3. Argon MHD Wakefield Electricity Plant &amp; Pulsed Monolithic Thruster</a><ul>
+<li><a class="reference internal" href="#a-resonant-langmuir-cavity-inverse-landau-amplification-sections-67">A. Resonant Langmuir Cavity &amp; Inverse Landau Amplification (Sections 6–7)</a></li>
+<li><a class="reference internal" href="#b-halbach-transverse-mhd-extraction-uhv-substation-hull-sections-4-9">B. Halbach Transverse MHD Extraction &amp; UHV Substation Hull (Sections 4 &amp; 9)</a></li>
+<li><a class="reference internal" href="#c-ponderomotive-thruster-aerodynamic-hull-moments-bi-twistor-sink-sections-12">C. Ponderomotive Thruster, Aerodynamic Hull Moments, &amp; Bi-Twistor Sink (Sections 1–2)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deborah-number-shear-fracture-dilatant-dark-fluid-ddf-thruster-sections-3-8">4. Deborah-Number Shear-Fracture / Dilatant Dark Fluid (DDF) Thruster (Sections 3 &amp; 8)</a></li>
+<li><a class="reference internal" href="#text-d-he3-aneutronic-deep-space-reactor-amb-centrifugal-cooling-spool-section-5">5. <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> Aneutronic Deep-Space Reactor &amp; AMB Centrifugal Cooling Spool (Section 5)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="water.html"
+                          title="previous chapter">Water</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="flat-light-nanolithography-scholarly.html"
+                          title="next chapter">Flat Light and N-LIG Waveguides for Nanolithography</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/signals-blueprint.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="signals-lean-blueprint">
+<h1>Signals Lean Blueprint<a class="headerlink" href="#signals-lean-blueprint" title="Link to this heading">¶</a></h1>
+<p>The generated blueprint covers the Signals Lean package and links formal nodes
+to their Lean declarations.</p>
+<p>The selected roadmap nodes cover finite routing and weighted measurements,
+ordered minors and geometric representatives, quantum inverse scattering and
+Grassmannian Bethe ansatz nodes (<code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>), scalar propagation and
+amplitude controls, measure-derived quadrature, and affine forms with oriented
+residues. Readiness markers mean that formal declarations are checked, not that
+physical models or experiments are validated.</p>
+<section id="annotation-workflow">
+<h2>Annotation Workflow<a class="headerlink" href="#annotation-workflow" title="Link to this heading">¶</a></h2>
+<p>Keep a declaration docstring for the Lean API and supply explicit <code class="docutils literal notranslate"><span class="pre">statement</span></code>,
+<code class="docutils literal notranslate"><span class="pre">title</span></code>, and, for proof milestones, <code class="docutils literal notranslate"><span class="pre">proof</span></code> metadata in <code class="docutils literal notranslate"><span class="pre">&#64;[blueprint]</span></code>.
+LeanArchitect does not copy ordinary declaration docstrings into blueprint
+statements. Use stable labels; let it infer statement and proof dependencies
+from the Lean terms unless a specific additional dependency is needed.</p>
+<p>Include each annotated module using <code class="docutils literal notranslate"><span class="pre">\inputleanmodule</span></code> in the existing blueprint
+chapter. Extraction alone does not add its nodes to the rendered document.
+From the Signals package directory, <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">:blueprint</span></code> extracts LaTeX,
+<code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">:blueprintJson</span></code> exports metadata, and <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">lean-api</span></code> generates
+doc-gen API pages and the declaration finder in <code class="docutils literal notranslate"><span class="pre">.lake/build/doc</span></code>.
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">blueprint</span></code> builds that API reference, extracts the nodes, and renders the
+standalone HTML blueprint with a relative <code class="docutils literal notranslate"><span class="pre">signals-api/</span></code> link to the API tree.
+The documentation build copies both into its embedded blueprint output, so
+declaration links work under the same URL prefix when served locally or published.</p>
+<p>JSON preserves raw annotation configuration. Check inferred dependency links
+and <code class="docutils literal notranslate"><span class="pre">leanok</span></code> readiness markers in the generated LaTeX and rendered HTML.
+Importing Architect also enables tactic docstrings: align declaration docstrings
+with their declarations so they are not consumed by a preceding tactic proof.</p>
+</section>
+<section id="electricity-plants-and-thrusters-blueprint-twistors-and-positive-grassmannian-interference">
+<h2>Electricity Plants and Thrusters Blueprint (<code class="docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference</span></code>)<a class="headerlink" href="#electricity-plants-and-thrusters-blueprint-twistors-and-positive-grassmannian-interference" title="Link to this heading">¶</a></h2>
+<p>This blueprint maps every electricity plant, cooling loop, and propulsion
+architecture discussed in
+<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md,</span> <span class="pre">lines</span> <span class="pre">279-4019</span></code></a>
+and formalized in
+<a class="reference download internal" download="" href="_downloads/7b25188b3712562714177e29f9e4f7dd/Twistors-and-Positive-Grassmannian-Interference.md.lean"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md.lean,</span> <span class="pre">lines</span> <span class="pre">1-851</span></code></a>
+to its verified mathematical nodes in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>
+and <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a> and its conditional boundary
+contracts in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a> and
+<a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">SignalsPending.lean</span></a>.</p>
+<section id="comparative-architecture-matrix">
+<h3>Comparative Architecture Matrix<a class="headerlink" href="#comparative-architecture-matrix" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Medium &amp; Drive</p></th>
+<th class="head"><p>Chat Estimates (<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2167-2268</span></code></a>)</p></th>
+<th class="head"><p>Formal Blueprint Nodes &amp; Physical Critique</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Neon Glow-Discharge Lamp</strong></p></td>
+<td><p>Baseline thermal plasma consumer</p></td>
+<td><p>Low-pressure <span class="math notranslate nohighlight">\(\text{Ne}\)</span> gas; stochastic Townsend discharge</p></td>
+<td><p>Cost <span class="math notranslate nohighlight">\(\$10\text{--}\$50\)</span>; <span class="math notranslate nohighlight">\(F=0\text{ N}\)</span> isotropic (<span class="math notranslate nohighlight">\(0.33\,\mu\text{N}\)</span> if <span class="math notranslate nohighlight">\(100\text{ W}\)</span> collimated, <span class="math notranslate nohighlight">\(I_{sp}\approx 3.05\times 10^7\text{ s}\)</span>); <span class="math notranslate nohighlight">\(\eta_{\text{prop}}=0\%\)</span></p></td>
+<td><p>Isotropic photon momentum cancels identically; <span class="math notranslate nohighlight">\(80\%\)</span> thermal / <span class="math notranslate nohighlight">\(20\%\)</span> radiative loss with no coherent wave amplification.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Cathode Ray Tube (CRT)</strong></p></td>
+<td><p>Ballistic electron-beam benchmark</p></td>
+<td><p>Hard vacuum; thermionic cathode + <span class="math notranslate nohighlight">\(20\text{ kV}\)</span> anode + magnetic steering</p></td>
+<td><p>Cost <span class="math notranslate nohighlight">\(\$100\text{--}\$500\)</span>; <span class="math notranslate nohighlight">\(F\approx 0.47\,\mu\text{N}\)</span> at <span class="math notranslate nohighlight">\(1\text{ mA}\)</span> (<span class="math notranslate nohighlight">\(v_e\approx 8.4\times 10^7\text{ m/s}\)</span>, <span class="math notranslate nohighlight">\(I_{sp}\approx 8.5\times 10^6\text{ s}\)</span>); <span class="math notranslate nohighlight">\(\eta_{\text{prop}}&lt;0.001\%\)</span></p></td>
+<td><p>Governed by <code class="docutils literal notranslate"><span class="pre">def:signals-magnetic-lorentz-force</span></code> and <code class="docutils literal notranslate"><span class="pre">thm:signals-magnetic-lorentz-work-free</span></code>. Unneutralized electron exhaust charges the hull positively, pulling the beam back.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Argon MHD Wakefield Plant &amp; Pulsed Thruster</strong></p></td>
+<td><p>Multi-GW pulsed electricity generator &amp; Earth-to-orbit thruster</p></td>
+<td><p>Magnetized Argon plasma (<span class="math notranslate nohighlight">\(n_e\sim 10^{18}\text{ cm}^{-3}\)</span>); Fabry-Pérot Langmuir cavity + bump-on-tail <span class="math notranslate nohighlight">\(e^-\)</span> beam + Halbach/B-LIG extraction</p></td>
+<td><p>Cost <span class="math notranslate nohighlight">\(\$10\text{M--}\$100\text{M}+\)</span>; <span class="math notranslate nohighlight">\(I_{sp}\approx 3.05\times 10^7\text{ s}\)</span>; continuous <span class="math notranslate nohighlight">\(\sim 2\text{ N/GW}\)</span> vs. pulsed <span class="math notranslate nohighlight">\(F_{\text{peak}}\sim 20\text{--}3300\text{ N}\)</span>; <span class="math notranslate nohighlight">\(1\text{ TW}\)</span> peak electrical pulse stepped to <span class="math notranslate nohighlight">\(1.2\text{ MV}\)</span></p></td>
+<td><p>Verified dispersion/Landau/ponderomotive/Halbach laws in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>; bounded by <code class="docutils literal notranslate"><span class="pre">def:signals-pulsed-wakefield-halbach</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-extracted-pulse-energy-le-dawson</span></code>, and <code class="docutils literal notranslate"><span class="pre">lem:signals-pulsed-wakefield-avg-thrust-le-peak</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Deborah-Number Shear-Fracture (DDF) Thruster &amp; Siphon</strong></p></td>
+<td><p>Proposed propellantless vacuum thruster &amp; vortex-annealing generator</p></td>
+<td><p>Two-component Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code>); acoustic shear above Landau critical speed <span class="math notranslate nohighlight">\(v_c=c_s\)</span></p></td>
+<td><p>Cost <span class="math notranslate nohighlight">\(\$1\text{B}+\)</span>; claimed <span class="math notranslate nohighlight">\(F\sim 10^3\text{--}10^5\text{ N}\)</span>, <span class="math notranslate nohighlight">\(I_{sp}=\infty\)</span> (propellantless)</p></td>
+<td><p>Madelung circulation and Bogoliubov threshold in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>; constrained by <code class="docutils literal notranslate"><span class="pre">def:signals-ddf-phase-slip-hull-stress</span></code> and <code class="docutils literal notranslate"><span class="pre">lem:signals-ddf-zero-drive-zero-thrust</span></code> (supercritical vortex shedding is drag without external drive power <span class="math notranslate nohighlight">\(P_{\text{drive}}\ge F v\)</span>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> Aneutronic Reactor &amp; AMB Centrifugal Spool</strong></p></td>
+<td><p>Deep-space direct-conversion power plant, cryo-cooler, &amp; attitude control</p></td>
+<td><p>Aneutronic <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> fusion plasma + supercritical <span class="math notranslate nohighlight">\(\text{He-3}\)</span> spool on 5-axis <span class="math notranslate nohighlight">\(\text{MgB}_2\)</span> AMBs</p></td>
+<td><p>Direct proton/alpha Halbach capture; <span class="math notranslate nohighlight">\(\sim 39\text{ K}\)</span> <span class="math notranslate nohighlight">\(\text{MgB}_2\)</span> stator coils; <span class="math notranslate nohighlight">\(H_\infty\)</span> active damping; proposed solid-<span class="math notranslate nohighlight">\(\text{He-3}\)</span> labyrinth seal</p></td>
+<td><p>Centrifugal head, thermosyphon buoyancy, and gyroscopic torque in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>; phase limits enforced by <code class="docutils literal notranslate"><span class="pre">def:signals-cryogenic-spool-amb</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-supercritical-at-39k</span></code>, and <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-no-solid-seal-below-3-4-mpa</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="neon-glow-discharge-lamp-2-cathode-ray-tube-crt-benchmarks">
+<h3>1. Neon Glow-Discharge Lamp &amp; 2. Cathode Ray Tube (CRT) Benchmarks<a class="headerlink" href="#neon-glow-discharge-lamp-2-cathode-ray-tube-crt-benchmarks" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md,</span> <span class="pre">lines</span> <span class="pre">2167-2245</span></code></a>,
+the neon lamp and CRT serve as classical baselines:</p>
+<ul class="simple">
+<li><p><strong>Neon Glow Discharge</strong>: Free electrons accelerated in a low-pressure gas
+undergo stochastic inelastic collisions, emitting uncollimated photons with
+zero net momentum transfer (<span class="math notranslate nohighlight">\(\sum \mathbf p_\gamma = \mathbf 0\)</span>). Even if a
+<span class="math notranslate nohighlight">\(100\text{ W}\)</span> source were perfectly collimated into a unidirectional photon
+rocket (<span class="math notranslate nohighlight">\(I_{sp} = c/g_0 \approx 3.05\times 10^7\text{ s}\)</span>), its radiation
+thrust would be <span class="math notranslate nohighlight">\(F = P/c \approx 0.33\,\mu\text{N}\)</span>.</p></li>
+<li><p><strong>Cathode Ray Tube (CRT)</strong>: Operating in hard vacuum at <span class="math notranslate nohighlight">\(V = 20\text{ kV}\)</span> and
+<span class="math notranslate nohighlight">\(I = 1\text{ mA}\)</span> (<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2238-2244</span></code></a>),
+ballistic electrons reach <span class="math notranslate nohighlight">\(v_e \approx 8.4\times 10^7\text{ m/s}\)</span> with mass
+flow <span class="math notranslate nohighlight">\(\dot m = I m_e / e \approx 5.69\times 10^{-15}\text{ kg/s}\)</span> and thrust
+<span class="math notranslate nohighlight">\(F = \dot m v_e \approx 0.47\,\mu\text{N}\)</span>. Magnetic deflection coils steer
+the beam via <span class="math notranslate nohighlight">\(\mathbf F = q(\mathbf v\times\mathbf B)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">def:signals-magnetic-lorentz-force</span></code>), which performs zero mechanical work
+(<code class="docutils literal notranslate"><span class="pre">thm:signals-magnetic-lorentz-work-free</span></code>). Without a neutralizing ion current,
+expelling electrons charges the vehicle positively and stalls the beam.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="argon-mhd-wakefield-electricity-plant-pulsed-monolithic-thruster">
+<h3>3. Argon MHD Wakefield Electricity Plant &amp; Pulsed Monolithic Thruster<a class="headerlink" href="#argon-mhd-wakefield-electricity-plant-pulsed-monolithic-thruster" title="Link to this heading">¶</a></h3>
+<section id="a-resonant-langmuir-cavity-inverse-landau-amplification-sections-67">
+<h4>A. Resonant Langmuir Cavity &amp; Inverse Landau Amplification (Sections 6–7)<a class="headerlink" href="#a-resonant-langmuir-cavity-inverse-landau-amplification-sections-67" title="Link to this heading">¶</a></h4>
+<p>The plant traps longitudinal electrostatic plasma waves inside a Fabry-Pérot
+cavity (<span class="math notranslate nohighlight">\(L = n\lambda/2\)</span>, <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2046-2065</span></code></a>)
+governed by the warm <strong>Bohm-Gross dispersion relation</strong>
+(<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">3590-3637</span></code></a>,
+<a class="reference download internal" download="" href="_downloads/7b25188b3712562714177e29f9e4f7dd/Twistors-and-Positive-Grassmannian-Interference.md.lean"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md.lean,</span> <span class="pre">lines</span> <span class="pre">539-626</span></code></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+\omega^2(k) = \omega_p^2 + 3 k^2 v_{\mathrm{th}}^2,
+\qquad
+v_\phi = \frac{\omega}{k},
+\qquad
+v_g = \frac{\partial\omega}{\partial k} = \frac{3 k v_{\mathrm{th}}^2}{\omega}.
+\]</div>
+<ul class="simple">
+<li><p><strong>Blueprint nodes</strong>: <code class="docutils literal notranslate"><span class="pre">def:signals-bohm-gross-omega-sq</span></code>,
+<code class="docutils literal notranslate"><span class="pre">def:signals-langmuir-phase-velocity</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bohm-gross-group-velocity</span></code>,
+<code class="docutils literal notranslate"><span class="pre">thm:signals-bohm-gross-velocity-product</span></code> (<span class="math notranslate nohighlight">\(v_\phi v_g = 3 v_{\mathrm{th}}^2\)</span>),
+and <code class="docutils literal notranslate"><span class="pre">thm:signals-bohm-gross-phase-velocity-bound</span></code> (<span class="math notranslate nohighlight">\(3 v_{\mathrm{th}}^2 \le v_\phi^2\)</span>).</p></li>
+<li><p><strong>Bump-on-tail Inverse Landau pump</strong>: With the signed-wavenumber Plemelj
+residue convention <span class="math notranslate nohighlight">\(2 k |k| n_0\)</span> (<code class="docutils literal notranslate"><span class="pre">def:signals-landau-growth-rate</span></code>,
+<code class="docutils literal notranslate"><span class="pre">lem:signals-landau-growth-rate-pos-k</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-landau-growth-rate-neg-k</span></code>),
+injecting a fast forward electron beam (<span class="math notranslate nohighlight">\(k &gt; 0\)</span>) with positive
+velocity-distribution slope <span class="math notranslate nohighlight">\(\partial_v f_0|_{v=\omega/k} &gt; 0\)</span>
+(<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2067-2081</span></code></a>,
+<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">3640-3680</span></code></a>)
+yields linear growth rate</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\gamma = \frac{\pi \omega_p^3}{2 k |k| n_0}\left.\frac{\partial f_0}{\partial v}\right|_{v=\omega/k} &gt; 0
+\quad (\text{\texttt{thm:signals-inverse-landau-growth-pos}}),
+\]</div>
+<p>whereas a thermal Maxwellian damps both forward waves (<span class="math notranslate nohighlight">\(k &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\partial_v f_0 &lt; 0\)</span>,
+<code class="docutils literal notranslate"><span class="pre">thm:signals-thermal-landau-damping-neg</span></code>) and backward waves (<span class="math notranslate nohighlight">\(k &lt; 0\)</span>, <span class="math notranslate nohighlight">\(\partial_v f_0 &gt; 0\)</span>
+at <span class="math notranslate nohighlight">\(v_\phi = \omega/k &lt; 0\)</span>, <code class="docutils literal notranslate"><span class="pre">thm:signals-backward-thermal-landau-damping</span></code>), and
+quasilinear plateau formation (<span class="math notranslate nohighlight">\(\partial_v f_0 = 0\)</span>) saturates growth at <span class="math notranslate nohighlight">\(\gamma = 0\)</span>
+(<code class="docutils literal notranslate"><span class="pre">lem:signals-quasilinear-plateau-saturation</span></code>). Resonant wave-particle power
+exchange is conservative:
+<span class="math notranslate nohighlight">\(\frac{dU_{\mathrm{wave}}}{dt} + \frac{dK_{\mathrm{beam}}}{dt} = 2\gamma U_{\mathrm{wave}} - 2\gamma U_{\mathrm{wave}} = 0\)</span>
+(<code class="docutils literal notranslate"><span class="pre">thm:signals-resonant-energy-conservation</span></code>).</p>
+<ul class="simple">
+<li><p><strong>Dawson Wave-Breaking Ceiling</strong>: Coherent longitudinal oscillation saturates
+at the Dawson field <span class="math notranslate nohighlight">\(E_{\mathrm{Dawson}} = m_e \omega_p v_\phi / e\)</span>
+(<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2083-2093</span></code></a>),
+bounding the electrostatic energy density
+<span class="math notranslate nohighlight">\(u_E(\varepsilon_0, E_z) = \frac{1}{2}\varepsilon_0 E_z^2 \le u_E(\varepsilon_0, E_{\mathrm{Dawson}})\)</span>
+(<code class="docutils literal notranslate"><span class="pre">def:signals-electrostatic-wave-energy-density</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-dawson-energy-density-bound</span></code>).</p></li>
+</ul>
+</section>
+<section id="b-halbach-transverse-mhd-extraction-uhv-substation-hull-sections-4-9">
+<h4>B. Halbach Transverse MHD Extraction &amp; UHV Substation Hull (Sections 4 &amp; 9)<a class="headerlink" href="#b-halbach-transverse-mhd-extraction-uhv-substation-hull-sections-4-9" title="Link to this heading">¶</a></h4>
+<p>To convert axial electron oscillations <span class="math notranslate nohighlight">\(v_z\)</span> into transverse current <span class="math notranslate nohighlight">\(J_x\)</span> for
+B-LIG electrode capture (<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2354-2378</span></code></a>,
+<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2461-2525</span></code></a>):</p>
+<ol class="arabic simple">
+<li><p><strong>Lorentz Deflection (<code class="docutils literal notranslate"><span class="pre">thm:signals-halbach-transverse-conversion</span></code>)</strong>: A static
+Halbach field <span class="math notranslate nohighlight">\(\mathbf B = (0, B_y, 0)\)</span> deflects <span class="math notranslate nohighlight">\(\mathbf v = (0, 0, v_z)\)</span>
+with magnetic force <span class="math notranslate nohighlight">\(\mathbf F = q(\mathbf v\times\mathbf B) = (-q v_z B_y, 0, 0)\)</span>.</p></li>
+<li><p><strong>Work-Free Identity &amp; Faraday Load Requirement (<code class="docutils literal notranslate"><span class="pre">thm:signals-magnetic-lorentz-work-free</span></code>)</strong>:
+Because <span class="math notranslate nohighlight">\(q(\mathbf v\times\mathbf B)\cdot\mathbf v = 0\)</span>, the static magnetic
+field alone does zero work and cannot extract energy without an opposing
+transverse load electric field <span class="math notranslate nohighlight">\(E_x\)</span> (<code class="docutils literal notranslate"><span class="pre">FaradayChannel</span></code> in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>),
+whose matched-load power density is bounded by <span class="math notranslate nohighlight">\(\frac{1}{4}\sigma v^2 B^2\)</span>
+(<code class="docutils literal notranslate"><span class="pre">FaradayChannel.power_density_le_quarter_base</span></code>) and whose plant efficiency
+cannot exceed unity (<code class="docutils literal notranslate"><span class="pre">MHDPowerAccounting.full_efficiency_le_one</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ClosedLoopArgonMHD.exported_le_declared_input</span></code>).</p></li>
+<li><p><strong>Dawson Cavity Energy Bound (<code class="docutils literal notranslate"><span class="pre">def:signals-pulsed-wakefield-halbach</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-extracted-pulse-energy-le-dawson</span></code>)</strong>:
+The chat estimate of <span class="math notranslate nohighlight">\(100\text{ GV/m} \times 0.1\text{ m} = 10\text{ GV}\)</span> and
+<span class="math notranslate nohighlight">\(10\text{ GV}\times 100\text{ A} = 1\text{ TW}\)</span>
+(<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2368-2376</span></code></a>)
+extrapolates the peak field monotonically across <span class="math notranslate nohighlight">\(10\text{ cm}\)</span> rather than
+integrating over the plasma wavelength <span class="math notranslate nohighlight">\(\lambda_p \approx 33\,\mu\text{m}\)</span>.
+In <code class="docutils literal notranslate"><span class="pre">PulsedWakefieldHalbachHypothesis</span></code>, extracted pulse energy is bounded by
+the total electrostatic energy stored in the cavity volume:
+<span class="math notranslate nohighlight">\(U_{\mathrm{extracted}} \le u_E(\varepsilon_0, E_{\mathrm{Dawson}})\,V_{\mathrm{cav}}\)</span>.</p></li>
+<li><p><strong>Beltrami/Taylor State &amp; Active Cooling Pinch (<code class="docutils literal notranslate"><span class="pre">thm:signals-taylor-state-force-free</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-active-cooling-stabilizes-pinch</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-discrete-four-cycle-gauge-invariance</span></code>)</strong>:
+A collinear Beltrami current <span class="math notranslate nohighlight">\(\mathbf J = \alpha\mathbf B\)</span> eliminates internal
+disruptive Lorentz forces (<span class="math notranslate nohighlight">\(\mathbf J\times\mathbf B = \mathbf 0\)</span>), active
+thermal extraction (<span class="math notranslate nohighlight">\(\Delta P_{\mathrm{cool}} &gt; \Delta P_{\mathrm{ohm}}\)</span>)
+maintains a positive radial magnetic pressure margin, and discrete 4-link
+circulation is invariant under vertex gauge transformations.</p></li>
+</ol>
+</section>
+<section id="c-ponderomotive-thruster-aerodynamic-hull-moments-bi-twistor-sink-sections-12">
+<h4>C. Ponderomotive Thruster, Aerodynamic Hull Moments, &amp; Bi-Twistor Sink (Sections 1–2)<a class="headerlink" href="#c-ponderomotive-thruster-aerodynamic-hull-moments-bi-twistor-sink-sections-12" title="Link to this heading">¶</a></h4>
+<p>When operated as an Earth-to-orbit or high-G thruster
+(<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">279-337</span></code></a>,
+<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2289-2341</span></code></a>,
+<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">2577-2587</span></code></a>):</p>
+<ul class="simple">
+<li><p><strong>Ponderomotive Cycle Averaging (<code class="docutils literal notranslate"><span class="pre">def:signals-ponderomotive-potential</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-ponderomotive-force</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-ponderomotive-down-gradient</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-oscillatory-lorentz-cancels</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-ponderomotive-cycle-average</span></code>)</strong>:
+First-order quiver motion <span class="math notranslate nohighlight">\(\cos(\omega t)\)</span> integrates to zero over each RF
+period <span class="math notranslate nohighlight">\(T = 2\pi/\omega\)</span>, isolating the secular drift force
+<span class="math notranslate nohighlight">\(\mathbf F_p(\mathbf x) = -\frac{e^2}{4 m_e \omega^2}\nabla(\lVert\mathbf E_0(\mathbf x)\rVert^2)\)</span>
+directed down the intensity gradient.</p></li>
+<li><p><strong>Pulsed Duty-Cycle Scaling (<code class="docutils literal notranslate"><span class="pre">def:signals-pulsed-average-force</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-pulsed-average-force-le-peak</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-pulsed-wakefield-avg-thrust-le-peak</span></code>)</strong>:
+Dumping hull supercapacitors in nanosecond pulses raises instantaneous peak
+force <span class="math notranslate nohighlight">\(F_{\mathrm{peak}}\)</span>, but time-averaged thrust remains bounded by duty
+cycle <span class="math notranslate nohighlight">\(d\in[0,1]\)</span>: <span class="math notranslate nohighlight">\(F_{\mathrm{avg}} = d\,F_{\mathrm{peak}} \le F_{\mathrm{peak}}\)</span>.</p></li>
+<li><p><strong>Classical Aerodynamic Hull Traction &amp; Moments (<code class="docutils literal notranslate"><span class="pre">def:signals-bernoulli-dynamic-pressure</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bernoulli-static-pressure</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-pressure-coefficient</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bernoulli-freestream-pressure</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-bernoulli-static-eq-freestream</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-bernoulli-stagnation-recovery</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bernoulli-surface-traction</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-bernoulli-traction-at-stagnation</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bernoulli-aerodynamic-moment</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-total-bernoulli-aerodynamic-moment</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-bernoulli-moment-orthogonal-lever</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-bernoulli-moment-orthogonal-force</span></code>)</strong>:
+The chat’s raw formula <span class="math notranslate nohighlight">\(-q(\mathbf x)\,\mathbf n(\mathbf x)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">def:signals-differential-pressure-force</span></code>) substitutes dynamic pressure
+<span class="math notranslate nohighlight">\(q(\mathbf x) = \frac{1}{2}\rho\lVert\mathbf V(\mathbf x)\rVert^2\)</span> for static
+pressure and vanishes at a stagnation point (<span class="math notranslate nohighlight">\(\mathbf V(\mathbf x)=\mathbf 0\)</span>,
+<code class="docutils literal notranslate"><span class="pre">lem:signals-pressure-force-proxy-at-stagnation</span></code>).
+<code class="docutils literal notranslate"><span class="pre">bernoulliStaticPressure</span></code> and <code class="docutils literal notranslate"><span class="pre">bernoulliSurfaceTraction</span></code> model true static
+Bernoulli pressure <span class="math notranslate nohighlight">\(p(\mathbf x) = p_0 - q(\mathbf x) = p_\infty + q_\infty C_p(\mathbf x)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">thm:signals-bernoulli-static-eq-freestream</span></code>), recovering full stagnation
+pressure <span class="math notranslate nohighlight">\(p_0\)</span> and <span class="math notranslate nohighlight">\(C_p = 1\)</span> at <span class="math notranslate nohighlight">\(\mathbf V(\mathbf x)=\mathbf 0\)</span>
+(<code class="docutils literal notranslate"><span class="pre">thm:signals-bernoulli-stagnation-recovery</span></code>) and decreasing monotonically
+with local flow speed (<code class="docutils literal notranslate"><span class="pre">lem:signals-bernoulli-static-decreases-with-speed</span></code>).
+Integrating over an explicit 2D surface-area measure <span class="math notranslate nohighlight">\(\mu\)</span> (fixing the chat’s
+3D Lebesgue <code class="docutils literal notranslate"><span class="pre">volume</span></code> measure bug) yields differential moments orthogonal to
+both the lever arm <span class="math notranslate nohighlight">\(\mathbf x - \mathbf x_{\mathrm{CM}}\)</span> and normal force.</p></li>
+<li><p><strong>Bi-Twistor Momentum Sink (<code class="docutils literal notranslate"><span class="pre">def:signals-twistor-momentum-sink</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-craft-momentum-opposite-wake</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-closed-polygon-zero-thrust</span></code>)</strong>:
+In dual spacetime (<a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">437-449</span></code></a>),
+momentum leaked to the wakefield leaves an unclosed polygon residual
+<span class="math notranslate nohighlight">\(\Delta\mathbf P_{\mathrm{wake}} = \mathbf x_n - \mathbf x_1\)</span> represented by a
+bi-twistor sink in <span class="math notranslate nohighlight">\(Gr_{\ge 0}(k, n+2)\)</span>, enforcing exact Newton-pair
+conservation <span class="math notranslate nohighlight">\(\Delta\mathbf P_{\mathrm{craft}} = -\Delta\mathbf P_{\mathrm{wake}}\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="deborah-number-shear-fracture-dilatant-dark-fluid-ddf-thruster-sections-3-8">
+<h3>4. Deborah-Number Shear-Fracture / Dilatant Dark Fluid (DDF) Thruster (Sections 3 &amp; 8)<a class="headerlink" href="#deborah-number-shear-fracture-dilatant-dark-fluid-ddf-thruster-sections-3-8" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md,</span> <span class="pre">lines</span> <span class="pre">1268-1346</span></code></a>
+and <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">1546-1618</span></code></a>,
+the alternative vacuum thruster replaces plasma ions with Marco Fedi’s
+Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>):</p>
+<ul class="simple">
+<li><p><strong>Madelung Hydrodynamics &amp; Quantized Circulation (<code class="docutils literal notranslate"><span class="pre">def:signals-madelung-density</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bohm-quantum-potential</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-superfluid-velocity</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-quantized-vortex-circulation</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-substrate-circulation-eq</span></code>)</strong>:
+Writing <span class="math notranslate nohighlight">\(\psi = \sqrt{\rho}e^{iS}\)</span> gives <span class="math notranslate nohighlight">\(\mathbf v = (\hbar/m)\nabla S\)</span> and
+Bohm potential <span class="math notranslate nohighlight">\(Q = -\frac{\hbar^2}{2m}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}\)</span>.
+Around a vortex of integer winding <span class="math notranslate nohighlight">\(n\in\mathbb Z\)</span> at radius <span class="math notranslate nohighlight">\(R\ne 0\)</span>,
+<span class="math notranslate nohighlight">\(\int_0^{2\pi} v_\theta R\,d\theta = n(2\pi\hbar/m)\)</span>.</p></li>
+<li><p><strong>Discrete Plaquette Cohomology (<code class="docutils literal notranslate"><span class="pre">thm:signals-plaquette-coboundary-zero</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-plaquette-phase-slip-syndrome</span></code>)</strong>:
+On a 2D lattice plaquette, single-valued site phases have zero coboundary
+(<span class="math notranslate nohighlight">\(\delta^1\circ\delta^0 = 0\)</span>), while a <span class="math notranslate nohighlight">\(2\pi n\)</span> branch cut extracts the exact
+topological charge <span class="math notranslate nohighlight">\(2\pi n\)</span>.</p></li>
+<li><p><strong>Bogoliubov Spectrum &amp; Landau Critical Velocity (<code class="docutils literal notranslate"><span class="pre">def:signals-bogoliubov-phase-vel-sq</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-bogoliubov-landau-bound</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-subcritical-no-dissipation</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-supercritical-excitation-onset</span></code>)</strong>:
+Since <span class="math notranslate nohighlight">\((\epsilon(p)/p)^2 = c_s^2 + (p/(2m))^2 \ge c_s^2\)</span>, the Landau critical
+velocity is <span class="math notranslate nohighlight">\(v_c = c_s\)</span>. For <span class="math notranslate nohighlight">\(v &lt; v_c\)</span>, <span class="math notranslate nohighlight">\(\Delta E = \epsilon(p) - p v &gt; 0\)</span>
+(frictionless flow); for <span class="math notranslate nohighlight">\(v &gt; v_c\)</span>, acoustic modes at <span class="math notranslate nohighlight">\(\epsilon(p) = v_c p\)</span>
+have <span class="math notranslate nohighlight">\(\Delta E &lt; 0\)</span>, nucleating vortices.</p></li>
+<li><p><strong>Pending Hull-Stress &amp; Power-Accounting Boundary (<code class="docutils literal notranslate"><span class="pre">def:signals-ddf-phase-slip-hull-stress</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-ddf-hull-boundary-density-pos</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-ddf-zero-drive-zero-thrust</span></code>)</strong>:
+Supercritical vortex shedding in a superfluid is a <strong>dissipative drag mechanism</strong>,
+and <span class="math notranslate nohighlight">\(Q\)</span> diverges at <span class="math notranslate nohighlight">\(\rho = 0\)</span> unless regularized by a positive density floor
+<span class="math notranslate nohighlight">\(0 &lt; \rho_{\mathrm{floor}} \le \rho_{\mathrm{hull}}\)</span>. <code class="docutils literal notranslate"><span class="pre">DDFPhaseSlipHullStressHypothesis</span></code>
+requires <span class="math notranslate nohighlight">\(F_{\mathrm{thrust}} v \le P_{\mathrm{drive}}\)</span>, proving that zero
+external drive power (<span class="math notranslate nohighlight">\(P_{\mathrm{drive}} = 0\)</span>) yields zero net forward thrust.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="text-d-he3-aneutronic-deep-space-reactor-amb-centrifugal-cooling-spool-section-5">
+<h3>5. <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> Aneutronic Deep-Space Reactor &amp; AMB Centrifugal Cooling Spool (Section 5)<a class="headerlink" href="#text-d-he3-aneutronic-deep-space-reactor-amb-centrifugal-cooling-spool-section-5" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md,</span> <span class="pre">lines</span> <span class="pre">2577-2798</span></code></a>,
+deep-space transit pairs aneutronic <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> direct conversion with a
+levitated centrifugal cooling spool:</p>
+<ul class="simple">
+<li><p><strong>Radial Centrifugal Head &amp; Closed-Loop Thermosyphon (<code class="docutils literal notranslate"><span class="pre">def:signals-centrifugal-pressure-gradient</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-centrifugal-pump-head</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-centrifugal-thermosyphon-head</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-centrifugal-isothermal-zero</span></code>)</strong>:
+Integrating <span class="math notranslate nohighlight">\(\frac{dP}{dr} = \rho\omega^2 r\)</span> over <span class="math notranslate nohighlight">\([r_{\mathrm{in}}, r_{\mathrm{out}}]\)</span>
+gives <span class="math notranslate nohighlight">\(\Delta P = \frac{1}{2}\rho\omega^2(r_{\mathrm{out}}^2 - r_{\mathrm{in}}^2)\)</span>.
+In a closed loop, outward and inward radial legs cancel identically unless
+cooled/heated density differences drive a thermosyphon head
+<span class="math notranslate nohighlight">\(\Delta P_{\mathrm{loop}} = \frac{1}{2}(\rho_{\mathrm{cold}} - \rho_{\mathrm{hot}})\omega^2(r_{\mathrm{out}}^2 - r_{\mathrm{in}}^2)\)</span>
+(<code class="docutils literal notranslate"><span class="pre">centrifugal_thermosyphon_net_head</span></code>).</p></li>
+<li><p><strong>Gyroscopic Attitude Control (<code class="docutils literal notranslate"><span class="pre">def:signals-spool-angular-momentum</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-gyroscopic-torque</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-pitch-induces-yaw-torque</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-gyroscopic-torque-orthogonal-precession</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-gyroscopic-torque-orthogonal-momentum</span></code>)</strong>:
+Precessing the <span class="math notranslate nohighlight">\(z\)</span>-axis spool (<span class="math notranslate nohighlight">\(\mathbf L = (0, 0, I_{\mathrm{spool}}\omega_z)\)</span>)
+around the <span class="math notranslate nohighlight">\(x\)</span>-axis (<span class="math notranslate nohighlight">\(\boldsymbol\Omega = (\Omega_x, 0, 0)\)</span>) produces the
+orthogonal <span class="math notranslate nohighlight">\(y\)</span>-axis yaw torque <span class="math notranslate nohighlight">\((0, -\Omega_x I_{\mathrm{spool}}\omega_z, 0)\)</span>.</p></li>
+<li><p><strong>5-Axis <span class="math notranslate nohighlight">\(\text{MgB}_2\)</span> AMB &amp; <span class="math notranslate nohighlight">\(\text{He-3}\)</span> Phase Diagram Critique (<code class="docutils literal notranslate"><span class="pre">def:signals-cryogenic-spool-amb</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-supercritical-at-39k</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-no-solid-seal-below-3-4-mpa</span></code>)</strong>:
+Because <span class="math notranslate nohighlight">\(\text{He-3}\)</span> has critical temperature <span class="math notranslate nohighlight">\(T_c = 3.32\text{ K}\)</span> and
+minimum solidification pressure <span class="math notranslate nohighlight">\(P_{\mathrm{solid}} = 3.4\text{ MPa}\)</span>,
+operating at the <span class="math notranslate nohighlight">\(\text{MgB}_2\)</span> temperature of <span class="math notranslate nohighlight">\(39\text{ K}\)</span> places <span class="math notranslate nohighlight">\(\text{He-3}\)</span>
+in the supercritical gas regime (<code class="docutils literal notranslate"><span class="pre">supercritical_at_39K</span></code>), and eddy currents
+cannot freeze electrically insulating <span class="math notranslate nohighlight">\(\text{He-3}\)</span> into a solid labyrinth
+seal below <span class="math notranslate nohighlight">\(3.4\text{ MPa}\)</span> (<code class="docutils literal notranslate"><span class="pre">no_solid_seal_below_3_4_MPa</span></code>).</p></li>
+</ul>
+<p><a href="signals-blueprint/index.html">Open the standalone blueprint</a></p>
+<p><a href="signals-blueprint/signals-api/index.html">Open the Lean API reference</a></p>
+<iframe
+  src="signals-blueprint/index.html"
+  title="Signals Lean Blueprint"
+  width="100%"
+  height="800"
+  loading="lazy"></iframe></section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="water.html" title="Water" >previous</a></li>
+        <li><a href="flat-light-nanolithography-scholarly.html" title="Flat Light and N-LIG Waveguides for Nanolithography" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

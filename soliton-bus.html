@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Soliton Bus Model &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Dispersive Homodyne Coverage and Implementation Plan" href="dispersive-homodyne-plan.html" />
+    <link rel="prev" title="Paper Model Review" href="paper-model-review.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Soliton Bus Model</a><ul>
+<li><a class="reference internal" href="#chat-derived-design">Chat-Derived Design</a></li>
+<li><a class="reference internal" href="#classical-transport-api">Classical Transport API</a></li>
+<li><a class="reference internal" href="#quantum-and-cv-operators">Quantum and CV Operators</a></li>
+<li><a class="reference internal" href="#dynamics-contracts">Dynamics Contracts</a></li>
+<li><a class="reference internal" href="#multi-lane-n-0-interferometric-couplers-gr-mathbb-c-2-4-twistor-channels-and-yangbaxter-soliton-collisions">Multi-Lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) Interferometric Couplers, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Channels, and Yang–Baxter Soliton Collisions</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evidence-boundary">Evidence Boundary</a></li>
+<li><a class="reference internal" href="#soliton-bus-quantum-error-coding-plan">Soliton-Bus Quantum Error-Coding Plan</a><ul>
+<li><a class="reference internal" href="#recovered-design-choices">Recovered design choices</a></li>
+<li><a class="reference internal" href="#first-implementation-decision">First implementation decision</a></li>
+<li><a class="reference internal" href="#signals-work">Signals work</a></li>
+<li><a class="reference internal" href="#qeclean-contribution">QECLean contribution</a></li>
+<li><a class="reference internal" href="#cross-project-handoff-and-gates">Cross-project handoff and gates</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="paper-model-review.html" title="Paper Model Review" accesskey="P">previous </a></li>
+              <li><a href="dispersive-homodyne-plan.html" title="Dispersive Homodyne Coverage and Implementation Plan" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/soliton-bus.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Soliton Bus Model</a><ul>
+<li><a class="reference internal" href="#chat-derived-design">Chat-Derived Design</a></li>
+<li><a class="reference internal" href="#classical-transport-api">Classical Transport API</a></li>
+<li><a class="reference internal" href="#quantum-and-cv-operators">Quantum and CV Operators</a></li>
+<li><a class="reference internal" href="#dynamics-contracts">Dynamics Contracts</a></li>
+<li><a class="reference internal" href="#multi-lane-n-0-interferometric-couplers-gr-mathbb-c-2-4-twistor-channels-and-yangbaxter-soliton-collisions">Multi-Lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) Interferometric Couplers, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Channels, and Yang–Baxter Soliton Collisions</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evidence-boundary">Evidence Boundary</a></li>
+<li><a class="reference internal" href="#soliton-bus-quantum-error-coding-plan">Soliton-Bus Quantum Error-Coding Plan</a><ul>
+<li><a class="reference internal" href="#recovered-design-choices">Recovered design choices</a></li>
+<li><a class="reference internal" href="#first-implementation-decision">First implementation decision</a></li>
+<li><a class="reference internal" href="#signals-work">Signals work</a></li>
+<li><a class="reference internal" href="#qeclean-contribution">QECLean contribution</a></li>
+<li><a class="reference internal" href="#cross-project-handoff-and-gates">Cross-project handoff and gates</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="paper-model-review.html"
+                          title="previous chapter">Paper Model Review</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dispersive-homodyne-plan.html"
+                          title="next chapter">Dispersive Homodyne Coverage and Implementation Plan</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/soliton-bus.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="soliton-bus-model">
+<h1>Soliton Bus Model<a class="headerlink" href="#soliton-bus-model" title="Link to this heading">¶</a></h1>
+<p>This page documents the finite transport and operator contracts in
+<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>. The source chats describe a proposed N-LIG/Lignolux
+architecture.</p>
+<section id="chat-derived-design">
+<h2>Chat-Derived Design<a class="headerlink" href="#chat-derived-design" title="Link to this heading">¶</a></h2>
+<p>The reviewed chat corpus groups the bus design into four related layers:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer</p></th>
+<th class="head"><p>Chat-derived proposal</p></th>
+<th class="head"><p>Model boundary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Multiplexing</p></td>
+<td><p>WDM, MDM, OAM, and A2Q soliton-bus addressing</p></td>
+<td><p>Lane addresses and selectors are finite data; they do not prove independent physical channels.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Routing</p></td>
+<td><p>Thermo-optic address trees, demultiplexers, bucket-brigade routing, and OAM sorting</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RoutingPlan</span></code> requires an injective destination map; switching latency and crosstalk remain calibration data.</p></td>
+</tr>
+<tr class="row-even"><td><p>Readout</p></td>
+<td><p>Kerr cross-phase modulation, probe-beam phase shifts, and homodyne detection</p></td>
+<td><p>The phase relation is a conditional interaction contract; it is not a proof of nondestructive quantum measurement.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Operators</p></td>
+<td><p>Gaussian quadrature operations, beam splitters, phase gates, CNOT-like gates, and nonlinear phase interactions</p></td>
+<td><p>Finite matrices and phase-space maps are implemented; material coupling and universal hardware operation are not inferred.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The source request explicitly groups WDM, MDM, OAM, A2Q, squeezed-state
+readout, and nondestructive phase measurement <span class="xref myst">in the signal-phase chat</span>.
+The same chat proposes OAM encoding and a Kerr probe path <span class="xref myst">at the bus design section</span>.
+The proposed N-LIG architecture also describes the signal bus, OAM qudit
+payload, and a Kerr cavity <span class="xref myst">in the interaction-zone design</span>.</p>
+<p>The separate architecture chat proposes wavelength as a coarse address and a
+thermo-optic layer as a fine decoder <span class="xref myst">in its address-tree description</span>.
+It describes bucket-brigade routing as a simulation target, with switch
+latency and loss as quantities to measure <span class="xref myst">in the network-routing plan</span>.</p>
+</section>
+<section id="classical-transport-api">
+<h2>Classical Transport API<a class="headerlink" href="#classical-transport-api" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">LaneAddress</span></code> represents five independent multiplexing coordinates:</p>
+<ul class="simple">
+<li><p>wavelength channel for WDM;</p></li>
+<li><p>spatial mode for MDM;</p></li>
+<li><p>integer orbital-angular-momentum charge;</p></li>
+<li><p>polarization channel;</p></li>
+<li><p>time slot for TDM.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">LaneSelector</span></code> enables any subset of those coordinates. <code class="docutils literal notranslate"><span class="pre">demultiplex</span></code> filters
+finite frame lists by the enabled selector fields. <code class="docutils literal notranslate"><span class="pre">BusNetwork</span></code> and
+<code class="docutils literal notranslate"><span class="pre">RoutingPlan</span></code> represent a finite lane fabric; the route map must be injective,
+so the contract does not silently merge two source lanes. <code class="docutils literal notranslate"><span class="pre">broadcastLanes</span></code>
+represents a finite bucket-brigade fan-out.</p>
+<p>The classical logic inventory includes identity, NOT, NAND, AND, OR, XOR, XNOR,
+and NOR. The lemmas <code class="docutils literal notranslate"><span class="pre">nand_complete_not</span></code>, <code class="docutils literal notranslate"><span class="pre">nand_complete_and</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">nand_complete_or</span></code> show the usual NAND-derived identities for Boolean values.
+The inventory is complete as a finite Boolean operator set; it is not a
+throughput or hardware-timing claim.</p>
+</section>
+<section id="quantum-and-cv-operators">
+<h2>Quantum and CV Operators<a class="headerlink" href="#quantum-and-cv-operators" title="Link to this heading">¶</a></h2>
+<p>The module uses explicit finite complex matrices and amplitude-vector
+application, so it does not require a second Lean package or silently import a
+different mathlib build.</p>
+<p>The finite one-qubit inventory contains:</p>
+<ul class="simple">
+<li><p>Pauli X, Y, and Z;</p></li>
+<li><p>Hadamard, also exposed as the balanced dual-rail beam-splitter matrix;</p></li>
+<li><p>parameterized unit-modulus phase gates.</p></li>
+</ul>
+<p>The multi-mode inventory contains explicit CNOT, SWAP, controlled-phase, and
+Toffoli matrices. Standard one-qubit operators carry checked finite unitarity
+lemmas. Multi-qubit matrices remain explicit operator data until their
+permutation-unitarity lemmas are added.</p>
+<p>The finite quadrature layer supplies displacement, phase rotation, reciprocal
+squeezing, balanced beam splitting, Kerr phase shift, and cross-phase
+modulation. These are finite mathematical operators, not claims that N-LIG
+provides the required nonlinear coefficient or low-loss quantum regime.</p>
+<p>The chat proposal describes Gaussian rotations and squeezing together with a
+Kerr/non-Gaussian path in <code class="docutils literal notranslate"><span class="pre">data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.md</span></code>
+and proposes cross-phase modulation between OAM solitons in that same chat.
+Those claims remain conditional in the model.</p>
+</section>
+<section id="dynamics-contracts">
+<h2>Dynamics Contracts<a class="headerlink" href="#dynamics-contracts" title="Link to this heading">¶</a></h2>
+<p>The propagation layer now records the standard finite nonlinear-envelope
+quantities used in hollow-core soliton work:</p>
+<div class="math notranslate nohighlight">
+\[
+L_D = \frac{T_0^2}{|\beta_2|}, \qquad
+L_{NL} = \frac{1}{\gamma P_0}, \qquad
+N^2 = \frac{L_D}{L_{NL}}.
+\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">SolitonPropagationDynamics</span></code> stores the pulse duration <span class="math notranslate nohighlight">\(T_0\)</span>, peak power
+<span class="math notranslate nohighlight">\(P_0\)</span>, anomalous group-velocity dispersion <span class="math notranslate nohighlight">\(\beta_2\)</span>, nonlinear coefficient
+<span class="math notranslate nohighlight">\(\gamma\)</span>, both characteristic lengths, and the supplied soliton order. The
+record also keeps self-compression and resonant-dispersive-wave observations as
+hypotheses, because those outcomes depend on gas pressure, core geometry,
+loss, mode matching, and photoionization.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SolitonCollisionDynamics</span></code> makes the two-pulse interaction explicit:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta\phi_{probe,XPM} = \gamma_{XPM} P_{signal} L_{eff}.
+\]</div>
+<p>The phase law is checked algebraically. The coefficient includes the chosen
+XPM convention and modal-overlap factor; it is not a universal material
+constant. Collision observation, nonabsorption, and crosstalk remain measured
+or conditional fields. This is the appropriate boundary for XPM and Kerr
+proposals: a formula for phase shift is not a demonstrated single-photon gate.</p>
+<p>This is also a review correction: the phase shift is driven by the interacting
+signal power, not by the probe power being phase-shifted. Both powers remain in
+the record so self-phase, probe loading, and collision bookkeeping can be
+extended without changing the meaning of the XPM law.</p>
+<p><code class="docutils literal notranslate"><span class="pre">OAMMultiplexingObservation</span></code> records fibre length, mode-group count, symbol
+rate, data rate, modal crosstalk, and MIMO equalizer order. The long-haul OAM
+experiment below demonstrates modal transport and equalization, but it does
+not demonstrate soliton propagation or N-LIG fabrication.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SolitonDynamicsOperator.defaultPlacement</span></code> separates operator location:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Placement</p></th>
+<th class="head"><p>Operators</p></th>
+<th class="head"><p>Interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">onBus</span></code></p></td>
+<td><p>linear propagation, self-phase modulation, XPM, self-compression, OAM mode coupling</p></td>
+<td><p>Co-propagating or in-guide dynamics, subject to dispersion, loss, and modal calibration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">busInterface</span></code></p></td>
+<td><p>resonant dispersive-wave generation, parity measurement</p></td>
+<td><p>Requires a spectral or measurement boundary; not a transparent bus primitive by default.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">offBus</span></code></p></td>
+<td><p>homodyne readout</p></td>
+<td><p>A detector/local oscillator path outside the transported signal mode.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multi-lane-n-0-interferometric-couplers-gr-mathbb-c-2-4-twistor-channels-and-yangbaxter-soliton-collisions">
+<h2>Multi-Lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) Interferometric Couplers, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Channels, and Yang–Baxter Soliton Collisions<a class="headerlink" href="#multi-lane-n-0-interferometric-couplers-gr-mathbb-c-2-4-twistor-channels-and-yangbaxter-soliton-collisions" title="Link to this heading">¶</a></h2>
+<p>In <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">src/signals/Signals/SolitonBus.lean</span></a>,
+<code class="docutils literal notranslate"><span class="pre">SolitonMultiLaneCoupler</span></code> connects the <span class="math notranslate nohighlight">\(N\)</span>-lane soliton-bus architecture to the
+multi-model interferometric and Quantum Inverse Scattering frameworks developed
+in <a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>
+and <a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">grassmannian-qism-bethe-ansatz-paper.md</span></a>:</p>
+<ol class="arabic">
+<li><p><strong><span class="math notranslate nohighlight">\(N\)</span>-Lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) Grating Coupler &amp; Barycentric Power Imbalance (<code class="docutils literal notranslate"><span class="pre">SolitonMultiLaneCoupler</span></code>)</strong>:
+Parameterized by lane count <code class="docutils literal notranslate"><span class="pre">numLanes</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, lane aperture width <span class="math notranslate nohighlight">\(a &gt; 0\)</span>,
+lane height <span class="math notranslate nohighlight">\(b &gt; 0\)</span>, center-to-center waveguide pitch <span class="math notranslate nohighlight">\(d &gt; 0\)</span>, wavelength <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>,
+coupler distance <span class="math notranslate nohighlight">\(L &gt; 0\)</span>, barycentric lane-imbalance shift <span class="math notranslate nohighlight">\(d_{\mathrm{bary}} \in [-1, 1]\)</span>,
+visibility <span class="math notranslate nohighlight">\(\mathcal{V} \in [0, 1]\)</span>, and differential OAM topological charge <span class="math notranslate nohighlight">\(\Delta\ell \in \mathbb{Z}\)</span>:</p>
+<ul class="simple">
+<li><p>For <span class="math notranslate nohighlight">\(N = 1\)</span> lane (<code class="docutils literal notranslate"><span class="pre">SolitonMultiLaneCoupler.singleLane_intensity</span></code>), the coupler
+output reduces identically to the single-waveguide envelope <span class="math notranslate nohighlight">\(I_0 E_{\mathrm{slit}}(x, y)\)</span>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(N = 2\)</span> lanes (<code class="docutils literal notranslate"><span class="pre">SolitonMultiLaneCoupler.dualLane_intensity_eq_huygensSteinerOAM</span></code>),
+the output matches <code class="docutils literal notranslate"><span class="pre">huygensSteinerOAMDoubleSlit</span></code> identically.</p></li>
+</ul>
+</li>
+<li><p><strong>Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Coupler Representation (<code class="docutils literal notranslate"><span class="pre">SolitonMultiLaneCoupler.dualLane_complexGr24_eq_huygensSteinerOAM</span></code>)</strong>:
+Encoding a dual-rail OAM soliton coupler in the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>
+with <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span>-projected twistor entries</p>
+<div class="math notranslate nohighlight">
+\[
+   z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i\left(\frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}\right)}
+   \]</div>
+<p>reproduces the partially coherent Huygens–Steiner OAM coupler output with
+visibility <span class="math notranslate nohighlight">\(\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}\)</span> identically across all
+<span class="math notranslate nohighlight">\((x, y, \phi)\)</span> with <strong>zero relative predictive error</strong>, eliminating the <span class="math notranslate nohighlight">\(50\%\)</span>
+error of unphased <span class="math notranslate nohighlight">\(Gr_{\ge 0}(2,4)\)</span> crossing-minor proxies.</p>
+</li>
+<li><p><strong>Three-Soliton Yang–Baxter Collision Order Independence (<code class="docutils literal notranslate"><span class="pre">solitonThreeWaveguide_yang_baxter_consistency</span></code>)</strong>:
+When three soliton lanes with spectral rapidities <span class="math notranslate nohighlight">\((u, v, w)\)</span> and coupling <span class="math notranslate nohighlight">\(\eta\)</span>
+interact pairwise in an integrable NLSE / Yangian zone, <code class="docutils literal notranslate"><span class="pre">solitonThreeWaveguide_yang_baxter_consistency</span></code>
+combines <code class="docutils literal notranslate"><span class="pre">Signals.QISM.yang_baxter_equation_matrix8</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.QISM.baxterTQResidual_wronskian_zero</span></code>
+to certify that the <span class="math notranslate nohighlight">\(8 \times 8\)</span> three-mode scattering product satisfies</p>
+<div class="math notranslate nohighlight">
+\[
+   R_{12}(u-v;\eta)\,R_{13}(u-w;\eta)\,R_{23}(v-w;\eta) = R_{23}(v-w;\eta)\,R_{13}(u-w;\eta)\,R_{12}(u-v;\eta)
+   \]</div>
+<p>and the three-point Casorati Wronskians on <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> satisfy Baxter’s <span class="math notranslate nohighlight">\(TQ\)</span> difference equation identically.</p>
+</li>
+<li><p><strong>Rust + WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) + WebGL2 GLSL Implementation</strong>:
+All seven multi-slit / multi-lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) models (<code class="docutils literal notranslate"><span class="pre">Fraunhofer</span></code>, <code class="docutils literal notranslate"><span class="pre">HuygensSteiner</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Gr24RealPlucker</span></code>, <code class="docutils literal notranslate"><span class="pre">Gr24ComplexTwistor</span></code>, <code class="docutils literal notranslate"><span class="pre">PilotWave</span></code>, <code class="docutils literal notranslate"><span class="pre">Wigner</span></code>, <code class="docutils literal notranslate"><span class="pre">Gr24Unphased</span></code>)
+are implemented in <a class="reference download internal" download="" href="_downloads/f8f9cf2c6d8e8eb55e7c467f18040797/double_slit.rs"><span class="xref download myst">src/signals/numerical_adapter/src/double_slit.rs</span></a>
+with WebGL2 (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>) shaders in
+<a class="reference download internal" download="" href="_downloads/3a5c081971347cfa0bb52c6cebe177f9/double_slit.vert.glsl"><span class="xref download myst">double_slit.vert.glsl</span></a>
+and <a class="reference download internal" download="" href="_downloads/5cf1d712e3faba8bc10c2f2fe1cdb5bb/double_slit.frag.glsl"><span class="xref download myst">double_slit.frag.glsl</span></a>,
+parameterized by <code class="docutils literal notranslate"><span class="pre">num_slits</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">slit_width</span></code>, <code class="docutils literal notranslate"><span class="pre">slit_separation</span></code>, <code class="docutils literal notranslate"><span class="pre">barycentric_shift</span></code>,
+<code class="docutils literal notranslate"><span class="pre">delta_oam</span></code>, and <code class="docutils literal notranslate"><span class="pre">azimuth_phi</span></code>.</p></li>
+<li><p><strong>Revised Semi-Dirac Soliton Bus, Slow-Light CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, &amp; Integrated Multi-Band (<span class="math notranslate nohighlight">\(405\text{–}1550\text{ nm}\)</span>) CNC / <span class="math notranslate nohighlight">\(c\text{-BAs}\)</span> Photonics (<code class="docutils literal notranslate"><span class="pre">semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities</span></code>)</strong>:
+In <a class="reference internal" href="grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.html"><span class="std std-doc">grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md</span></a> (<strong>Paper 33</strong>) and <a class="reference internal" href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html"><span class="std std-doc">grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md</span></a> (<strong>Paper 34</strong>), we refine the Soliton Bus with:</p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(532\text{ nm}\)</span> LCS Strain-Locked Semi-Dirac Ring-Core &amp; <span class="math notranslate nohighlight">\(C_8\)</span> Star-Via Channels</strong>: Enforcing <span class="math notranslate nohighlight">\(v_{g,x}(0, m_x^*) = 0\)</span>, dispersionless <span class="math notranslate nohighlight">\(\hat{y}\)</span> soliton propagation <span class="math notranslate nohighlight">\(\sigma_y^2(t) = \sigma_{y,0}^2\)</span>, <span class="math notranslate nohighlight">\(100\times\)</span> RIE sidewall <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span> suppression, and GHz ballistic Klein switching (<span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{Klein}}(10) = 101\)</span>),</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-Carbonate <span class="math notranslate nohighlight">\(5\times\)</span> <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> <code class="docutils literal notranslate"><span class="pre">CPHASE</span></code>/<code class="docutils literal notranslate"><span class="pre">CNOT</span></code> Gate Compression (<code class="docutils literal notranslate"><span class="pre">co2CarbonateChi3CphaseLength</span></code>)</strong> &amp; <strong>Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Lines (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span></code>)</strong>: Compressing the <span class="math notranslate nohighlight">\(24\text{ ns}\)</span> RFSoC CORDIC buffer from <span class="math notranslate nohighlight">\(4.8\text{ m}\)</span> (<span class="math notranslate nohighlight">\(n_g = 1.5\)</span>) down to <span class="math notranslate nohighlight">\(24\text{ mm}\)</span> (<span class="math notranslate nohighlight">\(n_g = 300\)</span>),</p></li>
+<li><p><strong>Tiered 128-to-64-Bit QNIC RDMA Header Stripping (<code class="docutils literal notranslate"><span class="pre">tieredQnicStrippedPayloadBits</span></code>), LUT-Seeded CORDIC Thermal-Drift Cancellation (<code class="docutils literal notranslate"><span class="pre">lutPlusCordicOamPhase</span></code>), &amp; <span class="math notranslate nohighlight">\(37.5\%\)</span> PWM 4K Cryo Budget (<code class="docutils literal notranslate"><span class="pre">nligInternalPumpAvgPowerMw</span></code>)</strong> (<span class="math notranslate nohighlight">\(105.47\text{ mW} &lt; 110\text{ mW}\)</span> across 250 nodes),</p></li>
+<li><p><strong>Periodic <span class="math notranslate nohighlight">\(10\text{ m}\)</span> / <span class="math notranslate nohighlight">\(100\text{ m}\)</span> Cellulose Nanocrystal (CNC) <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> PSA Signal Boosters (<code class="docutils literal notranslate"><span class="pre">cncPeriodicBoosterNetLinkGainDb</span></code>, <code class="docutils literal notranslate"><span class="pre">cncCheckpointCount</span></code>)</strong>, <strong><span class="math notranslate nohighlight">\(590\text{ nm}\)</span> <span class="math notranslate nohighlight">\(n\)</span>-Adamantane NV Purcell Dowsing (<code class="docutils literal notranslate"><span class="pre">nvPurcellFactorNormalized</span></code> <span class="math notranslate nohighlight">\(&gt; 12\)</span>)</strong>, and <strong><span class="math notranslate nohighlight">\(1550\text{ nm}\)</span> Inverted 3D Adiabatic Scarf-Joint Tapers into Cubic Boron Arsenide (<span class="math notranslate nohighlight">\(c\text{-BAs}\)</span>) Homodyne Detectors (<code class="docutils literal notranslate"><span class="pre">adiabaticScarfTaperLoss</span> <span class="pre">&lt;</span> <span class="pre">fresnelButtJointReflectance</span></code>)</strong>, with verified KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and IOF/PROV-O (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) hardware artifacts in <code class="docutils literal notranslate"><span class="pre">src/signals/kicad/semi_dirac/</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="travers2019"></a> Travers, J. C., Grigorova, T. F., Brahms, C., and Belli, F. (2019), <a class="reference external" href="https://doi.org/10.1038/s41566-019-0416-4">High-energy pulse self-compression and ultraviolet generation through soliton dynamics in hollow capillary fibres</a>. Experimental hollow-capillary self-compression and UV dispersive-wave generation.</p>
+<p><a id="travers2024"></a> Travers, J. C. (2024), <a class="reference external" href="https://doi.org/10.1016/j.optcom.2023.130191">Optical solitons in hollow-core fibres</a>. Review of gas-filled hollow-core propagation, self-compression, Raman shifting, photoionization, plasma, and dispersive-wave effects.</p>
+<p><a id="kivshar1993"></a> Kivshar, Y. S., and Quiroga-Teixeiro, M. L. (1993), <a class="reference external" href="https://doi.org/10.1364/ol.18.000980">Influence of cross-phase modulation on soliton switching in nonlinear optical fibers</a>. Coupled nonlinear-fibre model for XPM-mediated soliton switching.</p>
+<p><a id="wang2018"></a> Wang, A. et al. (2018), <a class="reference external" href="https://doi.org/10.1364/oe.26.010038">Directly using 88-km conventional multi-mode fiber for 6-mode orbital angular momentum multiplexing transmission</a>. The title says 88 km, while the abstract reports 8.8 km of OM4 fibre; the model follows the abstract and records 120-Gbit/s QPSK, six OAM mode groups, and 2x2 or 4x4 MIMO equalization.</p>
+</section>
+</section>
+<section id="evidence-boundary">
+<h2>Evidence Boundary<a class="headerlink" href="#evidence-boundary" title="Link to this heading">¶</a></h2>
+<p>The implementation does not establish:</p>
+<ul class="simple">
+<li><p>room-temperature soliton stability in N-LIG or rGO-Vitrimer;</p></li>
+<li><p>preservation of a quantum state through a proposed material bus;</p></li>
+<li><p>single-photon-strength Kerr coupling;</p></li>
+<li><p>nondestructive parity measurement;</p></li>
+<li><p>entropy siphoning or vacuum-noise removal;</p></li>
+<li><p>a fault-tolerant QPU or QRAM architecture.</p></li>
+</ul>
+<p>QECLean was evaluated as a possible adapter. Its cached artifacts were built
+against a different mathlib context from Signals, so the public bus module uses
+a self-contained finite-matrix layer instead of making QECLean a hard
+dependency. The QECLean source remains available for future adapter work after
+toolchain alignment.</p>
+</section>
+<section id="soliton-bus-quantum-error-coding-plan">
+<h2>Soliton-Bus Quantum Error-Coding Plan<a class="headerlink" href="#soliton-bus-quantum-error-coding-plan" title="Link to this heading">¶</a></h2>
+<section id="recovered-design-choices">
+<h3>Recovered design choices<a class="headerlink" href="#recovered-design-choices" title="Link to this heading">¶</a></h3>
+<p>The chat corpus search was case-insensitive literal <code class="docutils literal notranslate"><span class="pre">soliton</span></code> over
+<code class="docutils literal notranslate"><span class="pre">data/chats/*.md</span></code> only. <code class="docutils literal notranslate"><span class="pre">rg</span></code> was unavailable in the active terminal, so the
+equivalent <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-i</span></code> search was used; it found 22 Markdown files. Detailed
+review focused on the processor/soliton and hardware-architecture chats cited
+below. These chats recover proposals, not experimental validation.</p>
+<p>These choices belong to separate axes: a design chooses how signals are
+addressed, how each code block encodes a state, and how checks are measured.
+They should not be collapsed into one meaning for “multiplexing.”</p>
+<ol class="arabic simple">
+<li><p><strong>Hierarchical optical addressing.</strong> The proposal uses WDM as a coarse
+depth/layer selector, OAM or MDM as a finer channel selector, and a
+thermo-optic switch as an active route into an ancilla or memory layer. The
+chats also propose TDM to reuse a waveguide at different pulse times
+(<span class="xref myst">depth and OAM routing</span>,
+<span class="xref myst">time-bin reuse</span>).
+<strong>Use in v1:</strong> represent these as address/scheduling coordinates only.
+Address separation does not prove low crosstalk or independent quantum
+channels.</p></li>
+<li><p><strong>Port graph with an ancilla hub.</strong> The proposed star has data leaves
+reached through a central ancilla, with bus operations intended to support
+stabilizer measurements (<span class="xref myst">star and bus-connected checks</span>,
+<a class="reference internal" href="paper.html#L60"><span class="std std-ref">paper architecture</span></a>). <strong>Use in v1:</strong> call each
+physical endpoint a <code class="docutils literal notranslate"><span class="pre">BusPort</span></code>; represent possible interactions with an
+explicit coupling relation. A port is not itself a code qubit or a
+stabilizer. The measurement order, ancilla reuse, fault propagation, and
+photonic resource/measurement primitive still need specification.</p></li>
+<li><p><strong>Multiplexed OAM qudit.</strong> An alternative is to use a finite OAM basis as
+the data state, so mode shifts, phases, leakage, and mode mixing are data
+errors rather than just routing errors. The existing OAM-100 record is
+readiness metadata: the review explicitly says it lacks an OAM encoding
+map, syndrome readout, and recovery, and requires mode-dependent loss and
+crosstalk characterization (<a class="reference internal" href="paper-model-review.html#L1077"><span class="std std-ref">OAM boundary and next measurements</span></a>,
+<a class="reference internal" href="paper-model-review.html#L1137"><span class="std std-ref">QEC readiness fields</span></a>). <strong>Defer as a separate
+qudit-code project.</strong> A coherent superposition over OAM modes is one
+qudit state, not a collection of independent addressed channels.</p></li>
+<li><p><strong>Propagating GKP/CV state.</strong> A grid state with homodyne syndrome
+measurements is a distinct continuous-variable encoding path. The paper
+review describes the cited optical work as a logical-state precursor, not
+completed fault-tolerant computation, and the qutrit/ququart break-even
+experiment is not an OAM experiment (<a class="reference internal" href="paper-model-review.html#L1071"><span class="std std-ref">optical-state boundary</span></a>,
+<a class="reference internal" href="paper-model-review.html#L1098"><span class="std std-ref">qudit experiment boundary</span></a>). <strong>Keep outside
+the first qubit/erasure API.</strong></p></li>
+<li><p><strong>Layer-code geometry.</strong> Layer codes are a CSS-to-3D topological-code
+construction: their layers and 1D junctions come from Tanner incidences.
+They are not optical wavelength layers or OAM channels. The paper’s
+construction supplies mathematical code properties, not a photonic
+decoder, threshold, or hardware benchmark (<a class="reference internal" href="paper-model-review.html#L916"><span class="std std-ref">Layer-code review</span></a>).
+<strong>Treat this as a later code-family contribution</strong>, independent of the
+optical address scheme.</p></li>
+</ol>
+</section>
+<section id="first-implementation-decision">
+<h3>First implementation decision<a class="headerlink" href="#first-implementation-decision" title="Link to this heading">¶</a></h3>
+<p>For the first implementation, WDM, MDM, OAM, polarization, and TDM are
+<strong>transport/address dimensions</strong>. QEC is defined over an abstract finite set
+of qubit blocks, independently of which optical degree of freedom eventually
+encodes each block. This matches the existing <code class="docutils literal notranslate"><span class="pre">LaneAddress</span></code>/<code class="docutils literal notranslate"><span class="pre">LaneSelector</span></code>
+boundary and lets QECLean prove qubit-code facts without making claims about
+N-LIG, OAM devices, or a quantum bus. OAM-as-data remains an explicit
+alternative encoding, never an implicit interpretation of <code class="docutils literal notranslate"><span class="pre">oamCharge</span></code>.</p>
+<p>Use <strong>port</strong> for the hardware endpoint and <strong>address</strong> for the multiplex
+selector:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BusPort</span></code> identifies a coupler, interface, detector, or check-measurement
+endpoint. It is distinct from <code class="docutils literal notranslate"><span class="pre">LaneAddress</span></code>; multiple addresses may be
+routed through one port at different times.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PortCoupling</span></code> (or a finite port graph) records which endpoints can interact
+and with what calibrated coupling/crosstalk. Do not define physical
+adjacency as consecutive <code class="docutils literal notranslate"><span class="pre">Fin</span></code> indices or infer it from OAM charge.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CodeBlockPlacement</span></code> maps each abstract code-block ID to its required port
+and lane address(es). Require injectivity where resources must be distinct;
+model time-shared resources with an explicit schedule rather than pretending
+they are separate hardware.</p></li>
+<li><p>An <code class="docutils literal notranslate"><span class="pre">EncodingChoice</span></code> states whether the eventual data encoding is an abstract
+qubit, a specified qubit encoding, an OAM qudit of dimension <code class="docutils literal notranslate"><span class="pre">d</span></code>, or a CV/GKP
+mode. The v1 Signals contract records the choice and its evidence status;
+it does not prove that a proposed encoding is physically realized.</p></li>
+</ul>
+</section>
+<section id="signals-work">
+<h3>Signals work<a class="headerlink" href="#signals-work" title="Link to this heading">¶</a></h3>
+<p>Add a focused <code class="docutils literal notranslate"><span class="pre">Signals/SolitonQEC.lean</span></code> module under <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>, reusing
+<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus.LaneAddress</span></code>, <code class="docutils literal notranslate"><span class="pre">BusNetwork</span></code>, and the existing unit and
+bounded-factor wrappers. Keep it out of the verified classical transport API
+until its fields describe calibrated observations or purely mathematical
+invariants.</p>
+<p>The deployment/noise contract should make these inputs explicit:</p>
+<ul class="simple">
+<li><p>finite code-block and port indices, address-to-port placement, and the
+selected encoding interpretation;</p></li>
+<li><p>a measured or assumed port-coupling graph, including which nearby signals
+can produce correlated faults;</p></li>
+<li><p>mode-resolved loss with a distinction between <strong>flagged erasure</strong> and
+<strong>unflagged loss</strong>, plus detector efficiency and false/missed-flag rates;</p></li>
+<li><p>mode crosstalk, phase/timing error, check-readout error, and correlated error
+support, each with units or normalization, uncertainty, calibration status,
+and provenance where available;</p></li>
+<li><p>a syndrome-extraction/readout contract that says which check is measured,
+by what photonic primitive, with what outcome and disturbance bounds.</p></li>
+</ul>
+<p>Add focused examples for unique and colliding addresses, two addresses routed
+through one scheduled port, a flagged versus unflagged loss, and a correlated
+neighbor fault. These tests validate record laws and reject missing
+assumptions; they do not establish QEC performance. In particular, the
+existing XPM phase law is not a QND parity measurement, and the proposed
+room-temperature/no-dispersion, 10 GHz, and entropy-siphoning statements in
+<code class="docutils literal notranslate"><span class="pre">paper.md</span></code> remain design claims, not fields to promote to verified facts
+(<a class="reference internal" href="paper.html#L60"><span class="std std-ref">paper architecture and claims</span></a>,
+<a class="reference internal" href="paper-model-review.html#L1"><span class="std std-ref">paper-model-review evidence boundary</span></a>).</p>
+</section>
+<section id="qeclean-contribution">
+<h3>QECLean contribution<a class="headerlink" href="#qeclean-contribution" title="Link to this heading">¶</a></h3>
+<p>Add a dependency-free, qubit-stabilizer erasure API in a new logical-framework
+module such as
+<code class="docutils literal notranslate"><span class="pre">QEC/Stabilizer/Framework/Core/Logical/ErasureCorrection.lean</span></code>, exported
+through the existing <code class="docutils literal notranslate"><span class="pre">Core.Logical</span></code> and <code class="docutils literal notranslate"><span class="pre">Core</span></code> umbrellas. Its public input is
+a known erased support <code class="docutils literal notranslate"><span class="pre">E</span> <span class="pre">:</span> <span class="pre">Finset</span> <span class="pre">(Fin</span> <span class="pre">n)</span></code>; define erasure correctability by
+the absence of a nontrivial logical Pauli supported entirely inside <code class="docutils literal notranslate"><span class="pre">E</span></code>,
+including the project’s phase-equivalence convention.</p>
+<p>Prove the two useful interfaces:</p>
+<ol class="arabic simple">
+<li><p>The stabilizer-code erasure criterion: the Pauli error set supported in
+<code class="docutils literal notranslate"><span class="pre">E</span></code> is jointly correctable exactly when no nontrivial logical operator is
+supported in <code class="docutils literal notranslate"><span class="pre">E</span></code>.</p></li>
+<li><p>The distance corollary: for a code of distance <code class="docutils literal notranslate"><span class="pre">d</span></code>, every known erasure
+set with <code class="docutils literal notranslate"><span class="pre">E.card</span> <span class="pre">&lt;</span> <span class="pre">d</span></code> is correctable. This is the erasure bound; do not
+replace it with the unknown-error bound <code class="docutils literal notranslate"><span class="pre">2t</span> <span class="pre">&lt;</span> <span class="pre">d</span></code>.</p></li>
+</ol>
+<p>Use the existing Pauli support, logical-operator, and code-distance
+abstractions. Add a small checked example with the existing <code class="docutils literal notranslate"><span class="pre">[[5,1,3]]</span></code> code
+showing correction of a single known erased qubit, plus a boundary example
+where an erased set contains a logical support. This theorem is a code
+property, not an erasure decoder, channel model, or hardware threshold. Keep
+the work independent of <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and <code class="docutils literal notranslate"><span class="pre">Physlib</span></code>; QECLean’s Lake configuration
+already uses mathlib and its own Lean tooling, and this contribution needs no
+new dependency. The existing <a class="reference download internal" download="" href="_downloads/350d42153a95c06bd6ef81a3bfedeba5/Layer.lean"><span class="xref download myst">Layer scaffold</span></a>
+can use the API later, but deriving its defect stabilizers is a separate task.</p>
+</section>
+<section id="cross-project-handoff-and-gates">
+<h3>Cross-project handoff and gates<a class="headerlink" href="#cross-project-handoff-and-gates" title="Link to this heading">¶</a></h3>
+<p>Do not import either Lean library into the other. For the first cross-check,
+maintain one tiny documented fixture containing only the finite block IDs,
+address/port placement, X/Z check data, erased-block set, and code parameters.
+Signals checks placement and declared calibration/noise fields; QECLean checks
+the code and erasure theorem. Keep physical observations and units on the
+Signals side, not in QECLean.</p>
+<p>The implementation sequence is:</p>
+<ol class="arabic simple">
+<li><p>Add and test the Signals Pending deployment/noise contract.</p></li>
+<li><p>Add the generic QECLean erasure criterion and distance corollary; test the
+<code class="docutils literal notranslate"><span class="pre">[[5,1,3]]</span></code> one-erasure case.</p></li>
+<li><p>Instantiate one finite fixture on both sides without a package dependency.</p></li>
+<li><p>Only after detector and channel calibration, add a measured noise model and
+assess a concrete syndrome circuit/decoder. Keep OAM-qudit codes, CV/GKP
+codes, a full Layer-code lift, room-temperature operation, threshold,
+scalable throughput, and thermodynamic cooling claims outside v1.</p></li>
+</ol>
+<p>For docs-only changes, build the Sphinx docs and run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code>. When
+code is added, also run the Signals build and QECLean’s focused Lean build.</p>
+</section>
+</section>
+<section id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Link to this heading">¶</a></h2>
+<p>From <code class="docutils literal notranslate"><span class="pre">src/signals</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lake<span class="w"> </span>build<span class="w"> </span>Signals<span class="w"> </span>SignalsTests
+</pre></div>
+</div>
+<p>The focused tests cover multiplex selector matching, demultiplexing, Boolean
+NAND identities, parity, routing-map involutions, operator inventory counts,
+and matrix-vector application. The build still reports the repository’s
+pre-existing Physlib <code class="docutils literal notranslate"><span class="pre">if_pos</span></code> deprecation warning.</p>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="paper-model-review.html" title="Paper Model Review" >previous</a></li>
+        <li><a href="dispersive-homodyne-plan.html" title="Dispersive Homodyne Coverage and Implementation Plan" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

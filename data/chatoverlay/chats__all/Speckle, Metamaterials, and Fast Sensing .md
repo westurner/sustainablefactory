@@ -1,1 +1,0 @@
-../../chats/Speckle, Metamaterials, and Fast Sensing .md

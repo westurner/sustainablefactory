@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chat Physics Catalog &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Synergistic Process for Fabricating Carbon-Based Electronic and Photonic Components" href="paper.html" />
+    <link rel="prev" title="Lean Blueprint and Sphinxdocrs Roadmap" href="lean-blueprint-rust-port-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Chat Physics Catalog</a><ul>
+<li><a class="reference internal" href="#triage-summary">Triage Summary</a></li>
+<li><a class="reference internal" href="#applications">Applications</a><ul>
+<li><a class="reference internal" href="#soliton-transport-and-quantum-photonics">Soliton transport and quantum photonics</a></li>
+<li><a class="reference internal" href="#homodyne-and-continuous-variable-readout">Homodyne and continuous-variable readout</a></li>
+<li><a class="reference internal" href="#nv-center-diagnostics-and-widefield-measurements">NV-center diagnostics and widefield measurements</a></li>
+<li><a class="reference internal" href="#displays-and-optical-products">Displays and optical products</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#processes">Processes</a></li>
+<li><a class="reference internal" href="#products-and-material-systems">Products and Material Systems</a><ul>
+<li><a class="reference internal" href="#polycbd-waveguides-upt-and-ddf-shear-jamming">PolyCBD waveguides, UPT, and DDF shear-jamming</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exclusions">Exclusions</a></li>
+<li><a class="reference internal" href="#recommended-update-order">Recommended Update Order</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="lean-blueprint-rust-port-plan.html" title="Lean Blueprint and Sphinxdocrs Roadmap" accesskey="P">previous </a></li>
+              <li><a href="paper.html" title="Synergistic Process for Fabricating Carbon-Based Electronic and Photonic Components" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/chat-physics-catalog.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Chat Physics Catalog</a><ul>
+<li><a class="reference internal" href="#triage-summary">Triage Summary</a></li>
+<li><a class="reference internal" href="#applications">Applications</a><ul>
+<li><a class="reference internal" href="#soliton-transport-and-quantum-photonics">Soliton transport and quantum photonics</a></li>
+<li><a class="reference internal" href="#homodyne-and-continuous-variable-readout">Homodyne and continuous-variable readout</a></li>
+<li><a class="reference internal" href="#nv-center-diagnostics-and-widefield-measurements">NV-center diagnostics and widefield measurements</a></li>
+<li><a class="reference internal" href="#displays-and-optical-products">Displays and optical products</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#processes">Processes</a></li>
+<li><a class="reference internal" href="#products-and-material-systems">Products and Material Systems</a><ul>
+<li><a class="reference internal" href="#polycbd-waveguides-upt-and-ddf-shear-jamming">PolyCBD waveguides, UPT, and DDF shear-jamming</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exclusions">Exclusions</a></li>
+<li><a class="reference internal" href="#recommended-update-order">Recommended Update Order</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="lean-blueprint-rust-port-plan.html"
+                          title="previous chapter">Lean Blueprint and Sphinxdocrs Roadmap</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="paper.html"
+                          title="next chapter">Synergistic Process for Fabricating Carbon-Based Electronic and Photonic Components</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/chat-physics-catalog.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chat-physics-catalog">
+<h1>Chat Physics Catalog<a class="headerlink" href="#chat-physics-catalog" title="Link to this heading">¶</a></h1>
+<p>This catalog reviews the Markdown chat corpus for physics and engineering
+claims that could justify changes to the Lean <code class="docutils literal notranslate"><span class="pre">Signals</span></code> library. Chat exports
+are design evidence, not measurements. A claim is promoted only when its
+equation, calibration path, or scholarly experiment is explicit; otherwise it
+stays a Pending contract or a process/product annotation.</p>
+<section id="triage-summary">
+<h2>Triage Summary<a class="headerlink" href="#triage-summary" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Disposition</p></th>
+<th class="head"><p>Topics</p></th>
+<th class="head"><p>Lean action</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Already covered</p></td>
+<td><p>Soliton transport, WDM/MDM/OAM addressing, homodyne algebra, OAM counting, SHG power bookkeeping, classical MHD, acoustic transfer, QND evidence boundaries</p></td>
+<td><p>Reuse and extend existing records; no duplicate physics model.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pending extension justified</p></td>
+<td><p>NV/Purcell readout, widefield CASR diagnostics, measured LBGPC conductivity, display-stack optical calibration</p></td>
+<td><p>Add finite observation records only after units, calibration, loss, and uncertainty fields are defined.</p></td>
+</tr>
+<tr class="row-even"><td><p>Process/catalog only</p></td>
+<td><p>LIFT placement, N-LIG roughness, plasma ammonia, cold-plasma carbon recovery, Lignin-PEG thermal apparel, multi-chemistry batteries</p></td>
+<td><p>Keep in process/RDF or Pending material records; these are not yet Signals physics.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Exclude from promotion</p></td>
+<td><p>Vacuum-energy extraction, SQG plasma coupling, room-temperature quantum advantage, 10 nm LIFT, entropy siphoning, lossless OAM/QPU claims</p></td>
+<td><p>Preserve as explicitly unsupported or conditional proposals.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Link to this heading">¶</a></h2>
+<section id="soliton-transport-and-quantum-photonics">
+<h3>Soliton transport and quantum photonics<a class="headerlink" href="#soliton-transport-and-quantum-photonics" title="Link to this heading">¶</a></h3>
+<p>The A2Q chats propose a monolithic soliton bus carrying WDM, MDM, OAM,
+squeezed states, homodyne probes, and nondestructive parity signals
+<span class="xref myst">signal-phase chat</span>. The
+same proposal describes nested N-LIG tubes, helical OAM waveguides, and a Kerr
+probe path <span class="xref myst">bus architecture</span>.</p>
+<p><strong>Status:</strong> proposal. The defensible model is already in
+<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>: lane addresses, selectors, routing, quadrature maps,
+finite operators, propagation lengths, XPM collision data, and OAM crosstalk
+metadata. No new verified physics is justified by these chats alone.</p>
+</section>
+<section id="homodyne-and-continuous-variable-readout">
+<h3>Homodyne and continuous-variable readout<a class="headerlink" href="#homodyne-and-continuous-variable-readout" title="Link to this heading">¶</a></h3>
+<p>The CV design replaces single-photon counting with balanced homodyne detection,
+PIN receivers, and squeezed-state quadrature measurements
+<span class="xref myst">homodyne proposal</span>.
+The DGCZ variance criterion is a standard CV-QI concept, while the proposed
+room-temperature N-LIG implementation is unvalidated.</p>
+<p><strong>Status:</strong> classical detector algebra is already covered by
+<code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code>; quantum squeezing, QND, and backaction remain in Pending
+contracts. The correct update is calibration data, not a new proof of quantum
+readout.</p>
+</section>
+<section id="nv-center-diagnostics-and-widefield-measurements">
+<h3>NV-center diagnostics and widefield measurements<a class="headerlink" href="#nv-center-diagnostics-and-widefield-measurements" title="Link to this heading">¶</a></h3>
+<p>The hardware-architecture chats propose an N-LIG/nanodiamond cavity with
+Purcell-enhanced NV emission and a target lifetime reduction, followed by
+widefield NMR/CASR diagnostics for drift and decoherence
+<span class="xref myst">NV cavity proposal</span>
+and <span class="xref myst">widefield diagnostic proposal</span>.</p>
+<p><strong>Status:</strong> the Purcell equation and CASR aliasing are defensible finite-model
+physics, but the N-LIG cavity, mode volume, thermal resolution, and “soliton
+shadow” interpretation are not demonstrated.</p>
+<p><strong>Smallest future Pending additions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NVCenterReadout</span></code>: wavelength, refractive index, cavity <span class="math notranslate nohighlight">\(Q\)</span>, mode volume,
+bulk/cavity lifetime, collection efficiency, and calibration residual;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WidefieldNMRDiagnostics</span></code>: camera frame rate, synchronisation frequency,
+alias order, <span class="math notranslate nohighlight">\(T_2^*\)</span> estimate, thermal-map residual, and provenance.</p></li>
+</ul>
+</section>
+<section id="displays-and-optical-products">
+<h3>Displays and optical products<a class="headerlink" href="#displays-and-optical-products" title="Link to this heading">¶</a></h3>
+<p>The display chats combine rGO-vitrimer shutters, nanodiamond SHG, Bragg
+structural color, and cellulose nanospheres for amber, RGB, and white display
+states <span class="xref myst">display architecture</span>.
+The chat also proposes high-speed rGO-vitrimer shutters for signage
+<span class="xref myst">rGO-vitrimer display</span>.</p>
+<p><strong>Status:</strong> SHG and Bragg reflection are existing physics already represented
+by <code class="docutils literal notranslate"><span class="pre">Signals.ActiveOptics</span></code> and laser/Bragg contracts. The stacked RGB product,
+video-rate switching, spectral crosstalk, lifetime, and display gamut require
+measured optical and thermal observations before a new verified record is
+appropriate.</p>
+</section>
+</section>
+<section id="processes">
+<h2>Processes<a class="headerlink" href="#processes" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Process</p></th>
+<th class="head"><p>Chat evidence</p></th>
+<th class="head"><p>Status and model disposition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>N-LIG/CNT nonlinear transmission line</p></td>
+<td><p>N-LIG plus periodic CNT varactors are proposed to balance resistance and dispersion <span class="xref myst">NLTL proposal</span></p></td>
+<td><p>Classical KdV/Sine-Gordon dynamics can be a future finite model; room-temperature loss and scattering remain unmeasured.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Laser-induced graphene and roughness control</p></td>
+<td><p>N-LIG smoothness, laser choice, and sub-10 nm surface targets are proposed in the hardware review <span class="xref myst">N-LIG process</span></p></td>
+<td><p>Material/process annotation only until profilometry, loss, and laser-dose data exist.</p></td>
+</tr>
+<tr class="row-even"><td><p>LIFT nanodiamond placement</p></td>
+<td><p>Yb-fibre fs pulses, donor/receiver gaps, aperture masks, and 10 nm placement are proposed <span class="xref myst">LIFT proposal</span></p></td>
+<td><p>Do not promote the 10 nm claim. Model pulse dose and placement residuals only if measured.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Plasma ammonia/nitrogenated lignin</p></td>
+<td><p>Non-thermal plasma ammonia is proposed as an upstream nitrogen source <span class="xref myst">ammonia plasma proposal</span></p></td>
+<td><p>Process/RDF candidate; requires full H2 source, conversion, energy, and nitrogen-balance accounting.</p></td>
+</tr>
+<tr class="row-even"><td><p>Cold-plasma waste gasification</p></td>
+<td><p>Mixed plastics are proposed to yield hydrogen and carbon allotropes for VACNT/rGO products <span class="xref myst">plasma recovery process</span></p></td>
+<td><p>Process proposal; gas yield, carbon purity, energy use, and allotrope selectivity are missing.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ultrasonic magnetic ball milling</p></td>
+<td><p>A sealed 20–40 kHz wet mill with magnetic-bearing isolation is proposed <span class="xref myst">ultrasonic mill</span></p></td>
+<td><p>Reuse <code class="docutils literal notranslate"><span class="pre">Signals.Acoustics</span></code> for transfer; add coupled bearing/isolation data only with measured damping and cavitation thresholds.</p></td>
+</tr>
+<tr class="row-even"><td><p>LBGPC/LBGP MHD pumping</p></td>
+<td><p>Graphene/phytic-acid conductivity is proposed for a silent moving-part-free pump <span class="xref myst">LBGPC pump</span></p></td>
+<td><p>Reuse <code class="docutils literal notranslate"><span class="pre">Signals.MHD</span></code>; a Pending conductivity observation is justified, not a performance claim.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="products-and-material-systems">
+<h2>Products and Material Systems<a class="headerlink" href="#products-and-material-systems" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Product/system</p></th>
+<th class="head"><p>Evidence boundary</p></th>
+<th class="head"><p>Existing or recommended model</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>N-LIG soliton/CV processor</p></td>
+<td><p>Integrated room-temperature operation, lossless routing, and quantum advantage are proposals <span class="xref myst">A2Q design</span></p></td>
+<td><p>Existing <code class="docutils literal notranslate"><span class="pre">SolitonBus</span></code>, <code class="docutils literal notranslate"><span class="pre">Homodyne</span></code>, <code class="docutils literal notranslate"><span class="pre">OAM</span></code>, and Pending QND; no composite verified product record yet.</p></td>
+</tr>
+<tr class="row-odd"><td><p>NV nanodiamond cavity/readout module</p></td>
+<td><p>NV products and positioning have scholarly records, but the N-LIG Purcell stack is proposed <span class="xref myst">NV proposal</span></p></td>
+<td><p>Existing <code class="docutils literal notranslate"><span class="pre">Signals.Lasers</span></code> nanodiamond products; add a Pending Purcell observation only with <span class="math notranslate nohighlight">\(Q/V\)</span> and lifetime calibration.</p></td>
+</tr>
+<tr class="row-even"><td><p>rGO-vitrimer amber/RGB display</p></td>
+<td><p>Shutter, SHG, Bragg, and cellulose-scattering layers are proposed <span class="xref myst">display product</span></p></td>
+<td><p>Existing <code class="docutils literal notranslate"><span class="pre">ActiveOptics</span></code>/Bragg contracts cover equations; product validation belongs in a material/process record.</p></td>
+</tr>
+<tr class="row-odd"><td><p>LBGPC thermal-fluid apparel and cooling</p></td>
+<td><p>Lignin-PEG phase-change pads, LBGP fluidics, MHD pumps, and hydrophobic layers are proposed <span class="xref myst">thermal apparel</span></p></td>
+<td><p>Process/material catalog candidate; requires viscosity, conductivity, phase-change, toxicity, and pressure data.</p></td>
+</tr>
+<tr class="row-even"><td><p>Hydrogen and carbon recovery products</p></td>
+<td><p>Plasma gasification proposes H2 fuel and VACNT/rGO feedstock <span class="xref myst">recovery outputs</span></p></td>
+<td><p>RDF/process inventory; do not encode purity or closed-loop yield as Lean theorems without measurements.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="polycbd-waveguides-upt-and-ddf-shear-jamming">
+<h3>PolyCBD waveguides, UPT, and DDF shear-jamming<a class="headerlink" href="#polycbd-waveguides-upt-and-ddf-shear-jamming" title="Link to this heading">¶</a></h3>
+<p>The IQ-sampling chat proposes polyCBD carbonate as a low-loss 400 GHz
+Proca/cannon waveguide material and gives 400/800 GHz loss values
+(<span class="xref myst">material proposal</span>,
+<span class="xref myst">waveguide claim</span>,
+<span class="xref myst">widget values</span>). A 2026
+IEEE conference-paper record exists for hemp-based polycarbonate 5G/mmWave
+substrates, but its full methods and data were not accessible in this review.
+Do not transfer its title or nominal mmWave scope to the chat’s 400/800 GHz
+values or infer a Proca mode; keep this <code class="docutils literal notranslate"><span class="pre">calibration-required</span></code> until the paper
+and frequency-specific measurements are checked.</p>
+<p>The rail-tie chat uses an engineered acoustic-impedance discontinuity as a
+“fracture plane” and proposes piezoelectric UPT through a layered path
+(<span class="xref myst">impedance analogy</span>,
+<span class="xref myst">UPT design</span>).
+This remains a proposal; its 1 MHz and 68% figures are not reported measurements
+(<span class="xref myst">claimed transfer</span>).
+Reuse <code class="docutils literal notranslate"><span class="pre">Signals.Acoustics.UltrasonicTransfer</span></code> for the passive baseline and require
+measured layer, interface, transducer, receiver-load, and loss data. Experimental
+piezoelectric UPT literature exists, but does not validate this tie architecture
+(<a class="reference internal" href="longitudinal-wave-polycbd-upt-dff-evidence.html"><span class="std std-doc">evidence report</span></a>).</p>
+<p>DDF shear-jamming is a theoretical high-shear constitutive proposal in the DDF
+chat (<span class="xref myst">source</span>).
+It is not brittle crack propagation and is not a generic UPT model. Keep solid
+fracture, granular jamming, and acoustic power transfer as separate evidence
+classes; see the <a class="reference internal" href="longitudinal-wave-polycbd-upt-dff-evidence.html"><span class="std std-doc">focused review</span></a>.</p>
+</section>
+</section>
+<section id="exclusions">
+<h2>Exclusions<a class="headerlink" href="#exclusions" title="Link to this heading">¶</a></h2>
+<p>The following chat claims should not be promoted into verified Signals:</p>
+<ul class="simple">
+<li><p>CW Proca vacuum-gradient energy extraction for Argon;</p></li>
+<li><p>SQG as a plasma coupling medium;</p></li>
+<li><p>“entropy siphoning” as a net closed-loop QPU heat-extraction mechanism (<code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> proves single-shot conditional Landauer heat <span class="math notranslate nohighlight">\(Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)\)</span> per del Rio et al. 2011 and audits the <span class="math notranslate nohighlight">\(-0.750\text{ }\mu\text{W}\)</span> vs. <span class="math notranslate nohighlight">\(-50\text{ W}\)</span> <code class="docutils literal notranslate"><span class="pre">lignolux_entropy_siphon_sim.py</span></code> mismatch, while <code class="docutils literal notranslate"><span class="pre">QuantumCausalMpembaSynthesisContract</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> enforces closed-loop observer-memory reset <span class="math notranslate nohighlight">\(Q_{\mathrm{closed}} \ge k_B T \ln 2\)</span>; see <a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">grassmannian-quantum-causal-inference-mpemba-paper.md</span></a>);</p></li>
+<li><p>chiral baryogenesis or dark-energy generation from uncalibrated dual-Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee\)</span> <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> tunneling (<span class="xref myst">source</span>: <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30 formalizes the verified Fubini–Study Kähler geometry, corrected Hermitian normal <span class="math notranslate nohighlight">\(n(p)=\overline{\tilde{p}}\)</span> on the Klein quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span>, dual-Schubert Noether continuity <span class="math notranslate nohighlight">\(\partial_t(\rho+\rho_{\mathrm{dual}})+\nabla\cdot(\mathbf{J}_{\mathrm{real}}+\mathbf{J}_{\mathrm{dual}})=0\)</span>, and Penrose Bohm–Weyl curvature dictionary, while <code class="docutils literal notranslate"><span class="pre">ComplexGrassmannianIGPEPluckerContract</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> isolates cosmological and dark-sector hypotheses; see <a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">grassmannian-complex-gpe-igpe-plucker-madelung-paper.md</span></a>);</p></li>
+<li><p>standalone classical or uncalibrated QRAM speedups from <span class="math notranslate nohighlight">\(O(\log^2 L)\)</span> Quantum Fourier Transform (<code class="docutils literal notranslate"><span class="pre">QFT</span></code>) Holographic Associative Memory or uncalibrated <span class="math notranslate nohighlight">\(100\text{ ps}\)</span> (<span class="math notranslate nohighlight">\(10\text{ GHz}\)</span>) <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> / <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> soliton steering (<span class="xref myst">source</span>: <code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> Section 9 formalizes JEV vs. <span class="math notranslate nohighlight">\(\operatorname{do}\)</span>-calculus vs. QCDT decision utility, Jevons compute rebound, Zhang 2025 / <code class="docutils literal notranslate"><span class="pre">kanenorman/grassmann</span></code> multi-lag Plücker bilinear collapse and 4D Klein quadric rank-2 vs. cross-lag rank-4 criteria, De Clercq 2026 <code class="docutils literal notranslate"><span class="pre">Bundle-Transformer</span></code> tautological incidence and cross-fiber RoPE gauge-mismatch residual, log-polar OAM momentum separation, and the passive Kapitza relation <span class="math notranslate nohighlight">\(t_{\mathrm{cool}} = R_K C_v d_{\mathrm{thick}}\)</span>, while <code class="docutils literal notranslate"><span class="pre">QuantumCausalBundleVideoGenHypothesis</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> enforces <span class="math notranslate nohighlight">\(O(L)\)</span> QRAM state-preparation overhead <span class="math notranslate nohighlight">\(T_{\mathrm{prep}} &lt; T_{\mathrm{prep}} + T_{\mathrm{QFT}}\)</span>, polar fiber gauge calibration, and Kapitza thermal-via calibration; see <a class="reference internal" href="grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.html"><span class="std std-doc">grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md</span></a>);</p></li>
+<li><p>uncalibrated intraoperative surgical margin clearance or tissue-resection decisions from 3D Gaussian splats or GraphRAG retrieval without phantom/fiducial registration, non-cavitating <code class="docutils literal notranslate"><span class="pre">LIFU</span></code> Mechanical Index verification, and clinician-in-the-loop sign-off (<code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> Sections 11–12 formalize <span class="math notranslate nohighlight">\(&gt; 6{,}400\times\)</span> volumetric efficiency ratios <span class="math notranslate nohighlight">\(13{,}107.2\times\)</span>, <span class="math notranslate nohighlight">\(104{,}857.6\times\)</span>, <span class="math notranslate nohighlight">\(640{,}000\times\)</span>, <span class="math notranslate nohighlight">\(1{,}310{,}720\times\)</span>, and overhead-inclusive <span class="math notranslate nohighlight">\(6{,}553.6\times\)</span>, Jeffrey’s Probability Kinematics, partition-weighted Lüders–Jeffrey boundary rigidity, Diaconis–Zabell sequential non-commutativity vs. log-odds commutativity, 3D surgical splat 0th/1st/2nd-moment splitting conservation and depth inversion, and Quantum Causal Semantic GraphRAG scoring, while <code class="docutils literal notranslate"><span class="pre">QuantumCausalSurgicalSplatGraphRAGHypothesis</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> enforces <code class="docutils literal notranslate"><span class="pre">motionConfounderSubtracted</span></code>, <code class="docutils literal notranslate"><span class="pre">surgicalAcousticThermalSafetyVerified</span></code>, and <code class="docutils literal notranslate"><span class="pre">graphRagDisjointProvenanceVerified</span></code>; see <a class="reference internal" href="grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.html"><span class="std std-doc">grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md</span></a>);</p></li>
+<li><p>chemical-accuracy (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.1</span> <span class="pre">kcal/mol</span></code> on <code class="docutils literal notranslate"><span class="pre">GMTKN55</span></code>), uncalibrated ab initio light-induced room-temperature superconductivity, or hardware non-Abelian anyon braiding claims from core-Hamiltonian-only (<code class="docutils literal notranslate"><span class="pre">H_core</span> <span class="pre">=</span> <span class="pre">diag(1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4)</span></code>) or pure-Plücker-ray (<code class="docutils literal notranslate"><span class="pre">S_vN</span> <span class="pre">=</span> <span class="pre">0</span></code>) <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> toy scripts (<span class="xref myst">source</span>: <code class="docutils literal notranslate"><span class="pre">Signals.Plabic</span></code> Section 13 formalizes pole-free Complex Grassmannian Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VectorRelationConfiguration</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24HomogeneousVRC</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24MutatedHomogeneousVRC</span></code>) resolving the <span class="math notranslate nohighlight">\(x_X = -1\)</span> on-shell polariton resonance pole, <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> formalizes unrestricted spin-polarized Grassmannian Kohn–Sham core bounds (<span class="math notranslate nohighlight">\(E_{\mathrm{core}} \ge 4.0\text{ Ha} = 2{,}510.036\text{ kcal/mol}\)</span>), unitary Cayley transform retraction, McWeeny cubic purification <span class="math notranslate nohighlight">\(3\lambda^2 - 2\lambda^3\)</span>, 1-RDM orbital correlation entropy, soliton envelope gate time, the 3-qudit GHZ Mermin witness <span class="math notranslate nohighlight">\(W(F) = 4(2F - 1)\)</span>, Discovered Materials Problem 03 <code class="docutils literal notranslate"><span class="pre">WTMAD-2</span></code>, <span class="math notranslate nohighlight">\(144\times\)</span> <code class="docutils literal notranslate"><span class="pre">def2-QZVP</span></code> Grassmann–Cayley speedup, <code class="docutils literal notranslate"><span class="pre">ALD</span></code> barrier restoration, analytical 4-center <span class="math notranslate nohighlight">\(s\)</span>-wave Gaussian two-electron repulsion integrals <code class="docutils literal notranslate"><span class="pre">gaussianFourCenterSWaveERI</span></code>, Boys <span class="math notranslate nohighlight">\(F_0(T)\)</span> <code class="docutils literal notranslate"><span class="pre">boysF0Taylor2</span></code>, exact Pauli diagonal self-interaction cancellation <code class="docutils literal notranslate"><span class="pre">sameSpinDiagonalCoulombMinusExchange</span> <span class="pre">=</span> <span class="pre">0</span></code>, <span class="math notranslate nohighlight">\(192\times\)</span> 3-center <code class="docutils literal notranslate"><span class="pre">RI-J</span> <span class="pre">/</span> <span class="pre">COSX</span></code> speedup <code class="docutils literal notranslate"><span class="pre">riAuxiliaryERISpeedupRatio</span></code>, the full 55-subset / 1,505-reaction <code class="docutils literal notranslate"><span class="pre">GMTKN55</span></code> <code class="docutils literal notranslate"><span class="pre">WTMAD-2</span> <span class="pre">=</span> <span class="pre">494.54</span> <span class="pre">/</span> <span class="pre">301</span> <span class="pre">≈</span> <span class="pre">1.643</span> <span class="pre">kcal/mol</span></code> (<code class="docutils literal notranslate"><span class="pre">gmtkn55FiveCategoryWTMAD2</span></code>, <code class="docutils literal notranslate"><span class="pre">full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities</span></code>), the polariton/plasmon/skyrmion/MZM/NonDestructive bridge (<code class="docutils literal notranslate"><span class="pre">polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities</span></code>), and Discovered Materials Problem 04 time-linear Grassmannian <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code> (<span class="math notranslate nohighlight">\(1.44\times 10^8\times\)</span> bare and <span class="math notranslate nohighlight">\(1.44\times 10^7\times\)</span> cumulant-inclusive speedup over two-time KBE), Hubbard 11-site chain &amp; <span class="math notranslate nohighlight">\(6\times 2\)</span> ladder (<code class="docutils literal notranslate"><span class="pre">arXiv:2606.10773</span></code>), <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span> bright/dark excitons &amp; high-density Pauli Mott screening, Graphite 5-reservoir ODE rate conservation, and <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span> <span class="math notranslate nohighlight">\(T_c = 38\text{ K}\)</span>, <span class="math notranslate nohighlight">\(0.63\text{ THz}\)</span> harmonics, <span class="math notranslate nohighlight">\(1\text{ THz}\)</span> peak, <span class="math notranslate nohighlight">\(150\text{ kV/cm}\)</span> <span class="math notranslate nohighlight">\(2\text{ ps}\)</span> conductivity, and out-of-equilibrium <span class="math notranslate nohighlight">\(T_c^{\mathrm{neq}}(n_{\mathrm{qp}})\)</span> (<code class="docutils literal notranslate"><span class="pre">tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">tuning_materials_with_light_cumulant_pauli_ode_and_neq_tc_critique_identities</span></code>), and <code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> Sections 13–14 formalize QCI directed conditional mutual information, spin-channel mutual information <span class="math notranslate nohighlight">\(I(\alpha:\beta)\)</span>, and optional Complex VRC vs. Plabic causal parameterization (<code class="docutils literal notranslate"><span class="pre">qci_optional_vrc_vs_plabic_complex_grassmannian_identities</span></code>), while <code class="docutils literal notranslate"><span class="pre">QuantumCausalGrassmannianDFTHypothesis</span></code> and <code class="docutils literal notranslate"><span class="pre">LightDrivenMaterialsPendingHypothesis</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> require two-electron Coulomb/exchange (<code class="docutils literal notranslate"><span class="pre">J/K</span></code>) ERIs, <code class="docutils literal notranslate"><span class="pre">GMTKN55</span></code> benchmarking, full Brillouin-zone <span class="math notranslate nohighlight">\(GW\text{-}\mathrm{BSE}\)</span> / DFPT matrix elements, and experimental braiding/trARPES/UEDS/THz-TDS telemetry; see <a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md</span></a>, <a class="reference internal" href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html"><span class="std std-doc">grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md</span></a>, <a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">grassmannian-tuning-materials-with-light-paper.md</span></a>, and <a class="reference internal" href="grassmannian-interfacial-heat-transport-paper.html"><span class="std std-doc">grassmannian-interfacial-heat-transport-paper.md</span></a>);</p></li>
+<li><p>10 nm LIFT placement and lossless OAM/QPU routing;</p></li>
+<li><p>room-temperature quantum advantage from an unmeasured N-LIG platform;</p></li>
+<li><p>polyCBD Proca/400-800 GHz conversion and chat-estimated UPT transfer efficiency;</p></li>
+<li><p>DDF shear-jamming promoted as measured brittle-fracture or UPT physics.</p></li>
+</ul>
+<p>The safe representation is a Pending hypothesis with explicit input power,
+loss, calibration, conservation, and experimental-status fields. Existing
+<code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code> guidance requires those boundaries to remain visible.</p>
+</section>
+<section id="recommended-update-order">
+<h2>Recommended Update Order<a class="headerlink" href="#recommended-update-order" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Add Pending <code class="docutils literal notranslate"><span class="pre">NVCenterReadout</span></code> and <code class="docutils literal notranslate"><span class="pre">WidefieldNMRDiagnostics</span></code> records with
+dimensional calibration and residual fields.</p></li>
+<li><p>Add a Pending <code class="docutils literal notranslate"><span class="pre">LBGPCConductivityObservation</span></code> to the existing MHD accounting
+rather than assuming graphene/phytic-acid conductivity.</p></li>
+<li><p>Keep display, plasma, battery, packaging, and apparel work in process/RDF
+catalogs until transferable measurements exist.</p></li>
+<li><p>Do not add new verified equations for the unsupported Proca/SQG/QPU claims.</p></li>
+</ol>
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="travers2019"></a> Travers et al. (2019), <a class="reference external" href="https://doi.org/10.1038/s41566-019-0416-4">High-energy pulse self-compression and ultraviolet generation through soliton dynamics in hollow capillary fibres</a>.</p>
+<p><a id="wang2018"></a> Wang et al. (2018), <a class="reference external" href="https://doi.org/10.1364/oe.26.010038">Directly using 88-km conventional multi-mode fiber for 6-mode orbital angular momentum multiplexing transmission</a>.</p>
+<p><a id="bao2025"></a> Bao et al. (2025), <a class="reference external" href="https://doi.org/10.1002/adfm.202520907">Quantum-Grade Nanodiamonds from a Single-Step, Industrial-Scale Pressure and Temperature Process</a>.</p>
+<p><a id="kim2025"></a> Kim et al. (2025), <a class="reference external" href="https://doi.org/10.1038/s41467-025-64758-4">Scalable nanoscale positioning of highly coherent color centers in prefabricated diamond nanostructures</a>.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="lean-blueprint-rust-port-plan.html" title="Lean Blueprint and Sphinxdocrs Roadmap" >previous</a></li>
+        <li><a href="paper.html" title="Synergistic Process for Fabricating Carbon-Based Electronic and Photonic Components" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

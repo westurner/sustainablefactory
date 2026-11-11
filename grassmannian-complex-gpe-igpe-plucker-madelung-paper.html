@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert iGPE, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric \(\mathcal{Q}_4\) in Lean 4 and Rust/WASM &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Hawking Radiation, Inverse Gross–Pitaevskii (iGPE) Unwinding, and Amplituhedron / CP-ALS Decoding in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4" href="grassmannian-hawking-radiation-decoding-paper.html" />
+    <link rel="prev" title="From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> in Lean 4 and Rust/WASM</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architectural-synthesis-how-intrinsic-complex-grassmannian-gpe-igpe-extends-existing-signals-models">1. Architectural Synthesis: How Intrinsic Complex Grassmannian GPE/iGPE Extends Existing <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Models</a><ul>
+<li><a class="reference internal" href="#unifying-all-four-meanings-of-igpe-across-the-research-corpus">1.1 Unifying All Four Meanings of “iGPE” Across the Research Corpus</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#homogeneous-plucker-6-vector-calculus-on-mathcal-q-4-subset-mathbb-p-5-mathbb-c-mathematical-audit-of-the-contravariant-metric-mathcal-h-i-bar-j">2. Homogeneous Plücker 6-Vector Calculus on <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> &amp; Mathematical Audit of the Contravariant Metric <span class="math notranslate nohighlight">\(\mathcal{H}^{I\bar{J}}\)</span></a><ul>
+<li><a class="reference internal" href="#plucker-embedding-hodge-duality-and-the-klein-quadric-mathcal-q-4">2.1 Plücker Embedding, Hodge Duality, and the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span></a></li>
+<li><a class="reference internal" href="#mathematical-audit-correction-of-the-chats-sympy-contravariant-metric-projector">2.2 Mathematical Audit &amp; Correction of the Chat’s SymPy Contravariant Metric Projector</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#canonical-affine-chart-z-i-2-mid-w-cauchybinet-kahlerplucker-identity-coupled-dual-grassmannian-igpe">3. Canonical Affine Chart <span class="math notranslate nohighlight">\(Z = (I_2 \mid W)\)</span>, Cauchy–Binet Kähler–Plücker Identity, &amp; Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code></a><ul>
+<li><a class="reference internal" href="#cauchybinet-kahler-determinant-identity-on-gr-mathbb-c-2-4">3.1 Cauchy–Binet Kähler Determinant Identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></a></li>
+<li><a class="reference internal" href="#coupled-dual-grassmannian-igpe-symplectic-norm-balance-chiral-josephson-tunneling">3.2 Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Symplectic Norm Balance &amp; Chiral Josephson Tunneling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complex-grassmannian-bogoliubov-dispersion-critical-deborah-shear-fracture-mathrm-de-mathrm-de-c-ge-1-homogeneous-plucker-madelung-hydrodynamics">4. Complex Grassmannian Bogoliubov Dispersion, Critical Deborah Shear Fracture (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c \ge 1\)</span>), &amp; Homogeneous Plücker Madelung Hydrodynamics</a><ul>
+<li><a class="reference internal" href="#einsteinkahler-curvature-gap-r-mathrm-gr-2-4-16-tachyonic-shear-fracture-equivalence">4.1 Einstein–Kähler Curvature Gap (<span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16\)</span>) &amp; Tachyonic Shear-Fracture Equivalence</a></li>
+<li><a class="reference internal" href="#homogeneous-plucker-madelung-qhj-plucker-igpe-potential-inversion-self-dual-weyl-curvature-dictionary">4.2 Homogeneous Plücker Madelung QHJ, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Self-Dual Weyl Curvature Dictionary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-to-turner-2026-models-for-superposition-gravity-1pn-perihelion-and-gravitational-waves-2-5pn-ringdown-fracture">5. Application to Turner (2026) Models for Superposition, Gravity (1PN Perihelion), and Gravitational Waves (2.5PN &amp; Ringdown Fracture)</a><ul>
+<li><a class="reference internal" href="#revised-superposition-model-pluckermadelungsuperpositionoamdoubleslit-linear-superposition-as-the-klein-quadric-constraint-dual-schubert-origin-of-delta-mathrm-neq">5.1 Revised Superposition Model (<code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>): Linear Superposition as the Klein Quadric Constraint &amp; Dual-Schubert Origin of <span class="math notranslate nohighlight">\(\delta_{\mathrm{neq}}\)</span></a></li>
+<li><a class="reference internal" href="#revised-gravity-models-models-14a-14b-orbital-fubinistudy-kahler-identity-plucker-igpe-potential-inversion-dual-schubert-core-regularization">5.2 Revised Gravity Models (Models 14a &amp; 14b): Orbital Fubini–Study Kähler Identity, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Dual-Schubert Core Regularization</a></li>
+<li><a class="reference internal" href="#revised-gravitational-wave-models-models-14a-14b-plucker-mathcal-q-4-quadrupole-trajectory-proca-gap-deborah-shear-fracture-ringdown">5.3 Revised Gravitational-Wave Models (Models 14a &amp; 14b): Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Quadrupole Trajectory, Proca Gap, &amp; Deborah Shear-Fracture Ringdown</a></li>
+<li><a class="reference internal" href="#summary-comparison-table-of-revised-turner-2026-models">5.4 Summary Comparison Table of Revised Turner (2026) Models</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multi-regime-quantitative-benchmarks-machine-checked-verification">6. Multi-Regime Quantitative Benchmarks &amp; Machine-Checked Verification</a><ul>
+<li><a class="reference internal" href="#four-kinematic-regimes-on-gr-mathbb-c-2-4-cong-mathcal-q-4-madelung-lagrangian-rs">6.1 Four Kinematic Regimes on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4\)</span> (<code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code>)</a></li>
+<li><a class="reference internal" href="#self-contained-lean-4-verification-block">6.2 Self-Contained Lean 4 Verification Block</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion-reproducibility">7. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html" title="From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-hawking-radiation-decoding-paper.html" title="Hawking Radiation, Inverse Gross–Pitaevskii (iGPE) Unwinding, and Amplituhedron / CP-ALS Decoding in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> in Lean 4 and Rust/WASM</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architectural-synthesis-how-intrinsic-complex-grassmannian-gpe-igpe-extends-existing-signals-models">1. Architectural Synthesis: How Intrinsic Complex Grassmannian GPE/iGPE Extends Existing <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Models</a><ul>
+<li><a class="reference internal" href="#unifying-all-four-meanings-of-igpe-across-the-research-corpus">1.1 Unifying All Four Meanings of “iGPE” Across the Research Corpus</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#homogeneous-plucker-6-vector-calculus-on-mathcal-q-4-subset-mathbb-p-5-mathbb-c-mathematical-audit-of-the-contravariant-metric-mathcal-h-i-bar-j">2. Homogeneous Plücker 6-Vector Calculus on <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> &amp; Mathematical Audit of the Contravariant Metric <span class="math notranslate nohighlight">\(\mathcal{H}^{I\bar{J}}\)</span></a><ul>
+<li><a class="reference internal" href="#plucker-embedding-hodge-duality-and-the-klein-quadric-mathcal-q-4">2.1 Plücker Embedding, Hodge Duality, and the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span></a></li>
+<li><a class="reference internal" href="#mathematical-audit-correction-of-the-chats-sympy-contravariant-metric-projector">2.2 Mathematical Audit &amp; Correction of the Chat’s SymPy Contravariant Metric Projector</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#canonical-affine-chart-z-i-2-mid-w-cauchybinet-kahlerplucker-identity-coupled-dual-grassmannian-igpe">3. Canonical Affine Chart <span class="math notranslate nohighlight">\(Z = (I_2 \mid W)\)</span>, Cauchy–Binet Kähler–Plücker Identity, &amp; Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code></a><ul>
+<li><a class="reference internal" href="#cauchybinet-kahler-determinant-identity-on-gr-mathbb-c-2-4">3.1 Cauchy–Binet Kähler Determinant Identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></a></li>
+<li><a class="reference internal" href="#coupled-dual-grassmannian-igpe-symplectic-norm-balance-chiral-josephson-tunneling">3.2 Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Symplectic Norm Balance &amp; Chiral Josephson Tunneling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complex-grassmannian-bogoliubov-dispersion-critical-deborah-shear-fracture-mathrm-de-mathrm-de-c-ge-1-homogeneous-plucker-madelung-hydrodynamics">4. Complex Grassmannian Bogoliubov Dispersion, Critical Deborah Shear Fracture (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c \ge 1\)</span>), &amp; Homogeneous Plücker Madelung Hydrodynamics</a><ul>
+<li><a class="reference internal" href="#einsteinkahler-curvature-gap-r-mathrm-gr-2-4-16-tachyonic-shear-fracture-equivalence">4.1 Einstein–Kähler Curvature Gap (<span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16\)</span>) &amp; Tachyonic Shear-Fracture Equivalence</a></li>
+<li><a class="reference internal" href="#homogeneous-plucker-madelung-qhj-plucker-igpe-potential-inversion-self-dual-weyl-curvature-dictionary">4.2 Homogeneous Plücker Madelung QHJ, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Self-Dual Weyl Curvature Dictionary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-to-turner-2026-models-for-superposition-gravity-1pn-perihelion-and-gravitational-waves-2-5pn-ringdown-fracture">5. Application to Turner (2026) Models for Superposition, Gravity (1PN Perihelion), and Gravitational Waves (2.5PN &amp; Ringdown Fracture)</a><ul>
+<li><a class="reference internal" href="#revised-superposition-model-pluckermadelungsuperpositionoamdoubleslit-linear-superposition-as-the-klein-quadric-constraint-dual-schubert-origin-of-delta-mathrm-neq">5.1 Revised Superposition Model (<code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>): Linear Superposition as the Klein Quadric Constraint &amp; Dual-Schubert Origin of <span class="math notranslate nohighlight">\(\delta_{\mathrm{neq}}\)</span></a></li>
+<li><a class="reference internal" href="#revised-gravity-models-models-14a-14b-orbital-fubinistudy-kahler-identity-plucker-igpe-potential-inversion-dual-schubert-core-regularization">5.2 Revised Gravity Models (Models 14a &amp; 14b): Orbital Fubini–Study Kähler Identity, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Dual-Schubert Core Regularization</a></li>
+<li><a class="reference internal" href="#revised-gravitational-wave-models-models-14a-14b-plucker-mathcal-q-4-quadrupole-trajectory-proca-gap-deborah-shear-fracture-ringdown">5.3 Revised Gravitational-Wave Models (Models 14a &amp; 14b): Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Quadrupole Trajectory, Proca Gap, &amp; Deborah Shear-Fracture Ringdown</a></li>
+<li><a class="reference internal" href="#summary-comparison-table-of-revised-turner-2026-models">5.4 Summary Comparison Table of Revised Turner (2026) Models</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multi-regime-quantitative-benchmarks-machine-checked-verification">6. Multi-Regime Quantitative Benchmarks &amp; Machine-Checked Verification</a><ul>
+<li><a class="reference internal" href="#four-kinematic-regimes-on-gr-mathbb-c-2-4-cong-mathcal-q-4-madelung-lagrangian-rs">6.1 Four Kinematic Regimes on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4\)</span> (<code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code>)</a></li>
+<li><a class="reference internal" href="#self-contained-lean-4-verification-block">6.2 Self-Contained Lean 4 Verification Block</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion-reproducibility">7. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"
+                          title="previous chapter">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-hawking-radiation-decoding-paper.html"
+                          title="next chapter">Hawking Radiation, Inverse Gross–Pitaevskii (<code class="docutils literal notranslate"><span class="pre">iGPE</span></code>) Unwinding, and Amplituhedron / CP-ALS Decoding in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="complex-grassmannian-gr-mathbb-c-2-4-fubinistudy-grosspitaevskii-equation-dual-schubert-igpe-and-homogeneous-plucker-madelung-hydrodynamics-on-the-klein-quadric-mathcal-q-4-in-lean-4-and-rust-wasm">
+<span id="grassmannian-complex-gpe-igpe-plucker-madelung-paper"></span><h1>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> in Lean 4 and Rust/WASM<a class="headerlink" href="#complex-grassmannian-gr-mathbb-c-2-4-fubinistudy-grosspitaevskii-equation-dual-schubert-igpe-and-homogeneous-plucker-madelung-hydrodynamics-on-the-klein-quadric-mathcal-q-4-in-lean-4-and-rust-wasm" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Quantum Gases (<code class="docutils literal notranslate"><span class="pre">cond-mat.quant-gas</span></code>); High Energy Physics - Theory (<code class="docutils literal notranslate"><span class="pre">hep-th</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">…/src/signals/SignalsPending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> LeanArchitect Blueprint (<a class="reference download internal" download="" href="_downloads/83f1c657b6beda0595bd85cd103de33b/content.tex"><span class="xref download myst">…/src/signals/blueprint/src/content.tex</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM Engine (<a class="reference download internal" download="" href="_downloads/b6056d7b3d1a5f753054f7f0089451f3/madelung_lagrangian.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/madelung_lagrangian.rs</span></a>)</p></li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <span class="xref myst">…/src/signals/docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md</span></p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc">Hawking Radiation, Inverse Gross–Pitaevskii (<code class="docutils literal notranslate"><span class="pre">iGPE</span></code>) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Complex Grassmannian Plabic Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>), Quantum Causal Inference Kohn–Sham Density Functional Theory (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>), Riemannian Cayley Optimization, and Topological Multi-Qudit Compilers in Lean 4, SymPy, and Rust</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>In our earlier formalizations of Madelung quantum hydrodynamics (<a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc">grassmannian-madelung-lagrangian-ddf-jamming-paper.md</span></a>) and Inverse Gross–Pitaevskii (<code class="docutils literal notranslate"><span class="pre">iGPE</span></code>) potential unwinding (<a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc">grassmannian-hawking-radiation-decoding-paper.md</span></a>), the Gross–Pitaevskii Lagrangian density <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{GP}}\)</span> and Quantum Hamilton–Jacobi (QHJ) equation were formulated on 4D spacetime <span class="math notranslate nohighlight">\(\mathbb{R}^{1,3}\)</span>, while the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> entered through boundary Plücker channel matrices <span class="math notranslate nohighlight">\(M_{\mathbb{C}}(z_1, z_2)\)</span> encoding reduced sheath velocity <span class="math notranslate nohighlight">\(\beta = v/c\)</span>, orbital eccentricity <span class="math notranslate nohighlight">\(e\)</span>, or <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> black-brane emblackening.</p>
+<p>In this paper—motivated by and auditing the research derivation in <a class="reference internal" href="#cgpe-chat-gpe2026"><span class="xref myst">Gemini: Grassmannian Gross–Pitaevskii Equation Formulation (2026)</span></a> (<a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md,</span> <span class="pre">lines</span> <span class="pre">1-1458</span></code></a>)—we lift the Gross–Pitaevskii equation, the coupled interactive/inverse <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and the Madelung transformation <strong>directly onto the Kähler manifold <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> without the positive Grassmannian (<span class="math notranslate nohighlight">\(Gr^+(2,4)\)</span>) restriction</strong>, and machine-check the resulting theorems in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>) and Rust/WebAssembly (<code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code>):</p>
+<ol class="arabic">
+<li><p><strong>Homogeneous Plücker 6-Vector Geometry on <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span>, Hodge-Dual Involution, &amp; Corrected Hermitian Tangent Projector <span class="math notranslate nohighlight">\(\mathcal{H}^{I\bar{J}}\)</span> (<code class="docutils literal notranslate"><span class="pre">plucker_hodge_klein_quadric_and_projector_identities</span></code>)</strong>:
+Every <span class="math notranslate nohighlight">\(2 \times 4\)</span> complex twistor matrix <span class="math notranslate nohighlight">\(Z \in \mathbb{C}^{2 \times 4}\)</span> maps to a 6-component Plücker vector <span class="math notranslate nohighlight">\(p(Z) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}) \in \mathbb{C}^6\)</span> (<code class="docutils literal notranslate"><span class="pre">twistorToPluckerVec</span></code>) satisfying the Klein quadric constraint <span class="math notranslate nohighlight">\(\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}^I = 2(p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12}) = 0\)</span> (<code class="docutils literal notranslate"><span class="pre">OnKleinQuadric</span></code>), where <span class="math notranslate nohighlight">\(\tilde{p} = (p_{23}, -p_{13}, p_{12}, p_{03}, -p_{02}, p_{01})\)</span> is the Hodge dual (<code class="docutils literal notranslate"><span class="pre">pluckerHodgeDual</span></code>). We prove that <span class="math notranslate nohighlight">\(\tilde{\tilde{p}} = p\)</span> and <span class="math notranslate nohighlight">\(\|\tilde{p}\|^2 = \|p\|^2\)</span>, and we resolve a subtle complex-conjugation bug in the raw chat SymPy script (lines 1108, 1219–1232): over <span class="math notranslate nohighlight">\(\mathbb{C}^6\)</span>, the Hermitian normal to the holomorphic quadric <span class="math notranslate nohighlight">\(\mathcal{C}(p) = 0\)</span> is the <strong>conjugate</strong> Hodge dual <span class="math notranslate nohighlight">\(n_I(p) = \overline{\tilde{p}_I}\)</span> (<code class="docutils literal notranslate"><span class="pre">pluckerConjHodgeNormal</span></code>), for which <span class="math notranslate nohighlight">\(\langle p, \overline{\tilde{p}}\rangle = \overline{\mathcal{C}(p)} = 0\)</span> and the intrinsic contravariant Plücker metric operator <span class="math notranslate nohighlight">\(\mathcal{H}(p, \bar{p})\,v = \|p\|^2 v - \langle p, v\rangle p - \langle \overline{\tilde{p}}, v\rangle \overline{\tilde{p}}\)</span> (<code class="docutils literal notranslate"><span class="pre">pluckerContravariantMetricApply</span></code>) annihilates both radial Euler scaling (<span class="math notranslate nohighlight">\(\mathcal{H}\,p = 0\)</span>) and quadric normal variations (<span class="math notranslate nohighlight">\(\mathcal{H}\,\overline{\tilde{p}} = 0\)</span>) identically.</p></li>
+<li><p><strong>Canonical Affine Chart <span class="math notranslate nohighlight">\(Z = (I_2 \mid W)\)</span>, Cauchy–Binet Kähler–Plücker Identity <span class="math notranslate nohighlight">\(\det(I_2 + W W^\dagger) = \|p(I_2 \mid W)\|^2 \ge 1\)</span>, &amp; Fubini–Study Kinetic Operator (<code class="docutils literal notranslate"><span class="pre">kahlerDetFactor_eq_pluckerNormSq_and_ge_one</span></code>)</strong>:
+On the canonical affine chart <span class="math notranslate nohighlight">\(Z = \operatorname{chartToTwistor}(W) = (I_2 \mid W)\)</span> (<span class="math notranslate nohighlight">\(W \in \mathbb{C}^{2 \times 2}\)</span>, <span class="math notranslate nohighlight">\(p_{01} = 1\)</span>, <span class="math notranslate nohighlight">\(p_{23} = \det W\)</span>), we prove that the Fubini–Study Kähler potential determinant argument <span class="math notranslate nohighlight">\(\operatorname{kahlerDetFactor}(W) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2\)</span> equals the ambient Plücker norm squared <span class="math notranslate nohighlight">\(\|p(I_2 \mid W)\|_{\mathbb{C}^6}^2 \ge 1\)</span>, and that the inverse Fubini–Study kinetic norm <span class="math notranslate nohighlight">\(\operatorname{Re}\operatorname{Tr}((I_2 + W W^\dagger) K (I_2 + W^\dagger W) K^\dagger)\)</span> (<code class="docutils literal notranslate"><span class="pre">fubiniStudyKineticNorm</span></code>) reduces at <span class="math notranslate nohighlight">\(W = 0\)</span> to the Frobenius norm <span class="math notranslate nohighlight">\(\|K\|_{\mathrm{HS}}^2 \ge 0\)</span>.</p></li>
+<li><p><strong>Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> (<span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee\)</span>), Symplectic Norm Balance, &amp; Chiral Josephson Schubert Tunneling (<code class="docutils literal notranslate"><span class="pre">grassmannian_igpe_norm_balance_and_josephson_identities</span></code>)</strong>:
+Coupling a primary condensate <span class="math notranslate nohighlight">\(\Psi(\mathbf{Z}, \tau)\)</span> on <span class="math notranslate nohighlight">\(\mathbf{Z} \in Gr_{\mathbb{C}}(2,4)\)</span> to its orthogonal dual condensate <span class="math notranslate nohighlight">\(\Phi(\mathbf{Z}^\perp, \tau)\)</span> on <span class="math notranslate nohighlight">\(\mathbf{Z}^\perp \in Gr_{\mathbb{C}}(2,4)^\vee\)</span> via Schubert incidence coupling <span class="math notranslate nohighlight">\(\lambda \in \mathbb{C}\)</span> proves that individual branch densities exchange probability via the chiral Josephson current <span class="math notranslate nohighlight">\(J_{\mathrm{Josephson}} = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)\)</span>, while all real kinetic, Fubini–Study curvature, nonlinear contact, and Hermitian Schubert couplings cancel identically in the total norm rate:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{d}{d\tau'}\bigl(|\Psi|^2 + |\Phi|^2\bigr) = 2\,\operatorname{Im}(V_{\mathrm{ext}})\,\bigl(|\Psi|^2 + |\Phi|^2\bigr).
+   \]</div>
+</li>
+<li><p><strong>Complex Grassmannian Bogoliubov Dispersion (<span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16 \implies \Delta_R = \hbar^2/\mathcal{M}\)</span>), Emergent Proca Mass, &amp; Critical Deborah Shear-Fracture Equivalence (<code class="docutils literal notranslate"><span class="pre">grassmannian_bogoliubov_proca_and_deborah_fracture_identities</span></code>)</strong>:
+We prove that the Einstein–Kähler scalar curvature <span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(k, n) = n k (n - k)\)</span> equals <span class="math notranslate nohighlight">\(16\)</span> on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, that repulsive condensates (<span class="math notranslate nohighlight">\(g \ge 0, \rho_0 \ge 0\)</span>) are strictly stable (<span class="math notranslate nohighlight">\(\hbar^2\omega^2 &gt; 0\)</span>), and that in the uncoupled Hermitian limit (<span class="math notranslate nohighlight">\(\lambda = 0, \operatorname{Im}(V_{\mathrm{ext}}) = 0\)</span>), tachyonic Bogoliubov instability (<span class="math notranslate nohighlight">\(\hbar^2\omega^2 &lt; 0\)</span>) is <strong>mathematically equivalent</strong> to exceeding the critical Deborah vacuum shear-fracture threshold (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1\)</span>).</p></li>
+<li><p><strong>Homogeneous Plücker Madelung QHJ, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Penrose Self-Dual Weyl Curvature Dictionary (<code class="docutils literal notranslate"><span class="pre">plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities</span></code>)</strong>:
+We formulate the Madelung Quantum Hamilton–Jacobi equation and inverse <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> potential reconstruction (<code class="docutils literal notranslate"><span class="pre">pluckerInversePotentialReconstruction</span></code>) directly in homogeneous Plücker coordinates on <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span>, prove exact QHJ residual cancellation (<span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}} = 0\)</span>), contrast phase-locked (<span class="math notranslate nohighlight">\(\Delta\theta = 0\)</span>) vs. chiral <span class="math notranslate nohighlight">\(\pi/2\)</span> phase-slip (<span class="math notranslate nohighlight">\(\Delta\theta = \pi/2\)</span>) Josephson tunneling, and prove the Penrose incidence identity relating the Plücker Bohmian quantum potential <span class="math notranslate nohighlight">\(Q_{\mathrm{Pl\ddot{u}cker}}\)</span> to the self-dual Weyl curvature spinor projection <span class="math notranslate nohighlight">\(\Psi_{ABCD}\)</span>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="architectural-synthesis-how-intrinsic-complex-grassmannian-gpe-igpe-extends-existing-signals-models">
+<h2>1. Architectural Synthesis: How Intrinsic Complex Grassmannian GPE/iGPE Extends Existing <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Models<a class="headerlink" href="#architectural-synthesis-how-intrinsic-complex-grassmannian-gpe-igpe-extends-existing-signals-models" title="Link to this heading">¶</a></h2>
+<p>A central question when reviewing <a class="reference internal" href="#cgpe-chat-gpe2026"><span class="xref myst">Gemini: Grassmannian Gross–Pitaevskii Equation Formulation (2026)</span></a> is: <strong>what was already implemented in <code class="docutils literal notranslate"><span class="pre">Signals</span></code>, and what new mathematical capabilities does the intrinsic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4\)</span> formulation provide?</strong></p>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph Existing[&quot;Previously Formalized in Signals.DDF, Signals.HawkingRadiation, &amp; Signals.Pending&quot;]
+        E1[&quot;Spacetime GP Polar Action &amp; Madelung QHJ (Paper 15)\n• ψ(A, θ) = A exp(iS/ℏ) on ℝ^{1,3}\n• L_GP = L_Mad = L_Mad^ρ, H_Mad ≥ 0\n• Continuity ∂_t ρ + ∇·(ρ v_ϕ) = 0 &amp; QHJ on ℝ^{1,3}\n• Sheath Jamming Λ_∥(v) = γ_φ(v) &amp; dτ_D = dt/γ_φ(v)&quot;]
+        E2[&quot;Three Pointwise/Spacetime Meanings of iGPE (Paper 16)\n1. InteractiveGPEPoint: local g|ψ|²ψ on ℝ^{1,3}\n2. InhomogeneousGPEPoint: external source S_ext\n3. InverseGPEPoint &amp; madelungInversePotentialReconstruction:\n   reconstructs V_ext(x) from (A, ΔA, ∂_t S, v_ϕ)&quot;]
+    end
+
+    subgraph New[&quot;New in This Work: Intrinsic Kähler Gr_C(2,4) &amp; Homogeneous Plücker Q_4 Formulation&quot;]
+        N1[&quot;1. Homogeneous Plücker 6-Vector Calculus on Q_4 ⊂ P^5(C)\n• twistorToPluckerVec Z ∈ C^6, pluckerHodgeDual p̃\n• Klein quadric C(p) = p_I p̃^I = 0 (OnKleinQuadric)\n• Corrected Hermitian normal n(p) = conj(p̃)\n• Contravariant metric H^{IJ̄} annihilating p and conj(p̃)&quot;]
+        N2[&quot;2. Fubini–Study Affine Chart Z = (I_2 | W) on Gr_C(2,4)\n• Cauchy–Binet Kähler identity: det(I_2 + W W†) = ‖p(I_2 | W)‖² ≥ 1\n• Inverse Fubini–Study kinetic norm Tr((I_2+WW†)K(I_2+W†W)K†)\n• GL(2,C) modular-weighted contact coupling g det(I_2+WW†)^{-w}|Ψ|²&quot;]
+        N3[&quot;3. Fourth Meaning of iGPE: Coupled Dual-Grassmannian iGPE\n• Orthogonal 2-planes (Z, Z⊥) ∈ Gr_C(2,4) × Gr_C(2,4)∨ (p ↔ p̃)\n• Chiral Josephson Schubert current J_Jos = 2 Im(Ψ̄ λ Φ)\n• Exact symplectic norm balance d(|Ψ|²+|Φ|²)/dτ' = 2 V_im(|Ψ|²+|Φ|²)&quot;]
+        N4[&quot;4. Complex Grassmannian Bogoliubov, Deborah Fracture, &amp; Plücker Madelung\n• Einstein–Kähler curvature gap R_Gr(2,4) = 16 ⇒ Δ_R = ℏ²/ℳ\n• Tachyonic fracture equivalence: ℏ²ω² &lt; 0 ⇔ De/De_c &gt; 1\n• Homogeneous Plücker QHJ, pluckerInversePotentialReconstruction,\n  &amp; Penrose Bohm–Weyl curvature dictionary&quot;]
+    end
+
+    E1 --&gt; N1
+    E2 --&gt; N3
+    N1 --&gt; N2 --&gt; N3 --&gt; N4
+    </pre><section id="unifying-all-four-meanings-of-igpe-across-the-research-corpus">
+<h3>1.1 Unifying All Four Meanings of “iGPE” Across the Research Corpus<a class="headerlink" href="#unifying-all-four-meanings-of-igpe-across-the-research-corpus" title="Link to this heading">¶</a></h3>
+<p>With this extension, <code class="docutils literal notranslate"><span class="pre">Signals</span></code> provides machine-checked definitions and theorems for all <strong>four</strong> distinct formulations abbreviated as <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> across the research chats:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Variant</p></th>
+<th class="head"><p>Mathematical Domain</p></th>
+<th class="head"><p>Governing Equation / Reconstruction Law</p></th>
+<th class="head"><p>Lean 4 Declarations</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1</strong></p></td>
+<td><p><strong>Interactive GPE</strong></p></td>
+<td><p>Spacetime <span class="math notranslate nohighlight">\(\mathbb{R}^{1,3}\)</span> or affine chart <span class="math notranslate nohighlight">\(W \in Gr_{\mathbb{C}}(2,4)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(i\hbar\partial_t\psi = \bigl(-\frac{\hbar^2}{2m}\Delta + V_{\mathrm{ext}} + g|\psi|^2\bigr)\psi\)</span> (or <span class="math notranslate nohighlight">\(g\det(I_2 + W W^\dagger)^{-w}|\Psi|^2\Psi\)</span> on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Pending.InteractiveGPEPoint</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF.grassmannianNonLinearPotential</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2</strong></p></td>
+<td><p><strong>Inhomogeneous GPE</strong></p></td>
+<td><p>Driven condensate with external source <span class="math notranslate nohighlight">\(S_{\mathrm{ext}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(i\hbar\partial_t\psi = \bigl(-\frac{\hbar^2}{2m}\Delta + V_{\mathrm{ext}} + g|\psi|^2\bigr)\psi + S_{\mathrm{ext}}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Pending.InhomogeneousGPEPoint</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3a</strong></p></td>
+<td><p><strong>Spacetime Inverse GPE</strong></p></td>
+<td><p>Pointwise complex <span class="math notranslate nohighlight">\((\psi, \partial_t\psi, \Delta\psi)\)</span> or continuum Madelung <span class="math notranslate nohighlight">\((A, \Delta A, \partial_t S, v_\phi)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{\mathrm{ext}} = -\partial_t S - \frac{1}{2}m_\phi v_\phi^2 - g_\phi A^2 + \frac{\hbar^2}{2m_\phi}\frac{\Delta A}{A}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Pending.InverseGPEPoint</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.HawkingRadiation.madelungInversePotentialReconstruction</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>3b</strong></p></td>
+<td><p><strong>Homogeneous Plücker Inverse GPE</strong></p></td>
+<td><p>Klein quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> (<span class="math notranslate nohighlight">\(p \in \mathbb{C}^6, \mathcal{C}(p) = 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{\mathrm{ext,re}}^{\mathrm{rec}}(p) = -\partial_\tau S_R - \frac{1}{\mathcal{M}}\mathcal{H}_{I\bar{J}}V^I\bar{V}^{\bar{J}} - g\bigl(\frac{|p_0|^2}{|p|^2}\bigr)^w\rho - Q_{\mathrm{Pl\ddot{u}cker}}(\rho) - \Lambda_{\mathrm{dual}}(p, \tilde{p})\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DDF.pluckerInversePotentialReconstruction</span></code>, <code class="docutils literal notranslate"><span class="pre">plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>4</strong></p></td>
+<td><p><strong>Dual-Grassmannian Interactive GPE</strong></p></td>
+<td><p>Orthogonal 2-planes <span class="math notranslate nohighlight">\((\mathbf{Z}, \mathbf{Z}^\perp) \in Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee\)</span> (<span class="math notranslate nohighlight">\(p_I \leftrightarrow \tilde{p}^I\)</span>)</p></td>
+<td><p>Coupled <span class="math notranslate nohighlight">\((\Psi(\mathbf{Z}), \Phi(\mathbf{Z}^\perp))\)</span> with Schubert incidence coupling <span class="math notranslate nohighlight">\(\lambda \in \mathbb{C}\)</span> and Josephson current <span class="math notranslate nohighlight">\(J_{\mathrm{Josephson}} = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DDF.CoupledDualGrassmannianState</span></code>, <code class="docutils literal notranslate"><span class="pre">grassmannian_igpe_norm_balance_and_josephson_identities</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="homogeneous-plucker-6-vector-calculus-on-mathcal-q-4-subset-mathbb-p-5-mathbb-c-mathematical-audit-of-the-contravariant-metric-mathcal-h-i-bar-j">
+<h2>2. Homogeneous Plücker 6-Vector Calculus on <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> &amp; Mathematical Audit of the Contravariant Metric <span class="math notranslate nohighlight">\(\mathcal{H}^{I\bar{J}}\)</span><a class="headerlink" href="#homogeneous-plucker-6-vector-calculus-on-mathcal-q-4-subset-mathbb-p-5-mathbb-c-mathematical-audit-of-the-contravariant-metric-mathcal-h-i-bar-j" title="Link to this heading">¶</a></h2>
+<section id="plucker-embedding-hodge-duality-and-the-klein-quadric-mathcal-q-4">
+<h3>2.1 Plücker Embedding, Hodge Duality, and the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span><a class="headerlink" href="#plucker-embedding-hodge-duality-and-the-klein-quadric-mathcal-q-4" title="Link to this heading">¶</a></h3>
+<p>In homogeneous twistor coordinates (<a class="reference internal" href="#cgpe-penrose1967"><span class="xref myst">Penrose 1967</span></a>; <a class="reference internal" href="#cgpe-penrose1976"><span class="xref myst">Penrose 1976</span></a>; <a class="reference internal" href="#cgpe-arkani2014"><span class="xref myst">Arkani-Hamed and Trnka 2014</span></a>), a 2-plane in <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span> represented by a <span class="math notranslate nohighlight">\(2 \times 4\)</span> matrix <span class="math notranslate nohighlight">\(Z \in \mathbb{C}^{2 \times 4}\)</span> maps via <code class="docutils literal notranslate"><span class="pre">twistorToPluckerVec</span></code> to the 6-component Plücker vector <span class="math notranslate nohighlight">\(p(Z) = (p_0, p_1, p_2, p_3, p_4, p_5) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}) \in \mathbb{C}^6\)</span> (<a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md,</span> <span class="pre">lines</span> <span class="pre">14-35</span></code></a>).</p>
+<p>Defining the <strong>Hodge-dual Plücker 6-vector</strong> (<code class="docutils literal notranslate"><span class="pre">pluckerHodgeDual</span></code>, lines 1110, 1249–1256):</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{p} = \operatorname{pluckerHodgeDual}(p) = (p_5, -p_4, p_3, p_2, -p_1, p_0) = (p_{23}, -p_{13}, p_{12}, p_{03}, -p_{02}, p_{01}),
+\]</div>
+<p>the <strong>Klein quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span></strong> is the locus where the holomorphic bilinear pairing vanishes (<code class="docutils literal notranslate"><span class="pre">kleinQuadricForm</span></code>, <code class="docutils literal notranslate"><span class="pre">OnKleinQuadric</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}^I = 2\bigl(p_0 p_5 - p_1 p_4 + p_2 p_3\bigr) = 0.
+\]</div>
+</section>
+<section id="mathematical-audit-correction-of-the-chats-sympy-contravariant-metric-projector">
+<h3>2.2 Mathematical Audit &amp; Correction of the Chat’s SymPy Contravariant Metric Projector<a class="headerlink" href="#mathematical-audit-correction-of-the-chats-sympy-contravariant-metric-projector" title="Link to this heading">¶</a></h3>
+<p>In Section 1 and Section 4 of <a class="reference internal" href="#cgpe-chat-gpe2026"><span class="xref myst">Gemini: Grassmannian Gross–Pitaevskii Equation Formulation (2026)</span></a> (<a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">1106-1114</span> <span class="pre">and</span> <span class="pre">1200-1236</span></code></a>), the chat defines <span class="math notranslate nohighlight">\(\tilde{p} = \eta p\)</span> without complex conjugation and writes the contravariant metric projector on <span class="math notranslate nohighlight">\(\mathbb{C}^6\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H}_{\mathrm{raw}}^{I\bar{J}} = \|p\|^2\left(\delta^{IJ} - \frac{p^I\bar{p}^J}{\|p\|^2} - \frac{\tilde{p}^I\bar{\tilde{p}}^J}{\|p\|^2}\right).
+\]</div>
+<p><strong>Audit Finding</strong>: Under the standard Hermitian inner product <span class="math notranslate nohighlight">\(\langle u, v\rangle = \sum_{I=0}^5 \overline{u_I}\,v_I\)</span> (<code class="docutils literal notranslate"><span class="pre">pluckerHermitianInner</span></code>) on <span class="math notranslate nohighlight">\(\mathbb{C}^6\)</span>:</p>
+<ul class="simple">
+<li><p>Contracting the radial projector <span class="math notranslate nohighlight">\(p\,\bar{p}^T\)</span> with the un-conjugated Hodge dual <span class="math notranslate nohighlight">\(\tilde{p}\)</span> yields <span class="math notranslate nohighlight">\(\langle p, \tilde{p}\rangle = \sum_{I=0}^5 \bar{p}_I \tilde{p}_I = \bar{p}^T \eta p\)</span>, which is <strong>not</strong> zero on the complex Klein quadric <span class="math notranslate nohighlight">\(p^T \eta p = 0\)</span> unless <span class="math notranslate nohighlight">\(p\)</span> has constant phase (such as the real Grassmannian <span class="math notranslate nohighlight">\(p \in \mathbb{R}^6\)</span>)!</p></li>
+<li><p>Instead, because <span class="math notranslate nohighlight">\(\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}_I = 0\)</span> is a <strong>holomorphic</strong> quadratic constraint, its Hermitian normal covector in <span class="math notranslate nohighlight">\(\mathbb{C}^6\)</span> is the <strong>complex-conjugated Hodge dual</strong> (<code class="docutils literal notranslate"><span class="pre">pluckerConjHodgeNormal</span></code>):</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+n_I(p) = \overline{\tilde{p}_I} = (\bar{p}_5, -\bar{p}_4, \bar{p}_3, \bar{p}_2, -\bar{p}_1, \bar{p}_0).
+\]</div>
+<p>With <span class="math notranslate nohighlight">\(n(p) = \overline{\tilde{p}}\)</span>, the Hermitian inner products satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+\langle n(p), p\rangle = \sum_{I=0}^5 \tilde{p}_I p_I = \mathcal{C}(p) = 0, \qquad
+\langle p, n(p)\rangle = \overline{\mathcal{C}(p)} = 0, \qquad
+\langle n(p), n(p)\rangle = \|\tilde{p}\|^2 = \|p\|^2,
+\]</div>
+<p>for <strong>every</strong> complex point <span class="math notranslate nohighlight">\(p \in \mathcal{Q}_4 \subset \mathbb{C}^6\)</span>! Defining the intrinsic contravariant Plücker metric operator (<code class="docutils literal notranslate"><span class="pre">pluckerContravariantMetricApply</span></code>) by:</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl(\mathcal{H}(p, \bar{p})\,v\bigr)_I = \|p\|^2 v_I - \langle p, v\rangle\,p_I - \langle n(p), v\rangle\,n_I(p),
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">plucker_hodge_klein_quadric_and_projector_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) machine-checks:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\operatorname{pluckerHodgeDual}(\operatorname{pluckerHodgeDual}(p)) = p\)</span> (involution),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\|\tilde{p}\|^2 = \|n(p)\|^2 = \|p\|^2\)</span> (norm preservation),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\operatorname{OnKleinQuadric}(\operatorname{twistorToPluckerVec}(Z))\)</span> for all <span class="math notranslate nohighlight">\(Z \in \mathbb{C}^{2 \times 4}\)</span>, and</p></li>
+<li><p>For every <span class="math notranslate nohighlight">\(p\)</span> with <span class="math notranslate nohighlight">\(\operatorname{OnKleinQuadric}(p)\)</span>, <span class="math notranslate nohighlight">\(\mathcal{H}(p, \bar{p})\,p = 0\)</span> (radial Euler scaling annihilation) and <span class="math notranslate nohighlight">\(\mathcal{H}(p, \bar{p})\,n(p) = 0\)</span> (Klein quadric normal annihilation).</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="canonical-affine-chart-z-i-2-mid-w-cauchybinet-kahlerplucker-identity-coupled-dual-grassmannian-igpe">
+<h2>3. Canonical Affine Chart <span class="math notranslate nohighlight">\(Z = (I_2 \mid W)\)</span>, Cauchy–Binet Kähler–Plücker Identity, &amp; Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code><a class="headerlink" href="#canonical-affine-chart-z-i-2-mid-w-cauchybinet-kahlerplucker-identity-coupled-dual-grassmannian-igpe" title="Link to this heading">¶</a></h2>
+<section id="cauchybinet-kahler-determinant-identity-on-gr-mathbb-c-2-4">
+<h3>3.1 Cauchy–Binet Kähler Determinant Identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span><a class="headerlink" href="#cauchybinet-kahler-determinant-identity-on-gr-mathbb-c-2-4" title="Link to this heading">¶</a></h3>
+<p>In the canonical coordinate patch where <span class="math notranslate nohighlight">\(p_{01} = \Delta_{01}^{\mathbb{C}}(Z) = 1 \neq 0\)</span>, a 2-plane in <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span> is represented by <span class="math notranslate nohighlight">\(Z = \operatorname{chartToTwistor}(W) = (I_2 \mid W)\)</span> with <span class="math notranslate nohighlight">\(W \in \mathbb{C}^{2 \times 2}\)</span> (<a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">66-74,</span> <span class="pre">179-196,</span> <span class="pre">322-349</span></code></a>). The Fubini–Study metric <span class="math notranslate nohighlight">\(g_{a\alpha, \bar{b}\bar{\beta}} = \partial_{a\alpha}\bar{\partial}_{\bar{b}\bar{\beta}}\mathcal{K}\)</span> derives from the Kähler potential <span class="math notranslate nohighlight">\(\mathcal{K}(W, W^\dagger) = \ln\det(I_2 + W W^\dagger)\)</span>.</p>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">kahlerDetFactor_eq_pluckerNormSq_and_ge_one</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) proves that the Kähler determinant factor (<code class="docutils literal notranslate"><span class="pre">kahlerDetFactor</span></code>) equals the sum of squared moduli of all six Plücker coordinates of <span class="math notranslate nohighlight">\(Z = (I_2 \mid W)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\det(I_2 + W W^\dagger) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2 = \sum_{0 \le i &lt; j \le 3} \bigl|\Delta_{ij}^{\mathbb{C}}(I_2 \mid W)\bigr|^2 = \bigl\|p(I_2 \mid W)\bigr\|_{\mathbb{C}^6}^2 \ge 1,
+\]</div>
+<p>and that at the chart origin <span class="math notranslate nohighlight">\(W = 0\)</span>, the inverse Fubini–Study kinetic quadratic form (<code class="docutils literal notranslate"><span class="pre">fubiniStudyKineticNorm</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{E}_{\mathrm{kin}}(W, K) = \frac{\hbar^2}{2\mathcal{M}}\operatorname{Re}\operatorname{Tr}\bigl((I_2 + W W^\dagger) K (I_2 + W^\dagger W) K^\dagger\bigr)
+\]</div>
+<p>reduces identically to <span class="math notranslate nohighlight">\(\frac{\hbar^2}{2\mathcal{M}}\|K\|_{\mathrm{HS}}^2 \ge 0\)</span>.</p>
+</section>
+<section id="coupled-dual-grassmannian-igpe-symplectic-norm-balance-chiral-josephson-tunneling">
+<h3>3.2 Coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Symplectic Norm Balance &amp; Chiral Josephson Tunneling<a class="headerlink" href="#coupled-dual-grassmannian-igpe-symplectic-norm-balance-chiral-josephson-tunneling" title="Link to this heading">¶</a></h3>
+<p>Every 2-plane <span class="math notranslate nohighlight">\(\mathbf{Z} \in Gr_{\mathbb{C}}(2,4)\)</span> has a canonical orthogonal complement <span class="math notranslate nohighlight">\(\mathbf{Z}^\perp \in Gr_{\mathbb{C}}(2,4)^\vee\)</span> (<span class="math notranslate nohighlight">\(\mathbf{Z}\cdot(\mathbf{Z}^\perp)^\dagger = 0\)</span>, represented in Plücker coordinates by the Hodge dual <span class="math notranslate nohighlight">\(\tilde{p}\)</span>). In the coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> (<code class="docutils literal notranslate"><span class="pre">CoupledDualGrassmannianState</span></code>, <a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">118-128,</span> <span class="pre">477-525</span></code></a>), the primary condensate <span class="math notranslate nohighlight">\(\Psi(\mathbf{Z}, \tau')\)</span> and dual condensate <span class="math notranslate nohighlight">\(\Phi(\mathbf{Z}^\perp, \tau')\)</span> evolve via:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\Psi}{d\tau'} = -i\Bigl(\bigl(H_0 + g_{\mathrm{nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}}\bigr)\Psi + \lambda\Phi\Bigr), \qquad
+\frac{d\Phi}{d\tau'} = -i\Bigl(\bigl(H_{0,\mathrm{dual}} + g_{\mathrm{dual,nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}}\bigr)\Phi + \bar{\lambda}\Psi\Bigr).
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">grassmannian_igpe_norm_balance_and_josephson_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) proves:</p>
+<ol class="arabic">
+<li><p><strong>Individual Branch Rates &amp; Chiral Josephson Schubert Current</strong>:
+With <span class="math notranslate nohighlight">\(J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda) = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)\)</span> (<code class="docutils literal notranslate"><span class="pre">josephsonSchubertCurrent</span></code>),</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{d}{d\tau'}|\Psi|^2 = 2\,V_{\mathrm{im}}\,|\Psi|^2 + J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda), \qquad
+   \frac{d}{d\tau'}|\Phi|^2 = 2\,V_{\mathrm{im}}\,|\Phi|^2 - J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda).
+   \]</div>
+</li>
+<li><p><strong>Exact Cancellation of Real Self-Energies &amp; Josephson Tunneling in the Total Symplectic Norm</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{d}{d\tau'}\bigl(|\Psi|^2 + |\Phi|^2\bigr) = 2\,V_{\mathrm{im}}\,\bigl(|\Psi|^2 + |\Phi|^2\bigr),
+   \]</div>
+<p>which vanishes identically (<span class="math notranslate nohighlight">\(\frac{d}{d\tau'}(|\Psi|^2 + |\Phi|^2) = 0\)</span>) in the Hermitian limit <span class="math notranslate nohighlight">\(V_{\mathrm{im}} = 0\)</span>.</p>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="complex-grassmannian-bogoliubov-dispersion-critical-deborah-shear-fracture-mathrm-de-mathrm-de-c-ge-1-homogeneous-plucker-madelung-hydrodynamics">
+<h2>4. Complex Grassmannian Bogoliubov Dispersion, Critical Deborah Shear Fracture (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c \ge 1\)</span>), &amp; Homogeneous Plücker Madelung Hydrodynamics<a class="headerlink" href="#complex-grassmannian-bogoliubov-dispersion-critical-deborah-shear-fracture-mathrm-de-mathrm-de-c-ge-1-homogeneous-plucker-madelung-hydrodynamics" title="Link to this heading">¶</a></h2>
+<section id="einsteinkahler-curvature-gap-r-mathrm-gr-2-4-16-tachyonic-shear-fracture-equivalence">
+<h3>4.1 Einstein–Kähler Curvature Gap (<span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16\)</span>) &amp; Tachyonic Shear-Fracture Equivalence<a class="headerlink" href="#einsteinkahler-curvature-gap-r-mathrm-gr-2-4-16-tachyonic-shear-fracture-equivalence" title="Link to this heading">¶</a></h3>
+<p>Because <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(k, n)\)</span> is a compact Einstein–Kähler manifold of scalar curvature <span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(k, n) = n k (n - k)\)</span> (<code class="docutils literal notranslate"><span class="pre">grassmannianEinsteinKahlerScalarCurvature</span></code>, equal to <span class="math notranslate nohighlight">\(16\)</span> on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>), the linearized Bogoliubov–de Gennes dispersion relation around a background density <span class="math notranslate nohighlight">\(\rho_0 &gt; 0\)</span> acquires the curvature gap <span class="math notranslate nohighlight">\(\Delta_R = \frac{\hbar^2}{\mathcal{M}}\)</span> (<code class="docutils literal notranslate"><span class="pre">grassmannianBogoliubovOmegaSq</span></code>, <a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">198-206,</span> <span class="pre">398-408</span></code></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+\hbar^2\omega^2(\mathbf{k}, W) = \left(\mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + \frac{\hbar^2}{\mathcal{M}}\right)\left(\mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + \frac{\hbar^2}{\mathcal{M}} + 2\,g_{\mathrm{eff}}(W)\rho_0\right), \qquad g_{\mathrm{eff}}(W) = g\,\det(I_2 + W W^\dagger)^{-w}.
+\]</div>
+<p>Defining the <strong>Critical Deborah Vacuum Shear-Fracture Ratio</strong> (<code class="docutils literal notranslate"><span class="pre">grassmannianDeborahFractureRatio</span></code>, <a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">447-461</span></code></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\mathrm{De}}{\mathrm{De}_c} = \frac{\max\bigl(0, -2\operatorname{Re}(g_{\mathrm{eff}}\rho_0)\bigr) + |\operatorname{Im}(V_{\mathrm{ext}})|}{\frac{\hbar^2}{\mathcal{M}} + \mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + |\lambda|},
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">grassmannian_bogoliubov_proca_and_deborah_fracture_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) proves:</p>
+<ul class="simple">
+<li><p>In the positive/repulsive sector (<span class="math notranslate nohighlight">\(g \ge 0, \rho_0 \ge 0\)</span>), <span class="math notranslate nohighlight">\(\hbar^2\omega^2(\mathbf{k}, W) &gt; 0\)</span> and <span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c = 0 &lt; 1\)</span> at <span class="math notranslate nohighlight">\(\operatorname{Im}(V_{\mathrm{ext}}) = 0\)</span>.</p></li>
+<li><p>In the uncoupled Hermitian limit (<span class="math notranslate nohighlight">\(|\lambda| = 0, \operatorname{Im}(V_{\mathrm{ext}}) = 0\)</span>), tachyonic shear fracture (<span class="math notranslate nohighlight">\(\hbar^2\omega^2(\mathbf{k}, W) &lt; 0\)</span>, <code class="docutils literal notranslate"><span class="pre">IsShearFractureUnstable</span></code>) occurs <strong>if and only if</strong> <span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\hbar^2\omega^2(\mathbf{k}, W) &lt; 0 \iff \frac{\mathrm{De}}{\mathrm{De}_c} &gt; 1.
+\]</div>
+</section>
+<section id="homogeneous-plucker-madelung-qhj-plucker-igpe-potential-inversion-self-dual-weyl-curvature-dictionary">
+<h3>4.2 Homogeneous Plücker Madelung QHJ, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Self-Dual Weyl Curvature Dictionary<a class="headerlink" href="#homogeneous-plucker-madelung-qhj-plucker-igpe-potential-inversion-self-dual-weyl-curvature-dictionary" title="Link to this heading">¶</a></h3>
+<p>Applying the polar Madelung ansatz <span class="math notranslate nohighlight">\(\Psi(p, \bar{p}, \tau) = \sqrt{\rho(p, \bar{p}, \tau)}\,\exp(i S_R(p, \bar{p}, \tau)/\hbar)\)</span> directly in homogeneous Plücker coordinates on <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> (<code class="docutils literal notranslate"><span class="pre">PluckerMadelungState</span></code>, <a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">1117-1190,</span> <span class="pre">1279-1312</span></code></a>) yields the <strong>Plücker Quantum Hamilton–Jacobi (QHJ) Equation</strong> (<code class="docutils literal notranslate"><span class="pre">pluckerHamiltonJacobiResidual</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial S_R}{\partial\tau} + \frac{1}{\mathcal{M}}\mathcal{H}_{I\bar{J}}V^I\bar{V}^{\bar{J}} + \operatorname{Re}\bigl(V_{\mathrm{ext}}(p)\bigr) + g\left(\frac{|p_0|^2}{\|p\|^2}\right)^w\rho + Q_{\mathrm{Pl\ddot{u}cker}}(\rho) + \Lambda_{\mathrm{dual}}(p, \tilde{p}) = 0,
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Q_{\mathrm{Pl\ddot{u}cker}}(\rho) = -\frac{\hbar^2}{2\mathcal{M}\sqrt{\rho}}\mathcal{H}^{I\bar{J}}\partial_I\bar{\partial}_{\bar{J}}\sqrt{\rho}\)</span> (<code class="docutils literal notranslate"><span class="pre">pluckerQuantumPotential</span></code>) is the homogeneous Plücker Bohmian quantum potential, and</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dual}}(p, \tilde{p}) = \sqrt{\frac{\rho_{\mathrm{dual}}(\tilde{p})}{\rho(p)}}\bigl(\lambda_{\mathrm{re}}\cos\Delta\theta - \lambda_{\mathrm{im}}\sin\Delta\theta\bigr)\)</span> (<code class="docutils literal notranslate"><span class="pre">dualJosephsonPotential</span></code>, <span class="math notranslate nohighlight">\(\Delta\theta = (S_{\mathrm{dual}} - S_R)/\hbar\)</span>) is the dual Schubert Josephson energy.</p></li>
+</ul>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) proves four exact hydrodynamic and twistor-gravity identities:</p>
+<ol class="arabic">
+<li><p><strong>Homogeneous Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Reconstruction</strong>:
+Solving the Plücker QHJ equation for <span class="math notranslate nohighlight">\(V_{\mathrm{ext,re}}^{\mathrm{rec}}(p) = \operatorname{pluckerInversePotentialReconstruction}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)\)</span> gives <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}}(V_{\mathrm{ext,re}}^{\mathrm{rec}}) = 0\)</span> identically.</p></li>
+<li><p><strong>Phase-Locked Equilibrium (<span class="math notranslate nohighlight">\(\Delta\theta = 0, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0\)</span>)</strong>:
+The Plücker continuity source vanishes (<span class="math notranslate nohighlight">\(\Gamma_{\mathrm{Pl\ddot{u}cker}} = 0\)</span>) while the dual Josephson potential equals <span class="math notranslate nohighlight">\(\sqrt{\rho_{\mathrm{dual}}/\rho}\,\lambda_{\mathrm{re}}\)</span>.</p></li>
+<li><p><strong>Chiral <span class="math notranslate nohighlight">\(\pi/2\)</span> Phase-Slip Tunneling (<span class="math notranslate nohighlight">\(\Delta\theta = \pi/2, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0\)</span>)</strong>:
+The dual Josephson energy vanishes (<span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dual}} = 0\)</span>) while the chiral tunneling source in the Plücker continuity equation reaches its maximum <span class="math notranslate nohighlight">\(\Gamma_{\mathrm{Pl\ddot{u}cker}} = \frac{2}{\hbar}\sqrt{\rho\,\rho_{\mathrm{dual}}}\,\lambda_{\mathrm{re}}\)</span>.</p></li>
+<li><p><strong>Penrose Incidence Bohm–Weyl Curvature Dictionary (<code class="docutils literal notranslate"><span class="pre">reconstructWeylFromPluckerBohm</span></code>, lines 1353–1361)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   W_{\mathrm{Weyl}}(x) + \frac{1}{24}R_{4\mathrm{D}}(x) = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}(p, \bar{p}) = -\frac{\mathcal{H}^{I\bar{J}}\partial_I\bar{\partial}_{\bar{J}}\sqrt{\rho}}{\sqrt{\rho}}.
+   \]</div>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="application-to-turner-2026-models-for-superposition-gravity-1pn-perihelion-and-gravitational-waves-2-5pn-ringdown-fracture">
+<h2>5. Application to Turner (2026) Models for Superposition, Gravity (1PN Perihelion), and Gravitational Waves (2.5PN &amp; Ringdown Fracture)<a class="headerlink" href="#application-to-turner-2026-models-for-superposition-gravity-1pn-perihelion-and-gravitational-waves-2-5pn-ringdown-fracture" title="Link to this heading">¶</a></h2>
+<p>How do the intrinsic Fubini–Study Kähler GPE, coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> (<span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee\)</span>), Einstein–Kähler Bogoliubov / Deborah shear-fracture dispersion, and homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> Madelung hydrodynamics apply to and upgrade our earlier (Turner 2026) models for <strong>Superposition</strong> (<a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>), <strong>Gravity</strong>, and <strong>Gravitational Waves</strong> (<a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">grassmannian-gravity-from-qed-scattering-paper.md</span></a>)? In Section 30.6 of <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a> (<code class="docutils literal notranslate"><span class="pre">turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models</span></code>), we formalize three foundational upgrades:</p>
+<section id="revised-superposition-model-pluckermadelungsuperpositionoamdoubleslit-linear-superposition-as-the-klein-quadric-constraint-dual-schubert-origin-of-delta-mathrm-neq">
+<h3>5.1 Revised Superposition Model (<code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>): Linear Superposition as the Klein Quadric Constraint &amp; Dual-Schubert Origin of <span class="math notranslate nohighlight">\(\delta_{\mathrm{neq}}\)</span><a class="headerlink" href="#revised-superposition-model-pluckermadelungsuperpositionoamdoubleslit-linear-superposition-as-the-klein-quadric-constraint-dual-schubert-origin-of-delta-mathrm-neq" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Linear Wave Superposition Is Enforced by the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{C}(p) = 0\)</span> on <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span></strong>:
+For the canonical complex channel matrix <span class="math notranslate nohighlight">\(M_{\mathbb{C}}(z_1, z_2) = \operatorname{complexGr24ChannelMatrix}(z_1, z_2)\)</span>, its homogeneous Plücker 6-vector <span class="math notranslate nohighlight">\(p_{\mathrm{slit}} = \operatorname{twistorToPluckerVec}(M_{\mathbb{C}}(z_1, z_2)) \in \mathbb{C}^6\)</span> has components:</p>
+<div class="math notranslate nohighlight">
+\[
+   p_{\mathrm{slit}} = \bigl(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}\bigr) = \bigl(z_1,\,1,\,z_2,\,1,\,z_1 + z_2,\,1\bigr).
+   \]</div>
+<p>On <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span>, the holomorphic Klein quadric relation <span class="math notranslate nohighlight">\(\mathcal{C}(p_{\mathrm{slit}}) = 2(p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12}) = 0\)</span> reads <span class="math notranslate nohighlight">\(p_{02}p_{13} = p_{01}p_{23} + p_{03}p_{12} \iff p_4 = z_1 + z_2\)</span>. Thus, <strong>coherent wave amplitude addition <span class="math notranslate nohighlight">\(\Psi_{\mathrm{tot}} = z_1 + z_2\)</span> is literally the geometric condition that keeps the 6-vector <span class="math notranslate nohighlight">\(p_{\mathrm{slit}}\)</span> on the Klein quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \cong Gr_{\mathbb{C}}(2,4)\)</span></strong>!</p>
+</li>
+<li><p><strong>Phase-Locked Equilibrium vs. Chiral <span class="math notranslate nohighlight">\(\pi/2\)</span> Phase-Slip Non-Equilibrium (<code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>)</strong>:
+Combining the Klein-quadric crossing intensity with the time-of-flight integrated Plücker continuity source <span class="math notranslate nohighlight">\(\tau_{\mathrm{flight}}\,\Gamma_{\mathrm{Pl\ddot{u}cker}}(\hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s_{\mathrm{pl}})\)</span> proves:</p>
+<ul class="simple">
+<li><p>In <strong>Hermitian phase-locked equilibrium</strong> (<span class="math notranslate nohighlight">\(S_{\mathrm{dual}} = S_R, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0 \implies \Gamma_{\mathrm{Pl\ddot{u}cker}} = 0\)</span>), <code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code> on <span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{\mathrm{DDF}}(s)\)</span> reproduces <code class="docutils literal notranslate"><span class="pre">huygensSteinerOAMDoubleSlit</span></code> with <span class="math notranslate nohighlight">\(\mathcal{V} = \gamma_\varphi(v)^{-1}\)</span> and <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> everywhere</strong>.</p></li>
+<li><p>Under <strong>chiral <span class="math notranslate nohighlight">\(\pi/2\)</span> phase-slip Josephson tunneling</strong> (<span class="math notranslate nohighlight">\(S_{\mathrm{dual}} - S_R = \frac{\pi}{2}\hbar\)</span>), <code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code> derives the de Broglie–Bohm pilot-wave non-equilibrium density offset <span class="math notranslate nohighlight">\(\delta_{\mathrm{neq}} = \tau_{\mathrm{flight}}\,\frac{2}{\hbar}\sqrt{\rho\,\rho_{\mathrm{dual}}}\,\lambda_{\mathrm{re}}\)</span> directly from primary-to-dual (<span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \leftrightarrow Gr_{\mathbb{C}}(2,4)^\vee\)</span>) Schubert incidence tunneling.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="revised-gravity-models-models-14a-14b-orbital-fubinistudy-kahler-identity-plucker-igpe-potential-inversion-dual-schubert-core-regularization">
+<h3>5.2 Revised Gravity Models (Models 14a &amp; 14b): Orbital Fubini–Study Kähler Identity, Plücker <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Potential Inversion, &amp; Dual-Schubert Core Regularization<a class="headerlink" href="#revised-gravity-models-models-14a-14b-orbital-fubinistudy-kahler-identity-plucker-igpe-potential-inversion-dual-schubert-core-regularization" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Orbital Fubini–Study Kähler–Plücker Identity (<code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.gr24AffineChart</span></code>)</strong>:
+Embedding an eccentric precessing orbit (<span class="math notranslate nohighlight">\(e \in [0, 1)\)</span>, perihelion phase <span class="math notranslate nohighlight">\(\Delta\varpi\)</span>) into the canonical <span class="math notranslate nohighlight">\(2\times 2\)</span> Fubini–Study affine chart <span class="math notranslate nohighlight">\(W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi) = \operatorname{diag}\!\bigl(\sqrt{1+e}\,e^{i\Delta\varpi/2},\,\sqrt{1-e}\,e^{-i\Delta\varpi/2}\bigr)\)</span> proves that the Kähler determinant factor equals:</p>
+<div class="math notranslate nohighlight">
+\[
+   \det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) = \bigl\|p(I_2 \mid W_{\mathrm{orb}})\bigr\|_{\mathbb{C}^6}^2 = 1 + (1 + e) + (1 - e) + (1 - e^2) = 4 - e^2 = 3 + \frac{p}{a} &gt; 3,
+   \]</div>
+<p>so subtracting the constant 3-minor baseline recovers the exact orbital semi-latus rectum ratio:</p>
+<div class="math notranslate nohighlight">
+\[
+   \det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = \frac{p}{a} = \bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2.
+   \]</div>
+</li>
+<li><p><strong>Models 14a (<code class="docutils literal notranslate"><span class="pre">turnerPluckerIGPEPrecessionRad</span></code>, Without DDF) &amp; 14b (<code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerDualGr24IGPEDDFPrecessionRad</span></code>, With DDF)</strong>:</p>
+<ul class="simple">
+<li><p>Reconstructs the effective central potential <span class="math notranslate nohighlight">\(V_{\mathrm{ext,re}}^{\mathrm{rec}}(p)\)</span> from <code class="docutils literal notranslate"><span class="pre">pluckerInversePotentialReconstruction</span></code> (<span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}} = 0\)</span>) and links the self-dual Weyl curvature projection <span class="math notranslate nohighlight">\(W_{\mathrm{Weyl}}(x) + \frac{1}{24}R_{4\mathrm{D}}(x) = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}(p, \bar{p})\)</span> to the Plücker Bohmian quantum potential (<code class="docutils literal notranslate"><span class="pre">reconstructWeylFromPluckerBohm</span></code>).</p></li>
+<li><p>At solar-system scales where dual-Schubert core tunneling vanishes (<span class="math notranslate nohighlight">\(\delta_{\mathrm{Jos}} = 0\)</span>), both Model 14a and Model 14b reproduce <span class="math notranslate nohighlight">\(\Delta\varpi_{\mathrm{GR}} = \frac{6\pi G M}{c^2 a(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3)}\)</span> (<span class="math notranslate nohighlight">\(42.98''/\text{cy}\)</span> for Mercury) with <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> (<span class="math notranslate nohighlight">\(0\%\)</span> error)</strong>.</p></li>
+<li><p>In the strong-field near-horizon core (<span class="math notranslate nohighlight">\(\delta_{\mathrm{Jos}} &gt; 0\)</span>), <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = \delta_{\mathrm{Jos}} / \Delta\varpi_{\mathrm{GR}} &gt; 0\)</span> regularizes the classical <span class="math notranslate nohighlight">\(r = 0\)</span> curvature singularity via <span class="math notranslate nohighlight">\(Q_{\mathrm{Pl\ddot{u}cker}} + \Lambda_{\mathrm{dual}}(p, \tilde{p})\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="revised-gravitational-wave-models-models-14a-14b-plucker-mathcal-q-4-quadrupole-trajectory-proca-gap-deborah-shear-fracture-ringdown">
+<h3>5.3 Revised Gravitational-Wave Models (Models 14a &amp; 14b): Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Quadrupole Trajectory, Proca Gap, &amp; Deborah Shear-Fracture Ringdown<a class="headerlink" href="#revised-gravitational-wave-models-models-14a-14b-plucker-mathcal-q-4-quadrupole-trajectory-proca-gap-deborah-shear-fracture-ringdown" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Klein-Quadric Quadrupole Wave Trajectory &amp; Kähler Eccentricity Enhancement</strong>:
+The Plücker 6-vector <span class="math notranslate nohighlight">\(p_{\mathrm{GW}}(t) = \operatorname{twistorToPluckerVec}(\mathrm{orb}.\mathrm{gr24QuadrupoleWaveMatrix}(\Phi_{\mathrm{orb}}(t), \Delta\varpi))\)</span> evolves on the Klein quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span> (<span class="math notranslate nohighlight">\(\operatorname{OnKleinQuadric}(p_{\mathrm{GW}}(t))\)</span>), with Peters–Mathews eccentricity factor <span class="math notranslate nohighlight">\(f_{\mathrm{PM}}(e)^2 = P_{\mathrm{PM}}(e)^2 / \bigl(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3\bigr)^7\)</span>.</p></li>
+<li><p><strong>Sub-Critical Inspiral (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &lt; 1\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span>) vs. Super-Critical Merger Ringdown Fracture (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1\)</span>, <span class="math notranslate nohighlight">\(\delta P_{\mathrm{Jos}} &gt; 0\)</span>)</strong>:</p>
+<ul class="simple">
+<li><p>In the <strong>sub-critical inspiral regime</strong> (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &lt; 1 \iff \hbar^2\omega^2 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\delta P_{\mathrm{Jos}} = 0\)</span>), transverse spin-2 modes propagate luminally (<span class="math notranslate nohighlight">\(c_{\mathrm{GW}} = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2} = c\)</span>), longitudinal modes are gapped by <span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16\)</span> and <span class="math notranslate nohighlight">\(m_{\gamma,\mathrm{eff}}^2 &gt; 0\)</span>, and both <strong>Model 14a (<code class="docutils literal notranslate"><span class="pre">turnerPluckerIGPEGWLuminosity</span></code>)</strong> and <strong>Model 14b (<code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerDualGr24IGPEDDFGWLuminosity</span></code>)</strong> match <span class="math notranslate nohighlight">\(P_{\mathrm{GW}}^{\mathrm{GR}}\)</span> with <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> (<span class="math notranslate nohighlight">\(0\%\)</span> error)</strong>.</p></li>
+<li><p>In the <strong>super-critical merger ringdown regime</strong> (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1 \iff \hbar^2\omega^2 &lt; 0\)</span>, <code class="docutils literal notranslate"><span class="pre">IsShearFractureUnstable</span></code>), tachyonic shear fracture sheds chiral Josephson–Schubert flux <span class="math notranslate nohighlight">\(\delta P_{\mathrm{Jos}} &gt; 0\)</span> into <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)^\vee\)</span> (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = \delta P_{\mathrm{Jos}} / P_{\mathrm{GW}}^{\mathrm{GR}} &gt; 0\)</span>) while conserving the total primary+dual symplectic norm <span class="math notranslate nohighlight">\(\frac{d}{d\tau'}(|\Psi|^2 + |\Phi|^2) = 0\)</span> (avoiding Witten’s non-unitary <span class="math notranslate nohighlight">\(1/q^4\)</span> Weyl ghost <span class="math notranslate nohighlight">\(-\delta P_{\mathrm{ghost}} &lt; 0\)</span>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="summary-comparison-table-of-revised-turner-2026-models">
+<h3>5.4 Summary Comparison Table of Revised Turner (2026) Models<a class="headerlink" href="#summary-comparison-table-of-revised-turner-2026-models" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Domain &amp; Model Entry</p></th>
+<th class="head"><p>Lean 4 &amp; Rust Declarations</p></th>
+<th class="head"><p>Governing Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> / Kähler / Dual-<code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Law</p></th>
+<th class="head"><p>Relative Predictive Error <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}}\)</span> &amp; New Physical Capabilities</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Superposition Model 6</strong>:<br>Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Madelung &amp; Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>, <code class="docutils literal notranslate"><span class="pre">SlitModelKind::PluckerMadelungDualIgpe</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_{\mathrm{slit}} = (z_1, 1, z_2, 1, z_1+z_2, 1) \in \mathcal{Q}_4\)</span>; <span class="math notranslate nohighlight">\(I = I_0 E_{\mathrm{slit}}|p_1 p_4|^2 + \tau_{\mathrm{flight}}\Gamma_{\mathrm{Pl\ddot{u}cker}}\)</span></p></td>
+<td><p><strong>Phase-locked (<span class="math notranslate nohighlight">\(\Delta\theta = 0, V_{\mathrm{im}} = 0\)</span>)</strong>: <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> everywhere</strong> vs. <span class="math notranslate nohighlight">\(I_{\mathrm{HS,OAM}}\)</span>;<br><strong>Chiral <span class="math notranslate nohighlight">\(\pi/2\)</span> phase-slip</strong>: derives Bohmian <span class="math notranslate nohighlight">\(\delta_{\mathrm{neq}} = \tau_{\mathrm{flight}}\frac{2}{\hbar}\sqrt{\rho\rho_{\mathrm{dual}}}\lambda_{\mathrm{re}}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Gravity Model 14a (Without DDF)</strong>:<br>Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Madelung QHJ, Kähler Chart, &amp; <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Inversion</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.gr24AffineChart</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerPluckerIGPEPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">turner_plucker_igpe_precession_rad</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta\varpi = \frac{6\pi G M}{c^2 a(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3)} + \delta_{\mathrm{Jos}}\)</span>, with <span class="math notranslate nohighlight">\(V_{\mathrm{ext,re}}^{\mathrm{rec}}\)</span> from <code class="docutils literal notranslate"><span class="pre">pluckerInversePotentialReconstruction</span></code> &amp; Weyl <span class="math notranslate nohighlight">\(W_{\mathrm{Weyl}} \propto Q_{\mathrm{Pl\ddot{u}cker}}\)</span></p></td>
+<td><p><strong>Solar-system (<span class="math notranslate nohighlight">\(\delta_{\mathrm{Jos}} = 0\)</span>)</strong>: <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> (<span class="math notranslate nohighlight">\(0\%\)</span>, <span class="math notranslate nohighlight">\(42.98''/\text{cy}\)</span> Mercury)</strong>;<br><strong>Near-horizon core (<span class="math notranslate nohighlight">\(\delta_{\mathrm{Jos}} &gt; 0\)</span>)</strong>: <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = \delta_{\mathrm{Jos}}/\Delta\varpi_{\mathrm{GR}} &gt; 0\)</span> (regularizes <span class="math notranslate nohighlight">\(r=0\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gravity Model 14b (With DDF)</strong>:<br>Unified Dual-Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee\)</span> <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> + Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> + DDF</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerDualGr24IGPEDDFPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">reconstructWeylFromPluckerBohm</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta\varpi = \frac{6\pi G_\phi M \varrho_{\max}^\varphi j_{\min}^\varphi}{a(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3)} + \delta_{\mathrm{Jos}}\)</span> (<span class="math notranslate nohighlight">\(c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi\)</span>, <span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16\)</span>)</p></td>
+<td><p><strong>Solar-system (<span class="math notranslate nohighlight">\(\delta_{\mathrm{Jos}} = 0\)</span>)</strong>: <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> (<span class="math notranslate nohighlight">\(0\%\)</span>, <span class="math notranslate nohighlight">\(42.98''/\text{cy}\)</span>)</strong>;<br><span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span> photon–photon discriminator + chiral dual-Schubert core</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>GW Model 14a (Without DDF)</strong>:<br>Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Quadrupole Wave &amp; Kähler <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> 2.5PN Flux</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerPluckerIGPEGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">turner_plucker_igpe_gw_luminosity</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(P_{\mathrm{GW}} = \frac{32}{5}\frac{G^4 m_1^2 m_2^2(m_1+m_2)}{c^5 a^5}\frac{P_{\mathrm{PM}}(e)}{(\sqrt{\det(I_2+W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger)-3})^7} + \delta P_{\mathrm{Jos}}\)</span>, <span class="math notranslate nohighlight">\(p_{\mathrm{GW}}(t) \in \mathcal{Q}_4\)</span></p></td>
+<td><p><strong>Inspiral (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &lt; 1, \delta P_{\mathrm{Jos}} = 0\)</span>)</strong>: <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> (<span class="math notranslate nohighlight">\(0\%\)</span>)</strong>;<br><strong>Ringdown fracture (<span class="math notranslate nohighlight">\(\delta P_{\mathrm{Jos}} &gt; 0\)</span>)</strong>: <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = \delta P_{\mathrm{Jos}}/P_{\mathrm{GW}}^{\mathrm{GR}} &gt; 0\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>GW Model 14b (With DDF)</strong>:<br>Unified Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> + Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> + DDF + Deborah Fracture</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerDualGr24IGPEDDFGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">grassmannianDeborahFractureRatio</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(P_{\mathrm{GW}} = P_{\mathrm{GW}}^{\mathrm{DDF}} + \delta P_{\mathrm{Jos}}\)</span>, with <span class="math notranslate nohighlight">\(\hbar^2\omega^2 &lt; 0 \iff \mathrm{De}/\mathrm{De}_c &gt; 1\)</span> and <span class="math notranslate nohighlight">\(\frac{d}{d\tau'}(|\Psi|^2+|\Phi|^2) = 0\)</span></p></td>
+<td><p><strong>Inspiral (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &lt; 1, \delta P_{\mathrm{Jos}} = 0\)</span>)</strong>: <strong><span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> (<span class="math notranslate nohighlight">\(0\%\)</span>)</strong>;<br>unitary primary+dual norm conservation during <span class="math notranslate nohighlight">\(\mathrm{De} &gt; \mathrm{De}_c\)</span> ringdown fracture</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="multi-regime-quantitative-benchmarks-machine-checked-verification">
+<h2>6. Multi-Regime Quantitative Benchmarks &amp; Machine-Checked Verification<a class="headerlink" href="#multi-regime-quantitative-benchmarks-machine-checked-verification" title="Link to this heading">¶</a></h2>
+<section id="four-kinematic-regimes-on-gr-mathbb-c-2-4-cong-mathcal-q-4-madelung-lagrangian-rs">
+<h3>6.1 Four Kinematic Regimes on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4\)</span> (<code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code>)<a class="headerlink" href="#four-kinematic-regimes-on-gr-mathbb-c-2-4-cong-mathcal-q-4-madelung-lagrangian-rs" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Kinematic Regime on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></p></th>
+<th class="head"><p>Chart &amp; Coupling Parameters <span class="math notranslate nohighlight">\((|W|, \arg W, |p_{34}/p_{12}|, g, \rho_0, V_{\mathrm{im}}, w, |\lambda|)\)</span></p></th>
+<th class="head"><p>Kähler Determinant <span class="math notranslate nohighlight">\(\det(I_2 + W W^\dagger) = |p|^2\)</span></p></th>
+<th class="head"><p>Bogoliubov <span class="math notranslate nohighlight">\(\hbar^2\omega^2\)</span> &amp; Deborah Ratio <span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c\)</span></p></th>
+<th class="head"><p>Symplectic Norm Rate <span class="math notranslate nohighlight">\(\frac{d}{d\tau'}(|\Psi|^2 + |\Phi|^2)\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1</strong></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(Gr^+(2,4)\)</span> Causal Acoustic Core</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((0.50, 0.00, 0.20, +2.00, 1.50, 0.00, 1.00, 0.35)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.5425 \ge 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\hbar^2\omega^2 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c = 0 &lt; 1\)</span> (<strong>Stable</strong>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (<strong>Unitary Conservation</strong>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2</strong></p></td>
+<td><p><strong>Evanescent Optical Sheet</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((1.15, 1.35, 0.45, +1.60, 1.80, +1.10, 1.15, 0.40)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(6.0680 \ge 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\hbar^2\omega^2 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\operatorname{Im}(\omega) \neq 0\)</span> (<strong>Evanescent</strong>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(+2 V_{\mathrm{im}}(|\Psi|^2 + |\Phi|^2) &gt; 0\)</span> (<strong>Gain</strong>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3</strong></p></td>
+<td><p><strong>Tachyonic Shear Fracture (<span class="math notranslate nohighlight">\(\mathrm{De} &gt; \mathrm{De}_c\)</span>)</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((0.45, 0.00, 0.15, -3.40, 2.20, 0.00, 0.85, 0.00)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.4406 \ge 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\hbar^2\omega^2 &lt; 0\)</span>, <span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1\)</span> (<strong>Shear Fracture!</strong>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (Conservative Tachyonic Mode)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4</strong></p></td>
+<td><p><strong>Strong Dual <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Schubert Lock</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((0.85, -0.95, 0.60, +1.80, 1.60, 0.00, 1.25, 2.60)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(3.6201 \ge 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\hbar^2\omega^2 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(m_{\gamma,\mathrm{eff}}^2 &gt; 0\)</span> (<strong>Gapped Proca Mode</strong>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (<span class="math notranslate nohighlight">\(J_{\mathrm{Josephson}}\)</span> cancels between <span class="math notranslate nohighlight">\(\Psi, \Phi\)</span>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="self-contained-lean-4-verification-block">
+<h3>6.2 Self-Contained Lean 4 Verification Block<a class="headerlink" href="#self-contained-lean-4-verification-block" title="Link to this heading">¶</a></h3>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ComplexGrassmannianGPEPluckerMadelungPaperVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Huygens</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Pending</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">re</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RiverExterior</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">orb</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">PlanetaryOrbit</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">W</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Z</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">PluckerIdx</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">s_coupled</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">CoupledDualGrassmannianState</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">z1</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Δℓ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">orbitalPhase</span><span class="w"> </span><span class="n">deltaVarpi</span><span class="w"> </span><span class="n">deltaJos</span><span class="w"> </span><span class="n">deltaPJos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">dtau_s_real</span><span class="w"> </span><span class="n">lambda_re</span><span class="w"> </span><span class="n">lambda_im</span><span class="w"> </span><span class="n">R_4D</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">hJos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">deltaJos</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hPJos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">deltaPJos</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">twistorToPluckerVec</span><span class="w"> </span><span class="n">Z</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">Z_W</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">chartToTwistor</span><span class="w"> </span><span class="n">W</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">gpe_rep</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">GrassmannianGPEParams</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">      </span><span class="o">{</span><span class="w"> </span><span class="n">hbar</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">mass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">g_coupling</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">g_dual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">lambda_int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">,</span><span class="w"> </span><span class="n">modular_weight</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">}</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">PluckerMadelungState</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">      </span><span class="o">{</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">p_Z</span>
+<span class="w">        </span><span class="n">on_quadric</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">(</span><span class="n">plucker_hodge_klein_quadric_and_projector_identities</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">Z</span><span class="o">)</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span>
+<span class="w">        </span><span class="n">rho</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">        </span><span class="n">rho_dual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">9</span>
+<span class="w">        </span><span class="n">s_real</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="n">s_imag</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">s_dual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="n">kinetic_vel_sq</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="n">projected_hessian_sqrt_rho</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">}</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">v_rec</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">      </span><span class="n">pluckerInversePotentialReconstruction</span><span class="w"> </span><span class="n">dtau_s_real</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">lambda_re</span><span class="w"> </span><span class="n">lambda_im</span><span class="w"> </span><span class="n">p_state</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">p_slit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">twistorToPluckerVec</span><span class="w"> </span><span class="o">(</span><span class="n">complexGr24ChannelMatrix</span><span class="w"> </span><span class="n">z1</span><span class="w"> </span><span class="n">z2</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_DDF</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr24TwistorMatrix</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">W_orb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">PlanetaryOrbit.gr24AffineChart</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="n">deltaVarpi</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">Δϖ_GR</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">re.perihelionPrecessionRad</span><span class="w"> </span><span class="n">orb</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">P_GR</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">re.petersMathewsLuminosity</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">pluckerHodgeDual</span><span class="w"> </span><span class="o">(</span><span class="n">pluckerHodgeDual</span><span class="w"> </span><span class="n">p_Z</span><span class="o">)</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">pluckerNormSq</span><span class="w"> </span><span class="o">(</span><span class="n">pluckerHodgeDual</span><span class="w"> </span><span class="n">p_Z</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">pluckerNormSq</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">OnKleinQuadric</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">pluckerContravariantMetricApply</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">pluckerContravariantMetricApply</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="o">(</span><span class="n">pluckerConjHodgeNormal</span><span class="w"> </span><span class="n">p_Z</span><span class="o">)</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">kahlerDetFactor</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">pluckerNormSq</span><span class="w"> </span><span class="o">(</span><span class="n">twistorToPluckerVec</span><span class="w"> </span><span class="n">Z_W</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="mi">1</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">kahlerDetFactor</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">fubiniStudyKineticNorm</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">fubiniStudyFrobeniusNormSq</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">s_coupled.totalNormTimeDerivative</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">s_coupled.v_im</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">s_coupled.psi</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">s_coupled.phi</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="o">(</span><span class="n">s_coupled.v_im</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">s_coupled.totalNormTimeDerivative</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">grassmannianEinsteinKahlerScalarCurvature</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">grassmannianBogoliubovOmegaSq</span><span class="w"> </span><span class="n">gpe_rep</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">grassmannianProcaMassSq</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">pluckerHamiltonJacobiResidual</span><span class="w"> </span><span class="n">dtau_s_real</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">v_rec</span><span class="w"> </span><span class="n">lambda_re</span><span class="w"> </span><span class="n">lambda_im</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">pluckerContinuitySourceRHS</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">lambda_re</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">reconstructWeylFromPluckerBohm</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">R_4D</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">R_4D</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="bp">-</span><span class="w"> </span><span class="n">p_state.projected_hessian_sqrt_rho</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">Real.sqrt</span><span class="w"> </span><span class="n">p_state.rho</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">OnKleinQuadric</span><span class="w"> </span><span class="n">p_slit</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">p_slit</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">z1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span>
+<span class="w">        </span><span class="o">(</span><span class="n">pluckerMadelungSuperpositionOAMDoubleSlit</span><span class="w"> </span><span class="n">M_DDF</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">lambda_re</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="o">)</span>
+<span class="w">        </span><span class="o">(</span><span class="n">huygensSteinerOAMDoubleSlit</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="o">)</span><span class="bp">⁻¹</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">kahlerDetFactor</span><span class="w"> </span><span class="n">W_orb</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">orb.semiLatusRectum</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">orb.semiMajorAxis</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span>
+<span class="w">        </span><span class="o">(</span><span class="n">PlanetaryOrbit.turnerPluckerIGPEPrecessionRad</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="n">re.G_phi</span><span class="w"> </span><span class="n">re.sourceMass</span><span class="w"> </span><span class="n">sub.c</span><span class="w"> </span><span class="n">deltaVarpi</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span>
+<span class="w">        </span><span class="n">Δϖ_GR</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span><span class="w"> </span><span class="o">(</span><span class="n">re.turnerDualGr24IGPEDDFPrecessionRad</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="n">deltaVarpi</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="n">Δϖ_GR</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span>
+<span class="w">        </span><span class="o">(</span><span class="n">re.turnerDualGr24IGPEDDFPrecessionRad</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="n">deltaVarpi</span><span class="w"> </span><span class="n">deltaJos</span><span class="o">)</span><span class="w"> </span><span class="n">Δϖ_GR</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="n">deltaJos</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">Δϖ_GR</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span>
+<span class="w">        </span><span class="o">(</span><span class="n">PlanetaryOrbit.turnerPluckerIGPEGWLuminosity</span>
+<span class="w">          </span><span class="n">orb</span><span class="w"> </span><span class="n">re.G_phi</span><span class="w"> </span><span class="n">re.sourceMass</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">sub.c</span><span class="w"> </span><span class="n">orbitalPhase</span><span class="w"> </span><span class="n">deltaVarpi</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span>
+<span class="w">        </span><span class="n">P_GR</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span><span class="w"> </span><span class="o">(</span><span class="n">re.turnerDualGr24IGPEDDFGWLuminosity</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="n">P_GR</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">relativePredictiveError</span><span class="w"> </span><span class="o">(</span><span class="n">re.turnerDualGr24IGPEDDFGWLuminosity</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">deltaPJos</span><span class="o">)</span><span class="w"> </span><span class="n">P_GR</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="n">deltaPJos</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">P_GR</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="n">Z_W</span><span class="w"> </span><span class="n">gpe_rep</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="n">v_rec</span><span class="w"> </span><span class="n">p_slit</span><span class="w"> </span><span class="n">M_DDF</span><span class="w"> </span><span class="n">W_orb</span><span class="w"> </span><span class="n">Δϖ_GR</span><span class="w"> </span><span class="n">P_GR</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_pl</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">plucker_hodge_klein_quadric_and_projector_identities</span><span class="w"> </span><span class="n">p_Z</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">Z</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_quad_props</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">h_pl</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="w"> </span><span class="n">h_pl</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_kahler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">kahlerDetFactor_eq_pluckerNormSq_and_ge_one</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="n">K</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_norm</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">grassmannian_igpe_norm_balance_and_josephson_identities</span><span class="w"> </span><span class="n">s_coupled</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_bog</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">grassmannian_bogoliubov_proca_and_deborah_fracture_identities</span>
+<span class="w">    </span><span class="n">gpe_rep</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">[</span><span class="n">gpe_rep</span><span class="o">])</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">[</span><span class="n">gpe_rep</span><span class="o">])</span>
+<span class="w">    </span><span class="n">h_kahler</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_proca</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">grassmannianProcaMassSq</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">    </span><span class="n">unfold</span><span class="w"> </span><span class="n">grassmannianProcaMassSq</span>
+<span class="w">    </span><span class="n">positivity</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_qhj</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities</span>
+<span class="w">    </span><span class="n">dtau_s_real</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">lambda_re</span><span class="w"> </span><span class="n">lambda_im</span><span class="w"> </span><span class="n">R_4D</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_rev</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="n">orb</span><span class="w"> </span><span class="n">p_state</span><span class="w"> </span><span class="n">z1</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">lambda_re</span>
+<span class="w">    </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">orbitalPhase</span><span class="w"> </span><span class="n">deltaVarpi</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">deltaJos</span><span class="w"> </span><span class="n">deltaPJos</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hJos</span><span class="w"> </span><span class="n">hPJos</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h_pl</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_pl</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_pl</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_quad_props</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_quad_props</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_kahler</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_kahler</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_kahler</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_norm</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_norm</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_bog</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_bog</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">[</span><span class="n">gpe_rep</span><span class="o">]),</span><span class="w"> </span><span class="n">h_proca</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_qhj</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="o">(</span><span class="n">h_qhj</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="w"> </span><span class="n">rfl</span><span class="o">)</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_qhj</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="o">(</span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="w"> </span><span class="n">rfl</span><span class="o">)</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_rev</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ComplexGrassmannianGPEPluckerMadelungPaperVerification</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusion-reproducibility">
+<h2>7. Conclusion &amp; Reproducibility<a class="headerlink" href="#conclusion-reproducibility" title="Link to this heading">¶</a></h2>
+<p>By formalizing the homogeneous Plücker 6-vector calculus on the Klein quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span>, the corrected Hermitian tangent projector <span class="math notranslate nohighlight">\(\mathcal{H}^{I\bar{J}}\)</span>, the Cauchy–Binet Kähler determinant identity <span class="math notranslate nohighlight">\(\det(I_2 + W W^\dagger) = \|p(I_2 \mid W)\|^2 \ge 1\)</span>, the coupled Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> symplectic norm balance and chiral Josephson Schubert current, the Einstein–Kähler Bogoliubov dispersion (<span class="math notranslate nohighlight">\(R_{\mathrm{Gr}}(2,4) = 16\)</span>) and critical Deborah shear-fracture threshold (<span class="math notranslate nohighlight">\(\hbar^2\omega^2 &lt; 0 \iff \mathrm{De}/\mathrm{De}_c &gt; 1\)</span>), and the homogeneous Plücker Madelung QHJ / <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> potential reconstruction and Penrose Bohm–Weyl curvature dictionary in Lean 4 and Rust/WASM, we have unified spacetime Madelung hydrodynamics with intrinsic complex Grassmannian twistor geometry while maintaining strict Pending evidence boundaries (<code class="docutils literal notranslate"><span class="pre">ComplexGrassmannianGPEAndPluckerMadelungHypothesis</span></code>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>signals_build
+cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--manifest-path<span class="w"> </span>src/signals/numerical_adapter/Cargo.toml<span class="w"> </span>madelung_lagrangian
+cargo<span class="w"> </span>build<span class="w"> </span>--manifest-path<span class="w"> </span>src/signals/numerical_adapter/Cargo.toml<span class="w"> </span>--lib<span class="w"> </span>--target<span class="w"> </span>wasm32-unknown-unknown<span class="w"> </span>--release
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="cgpe-madelung1927"></a></p>
+<ol class="arabic simple">
+<li><p>Madelung, E. (1927). <em>Quantentheorie in hydrodynamischer Form</em>. Zeitschrift für Physik 40(3–4), 322–326. <a class="reference external" href="https://doi.org/10.1007/BF01400372">DOI: 10.1007/BF01400372</a>.</p></li>
+</ol>
+<p><a id="cgpe-gross1961"></a>
+2. Gross, E. P. (1961). <em>Structure of a quantized vortex in boson systems</em>. Il Nuovo Cimento 20(3), 454–477. <a class="reference external" href="https://doi.org/10.1007/BF02731494">DOI: 10.1007/BF02731494</a>.</p>
+<p><a id="cgpe-pitaevskii1961"></a>
+3. Pitaevskii, L. P. (1961). <em>Vortex lines in an imperfect Bose gas</em>. Soviet Physics JETP 13(2), 451–454.</p>
+<p><a id="cgpe-penrose1967"></a>
+4. Penrose, R. (1967). <em>Twistor Algebra</em>. Journal of Mathematical Physics 8(2), 345–366. <a class="reference external" href="https://doi.org/10.1063/1.1705200">DOI: 10.1063/1.1705200</a>.</p>
+<p><a id="cgpe-penrose1976"></a>
+5. Penrose, R. (1976). <em>Nonlinear Gravitons and Curved Twistor Theory</em>. General Relativity and Gravitation 7(1), 31–52. <a class="reference external" href="https://doi.org/10.1007/BF00762011">DOI: 10.1007/BF00762011</a>.</p>
+<p><a id="cgpe-arkani2014"></a>
+6. Arkani-Hamed, N., and Trnka, J. (2014). <em>The Amplituhedron</em>. Journal of High Energy Physics 2014(10), 030. <a class="reference external" href="https://doi.org/10.1007/JHEP10%282014%29030">DOI: 10.1007/JHEP10(2014)030</a>; <a class="reference external" href="https://arxiv.org/abs/1312.2007">arXiv:1312.2007</a>.</p>
+<p><a id="cgpe-fedi2026"></a>
+7. Fedi, M. (2026). <em>Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology</em>. SSRN Preprint 7406660. <a class="reference external" href="https://doi.org/10.2139/ssrn.7406660">DOI: 10.2139/ssrn.7406660</a>.</p>
+<p><a id="cgpe-chat-gpe2026"></a>
+8. Provenance Chat Log (2026). <em>Grassmannian Gross–Pitaevskii Equation Formulation</em>. (<a class="reference download internal" download="" href="_downloads/4aa76078364bc6e795cb8e8dc7ca0ce5/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md,</span> <span class="pre">lines</span> <span class="pre">1-1458</span></code></a>).</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">madelung1927quantentheorie</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Madelung, Erwin}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantentheorie in hydrodynamischer Form}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Zeitschrift f{\"u}r Physik}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{40}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{3-4}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{322--326}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1927}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1007/BF01400372}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">penrose1967twistor</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Penrose, Roger}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Twistor Algebra}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Journal of Mathematical Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{8}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{2}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{345--366}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1967}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1063/1.1705200}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">penrose1976nonlinear</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Penrose, Roger}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Nonlinear Gravitons and Curved Twistor Theory}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{General Relativity and Gravitation}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{7}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{1}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{31--52}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1976}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1007/BF00762011}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_grassmannian_gpe_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wes and {Gemini}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Grassmannian {Gross--Pitaevskii} Equation Formulation}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI research chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1--1458}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Complex Grassmannian Gr_C(2,4) Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert iGPE, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric Q_4 in Lean 4 and Rust/WASM"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-03"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian Gr_C(2,4)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Gross-Pitaevskii Equation"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Interactive and Inverse Gross-Pitaevskii Equation (iGPE)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Plücker Coordinates and Klein Quadric"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Madelung Quantum Hydrodynamics"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Fubini-Study Metric and Bogoliubov Dispersion"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Deborah Number Vacuum Shear Fracture"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Penrose Transform and Weyl Curvature"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Pending.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/madelung_lagrangian.rs"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html" title="From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics" >previous</a></li>
+        <li><a href="grassmannian-hawking-radiation-decoding-paper.html" title="Hawking Radiation, Inverse Gross–Pitaevskii (iGPE) Unwinding, and Amplituhedron / CP-ALS Decoding in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

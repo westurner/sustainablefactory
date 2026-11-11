@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Holographic Principle in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and \(\mathfrak{psl}(2|2)_c\) Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4" href="grassmannian-ads-cft-ddf-paper.html" />
+    <link rel="prev" title="Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, \(Gr_{\mathbb{C}}(2,4)\) Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4" href="grassmannian-polariton-spp-mechanics-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#t-hoofts-and-susskinds-holographic-principle-ads-cft-vs-fluid-gravity-duality-and-ddf-acoustic-horizons">1. ‘t Hooft’s and Susskind’s Holographic Principle, AdS/CFT vs. Fluid/Gravity Duality, and DDF Acoustic Horizons</a><ul>
+<li><a class="reference internal" href="#historical-mathematical-foundations-from-bekensteinhawking-to-t-hooft-1993-and-susskind-1995">1.1 Historical &amp; Mathematical Foundations: From Bekenstein–Hawking to ‘t Hooft (1993) and Susskind (1995)</a></li>
+<li><a class="reference internal" href="#how-does-the-holographic-principle-connect-to-gr-mathbb-c-2-4-and-the-dilatant-dark-fluid-ddf">1.2 How Does the Holographic Principle Connect to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and the Dilatant Dark Fluid (DDF)?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mathematical-derivation-holographic-duality-with-and-without-tensor-gaussian-splats">2. Mathematical Derivation: Holographic Duality With and Without Tensor Gaussian Splats</a><ul>
+<li><a class="reference internal" href="#splat-free-continuum-gr-mathbb-c-2-4-holographic-redshift-horizon-jamming-law">2.1 Splat-Free Continuum <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Holographic Redshift &amp; Horizon Jamming Law</a></li>
+<li><a class="reference internal" href="#with-normed-tensor-gaussian-splats-planck-scale-horizon-pixelation-singularity-resolution">2.2 With Normed Tensor Gaussian Splats: Planck-Scale Horizon Pixelation &amp; Singularity Resolution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-ddf-signals-scattering">3. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)</a></li>
+<li><a class="reference internal" href="#rust-webassembly-wasm32-unknown-unknown-implementation-and-reproducibility">4. Rust &amp; WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) Implementation and Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-polariton-spp-mechanics-paper.html" title="Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, \(Gr_{\mathbb{C}}(2,4)\) Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-ads-cft-ddf-paper.html" title="AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and \(\mathfrak{psl}(2|2)_c\) Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-holographic-principle-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#t-hoofts-and-susskinds-holographic-principle-ads-cft-vs-fluid-gravity-duality-and-ddf-acoustic-horizons">1. ‘t Hooft’s and Susskind’s Holographic Principle, AdS/CFT vs. Fluid/Gravity Duality, and DDF Acoustic Horizons</a><ul>
+<li><a class="reference internal" href="#historical-mathematical-foundations-from-bekensteinhawking-to-t-hooft-1993-and-susskind-1995">1.1 Historical &amp; Mathematical Foundations: From Bekenstein–Hawking to ‘t Hooft (1993) and Susskind (1995)</a></li>
+<li><a class="reference internal" href="#how-does-the-holographic-principle-connect-to-gr-mathbb-c-2-4-and-the-dilatant-dark-fluid-ddf">1.2 How Does the Holographic Principle Connect to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and the Dilatant Dark Fluid (DDF)?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mathematical-derivation-holographic-duality-with-and-without-tensor-gaussian-splats">2. Mathematical Derivation: Holographic Duality With and Without Tensor Gaussian Splats</a><ul>
+<li><a class="reference internal" href="#splat-free-continuum-gr-mathbb-c-2-4-holographic-redshift-horizon-jamming-law">2.1 Splat-Free Continuum <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Holographic Redshift &amp; Horizon Jamming Law</a></li>
+<li><a class="reference internal" href="#with-normed-tensor-gaussian-splats-planck-scale-horizon-pixelation-singularity-resolution">2.2 With Normed Tensor Gaussian Splats: Planck-Scale Horizon Pixelation &amp; Singularity Resolution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-ddf-signals-scattering">3. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)</a></li>
+<li><a class="reference internal" href="#rust-webassembly-wasm32-unknown-unknown-implementation-and-reproducibility">4. Rust &amp; WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) Implementation and Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-polariton-spp-mechanics-paper.html"
+                          title="previous chapter">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-ads-cft-ddf-paper.html"
+                          title="next chapter">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-holographic-principle-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-holographic-principle-in-complex-grassmannian-gr-mathbb-c-2-4-and-dilatant-dark-fluid-ddf-mechanics-t-hooftsusskind-horizon-entropy-gausssmarr-bulk-mass-recovery-plucker-redshift-lapse-and-planck-tensor-splatting-in-lean-4">
+<span id="grassmannian-holographic-principle-paper"></span><h1>The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4<a class="headerlink" href="#the-holographic-principle-in-complex-grassmannian-gr-mathbb-c-2-4-and-dilatant-dark-fluid-ddf-mechanics-t-hooftsusskind-horizon-entropy-gausssmarr-bulk-mass-recovery-plucker-redshift-lapse-and-planck-tensor-splatting-in-lean-4" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>High Energy Physics - Theory (<code class="docutils literal notranslate"><span class="pre">hep-th</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM Crate (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/polariton_spp.rs</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc">Hawking Radiation, Inverse Gross–Pitaevskii (<code class="docutils literal notranslate"><span class="pre">iGPE</span></code>) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>First proposed by <strong>Gerard ‘t Hooft (1993)</strong> (<a class="reference internal" href="#holo-thooft1993"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">gr-qc/9310026</span></code></span></a>) and given its string-theoretic and relativistic light-sheet formulation by <strong>Leonard Susskind (1995)</strong> (<a class="reference internal" href="#holo-susskind1995"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">hep-th/9409089</span></code></span></a>), the <strong>Holographic Principle</strong> asserts that the complete physical description of a <span class="math notranslate nohighlight">\((3+1)\)</span>-dimensional bulk spacetime region is encoded on a <span class="math notranslate nohighlight">\(2\)</span>-dimensional boundary screen with at most one degree of freedom per four Planck areas (<span class="math notranslate nohighlight">\(S_{\mathrm{BH}} = k_B A_H / (4\ell_P^2)\)</span>; <a class="reference internal" href="#holo-bekenstein1973"><span class="xref myst">Bekenstein 1973</span></a>; <a class="reference internal" href="#holo-hawking1975"><span class="xref myst">Hawking 1975</span></a>; <a class="reference internal" href="#holo-bousso2002"><span class="xref myst">Bousso 2002</span></a>). In this paper, we formalize the exact mathematical bridge connecting ‘t Hooft’s and Susskind’s Holographic Principle to the <strong>complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></strong> and the <strong>Dilatant Dark Fluid (DDF)</strong> Painlevé–Gullstrand river geometry (<code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>), both <strong>without splats</strong> (splat-free continuum boundary laws and Plücker lapse invariants) and <strong>with Planck-pixelated Normed 2D Tensor Gaussian Splats</strong>:</p>
+<ol class="arabic">
+<li><p><strong>DDF Acoustic Horizon Screen Area <span class="math notranslate nohighlight">\(A_H\)</span>, ‘t Hooft–Susskind–Bekenstein–Hawking Entropy <span class="math notranslate nohighlight">\(S_{\mathrm{BH}}\)</span>, &amp; Gauss–Smarr 2D-to-3D Bulk Mass Recovery (<code class="docutils literal notranslate"><span class="pre">RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code>)</strong>:
+In a DDF <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> flow where the radial superfluid inflow <span class="math notranslate nohighlight">\(v_\phi(r) = -\sqrt{2 G_\phi M / r}\)</span> reaches the transverse phonon speed of light <span class="math notranslate nohighlight">\(c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}\)</span> at the acoustic event horizon <span class="math notranslate nohighlight">\(r_H = \frac{2 G_\phi M}{c^2}\)</span> (<code class="docutils literal notranslate"><span class="pre">RiverExterior.horizon_velocity_matches_c</span></code>), the 2D horizon screen area <span class="math notranslate nohighlight">\(A_H = 4\pi r_H^2\)</span>, surface gravity <span class="math notranslate nohighlight">\(\kappa_H = \frac{c^2}{2 r_H}\)</span>, and Bekenstein–Hawking entropy <span class="math notranslate nohighlight">\(S_{\mathrm{BH}} = \frac{k_B A_H}{4\ell_P^2}\)</span> satisfy:
+$<span class="math notranslate nohighlight">\(S_{\mathrm{BH}} = \frac{\pi\,k_B\,r_H^2}{\ell_P^2} &gt; 0, \qquad
+\frac{\kappa_H\,A_H}{4\pi\,G_\phi} = M.\)</span><span class="math notranslate nohighlight">\(
+This proves that the 2D boundary integral of the acoustic surface gravity \)</span>\kappa_H<span class="math notranslate nohighlight">\( over the holographic horizon screen \)</span>A_H<span class="math notranslate nohighlight">\( recovers the exact 3D bulk gravitating mass \)</span>M$ without inspecting the interior volume.</p></li>
+<li><p><strong>Without Splats: Continuum <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Product Equals the Exact Gravitational Redshift / Painlevé–Gullstrand Lapse Function <span class="math notranslate nohighlight">\(g_{00}(r) = 1 - r_H / r\)</span></strong>:
+For any exterior radius <span class="math notranslate nohighlight">\(r &gt; r_H\)</span>, the dimensionless radial river speed ratio is <span class="math notranslate nohighlight">\(\beta_\phi(r) = \frac{|v_\phi(r)|}{c} = \sqrt{\frac{r_H}{r}} \in (0, 1)\)</span> (<code class="docutils literal notranslate"><span class="pre">RiverExterior.inflowBeta</span></code>). Embedding <span class="math notranslate nohighlight">\(\beta_\phi(r)\)</span> into <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> via <span class="math notranslate nohighlight">\(M_{\mathrm{holo}}(r) = \operatorname{ddfThermalGr24Matrix}(\beta_\phi(r), \theta)\)</span> proves (with <strong>zero splats</strong>) that the uncrossed Plücker channel product equals the exact gravitational redshift factor <span class="math notranslate nohighlight">\(g_{00}(r) = 1 - r_H / r\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \bigl|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2 = 1 - \beta_\phi(r)^2 = 1 - \frac{r_H}{r} &gt; 0,
+   \]</div>
+<p>which approaches <span class="math notranslate nohighlight">\(1\)</span> at asymptotic infinity (<span class="math notranslate nohighlight">\(r \to \infty\)</span>) and vanishes at the holographic horizon screen <span class="math notranslate nohighlight">\(r \to r_H^+\)</span> (complete Lorentz shear jamming <span class="math notranslate nohighlight">\(\gamma_\varphi(v_\phi) \to \infty\)</span>).</p>
+</li>
+<li><p><strong>With Normed Tensor Gaussian Splats: Planck-Pixelated Holographic Screen &amp; UV Bohm Quantum Potential Cutoff (<code class="docutils literal notranslate"><span class="pre">holographicPlanckSplat</span></code>)</strong>:
+Tiling the 2D holographic screen <span class="math notranslate nohighlight">\(A_H\)</span> with <span class="math notranslate nohighlight">\(N_{\mathrm{bits}} = S_{\mathrm{BH}} / k_B = \frac{A_H}{4\ell_P^2}\)</span> isotropic Planck-scale Tensor Gaussian Splats (<code class="docutils literal notranslate"><span class="pre">holographicPlanckSplat</span></code> with <span class="math notranslate nohighlight">\(\sigma_1 = \sigma_2 = \ell_P &gt; 0\)</span>) yields exact Planck covariance volume <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{Planck}} = \ell_P^4\)</span>, exact area reconstruction <span class="math notranslate nohighlight">\(A_H = 4\ell_P^2(S_{\mathrm{BH}}/k_B)\)</span>, and a finite <strong>Planck-scale Bohm quantum-potential UV cutoff</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m\,\ell_P^2} &gt; 0,
+   \]</div>
+<p>replacing the classical <span class="math notranslate nohighlight">\(r \to 0\)</span> curvature singularity with a finite repulsive Madelung quantum pressure barrier (<a class="reference internal" href="#holo-chat-fracture2026"><span class="xref myst">Provenance Chat Log: Fracture Phases &amp; Holographic Regularization in DDF (2026)</span></a>, lines 1090–1115).</p>
+</li>
+<li><p><strong>Anti-Amplituhedron Destructive Cancellation in <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)\)</span> &amp; Grover 4-State Holographic Code Carving</strong>:
+We prove that <code class="docutils literal notranslate"><span class="pre">antiAmplituhedronGr24Matrix</span> <span class="pre">A</span></code> realizes an exact destructive phase-cancellation node (<span class="math notranslate nohighlight">\(\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0\)</span>) outside the positive Grassmannian <span class="math notranslate nohighlight">\(Gr_{\ge 0}(2,4)\)</span>, while a single Grover reflection (<code class="docutils literal notranslate"><span class="pre">groverSuccessAmplitude</span> <span class="pre">(1/2)</span> <span class="pre">=</span> <span class="pre">1</span></code>) deterministically carves a target state out of a 4-dimensional twistor subspace.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="t-hoofts-and-susskinds-holographic-principle-ads-cft-vs-fluid-gravity-duality-and-ddf-acoustic-horizons">
+<h2>1. ‘t Hooft’s and Susskind’s Holographic Principle, AdS/CFT vs. Fluid/Gravity Duality, and DDF Acoustic Horizons<a class="headerlink" href="#t-hoofts-and-susskinds-holographic-principle-ads-cft-vs-fluid-gravity-duality-and-ddf-acoustic-horizons" title="Link to this heading">¶</a></h2>
+<section id="historical-mathematical-foundations-from-bekensteinhawking-to-t-hooft-1993-and-susskind-1995">
+<h3>1.1 Historical &amp; Mathematical Foundations: From Bekenstein–Hawking to ‘t Hooft (1993) and Susskind (1995)<a class="headerlink" href="#historical-mathematical-foundations-from-bekensteinhawking-to-t-hooft-1993-and-susskind-1995" title="Link to this heading">¶</a></h3>
+<p>In 1973–1975, Jacob Bekenstein (<a class="reference internal" href="#holo-bekenstein1973"><span class="xref myst">Bekenstein 1973</span></a>) and Stephen Hawking (<a class="reference internal" href="#holo-hawking1975"><span class="xref myst">Hawking 1975</span></a>) discovered that the thermodynamic entropy of a black hole scales not with its 3D volume <span class="math notranslate nohighlight">\(V \propto r_H^3\)</span>, but with the 2D surface area <span class="math notranslate nohighlight">\(A_H = 4\pi r_H^2\)</span> of its event horizon:</p>
+<div class="math notranslate nohighlight">
+\[
+S_{\mathrm{BH}} = \frac{k_B\,c^3\,A_H}{4 G\hbar} = \frac{k_B\,A_H}{4\,\ell_P^2}, \qquad \ell_P = \sqrt{\frac{G\hbar}{c^3}}.
+\]</div>
+<p>Building on this area law, <strong>Gerard ‘t Hooft (1993)</strong> (<em>Dimensional Reduction in Quantum Gravity</em>, <a class="reference internal" href="#holo-thooft1993"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">gr-qc/9310026</span></code></span></a>) proposed that at the Planck scale, quantum gravity in <span class="math notranslate nohighlight">\(3+1\)</span> dimensions reduces to a <span class="math notranslate nohighlight">\((2+1)\)</span>-dimensional theory of Boolean/cellular degrees of freedom living on a 2D boundary surface, with information density bounded by <span class="math notranslate nohighlight">\(\frac{1}{4\ell_P^2}\)</span> nats per unit area. In 1995, <strong>Leonard Susskind</strong> (<em>The World as a Hologram</em>, <em>J. Math. Phys.</em> 36, 6377, <a class="reference internal" href="#holo-susskind1995"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">hep-th/9409089</span></code></span></a>) elevated ‘t Hooft’s dimensional reduction into the <strong>Holographic Principle</strong>, demonstrating via relativistic light-front / light-sheet focusing (later generalized covariantly by <a class="reference internal" href="#holo-bousso2002"><span class="xref myst">Bousso 2002</span></a>) that any bulk configuration exceeding <span class="math notranslate nohighlight">\(S_{\mathrm{BH}}\)</span> inside an enclosing area <span class="math notranslate nohighlight">\(A_H\)</span> must collapse into a horizon of area at least <span class="math notranslate nohighlight">\(A_H\)</span>.</p>
+<p>In 1997, Juan Maldacena (<a class="reference internal" href="#holo-maldacena1998"><span class="xref myst">Maldacena 1998</span></a>) realized the Holographic Principle in string theory via the <strong>AdS/CFT correspondence</strong> (formalized with the Gubser–Klebanov–Polyakov–Witten mass–dimension dictionary <span class="math notranslate nohighlight">\(\Delta_\pm = d/2 \pm \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}\)</span>, the Kovtun–Son–Starinets viscosity bound <span class="math notranslate nohighlight">\(\eta/s = \hbar/(4\pi k_B)\)</span>, planar <span class="math notranslate nohighlight">\(\mathcal{N}=4\)</span> SYM integrability <a class="reference internal" href="#holo-beisert2012"><span class="xref myst">Beisert et al. 2012, <code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code></span></a>, and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> secret symmetries <a class="reference internal" href="#holo-deleeuw2012"><span class="xref myst">de Leeuw et al. 2012, <code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code></span></a> in our companion paper <a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and DDF Mechanics</span></a>), and <a class="reference internal" href="#holo-ryu2006"><span class="xref myst">Ryu and Takayanagi (2006)</span></a> showed that boundary entanglement entropy equals the minimal bulk surface area <span class="math notranslate nohighlight">\(S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}\)</span>.</p>
+</section>
+<section id="how-does-the-holographic-principle-connect-to-gr-mathbb-c-2-4-and-the-dilatant-dark-fluid-ddf">
+<h3>1.2 How Does the Holographic Principle Connect to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and the Dilatant Dark Fluid (DDF)?<a class="headerlink" href="#how-does-the-holographic-principle-connect-to-gr-mathbb-c-2-4-and-the-dilatant-dark-fluid-ddf" title="Link to this heading">¶</a></h3>
+<p>As analyzed in our corpus (<a class="reference internal" href="#holo-chat-fluidgravity2026"><span class="xref myst">Provenance Chat Log: Gravity Models — Dilatant Fluid vs. GR &amp; Fluid/Gravity Duality (2026)</span></a>, lines 135–385), standard AdS/CFT requires a negative cosmological constant (<span class="math notranslate nohighlight">\(\text{AdS}_5\)</span>) and does not directly compute solar-system ephemerides such as Mercury’s <span class="math notranslate nohighlight">\(42.98''/\text{century}\)</span> perihelion precession. Conversely, our unified <strong>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> + Dilatant Dark Fluid (DDF)</strong> framework (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>) operates directly in <span class="math notranslate nohighlight">\((3+1)\)</span>-dimensional Painlevé–Gullstrand river geometry (<code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code>) while preserving an exact 2D-to-3D holographic correspondence:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Holographic Concept</p></th>
+<th class="head"><p>‘t Hooft (1993) / Susskind (1995) / AdS–CFT Formulation</p></th>
+<th class="head"><p>Unified <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; DDF Formulation (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></th>
+<th class="head"><p>Machine-Checked Lean 4 Declarations</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Event Horizon &amp; Causal Boundary</strong></p></td>
+<td><p>Null event horizon <span class="math notranslate nohighlight">\(r_s = \frac{2 G M}{c^2}\)</span> where light cones tip inward</p></td>
+<td><p><strong>DDF Acoustic Horizon</strong> <span class="math notranslate nohighlight">\(r_H = \frac{2 G_\phi M}{c^2}\)</span> where superfluid inflow matches phonon speed <span class="math notranslate nohighlight">\(|v_\phi(r_H)| = c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.horizonRadius</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.horizon_velocity_matches_c</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. 2D Holographic Screen Entropy</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{\mathrm{BH}} = \frac{k_B A_H}{4\ell_P^2} = \frac{\pi k_B r_s^2}{\ell_P^2}\)</span> (1 nat per <span class="math notranslate nohighlight">\(4\ell_P^2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{\mathrm{BH}}^{\mathrm{DDF}} = \frac{k_B \cdot re.\mathrm{horizonArea}}{4\ell_P^2} = \frac{\pi k_B r_H^2}{\ell_P^2} &gt; 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.horizonArea</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.bekensteinHawkingEntropy</span></code>, <code class="docutils literal notranslate"><span class="pre">holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Bulk Mass from 2D Boundary Data</strong></p></td>
+<td><p>Komar / Gauss–Smarr horizon integral <span class="math notranslate nohighlight">\(M = \frac{\kappa_H A_H}{4\pi G}\)</span></p></td>
+<td><p>Exact 2D boundary recovery of 3D bulk vortex sink mass: <span class="math notranslate nohighlight">\(\frac{re.\mathrm{horizonSurfaceGravity} \cdot re.\mathrm{horizonArea}}{4\pi G_\phi} = M\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.horizonSurfaceGravity</span></code>, <code class="docutils literal notranslate"><span class="pre">holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Redshift Lapse &amp; Entanglement Capacity (Without Splats)</strong></p></td>
+<td><p>Schwarzschild lapse <span class="math notranslate nohighlight">\(g_{00}(r) = 1 - \frac{r_s}{r}\)</span> &amp; Ryu–Takayanagi mutual information</p></td>
+<td><p><strong>Splat-Free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Product</strong>: <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))|^2 = 1 - \beta_\phi(r)^2 = 1 - \frac{r_H}{r} &gt; 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.inflowBeta</span></code>, <code class="docutils literal notranslate"><span class="pre">ddfThermalGr24Matrix</span></code>, <code class="docutils literal notranslate"><span class="pre">holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Planck Pixelation &amp; Singularity Resolution (With Splats)</strong></p></td>
+<td><p>‘t Hooft’s discrete Planck cells of area <span class="math notranslate nohighlight">\(4\ell_P^2\)</span> on the horizon</p></td>
+<td><p><strong>Planck Tensor Gaussian Splats</strong> (<code class="docutils literal notranslate"><span class="pre">holographicPlanckSplat</span></code>, <span class="math notranslate nohighlight">\(\sigma_1=\sigma_2=\ell_P\)</span>): <span class="math notranslate nohighlight">\(\det\Sigma = \ell_P^4\)</span>, <span class="math notranslate nohighlight">\(A_H = 4\ell_P^2(S_{\mathrm{BH}}/k_B)\)</span>, and UV Bohm pressure barrier <span class="math notranslate nohighlight">\(Q_{\mathrm{core}} = \frac{\hbar^2}{2 m \ell_P^2}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">holographicPlanckSplat</span></code>, <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.coreBohmPotential</span></code>, <code class="docutils literal notranslate"><span class="pre">holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6. Boundary Phase Holography &amp; Associative Memory</strong></p></td>
+<td><p>Boundary phase encoding reconstructs 3D bulk wavefront; quantum error-correcting code</p></td>
+<td><p>Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,N+2)\)</span> twistor phases <span class="math notranslate nohighlight">\(z_j = \sqrt{w_j}e^{i\theta_j}\)</span>, <code class="docutils literal notranslate"><span class="pre">antiAmplituhedronGr24Matrix</span></code>, and 1-step Grover state carving <code class="docutils literal notranslate"><span class="pre">groverSuccessAmplitude</span> <span class="pre">(1/2)</span> <span class="pre">=</span> <span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">complexGr2N_collector_eq_channel_sum</span></code>, <code class="docutils literal notranslate"><span class="pre">antiAmplituhedronGr24Matrix</span></code>, <code class="docutils literal notranslate"><span class="pre">groverSuccessAmplitude</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="mathematical-derivation-holographic-duality-with-and-without-tensor-gaussian-splats">
+<h2>2. Mathematical Derivation: Holographic Duality With and Without Tensor Gaussian Splats<a class="headerlink" href="#mathematical-derivation-holographic-duality-with-and-without-tensor-gaussian-splats" title="Link to this heading">¶</a></h2>
+<section id="splat-free-continuum-gr-mathbb-c-2-4-holographic-redshift-horizon-jamming-law">
+<h3>2.1 Splat-Free Continuum <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Holographic Redshift &amp; Horizon Jamming Law<a class="headerlink" href="#splat-free-continuum-gr-mathbb-c-2-4-holographic-redshift-horizon-jamming-law" title="Link to this heading">¶</a></h3>
+<p>Consider a stationary DDF <code class="docutils literal notranslate"><span class="pre">RiverExterior</span> <span class="pre">sub</span></code> geometry (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>) with superfluid gravitational coupling <span class="math notranslate nohighlight">\(G_\phi &gt; 0\)</span>, bulk mass <span class="math notranslate nohighlight">\(M &gt; 0\)</span>, and speed of light <span class="math notranslate nohighlight">\(c = sub.c &gt; 0\)</span>. At radial distance <span class="math notranslate nohighlight">\(r &gt; r_H = \frac{2 G_\phi M}{c^2}\)</span>, the inward superfluid velocity is <span class="math notranslate nohighlight">\(v_\phi(r) = -\sqrt{\frac{2 G_\phi M}{r}}\)</span>, so the dimensionless radial inflow speed ratio (<code class="docutils literal notranslate"><span class="pre">RiverExterior.inflowBeta</span></code>) is:</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_\phi(r) = \frac{|v_\phi(r)|}{c} = \sqrt{\frac{2 G_\phi M}{c^2 r}} = \sqrt{\frac{r_H}{r}} \in (0, 1).
+\]</div>
+<p>Embedding <span class="math notranslate nohighlight">\(\beta_\phi(r)\)</span> into the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> via the splat-free twistor matrix <span class="math notranslate nohighlight">\(M_{\mathrm{holo}}(r) = \operatorname{ddfThermalGr24Matrix}(\beta_\phi(r), \theta) \in \mathbb{C}^{2 \times 4}\)</span>, the uncrossed Plücker channel amplitudes satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2 = 1 + \sqrt{\frac{r_H}{r}}, \qquad
+\bigl|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2 = 1 - \sqrt{\frac{r_H}{r}},
+\]</div>
+<p>representing the outgoing (<span class="math notranslate nohighlight">\(1 - \sqrt{r_H/r}\)</span>) and ingoing (<span class="math notranslate nohighlight">\(1 + \sqrt{r_H/r}\)</span>) acoustic light-cone characteristic speeds in Painlevé–Gullstrand coordinates! Their product is proven in <code class="docutils literal notranslate"><span class="pre">RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code> to equal the exact Schwarzschild / Painlevé–Gullstrand gravitational redshift lapse function:</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2 = 1 - \beta_\phi(r)^2 = 1 - \frac{r_H}{r} = \frac{1}{\gamma_\varphi(v_\phi(r))^2} &gt; 0 \qquad (r &gt; r_H).
+\]</div>
+<p>As <span class="math notranslate nohighlight">\(r \to r_H^+\)</span>, <span class="math notranslate nohighlight">\(\beta_\phi(r) \to 1\)</span>, the outgoing Plücker channel <span class="math notranslate nohighlight">\(|w_B^{\mathbb{C}}|^2 = 1 - \sqrt{r_H/r} \to 0\)</span> closes, and the DDF Lorentz jamming factor <span class="math notranslate nohighlight">\(\gamma_\varphi(v_\phi(r)) = (1 - r_H/r)^{-1/2} \to \infty\)</span>, freezing information on the 2D horizon screen <span class="math notranslate nohighlight">\(A_H = 4\pi r_H^2\)</span> exactly as required by ‘t Hooft’s and Susskind’s stretched-horizon hologram.</p>
+</section>
+<section id="with-normed-tensor-gaussian-splats-planck-scale-horizon-pixelation-singularity-resolution">
+<h3>2.2 With Normed Tensor Gaussian Splats: Planck-Scale Horizon Pixelation &amp; Singularity Resolution<a class="headerlink" href="#with-normed-tensor-gaussian-splats-planck-scale-horizon-pixelation-singularity-resolution" title="Link to this heading">¶</a></h3>
+<p>When the 2D holographic horizon screen of area <span class="math notranslate nohighlight">\(A_H = 4\pi r_H^2\)</span> is discretized into Planck-scale <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> wavepackets (<code class="docutils literal notranslate"><span class="pre">holographicPlanckSplat</span> <span class="pre">cx</span> <span class="pre">cy</span> <span class="pre">weight</span> <span class="pre">l_planck</span></code> with <span class="math notranslate nohighlight">\(\sigma_1 = \sigma_2 = \ell_P &gt; 0\)</span>), Theorem <code class="docutils literal notranslate"><span class="pre">RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities</span></code> establishes:</p>
+<ol class="arabic">
+<li><p><strong>Planck Phase-Space Volume</strong>: <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{Planck}} = \sigma_1^2\,\sigma_2^2 = \ell_P^4\)</span>,</p></li>
+<li><p><strong>Exact ‘t Hooft–Susskind Pixel Tiling</strong>: Each holographic nat of entropy <span class="math notranslate nohighlight">\(S_{\mathrm{BH}} / k_B = \frac{\pi r_H^2}{\ell_P^2}\)</span> occupies an effective area <span class="math notranslate nohighlight">\(4\ell_P^2 = 4\sqrt{\det\Sigma_{\mathrm{Planck}}}\)</span>, so:
+$<span class="math notranslate nohighlight">\(A_H = 4\,\ell_P^2\,\left(\frac{S_{\mathrm{BH}}}{k_B}\right),\)</span>$</p></li>
+<li><p><strong>Planck UV Bohm Quantum-Potential Cutoff Against <span class="math notranslate nohighlight">\(r \to 0\)</span> Singularities</strong>:
+Whereas classical General Relativity allows radial compression <span class="math notranslate nohighlight">\(\sigma \to 0\)</span> to an infinite-density point singularity, compressing a DDF bosonic condensate parcel to the Planck width <span class="math notranslate nohighlight">\(\sigma_1 = \sigma_2 = \ell_P\)</span> generates a finite, strictly positive repulsive core Bohm quantum potential:</p>
+<div class="math notranslate nohighlight">
+\[
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m_\phi\,\ell_P^2} &gt; 0,
+   \]</div>
+<p>providing a concrete quantum-hydrodynamic UV regularization of the interior core (<a class="reference internal" href="#holo-chat-fracture2026"><span class="xref myst">Provenance Chat Log: Fracture Phases &amp; Singularity Resolution (2026)</span></a>, lines 1070–1115).</p>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="machine-checked-lean-4-verification-signals-ddf-signals-scattering">
+<h2>3. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)<a class="headerlink" href="#machine-checked-lean-4-verification-signals-ddf-signals-scattering" title="Link to this heading">¶</a></h2>
+<p>The following self-contained Lean 4 verification block typechecks directly against <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and verifies the ‘t Hooft–Susskind–Bekenstein–Hawking horizon entropy, Gauss–Smarr bulk mass recovery, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Painlevé–Gullstrand redshift lapse, Planck-splat UV Bohm cutoff, Anti-Amplituhedron destructive cancellation, and 1-step Grover quantum state carving:</p>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivHolographicPrincipleVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Scattering</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+
+<span class="c1">-- Verification of 't Hooft-Susskind-Bekenstein-Hawking horizon entropy, Gauss-Smarr 2D-to-3D bulk mass recovery,</span>
+<span class="c1">-- Splat-Free Gr_C(2,4) Painlevé-Gullstrand redshift lapse, Planck-Splat UV Bohm cutoff, Anti-Amplituhedron null, and Grover carving</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">re</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RiverExterior</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">hr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">re.horizonRadius</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">θ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_anti</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">antiAmplituhedronGr24Matrix</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">beta_r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">re.inflowBeta</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_holo</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="n">beta_r</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">holographicPlanckSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="c1">-- (1) 't Hooft-Susskind-Bekenstein-Hawking horizon entropy and Gauss-Smarr 2D-to-3D bulk mass recovery:</span>
+<span class="w">    </span><span class="n">re.bekensteinHawkingEntropy</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">re.horizonRadius</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">re.bekensteinHawkingEntropy</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">re.horizonSurfaceGravity</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">re.horizonArea</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">re.G_phi</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">re.sourceMass</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (2) Without Splats: Gr_C(2,4) Plücker product equals the Painlevé-Gullstrand / Schwarzschild lapse 1 - r_H / r:</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_holo</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_holo</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">1</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">re.horizonRadius</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_holo</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_holo</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (3) With Normed Tensor Gaussian Splats: Planck-pixelated screen area and UV Bohm quantum potential cutoff:</span>
+<span class="w">    </span><span class="n">splat_p.covDet</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_p.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">re.horizonArea</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">re.bekensteinHawkingEntropy</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (4) Anti-Amplituhedron destructive phase cancellation in Gr_C(2,4) and 1-step Grover 4-state carving:</span>
+<span class="w">    </span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_anti</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_anti</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">-</span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_anti</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_anti</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">groverSuccessAmplitude</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">M_anti</span><span class="w"> </span><span class="n">beta_r</span><span class="w"> </span><span class="n">M_holo</span><span class="w"> </span><span class="n">splat_p</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_holo</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">re.holographic_gr24_ddf_and_antiAmplituhedron_identities</span>
+<span class="w">    </span><span class="mi">5</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="n">hr</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_csr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">csr_spp_cherenkov_cavity_and_grover_identities</span>
+<span class="w">    </span><span class="mi">10</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">7</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_holo</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_csr</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivHolographicPrincipleVerification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="rust-webassembly-wasm32-unknown-unknown-implementation-and-reproducibility">
+<h2>4. Rust &amp; WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) Implementation and Reproducibility<a class="headerlink" href="#rust-webassembly-wasm32-unknown-unknown-implementation-and-reproducibility" title="Link to this heading">¶</a></h2>
+<p>In <a class="reference download internal" download="" href="_downloads/d56972f9c893af919cd184840d0c16bb/polariton_spp.rs"><span class="xref download myst">src/signals/numerical_adapter/src/polariton_spp.rs</span></a>, <code class="docutils literal notranslate"><span class="pre">HolographicDdfGr24Model</span></code> implements the ‘t Hooft–Susskind–Bekenstein–Hawking horizon entropy (<code class="docutils literal notranslate"><span class="pre">bekenstein_hawking_entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">wasm_bekenstein_hawking_entropy</span></code>), Gauss–Smarr 2D-to-3D bulk mass recovery (<code class="docutils literal notranslate"><span class="pre">smarr_recovered_mass</span></code>), splat-free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> holographic lapse invariants (<code class="docutils literal notranslate"><span class="pre">gr24_holographic_lapse_invariants</span></code>), Planck-scale <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> tiles (<code class="docutils literal notranslate"><span class="pre">planck_splat</span></code>), and Anti-Amplituhedron destructive cancellation invariants (<code class="docutils literal notranslate"><span class="pre">anti_amplituhedron_invariants</span></code>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>signals_build
+<span class="nb">pushd</span><span class="w"> </span>src/signals
+lake<span class="w"> </span>build<span class="w"> </span>:blueprint<span class="w"> </span>:blueprintJson
+<span class="nb">pushd</span><span class="w"> </span>numerical_adapter
+cargo<span class="w"> </span><span class="nb">test</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--lib<span class="w"> </span>--target<span class="w"> </span>wasm32-unknown-unknown<span class="w"> </span>--release
+<span class="nb">popd</span>
+<span class="nb">popd</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="holo-thooft1993"></a></p>
+<ol class="arabic simple">
+<li><p>‘t Hooft, G. (1993). <em>Dimensional Reduction in Quantum Gravity</em>. In <em>Salamfestschrift: A Collection of Talks</em>, World Scientific, pp. 284–296; <a class="reference external" href="https://arxiv.org/abs/gr-qc/9310026">arXiv:gr-qc/9310026</a>.</p></li>
+</ol>
+<p><a id="holo-susskind1995"></a>
+2. Susskind, L. (1995). <em>The World as a Hologram</em>. Journal of Mathematical Physics 36(11), 6377–6396. <a class="reference external" href="https://doi.org/10.1063/1.531249">DOI: 10.1063/1.531249</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/9409089">arXiv:hep-th/9409089</a>.</p>
+<p><a id="holo-bekenstein1973"></a>
+3. Bekenstein, J. D. (1973). <em>Black Holes and Entropy</em>. Physical Review D 7(8), 2333–2346. <a class="reference external" href="https://doi.org/10.1103/PhysRevD.7.2333">DOI: 10.1103/PhysRevD.7.2333</a>.</p>
+<p><a id="holo-hawking1975"></a>
+4. Hawking, S. W. (1975). <em>Particle Creation by Black Holes</em>. Communications in Mathematical Physics 43(3), 199–220. <a class="reference external" href="https://doi.org/10.1007/BF02345020">DOI: 10.1007/BF02345020</a>.</p>
+<p><a id="holo-maldacena1998"></a>
+5. Maldacena, J. M. (1998). <em>The Large N Limit of Superconformal Field Theories and Supergravity</em>. Advances in Theoretical and Mathematical Physics 2, 231–252; <a class="reference external" href="https://arxiv.org/abs/hep-th/9711200">arXiv:hep-th/9711200</a>.</p>
+<p><a id="holo-bousso2002"></a>
+6. Bousso, R. (2002). <em>The Holographic Principle</em>. Reviews of Modern Physics 74(3), 825–874. <a class="reference external" href="https://doi.org/10.1103/RevModPhys.74.825">DOI: 10.1103/RevModPhys.74.825</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0203101">arXiv:hep-th/0203101</a>.</p>
+<p><a id="holo-ryu2006"></a>
+7. Ryu, S., and Takayanagi, T. (2006). <em>Holographic Derivation of Entanglement Entropy from AdS/CFT</em>. Physical Review Letters 96(18), 181602. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.96.181602">DOI: 10.1103/PhysRevLett.96.181602</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0603001">arXiv:hep-th/0603001</a>.</p>
+<p><a id="holo-fedi2026"></a>
+8. Fedi, M. (2026). <em>Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology</em>. SSRN Preprint 7406660.</p>
+<p><a id="holo-chat-fluidgravity2026"></a>
+9. Provenance Chat Log (2026). <em>Gravity Models: Dilatant Fluid vs. GR (AdS/CFT Fluid/Gravity Duality, Event Horizon Shadow, and Soft Hair)</em>. (<a class="reference download internal" download="" href="_downloads/2ea27626aebd1367e12e4953b7ae792c/_Gravity-Models-Dilatant-Fluid-vs.-GR.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md,</span> <span class="pre">lines</span> <span class="pre">135-510</span></code></a>).</p>
+<p><a id="holo-chat-fracture2026"></a>
+10. Provenance Chat Log (2026). <em>Review Pop III GW Remnants (Dilatant Superfluid Fracture Phases &amp; Singularity Regularization)</em>. (<a class="reference download internal" download="" href="_downloads/b96b5f4a28bec901e5e622020a2a27ed/Review-Pop-III-GW-Remnants.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Review-Pop-III-GW-Remnants.md,</span> <span class="pre">lines</span> <span class="pre">1070-1135</span></code></a>).</p>
+<p><a id="holo-beisert2012"></a>
+11. Beisert, N., Ahn, C., Alday, L. F., Bajnok, Z., Drummond, J. M., et al. (2012). <em>Review of AdS/CFT Integrability: An Overview</em>. Letters in Mathematical Physics 99(1–3), 3–32. <a class="reference external" href="https://doi.org/10.1007/s11005-011-0529-2">DOI: 10.1007/s11005-011-0529-2</a>; <a class="reference external" href="https://arxiv.org/abs/1012.3982">arXiv:1012.3982</a>.</p>
+<p><a id="holo-deleeuw2012"></a>
+12. de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., and Torrielli, A. (2012). <em>Secret Symmetries in AdS/CFT</em>. Physica Scripta 86(2), 028502. <a class="reference external" href="https://doi.org/10.1088/0031-8949/86/02/028502">DOI: 10.1088/0031-8949/86/02/028502</a>; <a class="reference external" href="https://arxiv.org/abs/1204.2366">arXiv:1204.2366</a>.</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">thooft1993dimensional</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{'t Hooft, Gerard}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{Dimensional Reduction in Quantum Gravity}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">booktitle</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Salamfestschrift: A Collection of Talks}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{284--296}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">{1993}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">eprint</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{gr-qc/9310026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">archivePrefix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{arXiv}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://arxiv.org/abs/gr-qc/9310026}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">susskind1995world</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Susskind, Leonard}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{The World as a Hologram}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Journal of Mathematical Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{36}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{11}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{6377--6396}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1995}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1063/1.531249}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">eprint</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{hep-th/9409089}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1063/1.531249}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">bousso2002holographic</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Bousso, Raphael}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{The Holographic Principle}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Reviews of Modern Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{74}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{3}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{825--874}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2002}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1103/RevModPhys.74.825}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1103/RevModPhys.74.825}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">ryu2006holographic</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Ryu, Shinsei and Takayanagi, Tadashi}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Holographic Derivation of Entanglement Entropy from {AdS/CFT}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Physical Review Letters}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{96}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{18}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{181602}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2006}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1103/PhysRevLett.96.181602}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1103/PhysRevLett.96.181602}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Holographic Principle in Complex Grassmannian Gr_C(2,4) and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-24"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Holographic Principle"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Gerard 't Hooft"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Leonard Susskind"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Bekenstein-Hawking Entropy"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian Gr_C(2,4)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Dilatant Dark Fluid"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Normed Tensor Gaussian Splatting"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Anti-Amplituhedron"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/Review-Pop-III-GW-Remnants.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/anti-fire-cannon-review.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Scattering.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/polariton_spp.rs"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-polariton-spp-mechanics-paper.html" title="Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, \(Gr_{\mathbb{C}}(2,4)\) Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-ads-cft-ddf-paper.html" title="AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and \(\mathfrak{psl}(2|2)_c\) Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

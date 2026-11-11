@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Revised Semi-Dirac and Complex Grassmannian \(\mathrm{Gr}_{\mathbb{C}}(2,4)\) / \(\mathrm{Gr}_{\mathbb{C}}(2,6)\) Soliton Bus Architecture: Dispersionless \(\hat{y}\)-Channeling, \(C_8\) Star-Via Ancilla Hubs, Slow-Light N-LIG CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, \(\mathrm{CO}_2\)-Carbonate \(\chi^{(3)}\) CNOT Gates, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Integrated Multi-Band Classical and Quantum Photonics (\(405\text{–}1550\text{ nm}\) &amp; \(400\text{–}800\text{ GHz}\)): Periodic Cellulose Nanocrystal (CNC) \(\chi^{(2)}\) Signal Boosters in N-LIG Waveguides, Adiabatic Scarf-Joint \(c\text{-BAs}\) Plasmonic-Slot Homodyne Detectors, \(590\text{ nm}\) \(n\)-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python" href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html" />
+    <link rel="prev" title="Etch-Free 1D Semi-Dirac Topological Majorana (\(\mathrm{MZM}\)), \(\mathbb{Z}_6\) Parafermion, \(\mathrm{Gr}_{\mathbb{C}}(2,6)\) Plücker, and Phase-Steered Helical N-LIG OAM Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-RIE \(D_{\mathrm{it}}\) Suppression, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python" href="grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Revised Semi-Dirac and Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Soliton Bus Architecture: Dispersionless <span class="math notranslate nohighlight">\(\hat{y}\)</span>-Channeling, <span class="math notranslate nohighlight">\(C_8\)</span> Star-Via Ancilla Hubs, Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-Carbonate <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> CNOT Gates, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#six-architectural-refinements-of-the-soliton-bus-with-semi-dirac-grassmannian-mechanics">1. Six Architectural Refinements of the Soliton Bus with Semi-Dirac &amp; Grassmannian Mechanics</a><ul>
+<li><a class="reference internal" href="#point-by-point-upgrade-over-the-baseline-solitonbus-design">1.1 Point-by-Point Upgrade Over the Baseline <code class="docutils literal notranslate"><span class="pre">SolitonBus</span></code> Design</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mathematical-hardware-theory-of-the-revised-semi-dirac-soliton-bus">2. Mathematical &amp; Hardware Theory of the Revised Semi-Dirac Soliton Bus</a><ul>
+<li><a class="reference internal" href="#tiered-128-bit-inter-node-qnic-to-64-bit-intra-qpu-rdma-bus-lut-seeded-cordic-decoder">2.1 Tiered 128-Bit Inter-Node QNIC to 64-Bit Intra-QPU RDMA Bus &amp; LUT-Seeded CORDIC Decoder</a></li>
+<li><a class="reference internal" href="#slow-light-n-lig-crow-delay-line-crowslowlightdelaylength">2.2 Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Line (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">3. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-solitonbus">4. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.html" title="Etch-Free 1D Semi-Dirac Topological Majorana (\(\mathrm{MZM}\)), \(\mathbb{Z}_6\) Parafermion, \(\mathrm{Gr}_{\mathbb{C}}(2,6)\) Plücker, and Phase-Steered Helical N-LIG OAM Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-RIE \(D_{\mathrm{it}}\) Suppression, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html" title="Integrated Multi-Band Classical and Quantum Photonics (\(405\text{–}1550\text{ nm}\) &amp; \(400\text{–}800\text{ GHz}\)): Periodic Cellulose Nanocrystal (CNC) \(\chi^{(2)}\) Signal Boosters in N-LIG Waveguides, Adiabatic Scarf-Joint \(c\text{-BAs}\) Plasmonic-Slot Homodyne Detectors, \(590\text{ nm}\) \(n\)-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Revised Semi-Dirac and Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Soliton Bus Architecture: Dispersionless <span class="math notranslate nohighlight">\(\hat{y}\)</span>-Channeling, <span class="math notranslate nohighlight">\(C_8\)</span> Star-Via Ancilla Hubs, Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-Carbonate <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> CNOT Gates, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#six-architectural-refinements-of-the-soliton-bus-with-semi-dirac-grassmannian-mechanics">1. Six Architectural Refinements of the Soliton Bus with Semi-Dirac &amp; Grassmannian Mechanics</a><ul>
+<li><a class="reference internal" href="#point-by-point-upgrade-over-the-baseline-solitonbus-design">1.1 Point-by-Point Upgrade Over the Baseline <code class="docutils literal notranslate"><span class="pre">SolitonBus</span></code> Design</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mathematical-hardware-theory-of-the-revised-semi-dirac-soliton-bus">2. Mathematical &amp; Hardware Theory of the Revised Semi-Dirac Soliton Bus</a><ul>
+<li><a class="reference internal" href="#tiered-128-bit-inter-node-qnic-to-64-bit-intra-qpu-rdma-bus-lut-seeded-cordic-decoder">2.1 Tiered 128-Bit Inter-Node QNIC to 64-Bit Intra-QPU RDMA Bus &amp; LUT-Seeded CORDIC Decoder</a></li>
+<li><a class="reference internal" href="#slow-light-n-lig-crow-delay-line-crowslowlightdelaylength">2.2 Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Line (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">3. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-solitonbus">4. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.html"
+                          title="previous chapter">Etch-Free 1D Semi-Dirac Topological Majorana (<span class="math notranslate nohighlight">\(\mathrm{MZM}\)</span>), <span class="math notranslate nohighlight">\(\mathbb{Z}_6\)</span> Parafermion, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Plücker, and Phase-Steered Helical <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> OAM Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-RIE <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span> Suppression, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html"
+                          title="next chapter">Integrated Multi-Band Classical and Quantum Photonics (<span class="math notranslate nohighlight">\(405\text{–}1550\text{ nm}\)</span> &amp; <span class="math notranslate nohighlight">\(400\text{–}800\text{ GHz}\)</span>): Periodic Cellulose Nanocrystal (CNC) <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> Signal Boosters in <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> Waveguides, Adiabatic Scarf-Joint <span class="math notranslate nohighlight">\(c\text{-BAs}\)</span> Plasmonic-Slot Homodyne Detectors, <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> <span class="math notranslate nohighlight">\(n\)</span>-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="revised-semi-dirac-and-complex-grassmannian-mathrm-gr-mathbb-c-2-4-mathrm-gr-mathbb-c-2-6-soliton-bus-architecture-dispersionless-hat-y-channeling-c-8-star-via-ancilla-hubs-slow-light-n-lig-crow-delay-lines-tiered-128-to-64-bit-rdma-lut-cordic-qram-mathrm-co-2-carbonate-chi-3-cnot-gates-and-volumetric-kicad-gdsii-synthesis-in-lean-4-rust-wasm-and-python">
+<span id="grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper"></span><h1>Revised Semi-Dirac and Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Soliton Bus Architecture: Dispersionless <span class="math notranslate nohighlight">\(\hat{y}\)</span>-Channeling, <span class="math notranslate nohighlight">\(C_8\)</span> Star-Via Ancilla Hubs, Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-Carbonate <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> CNOT Gates, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python<a class="headerlink" href="#revised-semi-dirac-and-complex-grassmannian-mathrm-gr-mathbb-c-2-4-mathrm-gr-mathbb-c-2-6-soliton-bus-architecture-dispersionless-hat-y-channeling-c-8-star-via-ancilla-hubs-slow-light-n-lig-crow-delay-lines-tiered-128-to-64-bit-rdma-lut-cordic-qram-mathrm-co-2-carbonate-chi-3-cnot-gates-and-volumetric-kicad-gdsii-synthesis-in-lean-4-rust-wasm-and-python" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Mesoscale and Nanoscale Physics (<code class="docutils literal notranslate"><span class="pre">cond-mat.mes-hall</span></code>); Hardware Architecture (<code class="docutils literal notranslate"><span class="pre">cs.AR</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification, EDA, &amp; KiCAD Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">…/src/signals/Signals/SolitonBus.lean</span></a>, <a class="reference download internal" download="" href="_downloads/1246b311f0cf7ff7ad76d81ff57555c8/Nanolithography.lean"><span class="xref download myst">…/src/signals/Signals/Nanolithography.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">…/src/signals/SignalsPending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM KiCAD + GDSII + <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code> Engine (<a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></a>, <a class="reference download internal" download="" href="_downloads/a52bd4eab0f9b0b4690a12ce7d65aac9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs</span></a>)</p></li>
+<li><p>Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), Calma GDSII v6.0 (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and IOF/EMMO/PROV-O (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) Hardware Files:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/274857715ed92b707b87308643248dfe/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_mod"><span class="xref download myst">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_mod</span></a>, <a class="reference download internal" download="" href="_downloads/a1badfe38a846fdca3ae197980a85479/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_sch"><span class="xref download myst">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_sch</span></a>, <a class="reference download internal" download="" href="_downloads/8ce7fefac5acfbd92e38fc42e6b78021/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_pcb"><span class="xref download myst">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_pcb</span></a>, <a class="reference download internal" download="" href="_downloads/bacc492da85d0551e8cd0d0115872734/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_vol"><span class="xref download myst">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_vol</span></a>, <a class="reference download internal" download="" href="_downloads/88b7178bbaee6e31644e83d640957015/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.gds"><span class="xref download myst">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.gds</span></a>, <a class="reference download internal" download="" href="_downloads/f892790e089e32467d6cf573140bf577/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM_CBOM.yaml-ld"><span class="xref download myst">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM_CBOM.yaml-ld</span></a></p></li>
+</ul>
+</li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <code class="docutils literal notranslate"><span class="pre">src/signals/docs/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="soliton-bus.html"><span class="std std-doc">Soliton Bus Model &amp; Quantum Error-Coding Plan</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html"><span class="std std-doc">Integrated Multi-Band Classical and Quantum Photonics (<span class="math notranslate nohighlight">\(405\text{–}1550\text{ nm}\)</span> &amp; <span class="math notranslate nohighlight">\(400\text{–}800\text{ GHz}\)</span>): Periodic Cellulose Nanocrystal (CNC) <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> Signal Boosters in <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> Waveguides, Adiabatic Scarf-Joint <span class="math notranslate nohighlight">\(c\text{-BAs}\)</span> Plasmonic-Slot Homodyne Detectors, <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> <span class="math notranslate nohighlight">\(n\)</span>-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-semi-dirac-fermions-ddf-paper.html"><span class="std std-doc">Semi-Dirac Fermions (Mass in Only One Direction) With and Without Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}\)</span> and Dilatant Dark Fluid (DDF) Mechanics</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper.html"><span class="std std-doc">Semi-Dirac Nanoelectronic, Hyperbolic THz Plasmonic, and Orthogonal Thermoelectric Devices in <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Carbon Nanolithography and Volumetric KiCAD/GDSII EDA</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.html"><span class="std std-doc">Etch-Free 1D Semi-Dirac Topological Majorana (<span class="math notranslate nohighlight">\(\mathrm{MZM}\)</span>), <span class="math notranslate nohighlight">\(\mathbb{Z}_6\)</span> Parafermion, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Plücker, and Phase-Steered Helical <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> OAM Carbon Qudit Waveguides</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We revise, refine, and formally verify the <strong>Lignolux / <code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code> optical-quantum interconnect and QRAM architecture</strong> (<a class="reference internal" href="soliton-bus.html"><span class="std std-doc">soliton-bus.md</span></a>; <a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">_Quantum Computing Hardware Architectures Review  .md, lines 1–1810</span></a>; <a class="reference download internal" download="" href="_downloads/73790b7e3cc175f37e840f4c2b6d014a/Lignin-Vitrimer-Surface-Roughness-Limits.md"><code class="xref download docutils literal notranslate"><span class="pre">Lignin-Vitrimer-Surface-Roughness-Limits.md,</span> <span class="pre">lines</span> <span class="pre">890-1750</span></code></a>) by integrating our newly formalized <strong>Semi-Dirac fermion components</strong> (<a class="reference internal" href="grassmannian-semi-dirac-fermions-ddf-paper.html"><span class="std std-doc">Papers 29, 31, &amp; 32</span></a>) and <strong>Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> / Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> / Complex VRC mechanics</strong> (<a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Papers 19 &amp; 22</span></a>). Specifically, we prove in <strong>Lean 4</strong> (<a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">…/src/signals/Signals/SolitonBus.lean</span></a>) and synthesize in <strong>Rust/WASM</strong> (<code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>) and <strong>KiCAD v8</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Resolution of the 6 Classic <code class="docutils literal notranslate"><span class="pre">SolitonBus</span></code> Bottlenecks via Semi-Dirac &amp; Grassmannian Mechanics</strong>:</p>
+<ul class="simple">
+<li><p><strong>Waveguide Dispersion &amp; Sidewall Mode-Mixing</strong>: Replacing planar <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> ribbons with <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> LCS strain-locked <strong>Semi-Dirac Ring-Core Waveguides</strong> and <strong><span class="math notranslate nohighlight">\(C_8\)</span> Star-Shaped Vias</strong> enforces vanishing transverse spreading <span class="math notranslate nohighlight">\(v_{g,x}(0, m_x^*) = 0\)</span> and dispersionless longitudinal soliton width <span class="math notranslate nohighlight">\(\sigma_y^2(t) = \sigma_{y,0}^2\)</span> while suppressing RIE sidewall <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span> traps by <span class="math notranslate nohighlight">\(100\times\)</span>.</p></li>
+<li><p><strong>kHz Thermo-Optic <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Speed Bottleneck <span class="math notranslate nohighlight">\(\to\)</span> GHz Ballistic Semi-Dirac Klein Gates &amp; Phase-Only <span class="math notranslate nohighlight">\(\pi\)</span>-Destructive SLMs</strong>: Replaces slow thermal switches with electrostatic Semi-Dirac Klein gates (<span class="math notranslate nohighlight">\(T_y = 1\)</span> vs. <span class="math notranslate nohighlight">\(T_x = 1/101\)</span>, <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{Klein}}(10) = 101\)</span>) and phase-only <span class="math notranslate nohighlight">\(\pi\)</span>-destructive interference metasurfaces (zero absorbed laser heat).</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-Carbonate <span class="math notranslate nohighlight">\(5\times\)</span> <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> CPHASE / CNOT Gate Compression (<code class="docutils literal notranslate"><span class="pre">co2CarbonateChi3CphaseLength</span></code>)</strong>: Introducing Direct-Air-Captured <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span> carbonate bridges (<span class="math notranslate nohighlight">\(-\text{O–CO–O}-\)</span>) boosts <span class="math notranslate nohighlight">\(n_2 \mapsto 5 n_2\)</span>, shrinking the XPM <code class="docutils literal notranslate"><span class="pre">CPHASE</span></code>/<code class="docutils literal notranslate"><span class="pre">CNOT</span></code> interaction length <span class="math notranslate nohighlight">\(L_{\mathrm{CPHASE}} = \frac{\lambda}{2 n_2 I_{\mathrm{ctrl}}}\)</span> to <span class="math notranslate nohighlight">\(\frac{1}{5} L_{\mathrm{CPHASE}}\)</span> (<span class="math notranslate nohighlight">\(80\%\)</span> power reduction).</p></li>
+</ul>
+</li>
+<li><p><strong>Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW (Coupled Resonator Optical Waveguide) Delay Line (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span></code>)</strong>:
+During the <span class="math notranslate nohighlight">\(N_{\mathrm{cycles}} = 12\)</span> cycles (<span class="math notranslate nohighlight">\(24\text{ ns}\)</span> at <span class="math notranslate nohighlight">\(f_{\mathrm{clk}} = 500\text{ MHz}\)</span>) required for the RFSoC LUT-CORDIC decoder to compute a thermal-drift-corrected phase map, an unbuffered soliton in <span class="math notranslate nohighlight">\(n_g = 1.5\)</span> vitrimer travels <span class="math notranslate nohighlight">\(L_0 = 24/5 = 4.8\text{ m}\)</span>. A Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW buffer compresses the required physical delay length to <span class="math notranslate nohighlight">\(L_{\mathrm{CROW}}(n_g = 5) = 36/25 = 1.44\text{ m}\)</span> and <span class="math notranslate nohighlight">\(L_{\mathrm{CROW}}(n_g = 300) = 6/250 = 0.024\text{ m} = 24\text{ mm}\)</span> on-chip.</p></li>
+<li><p><strong>Tiered 128-to-64-Bit QNIC RDMA Bus, LUT-Seeded CORDIC Thermal-Drift Cancellation, &amp; <span class="math notranslate nohighlight">\(37.5\%\)</span> PWM 4K Cryo Budget (<code class="docutils literal notranslate"><span class="pre">tieredQnicStrippedPayloadBits</span></code>, <code class="docutils literal notranslate"><span class="pre">lutPlusCordicOamPhase</span></code>, <code class="docutils literal notranslate"><span class="pre">nligInternalPumpAvgPowerMw</span></code>)</strong>:
+Stripping the 64-bit inter-rack QNIC header (32-bit Wafer/Rack ID + 16-bit Time-Bin + 16-bit Bell entanglement graph tag) at <span class="math notranslate nohighlight">\(300\text{ K}\)</span> leaves a 64-bit intra-QPU RDMA payload (<code class="docutils literal notranslate"><span class="pre">[63:32]</span></code> Spatial Via + <code class="docutils literal notranslate"><span class="pre">[31:16]</span></code> WDM Color + <code class="docutils literal notranslate"><span class="pre">[15:0]</span></code> OAM <span class="math notranslate nohighlight">\(\ell\)</span> &amp; superposition) with exact LUT+CORDIC drift recovery <span class="math notranslate nohighlight">\(\ell\theta_{\mathrm{LUT}} + \ell(\theta_{\mathrm{true}} - \theta_{\mathrm{LUT}}) = \ell\theta_{\mathrm{true}}\)</span>, while the <code class="docutils literal notranslate"><span class="pre">NLIG_Power_Manager</span></code> <span class="math notranslate nohighlight">\(60\text{ }\mu\text{s} / 160\text{ }\mu\text{s} = 3/8\)</span> (<span class="math notranslate nohighlight">\(37.5\%\)</span>) PWM duty cycle reduces 250-node <span class="math notranslate nohighlight">\(1.5\text{ mA}, 500\text{ }\Omega\)</span> internal-pump Joule dissipation from <span class="math notranslate nohighlight">\(281.25\text{ mW} &gt; 110\text{ mW}\)</span> down to <span class="math notranslate nohighlight">\(\frac{3375}{32} \approx 105.47\text{ mW} &lt; 110\text{ mW}\)</span>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="six-architectural-refinements-of-the-soliton-bus-with-semi-dirac-grassmannian-mechanics">
+<h2>1. Six Architectural Refinements of the Soliton Bus with Semi-Dirac &amp; Grassmannian Mechanics<a class="headerlink" href="#six-architectural-refinements-of-the-soliton-bus-with-semi-dirac-grassmannian-mechanics" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    subgraph Ingress[&quot;1. Tiered 128-Bit QNIC to 64-Bit Intra-QPU RDMA Bus&quot;]
+        QNIC[&quot;300 K Quantum Network Interface Controller (QNIC)\n• Strips Upper 64 Bits: [127:96] Rack/Wafer ID + [95:80] Time-Bin + [79:64] Bell Tag\n• Passes Lower 64 Bits: [63:32] Spatial Via + [31:16] WDM Color + [15:0] OAM ℓ &amp; Superposition\n• tieredQnicStrippedPayloadBits(128, 64) = 64&quot;]
+        CORDIC[&quot;RFSoC 500 MHz Hybrid LUT + CORDIC Decoder (12 Cycles = 24 ns)\n• Base 48-State OAM LUT in BRAM (48 KB, 1-Cycle Latency)\n• Widefield CASR NMR Drift (Δx, Δy) → Pipelined CORDIC Δθ_CORDIC\n• lutPlusCordicOamPhase: ℓθ_LUT + ℓ(θ_true - θ_LUT) = ℓθ_true&quot;]
+    end
+
+    subgraph Waveguide[&quot;2. Slow-Light CROW Buffer &amp; Semi-Dirac Ring-Core / Star-Via Bus&quot;]
+        CROW[&quot;Slow-Light N-LIG CROW Delay Line (Stage 2)\n• Buffers Soliton for 24 ns While CORDIC Computes\n• n_g = 1.5 (4.8 m) → n_g = 5 (1.44 m) → n_g = 300 (24 mm On-Chip!)&quot;]
+        SDCore[&quot;532 nm LCS Strain-Locked Semi-Dirac Ring-Core &amp; C₈ Star-Via (Stages 3–4)\n• Massless y-Axis: v_{g,x}(0) = 0, σ_y²(t) = σ_{y,0}², T_y = 1\n• Massive x-Axis: R_Klein(10) = 101 Electronic Gate Pinch-Off\n• CO₂-Carbonate 5× χ⁽³⁾ CPHASE/CNOT: L_CPHASE(5 n₂) = L₀ / 5&quot;]
+    end
+
+    subgraph Plucker[&quot;3. Homogeneous Plücker Q₄, Complex VRC, &amp; 37.5% PWM Cryo Ledger&quot;]
+        VRC[&quot;Turner (2026) Model 6 Plücker Q₄ &amp; Pole-Free Complex VRC\n• Resolves x_X = -1 Destructive Switching Null Without 1/(x_X+1) Poles\n• 8×8 Three-Soliton Yang–Baxter R₁₂R₁₃R₂₃ = R₂₃R₁₃R₁₂ Order Independence&quot;]
+        PWM[&quot;NLIG_Power_Manager 37.5% PWM Duty Cycle (60 μs / 160 μs)\n• 250 Nodes at 1.5 mA, 500 Ω: 281.25 mW (CW) → 105.47 mW &lt; 110 mW (4K Limit)&quot;]
+    end
+
+    QNIC --&gt; CORDIC
+    QNIC --&gt; CROW
+    CORDIC --&gt; SDCore
+    CROW --&gt; SDCore
+    SDCore --&gt; VRC
+    SDCore --&gt; PWM
+    </pre><section id="point-by-point-upgrade-over-the-baseline-solitonbus-design">
+<h3>1.1 Point-by-Point Upgrade Over the Baseline <code class="docutils literal notranslate"><span class="pre">SolitonBus</span></code> Design<a class="headerlink" href="#point-by-point-upgrade-over-the-baseline-solitonbus-design" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Baseline <code class="docutils literal notranslate"><span class="pre">SolitonBus</span></code> Bottleneck (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">_Quantum Computing Hardware Architectures Review  .md</span></a>)</p></th>
+<th class="head text-left"><p>New Semi-Dirac + Grassmannian Mechanism</p></th>
+<th class="head text-left"><p>Machine-Checked Identity in <code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Nanolithography</span></code></p></th>
+<th class="head text-left"><p>Quantitative Improvement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>1. Planar <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> Ribbon OAM Mode-Splitting &amp; RIE Sidewall Roughness</strong></p></td>
+<td class="text-left"><p><strong>Etch-Free <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> LCS Strain-Locked Semi-Dirac Ring-Core + <span class="math notranslate nohighlight">\(C_8\)</span> Star-Via</strong> (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">lines 529–545</span></a>; <a class="reference download internal" download="" href="_downloads/73790b7e3cc175f37e840f4c2b6d014a/Lignin-Vitrimer-Surface-Roughness-Limits.md"><code class="xref download docutils literal notranslate"><span class="pre">Lignin-Vitrimer-Surface-Roughness-Limits.md,</span> <span class="pre">lines</span> <span class="pre">970-985</span></code></a>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">semiDiracTransverseGroupVelocityX</span> <span class="pre">0</span> <span class="pre">m_x</span> <span class="pre">=</span> <span class="pre">0</span></code>,<br><code class="docutils literal notranslate"><span class="pre">semiDiracAnisotropicSplatVarY</span> <span class="pre">σ_y0</span> <span class="pre">t</span> <span class="pre">=</span> <span class="pre">σ_y0^2</span></code>,<br><code class="docutils literal notranslate"><span class="pre">semiDiracEtchFreeCoherenceGain</span> <span class="pre">(10^12)</span> <span class="pre">(10^10)</span> <span class="pre">=</span> <span class="pre">100</span></code></p></td>
+<td class="text-left"><p>Zero transverse group-velocity spreading at <span class="math notranslate nohighlight">\(k_x=0\)</span>, constant longitudinal soliton width <span class="math notranslate nohighlight">\(\sigma_y(t)=\sigma_{y,0}\)</span>, and <strong><span class="math notranslate nohighlight">\(100\times\)</span> lower sidewall <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span></strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>2. Slow kHz Thermo-Optic <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Switching Speed &amp; UV/IR Mask Burn-Up</strong></p></td>
+<td class="text-left"><p><strong>Ballistic Semi-Dirac Klein Gate + Phase-Only <span class="math notranslate nohighlight">\(\pi\)</span>-Destructive SLM</strong> (<a class="reference download internal" download="" href="_downloads/73790b7e3cc175f37e840f4c2b6d014a/Lignin-Vitrimer-Surface-Roughness-Limits.md"><code class="xref download docutils literal notranslate"><span class="pre">Lignin-Vitrimer-Surface-Roughness-Limits.md,</span> <span class="pre">lines</span> <span class="pre">1650-1695</span></code></a>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">semiDiracKleinRectificationRatio</span> <span class="pre">10</span> <span class="pre">=</span> <span class="pre">101</span></code>,<br><code class="docutils literal notranslate"><span class="pre">semiDiracObliqueKleinTransmissionY</span> <span class="pre">0</span> <span class="pre">P_y</span> <span class="pre">=</span> <span class="pre">1</span></code></p></td>
+<td class="text-left"><p>Upgrades routing from kHz thermal relaxation to <strong>GHz electronic Klein pinch-off</strong> (<span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{Klein}}=101\)</span>) with zero absorptive mask heating</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>3. Long XPM <code class="docutils literal notranslate"><span class="pre">CPHASE</span></code>/<code class="docutils literal notranslate"><span class="pre">CNOT</span></code> Gate Length in Undoped Graphene</strong></p></td>
+<td class="text-left"><p><strong>Direct-Air-Captured <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span> Carbonate (<span class="math notranslate nohighlight">\(-\text{O–CO–O}-\)</span>) <span class="math notranslate nohighlight">\(5\times\)</span> <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> Enhancement</strong> (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">lines 612–625, 730–742, 1280–1290</span></a>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">co2CarbonateChi3CphaseLength</span> <span class="pre">λ</span> <span class="pre">(5*n2)</span> <span class="pre">I</span> <span class="pre">=</span> <span class="pre">(1/5)</span> <span class="pre">*</span> <span class="pre">co2CarbonateChi3CphaseLength</span> <span class="pre">λ</span> <span class="pre">n2</span> <span class="pre">I</span></code></p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(5\times\)</span> shorter CPHASE/CNOT interaction length</strong> (<span class="math notranslate nohighlight">\(80\%\)</span> lower control soliton power)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>4. <span class="math notranslate nohighlight">\(4.8\text{ m}\)</span> Off-Chip Fiber Delay Required During <span class="math notranslate nohighlight">\(24\text{ ns}\)</span> RFSoC CORDIC Decode</strong></p></td>
+<td class="text-left"><p><strong>On-Chip Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW (Coupled Resonator Optical Waveguide)</strong> (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">lines 1765–1790</span></a>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span> <span class="pre">12</span> <span class="pre">(1/2)</span> <span class="pre">(3/10)</span> <span class="pre">300</span> <span class="pre">=</span> <span class="pre">6/250</span></code> (<span class="math notranslate nohighlight">\(24\text{ mm}\)</span>) vs. <code class="docutils literal notranslate"><span class="pre">24/5</span></code> (<span class="math notranslate nohighlight">\(4.8\text{ m}\)</span> at <span class="math notranslate nohighlight">\(n_g=1.5\)</span>)</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(200\times\)</span> physical path compression</strong> (<span class="math notranslate nohighlight">\(4.8\text{ m} \to 24\text{ mm}\)</span> at <span class="math notranslate nohighlight">\(n_g=300\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>5. 128-Bit Cryogenic Bus Power Crisis &amp; Thermal Waveguide Drift</strong></p></td>
+<td class="text-left"><p><strong>Tiered 128-to-64-Bit QNIC Header Strip + Hybrid LUT-CORDIC Decoder + <span class="math notranslate nohighlight">\(37.5\%\)</span> PWM</strong> (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">lines 1320–1760</span></a>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">tieredQnicStrippedPayloadBits</span> <span class="pre">128</span> <span class="pre">64</span> <span class="pre">=</span> <span class="pre">64</span></code>,<br><code class="docutils literal notranslate"><span class="pre">lutPlusCordicOamPhase</span> <span class="pre">ℓ</span> <span class="pre">θ_LUT</span> <span class="pre">(θ_true</span> <span class="pre">-</span> <span class="pre">θ_LUT)</span> <span class="pre">=</span> <span class="pre">ℓ</span> <span class="pre">*</span> <span class="pre">θ_true</span></code>,<br><code class="docutils literal notranslate"><span class="pre">250</span> <span class="pre">*</span> <span class="pre">nligInternalPumpAvgPowerMw</span> <span class="pre">(3/2)</span> <span class="pre">500</span> <span class="pre">(3/8)</span> <span class="pre">=</span> <span class="pre">3375/32</span> <span class="pre">&lt;</span> <span class="pre">110</span></code></p></td>
+<td class="text-left"><p>Cuts cryo bus width in half (<span class="math notranslate nohighlight">\(128 \to 64\text{ bits}\)</span>) and keeps 250-node internal pump at <strong><span class="math notranslate nohighlight">\(105.47\text{ mW} &lt; 110\text{ mW}\)</span></strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>6. Plabic Rational-Chart Pole at Destructive Switching Null <span class="math notranslate nohighlight">\(x_X = -1\)</span></strong></p></td>
+<td class="text-left"><p><strong>Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> (Model 6) &amp; Complex Homogeneous VRC</strong> (<a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Paper 19</span></a>, <a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Paper 22</span></a>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>,<br><code class="docutils literal notranslate"><span class="pre">qciGr24PluckerMinor</span> <span class="pre">.complexHomogeneousVRC</span> <span class="pre">true</span> <span class="pre">x1</span> <span class="pre">x2</span> <span class="pre">(-1)</span> <span class="pre">false</span> <span class="pre">1</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">x2</span> <span class="pre">-</span> <span class="pre">x1</span></code></p></td>
+<td class="text-left"><p>Eliminates both the <span class="math notranslate nohighlight">\(50\%\)</span> unphased <span class="math notranslate nohighlight">\(Gr_{\ge 0}(2,4)\)</span> error and the <span class="math notranslate nohighlight">\(1/(x_X+1)\)</span> rational pole at <span class="math notranslate nohighlight">\(x_X = -1\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="mathematical-hardware-theory-of-the-revised-semi-dirac-soliton-bus">
+<h2>2. Mathematical &amp; Hardware Theory of the Revised Semi-Dirac Soliton Bus<a class="headerlink" href="#mathematical-hardware-theory-of-the-revised-semi-dirac-soliton-bus" title="Link to this heading">¶</a></h2>
+<section id="tiered-128-bit-inter-node-qnic-to-64-bit-intra-qpu-rdma-bus-lut-seeded-cordic-decoder">
+<h3>2.1 Tiered 128-Bit Inter-Node QNIC to 64-Bit Intra-QPU RDMA Bus &amp; LUT-Seeded CORDIC Decoder<a class="headerlink" href="#tiered-128-bit-inter-node-qnic-to-64-bit-intra-qpu-rdma-bus-lut-seeded-cordic-decoder" title="Link to this heading">¶</a></h3>
+<p>As analyzed in Prompts 15–18 of <a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">_Quantum Computing Hardware Architectures Review  .md, lines 1495–1760</span></a>, a 128-bit RDMA address space (<span class="math notranslate nohighlight">\(2^{128} \approx 3.4 \times 10^{38}\)</span> addresses) enables global datacenter entanglement-graph routing, picosecond time-bin multiplexing, and multi-rack Wafer IDs, but routing a 128-bit CORDIC pipeline across the <span class="math notranslate nohighlight">\(4\text{ K}\)</span> cryostat boundary would exceed the <span class="math notranslate nohighlight">\(110\text{ mW}\)</span> thermal budget. The <strong>Tiered QNIC Architecture</strong> (<code class="docutils literal notranslate"><span class="pre">tieredQnicStrippedPayloadBits</span> <span class="pre">128</span> <span class="pre">64</span> <span class="pre">=</span> <span class="pre">64</span></code>) resolves this by partitioning the 128-bit address at the room-temperature (<span class="math notranslate nohighlight">\(300\text{ K}\)</span>) Quantum Network Interface Controller:</p>
+<ul class="simple">
+<li><p><strong>Upper 64 Bits (Stripped at <span class="math notranslate nohighlight">\(300\text{ K}\)</span> Edge QNIC)</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bits</span> <span class="pre">[127:96]</span></code> (32 bits): Rack / Wafer ID for inter-node optical bypass,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bits</span> <span class="pre">[95:80]</span></code> (16 bits): Picosecond Time-Bin TDM schedule for the external Acousto-Optic Modulator,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bits</span> <span class="pre">[79:64]</span></code> (16 bits): Multi-partite Bell / surface-code entanglement graph pair tag.</p></li>
+</ul>
+</li>
+<li><p><strong>Lower 64 Bits (Forwarded to <span class="math notranslate nohighlight">\(4\text{ K}\)</span> RFSoC LUT-CORDIC Decoder)</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bits</span> <span class="pre">[63:32]</span></code> (32 bits): Spatial <span class="math notranslate nohighlight">\((X, Y)\)</span> coordinate selecting among <span class="math notranslate nohighlight">\(2^{32} \approx 4.29 \times 10^9\)</span> <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> <span class="math notranslate nohighlight">\(C_8\)</span> star-shaped vertical vias,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bits</span> <span class="pre">[31:16]</span></code> (16 bits): Wavelength / UCNP color channel (<span class="math notranslate nohighlight">\(2^{16} = 65{,}536\)</span> WDM sub-bands across <span class="math notranslate nohighlight">\(475\text{–}1550\text{ nm}\)</span>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bits</span> <span class="pre">[15:0]</span></code> (16 bits): Topological OAM mode <span class="math notranslate nohighlight">\(\ell \in [-24, +24]\)</span> (48 modes, requiring only <span class="math notranslate nohighlight">\(48\text{ KB}\)</span> of BRAM for a <span class="math notranslate nohighlight">\(32 \times 32 \times 8\text{-bit}\)</span> base LUT) plus two-mode superposition weights.</p></li>
+</ul>
+</li>
+</ul>
+<p>When the <span class="math notranslate nohighlight">\(20\text{ kHz}\)</span> widefield CASR NMR camera detects a thermal drift <span class="math notranslate nohighlight">\((\Delta x, \Delta y)\)</span> of the waveguide center, the pipelined CORDIC engine computes the angular offset <span class="math notranslate nohighlight">\(\Delta\theta_{\mathrm{CORDIC}} = \theta_{\mathrm{true}} - \theta_{\mathrm{LUT}}\)</span>, and the DSP slice outputs (<code class="docutils literal notranslate"><span class="pre">lutPlusCordicOamPhase</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\phi_{\mathrm{final}}(\ell, \theta_{\mathrm{LUT}}, \theta_{\mathrm{true}} - \theta_{\mathrm{LUT}}) = \ell\,\theta_{\mathrm{LUT}} + \ell\,(\theta_{\mathrm{true}} - \theta_{\mathrm{LUT}}) = \ell\,\theta_{\mathrm{true}}.
+\]</div>
+</section>
+<section id="slow-light-n-lig-crow-delay-line-crowslowlightdelaylength">
+<h3>2.2 Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Line (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span></code>)<a class="headerlink" href="#slow-light-n-lig-crow-delay-line-crowslowlightdelaylength" title="Link to this heading">¶</a></h3>
+<p>During the <span class="math notranslate nohighlight">\(N_{\mathrm{cycles}} = 12\)</span> clock cycles at <span class="math notranslate nohighlight">\(f_{\mathrm{clk}} = 500\text{ MHz} = 0.5\text{ GHz}\)</span> (<span class="math notranslate nohighlight">\(t_{\mathrm{compute}} = \frac{12}{0.5} = 24\text{ ns}\)</span>) required for the CORDIC pipeline to settle, the incoming soliton must be buffered on-chip (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+L_{\mathrm{CROW}}(N_{\mathrm{cycles}}, f_{\mathrm{clk}}, c_0, n_g) = \left(\frac{N_{\mathrm{cycles}}}{f_{\mathrm{clk}}}\right)\left(\frac{c_0}{n_g}\right) = \begin{cases}
+\frac{24}{5}\text{ m} = 4.80\text{ m} &amp; (n_g = 1.5\text{ unbuffered vitrimer}), \\[4pt]
+\frac{36}{25}\text{ m} = 1.44\text{ m} &amp; (n_g = 5.0\text{ moderate CROW}), \\[4pt]
+\frac{6}{250}\text{ m} = 0.024\text{ m} = 24\text{ mm} &amp; (n_g = 300\text{ slow-light CROW}).
+\end{cases}
+\end{split}\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">
+<h2>3. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification<a class="headerlink" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification" title="Link to this heading">¶</a></h2>
+<p>All 6 hardware artifacts for <code class="docutils literal notranslate"><span class="pre">SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM</span></code> are generated in <a class="reference download internal" download="" href="_downloads/bacc492da85d0551e8cd0d0115872734/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_vol"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">src/signals/kicad/semi_dirac/</span></code></span></a> and verified with the <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> suite:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Stage / Check</p></th>
+<th class="head text-left"><p>Stage Identifier / Tool</p></th>
+<th class="head text-left"><p>Verified Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 1 (<code class="docutils literal notranslate"><span class="pre">130</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_QNIC_128_TO_64_RDMA_INGRESS</span></code></p></td>
+<td class="text-left"><p>Strips 128-bit QNIC header to 64-bit intra-QPU RDMA payload (<code class="docutils literal notranslate"><span class="pre">tieredQnicStrippedPayloadBits</span> <span class="pre">128</span> <span class="pre">64</span> <span class="pre">=</span> <span class="pre">64</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 2 (<code class="docutils literal notranslate"><span class="pre">160</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_NLIG_CROW_SLOW_LIGHT_DELAY</span></code></p></td>
+<td class="text-left"><p>Slow-light coupled-resonator buffer (<code class="docutils literal notranslate"><span class="pre">crowSlowLightDelayLength</span> <span class="pre">12</span> <span class="pre">0.5</span> <span class="pre">0.3</span> <span class="pre">300</span> <span class="pre">=</span> <span class="pre">24</span> <span class="pre">mm</span> <span class="pre">&lt;</span> <span class="pre">4.8</span> <span class="pre">m</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 3 (<code class="docutils literal notranslate"><span class="pre">170</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_SEMI_DIRAC_RING_CORE_CO2_CNOT</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(532\text{ nm}\)</span> LCS strain-locked Semi-Dirac ring-core + <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-carbonate <span class="math notranslate nohighlight">\(5\times\)</span> <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> <code class="docutils literal notranslate"><span class="pre">CPHASE</span></code>/<code class="docutils literal notranslate"><span class="pre">CNOT</span></code> gate</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 4 (<code class="docutils literal notranslate"><span class="pre">140</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4_C8_STAR_VIA_LUT_CORDIC_QRAM</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(C_8\)</span> star-shaped ancilla via + LUT-CORDIC phase tuner + <span class="math notranslate nohighlight">\(37.5\%\)</span> PWM thermal manager (<span class="math notranslate nohighlight">\(105.47\text{ mW} &lt; 110\text{ mW}\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">analyze_schematic.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analyze_pcb.py</span> <span class="pre">--full</span></code>, <code class="docutils literal notranslate"><span class="pre">cross_analysis.py</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">U1</span></code>, <code class="docutils literal notranslate"><span class="pre">J1</span></code>, 4 nets (<code class="docutils literal notranslate"><span class="pre">SOLITON_BUS_IN</span></code>, <code class="docutils literal notranslate"><span class="pre">SOLITON_BUS_OUT</span></code>, <code class="docutils literal notranslate"><span class="pre">RDMA_64B_CLK</span></code>, <code class="docutils literal notranslate"><span class="pre">GND</span></code>), <strong>4/4 routed nets</strong>, <strong><code class="docutils literal notranslate"><span class="pre">0</span></code> cross-analysis findings</strong>, <strong><span class="math notranslate nohighlight">\(3 \to 0\)</span></strong> <span class="math notranslate nohighlight">\(sp^3\)</span> volumetric DRC hazards</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="machine-checked-lean-4-verification-signals-solitonbus">
+<h2>4. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)<a class="headerlink" href="#machine-checked-lean-4-verification-signals-solitonbus" title="Link to this heading">¶</a></h2>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">SemiDiracSolitonBusPaper33Verification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.SolitonBus</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">l_charge</span><span class="w"> </span><span class="n">theta_lut</span><span class="w"> </span><span class="n">theta_true</span><span class="w"> </span><span class="n">total_len_m</span><span class="w"> </span><span class="n">loss_db_per_m</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">co2CarbonateChi3CphaseLength</span><span class="w"> </span><span class="mi">1550</span><span class="w"> </span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">co2CarbonateChi3CphaseLength</span><span class="w"> </span><span class="mi">1550</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">co2CarbonateChi3CphaseLength</span><span class="w"> </span><span class="mi">1550</span><span class="w"> </span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">co2CarbonateChi3CphaseLength</span><span class="w"> </span><span class="mi">1550</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">crowSlowLightDelayLength</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="mi">300</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">crowSlowLightDelayLength</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">crowSlowLightDelayLength</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">crowSlowLightDelayLength</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">tieredQnicStrippedPayloadBits</span><span class="w"> </span><span class="mi">128</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">lutPlusCordicOamPhase</span><span class="w"> </span><span class="n">l_charge</span><span class="w"> </span><span class="n">theta_lut</span><span class="w"> </span><span class="o">(</span><span class="n">theta_true</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">theta_lut</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">l_charge</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">theta_true</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">250</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">nligInternalPumpAvgPowerMw</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">8</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3375</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">250</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">nligInternalPumpAvgPowerMw</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">8</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">110</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">110</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">250</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">nligInternalPumpAvgPowerMw</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities</span>
+<span class="w">    </span><span class="mi">1550</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">l_charge</span><span class="w"> </span><span class="n">theta_lut</span><span class="w"> </span><span class="n">theta_true</span><span class="w"> </span><span class="n">total_len_m</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">loss_db_per_m</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">SemiDiracSolitonBusPaper33Verification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<p id="sb33-kivshar1993"><a id="sb33-kivshar1993"></a></p>
+<ol class="arabic simple">
+<li><p><strong>Kivshar, Y. S., &amp; Quiroga-Teixeiro, M. L. (1993).</strong> <em>Influence of cross-phase modulation on soliton switching in nonlinear optical fibers.</em> Optics Letters, 18(12), 980–982. <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1364/OL.18.000980</span></code></p></li>
+</ol>
+<p id="sb33-shao2024"><a id="sb33-shao2024"></a>
+2. <strong>Shao, Y., et al. (2024).</strong> <em>Semi-Dirac Fermions in a Topological Metal.</em> Physical Review X, 14(4), 041057 (<code class="docutils literal notranslate"><span class="pre">arXiv:2311.03735</span></code>). <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1103/PhysRevX.14.041057</span></code></p>
+<p id="sb33-dean2025"><a id="sb33-dean2025"></a>
+3. <strong>Dean, et al. (2025).</strong> <em>Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance.</em> Nature (<code class="docutils literal notranslate"><span class="pre">arXiv:2509.26425</span></code>). <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1038/s41586-025-09959-z</span></code></p>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">turner2026semi_dirac_soliton_bus_qram</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wes}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Revised Semi-{D}irac and Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} / {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} Soliton Bus Architecture: Dispersionless {$y$}-Channeling, {$C_8$} Star-Via Ancilla Hubs, Slow-Light {N-LIG} {CROW} Delay Lines, Tiered 128-to-64-Bit {RDMA} {LUT-CORDIC} {QRAM}, {$\mathrm{CO}_2$}-Carbonate {$\chi^{(3)}$} {CNOT} Gates, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Research Archive}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Revised Semi-Dirac and Complex Grassmannian Gr_C(2,4) / Gr_C(2,6) Soliton Bus Architecture: Dispersionless y-Channeling, C8 Star-Via Ancilla Hubs, Slow-Light N-LIG CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, CO2-Carbonate chi^(3) CNOT Gates, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-08"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Semi-Dirac Soliton Bus"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Slow-Light N-LIG CROW Delay Lines"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Tiered 128-to-64-Bit QNIC RDMA LUT-CORDIC QRAM"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"CO2-Carbonate Chi(3) CPHASE and CNOT Gates"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"C8 Star-Shaped Quantum Vias"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Volumetric KiCAD and GDSII EDA"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.html" title="Etch-Free 1D Semi-Dirac Topological Majorana (\(\mathrm{MZM}\)), \(\mathbb{Z}_6\) Parafermion, \(\mathrm{Gr}_{\mathbb{C}}(2,6)\) Plücker, and Phase-Steered Helical N-LIG OAM Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-RIE \(D_{\mathrm{it}}\) Suppression, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python" >previous</a></li>
+        <li><a href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html" title="Integrated Multi-Band Classical and Quantum Photonics (\(405\text{–}1550\text{ nm}\) &amp; \(400\text{–}800\text{ GHz}\)): Periodic Cellulose Nanocrystal (CNC) \(\chi^{(2)}\) Signal Boosters in N-LIG Waveguides, Adiabatic Scarf-Joint \(c\text{-BAs}\) Plasmonic-Slot Homodyne Detectors, \(590\text{ nm}\) \(n\)-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) &amp; \(N\)-ary \(Gr_{\mathbb{C}}(2, N+2)\) Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex \(Gr_{\mathbb{C}}(2,4)\) Orbital Precession, Mercury’s Perihelion, \(N\)-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4" href="grassmannian-gravity-from-qed-scattering-paper.html" />
+    <link rel="prev" title="Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4" href="grassmannian-qism-bethe-ansatz-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#introduction-architecture-overview">1. Introduction &amp; Architecture Overview</a></li>
+<li><a class="reference internal" href="#plucker-sink-flux-superposition-ddf-shear-jamming-and-power-law-inversion">2. Plücker Sink-Flux Superposition, DDF Shear Jamming, and Power-Law Inversion</a><ul>
+<li><a class="reference internal" href="#slit-weights-as-coupled-phi-varphi-sink-fluxes">2.1 Slit Weights as Coupled <span class="math notranslate nohighlight">\((\phi, \varphi)\)</span> Sink Fluxes</a></li>
+<li><a class="reference internal" href="#reciprocal-jammingvisibility-duality-power-law-bounds-and-substrate-parameter-recovery">2.2 Reciprocal Jamming–Visibility Duality, Power-Law Bounds, and Substrate Parameter Recovery</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#constructive-resolutions-of-critiques-13-symmetric-point-non-symplectic-jamming-and-vortex-swirl">3. Constructive Resolutions of Critiques 1–3: Symmetric Point, Non-Symplectic Jamming, and Vortex Swirl</a><ul>
+<li><a class="reference internal" href="#critique-1-resolution-amplitude-level-squared-crossing-product-vs-unphased-sum-at-0-0">3.1 Critique 1 &amp; Resolution: Amplitude-Level Squared Crossing Product vs. Unphased Sum at <span class="math notranslate nohighlight">\((0,0)\)</span></a></li>
+<li><a class="reference internal" href="#critique-2-resolution-projective-plucker-invariance-under-arbitrary-non-symplectic-jamming">3.2 Critique 2 &amp; Resolution: Projective Plücker Invariance Under Arbitrary Non-Symplectic Jamming</a></li>
+<li><a class="reference internal" href="#critique-3-resolution-quantized-vortex-circulation-gravitomagnetic-frame-dragging-swirl">3.3 Critique 3 &amp; Resolution: Quantized Vortex Circulation &amp; Gravitomagnetic Frame-Dragging Swirl</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#master-gr-mathbb-c-2-4-n-ary-gr-mathbb-c-2-n-2-n-ge-3-ddf-sheath-twistor-unification">4. Master <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) DDF Sheath Twistor Unification</a><ul>
+<li><a class="reference internal" href="#binary-n-2-gr-mathbb-c-2-4-ddf-sheath-twistor-matrix-movingsheath-gr24twistormatrix">4.1 Binary (<span class="math notranslate nohighlight">\(N = 2\)</span>) <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Sheath Twistor Matrix (<code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix</span></code>)</a></li>
+<li><a class="reference internal" href="#n-ary-n-ge-3-gr-mathbb-c-2-n-2-channel-matrix-triple-slit-n-3-ddf-sheath-and-sorkin-kappa-3-0">4.2 <span class="math notranslate nohighlight">\(N\)</span>-ary (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Channel Matrix, Triple-Slit (<span class="math notranslate nohighlight">\(N = 3\)</span>) DDF Sheath, and Sorkin <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion-reproducibility">5. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-qism-bethe-ansatz-paper.html" title="Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-gravity-from-qed-scattering-paper.html" title="Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex \(Gr_{\mathbb{C}}(2,4)\) Orbital Precession, Mercury’s Perihelion, \(N\)-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-ddf-moving-sheath-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#introduction-architecture-overview">1. Introduction &amp; Architecture Overview</a></li>
+<li><a class="reference internal" href="#plucker-sink-flux-superposition-ddf-shear-jamming-and-power-law-inversion">2. Plücker Sink-Flux Superposition, DDF Shear Jamming, and Power-Law Inversion</a><ul>
+<li><a class="reference internal" href="#slit-weights-as-coupled-phi-varphi-sink-fluxes">2.1 Slit Weights as Coupled <span class="math notranslate nohighlight">\((\phi, \varphi)\)</span> Sink Fluxes</a></li>
+<li><a class="reference internal" href="#reciprocal-jammingvisibility-duality-power-law-bounds-and-substrate-parameter-recovery">2.2 Reciprocal Jamming–Visibility Duality, Power-Law Bounds, and Substrate Parameter Recovery</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#constructive-resolutions-of-critiques-13-symmetric-point-non-symplectic-jamming-and-vortex-swirl">3. Constructive Resolutions of Critiques 1–3: Symmetric Point, Non-Symplectic Jamming, and Vortex Swirl</a><ul>
+<li><a class="reference internal" href="#critique-1-resolution-amplitude-level-squared-crossing-product-vs-unphased-sum-at-0-0">3.1 Critique 1 &amp; Resolution: Amplitude-Level Squared Crossing Product vs. Unphased Sum at <span class="math notranslate nohighlight">\((0,0)\)</span></a></li>
+<li><a class="reference internal" href="#critique-2-resolution-projective-plucker-invariance-under-arbitrary-non-symplectic-jamming">3.2 Critique 2 &amp; Resolution: Projective Plücker Invariance Under Arbitrary Non-Symplectic Jamming</a></li>
+<li><a class="reference internal" href="#critique-3-resolution-quantized-vortex-circulation-gravitomagnetic-frame-dragging-swirl">3.3 Critique 3 &amp; Resolution: Quantized Vortex Circulation &amp; Gravitomagnetic Frame-Dragging Swirl</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#master-gr-mathbb-c-2-4-n-ary-gr-mathbb-c-2-n-2-n-ge-3-ddf-sheath-twistor-unification">4. Master <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) DDF Sheath Twistor Unification</a><ul>
+<li><a class="reference internal" href="#binary-n-2-gr-mathbb-c-2-4-ddf-sheath-twistor-matrix-movingsheath-gr24twistormatrix">4.1 Binary (<span class="math notranslate nohighlight">\(N = 2\)</span>) <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Sheath Twistor Matrix (<code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix</span></code>)</a></li>
+<li><a class="reference internal" href="#n-ary-n-ge-3-gr-mathbb-c-2-n-2-channel-matrix-triple-slit-n-3-ddf-sheath-and-sorkin-kappa-3-0">4.2 <span class="math notranslate nohighlight">\(N\)</span>-ary (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Channel Matrix, Triple-Slit (<span class="math notranslate nohighlight">\(N = 3\)</span>) DDF Sheath, and Sorkin <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion-reproducibility">5. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-qism-bethe-ansatz-paper.html"
+                          title="previous chapter">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-gravity-from-qed-scattering-paper.html"
+                          title="next chapter">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-ddf-moving-sheath-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="complex-grassmannian-gr-mathbb-c-2-4-n-ary-gr-mathbb-c-2-n-2-unification-with-dilatant-dark-fluid-ddf-moving-sheaths-plucker-sink-fluxes-anosov-invariance-and-sorkin-triple-slit-interferometry-in-lean-4">
+<span id="grassmannian-ddf-moving-sheath-paper"></span><h1>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4<a class="headerlink" href="#complex-grassmannian-gr-mathbb-c-2-4-n-ary-gr-mathbb-c-2-n-2-unification-with-dilatant-dark-fluid-ddf-moving-sheaths-plucker-sink-fluxes-anosov-invariance-and-sorkin-triple-slit-interferometry-in-lean-4" title="Link to this heading">¶</a></h1>
+<p><strong>Authors:</strong> Wes Turner
+<strong>Subjects:</strong> Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)
+<strong>Formal Verification Artifact:</strong> <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, Mathlib <code class="docutils literal notranslate"><span class="pre">v4.35.0-rc3</span></code>)
+<strong>Companion Papers:</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We present a machine-checked formalization in the Lean 4 theorem prover (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Huygens</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.Coherence</span></code>) directly unifying the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and its <span class="math notranslate nohighlight">\(N\)</span>-ary multi-slit generalization <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) with the two-component quantum-hydrodynamic <strong>Dilatant Dark Fluid (DDF)</strong> substrate (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code>; <a class="reference internal" href="#ddf-fedi2026"><span class="xref myst">Fedi 2026</span></a>) and emergent sink-flow gravity (<a class="reference internal" href="#ddf-partanen2025"><span class="xref myst">Partanen and Tulkki 2025</span></a>):</p>
+<ol class="arabic">
+<li><p><strong>Plücker Hydrodynamic Sink Fluxes &amp; Reciprocal Jamming–Visibility Duality</strong>:
+Interpreting the uncrossed <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> Plücker channel products <span class="math notranslate nohighlight">\(Q_A(M) = \Delta_{01}(M)\Delta_{23}(M)\)</span> and <span class="math notranslate nohighlight">\(Q_B(M) = \Delta_{03}(M)\Delta_{12}(M)\)</span> as localized sink fluxes across the coupled <span class="math notranslate nohighlight">\((\phi, \varphi)\)</span> bosonic sectors yields total flux conservation <span class="math notranslate nohighlight">\(Q_A(M) + Q_B(M) = \Delta_{02}(M)\Delta_{13}(M)\)</span> and barycentric shear asymmetry <span class="math notranslate nohighlight">\((Q_A(M) - Q_B(M))/2 = d_{\mathrm{bary}}(M)\)</span>. Identifying <span class="math notranslate nohighlight">\(|d_{\mathrm{bary}}|\)</span> with the dimensionless sheath speed ratio <span class="math notranslate nohighlight">\(\beta(s) = v/c \in [0, 1)\)</span> of a subluminal <code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code> proves that optical fringe visibility is the exact reciprocal of the DDF constitutive Lorentz jamming factor:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{V}(s) = \sqrt{1 - \beta(s)^2} = \frac{1}{\gamma_\varphi(v)}, \qquad \beta(s)^2 + \mathcal{V}(s)^2 = 1.
+   \]</div>
+</li>
+<li><p><strong>Tight Quadratic Power-Law Bounds, Kinetic-Energy Ratio, &amp; Constitutive Substrate Recovery</strong>:
+The on-axis relative predictive error against the coherent Fraunhofer reference equals the ratio of reversible shear-jamming kinetic energy <span class="math notranslate nohighlight">\(K_D(v) = m c^2(\gamma_\varphi(v) - 1)\)</span> to twice the total relativistic sheath energy <span class="math notranslate nohighlight">\(2 E_\varphi(v) = 2\gamma_\varphi(v) m c^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \varepsilon_{\mathrm{rel}}(0,0) = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v) m c^2}, \qquad \frac{\beta^2}{4} \le \varepsilon_{\mathrm{rel}}(0,0) \le \frac{\beta^2}{2},
+   \]</div>
+<p>and admits exact closed-form inversion for both the dimensionless jamming parameters and the dimensionful DDF dispersed-phase compressibility-density product <span class="math notranslate nohighlight">\(\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2} = 4\varepsilon(1 - \varepsilon)/v^2\)</span>.</p>
+</li>
+<li><p><strong>Constructive Resolutions of Three Formal Critiques (Symmetric Zero-Shear Point, Non-Symplectic Anosov Jamming, and Gravitomagnetic Vortex Swirl)</strong>:
+We prove (i) that while an unphased positive-Grassmannian proxy <span class="math notranslate nohighlight">\(Q_A + Q_B = 2\)</span> incurs a <span class="math notranslate nohighlight">\(50\%\)</span> on-axis error at the symmetric point, squaring the amplitude-level crossing product <span class="math notranslate nohighlight">\((\Delta_{02}\Delta_{13})^2 = 4\)</span> or lifting to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> achieves <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span>; (ii) that projectively normalized Plücker invariants <span class="math notranslate nohighlight">\(\widehat{d}_{\mathrm{bary}}(M)\)</span> and <span class="math notranslate nohighlight">\(\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2\)</span> are strictly invariant under arbitrary non-symplectic compressive jamming <span class="math notranslate nohighlight">\(\operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})\)</span>; and (iii) that the Kerr/Lense–Thirring gravitomagnetic swirl velocity around quantized <span class="math notranslate nohighlight">\(\phi\)</span>-superfluid vortex sinks is governed directly by the differential circulation <span class="math notranslate nohighlight">\(\Delta\Gamma(\ell_1, \ell_2) = (\ell_2 - \ell_1)\kappa_\phi\)</span>.</p></li>
+<li><p><strong>Master <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) DDF Sheath Twistor Unification</strong>:
+We construct <code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix</span></code> in <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, general <span class="math notranslate nohighlight">\(N\)</span>-ary <code class="docutils literal notranslate"><span class="pre">complexGr2NChannelMatrix</span></code> in <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span>, and <code class="docutils literal notranslate"><span class="pre">MovingSheath.gr25TripleSlitTwistorMatrix</span></code> in <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,5)\)</span>, proving exact Madelung sector density laws, <span class="math notranslate nohighlight">\(SL(2, \mathbb{C})\)</span> gauge invariance, zero-error triple-slit Fraunhofer matching, and the identical vanishing of the Sorkin third-order quantum interference parameter <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="introduction-architecture-overview">
+<h2>1. Introduction &amp; Architecture Overview<a class="headerlink" href="#introduction-architecture-overview" title="Link to this heading">¶</a></h2>
+<p>In Marco Fedi’s Dilatant Dark Fluid (DDF) framework (<a class="reference internal" href="#ddf-fedi2026"><span class="xref myst">Fedi 2026</span></a>), relativistic kinematics and gravitation emerge from a two-component quantum-hydrodynamic medium (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>):</p>
+<ul class="simple">
+<li><p>A <strong>continuous superfluid condensate (<span class="math notranslate nohighlight">\(\phi\)</span>)</strong> of boson mass <span class="math notranslate nohighlight">\(m_\phi &gt; 0\)</span> supporting quantized vortices with circulation quantum <span class="math notranslate nohighlight">\(\kappa_\phi = 2\pi\hbar / m_\phi\)</span> and Painlevé–Gullstrand river inflow <span class="math notranslate nohighlight">\(v_\phi(r) = -\sqrt{2 G_\phi M / r}\)</span> (<code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code>), and</p></li>
+<li><p>A <strong>dispersed dilatant phase (<span class="math notranslate nohighlight">\(\varphi\)</span>)</strong> of mass <span class="math notranslate nohighlight">\(m_\varphi &gt; 0\)</span> with saturated jamming density <span class="math notranslate nohighlight">\(\varrho_{\max}^\varphi &gt; 0\)</span> and minimum compressibility <span class="math notranslate nohighlight">\(j_{\min}^\varphi &gt; 0\)</span>, supporting transverse phonons propagating at the emergent speed of light:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+c = \frac{1}{\sqrt{\varrho_{\max}^\varphi\,j_{\min}^\varphi}}, \qquad c^2 = \left(\varrho_{\max}^\varphi\,j_{\min}^\varphi\right)^{-1}.
+\]</div>
+<p>In our companion paper <a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>, we proved that lifting four-terminal double-slit channels from <span class="math notranslate nohighlight">\(Gr_{\ge 0}(2,4)\)</span> to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> eliminates the <span class="math notranslate nohighlight">\(50\%\)</span> unphased crossing-minor error and reproduces the Huygens–Steiner coherence profile (<a class="reference internal" href="#ddf-qian2023"><span class="xref myst">Qian and Izadi 2023</span></a>). Here, we formalize the complete algebraic and geometric unification between <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>), and DDF (<code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code>, <code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code>), as synthesized in <a class="reference internal" href="#ddf-chat-plucker-sinks"><span class="xref myst">Provenance Chat Log (2026)</span></a>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Physical / Geometric Layer</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Representation</p></th>
+<th class="head"><p>DDF &amp; Hydrodynamic Sink Interpretation</p></th>
+<th class="head"><p>Machine-Checked Lean 4 Theorems</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Channel / Sink Fluxes</strong></p></td>
+<td><p>Uncrossed minors <span class="math notranslate nohighlight">\(Q_A = \Delta_{01}\Delta_{23}\)</span>, <span class="math notranslate nohighlight">\(Q_B = \Delta_{03}\Delta_{12}\)</span>; <span class="math notranslate nohighlight">\(N\)</span>-ary slit minors <span class="math notranslate nohighlight">\(\Delta_{0,j+2}^{\mathbb{C}} = z_j\)</span></p></td>
+<td><p>Coupled <span class="math notranslate nohighlight">\((\phi, \varphi)\)</span> bosonic sector fluxes; <span class="math notranslate nohighlight">\(Q_A + Q_B = \Delta_{02}\Delta_{13}\)</span>; <span class="math notranslate nohighlight">\(\Delta_{0,1}^{\mathbb{C}} = \sum_{j=0}^{N-1} z_j\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pluckerSinkFlux_conservation_and_asymmetry</span></code>, <code class="docutils literal notranslate"><span class="pre">complexGr2NChannelMatrix_minors</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Symmetric Zero-Shear Point</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{\mathrm{bary}} = 0\)</span>, <span class="math notranslate nohighlight">\(\mathcal{V} = 1\)</span>, <span class="math notranslate nohighlight">\((\Delta_{02}\Delta_{13})^2 = 4\)</span>, <span class="math notranslate nohighlight">\(|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2 = 4\cos^2\theta\)</span></p></td>
+<td><p>Zero shear speed <span class="math notranslate nohighlight">\(v = 0 \implies \beta = 0\)</span>, <span class="math notranslate nohighlight">\(\gamma_\varphi(0) = 1\)</span>, <span class="math notranslate nohighlight">\(K_D(0) = 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.zero_shear_no_jamming</span></code>, <code class="docutils literal notranslate"><span class="pre">ddf_critique1_solved_squared_crossing_and_complex_gr24</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Subluminal Shear Jamming</strong></p></td>
+<td><p>Complex entries <span class="math notranslate nohighlight">\(z_\pm(s,\theta) = \sqrt{1 \pm \beta(s)}\,e^{\pm i\theta}\)</span> in <span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{\mathrm{DDF}}(s)\)</span></p></td>
+<td><p>Reciprocal jamming visibility <span class="math notranslate nohighlight">\(\mathcal{V}(s) = \gamma_\varphi(v)^{-1}\)</span>; error <span class="math notranslate nohighlight">\(\varepsilon = \frac{K_D(v)}{2 E_\varphi(v)}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.visibility_jamming_duality</span></code>, <code class="docutils literal notranslate"><span class="pre">ddf_sheath_relative_error_eq_jamming</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Anosov &amp; <span class="math notranslate nohighlight">\(GL(2)\)</span> Stretching</strong></p></td>
+<td><p>Symplectic <span class="math notranslate nohighlight">\(A_{\mathrm{Anosov}}(\lambda, t)\)</span>, non-symplectic <span class="math notranslate nohighlight">\(B(\lambda_1, \lambda_2, t)\)</span>, and <span class="math notranslate nohighlight">\(SL(2,\mathbb{C})\)</span></p></td>
+<td><p>Tangent-bundle hyperbolic stretching and projective jamming invariance <span class="math notranslate nohighlight">\(\widehat{d}_{\mathrm{bary}}(BM) = \widehat{d}_{\mathrm{bary}}(M)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">anosov_plucker_invariance</span></code>, <code class="docutils literal notranslate"><span class="pre">ddf_critique2_solved_projective_and_trace_renormalized_jamming</span></code>, <code class="docutils literal notranslate"><span class="pre">complexGr24_sl2c_crossing_intensity_invariant</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gravitomagnetic Vortex Swirl</strong></p></td>
+<td><p>Helical OAM phase shift <span class="math notranslate nohighlight">\(\Delta\ell\,\phi / 2\)</span> across slits</p></td>
+<td><p>Quantized <span class="math notranslate nohighlight">\(\phi\)</span>-vortex circulation <span class="math notranslate nohighlight">\(\Delta\Gamma = (\ell_2 - \ell_1)\kappa_\phi\)</span> &amp; Lense–Thirring swirl <span class="math notranslate nohighlight">\(v_{\phi,\mathrm{swirl}}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DDFSubstrate.vortex_circulation_wigner_error</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.quantized_vortex_swirl_from_circulation</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><span class="math notranslate nohighlight">\(N\)</span>-ary (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) &amp; Triple-Slit</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{(N)}(z) \in Gr_{\mathbb{C}}(2, N+2)\)</span> and <span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{(3),\mathrm{DDF}}(s) \in Gr_{\mathbb{C}}(2,5)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(N\)</span>-sink Madelung conservation <span class="math notranslate nohighlight">\(\sum |\Delta_{0,j+2}^{\mathbb{C}}|^2 = \sum w_j\)</span>, triple-slit null <span class="math notranslate nohighlight">\(\mathcal{G}_3(1,\pi/3)=0\)</span>, Sorkin <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">complexGr2N_madelung_sector_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.gr25TripleSlitTwistorMatrix_madelung_sector_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">sorkinTripleSlitParameter_zero</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivDDFGrassmannianPaperVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Coherence</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Huygens</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+
+<span class="c1">-- 1. Reciprocal DDF jamming-visibility duality and kinetic-energy relative error identity</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">s.coherenceVisibility</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="o">)</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">s.coherenceVisibility</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">s.betaSq</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">s.coherenceVisibility</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">s.jammingFactor</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="n">s.kineticEnergy</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">sub.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">⟨(</span><span class="n">s.visibility_jamming_duality</span><span class="o">)</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">s.visibility_jamming_duality</span><span class="o">)</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">s.visibility_jamming_duality</span><span class="o">)</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">ddf_sheath_relative_error_eq_jamming</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">))</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="plucker-sink-flux-superposition-ddf-shear-jamming-and-power-law-inversion">
+<h2>2. Plücker Sink-Flux Superposition, DDF Shear Jamming, and Power-Law Inversion<a class="headerlink" href="#plucker-sink-flux-superposition-ddf-shear-jamming-and-power-law-inversion" title="Link to this heading">¶</a></h2>
+<section id="slit-weights-as-coupled-phi-varphi-sink-fluxes">
+<h3>2.1 Slit Weights as Coupled <span class="math notranslate nohighlight">\((\phi, \varphi)\)</span> Sink Fluxes<a class="headerlink" href="#slit-weights-as-coupled-phi-varphi-sink-fluxes" title="Link to this heading">¶</a></h3>
+<p>For any real <span class="math notranslate nohighlight">\(2 \times 4\)</span> Grassmannian matrix <span class="math notranslate nohighlight">\(M \in \mathbb{R}^{2 \times 4}\)</span>, <code class="docutils literal notranslate"><span class="pre">pluckerSinkFluxA</span></code> and <code class="docutils literal notranslate"><span class="pre">pluckerSinkFluxB</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>) define the two uncrossed boundary channel weights:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_A(M) = \Delta_{01}(M)\Delta_{23}(M), \qquad Q_B(M) = \Delta_{03}(M)\Delta_{12}(M).
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">pluckerSinkFlux_conservation_and_asymmetry</span></code> proves that the total two-sink drain equals the crossing Plücker product while the half-difference equals the Plücker barycentric parallel-axis shift:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_A(M) + Q_B(M) = \Delta_{02}(M)\Delta_{13}(M), \qquad
+\frac{Q_A(M) - Q_B(M)}{2} = d_{\mathrm{bary}}(M).
+\]</div>
+</section>
+<section id="reciprocal-jammingvisibility-duality-power-law-bounds-and-substrate-parameter-recovery">
+<h3>2.2 Reciprocal Jamming–Visibility Duality, Power-Law Bounds, and Substrate Parameter Recovery<a class="headerlink" href="#reciprocal-jammingvisibility-duality-power-law-bounds-and-substrate-parameter-recovery" title="Link to this heading">¶</a></h3>
+<p>For a subluminal <code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code> <span class="math notranslate nohighlight">\(s\)</span> translating at speed <span class="math notranslate nohighlight">\(0 \le v &lt; c\)</span> through <code class="docutils literal notranslate"><span class="pre">sub</span> <span class="pre">:</span> <span class="pre">DDFSubstrate</span></code>, the constitutive Lorentz jamming factor is <span class="math notranslate nohighlight">\(\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.jammingFactor</span></code>). Defining the dual coherence visibility <span class="math notranslate nohighlight">\(\mathcal{V}(s) = \sqrt{1 - \beta^2}\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.coherenceVisibility</span></code>), we prove in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>:</p>
+<ol class="arabic">
+<li><p><strong>Zero-Shear / Zero-Jamming Limit (<code class="docutils literal notranslate"><span class="pre">MovingSheath.zero_shear_no_jamming</span></code>)</strong>:
+When <span class="math notranslate nohighlight">\(v = 0\)</span>, <span class="math notranslate nohighlight">\(\beta^2 = 0\)</span>, <span class="math notranslate nohighlight">\(\gamma_\varphi(0) = 1\)</span>, and <span class="math notranslate nohighlight">\(K_D(0) = m c^2(\gamma_\varphi(0) - 1) = 0\)</span>.</p></li>
+<li><p><strong>Reciprocal Duality (<code class="docutils literal notranslate"><span class="pre">MovingSheath.visibility_jamming_duality</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{V}(s) = \gamma_\varphi(v)^{-1}, \qquad \gamma_\varphi(v)\,\mathcal{V}(s) = 1, \qquad \beta^2 + \mathcal{V}(s)^2 = 1.
+   \]</div>
+</li>
+<li><p><strong>On-Axis Relative Error as Relativistic Sheath Kinetic-Energy Ratio (<code class="docutils literal notranslate"><span class="pre">ddf_sheath_relative_error_eq_jamming</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}(0,0;\mathcal{V}(s)),\,I_{\mathrm{F}}(0,0)\bigr) = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v)\,m c^2}.
+   \]</div>
+</li>
+<li><p><strong>Tight Quadratic Power-Law Bounds &amp; Exact Substrate Recovery (<code class="docutils literal notranslate"><span class="pre">ddf_relative_error_power_law_and_inversion</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.inverse_recovery_from_relative_error</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.ddf_critique3_solved_substrate_parameter_recovery</span></code>)</strong>:
+For <span class="math notranslate nohighlight">\(\varepsilon = (1 - \mathcal{V}(s))/2 \in [0, 1/2)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{\beta^2}{4} \le \varepsilon \le \frac{\beta^2}{2}, \qquad \mathcal{V}(s) = 1 - 2\varepsilon, \qquad \gamma_\varphi(v) = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = 4\varepsilon(1 - \varepsilon),
+   \]</div>
+<p>and using <span class="math notranslate nohighlight">\(c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}\)</span> (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate.c_sq</span></code>),</p>
+<div class="math notranslate nohighlight">
+\[
+   \varrho_{\max}^\varphi\,j_{\min}^\varphi\,v^2 = 4\varepsilon(1 - \varepsilon), \qquad v^2 = \frac{4\varepsilon(1 - \varepsilon)}{\varrho_{\max}^\varphi\,j_{\min}^\varphi}, \qquad \varrho_{\max}^\varphi\,j_{\min}^\varphi = \frac{4\varepsilon(1 - \varepsilon)}{v^2} \quad (v \neq 0).
+   \]</div>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="constructive-resolutions-of-critiques-13-symmetric-point-non-symplectic-jamming-and-vortex-swirl">
+<h2>3. Constructive Resolutions of Critiques 1–3: Symmetric Point, Non-Symplectic Jamming, and Vortex Swirl<a class="headerlink" href="#constructive-resolutions-of-critiques-13-symmetric-point-non-symplectic-jamming-and-vortex-swirl" title="Link to this heading">¶</a></h2>
+<section id="critique-1-resolution-amplitude-level-squared-crossing-product-vs-unphased-sum-at-0-0">
+<h3>3.1 Critique 1 &amp; Resolution: Amplitude-Level Squared Crossing Product vs. Unphased Sum at <span class="math notranslate nohighlight">\((0,0)\)</span><a class="headerlink" href="#critique-1-resolution-amplitude-level-squared-crossing-product-vs-unphased-sum-at-0-0" title="Link to this heading">¶</a></h3>
+<p>If <span class="math notranslate nohighlight">\(Q_A(M) = Q_B(M) = 1\)</span> at the symmetric point (<span class="math notranslate nohighlight">\(d_{\mathrm{bary}}(M) = 0\)</span>) is substituted into the <em>unphased</em> intensity proxy <span class="math notranslate nohighlight">\(I_{Gr(2,4)}^{\mathrm{unphased}} = I_0 E_{\mathrm{slit}}(Q_A + Q_B) = 2 I_0 E_{\mathrm{slit}}\)</span>, it underpredicts the coherent Fraunhofer peak <span class="math notranslate nohighlight">\(4 I_0\)</span> by <span class="math notranslate nohighlight">\(50\%\)</span> (<code class="docutils literal notranslate"><span class="pre">ddf_symmetric_zero_shear_vs_unphased_critique</span></code>). Theorem <code class="docutils literal notranslate"><span class="pre">ddf_critique1_solved_squared_crossing_and_complex_gr24</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>) resolves this in two ways:</p>
+<ul class="simple">
+<li><p><strong>At the symmetric origin <span class="math notranslate nohighlight">\((0,0)\)</span> in real <span class="math notranslate nohighlight">\(Gr(2,4)\)</span></strong>: Because <span class="math notranslate nohighlight">\(Q_A, Q_B\)</span> represent coherent field amplitudes at zero path difference, the intensity is proportional to the <strong>squared</strong> crossing product <span class="math notranslate nohighlight">\((\Delta_{02}(M)\Delta_{13}(M))^2 = (Q_A + Q_B)^2 = 4\)</span> (<code class="docutils literal notranslate"><span class="pre">gr24SquaredCrossingDoubleSlit</span></code>), yielding <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> at <span class="math notranslate nohighlight">\((0,0)\)</span>.</p></li>
+<li><p><strong>Across the entire detector plane <span class="math notranslate nohighlight">\((x,y) \in \mathbb{R}^2\)</span> in <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></strong>: Defining the complex sink amplitudes <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}\)</span> and <span class="math notranslate nohighlight">\(w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}\)</span> (<code class="docutils literal notranslate"><span class="pre">complexPluckerSinkAmplitudeA</span></code>, <code class="docutils literal notranslate"><span class="pre">complexPluckerSinkAmplitudeB</span></code>), the complex Plücker identity gives <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\)</span>, so <span class="math notranslate nohighlight">\(|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2 = |w_A^{\mathbb{C}} + w_B^{\mathbb{C}}|^2\)</span> achieves <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> everywhere.</p></li>
+</ul>
+</section>
+<section id="critique-2-resolution-projective-plucker-invariance-under-arbitrary-non-symplectic-jamming">
+<h3>3.2 Critique 2 &amp; Resolution: Projective Plücker Invariance Under Arbitrary Non-Symplectic Jamming<a class="headerlink" href="#critique-2-resolution-projective-plucker-invariance-under-arbitrary-non-symplectic-jamming" title="Link to this heading">¶</a></h3>
+<p>Under a symplectic 2D Anosov hyperbolic stretch <span class="math notranslate nohighlight">\(A_{\mathrm{Anosov}}(\lambda, t) = \operatorname{diag}(e^{\lambda t}, e^{-\lambda t})\)</span> (<span class="math notranslate nohighlight">\(\det = 1\)</span>), every <span class="math notranslate nohighlight">\(2 \times 2\)</span> Plücker minor and <span class="math notranslate nohighlight">\(d_{\mathrm{bary}}(M)\)</span> is invariant (<code class="docutils literal notranslate"><span class="pre">anosov_plucker_invariance</span></code>). Under a non-symplectic compressive jamming matrix <span class="math notranslate nohighlight">\(B(\lambda_1, \lambda_2, t) = \operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})\)</span> with <span class="math notranslate nohighlight">\(\lambda_1 + \lambda_2 \neq 0\)</span>, the unnormalized shift scales by <span class="math notranslate nohighlight">\(e^{2(\lambda_1 + \lambda_2)t}\)</span> (<code class="docutils literal notranslate"><span class="pre">nonSymplectic_jamming_barycentricShift_scaling</span></code>).</p>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">ddf_critique2_solved_projective_and_trace_renormalized_jamming</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>) resolves this completely:</p>
+<ol class="arabic">
+<li><p>The projectively normalized Plücker barycentric shift and squared visibility (<code class="docutils literal notranslate"><span class="pre">gr24ProjectiveBarycentricShift</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24ProjectiveVisibilitySq</span></code> in <a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+   \widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}
+   \]</div>
+<p>satisfy <span class="math notranslate nohighlight">\(\widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1\)</span> for every <span class="math notranslate nohighlight">\(\Delta_{02}\Delta_{13} \neq 0\)</span> (<code class="docutils literal notranslate"><span class="pre">gr24_projective_pythagorean_complementarity</span></code>) and are <strong>strictly invariant under every <span class="math notranslate nohighlight">\(B \in GL(2, \mathbb{R})\)</span></strong>, including arbitrary non-symplectic jamming:</p>
+<div class="math notranslate nohighlight">
+\[
+   \widehat{d}_{\mathrm{bary}}(B M) = \widehat{d}_{\mathrm{bary}}(M), \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(B M)^2 = \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2.
+   \]</div>
+</li>
+<li><p>Factoring out the isotropic trace dilation <span class="math notranslate nohighlight">\(e^{-(\lambda_1 + \lambda_2)t / 2}\)</span> reduces <span class="math notranslate nohighlight">\(B(\lambda_1, \lambda_2, t)\)</span> to the symplectic Anosov matrix <span class="math notranslate nohighlight">\(A_{\mathrm{Anosov}}((\lambda_1 - \lambda_2)/2, t)\)</span>, which preserves even the unnormalized Plücker minors.</p></li>
+</ol>
+</section>
+<section id="critique-3-resolution-quantized-vortex-circulation-gravitomagnetic-frame-dragging-swirl">
+<h3>3.3 Critique 3 &amp; Resolution: Quantized Vortex Circulation &amp; Gravitomagnetic Frame-Dragging Swirl<a class="headerlink" href="#critique-3-resolution-quantized-vortex-circulation-gravitomagnetic-frame-dragging-swirl" title="Link to this heading">¶</a></h3>
+<p>When two sinks carry quantized <span class="math notranslate nohighlight">\(\phi\)</span>-superfluid vortex charges <span class="math notranslate nohighlight">\(\ell_1, \ell_2 \in \mathbb{Z}\)</span> with differential circulation <span class="math notranslate nohighlight">\(\Delta\Gamma(\ell_1, \ell_2) = (\ell_2 - \ell_1)\kappa_\phi\)</span> (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate.differentialVortexCirculation</span></code>), <code class="docutils literal notranslate"><span class="pre">RiverExterior.quantized_vortex_swirl_from_circulation</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>) proves that the Kerr/Lense–Thirring frame-dragging swirl velocity at radius <span class="math notranslate nohighlight">\(r\)</span> for differential angular momentum <span class="math notranslate nohighlight">\(J = (\ell_2 - \ell_1)\hbar\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+v_{\phi,\mathrm{swirl}}\bigl((\ell_2 - \ell_1)\hbar, r\bigr) = \frac{G_\phi\,m_\phi\,\varrho_{\max}^\varphi\,j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1, \ell_2),
+\]</div>
+<p>which vanishes identically at the symmetric irrotational point <span class="math notranslate nohighlight">\(\ell_1 = \ell_2\)</span>.</p>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 2. Constructive resolutions of Critiques 1-3: projective jamming invariance, substrate recovery, and vortex swirl</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">re</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RiverExterior</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">M</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">rate1</span><span class="w"> </span><span class="n">rate2</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">hbar</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ℓ₁</span><span class="w"> </span><span class="n">ℓ₂</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">      </span><span class="bp">!!</span><span class="o">[</span><span class="n">Real.exp</span><span class="w"> </span><span class="o">(</span><span class="n">rate1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">t</span><span class="o">),</span><span class="w"> </span><span class="mi">0</span><span class="bp">;</span><span class="w"> </span><span class="mi">0</span><span class="o">,</span><span class="w"> </span><span class="n">Real.exp</span><span class="w"> </span><span class="o">(</span><span class="n">rate2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">t</span><span class="o">)]</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ε</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">s.coherenceVisibility</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">gr24ProjectiveBarycentricShift</span><span class="w"> </span><span class="o">(</span><span class="n">B</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">M</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">gr24ProjectiveBarycentricShift</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">gr24ProjectiveVisibilitySq</span><span class="w"> </span><span class="o">(</span><span class="n">B</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">M</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">gr24ProjectiveVisibilitySq</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">sub.rho_max_varphi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">sub.j_min_varphi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">s.velocity</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">ε</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">ε</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">re.swirlVelocity</span><span class="w"> </span><span class="o">(((</span><span class="n">ℓ₂</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">ℓ₁</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">hbar</span><span class="o">)</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="n">re.G_phi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">sub.m_phi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">sub.rho_max_varphi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">sub.j_min_varphi</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="o">(</span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">sub.differentialVortexCirculation</span><span class="w"> </span><span class="n">hbar</span><span class="w"> </span><span class="n">ℓ₁</span><span class="w"> </span><span class="n">ℓ₂</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">⟨(</span><span class="n">ddf_critique2_solved_projective_and_trace_renormalized_jamming</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="n">rate1</span><span class="w"> </span><span class="n">rate2</span><span class="w"> </span><span class="n">t</span><span class="o">)</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">ddf_critique2_solved_projective_and_trace_renormalized_jamming</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="n">rate1</span><span class="w"> </span><span class="n">rate2</span><span class="w"> </span><span class="n">t</span><span class="o">)</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">s.ddf_critique3_solved_substrate_parameter_recovery</span><span class="o">)</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">re.quantized_vortex_swirl_from_circulation</span><span class="w"> </span><span class="n">hbar</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="n">ℓ₁</span><span class="w"> </span><span class="n">ℓ₂</span><span class="o">)</span><span class="bp">.</span><span class="mi">1</span><span class="o">⟩</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="master-gr-mathbb-c-2-4-n-ary-gr-mathbb-c-2-n-2-n-ge-3-ddf-sheath-twistor-unification">
+<h2>4. Master <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) DDF Sheath Twistor Unification<a class="headerlink" href="#master-gr-mathbb-c-2-4-n-ary-gr-mathbb-c-2-n-2-n-ge-3-ddf-sheath-twistor-unification" title="Link to this heading">¶</a></h2>
+<section id="binary-n-2-gr-mathbb-c-2-4-ddf-sheath-twistor-matrix-movingsheath-gr24twistormatrix">
+<h3>4.1 Binary (<span class="math notranslate nohighlight">\(N = 2\)</span>) <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF Sheath Twistor Matrix (<code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix</span></code>)<a class="headerlink" href="#binary-n-2-gr-mathbb-c-2-4-ddf-sheath-twistor-matrix-movingsheath-gr24twistormatrix" title="Link to this heading">¶</a></h3>
+<p>For any subluminal <code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code> <span class="math notranslate nohighlight">\(s\)</span> with reduced speed <span class="math notranslate nohighlight">\(\beta(s) = v/c \in [0, 1)\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.beta</span></code>), <code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>) embeds the forward- and reverse-sheared <span class="math notranslate nohighlight">\((\phi \pm \varphi)\)</span> channels into <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+M_{\mathbb{C}}^{\mathrm{DDF}}(s) =
+\begin{pmatrix}
+1 &amp; 1 &amp; 0 &amp; -1 \\
+0 &amp; \sqrt{1 + \beta(s)}\,e^{i\theta} &amp; 1 &amp; \sqrt{1 - \beta(s)}\,e^{-i\theta}
+\end{pmatrix}, \qquad
+\theta = \frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}.
+\end{split}\]</div>
+<p>We prove:</p>
+<ul>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix_madelung_sector_identities</span></code></strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  |w_A^{\mathbb{C}}|^2 = 1 + \beta(s), \quad |w_B^{\mathbb{C}}|^2 = 1 - \beta(s), \quad |w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 = 2, \quad |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = \mathcal{V}(s)^2 = \gamma_\varphi(v)^{-2}.
+  \]</div>
+</li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MovingSheath.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity</span></code></strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  I_{Gr_{\mathbb{C}}(2,4)}^{\times}\!\bigl(M_{\mathbb{C}}^{\mathrm{DDF}}(s); x, y\bigr) = I_{\mathrm{HS,OAM}}\!\bigl(x, y, \phi; \Delta\ell, \gamma_\varphi(v)^{-1}\bigr), \qquad \varepsilon_{\mathrm{rel}} = 0.
+  \]</div>
+</li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">complexGr24_sl2c_crossing_intensity_invariant</span></code></strong>:
+Invariant under any <span class="math notranslate nohighlight">\(B_{\mathbb{C}} \in \mathbb{C}^{2 \times 2}\)</span> with <span class="math notranslate nohighlight">\(|\det B_{\mathbb{C}}|^2 = 1\)</span>.</p></li>
+</ul>
+</section>
+<section id="n-ary-n-ge-3-gr-mathbb-c-2-n-2-channel-matrix-triple-slit-n-3-ddf-sheath-and-sorkin-kappa-3-0">
+<h3>4.2 <span class="math notranslate nohighlight">\(N\)</span>-ary (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Channel Matrix, Triple-Slit (<span class="math notranslate nohighlight">\(N = 3\)</span>) DDF Sheath, and Sorkin <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span><a class="headerlink" href="#n-ary-n-ge-3-gr-mathbb-c-2-n-2-channel-matrix-triple-slit-n-3-ddf-sheath-and-sorkin-kappa-3-0" title="Link to this heading">¶</a></h3>
+<p>To extend the Grassmannian–DDF correspondence to <span class="math notranslate nohighlight">\(N \ge 3\)</span> slits/sinks (triple-slit <span class="math notranslate nohighlight">\(N = 3\)</span>, quadruple-slit <span class="math notranslate nohighlight">\(N = 4\)</span>, and general <span class="math notranslate nohighlight">\(N\)</span>), <code class="docutils literal notranslate"><span class="pre">complexGr2NChannelMatrix</span></code> (<a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>) constructs the canonical <span class="math notranslate nohighlight">\(2 \times (N + 2)\)</span> complex Grassmannian matrix <span class="math notranslate nohighlight">\(M_{\mathbb{C}}^{(N)}(z) \in \mathbb{C}^{2 \times (N + 2)}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+M_{\mathbb{C}}^{(N)}(z) =
+\begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; \cdots &amp; 1 \\
+0 &amp; \sum_{j=0}^{N-1} z_j &amp; z_0 &amp; z_1 &amp; \cdots &amp; z_{N-1}
+\end{pmatrix}.
+\end{split}\]</div>
+<p>We prove in <a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>, <a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>, and <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>:</p>
+<ol class="arabic">
+<li><p><strong><span class="math notranslate nohighlight">\(N\)</span>-ary Plücker Minor &amp; Madelung Sector Laws (<code class="docutils literal notranslate"><span class="pre">complexGr2NChannelMatrix_minors</span></code>, <code class="docutils literal notranslate"><span class="pre">complexGr2N_madelung_sector_identities</span></code>)</strong>:
+For any <span class="math notranslate nohighlight">\(N \in \mathbb{N}\)</span> and <span class="math notranslate nohighlight">\(z_j = \sqrt{w_j}\,e^{i\theta_j}\)</span> (<span class="math notranslate nohighlight">\(w_j \ge 0\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+   \Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = z_j, \qquad \Delta_{j+2, k+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = z_k - z_j, \qquad \Delta_{0, 1}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = \sum_{j=0}^{N-1} \Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr),
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   \bigl|\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr)\bigr|^2 = w_j, \qquad \sum_{j=0}^{N-1} \bigl|\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr)\bigr|^2 = \sum_{j=0}^{N-1} w_j.
+   \]</div>
+</li>
+<li><p><strong>Triple-Slit (<span class="math notranslate nohighlight">\(N = 3\)</span>) Principal Peak, Secondary Null, and Relative Error Law (<code class="docutils literal notranslate"><span class="pre">multiSlitInterferenceFactor_three</span></code>, <code class="docutils literal notranslate"><span class="pre">tripleSlit_peak_and_secondary_null</span></code>, <code class="docutils literal notranslate"><span class="pre">tripleSlit_onAxis_relative_error</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{G}_3(\mathcal{V}, \beta) = 3 + 2\mathcal{V}\bigl(2\cos(2\beta) + \cos(4\beta)\bigr), \qquad \mathcal{G}_3(1, 0) = 9, \qquad \mathcal{G}_3(1, \pi/3) = 0,
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   \varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}^{(3)}(3,0,0,0;\Delta\ell,\mathcal{V}),\,I_{\mathrm{F}}^{(3)}(3,0,0,0;\Delta\ell)\bigr) = \frac{2}{3}(1 - \mathcal{V}).
+   \]</div>
+</li>
+<li><p><strong>Triple-Slit <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,5)\)</span>–DDF Sheath Twistor Matrix &amp; Sorkin <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.gr25TripleSlitTwistorMatrix_madelung_sector_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.gr25TripleSlitTwistorMatrix_zero_shear_eq_fraunhoferMultiSlit</span></code>, <code class="docutils literal notranslate"><span class="pre">sorkinTripleSlitParameter_zero</span></code>)</strong>:
+Embedding a <code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code> <span class="math notranslate nohighlight">\(s\)</span> into <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,5)\)</span> with outer sheared channels <span class="math notranslate nohighlight">\(\mathcal{A}_0 = \sqrt{1+\beta(s)}\,e^{2i\beta_{\mathrm{opt}}}\)</span>, central channel <span class="math notranslate nohighlight">\(\mathcal{A}_1 = 1\)</span>, and <span class="math notranslate nohighlight">\(\mathcal{A}_2 = \sqrt{1-\beta(s)}\,e^{-2i\beta_{\mathrm{opt}}}\)</span> satisfies:</p>
+<div class="math notranslate nohighlight">
+\[
+   |\mathcal{A}_0|^2 + |\mathcal{A}_1|^2 + |\mathcal{A}_2|^2 = 3, \qquad \frac{|\mathcal{A}_0|^2 - |\mathcal{A}_2|^2}{2} = \beta(s), \qquad |\mathcal{A}_0|^2\,|\mathcal{A}_1|^2\,|\mathcal{A}_2|^2 = \gamma_\varphi(v)^{-2},
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   \kappa_3(\mathcal{A}_0, \mathcal{A}_1, \mathcal{A}_2) = |\mathcal{A}_0 + \mathcal{A}_1 + \mathcal{A}_2|^2 - \bigl(|\mathcal{A}_0 + \mathcal{A}_1|^2 + |\mathcal{A}_0 + \mathcal{A}_2|^2 + |\mathcal{A}_1 + \mathcal{A}_2|^2\bigr) + \bigl(|\mathcal{A}_0|^2 + |\mathcal{A}_1|^2 + |\mathcal{A}_2|^2\bigr) = 0,
+   \]</div>
+<p>and at <span class="math notranslate nohighlight">\(v = 0\)</span>, <code class="docutils literal notranslate"><span class="pre">complexGr2NCollectorMultiSlit</span> <span class="pre">3</span></code> matches <code class="docutils literal notranslate"><span class="pre">fraunhoferMultiSlit</span> <span class="pre">3</span></code> with <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span> everywhere.</p>
+</li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 3. Master Gr_C(2,4)-DDF and Triple-Slit (N = 3) Gr_C(2,5)-DDF Unification &amp; Sorkin κ₃ = 0</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Δℓ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_4</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr24TwistorMatrix</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr25TripleSlitTwistorMatrix</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">A0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_5</span><span class="w"> </span><span class="o">(</span><span class="n">narySourceCol</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">narySlitCol</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_5</span><span class="w"> </span><span class="o">(</span><span class="n">narySourceCol</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">narySlitCol</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_5</span><span class="w"> </span><span class="o">(</span><span class="n">narySourceCol</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">narySlitCol</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">    </span><span class="n">complexGr24CrossingDoubleSlit</span><span class="w"> </span><span class="n">M_4</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">huygensSteinerOAMDoubleSlit</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="o">)</span><span class="bp">⁻¹</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">A0</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">A0</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">sorkinTripleSlitParameter</span><span class="w"> </span><span class="n">A0</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">M_4</span><span class="w"> </span><span class="n">M_5</span><span class="w"> </span><span class="n">A0</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="n">A2</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h4</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr25TripleSlitTwistorMatrix_madelung_sector_identities</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">Δℓ</span><span class="w"> </span><span class="n">φ</span><span class="w"> </span><span class="n">x</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h4</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h5</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h5</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h5</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivDDFGrassmannianPaperVerification</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusion-reproducibility">
+<h2>5. Conclusion &amp; Reproducibility<a class="headerlink" href="#conclusion-reproducibility" title="Link to this heading">¶</a></h2>
+<p>By unifying <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> (<span class="math notranslate nohighlight">\(N \ge 3\)</span>) with <code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code>, <code class="docutils literal notranslate"><span class="pre">MovingSheath</span></code>, and <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> in Lean 4 and Rust/WASM (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/double_slit.rs</span></code>), we have proved that optical coherence visibility <span class="math notranslate nohighlight">\(\mathcal{V}\)</span> and the DDF constitutive Lorentz jamming factor <span class="math notranslate nohighlight">\(\gamma_\varphi(v)\)</span> are exact reciprocals (<span class="math notranslate nohighlight">\(\mathcal{V} = \gamma_\varphi(v)^{-1}\)</span>), resolved all three Plücker–DDF–Anosov critique obligations constructively, and extended the Madelung sector and Sorkin <span class="math notranslate nohighlight">\(\kappa_3 = 0\)</span> identities to <span class="math notranslate nohighlight">\(N \ge 3\)</span> multi-slit systems.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>signals_build
+<span class="nb">pushd</span><span class="w"> </span>src/signals
+lake<span class="w"> </span>build<span class="w"> </span>:blueprint<span class="w"> </span>:blueprintJson
+<span class="nb">pushd</span><span class="w"> </span>numerical_adapter
+cargo<span class="w"> </span><span class="nb">test</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--lib<span class="w"> </span>--target<span class="w"> </span>wasm32-unknown-unknown<span class="w"> </span>--release
+<span class="nb">popd</span>
+<span class="nb">popd</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="ddf-fedi2026"></a></p>
+<ol class="arabic simple">
+<li><p>Fedi, M. (2026). <em>Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology</em>. SSRN Preprint 7406660. <a class="reference external" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660">Preprint page</a>; <a class="reference external" href="https://doi.org/10.2139/ssrn.7406660">SSRN DOI</a>.</p></li>
+</ol>
+<p><a id="ddf-partanen2025"></a>
+2. Partanen, M., and Tulkki, J. (2025). <em>Gravity Generated by Four One-Dimensional Unitary Gauge Symmetries and the Standard Model</em>. Reports on Progress in Physics 88, 057802; <a class="reference external" href="https://arxiv.org/abs/2310.01460">arXiv:2506.14447</a>.</p>
+<p><a id="ddf-partanen2025-2"></a>
+3. Partanen, M., and Tulkki, J. (2025). <em>Perihelion precession of planetary orbits solved from quantum field theory</em>.
+<a class="reference external" href="https://arxiv.org/abs/2506.14447">arXiv:2506.14447</a>.</p>
+<p><a id="ddf-qian2023"></a>
+4. Qian, X.-F., and Izadi, M. (2023). <em>Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation</em>. Physical Review Research 5(3), 033110. <a class="reference external" href="https://doi.org/10.1103/PhysRevResearch.5.033110">DOI: 10.1103/PhysRevResearch.5.033110</a>.</p>
+<p><a id="ddf-sorkin1994"></a>
+5. Sorkin, R. D. (1994). <em>Quantum Mechanics as Quantum Measure Theory</em>. Modern Physics Letters A 9(33), 3119–3127. <a class="reference external" href="https://doi.org/10.1142/S021773239400294X">DOI: 10.1142/S021773239400294X</a>; <a class="reference external" href="https://arxiv.org/abs/gr-qc/9401003">arXiv:gr-qc/9401003</a>.</p>
+<p><a id="ddf-chat-plucker-sinks"></a>
+6. Provenance Chat Log (2026). <em>Plücker Channel Weights, Hydrodynamic Sinks, Anosov Flows, and Dilatant Dark Fluid</em>. (<a class="reference download internal" download="" href="_downloads/bed8cbb942b66fb5164a9bf26b97513a/Google-Search_I%27ve-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights%2C-%24w_A-%2B-w_B%24%2C-precisely-equals-a-specific-Pl%C3%BC_20261024-0322.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md,</span> <span class="pre">lines</span> <span class="pre">6-228</span></code></a>).</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">fedi2026ddf</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Fedi, Marco}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Electronic Journal}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Preprint 7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.2139/ssrn.7406660}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">partanen2025gravity</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Partanen, Mikko and Tulkki, Jukka}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Gravity Generated by Four One-Dimensional Unitary Gauge Symmetries and the {S}tandard {M}odel}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Reports on Progress in Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{88}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{057802}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://arxiv.org/abs/2506.14447}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">sorkin1994quantum</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Sorkin, Rafael D.}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantum Mechanics as Quantum Measure Theory}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Modern Physics Letters A}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{9}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{33}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{3119--3127}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1994}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1142/S021773239400294X}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1142/S021773239400294X}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_plucker_sinks_ddf_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{Unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Pl{\"u}cker Channel Weights, Hydrodynamic Sinks, {A}nosov Flows, and {D}ilatant {D}ark {F}luid}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Complex Grassmannian Gr_C(2,4) &amp; N-ary Gr_C(2, N+2) Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plucker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-24"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Dilatant Dark Fluid"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Plucker Coordinates"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Anosov Flows"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Triple-Slit Interferometry"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Sorkin Parameter"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Geometry.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Huygens.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/double_slit.rs"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-qism-bethe-ansatz-paper.html" title="Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-gravity-from-qed-scattering-paper.html" title="Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex \(Gr_{\mathbb{C}}(2,4)\) Orbital Precession, Mercury’s Perihelion, \(N\)-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

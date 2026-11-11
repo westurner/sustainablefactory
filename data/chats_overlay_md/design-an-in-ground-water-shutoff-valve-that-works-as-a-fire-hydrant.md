@@ -1,1 +1,0 @@
-../chats/design-an-in-ground-water-shutoff-valve-that-works-as-a-fire-hydrant.md

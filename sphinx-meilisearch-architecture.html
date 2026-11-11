@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sphinx-Meilisearch Integration Architecture &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Lean Blueprint and Sphinxdocrs Roadmap" href="lean-blueprint-rust-port-plan.html" />
+    <link rel="prev" title="Plan Index: Research, Validation, and Implementation Roadmaps" href="plan-index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Sphinx-Meilisearch Integration Architecture</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#system-architecture">1. System Architecture</a><ul>
+<li><a class="reference internal" href="#components">1.1 Components</a></li>
+<li><a class="reference internal" href="#key-integration-points">1.2 Key Integration Points</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-structure">2. File Structure</a></li>
+<li><a class="reference internal" href="#data-model-indexing-strategy">3. Data Model &amp; Indexing Strategy</a><ul>
+<li><a class="reference internal" href="#document-structure-in-meilisearch">3.1 Document Structure in Meilisearch</a></li>
+<li><a class="reference internal" href="#indexing-strategy">3.2 Indexing Strategy</a><ul>
+<li><a class="reference internal" href="#source-1-chat-exports-json-markdown">Source 1: Chat Exports (JSON/Markdown)</a></li>
+<li><a class="reference internal" href="#source-2-sphinx-html-output">Source 2: Sphinx HTML Output</a></li>
+<li><a class="reference internal" href="#source-3-myst-markdown-source-files">Source 3: MyST Markdown Source Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hook-system-django-haystack-style">4. Hook System (Django-Haystack Style)</a><ul>
+<li><a class="reference internal" href="#sphinx-build-hooks">4.1 Sphinx Build Hooks</a></li>
+<li><a class="reference internal" href="#make-targets-with-hooks">4.2 Make Targets with Hooks</a></li>
+<li><a class="reference internal" href="#file-change-tracking">4.3 File Change Tracking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cli-interface">5. CLI Interface</a></li>
+<li><a class="reference internal" href="#search-ui-integration">6. Search UI Integration</a><ul>
+<li><a class="reference internal" href="#sphinx-pagefind">6.1 Sphinx-Pagefind</a></li>
+<li><a class="reference internal" href="#custom-json-api-search-ui">6.2 Custom JSON API Search UI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#performance-considerations">7. Performance Considerations</a><ul>
+<li><a class="reference internal" href="#batch-indexing">7.1 Batch Indexing</a></li>
+<li><a class="reference internal" href="#selective-re-indexing">7.2 Selective Re-indexing</a></li>
+<li><a class="reference internal" href="#index-management">7.3 Index Management</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integration-with-build-pipeline">8. Integration with Build Pipeline</a><ul>
+<li><a class="reference internal" href="#extended-makefile">8.1 Extended Makefile</a></li>
+<li><a class="reference internal" href="#ci-cd-considerations">8.2 CI/CD Considerations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment-scenarios">9. Deployment Scenarios</a><ul>
+<li><a class="reference internal" href="#local-development">9.1 Local Development</a></li>
+<li><a class="reference internal" href="#container-podman">9.2 Container (Podman)</a></li>
+<li><a class="reference internal" href="#production">9.3 Production</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-enhancements">10. Future Enhancements</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="plan-index.html" title="Plan Index: Research, Validation, and Implementation Roadmaps" accesskey="P">previous </a></li>
+              <li><a href="lean-blueprint-rust-port-plan.html" title="Lean Blueprint and Sphinxdocrs Roadmap" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/sphinx-meilisearch-architecture.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Sphinx-Meilisearch Integration Architecture</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#system-architecture">1. System Architecture</a><ul>
+<li><a class="reference internal" href="#components">1.1 Components</a></li>
+<li><a class="reference internal" href="#key-integration-points">1.2 Key Integration Points</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-structure">2. File Structure</a></li>
+<li><a class="reference internal" href="#data-model-indexing-strategy">3. Data Model &amp; Indexing Strategy</a><ul>
+<li><a class="reference internal" href="#document-structure-in-meilisearch">3.1 Document Structure in Meilisearch</a></li>
+<li><a class="reference internal" href="#indexing-strategy">3.2 Indexing Strategy</a><ul>
+<li><a class="reference internal" href="#source-1-chat-exports-json-markdown">Source 1: Chat Exports (JSON/Markdown)</a></li>
+<li><a class="reference internal" href="#source-2-sphinx-html-output">Source 2: Sphinx HTML Output</a></li>
+<li><a class="reference internal" href="#source-3-myst-markdown-source-files">Source 3: MyST Markdown Source Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hook-system-django-haystack-style">4. Hook System (Django-Haystack Style)</a><ul>
+<li><a class="reference internal" href="#sphinx-build-hooks">4.1 Sphinx Build Hooks</a></li>
+<li><a class="reference internal" href="#make-targets-with-hooks">4.2 Make Targets with Hooks</a></li>
+<li><a class="reference internal" href="#file-change-tracking">4.3 File Change Tracking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cli-interface">5. CLI Interface</a></li>
+<li><a class="reference internal" href="#search-ui-integration">6. Search UI Integration</a><ul>
+<li><a class="reference internal" href="#sphinx-pagefind">6.1 Sphinx-Pagefind</a></li>
+<li><a class="reference internal" href="#custom-json-api-search-ui">6.2 Custom JSON API Search UI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#performance-considerations">7. Performance Considerations</a><ul>
+<li><a class="reference internal" href="#batch-indexing">7.1 Batch Indexing</a></li>
+<li><a class="reference internal" href="#selective-re-indexing">7.2 Selective Re-indexing</a></li>
+<li><a class="reference internal" href="#index-management">7.3 Index Management</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integration-with-build-pipeline">8. Integration with Build Pipeline</a><ul>
+<li><a class="reference internal" href="#extended-makefile">8.1 Extended Makefile</a></li>
+<li><a class="reference internal" href="#ci-cd-considerations">8.2 CI/CD Considerations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment-scenarios">9. Deployment Scenarios</a><ul>
+<li><a class="reference internal" href="#local-development">9.1 Local Development</a></li>
+<li><a class="reference internal" href="#container-podman">9.2 Container (Podman)</a></li>
+<li><a class="reference internal" href="#production">9.3 Production</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-enhancements">10. Future Enhancements</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="plan-index.html"
+                          title="previous chapter">Plan Index: Research, Validation, and Implementation Roadmaps</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="lean-blueprint-rust-port-plan.html"
+                          title="next chapter">Lean Blueprint and Sphinxdocrs Roadmap</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sphinx-meilisearch-architecture.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sphinx-meilisearch-integration-architecture">
+<h1>Sphinx-Meilisearch Integration Architecture<a class="headerlink" href="#sphinx-meilisearch-integration-architecture" title="Link to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>This document outlines the architecture for integrating Meilisearch full-text search with Sphinx documentation, enabling efficient indexing of chat exports, processed markdown, and HTML documentation.</p>
+</section>
+<hr class="docutils" />
+<section id="system-architecture">
+<h2>1. System Architecture<a class="headerlink" href="#system-architecture" title="Link to this heading">¶</a></h2>
+<section id="components">
+<h3>1.1 Components<a class="headerlink" href="#components" title="Link to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────┐
+│                    Data Processing Pipeline                 │
+└─────────────────────────────────────────────────────────────┘
+         ↓
+    data/chats/          ──→  transform-md  ──→  docs/chats/
+    (.md, .json)                                  (.myst.md, .ipynb)
+         ↓                                               ↓
+    sphinx/              ──→  docs/_build/html/        │
+    .rst, .md                                          ↓
+         ↓                                          ┌──────────────────┐
+         └──────────────────────→  Meilisearch  ←─┤  Indexer Module  │
+                                  (Port 7700)     └──────────────────┘
+                                       ↓
+                              ┌────────────────────┐
+                              │  Search UI / API   │
+                              │  (sphinx-pagefind  │
+                              │   or custom)       │
+                              └────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="key-integration-points">
+<h3>1.2 Key Integration Points<a class="headerlink" href="#key-integration-points" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Document Sources</strong>: Chat exports (JSON/Markdown), Sphinx-built HTML, MyST markdown</p></li>
+<li><p><strong>Indexing Strategy</strong>:</p>
+<ul class="simple">
+<li><p>Index raw chats by segments</p></li>
+<li><p>Index HTML build output by sections</p></li>
+<li><p>Index source markdown for development</p></li>
+</ul>
+</li>
+<li><p><strong>Index Management</strong>:</p>
+<ul class="simple">
+<li><p>Track file modifications with inode/hash</p></li>
+<li><p>Rebuild on <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> via hooks</p></li>
+<li><p>Batch operations for performance</p></li>
+</ul>
+</li>
+<li><p><strong>Search UI</strong>:</p>
+<ul class="simple">
+<li><p>Sphinx-pagefind for static site search</p></li>
+<li><p>JSON API for programmatic access</p></li>
+<li><p>Snippet highlighting and relevance ranking</p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>Native Sphinx search and optional DocIndex search are separate modes;
+configure the enhanced UI with <code class="docutils literal notranslate"><span class="pre">docindex_searchtools_enhanced</span></code> and
+<code class="docutils literal notranslate"><span class="pre">docindex_searchtools</span></code> in <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinxcontrib.webmcp</span></code> exposes the same public search modes, navigation,
+page context, and compact doctree metadata through <code class="docutils literal notranslate"><span class="pre">document.modelContext</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="file-structure">
+<h2>2. File Structure<a class="headerlink" href="#file-structure" title="Link to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sustainablefactory/
+├── Dockerfile.meilisearch          # Fedora toolbox container
+├── requirements-meilisearch.txt    # Python dependencies
+├── src/
+│   └── meilisearch_integration/   # New module
+│       ├── __init__.py
+│       ├── config.py               # Configuration and schemas
+│       ├── indexer.py              # Core indexing logic
+│       ├── chat_parser.py          # Chat extraction module
+│       ├── html_parser.py          # HTML section parser
+│       ├── hooks.py                # Sphinx/Make hooks
+│       ├── api.py                  # Meilisearch API wrapper
+│       └── cli.py                  # CLI commands
+├── docs/
+│   └── search-config.json          # Search UI configuration
+├── Makefile                        # Updated with meilisearch targets
+├── pyproject.toml                  # Updated with search dependencies
+└── .env.meilisearch               # Configuration (local only)
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="data-model-indexing-strategy">
+<h2>3. Data Model &amp; Indexing Strategy<a class="headerlink" href="#data-model-indexing-strategy" title="Link to this heading">¶</a></h2>
+<section id="document-structure-in-meilisearch">
+<h3>3.1 Document Structure in Meilisearch<a class="headerlink" href="#document-structure-in-meilisearch" title="Link to this heading">¶</a></h3>
+<p>Each indexed document represents a <strong>searchable unit</strong> (can vary by source):</p>
+<div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Chat document (from docs/chats/)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                        </span><span class="c1">// Unique identifier: "chat_&lt;filename&gt;_&lt;segment&gt;"</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s2">"chat"</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                     </span><span class="c1">// Chat title from metadata</span>
+<span class="w">  </span><span class="nx">filename</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                  </span><span class="c1">// Original filename</span>
+<span class="w">  </span><span class="nx">segment_index</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w">             </span><span class="c1">// Segment number within chat</span>
+<span class="w">  </span><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                   </span><span class="c1">// Text content (max 100KB per document)</span>
+<span class="w">  </span><span class="nx">summary</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                   </span><span class="c1">// Optional AI-generated summary</span>
+<span class="w">  </span><span class="nx">metadata</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">source_file</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">chat_type</span><span class="o">:</span><span class="w"> </span><span class="s2">"gemini"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"copilot"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"custom"</span>
+<span class="w">    </span><span class="nx">tags</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span>
+<span class="w">    </span><span class="nx">date_indexed</span><span class="o">:</span><span class="w"> </span><span class="kt">ISO8601</span>
+<span class="w">    </span><span class="nx">concepts</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span><span class="w">              </span><span class="c1">// Extracted entities/concepts</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="nx">relevance_score</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w">           </span><span class="c1">// Set during search</span>
+<span class="p">}</span>
+
+<span class="c1">// Sphinx HTML document (from docs/_build/html/)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                        </span><span class="c1">// "html_&lt;page_path&gt;_&lt;section_id&gt;"</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s2">"sphinx"</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                     </span><span class="c1">// Page/section title</span>
+<span class="w">  </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                       </span><span class="c1">// Relative URL path</span>
+<span class="w">  </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                      </span><span class="c1">// File path in _build/html/</span>
+<span class="w">  </span><span class="nx">section_title</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">             </span><span class="c1">// Heading text</span>
+<span class="w">  </span><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                   </span><span class="c1">// HTML converted to text</span>
+<span class="w">  </span><span class="nx">code_snippets</span><span class="o">:</span><span class="w"> </span><span class="kt">CodeSnippet</span><span class="p">[]</span><span class="w">      </span><span class="c1">// Extracted code blocks</span>
+<span class="w">  </span><span class="nx">metadata</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">source_file</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">heading_level</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w">           </span><span class="c1">// 1-6</span>
+<span class="w">    </span><span class="nx">breadcrumb</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span>
+<span class="w">    </span><span class="nx">last_built</span><span class="o">:</span><span class="w"> </span><span class="kt">ISO8601</span>
+<span class="w">    </span><span class="nx">sphinx_role</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">             </span><span class="c1">// e.g., "doc", "ref", "py:class"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// MyST Markdown document (from docs/chats/)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w">                        </span><span class="c1">// "myst_&lt;filename&gt;"</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s2">"myst"</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="nx">filename</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="nx">frontmatter</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">any</span><span class="o">&gt;</span>
+<span class="w">  </span><span class="nx">metadata</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">source_file</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">last_modified</span><span class="o">:</span><span class="w"> </span><span class="kt">ISO8601</span>
+<span class="w">    </span><span class="nx">word_count</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="indexing-strategy">
+<h3>3.2 Indexing Strategy<a class="headerlink" href="#indexing-strategy" title="Link to this heading">¶</a></h3>
+<section id="source-1-chat-exports-json-markdown">
+<h4>Source 1: Chat Exports (JSON/Markdown)<a class="headerlink" href="#source-1-chat-exports-json-markdown" title="Link to this heading">¶</a></h4>
+<p><strong>Input</strong>: <code class="docutils literal notranslate"><span class="pre">data/chats/*.json</span></code> or <code class="docutils literal notranslate"><span class="pre">docs/chats/*.myst.md</span></code>
+<strong>Strategy</strong>: Split by conversation turns or sections
+<strong>Frequency</strong>: On-demand or via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">meilisearch_index_chats</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pseudocode: chat_parser.py</span>
+<span class="k">for</span> <span class="n">chat_file</span> <span class="ow">in</span> <span class="n">docs</span><span class="o">/</span><span class="n">chats</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">file_extension</span> <span class="o">==</span> <span class="s1">'.json'</span><span class="p">:</span>
+        <span class="n">turns</span> <span class="o">=</span> <span class="n">parse_json_turns</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Document</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">"chat_</span><span class="si">{</span><span class="n">stem</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s2">"chat"</span><span class="p">,</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">turn</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"turn"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"role"</span><span class="p">:</span> <span class="n">turn</span><span class="p">[</span><span class="s2">"role"</span><span class="p">]}</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">turn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">turns</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">elif</span> <span class="n">file_extension</span> <span class="o">==</span> <span class="s1">'.myst.md'</span><span class="p">:</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="n">split_by_markdown_headings</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Document</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">"chat_</span><span class="si">{</span><span class="n">stem</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s2">"chat"</span><span class="p">,</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">section</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">extract_heading</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">section</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="n">meilisearch</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="source-2-sphinx-html-output">
+<h4>Source 2: Sphinx HTML Output<a class="headerlink" href="#source-2-sphinx-html-output" title="Link to this heading">¶</a></h4>
+<p><strong>Input</strong>: <code class="docutils literal notranslate"><span class="pre">docs/_build/html/</span></code>
+<strong>Strategy</strong>: Parse HTML, extract sections by heading levels
+<strong>Frequency</strong>: Automatic after <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> (via hook)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pseudocode: html_parser.py</span>
+<span class="k">for</span> <span class="n">html_file</span> <span class="ow">in</span> <span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">html_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'.html'</span><span class="p">):</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="n">extract_sections_from_html</span><span class="p">(</span><span class="n">html_file</span><span class="p">)</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Document</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">"html_</span><span class="si">{</span><span class="n">page_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">section_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s2">"sphinx"</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">section</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">section</span><span class="p">[</span><span class="s2">"text"</span><span class="p">],</span>
+                <span class="n">url</span><span class="o">=</span><span class="n">section</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">"heading_level"</span><span class="p">:</span> <span class="n">section</span><span class="p">[</span><span class="s2">"level"</span><span class="p">],</span>
+                    <span class="s2">"breadcrumb"</span><span class="p">:</span> <span class="n">section</span><span class="p">[</span><span class="s2">"breadcrumb"</span><span class="p">]</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">section_id</span><span class="p">,</span> <span class="n">section</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">meilisearch</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="source-3-myst-markdown-source-files">
+<h4>Source 3: MyST Markdown Source Files<a class="headerlink" href="#source-3-myst-markdown-source-files" title="Link to this heading">¶</a></h4>
+<p><strong>Input</strong>: <code class="docutils literal notranslate"><span class="pre">docs/*.myst.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/chats/*.myst.md</span></code>
+<strong>Strategy</strong>: Index entire file + extract sections
+<strong>Frequency</strong>: On-demand via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">meilisearch_index_myst</span></code></p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hook-system-django-haystack-style">
+<h2>4. Hook System (Django-Haystack Style)<a class="headerlink" href="#hook-system-django-haystack-style" title="Link to this heading">¶</a></h2>
+<section id="sphinx-build-hooks">
+<h3>4.1 Sphinx Build Hooks<a class="headerlink" href="#sphinx-build-hooks" title="Link to this heading">¶</a></h3>
+<p>Integrate with Sphinx’s event system to auto-index on document changes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sustainablefactory/src/meilisearch_integration/hooks.py</span>
+
+<span class="c1"># Hook into Sphinx config</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Register Sphinx event handlers for Meilisearch indexing."""</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"config-inited"</span><span class="p">,</span> <span class="n">on_config_inited</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"build-finished"</span><span class="p">,</span> <span class="n">on_build_finished</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"env-updated"</span><span class="p">,</span> <span class="n">on_env_updated</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">on_config_inited</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Initialize Meilisearch client on Sphinx startup."""</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">meilisearch_enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">meilisearch_host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MEILISEARCH_HOST"</span><span class="p">,</span> <span class="s2">"localhost"</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">meilisearch_port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MEILISEARCH_PORT"</span><span class="p">,</span> <span class="mi">7700</span><span class="p">))</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">meilisearch_api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MEILISEARCH_API_KEY"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">on_build_finished</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Index HTML documents after build completion."""</span>
+    <span class="k">if</span> <span class="n">exception</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">meilisearch_enabled</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Indexing Sphinx HTML output to Meilisearch..."</span><span class="p">)</span>
+    <span class="n">indexer</span> <span class="o">=</span> <span class="n">SphinxHTMLIndexer</span><span class="p">(</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">meilisearch_host</span><span class="p">,</span>
+        <span class="n">port</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">meilisearch_port</span>
+    <span class="p">)</span>
+    <span class="n">indexer</span><span class="o">.</span><span class="n">index_html_build</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">outdir</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">on_env_updated</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Track document changes for selective re-indexing."""</span>
+    <span class="c1"># Get list of updated files from Sphinx environment</span>
+    <span class="n">changed_files</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get_updated_docs</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Updated docs: </span><span class="si">{</span><span class="n">changed_files</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="make-targets-with-hooks">
+<h3>4.2 Make Targets with Hooks<a class="headerlink" href="#make-targets-with-hooks" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="c"># Makefile additions</span>
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">meilisearch_start</span>
+<span class="nf">meilisearch_start</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"meilisearch_start  #  Start Meilisearch server"</span>
+<span class="w">	</span>podman<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">7700</span>:7700<span class="w"> </span>-e<span class="w"> </span><span class="nv">MEILI_MASTER_KEY</span><span class="o">=</span>dev-key<span class="w"> </span><span class="se">\</span>
+<span class="w">		</span>--name<span class="w"> </span>meilisearch-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">		</span>sustainablefactory-meilisearch:latest
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">meilisearch_stop</span>
+<span class="nf">meilisearch_stop</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"meilisearch_stop  #  Stop Meilisearch server"</span>
+<span class="w">	</span>podman<span class="w"> </span>stop<span class="w"> </span>meilisearch-dev<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">	</span>podman<span class="w"> </span>rm<span class="w"> </span>meilisearch-dev<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">meilisearch_index_chats</span>
+<span class="nf">meilisearch_index_chats</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"meilisearch_index_chats  #  Index chat exports to Meilisearch"</span>
+<span class="w">	</span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>index-chats<span class="w"> </span>--source<span class="w"> </span>docs/chats
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">meilisearch_index_html</span>
+<span class="nf">meilisearch_index_html</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"meilisearch_index_html  #  Index Sphinx HTML to Meilisearch"</span>
+<span class="w">	</span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>index-html<span class="w"> </span>--source<span class="w"> </span>docs/_build/html
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">meilisearch_index_all</span>
+<span class="nf">meilisearch_index_all</span><span class="o">:</span><span class="w"> </span><span class="n">meilisearch_index_chats</span> <span class="n">meilisearch_index_html</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"meilisearch_index_all  #  Index all sources"</span>
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">build_with_search</span>
+<span class="nf">build_with_search</span><span class="o">:</span><span class="w"> </span><span class="n">build</span> <span class="n">meilisearch_index_html</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"build_with_search  #  Build docs and index to Meilisearch"</span>
+</pre></div>
+</div>
+</section>
+<section id="file-change-tracking">
+<h3>4.3 File Change Tracking<a class="headerlink" href="#file-change-tracking" title="Link to this heading">¶</a></h3>
+<p>Use file hashing to avoid re-indexing unchanged documents:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sustainablefactory/src/meilisearch_integration/cache.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">IndexCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Track file hashes to detect changes."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">".meilisearch_cache"</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache_file</span> <span class="o">=</span> <span class="n">cache_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_cache</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">file_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if file has been modified since last index."""</span>
+        <span class="n">new_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="n">old_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">new_hash</span> <span class="o">!=</span> <span class="n">old_hash</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)]</span> <span class="o">=</span> <span class="n">new_hash</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_changed_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get list of changed files in directory."""</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">directory</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_changed</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cli-interface">
+<h2>5. CLI Interface<a class="headerlink" href="#cli-interface" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Index chat exports</span>
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>index-chats<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source<span class="w"> </span>docs/chats<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--batch-size<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--skip-unchanged
+
+<span class="c1"># Index Sphinx HTML</span>
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>index-html<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source<span class="w"> </span>docs/_build/html<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headings<span class="w"> </span><span class="m">1</span>-3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exclude-pages<span class="w"> </span><span class="s2">"genindex,search,modindex"</span>
+
+<span class="c1"># Manage indices</span>
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>list-indices
+
+<span class="c1"># Clear index</span>
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>clear-index<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--index<span class="w"> </span>chats<span class="w"> </span>--confirm
+
+<span class="c1"># Search (testing)</span>
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"lignin vitrimer"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--index<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--limit<span class="w"> </span><span class="m">10</span>
+
+<span class="c1"># Status</span>
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span>status
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="search-ui-integration">
+<h2>6. Search UI Integration<a class="headerlink" href="#search-ui-integration" title="Link to this heading">¶</a></h2>
+<section id="sphinx-pagefind">
+<h3>6.1 Sphinx-Pagefind<a class="headerlink" href="#sphinx-pagefind" title="Link to this heading">¶</a></h3>
+<p><a class="reference external" href="https://github.com/lelouch77/sphinx-pagefind">Sphinx-Pagefind</a> provides static site search without requiring a server.</p>
+<p><strong>Configuration</strong> (<code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'sphinx_pagefind'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">sphinx_pagefind_excluded_extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'.pdf'</span><span class="p">,</span> <span class="s1">'.zip'</span><span class="p">]</span>
+<span class="n">sphinx_pagefind_root_selector</span> <span class="o">=</span> <span class="s1">'div.main-content'</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-json-api-search-ui">
+<h3>6.2 Custom JSON API Search UI<a class="headerlink" href="#custom-json-api-search-ui" title="Link to this heading">¶</a></h3>
+<p>Lightweight HTML/JS interface querying Meilisearch directly:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- docs/_static/meilisearch-search.html --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"meilisearch-search"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">id</span><span class="o">=</span><span class="s">"search-input"</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">"Search docs and chats..."</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"search-results"</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">MEILISEARCH_HOST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'http://localhost:7700'</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">searchInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'search-input'</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">resultsDiv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'search-results'</span><span class="p">);</span>
+
+<span class="nx">searchInput</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'input'</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">query</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">MEILISEARCH_HOST</span><span class="si">}</span><span class="sb">/indexes/all/search`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">'POST'</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s1">'Content-Type'</span><span class="o">:</span><span class="w"> </span><span class="s1">'application/json'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">q</span><span class="o">:</span><span class="w"> </span><span class="nx">query</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">displayResults</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">hits</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'Search error:'</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">displayResults</span><span class="p">(</span><span class="nx">hits</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">resultsDiv</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">hits</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">hit</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">    &lt;div class="search-result"&gt;</span>
+<span class="sb">      &lt;h3&gt;&lt;a href="</span><span class="si">${</span><span class="nx">hit</span><span class="p">.</span><span class="nx">url</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'#'</span><span class="si">}</span><span class="sb">"&gt;</span><span class="si">${</span><span class="nx">hit</span><span class="p">.</span><span class="nx">title</span><span class="si">}</span><span class="sb">&lt;/a&gt;&lt;/h3&gt;</span>
+<span class="sb">      &lt;p&gt;</span><span class="si">${</span><span class="nx">hit</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">150</span><span class="p">)</span><span class="si">}</span><span class="sb">...&lt;/p&gt;</span>
+<span class="sb">    &lt;/div&gt;</span>
+<span class="sb">  `</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-considerations">
+<h2>7. Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">¶</a></h2>
+<section id="batch-indexing">
+<h3>7.1 Batch Indexing<a class="headerlink" href="#batch-indexing" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Batch documents to avoid hitting Meilisearch limits</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">index_documents_batched</span><span class="p">(</span><span class="n">documents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">documents</span><span class="p">),</span> <span class="n">BATCH_SIZE</span><span class="p">):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BATCH_SIZE</span><span class="p">]</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'all'</span><span class="p">)</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Indexed batch </span><span class="si">{</span><span class="n">i</span><span class="o">//</span><span class="n">BATCH_SIZE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="selective-re-indexing">
+<h3>7.2 Selective Re-indexing<a class="headerlink" href="#selective-re-indexing" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Track file hashes to skip unchanged files</p></li>
+<li><p>Use Meilisearch’s <code class="docutils literal notranslate"><span class="pre">updateDocuments</span></code> for modifications only</p></li>
+<li><p>Implement incremental indexing for large builds</p></li>
+</ul>
+</section>
+<section id="index-management">
+<h3>7.3 Index Management<a class="headerlink" href="#index-management" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Meilisearch settings for optimal search</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"searchableAttributes"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"title"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">,</span>
+        <span class="s2">"summary"</span><span class="p">,</span>
+        <span class="s2">"concepts"</span>
+    <span class="p">],</span>
+    <span class="s2">"filterableAttributes"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"type"</span><span class="p">,</span>
+        <span class="s2">"date_indexed"</span><span class="p">,</span>
+        <span class="s2">"filename"</span>
+    <span class="p">],</span>
+    <span class="s2">"sortableAttributes"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"date_indexed"</span>
+    <span class="p">],</span>
+    <span class="s2">"synonyms"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"lignin"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"kraft lignin"</span><span class="p">,</span> <span class="s2">"kraft-lignin"</span><span class="p">,</span> <span class="s2">"lig"</span><span class="p">],</span>
+        <span class="s2">"vitrimer"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"vitrimer polymer"</span><span class="p">,</span> <span class="s2">"vitrimeric"</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="integration-with-build-pipeline">
+<h2>8. Integration with Build Pipeline<a class="headerlink" href="#integration-with-build-pipeline" title="Link to this heading">¶</a></h2>
+<section id="extended-makefile">
+<h3>8.1 Extended Makefile<a class="headerlink" href="#extended-makefile" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">build</span>
+<span class="nf">build</span><span class="o">:</span><span class="w"> </span><span class="n">aggregate_data</span> <span class="n">transform_md_all</span> <span class="n">docs</span> <span class="n">meilisearch_index_html</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"build  #  Full build pipeline with search indexing"</span>
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">rebuild_index</span>
+<span class="nf">rebuild_index</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"rebuild_index  #  Force full re-index of all sources"</span>
+<span class="w">	</span>python3<span class="w"> </span>-m<span class="w"> </span>sustainablefactory.meilisearch_integration.cli<span class="w"> </span><span class="se">\</span>
+<span class="w">		</span>clear-index<span class="w"> </span>--index<span class="w"> </span>all<span class="w"> </span>--confirm
+<span class="w">	</span><span class="k">$(</span>MAKE<span class="k">)</span><span class="w"> </span>meilisearch_index_all
+</pre></div>
+</div>
+</section>
+<section id="ci-cd-considerations">
+<h3>8.2 CI/CD Considerations<a class="headerlink" href="#ci-cd-considerations" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Index builds in CI to pre-populate production Meilisearch</p></li>
+<li><p>Store index data in persistent volume for containerized deployments</p></li>
+<li><p>Export/import indices for multi-environment consistency</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="deployment-scenarios">
+<h2>9. Deployment Scenarios<a class="headerlink" href="#deployment-scenarios" title="Link to this heading">¶</a></h2>
+<section id="local-development">
+<h3>9.1 Local Development<a class="headerlink" href="#local-development" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start Meilisearch</span>
+make<span class="w"> </span>meilisearch_start
+
+<span class="c1"># Build docs and index</span>
+make<span class="w"> </span>build_with_search
+
+<span class="c1"># Serve with search</span>
+make<span class="w"> </span>serve
+</pre></div>
+</div>
+</section>
+<section id="container-podman">
+<h3>9.2 Container (Podman)<a class="headerlink" href="#container-podman" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build container</span>
+podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>Dockerfile.meilisearch<span class="w"> </span>-t<span class="w"> </span>sustainablefactory-search:latest
+
+<span class="c1"># Run with volumes</span>
+podman<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">7700</span>:7700<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/workspace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">MEILISEARCH_MASTER_KEY</span><span class="o">=</span>prod-key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sustainablefactory-search:latest
+</pre></div>
+</div>
+</section>
+<section id="production">
+<h3>9.3 Production<a class="headerlink" href="#production" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Run Meilisearch as a separate service</p></li>
+<li><p>Use persistent storage for indices</p></li>
+<li><p>Implement authentication/rate limiting</p></li>
+<li><p>Cache search results at CDN layer</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="future-enhancements">
+<h2>10. Future Enhancements<a class="headerlink" href="#future-enhancements" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>GraphRAG Integration</strong>: Use Meilisearch as vector store for graph-based retrieval</p></li>
+<li><p><strong>Semantic Search</strong>: Add embedding-based search using sentence-transformers</p></li>
+<li><p><strong>Analytics</strong>: Track popular searches, query patterns</p></li>
+<li><p><strong>Auto-suggestions</strong>: Implement query completion with entity extraction</p></li>
+<li><p><strong>Faceted Search</strong>: Enable filtering by document type, date, concepts</p></li>
+<li><p><strong>Multi-language Support</strong>: Lemmatization and language-specific analyzers</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.meilisearch.com/">Meilisearch Documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/lelouch77/sphinx-pagefind">Sphinx-Pagefind</a></p></li>
+<li><p><a class="reference external" href="https://django-haystack.readthedocs.io/">Django-Haystack (Hook System Reference)</a></p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/extdev/appapi.html#event-api">Sphinx Events</a></p></li>
+</ul>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="plan-index.html" title="Plan Index: Research, Validation, and Implementation Roadmaps" >previous</a></li>
+        <li><a href="lean-blueprint-rust-port-plan.html" title="Lean Blueprint and Sphinxdocrs Roadmap" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

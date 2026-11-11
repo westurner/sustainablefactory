@@ -1,0 +1,700 @@
+# sustainablefactory - Agent Specialization Guide
+
+This document defines specialized agents and their purposes for working with the sustainablefactory project. Use these agent descriptions to guide your work on specific tasks.
+
+## Research Evidence and Signals Workflow
+
+Use the reusable workspace skills for chat-derived physics, engineering, and
+process work:
+
+- [Research evidence triage](.agents/skills/research-evidence-triage/SKILL.md)
+  searches the chat corpus, deduplicates sources, captures file-and-line
+  citations, checks scholarly provenance, and assigns an evidence status.
+- [Signals evidence modeling](.agents/skills/signals-evidence-modeling/SKILL.md)
+  maps that status to the smallest verified Signals model, Pending contract,
+  process/catalog entry, focused test, and documentation update.
+
+Keep the following boundaries visible throughout the workflow:
+
+1. Chat text is design evidence and provenance, not a measurement by itself.
+2. A checked equation or type-correct record proves only the consequences of
+  its supplied fields; it does not validate the material, hardware, or
+  physical premise.
+3. Missing units, calibration, uncertainty, loss, controls, conservation
+  accounting, or reproducible data keep a result in Pending or catalog-only
+  status.
+4. Every substantive chat-derived statement in a report or catalog needs a
+  directly searched source file and line reference.
+
+For model changes, start with the owning module and a nearby test, make one
+small falsifiable change, run the focused check, then run `make signals_build`
+from the repository root.
+If documentation changed, also run `make -C docs html` and `git diff --check`.
+
+For long Lean builds, report the final Lake job total and first failing module
+after the command exits instead of polling or emitting per-job progress. On
+2026-10-04, `lake build QEC.Stabilizer.Codes.Layer` completed successfully
+at 3,147/3,147 jobs. An earlier run failed at 3,141/3,147 in `Codespace.lean`
+and `LogicalGateGroup.lean`. This is an observed build-graph size, not a
+build-time benchmark.
+
+## Markdown Math and Table Hygiene
+
+For MyST documents under `docs/` and `src/signals/docs/`, prevent delimiter
+errors at authoring time:
+
+- Use single-dollar delimiters for inline math: `$x^2 + y^2$`.
+- Put display math on its own lines, with a blank line before and after the
+  block. This is especially important inside list items:
+  ```markdown
+  1. Statement introducing the equation.
+
+     $$
+     \omega^2 = c^2 k^2 + c^2 m^2
+     $$
+
+     Continue the explanation in a new paragraph.
+  ```
+- Do not write display equations as `$$...$$` in the middle of prose. Use
+  `$...$` for short inline expressions; put longer equations in standalone
+  display blocks.
+- In Markdown table rows that start with `|`, escape every pipe belonging to
+  LaTeX with `\|` so the table parser does not treat it as a cell boundary:
+  ```markdown
+  | Quantity | Formula |
+  | --- | --- |
+  | Amplitude | $\|w_A\|^2 + \|w_B\|^2$ |
+  ```
+- Keep math examples inside fenced code blocks when documenting syntax, so
+  scanners do not treat examples as live source.
+
+`docs/conf.py` enables MyST dollar math and AMS math. If a render issue occurs,
+run the report-only fixers on the affected file first:
+
+```bash
+python3 tools/fix_markdown_table_math_pipes.py --file docs/example.md \
+  --report .tmp/example-table-math-pipes.json
+python3 tools/fix_markdown_display_math_spacing.py --file docs/example.md \
+  --report .tmp/example-display-math-spacing.json
+```
+
+Review the JSON findings, then rerun the relevant command with `--fix` to apply
+the scoped changes. The table-pipe fixer also accepts files under
+`src/signals/docs/`; pass those paths explicitly. The display-math scanner
+checks long same-line `$$...$$` candidates (64 TeX characters by default); use
+`--inline-math-min-length` only when intentionally auditing shorter candidates.
+Both fixers verify their changes with a second scan. Do not run `--fix` over an
+entire corpus without reviewing the report first.
+
+After fixing documentation, run `make -C docs html` and inspect the affected
+page in a browser. Confirm prose stays outside math spans, formulas have MathJax
+output, and there are no `mjx-merror` nodes or console/page errors.
+
+### Recommended Documentation Edit Loop
+
+1. Edit the authoritative source. For generated chat pages, update the input
+  under `data/chats/` or the transform configuration and regenerate the
+  output; do not patch `docs/_build/` or a generated copy alone.
+2. Audit each changed Markdown file with both fixers in report-only mode. For
+  `docs/example.md`, use `--root docs --file docs/example.md`; for
+  `src/signals/docs/example.md`, use `--root src/signals/docs --file
+  src/signals/docs/example.md`. Write reports under `.tmp/`.
+3. Review each JSON report and apply `--fix` only to the scoped files. Keep the
+  report as a record of what changed; do not lower
+  `--inline-math-min-length` unless intentionally investigating shorter
+  same-line `$$...$$` candidates.
+4. Run `pytest -q tests/test_markdown_display_math_spacing.py
+  tests/test_markdown_table_math_pipes.py`, then `make -C docs html` and
+  `git diff --check`.
+5. Inspect the affected generated page in a browser. Verify formulas have
+  MathJax output, surrounding prose is not captured as math, and the page has
+  no `mjx-merror` nodes or console/page errors.
+
+Fix source delimiters before changing global MathJax configuration. Change
+`mathjax_path` or MathJax settings only when the failure reproduces across
+correctly delimited source and is attributable to site-wide rendering setup.
+
+## GPE Terminology
+
+The Signals Pending model uses distinct records for the three meanings that
+have been abbreviated as “iGPE” in the research chats:
+
+- `InverseGPEPoint` is an inverse GPE record. It reconstructs the potential
+  from a nonzero wavefunction and supplied derivative data.
+- `InhomogeneousGPEPoint` is an inhomogeneous GPE record. It includes an
+  explicit external source term in the local balance.
+- `InteractiveGPEPoint` is the nonlinear interactive GPE record. The existing
+  `IGPEPoint` name is retained as a compatibility alias for this record.
+
+The shared role tag is `GPEVariant`. These are normalized pointwise model
+records, not claims that a particular physical medium realizes the equations.
+Use the definitions and accessor lemmas in
+[`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) when
+adding tests or extending the SQG model.
+
+## Atmospheric Scavenging and Panel Plumes
+
+The attached atmospheric-scavenging proposal is represented as Pending model
+data in the same module. `AtmosphericSpecies`, `TensorGaussianSplat`, and
+`AtmosphericMixture` preserve species-dependent mass, partial density,
+temperature, and covariance. `AtmosphericScavenging` uses bounded acceptance
+factors to represent a finite normalized gate-overlap approximation.
+
+`PhaseSlipHomogenization` makes common output velocity and collapsed output
+covariance explicit assumptions. They must not be described as experimentally
+verified homogenization of air. `SquarePanelPlume.edgeShearIndicator` is a
+classical residual edge-shear risk proxy: apodization can lower the proxy, but
+the model does not establish zero turbulence, zero acoustic output, or zero
+shock formation. Extend these records with dimensioned conservation laws,
+compressible-flow validation, and measured boundary conditions before making
+performance claims. `DimensionedScavengingFlow` and
+`ClassicalControlVolume` provide the first dimension-labeled calibration and
+conservation boundary. `FlowBoundaryCondition` and
+`FlowBoundaryObservation` provide pressure, heat-flux, and vector-velocity
+residuals. Do not treat any of these records as evidence that phase-slip
+homogenization or a turbulence-free plume exists; connect them to measured or
+compressible-flow data first.
+
+## Dielectric Waveguides and CW Modes
+
+`Signals.Antennas` contains the generic classical envelope:
+Lignin-Vitrimer dielectric inputs, directional broadband antenna kinematics
+with volume-distributed polarization currents, separate phase-pattern/group/
+information speeds, passive power accounting, CW resonator enhancement and
+loss, Rydberg-EIT Stark-response metrology, and a `CWApplication` requirement
+matrix for the application families in the IQ Myst document.
+`CWApplicationReadiness` records the explicit active-mask,
+convergent-beam, range-modulation, and causal-envelope conditions.
+
+`LightSlingerProcaCoupling` and `CWProcaEmissionHypothesis` in
+[`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) are
+conditional interfaces. They require explicit frequency matching, positive
+Proca mass, longitudinal mode labeling, and nonzero coupling. CW operation,
+resonance, a longitudinal field component, or a superluminal phase/spot speed
+must not be described as evidence of massive-mode generation, FTL information,
+SQG, or vacuum fracture. Promote none of these interpretations without
+polarization-resolved measurements, mode-conversion efficiency, power/loss
+accounting, and causal waveform controls.
+
+## Nondestructive Measurement and Testing
+
+`Signals.NonDestructive` distinguishes non-destructive inspection from stronger
+quantum and reversible-operation claims. `InspectionMethod` and
+`InspectionRecord` cover THz, mmWave, resonant-frequency,
+optical-interferometry, ultrasonic, eddy-current, thermal, fiber, acoustic,
+infrared, and RFID inspection paths. `PhaseFingerprint` and `DispersiveReadout`
+preserve their respective modeled state and energy invariants, while the phase
+fingerprint also preserves target polarization and the readout records probe
+response and probe-energy invariants. `CalibrationRecord` preserves raw readings while applying a
+calibration, `ReversibleOperation` records explicit restoration,
+`InSituRemediation` records a non-decreasing integrity bound, and
+`NonDestructiveRecovery` records source-preserving recovery.
+
+`PhaseFingerprint` also records zero absorbed target energy.
+`DispersiveReadout` records signal-energy preservation, zero absorbed signal
+and probe energy, and a coupled probe phase response.
+`DispersivePhaseFingerprint` links the fingerprint phase to that readout.
+`CalibrationRecord` supports an affine calibration while retaining the raw
+value. `ReversibleOperation` identifies the vitrimer operation kind and its
+restoration law.
+
+`Signals.Homodyne` is the verified finite classical layer for local-oscillator
+conversion, normalized 50:50 mixing, detector currents, differential
+photocurrent, detector calibration/noise/CMRR, dual traces, spatial grids, and
+typed runtime trace samples. `QuantumQuadratureAssumption`,
+`TwoModeSqueezedVacuum`, `CVBellStateMeasurement`,
+`CVTeleportationBookkeeping`, `KerrInteraction`, and
+`HomodyneHardwareReadiness` remain Pending records for quantum-state, protocol,
+nonlinear-coupling, or integrated-hardware assumptions.
+
+`Signals.MHD` is the verified classical layer for conductive Argon flow,
+Faraday loading, kinetic input, passive total-input efficiency, and closed-loop
+energy accounting. `MHDOperatingCosts` records pump, ionization, magnetic-field,
+and cooling power for plant-level accounting. It does not establish that
+neutral Argon is an MHD working fluid, that a Proca field supplies motive
+energy, or that vacuum energy is available. `ProcaControlField` and
+`ProcaMHDHypothesis` in `Signals.Pending` are conditional and keep
+optical/control power separate from motive input; a control-only ratio is not an
+efficiency.
+
+`AtmosphericArgonSource` in `Signals.Pending` represents Earth/Mars Argon
+abundance as a molar feed fraction. Abundance can reduce feedstock scarcity but
+does not remove compression, separation, ionization, pumping, field, cooling,
+or plasma-sustainment costs. Treat the abundance values as explicit inputs
+until local atmospheric composition and capture-throughput measurements are
+available.
+
+`QuantumNonDemolitionParity` in
+[`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) is a
+Pending OAM/QND hypothesis. Do not describe a phase shift, homodyne output,
+zero absorbed probe energy, or a preserved test fixture as proof of zero
+backaction, repeatability, or physical QND behavior. Its detector-loss,
+repeatability, disturbance, and absorption fields are evidence boundaries, not
+proofs. Add detector calibration, Hamiltonian/commutation assumptions, and
+measured disturbance data before making those claims. `absorbedProbeEnergy`
+uses `Energy` and must be interpreted in joules, not watts.
+
+The same Pending module contains the finite Hawking-like decoding boundary:
+`PreparedModulation`, `ObservedHomodyneTensor`, `ObservedQuadratureHomodyneTensor`,
+`FiniteIQFT`, `ALSRank`, `ALSDecomposition`, `HawkingRadiationDecoding`,
+`HawkingDecodeRegime`, and `HawkingGrassmannianSynthesisContract`, connected to
+[`src/signals/Signals/HawkingRadiation.lean`](src/signals/Signals/HawkingRadiation.lean)
+and [`docs/grassmannian-hawking-radiation-decoding-paper.md`](docs/grassmannian-hawking-radiation-decoding-paper.md). These records
+preserve known input, observed single- and dual-quadrature tensor data
+(`homodyne_pi_div_two_phase_sweep_recovers_quadrature`), shared-state GPE/iGPE
+and continuum Madelung potential inversion (`InverseGPEPoint.potential_eq_interactive_of_shared_state`,
+`HawkingGrassmannianSynthesisContract.madelung_and_pointwise_igpe_potential_bridge`),
+2-point Hadamard transform/involution (`finiteInverseQFT_two_hadamard`,
+`finiteInverseQFT_two_involution`), Grassmannian row-sum slice projection
+(`HawkingRadiationDecoding.als_observed_slice_eq_weighted_recovered`), CP factors,
+rank bounds, iteration limits, residuals, and the Page-curve bond-dimension bound
+(`HawkingGrassmannianSynthesisContract.als_rank_lt_page_bond_dimension`). They do
+not prove Hawking radiation, SQG, cryptographic recovery, quantum Fourier-transform
+semantics, physical iGPE inversion, or Amplituhedron scattering. Treat rank 2--10 as
+a configured search range and require external numerical or measured controls before
+describing convergence or information recovery.
+
+The Pending model also contains `LVPProcess`, `LigninVitrimerPerovskite`,
+`LVPPhotovoltaicObservation`, `LVPDirectConversionImaging`,
+`LVPProcaImagingHypothesis`, and `MultiModalSubSurfaceImagingHypothesis`
+(connected to [`src/signals/Signals/MultiArrayImaging.lean`](src/signals/Signals/MultiArrayImaging.lean),
+[`src/signals/numerical_adapter/src/multi_array_imaging.rs`](src/signals/numerical_adapter/src/multi_array_imaging.rs),
+and [`docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`](docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)).
+These preserve LVP composition, roll-to-roll process telemetry, photovoltaic and
+direct-conversion X-ray calibration, Hubble $2\times$ CCD mosaic Grassmannian
+subspaces ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$),
+8-connected cosmic-ray telemetry ($\epsilon_{\mathrm{eh}} = 3.65\text{ eV}$,
+rotation-invariant $\det\Sigma_{\mathrm{cluster}}$, and 3D silicon $\mathrm{d}E/\mathrm{d}x$),
+classical `LIFU`/`AOT`/`TRUE` sub-surface optical focusing, $< 1\text{ nm}$
+convergent nanoimaging, and the speculative Proca phase-contrast branch. Do not
+describe the composition law or fixture values as proof of perovskite
+crystallization, self-healing, moisture resistance, high efficiency, reduced
+patient dose, sub-angstrom resolution, Proca propagation, or clinical safety.
+Require external materials, device, dosimetry, phantom, and clinical validation
+data before making those claims.
+
+Finally, [`src/signals/Signals/QuantumCausalInference.lean`](src/signals/Signals/QuantumCausalInference.lean),
+[`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](src/signals/numerical_adapter/src/quantum_causal_inference.rs),
+and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` / `QuantumCausalSurgicalSplatGraphRAGHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+(documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
+[`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
+[`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md),
+and [`docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md`](docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md))
+formalize Grassmannian causal transfer (`WeightedAcyclicNetwork.transfer_equation`),
+LGV / Trek d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$
+incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch
+commutator/anticommutator ratios, Oreshkov–Costa–Brukner causal inequality bounds
+($3/4 < (2+\sqrt{2})/4$), Landau vs. Quantum Resource Theory (QRT) Mpemba relaxation and
+$\mathrm{Gr}_{\mathbb{R}}(1,2)$ slow-mode orthogonal projection ($a_{2,\mathrm{hot}} = 0$),
+Constructor Theory task algebra (`ConstructorTask`), `del Rio et al. (2011)`
+single-shot conditional Landauer heat ($Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)$)
+alongside its isotropic 2-qubit Werner visibility-to-fidelity critique ($p_* \approx 0.747614 \mapsto F_* \approx 0.810710$,
+with $S(A\mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$) and the
+$-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`, and
+JEV (`jevEvidentialExpectedUtility`) vs. $\operatorname{do}$-calculus (`cevCausalDoExpectedUtility`)
+vs. Quantum Causal Decision Theory (`qcdtQuantumCausalExpectedUtility`), Jevons compute
+rebound (`jevonsTotalComputeEnergy`), Zhang (2025, `arXiv:2512.19428`) / `kanenorman/grassmann`
+multi-lag Plücker bilinear collapse (`zhang_multi_lag_plucker_sum_collapses_to_single_wedge`)
+and 4D Klein quadric rank-2 vs. cross-lag rank-4 residual (`shared_anchor_vs_cross_lag_klein_quadric`),
+De Clercq (2026) tautological `Bundle-Transformer` morphisms (`tautologicalProjectorVec`,
+`grassmannChordalDistSq`, `ropeFiberRotate`, `ropeCrossFrameInnerProduct`), linear-in-volume 3D spatiotemporal
+`VideoGen` (`spatiotemporalGrassmannVideoComplexity`, `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
+`quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`), $> 6{,}400\times$ volumetric
+attention & splat-sparse efficiency (`volumetricAttentionEfficiencyRatio`, `effectiveVolumetricSpeedupWithOverhead`: $13{,}107.2\times$, $104{,}857.6\times$, $640{,}000\times$, $1{,}310{,}720\times$, and overhead-inclusive $6{,}553.6\times > 6{,}400\times$),
+Jeffrey's Kinematic Engine (`jeffreyKinematicUpdate`, `quantumJeffreyPluckerKinematicUpdate`, `partitionWeightedQuantumJeffreyUpdate`, `sequentialJeffreyPool`, `diaconisZabellLogOddsUpdate`),
+3D Normed Tensor Gaussian Splat nanoimaging & surgical reconstruction (`NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate`, `NormedTensorGaussianSplat3D.covDet`, `NormedTensorGaussianSplat3D.coreBohmPotential`, `NormedTensorGaussianSplat3D.splitMajorOffset`),
+Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`, `quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`, `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`),
+Quantum Causal Next-Concept Modeling (`QCI-NCM`, Kumbong et al. 2026, `arXiv:2610.14162`: `ncmCounterfactualConceptReconstruction`, `ncmCorruptionDeconfoundedBias`, `qciNcmCoherentPairwiseCodeProb`, `qciGrassmannNcmFourLevelComplexity`, `ncmPressedTwoScaleSteeredLatent`, `ncmOamParallelMbrLatencySteps`, `qci_ncm_multiscale_counterfactual_corruption_vrc_and_pressed_llm_identities`, `qci_ncm_flag_bundle_cfg_level_weights_and_vrc_jeffrey_bridge_identities`),
+and `rGO-Vitrimer` Active Metamaterials, Bistable & Elastomeric E-Paper (`Vector Reflect` & `rGO-Bio-TPU`), Chiral `CNC` `Bio-Bragg` Projectors, Nanodiamond (`SHG` / `NV` / `n-Adamantane` / `P-CQD`) Active Quantum Displays, `Lignolux Omni-Carbon Kinetic` Batteries, `Q-Node` Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, `QCI-GXC` DFT Passivation, & Biodegradable/Recyclable Electrical Components, Plasma-Fluffed Chitosan–Alginate–Magnesium Hemostatic Gauze & `VEGF` Wound Sprays, `Sprout-Zero` Biodegradable Diapers, `Aero-Fleece` Thermal Liners, `CAM` Struvite Geotextiles, & Graphene-Susceptor `FJH` Quartzite Argon Plasma Tubes, and Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations (`VRC`), Unrestricted Grassmannian Quantum Chemistry (`QCI-GXC`), & the Rust/PyO3 (`maturin`) Quantum Simulation Backend (`signals` / `grassmann`) in `MADNESS` (`src/madness/`) and `Tequila` (`src/tequila/`) ([`docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md`](docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md), [`docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md`](docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md), [`docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md`](docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md), [`docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md`](docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md), [`docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md`](docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md), `rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_identities`, `rgo_vitrimer_display_deep_gap_closure_identities`, `omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_identities`, `omni_carbon_energy_storage_deep_gap_closure_identities`, `plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_identities`, `plasma_fluffed_bio_foundry_deep_gap_closure_identities` in [`src/signals/Signals/SolitonBus.lean`](src/signals/Signals/SolitonBus.lean), and `madness_tequila_plabic_vrc_quantum_chemistry_identities`, `madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_identities`, `tequila_rust_pyo3_grassmannian_vrc_qci_simulator_identities`, `tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities` in [`src/signals/Signals/DFT.lean`](src/signals/Signals/DFT.lean)).
+Keep any hardware "entropy siphoning" refrigeration, QFT/QRAM soliton associative speedup, or autonomous surgical margin decision claim in `Signals.Pending` with explicit
+closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), $O(L)$ QRAM state-preparation overhead ($T_{\mathrm{prep}} < T_{\mathrm{total}}$), unentangled
+$\operatorname{do}(F=0)$ control subtraction, bolometer/Kapitza calibration, phantom/fiducial registration, and clinician-in-the-loop sign-off.
+
+## Dilatant Dark Fluid (DDF) Modeling
+
+[src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean) formalizes the core
+mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
+- `DDFSubstrate` defines the two-component ultralight bosonic medium: a coherent
+  $\phi$ superfluid condensate coupled to a heavier dispersed $\varphi$ phase
+  undergoing stress-induced shear thickening and jamming. It derives the
+  saturated transverse phonon speed $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$
+  identified with the speed of light.
+- `MovingSheath` models the longitudinal sheath compression $\Lambda_\parallel(v)$,
+  proving the profile closure theorem that uniquely yields the Lorentz jamming factor
+  $\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$, reversible kinetic energy $K_D(v) = mc^2(\gamma_\varphi(v) - 1)$,
+  and the operational Minkowski interval $c^2 d\tau_D^2 = c^2 dt^2 - d\mathbf{x}^2$
+  from clock dilation.
+- `RiverExterior` models coarse-grained superfluid flow in Painlevé-Gullstrand river
+  geometry, proving that the Bernoulli potential $\Phi_\phi = -|v_\phi|^2/2$ recovers
+  the Newtonian potential $-G_\phi M / r$, the acoustic event horizon occurs at
+  $r_H = 2G_\phi M / c^2$ with inflow speed matching $c$, and dipolar swirl encodes
+  Kerr-Lense-Thirring frame dragging.
+- `IsothermalGalacticRegime` proves that an isothermal barotrope in the low-acceleration
+  outer disk yields flat orbital plateaus $v_{\text{flat}} = \sqrt{q_\rho}\,c_\phi$
+  ($v_{\text{flat}} = \sqrt{2}c_\phi$ for $q_\rho = 2$) without dark matter halos.
+- `ActiveRadiationSourcing` records the decisive experimental discriminator between GR
+  ($\eta_{\text{act}}^\gamma = 1$) and DDF ($\eta_{\text{act}}^\gamma = 0$), proving that
+  the mutual gravitational deflection of non-co-propagating laser beams vanishes
+  identically in DDF.
+- `quantized_vortex_circulation`, `plaquette_coboundary_zero`, `plaquette_phase_slip_syndrome`,
+  `bogoliubov_phase_velocity_sq_ge_cs_sq`, `subcritical_no_dissipation`, and
+  `supercritical_excitation_onset` formalize continuous Madelung circulation quantization,
+  discrete 2D plaquette coboundaries, and the Bogoliubov Landau critical velocity threshold.
+- Section 30 of [src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean)
+  ([src/signals/numerical_adapter/src/madelung_lagrangian.rs](src/signals/numerical_adapter/src/madelung_lagrangian.rs),
+  [docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md))
+  formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii
+  Equation, Dual-Schubert $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`,
+  Homogeneous Plücker Madelung Hydrodynamics on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+  (`PluckerVec`, `OnKleinQuadric`, `pluckerHermitianNormal_annihilates_projector`,
+  `kahlerDetFactor_eq_pluckerNormSq_affineChart`, `dualGrassmannianNoetherConservation`,
+  `pluckerInversePotentialReconstruction`, `pluckerBohmPotential_eq_weyl_plus_scalar_curvature`,
+  `deborahShearFractureInstability_iff`), and the revised Turner (2026) models for
+  Superposition (Model 6: `pluckerMadelungSuperpositionOAMDoubleSlit`), 1PN Gravity
+  (Models 14a/14b: `PlanetaryOrbit.turnerPluckerIGPEPrecessionRad`,
+  `RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`), and 2.5PN + Ringdown Gravitational
+  Waves (Models 14a/14b: `PlanetaryOrbit.turnerPluckerIGPEGWLuminosity`,
+  `RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`, proved in
+  `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), while
+  `ComplexGrassmannianIGPEPluckerContract` in [src/signals/Signals/Pending.lean](src/signals/Signals/Pending.lean)
+  isolates speculative chiral baryogenesis and dark-sector vacuum claims with explicit controls.
+  The corresponding wakefield, Halbach, centrifugal thermosyphon, Bohm-Gross, and Landau
+  growth/damping identities live in [`src/signals/Signals/MHD.lean`](src/signals/Signals/MHD.lean),
+  while `TwistorMomentumSinkHypothesis`, `PulsedWakefieldHalbachHypothesis`,
+  `DDFPhaseSlipHullStressHypothesis`, and `CryogenicSpoolAMBHypothesis` in
+  [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) enforce momentum
+  conservation, Dawson cavity energy ceilings, external drive-power accounting, and
+  `He-3` supercritical/solidification phase boundaries.
+
+Do not describe DDF as an experimental proof of a material ether or a disproof of general
+relativity. The library checks the internal consistency of the quantum-hydrodynamic
+constitutive equations and discriminator predictions, but testing whether
+$\eta_{\text{act}}^\gamma = 0$ requires high-sensitivity laboratory beam-deflection
+experiments.
+
+---
+
+## Core Project Agents
+
+### 1. **Schema & Ontology Agent**
+**Purpose**: Manage RDF schemas, ontologies, and linked data representations.
+
+**Expertise**:
+- Working with Industrial Ontologies Foundry (IOF) RDF schemas
+- Managing the `schema/` directory and `sustainable-factory.ttl` core schema
+- Running `schematool` CLI to sync external RDF schemas
+- Understanding Turtle, Turtle-star, and RDF-star formats
+- Validating ontology structure and coverage
+
+**Key Commands**:
+```bash
+schematool --help
+make update_schemadir
+```
+
+**Related Files**:
+- `src/schematool/` — RDF schema sync utility
+- `schema/` — IOF and foundational ontologies
+- `schema/sustainable-factory.ttl` — Core project schema
+- `sustainablefactory/rdf_gen.py` — RDF-star generation logic
+
+**Typical Tasks**:
+- Update and synchronize external RDF schemas
+- Validate or extend the core ontology
+- Review RDF-star output for graph consistency
+- Document schema changes in `docs/schema.md`
+
+---
+
+### 2. **Data Processing & Parsing Agent**
+**Purpose**: Parse input documents and extract structured data for knowledge graph generation.
+
+**Expertise**:
+- Parsing MyST Markdown files with process descriptions
+- Processing JSON chat exports from AI assistants
+- Extracting process steps, equipment, materials, costs, metrics, and citations
+- Understanding the data extraction pipeline in `sustainablefactory/parser.py`
+- Working with multiple input formats and normalizing them
+
+**Key Commands**:
+```bash
+sfcli parse <input_file>
+sfcli export_rdf <input_file> --output process_data.ttl
+sfcli batch_export data/chats/ --output all_processes.ttl
+```
+
+**Related Files**:
+- `sustainablefactory/parser.py` — Core parsing logic
+- `sustainablefactory/cli.py` — CLI interface for parsing
+- `data/chats/` — Input chat exports (MD and JSON)
+- `sustainablefactory/rdf_gen.py` — RDF generation after parsing
+- `tests/test_parser.py` — Parser unit tests
+
+**Typical Tasks**:
+- Parse new markdown or JSON documents to extract processes
+- Debug parsing issues or missing entity detection
+- Extend parser to handle new document structures
+- Batch process directories of input files
+- Validate extracted data before RDF export
+
+---
+
+### 3. **Markdown Transformation & Notebook Sync Agent**
+**Purpose**: Normalize, transform, and synchronize markdown files with Jupyter Notebooks.
+
+**Expertise**:
+- Using `transform_md` to clean up AI-generated chat exports
+- Converting between multiple markdown dialects (Standard, MyST, Quarto)
+- Two-way synchronization between `.md` and `.ipynb` files
+- Handling chat splitting, code fence normalization, and mermaid conversion
+- Extending the transform registry with custom formats
+- Managing metadata and kernelspecs in notebooks
+
+**Key Commands**:
+```bash
+transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ \
+  --transform-cell-split m1 --out-format=myst,ipynb
+transform-md --help
+make transform_md_all
+```
+
+**Related Files**:
+- `src/transform_md/` — Markdown transformation utility
+- `src/transform_md/transform_md/transform_md.py` — Core implementation
+- `data/chats/` — Input markdown chat exports
+- `data/chatoverlay/chats__all/` — Organized chat overlay directory
+- `docs/chats/` — Output transformed markdown and notebooks
+- `tests/test_*.py` (in transform_md) — Transform tests
+
+**Typical Tasks**:
+- Transform chat exports from AI to clean markdown or notebooks
+- Register new markdown formats or extensions
+- Implement custom cell templates for specialized formats
+- Debug transformation issues in chat splitting or fence normalization
+- Synchronize notebook changes back to markdown
+
+---
+
+### 4. **Documentation & Build Agent**
+**Purpose**: Build, generate, and maintain project documentation.
+
+**Expertise**:
+- Building Sphinx documentation with MyST parser and Mermaid diagrams
+- Generating HTML output and managing `_build/` directory
+- Understanding `conf.py` and documentation configuration
+- Integrating data aggregation into the build pipeline
+- Managing documentation workflow and deployment
+
+**Key Commands**:
+```bash
+make docs
+make build  # Full pipeline: aggregate_data → transform_md_all → docs
+make serve
+```
+
+**Related Files**:
+- `docs/` — Sphinx documentation source
+- `docs/conf.py` — Sphinx configuration
+- `docs/index.md` — Main documentation index
+- `docs/schema.md` — Schema documentation
+- `docs/_build/html/` — Generated HTML output
+- `Makefile` — Build orchestration
+
+**Typical Tasks**:
+- Build HTML documentation locally
+- Fix documentation build errors or warnings
+- Add or update MyST markdown documentation files
+- Integrate new sections or data into docs
+- Deploy or serve built documentation
+
+---
+
+### 5. **End-to-End Testing & CI/CD Agent**
+**Purpose**: Manage Playwright e2e tests, containerization, and CI workflows.
+
+**Expertise**:
+- Running Playwright browser automation tests locally or in containers
+- Using Podman for containerized test environments
+- Understanding `e2etest.sh` test runner and its options
+- Managing test configurations in `e2e/playwright.config.ts`
+- Working with GitHub Actions workflows in `.github/workflows/`
+
+**Key Commands**:
+```bash
+./e2etest.sh --help
+./e2etest.sh --on-host          # Run tests on local host
+./e2etest.sh --in-container     # Run tests in Podman container
+./e2etest.sh --install          # Install Playwright browsers
+```
+
+**Related Files**:
+- `e2etest.sh` — End-to-end test runner script
+- `e2e/` — Playwright test suite directory
+- `e2e/playwright.config.ts` — Playwright configuration
+- `e2e/tests/` — Test specs
+- `.github/workflows/` — CI/CD workflow definitions
+- `Dockerfile.e2e` — Container image for e2e tests
+
+**Typical Tasks**:
+- Run e2e tests locally or in containers
+- Debug test failures
+- Add new test cases
+- Update Playwright configuration
+- Manage CI workflows and status checks
+
+---
+
+### 6. **Data Aggregation & Metrics Agent**
+**Purpose**: Process and aggregate technical data from documents into structured formats.
+
+**Expertise**:
+- Using `tools/aggregate_technical_data.py` to extract and aggregate data
+- Processing extracted metrics and cost figures
+- Managing output formats (JSON, TTL, other serializations)
+- Integrating aggregation into the build pipeline
+
+**Key Commands**:
+```bash
+python3 tools/aggregate_technical_data.py
+make aggregate_data
+```
+
+**Related Files**:
+- `tools/aggregate_technical_data.py` — Data aggregation script
+- `tools/` — Supporting utility scripts
+- `schema_inventory.json` — Output schema inventory
+- `schema_inventory_full.json` — Full schema inventory
+
+**Typical Tasks**:
+- Run aggregation to collect technical metrics
+- Debug aggregation issues or missing data
+- Extend aggregation logic for new data types
+- Integrate aggregation outputs into documentation or RDF
+
+---
+
+### 7. **KiCad EDA, `kicad-happy` Skills, & RISC-V Holographic Nanolithography Agent**
+**Purpose**: Perform AI-powered KiCad schematic/PCB/Gerber/EMC/SPICE design reviews using [`kicad-happy`](src/kicad-happy/README.md) skills and generate/verify 2D & 3D lithography masks (`.kicad_mod`, `.gds`, `.kicad_vol`, and IOF/PROV-O `_CBOM.yaml-ld`) for metamaterial lenses and carbon-based RISC-V cores (`CVA6`, `CHERI-CVA6`, `Ibex`) at $405\text{ nm}$ and $532\text{ nm}$.
+
+**Installed `kicad-happy` Skills** (cloned in [`src/kicad-happy/skills/`](src/kicad-happy/skills/) and symlinked into [`.agents/skills/`](.agents/skills/), `~/.claude/skills/`, and `~/.codex/skills/`):
+
+| Skill | Skill Path | What It Does & How to Use It |
+|-------|------------|------------------------------|
+| **`kicad`** | [`.agents/skills/kicad/SKILL.md`](.agents/skills/kicad/SKILL.md) | Parse and analyze `.kicad_sch`, `.kicad_pcb`, `.kicad_pro`, `.kicad_mod`, Gerbers, and PDF reference schematics. Run `python3 .agents/skills/kicad/scripts/analyze_schematic.py <file.kicad_sch>`, `analyze_pcb.py --full <file.kicad_pcb>`, `cross_analysis.py`, `analyze_thermal.py`, and `analyze_gerbers.py`. |
+| **`spice`** | [`.agents/skills/spice/SKILL.md`](.agents/skills/spice/SKILL.md) | Generate and run SPICE testbenches (`ngspice`, `ltspice`, `xyce`) for detected RC/LC filters, voltage dividers, op-amp stages, feedback loops, and Monte Carlo tolerance sweeps. |
+| **`emc`** | [`.agents/skills/emc/SKILL.md`](.agents/skills/emc/SKILL.md) | Run 44 geometric and analytical EMC pre-compliance checks (ground plane voids, PDN impedance, differential-pair skew, switching harmonics, ESD paths) against FCC Class B, CISPR 32/25, and MIL-STD-461G. |
+| **`datasheets`** | [`.agents/skills/datasheets/SKILL.md`](.agents/skills/datasheets/SKILL.md) | Sync and extract structured JSON specifications (pinouts, abs max ratings, Vref, thermal resistance) from component PDF datasheets into `<project>/datasheets/extracted/`. |
+| **`bom`** | [`.agents/skills/bom/SKILL.md`](.agents/skills/bom/SKILL.md) | Manage BOM lifecycle: audit MPN coverage, detect lifecycle/obsolescence risks, and export per-supplier order CSVs. |
+| **`digikey`** | [`.agents/skills/digikey/SKILL.md`](.agents/skills/digikey/SKILL.md) | Search DigiKey inventory, pricing, and datasheets for prototype sourcing. |
+| **`mouser`** | [`.agents/skills/mouser/SKILL.md`](.agents/skills/mouser/SKILL.md) | Search Mouser catalog and fetch component datasheets. |
+| **`lcsc`** | [`.agents/skills/lcsc/SKILL.md`](.agents/skills/lcsc/SKILL.md) | Search LCSC catalog and JLCPCB basic/extended SMT parts library. |
+| **`element14`** | [`.agents/skills/element14/SKILL.md`](.agents/skills/element14/SKILL.md) | Search Newark / Farnell / element14 storefronts for international component sourcing. |
+| **`jlcpcb`** | [`.agents/skills/jlcpcb/SKILL.md`](.agents/skills/jlcpcb/SKILL.md) | Validate JLCPCB DFM design rules and export formatted BOM + CPL placement files. |
+| **`pcbway`** | [`.agents/skills/pcbway/SKILL.md`](.agents/skills/pcbway/SKILL.md) | Validate PCBWay DFM constraints and turnkey assembly packages. |
+
+**How to Use `kicad-happy` Skills in Agent Workflows**:
+1. **Read the Skill First**: Before reviewing any KiCad file or PDF schematic, read [`.agents/skills/kicad/SKILL.md`](.agents/skills/kicad/SKILL.md) (and `references/report-generation.md` for full reviews).
+2. **Inspect Output Schema**: Run `python3 .agents/skills/kicad/scripts/analyze_schematic.py --schema` or `analyze_pcb.py --schema` to inspect exact JSON keys before querying analyzer output.
+3. **Follow the Design Review Contract**: Always run `analyze_schematic.py`, `analyze_pcb.py --full`, `cross_analysis.py`, `analyze_emc.py`, `analyze_thermal.py`, and `spice` (when a simulator is installed), and state explicitly if `datasheets/` is missing (`DS-001` / `DS-002`).
+
+**Cloned RISC-V Core Repositories & $405\text{ nm} / 532\text{ nm}$ Carbon Nanolithography Workflow**:
+- [`src/core-v-cores/`](src/core-v-cores/README.md) (`openhwfoundation/core-v-cores`): OpenHW CORE-V family index (`CVA6`, `CVW`, `CVE4`, `CVE2`, `CVA5`).
+- [`src/cheri-cva6/`](src/cheri-cva6/README.md) (`Capabilities-Limited/cheri-cva6`) & [`src/cva6-cheri/`](src/cva6-cheri/README.md) (`lowRISC/cva6-cheri`): **6-stage Linux-capable RV64GC application processor** (`PC_GEN`, `IF`, `ID`, `ISSUE`, `EX`, `COMMIT` with Sv39 MMU `core/cva6_mmu/cva6_tlb.sv`, hardware PTW `cva6_ptw.sv`, and RVY CHERI v0.9.3 capability unit `core/cheri_unit.sv`).
+- [`src/ibex/`](src/ibex/README.md) (`lowRISC/ibex`): **2/3-stage RV32IMCB + CHERIoT embedded core** (`rtl/ibex_core.sv`, `rtl/ibex_cheriot_ex.sv`, `rtl/ibex_trvk.sv`, and `rtl/ibex_lockstep.sv` 1oo2 redundant lockstep comparator for SIL-4 safety).
+- [`src/signals/numerical_adapter/src/cannon_mask_cad.rs`](src/signals/numerical_adapter/src/cannon_mask_cad.rs): Pure-Rust / WASM generator and binary parser for KiCAD v8 (`.kicad_mod`), GDSII v6.0 (`.gds`), 3D `.kicad_vol` splines (`n_lig`, `s_lig`, `sp3_diamond`, `o_cnt`, `polycbd_bragg`), Metric Interference DRC, and IOF/EMMO/PROV-O/QUDT `_CBOM.yaml-ld` files, backed by `Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities` in [`src/signals/Signals/Nanolithography.lean`](src/signals/Signals/Nanolithography.lean).
+
+**Key Commands**:
+```bash
+# Export 400->800 GHz Cannon Lens + CVA6 (6-stage Linux), CHERI-CVA6, and Ibex (.kicad_mod, .gds, .kicad_vol, _CBOM.yaml-ld)
+cargo run --manifest-path src/signals/numerical_adapter/Cargo.toml \
+  --bin cannon-mask-cad -- --out-dir .tmp/cad_out --forward-pitch --export-riscv-all
+
+# Run kicad-happy schema inspection or PCB/schematic analyzers
+python3 .agents/skills/kicad/scripts/analyze_schematic.py --schema
+python3 .agents/skills/kicad/scripts/analyze_pcb.py --schema
+```
+
+---
+
+## Cross-Agent Workflows
+
+### Full Build Pipeline
+```
+data/chats/ → parser → RDF-star → documentation → HTML output
+       ↓
+    transform-md → docs/chats/ (markdown + notebooks)
+```
+
+**Agent Sequence**: Data Processing → Markdown Transformation → Documentation & Build
+
+### Chat Export Processing
+```
+Raw AI chat exports (JSON/MD) → transform_md cleanup → docs/chats/ output
+                             → parse → RDF export → Knowledge graph
+```
+
+**Agent Sequence**: Markdown Transformation → Data Processing → Schema & Ontology
+
+### Documentation Regeneration
+```
+make build → aggregate_data + transform_md_all + docs → HTML
+```
+
+**Agent Sequence**: Data Aggregation → Markdown Transformation → Documentation & Build
+
+---
+
+## Development Workflow
+
+### Running Tests
+```bash
+make test                    # Run pytest with coverage
+pytest --cov=. --cov-report=term-missing .
+```
+
+### Local Development Cycle
+1. **Data Processing Agent**: Parse and validate input files
+2. **Markdown Transformation Agent**: Clean and transform exports
+3. **Data Aggregation Agent**: Extract technical metrics
+4. **Documentation Agent**: Build HTML output
+5. **E2E Testing Agent**: Validate in browser
+
+### Continuous Integration
+- GitHub Actions workflows orchestrate the build pipeline
+- E2E tests run in containerized Podman environments
+- Check `.github/workflows/` for deployment configurations
+
+---
+
+## Key Dependencies & Tools
+
+| Tool | Agent | Purpose |
+|------|-------|---------|
+| `sfcli` | Data Processing | CLI for parsing and RDF export |
+| `schematool` | Schema & Ontology | Sync RDF schemas |
+| `transform-md` | Markdown Transformation | Markdown normalization and notebook sync |
+| `sphinx` + `myst-parser` | Documentation | Build Sphinx docs from MyST markdown |
+| `pytest` | All | Unit testing framework |
+| `playwright` | E2E Testing | Browser automation |
+| `podman` | E2E Testing | Container runtime for tests |
+
+---
+
+## Getting Started with Each Agent
+
+**New to the project?** Start with the **Data Processing Agent** to understand the input → output pipeline.
+
+**Working on schemas?** Use the **Schema & Ontology Agent** to manage ontology changes.
+
+**Cleaning up documentation?** Use the **Markdown Transformation Agent** to transform exports.
+
+**Building for production?** Coordinate **Markdown Transformation** → **Data Aggregation** → **Documentation** agents for the full pipeline.
+
+**Testing changes?** Use the **E2E Testing Agent** to validate in real browsers.
+
+---
+
+## Questions & Support
+
+For specific task categorization or clarification, refer to the relevant agent's **Typical Tasks** section.
+For multi-step workflows involving multiple agents, follow the **Cross-Agent Workflows** guide.

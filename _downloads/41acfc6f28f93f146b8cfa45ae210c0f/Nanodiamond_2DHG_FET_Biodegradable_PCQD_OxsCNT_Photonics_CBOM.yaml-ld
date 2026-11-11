@@ -1,0 +1,46 @@
+# Nanodiamond_2DHG_FET_Biodegradable_PCQD_OxsCNT_Photonics_CBOM.yaml-ld
+"@context":
+  iof: "https://spec.industrialontologies.org/ontology/core/Core/"
+  emmo: "http://emmo.info/emmo#"
+  prov: "http://www.w3.org/ns/prov#"
+  qudt: "http://qudt.org/schema/qudt/"
+  ligno: "https://lignolux.github.io/schema#"
+"@id": "ligno:Nanodiamond_2DHG_FET_Biodegradable_PCQD_OxsCNT_Photonics"
+"@type": ["iof:MaterialArtifact", "prov:Entity"]
+prov:wasInformedBy: "Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities"
+ligno:opticalRecipe:
+  writeWavelengthNm: 405.0
+  depletionWavelengthNm: 532.0
+  stedDepletedLinewidthNm: 18.08
+  cooling_delay_ms: 15.0
+iof:hasProcessFunction:
+  - "@id": "ligno:spline_sd_1_PET_TEAL_CARBON_12GPA_NANODIAMOND_nlig"
+    "@type": ["iof:ManufacturingOperation", "prov:Activity"]
+    ligno:flashIndex: 1
+    ligno:stage: "1_PET_TEAL_CARBON_12GPA_NANODIAMOND"
+    iof:yields: "emmo:NitrogenDopedGrapheneSp2"
+  - "@id": "ligno:spline_sd_1_PET_TEAL_CARBON_12GPA_NANODIAMOND_slig"
+    "@type": ["iof:ManufacturingOperation", "prov:Activity"]
+    ligno:flashIndex: 3
+    ligno:stage: "1_PET_TEAL_CARBON_12GPA_NANODIAMOND"
+    iof:yields: "emmo:SulfurDopedGrapheneSp2"
+  - "@id": "ligno:spline_sd_1_PET_TEAL_CARBON_12GPA_NANODIAMOND_sp3_diamond"
+    "@type": ["iof:ManufacturingOperation", "prov:Activity"]
+    ligno:flashIndex: 5
+    ligno:stage: "1_PET_TEAL_CARBON_12GPA_NANODIAMOND"
+    iof:yields: "emmo:CrystallineDiamondSp3"
+  - "@id": "ligno:spline_sd_1_PET_TEAL_CARBON_12GPA_NANODIAMOND_polycbd_lcs_strain"
+    "@type": ["iof:ManufacturingOperation", "prov:Activity"]
+    ligno:flashIndex: 6
+    ligno:stage: "1_PET_TEAL_CARBON_12GPA_NANODIAMOND"
+    iof:yields: "emmo:ChiralPolyCBDCarbonate"
+  - "@id": "ligno:spline_sd_2_H_TERMINATED_2DHG_DIAMOND_FET_nlig"
+    "@type": ["iof:ManufacturingOperation", "prov:Activity"]
+    ligno:flashIndex: 2
+    ligno:stage: "2_H_TERMINATED_2DHG_DIAMOND_FET"
+    iof:yields: "emmo:NitrogenDopedGrapheneSp2"
+  - "@id": "ligno:spline_sd_2_H_TERMINATED_2DHG_DIAMOND_FET_slig"
+    "@type": ["iof:ManufacturingOperation", "prov:Activity"]
+    ligno:flashIndex: 4
+    ligno:stage: "2_H_TERMINATED_2DHG_DIAMOND_FET"
+    iof:yields: "emmo:SulfurDopedGrapheneSp2"

@@ -1,0 +1,7 @@
+---
+source: src/polariton_spp.rs
+expression: summary
+---
+polariton(omega_up=8.000000, omega_lp=3.000000, d_hop=0.600000, w_ph=0.800000, w_ex=0.200000, gr24_prod=0.640000, eps_rest=-3.666667)
+spp_continuum(n_spp_sq=3.000000, chi_spp=0.500000, wa_sq=1.500000, wb_sq=0.500000, skin_ratio=3.000000, gr24_prod=0.750000)
+spp_splat(sigma1=0.577350, sigma2=0.192450, cov_det=0.012346, norm_factor=1.432394, bohm_core=7.500000)

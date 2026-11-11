@@ -1,1 +1,0 @@
-../chats/_SPPs, Plasma, and Material Synthesis .md

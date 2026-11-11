@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Workflow Simplification and Performance Plan &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Chat Markdown Warning Remediation Plan" href="chat-markdown-warning-remediation-plan.html" />
+    <link rel="prev" title="Tools" href="tools.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Workflow Simplification and Performance Plan</a><ul>
+<li><a class="reference internal" href="#current-baseline">Current baseline</a></li>
+<li><a class="reference internal" href="#design-principles">Design principles</a></li>
+<li><a class="reference internal" href="#phase-0-establish-one-manifest">Phase 0: establish one manifest</a></li>
+<li><a class="reference internal" href="#phase-1-make-transform-md-incremental">Phase 1: make transform-md incremental</a></li>
+<li><a class="reference internal" href="#phase-2-make-sphinx-consume-the-manifest-and-toc">Phase 2: make Sphinx consume the manifest and TOC</a></li>
+<li><a class="reference internal" href="#phase-3-reduce-docindex-work">Phase 3: reduce docindex work</a></li>
+<li><a class="reference internal" href="#phase-4-observability-and-regression-protection">Phase 4: observability and regression protection</a></li>
+<li><a class="reference internal" href="#recommended-implementation-order">Recommended implementation order</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="tools.html" title="Tools" accesskey="P">previous </a></li>
+              <li><a href="chat-markdown-warning-remediation-plan.html" title="Chat Markdown Warning Remediation Plan" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/workflow-performance-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Workflow Simplification and Performance Plan</a><ul>
+<li><a class="reference internal" href="#current-baseline">Current baseline</a></li>
+<li><a class="reference internal" href="#design-principles">Design principles</a></li>
+<li><a class="reference internal" href="#phase-0-establish-one-manifest">Phase 0: establish one manifest</a></li>
+<li><a class="reference internal" href="#phase-1-make-transform-md-incremental">Phase 1: make transform-md incremental</a></li>
+<li><a class="reference internal" href="#phase-2-make-sphinx-consume-the-manifest-and-toc">Phase 2: make Sphinx consume the manifest and TOC</a></li>
+<li><a class="reference internal" href="#phase-3-reduce-docindex-work">Phase 3: reduce docindex work</a></li>
+<li><a class="reference internal" href="#phase-4-observability-and-regression-protection">Phase 4: observability and regression protection</a></li>
+<li><a class="reference internal" href="#recommended-implementation-order">Recommended implementation order</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="tools.html"
+                          title="previous chapter">Tools</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="chat-markdown-warning-remediation-plan.html"
+                          title="next chapter">Chat Markdown Warning Remediation Plan</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/workflow-performance-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="workflow-simplification-and-performance-plan">
+<h1>Workflow Simplification and Performance Plan<a class="headerlink" href="#workflow-simplification-and-performance-plan" title="Link to this heading">¶</a></h1>
+<p>This plan covers the path from source chats to searchable Sphinx documentation:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data/chats + docs/_toc.yml
+    |
+    +--&gt; tagged symlink map (chat overlays)
+    |
+    +--&gt; transform-md --&gt; docs/chats/*.myst.md [canonical searchable source]
+        \--&gt; docs/chats/*.ipynb   [optional notebook artifact]
+    |
+    +--&gt; sphinx-build --&gt; docs/_build/html
+        +--&gt; search.html + _static/searchtools.js
+    |
+    +--&gt; docindex --&gt; OxiRS or Meilisearch
+</pre></div>
+</div>
+<section id="current-baseline">
+<h2>Current baseline<a class="headerlink" href="#current-baseline" title="Link to this heading">¶</a></h2>
+<p>The current workspace contains approximately:</p>
+<ul class="simple">
+<li><p>325 top-level source Markdown/JSON documents</p></li>
+<li><p>172 generated MyST documents</p></li>
+<li><p>172 generated notebooks</p></li>
+<li><p>206 generated HTML files</p></li>
+<li><p>46 MB of selected source input</p></li>
+<li><p>24 MB of generated MyST input</p></li>
+</ul>
+<p>The main avoidable costs are repeated file discovery, transforming each input
+again for each output format, rebuilding or parsing unchanged documents, and
+parsing rendered HTML after Sphinx has already resolved the document tree.</p>
+<p>The first implementation is available through <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">chat_overlays</span></code>, which
+writes <code class="docutils literal notranslate"><span class="pre">.tmp/workflow/chat-manifest.json</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">tools/workflow_transform.py</span></code>, which transforms only records whose content hash
+or requested outputs are stale. The manifest also fingerprints output formats
+and transform settings, removes stale generated outputs, and writes atomically.
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">transform_md_all</span></code> now uses this incremental runner.</p>
+</section>
+<section id="design-principles">
+<h2>Design principles<a class="headerlink" href="#design-principles" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code> is the only project workflow configuration file. Its
+Jupyter Book keys remain standard (<code class="docutils literal notranslate"><span class="pre">format</span></code>, <code class="docutils literal notranslate"><span class="pre">root</span></code>, <code class="docutils literal notranslate"><span class="pre">chapters</span></code>, <code class="docutils literal notranslate"><span class="pre">parts</span></code>),
+while project-specific settings live under
+<code class="docutils literal notranslate"><span class="pre">sustainablefactory.chat_sources</span></code>.</p></li>
+<li><p>ReST and MyST are the canonical searchable/documentation formats. Notebook output is a
+secondary artifact and should not be required for a documentation-only or
+search-only build.</p></li>
+<li><p>Every stage consumes a manifest produced by the preceding stage instead of
+independently rescanning directories.</p></li>
+<li><p>Incremental work is keyed by content hash plus relevant configuration, not
+only modification time.</p></li>
+<li><p>Each stage writes atomically and reports enough counters to explain a slow
+build or an unexpected index size.</p></li>
+</ol>
+</section>
+<section id="phase-0-establish-one-manifest">
+<h2>Phase 0: establish one manifest<a class="headerlink" href="#phase-0-establish-one-manifest" title="Link to this heading">¶</a></h2>
+<p>The initial implementation adds a small generated manifest under
+<code class="docutils literal notranslate"><span class="pre">.tmp/workflow/</span></code> containing, for each
+selected source document:</p>
+<ul class="simple">
+<li><p>source path and stable document key</p></li>
+<li><p>content hash and byte size</p></li>
+<li><p>extracted tags and normalized tag paths</p></li>
+<li><p>selected output paths</p></li>
+<li><p>transform configuration/version</p></li>
+<li><p>last successful transform and indexing status</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">create_symlinks.py</span></code> produces the selection portion of this manifest and
+use it to remove stale tag symlinks. It should not follow generated tag-folder
+symlinks while selecting source files. The manifest should be reproducible from
+<code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code> and should make the selected file list inspectable in CI.</p>
+<p>The current runner provides the initial per-file incremental behavior. The
+remaining work is to move parsing/output fan-out into transform-md itself, so
+the batch process can parse each input once and write all requested formats
+atomically. Notebook generation remains requested by the current project
+target; a MyST-only target should be added before disabling notebook output.</p>
+</section>
+<section id="phase-1-make-transform-md-incremental">
+<h2>Phase 1: make transform-md incremental<a class="headerlink" href="#phase-1-make-transform-md-incremental" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>The initial manifest-aware batch mode transforms only new or changed source
+files.</p></li>
+<li><p>Parse and normalize each source once, then fan out the in-memory result to
+MyST and notebook serializers. The current per-output loop can otherwise
+repeat input parsing and transformation work.</p></li>
+<li><p>Keep MyST as the default output for <code class="docutils literal notranslate"><span class="pre">transform_md_all</span></code>; move notebook
+generation behind an explicit output flag or separate target when notebooks
+are not needed.</p></li>
+<li><p>The manifest is written atomically after successful transforms. The runner
+must also write outputs to a temporary sibling and rename them into place.
+Do not
+update the manifest until every requested output succeeds.</p></li>
+<li><p>Remove stale generated files when their source disappears from the manifest
+or when an output format is removed.</p></li>
+<li><p>Add bounded worker parallelism only after measuring parser memory. Prefer
+process workers for CPU-heavy parsing and avoid creating one worker per file.</p></li>
+</ol>
+<p>Acceptance criteria:</p>
+<ul class="simple">
+<li><p>A no-op transform performs zero content transformations.</p></li>
+<li><p>A one-file source edit rewrites only that source’s outputs.</p></li>
+<li><p>MyST-only mode does not create or read notebook outputs.</p></li>
+<li><p>A failed transform leaves the previous valid output and manifest intact.</p></li>
+</ul>
+<p>The manifest producer and incremental runner implement the selection, hashing,
+configuration fingerprinting, stale-output cleanup, and atomic promotion pieces
+of this phase. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">transform_md_all</span></code> and the default <code class="docutils literal notranslate"><span class="pre">manage.py</span> <span class="pre">transform</span></code>
+path use them. Direct custom <code class="docutils literal notranslate"><span class="pre">indir</span></code>/<code class="docutils literal notranslate"><span class="pre">outdir</span></code> calls remain available for
+one-off conversions.</p>
+</section>
+<section id="phase-2-make-sphinx-consume-the-manifest-and-toc">
+<h2>Phase 2: make Sphinx consume the manifest and TOC<a class="headerlink" href="#phase-2-make-sphinx-consume-the-manifest-and-toc" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">toctreeyaml</span></code> responsible for the navigational tree and native Sphinx
+toctree resolution. Do not duplicate document discovery in a second TOC
+implementation.</p></li>
+<li><p>Use normal incremental Sphinx builds by default. Reserve <code class="docutils literal notranslate"><span class="pre">-E</span></code> for clean
+rebuilds and make <code class="docutils literal notranslate"><span class="pre">-j</span> <span class="pre">auto</span></code> an opt-in after checking extension safety.</p></li>
+<li><p>Register generated chat pages only through the TOC or an explicit generated
+subtree; do not make Sphinx discover every artifact in <code class="docutils literal notranslate"><span class="pre">docs/chats/</span></code>.</p></li>
+<li><p>Keep large aggregate documents such as <code class="docutils literal notranslate"><span class="pre">tables_and_figures</span></code> as an
+explicit project choice. If their build cost dominates, split them into
+stable topic documents and include those in <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>.</p></li>
+<li><p>Ensure extensions invalidate only the documents they actually affect. The
+YAML TOC extension should record the TOC file as a dependency so changing
+<code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code> invalidates the root navigation without forcing unrelated source
+rewrites.</p></li>
+<li><p>Keep the Sphinx theme optional in development, but test the configured theme
+in CI so fallback behavior does not conceal a packaging failure.</p></li>
+<li><p>Treat Sphinx’s generated <code class="docutils literal notranslate"><span class="pre">search.html</span></code>, <code class="docutils literal notranslate"><span class="pre">_static/searchtools.js</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">searchindex.js</span></code> as the static search UI contract. Do not copy Sphinx’s
+versioned search assets into the repository; verify their presence in the
+built output instead.</p></li>
+<li><p>Keep the optional enhanced UI behind the boolean
+<code class="docutils literal notranslate"><span class="pre">docindex_searchtools_enhanced</span></code>. Its <code class="docutils literal notranslate"><span class="pre">docindex_searchtools</span></code> configuration keeps
+native Sphinx, OxiRS, and Meilisearch results visibly separate.</p></li>
+<li><p>Treat the WebMCP <code class="docutils literal notranslate"><span class="pre">webmcp.json</span></code> manifest as a public, derived interface. Keep
+its page/navigation/doctree summary stable and do not expose raw Sphinx
+pickle files or private backend credentials.</p></li>
+</ol>
+<p>Acceptance criteria:</p>
+<ul class="simple">
+<li><p>A source-free documentation edit does not rerun transform-md.</p></li>
+<li><p>A TOC-only edit rebuilds navigation and affected pages only.</p></li>
+<li><p>A no-op Sphinx build does not rewrite HTML files.</p></li>
+<li><p>The build log reports changed, copied, and skipped document counts.</p></li>
+</ul>
+</section>
+<section id="phase-3-reduce-docindex-work">
+<h2>Phase 3: reduce docindex work<a class="headerlink" href="#phase-3-reduce-docindex-work" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Stop treating the entire HTML output directory as the change set. Feed
+docindex the manifest’s changed HTML pages, or consume Sphinx’s build
+environment/inventory to identify changed documents.</p></li>
+<li><p>Preserve the current project exclusion in <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>; generic docindex
+defaults should remain project-neutral.</p></li>
+<li><p>Add an incremental index mode that upserts changed documents and deletes
+documents whose source key disappeared. Keep the existing atomic full rebuild
+as a recovery command.</p></li>
+<li><p>Prefer indexing canonical MyST/chat records directly when their schema is
+sufficient. Use HTML section parsing for rendered pages that need public URL
+and heading extraction, rather than reparsing both representations.</p></li>
+<li><p>For OxiRS and Meilisearch, select one backend for normal local builds. Use
+the multi-backend path only for an intentional replication run.</p></li>
+<li><p>Keep batch submission and task polling asynchronous, but measure batch size,
+queue latency, retry count, and bytes submitted. Tune these against the
+selected backend rather than using one universal batch size.</p></li>
+<li><p>Avoid calling optimize after every small incremental update. Schedule
+optimization after a threshold of updates or as a separate maintenance
+target.</p></li>
+</ol>
+<p>Acceptance criteria:</p>
+<ul class="simple">
+<li><p>An unchanged Sphinx build submits zero index batches.</p></li>
+<li><p>A one-page change submits only that page and its stale replacements.</p></li>
+<li><p>A deleted page is removed from all relevant indices.</p></li>
+<li><p>Full rebuild remains available and produces the same document keys as the
+incremental path.</p></li>
+</ul>
+</section>
+<section id="phase-4-observability-and-regression-protection">
+<h2>Phase 4: observability and regression protection<a class="headerlink" href="#phase-4-observability-and-regression-protection" title="Link to this heading">¶</a></h2>
+<p>Record per-stage metrics in <code class="docutils literal notranslate"><span class="pre">.tmp/workflow/last-run.json</span></code> and print a concise
+summary:</p>
+<ul class="simple">
+<li><p>selected, changed, skipped, failed, and deleted files</p></li>
+<li><p>input/output bytes</p></li>
+<li><p>transform, Sphinx, parse, submit, and wait durations</p></li>
+<li><p>index document counts and batch counts</p></li>
+<li><p>cache hit rate and retry count</p></li>
+</ul>
+<p>Add tests for manifest determinism, stale symlink cleanup, incremental output
+selection, TOC dependency invalidation, and incremental index deletion. Add a
+small fixture benchmark to CI; do not benchmark the full chat corpus on every
+pull request.</p>
+</section>
+<section id="recommended-implementation-order">
+<h2>Recommended implementation order<a class="headerlink" href="#recommended-implementation-order" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Finish the merged <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code> schema and manifest-producing overlay command.</p></li>
+<li><p>Add transform-md MyST-only and manifest-aware incremental mode.</p></li>
+<li><p>Make the Makefile and <code class="docutils literal notranslate"><span class="pre">manage.py</span></code> call the same staged commands.</p></li>
+<li><p>Add Sphinx changed-document instrumentation and TOC dependency tracking.</p></li>
+<li><p>Add docindex incremental upsert/delete with full rebuild fallback.</p></li>
+<li><p>Tune parallelism, batch sizes, and optimization thresholds from recorded
+measurements.</p></li>
+</ol>
+<p>This order keeps the workflow behavior stable while making each performance
+improvement measurable and reversible.</p>
+<p>The manifest and incremental transform runner are implemented first. The
+incremental Sphinx and docindex phases remain planned work; full docindex
+rebuilds continue to be the supported indexing operation until their delete
+and upsert semantics are implemented and tested.</p>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="tools.html" title="Tools" >previous</a></li>
+        <li><a href="chat-markdown-warning-remediation-plan.html" title="Chat Markdown Warning Remediation Plan" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

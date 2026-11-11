@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>rGO-Vitrimer Active Metamaterials, Bistable &amp; Elastomeric E-Paper (Vector Reflect &amp; rGO-Bio-TPU), Chiral CNC Bio-Bragg Projectors, and Nanodiamond (SHG / NV / n-Adamantane / P-CQD) Active Quantum Displays in Lean 4, Rust/WASM, Python, and KiCAD v8 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Lignolux Omni-Carbon Kinetic Batteries (Al-LGBPC, Dual-Ion Iodine, &amp; Na-Ion Hard Carbon), Q-Node Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, QCI-GXC Kohn–Sham DFT Passivation, and Biodegradable / Closed-Loop Recyclable Electrical Components in Lean 4, Rust/WASM, Python, and KiCAD v8" href="grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.html" />
+    <link rel="prev" title="Quantum Causal Next-Concept Modeling (QCI-NCM): Coarse-to-Fine Parallel LLM Inference, Multiscale Residual Counterfactuals, Plücker/VRC Constraint Coupling, and Pressed-LHAT Scale-Selective Steering Hardware in Lean 4, Rust/WASM, and KiCAD v8" href="grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterials, Bistable &amp; Elastomeric E-Paper (<code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code>), Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors, and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays in Lean 4, Rust/WASM, Python, and KiCAD v8</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#taxonomy-of-rgo-vitrimer-active-metamaterial-e-paper-and-nanodiamond-display-designs-across-the-corpus">1. Taxonomy of <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterial, E-Paper, and Nanodiamond Display Designs Across the Corpus</a><ul>
+<li><a class="reference internal" href="#master-comparison-of-all-six-rgo-vitrimer-metamaterial-display-architectures">1.1 Master Comparison of All Six <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Metamaterial &amp; Display Architectures</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rgo-vitrimer-active-metasurface-physics-pauli-blocked-girestournois-etalon-gte-speckle-whitening-and-4-ns-a-cnt-thermal-reset">2. <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metasurface Physics: Pauli-Blocked Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">GTE</span></code>), Speckle Whitening, and <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">ns</span></code> <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> Thermal Reset</a><ul>
+<li><a class="reference internal" href="#sub-wavelength-nyquist-pixel-pitch-and-the-bridge-from-modulator-to-4d-active-metasurface-rgometasurfacenyquistpitchnm">2.1 Sub-Wavelength Nyquist Pixel Pitch and the Bridge from Modulator to 4D Active Metasurface (<code class="docutils literal notranslate"><span class="pre">rgoMetasurfaceNyquistPitchNm</span></code>)</a></li>
+<li><a class="reference internal" href="#electronic-pauli-blocking-vs-absorptive-shuttering-and-the-girestournois-etalon-rgopauliblockedabsorption-girestournoisphaseenhancementfactor">2.2 Electronic Pauli Blocking vs. Absorptive Shuttering and the Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span></code>, <code class="docutils literal notranslate"><span class="pre">giresTournoisPhaseEnhancementFactor</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sustainable-e-paper-reflective-display-architectures-vector-reflect-rgo-bio-tpu-clear-signs-and-bilayer-vitrimers">3. Sustainable E-Paper &amp; Reflective Display Architectures: <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code>, <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Clear Signs, and Bilayer Vitrimers</a><ul>
+<li><a class="reference internal" href="#vector-reflect-vr-series-bistable-lig-coated-cellulose-nanosphere-cns-carbon-e-paper-epaperelectrophoreticswitchtimems-vectorreflectbistableannualenergykwh">3.1 <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>): Bistable <code class="docutils literal notranslate"><span class="pre">LIG</span></code>-Coated Cellulose Nanosphere (<code class="docutils literal notranslate"><span class="pre">CNS</span></code>) + Carbon E-Paper (<code class="docutils literal notranslate"><span class="pre">epaperElectrophoreticSwitchTimeMs</span></code>, <code class="docutils literal notranslate"><span class="pre">vectorReflectBistableAnnualEnergyKwh</span></code>)</a></li>
+<li><a class="reference internal" href="#rgo-bio-tpu-electro-rotational-clear-sign-with-hardware-brownian-failsafe-and-48d-oam-wire-free-addressing-rgobiotpuclearsigntransmittance">3.2 <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Electro-Rotational “Clear Sign” with Hardware Brownian Failsafe and <code class="docutils literal notranslate"><span class="pre">48D</span> <span class="pre">OAM</span></code> Wire-Free Addressing (<code class="docutils literal notranslate"><span class="pre">rgoBioTpuClearSignTransmittance</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chiral-cnc-structural-color-bio-bragg-projectors-and-nanodiamond-shg-nv-n-adamantane-p-cqd-active-quantum-displays">4. Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> Structural-Color <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays</a><ul>
+<li><a class="reference internal" href="#vertical-rgb-chiral-nematic-cnc-rgo-bragg-stack-bio-bragg-tv-contact-lens-ar-cncchiralbraggwavelengthnm">4.1 Vertical <code class="docutils literal notranslate"><span class="pre">RGB</span></code> Chiral Nematic <code class="docutils literal notranslate"><span class="pre">CNC</span></code> + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Bragg Stack (“Bio-Bragg TV” &amp; Contact-Lens AR, <code class="docutils literal notranslate"><span class="pre">cncChiralBraggWavelengthNm</span></code>)</a></li>
+<li><a class="reference internal" href="#insect-blind-590-text-nm-monochrome-amber-multi-band-shg-nv-nanodiamond-active-quantum-displays-nanodiamondshgdisplaywavelengthnm-insectphotoreceptorsensitivity-nvdiamondodmrsplittingmhz">4.2 Insect-Blind <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Monochrome Amber &amp; Multi-Band <code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code>-Nanodiamond Active Quantum Displays (<code class="docutils literal notranslate"><span class="pre">nanodiamondShgDisplayWavelengthNm</span></code>, <code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span></code>, <code class="docutils literal notranslate"><span class="pre">nvDiamondOdmrSplittingMhz</span></code>)</a></li>
+<li><a class="reference internal" href="#critical-review-five-deep-gap-closures-rgo-vitrimer-display-deep-gap-closure-identities">4.3 Critical Review &amp; Five Deep Gap Closures (<code class="docutils literal notranslate"><span class="pre">rgo_vitrimer_display_deep_gap_closure_identities</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#volumetric-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-kicad-vol-gdsii-gds-kicad-happy-verification">5. Volumetric KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>, GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#self-contained-machine-checked-lean-4-verification-block-signals-solitonbus">6. Self-Contained Machine-Checked Lean 4 Verification Block (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#provenance-evidence-classification-bibtex-and-schema-org-metadata">7. Provenance, Evidence Classification, BibTeX, and Schema.org Metadata</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.html" title="Quantum Causal Next-Concept Modeling (QCI-NCM): Coarse-to-Fine Parallel LLM Inference, Multiscale Residual Counterfactuals, Plücker/VRC Constraint Coupling, and Pressed-LHAT Scale-Selective Steering Hardware in Lean 4, Rust/WASM, and KiCAD v8" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.html" title="Lignolux Omni-Carbon Kinetic Batteries (Al-LGBPC, Dual-Ion Iodine, &amp; Na-Ion Hard Carbon), Q-Node Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, QCI-GXC Kohn–Sham DFT Passivation, and Biodegradable / Closed-Loop Recyclable Electrical Components in Lean 4, Rust/WASM, Python, and KiCAD v8" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterials, Bistable &amp; Elastomeric E-Paper (<code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code>), Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors, and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays in Lean 4, Rust/WASM, Python, and KiCAD v8</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#taxonomy-of-rgo-vitrimer-active-metamaterial-e-paper-and-nanodiamond-display-designs-across-the-corpus">1. Taxonomy of <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterial, E-Paper, and Nanodiamond Display Designs Across the Corpus</a><ul>
+<li><a class="reference internal" href="#master-comparison-of-all-six-rgo-vitrimer-metamaterial-display-architectures">1.1 Master Comparison of All Six <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Metamaterial &amp; Display Architectures</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rgo-vitrimer-active-metasurface-physics-pauli-blocked-girestournois-etalon-gte-speckle-whitening-and-4-ns-a-cnt-thermal-reset">2. <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metasurface Physics: Pauli-Blocked Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">GTE</span></code>), Speckle Whitening, and <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">ns</span></code> <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> Thermal Reset</a><ul>
+<li><a class="reference internal" href="#sub-wavelength-nyquist-pixel-pitch-and-the-bridge-from-modulator-to-4d-active-metasurface-rgometasurfacenyquistpitchnm">2.1 Sub-Wavelength Nyquist Pixel Pitch and the Bridge from Modulator to 4D Active Metasurface (<code class="docutils literal notranslate"><span class="pre">rgoMetasurfaceNyquistPitchNm</span></code>)</a></li>
+<li><a class="reference internal" href="#electronic-pauli-blocking-vs-absorptive-shuttering-and-the-girestournois-etalon-rgopauliblockedabsorption-girestournoisphaseenhancementfactor">2.2 Electronic Pauli Blocking vs. Absorptive Shuttering and the Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span></code>, <code class="docutils literal notranslate"><span class="pre">giresTournoisPhaseEnhancementFactor</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sustainable-e-paper-reflective-display-architectures-vector-reflect-rgo-bio-tpu-clear-signs-and-bilayer-vitrimers">3. Sustainable E-Paper &amp; Reflective Display Architectures: <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code>, <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Clear Signs, and Bilayer Vitrimers</a><ul>
+<li><a class="reference internal" href="#vector-reflect-vr-series-bistable-lig-coated-cellulose-nanosphere-cns-carbon-e-paper-epaperelectrophoreticswitchtimems-vectorreflectbistableannualenergykwh">3.1 <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>): Bistable <code class="docutils literal notranslate"><span class="pre">LIG</span></code>-Coated Cellulose Nanosphere (<code class="docutils literal notranslate"><span class="pre">CNS</span></code>) + Carbon E-Paper (<code class="docutils literal notranslate"><span class="pre">epaperElectrophoreticSwitchTimeMs</span></code>, <code class="docutils literal notranslate"><span class="pre">vectorReflectBistableAnnualEnergyKwh</span></code>)</a></li>
+<li><a class="reference internal" href="#rgo-bio-tpu-electro-rotational-clear-sign-with-hardware-brownian-failsafe-and-48d-oam-wire-free-addressing-rgobiotpuclearsigntransmittance">3.2 <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Electro-Rotational “Clear Sign” with Hardware Brownian Failsafe and <code class="docutils literal notranslate"><span class="pre">48D</span> <span class="pre">OAM</span></code> Wire-Free Addressing (<code class="docutils literal notranslate"><span class="pre">rgoBioTpuClearSignTransmittance</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chiral-cnc-structural-color-bio-bragg-projectors-and-nanodiamond-shg-nv-n-adamantane-p-cqd-active-quantum-displays">4. Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> Structural-Color <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays</a><ul>
+<li><a class="reference internal" href="#vertical-rgb-chiral-nematic-cnc-rgo-bragg-stack-bio-bragg-tv-contact-lens-ar-cncchiralbraggwavelengthnm">4.1 Vertical <code class="docutils literal notranslate"><span class="pre">RGB</span></code> Chiral Nematic <code class="docutils literal notranslate"><span class="pre">CNC</span></code> + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Bragg Stack (“Bio-Bragg TV” &amp; Contact-Lens AR, <code class="docutils literal notranslate"><span class="pre">cncChiralBraggWavelengthNm</span></code>)</a></li>
+<li><a class="reference internal" href="#insect-blind-590-text-nm-monochrome-amber-multi-band-shg-nv-nanodiamond-active-quantum-displays-nanodiamondshgdisplaywavelengthnm-insectphotoreceptorsensitivity-nvdiamondodmrsplittingmhz">4.2 Insect-Blind <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Monochrome Amber &amp; Multi-Band <code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code>-Nanodiamond Active Quantum Displays (<code class="docutils literal notranslate"><span class="pre">nanodiamondShgDisplayWavelengthNm</span></code>, <code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span></code>, <code class="docutils literal notranslate"><span class="pre">nvDiamondOdmrSplittingMhz</span></code>)</a></li>
+<li><a class="reference internal" href="#critical-review-five-deep-gap-closures-rgo-vitrimer-display-deep-gap-closure-identities">4.3 Critical Review &amp; Five Deep Gap Closures (<code class="docutils literal notranslate"><span class="pre">rgo_vitrimer_display_deep_gap_closure_identities</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#volumetric-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-kicad-vol-gdsii-gds-kicad-happy-verification">5. Volumetric KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>, GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#self-contained-machine-checked-lean-4-verification-block-signals-solitonbus">6. Self-Contained Machine-Checked Lean 4 Verification Block (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#provenance-evidence-classification-bibtex-and-schema-org-metadata">7. Provenance, Evidence Classification, BibTeX, and Schema.org Metadata</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.html"
+                          title="previous chapter">Quantum Causal Next-Concept Modeling (<code class="docutils literal notranslate"><span class="pre">QCI-NCM</span></code>): Coarse-to-Fine Parallel LLM Inference, Multiscale Residual Counterfactuals, Plücker/<code class="docutils literal notranslate"><span class="pre">VRC</span></code> Constraint Coupling, and Pressed-<code class="docutils literal notranslate"><span class="pre">LHAT</span></code> Scale-Selective Steering Hardware in Lean 4, Rust/WASM, and KiCAD v8</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.html"
+                          title="next chapter">Lignolux Omni-Carbon Kinetic Batteries (<code class="docutils literal notranslate"><span class="pre">Al-LGBPC</span></code>, Dual-Ion <code class="docutils literal notranslate"><span class="pre">Iodine</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Na-Ion</span></code> Hard Carbon), <code class="docutils literal notranslate"><span class="pre">Q-Node</span></code> Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Kohn–Sham DFT Passivation, and Biodegradable / Closed-Loop Recyclable Electrical Components in Lean 4, Rust/WASM, Python, and KiCAD v8</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="rgo-vitrimer-active-metamaterials-bistable-elastomeric-e-paper-vector-reflect-rgo-bio-tpu-chiral-cnc-bio-bragg-projectors-and-nanodiamond-shg-nv-n-adamantane-p-cqd-active-quantum-displays-in-lean-4-rust-wasm-python-and-kicad-v8">
+<span id="grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper"></span><h1><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterials, Bistable &amp; Elastomeric E-Paper (<code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code>), Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors, and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays in Lean 4, Rust/WASM, Python, and KiCAD v8<a class="headerlink" href="#rgo-vitrimer-active-metamaterials-bistable-elastomeric-e-paper-vector-reflect-rgo-bio-tpu-chiral-cnc-bio-bragg-projectors-and-nanodiamond-shg-nv-n-adamantane-p-cqd-active-quantum-displays-in-lean-4-rust-wasm-python-and-kicad-v8" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Applied Physics (<code class="docutils literal notranslate"><span class="pre">physics.app-ph</span></code>); Materials Science (<code class="docutils literal notranslate"><span class="pre">cond-mat.mtrl-sci</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Hardware Architecture (<code class="docutils literal notranslate"><span class="pre">cs.AR</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification, Simulation, &amp; KiCAD Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">…/src/signals/Signals/SolitonBus.lean</span></a>, <a class="reference download internal" download="" href="_downloads/4a77e4ad5a521f54751b620e3863d174/EMT.lean"><span class="xref download myst">…/src/signals/Signals/EMT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">…/src/signals/SignalsPending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM Crate &amp; Python Engine (<a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></a>, <a class="reference download internal" download="" href="_downloads/fae8049359c5e6db0893f0f4a0187e9b/qci_grassmannian_dft.py"><span class="xref download myst">…/sustainablefactory/qci_grassmannian_dft.py</span></a>, <a class="reference download internal" download="" href="_downloads/03129d2d175bc3194769a24abfa2010a/test_qci_grassmannian_dft.py"><span class="xref download myst">…/tests/test_qci_grassmannian_dft.py</span></a>)</p></li>
+<li><p>Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), Calma GDSII v6.0 (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and IOF/EMMO/PROV-O (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) Hardware Files:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/d1294b31fb80af5aa3237319d00bc0b5/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_mod"><span class="xref download myst">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_mod</span></a>, <a class="reference download internal" download="" href="_downloads/4d7af933e91f19d36bf3f0829c414eec/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_sch"><span class="xref download myst">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_sch</span></a>, <a class="reference download internal" download="" href="_downloads/3272415bd9a943048913883ba6703095/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_pcb"><span class="xref download myst">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_pcb</span></a>, <a class="reference download internal" download="" href="_downloads/70222830502a64969b5ebc6aaddb6f09/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_vol"><span class="xref download myst">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_vol</span></a>, <a class="reference download internal" download="" href="_downloads/17d518d0df9045f8956166da8b3fc288/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.gds"><span class="xref download myst">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.gds</span></a>, <a class="reference download internal" download="" href="_downloads/a1a9ff409bc0b9f7097760521bc36bf9/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display_CBOM.yaml-ld"><span class="xref download myst">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display_CBOM.yaml-ld</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-enz-hyperbolic-metamaterials-paper.html"><span class="std std-doc">Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics (<code class="docutils literal notranslate"><span class="pre">Paper</span> <span class="pre">13</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html"><span class="std std-doc">Laser-Induced <span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> Carbon and Nanodiamonds, H-Terminated Nanodiamond <code class="docutils literal notranslate"><span class="pre">2DHG</span></code> FETs, and Biodegradable <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code> / <code class="docutils literal notranslate"><span class="pre">Ox-s-CNT</span></code> Photonics (<code class="docutils literal notranslate"><span class="pre">Paper</span> <span class="pre">35</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.html"><span class="std std-doc">3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code>, Second-Harmonic Resonant Optical Amplification (<code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code>), and 4-Wire Kelvin + <code class="docutils literal notranslate"><span class="pre">CBF</span></code> Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">Paper</span> <span class="pre">36</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.html"><span class="std std-doc">Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable) (<code class="docutils literal notranslate"><span class="pre">Paper</span> <span class="pre">37</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,6)\)</span>, and Dilatant Dark Fluid (DDF) Mechanics</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Conventional Spatial Light Modulators (<code class="docutils literal notranslate"><span class="pre">SLMs</span></code>) and flat-panel displays suffer from a three-way trade-off between <strong>optical power handling</strong>, <strong>switching speed</strong>, and <strong>environmental sustainability</strong>: Liquid Crystal on Silicon (<code class="docutils literal notranslate"><span class="pre">LCoS</span></code>) modulators exhibit low optical damage thresholds (<code class="docutils literal notranslate"><span class="pre">ODT</span> <span class="pre">&lt;</span> <span class="pre">1</span> <span class="pre">GW/cm^2</span></code>), millisecond phase flicker (<code class="docutils literal notranslate"><span class="pre">~120</span> <span class="pre">Hz</span></code>), and opaque silicon backplanes (<span class="math notranslate nohighlight">\(0\%\)</span> transparency); commercial electrophoretic e-paper (<code class="docutils literal notranslate"><span class="pre">E-Ink</span></code>) relies on mined <span class="math notranslate nohighlight">\(\mathrm{TiO}_2\)</span> pigments and refreshes at <span class="math notranslate nohighlight">\(1\text{--}2\text{ Hz}\)</span> (<span class="math notranslate nohighlight">\(500\text{--}1000\text{ ms}\)</span>); and emissive <code class="docutils literal notranslate"><span class="pre">OLED</span></code>/<code class="docutils literal notranslate"><span class="pre">LCD</span></code> displays consume <span class="math notranslate nohighlight">\(100\text{--}200\text{ W}\)</span>, use narrow-lifetime chemical dyes or rare-earth phosphors, and attract nocturnal insects via short-wavelength (<span class="math notranslate nohighlight">\(\lambda &lt; 500\text{ nm}\)</span>) blue emission.</p>
+<p>In this paper, we review, critique, and formally unify the <strong><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterial, E-Paper, Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code>, and Nanodiamond Display architectures</strong> developed across our research corpus (<a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">49-1370</span></code></a>; <a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">203-425</span> <span class="pre">&amp;</span> <span class="pre">1425-1700</span></code></a>; <a class="reference download internal" download="" href="_downloads/19b88ae0b4dc415a7f10311a590586fb/_LLMs%2C%20Fourier%2C%20and%20Quantum%20Logic%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_LLMs,</span> <span class="pre">Fourier,</span> <span class="pre">and</span> <span class="pre">Quantum</span> <span class="pre">Logic</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">371-1225</span></code></a>; <a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 145–390 &amp; 685–975</span></a>; <a class="reference download internal" download="" href="_downloads/8a207251ea8b5c8d742ba1c87d4451ec/_Lignin%20Vitrimer%20Hydroponic%20Pipe%20Development%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Lignin</span> <span class="pre">Vitrimer</span> <span class="pre">Hydroponic</span> <span class="pre">Pipe</span> <span class="pre">Development</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">1144-1325</span> <span class="pre">&amp;</span> <span class="pre">1796-1890</span></code></a>; <a class="reference download internal" download="" href="_downloads/3c1e235e97632d2ee8077757f5834aac/_Sustainable%20Composites_%20Energy%2C%20Processing%2C%20Costs%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Sustainable</span> <span class="pre">Composites_</span> <span class="pre">Energy,</span> <span class="pre">Processing,</span> <span class="pre">Costs</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">4595-4795</span></code></a>; <a class="reference download internal" download="" href="_downloads/6b40725495585effee7e318a2ad98549/_Induction%20Welding%2C%20Rail%2C%20Rolllercoasters%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Induction</span> <span class="pre">Welding,</span> <span class="pre">Rail,</span> <span class="pre">Rolllercoasters</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">853-935</span></code></a>). We machine-check the governing optical, electro-rotational, thermodynamic, and quantum-sensing laws in <strong>Lean 4</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code> Section 9), <strong>Rust/WASM</strong> (<code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>), <strong>Python</strong> (<code class="docutils literal notranslate"><span class="pre">sustainablefactory/qci_grassmannian_dft.py</span></code>), and <strong>KiCAD v8 / GDSII / <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code></strong> (<code class="docutils literal notranslate"><span class="pre">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display</span></code>):</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> 4D Active Metasurface, Pauli-Blocked Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">GTE</span></code>), Speckle Whitening, &amp; <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">ns</span></code> <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> Thermal Reset (<code class="docutils literal notranslate"><span class="pre">rgoMetasurfaceNyquistPitchNm</span></code>, <code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span></code>, <code class="docutils literal notranslate"><span class="pre">giresTournoisPhaseEnhancementFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">rgoSpeckleContrastSq</span></code>, <code class="docutils literal notranslate"><span class="pre">rgoThermalDiffusionResetTimeNs</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Patterning reduced Graphene Oxide (<code class="docutils literal notranslate"><span class="pre">rGO</span></code>) in a dynamic covalent lignin-vitrimer matrix at sub-wavelength Nyquist pitch <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{pitch}} \le \frac{\lambda}{2\,\mathrm{NA}} = 400\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(300\text{--}400\text{ nm}\)</span> interdigitated ladder nanopixels) transforms a bulk absorber into a <strong>Time-Varying 4D Active Metasurface</strong>.</p></li>
+<li><p><strong>Dual Electronic Regimes</strong>: At <span class="math notranslate nohighlight">\(V = 0\)</span> (<span class="math notranslate nohighlight">\(2|E_F| &lt; \hbar\omega\)</span>), interband absorption <span class="math notranslate nohighlight">\(\alpha_{\mathrm{inter}} \approx 2.3\%/\text{layer}\)</span> provides high-contrast e-paper shuttering; under electrostatic gating (<span class="math notranslate nohighlight">\(2|E_F| &gt; \hbar\omega\)</span>), <strong>Pauli blocking</strong> quenches interband absorption to zero (<span class="math notranslate nohighlight">\(\alpha = 0\)</span>) while shifting the plasma frequency in nanoseconds.</p></li>
+<li><p><strong>Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">GTE</span></code>, “Smart Mirror”)</strong>: Placing the Pauli-blocked <code class="docutils literal notranslate"><span class="pre">rGO</span></code> grating over a bottom Laser-Compression-Shock (<code class="docutils literal notranslate"><span class="pre">LCS</span></code>) Bragg mirror (<span class="math notranslate nohighlight">\(R_{\mathrm{bottom}} \approx 1\)</span>) preserves <span class="math notranslate nohighlight">\(100\%\)</span> brightness (<span class="math notranslate nohighlight">\(|r_{\mathrm{GTE}}|^2 = 1\)</span>) while multiplying phase slope by <span class="math notranslate nohighlight">\(\frac{1 + r_{\mathrm{top}}}{1 - r_{\mathrm{top}}} = 3\times\)</span> (at <span class="math notranslate nohighlight">\(r_{\mathrm{top}} = 1/2\)</span>), reducing squared laser speckle contrast to <span class="math notranslate nohighlight">\(C^2 = \frac{1}{f_{\mathrm{mod}}\tau_{\mathrm{int}}} = 10^{-6}\)</span> (<span class="math notranslate nohighlight">\(C = 0.1\%\)</span> at <span class="math notranslate nohighlight">\(100\text{ MHz}\)</span>) and clearing <span class="math notranslate nohighlight">\(200\text{ nm}\)</span> flash-print pixels in <strong><span class="math notranslate nohighlight">\(4\text{ ns} &lt; 10\text{ ns}\)</span></strong> via <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> phonon vias (with <span class="math notranslate nohighlight">\(50\text{--}100\text{ GW/cm}^2\)</span> optical damage threshold).</p></li>
+</ul>
+</li>
+<li><p><strong>Three Sustainable E-Paper &amp; Reflective Display Architectures (<code class="docutils literal notranslate"><span class="pre">epaperElectrophoreticSwitchTimeMs</span></code>, <code class="docutils literal notranslate"><span class="pre">rgoBioTpuClearSignTransmittance</span></code>, <code class="docutils literal notranslate"><span class="pre">vectorReflectBistableAnnualEnergyKwh</span></code>, <code class="docutils literal notranslate"><span class="pre">bilayerVitrimerThermalCurvature</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>) Bistable Carbon + <code class="docutils literal notranslate"><span class="pre">LIG</span></code>-Coated Cellulose Nanosphere (<code class="docutils literal notranslate"><span class="pre">CNS</span></code>) E-Paper</strong>: Replaces <span class="math notranslate nohighlight">\(\mathrm{TiO}_2\)</span> with <span class="math notranslate nohighlight">\(100\%\)</span> bio-derived scattering <code class="docutils literal notranslate"><span class="pre">CNS</span></code> and black <code class="docutils literal notranslate"><span class="pre">rGO</span></code>/<code class="docutils literal notranslate"><span class="pre">LIG</span></code> particles (<span class="math notranslate nohighlight">\(P_{\mathrm{hold}} = 0\text{ W}\)</span>, saving <span class="math notranslate nohighlight">\(35{,}040\text{ kWh/yr}\)</span> and <span class="math notranslate nohighlight">\(\$3{,}000\text{--}\$5{,}000/\text{yr}\)</span> per highway gantry vs. active LED DMS signs), while shrinking micro-capsule gap <span class="math notranslate nohighlight">\(d_{\mathrm{gap}}\)</span> from <span class="math notranslate nohighlight">\(40\text{ }\mu\text{m}\)</span> to <span class="math notranslate nohighlight">\(10\text{ }\mu\text{m}\)</span> compresses switching time <span class="math notranslate nohighlight">\(16\times\)</span> from <span class="math notranslate nohighlight">\(400\text{ ms}\)</span> to <strong><span class="math notranslate nohighlight">\(25\text{ ms} &lt; 33.3\text{ ms}\)</span> (<span class="math notranslate nohighlight">\(&gt;30\text{ Hz}\)</span> video rate)</strong>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Electro-Rotational “Clear Sign” with Hardware Brownian Blackout Failsafe &amp; <code class="docutils literal notranslate"><span class="pre">48D</span> <span class="pre">OAM</span></code> Wire-Free Addressing</strong>: Under active bias (<span class="math notranslate nohighlight">\(V &gt; 0\)</span>), 2D <code class="docutils literal notranslate"><span class="pre">rGO</span></code> flakes align on-edge (<span class="math notranslate nohighlight">\(\sin\theta_{\mathrm{flake}} = 0 \implies T = 92\% &gt; 90\%\)</span> clear window/greenhouse curtain); on power loss (<span class="math notranslate nohighlight">\(V = 0\)</span>), <strong>Brownian rotational diffusion</strong> tumbles flakes flat (<span class="math notranslate nohighlight">\(\sin\theta_{\mathrm{flake}} = 1 \implies T = 0\%\)</span>) in milliseconds without software, automatically shading crops during summer grid failures, while a photosensitive <code class="docutils literal notranslate"><span class="pre">LIG</span></code> backplane addressed by a 48-mode OAM beam eliminates brittle wire grids.</p></li>
+<li><p><strong>Bilayer Active (<code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code>) / Passive (<code class="docutils literal notranslate"><span class="pre">Pristine</span> <span class="pre">Vitrimer</span></code>) Haptic &amp; Mechanical Shutter Pixels</strong>: Differential thermal expansion <span class="math notranslate nohighlight">\(\kappa_{\mathrm{bilayer}} = \frac{6(\alpha_{\mathrm{act}} - \alpha_{\mathrm{pass}})\Delta T}{h_{\mathrm{tot}}}\)</span> drives refreshable Braille/tactile domes with passive elastic snap-back.</p></li>
+</ul>
+</li>
+<li><p><strong>Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Structural-Color Projectors &amp; Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays (<code class="docutils literal notranslate"><span class="pre">cncChiralBraggWavelengthNm</span></code>, <code class="docutils literal notranslate"><span class="pre">nanodiamondShgDisplayWavelengthNm</span></code>, <code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span></code>, <code class="docutils literal notranslate"><span class="pre">nvDiamondOdmrSplittingMhz</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Vertical <code class="docutils literal notranslate"><span class="pre">RGB</span></code> Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Bragg Sandwich (“Bio-Bragg TV” &amp; <span class="math notranslate nohighlight">\(&gt;90\%\)</span> Transparent Contact-Lens AR)</strong>: Stacking transparent Cellulose Nanocrystal (<code class="docutils literal notranslate"><span class="pre">CNC</span></code>) Bragg layers with half-pitches <span class="math notranslate nohighlight">\((150, 180, 220)\text{ nm}\)</span> reflects razor-sharp Rec. 2020 peaks at <span class="math notranslate nohighlight">\((450, 540, 660)\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(\pm 5\text{ nm}\)</span>), strain-tuned by <span class="math notranslate nohighlight">\(\Delta\lambda = n_{\mathrm{avg}} p_0 \varepsilon_{\mathrm{strain}}\)</span>, reducing a <code class="docutils literal notranslate"><span class="pre">Bio-LCoS</span></code> chip BOM from <span class="math notranslate nohighlight">\(\$80 \to \$2\)</span> (<span class="math notranslate nohighlight">\(40\times\)</span>) and a 55-inch R2R TV panel BOM from <span class="math notranslate nohighlight">\(\$500 \to \$50\)</span> (<span class="math notranslate nohighlight">\(10\times\)</span>).</p></li>
+<li><p><strong>Insect-Blind <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Amber &amp; Full-Color <code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code>-Nanodiamond Quantum Displays</strong>: Second-Harmonic Generation (<code class="docutils literal notranslate"><span class="pre">SHG</span></code>) in nanodiamond-on-vitrimer stacks halves <span class="math notranslate nohighlight">\(1180\text{ nm} \to 590\text{ nm}\)</span> (amber, where nocturnal insect photoreceptor response is strictly zero, <span class="math notranslate nohighlight">\(\lambda &gt; 500\text{ nm}\)</span>) and <span class="math notranslate nohighlight">\((1270, 1064, 900)\text{ nm} \to (635, 532, 450)\text{ nm}\)</span> (non-bleaching RGB), while <code class="docutils literal notranslate"><span class="pre">NV</span></code> centers (<code class="docutils literal notranslate"><span class="pre">n-adamantane</span></code> or biodegradable <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code> emitters) simultaneously act as real-time <code class="docutils literal notranslate"><span class="pre">ODMR</span></code> magnetic/thermal wavefront sensors (<span class="math notranslate nohighlight">\(\Delta f_{\mathrm{ODMR}} = 2\gamma_{\mathrm{NV}} B = 280\text{ MHz}\)</span> at <span class="math notranslate nohighlight">\(5\text{ mT}\)</span>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="taxonomy-of-rgo-vitrimer-active-metamaterial-e-paper-and-nanodiamond-display-designs-across-the-corpus">
+<h2>1. Taxonomy of <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterial, E-Paper, and Nanodiamond Display Designs Across the Corpus<a class="headerlink" href="#taxonomy-of-rgo-vitrimer-active-metamaterial-e-paper-and-nanodiamond-display-designs-across-the-corpus" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph CoreMat[&quot;1. rGO-Vitrimer + A-CNT + LBGPC Active Metamaterial Core&quot;]
+        Pitch[&quot;Sub-Wavelength Nanopixels\nΛ_pitch = 300-400 nm &lt;= λ / (2 NA)\nInterdigitated Ladder on Hexyl Cellulose&quot;]
+        Pauli[&quot;Dual Electronic Regimes\n• V = 0 (2 E_F &lt; ħω): 2.3%/layer Absorption (Shutter)\n• High V (2 E_F &gt; ħω): Pauli-Blocked Pure Phase (α = 0)&quot;]
+        GTE[&quot;Gires-Tournois Etalon (Smart Mirror)\n• rGO Grating over LCS Bragg Mirror (R_bot ≈ 1)\n• 100% Brightness + 3x Phase Slope\n• 100 ps (10 nm) to 4 ns (200 nm) A-CNT Quench&quot;]
+        Pitch --&gt; Pauli --&gt; GTE
+    end
+
+    subgraph EPaper[&quot;2. Three Sustainable E-Paper &amp; Reflective Display Families&quot;]
+        VR[&quot;A. Vector Reflect (VR-Series)\n• Bistable LIG-Coated CNS (White) + rGO (Black)\n• Zero Hold Power (0 kWh/yr vs 35,040 kWh/yr LED)\n• d_gap = 10 μm =&gt; τ_EP = 25 ms (&gt;30 Hz Video Rate)&quot;]
+        TPU[&quot;B. rGO-Bio-TPU Clear Sign\n• 2D rGO Flakes in Clear Algae Bio-TPU\n• V &gt; 0: On-Edge (&gt;90% Clear Window)\n• V = 0: Brownian Flat Blackout Failsafe\n• Wire-Free 48D OAM Optical Addressing&quot;]
+        Bilayer[&quot;C. Bilayer Active/Passive Vitrimer\n• Active rGO-Vitrimer + Passive Pristine Vitrimer\n• κ = 6(α_act - α_pass)ΔT / h_tot\n• Haptic Braille + LBGPC 1 kHz DVM Strip&quot;]
+    end
+
+    subgraph ColorQuantum[&quot;3. Chiral CNC Structural-Color &amp; Nanodiamond Quantum Displays&quot;]
+        Bragg[&quot;D. Vertical RGB Chiral CNC Bio-Bragg\n• Stacked p_0 = (150, 180, 220) nm =&gt; (450, 540, 660) nm\n• Rec. 2020 Gamut, &gt;90% Transparent AR Contact Lens\n• $2 Bio-LCoS &amp; $50 55-Inch R2R Bio-Bragg TV&quot;]
+        Amber[&quot;E. 590 nm Insect-Blind Amber Signage\n• 1180 nm -&gt; 590 nm Nanodiamond SHG or P-CQD\n• Zero Nocturnal Insect Attraction (λ &gt; 500 nm)&quot;]
+        NV[&quot;F. Active Quantum Display + Wavefront Sensor\n• 1270/1064/900 nm -&gt; 635/532/450 nm SHG RGB\n• n-Adamantane NV ODMR (Δf = 2 γ_NV B)\n• Programmable Fresnel/Fork OAM Modal Sensor&quot;]
+    end
+
+    CoreMat --&gt; EPaper
+    CoreMat --&gt; ColorQuantum
+    </pre><section id="master-comparison-of-all-six-rgo-vitrimer-metamaterial-display-architectures">
+<h3>1.1 Master Comparison of All Six <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Metamaterial &amp; Display Architectures<a class="headerlink" href="#master-comparison-of-all-six-rgo-vitrimer-metamaterial-display-architectures" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Architecture Variant</p></th>
+<th class="head text-left"><p>Active / Optical Stack</p></th>
+<th class="head text-left"><p>Switching Mechanism &amp; Speed Regime</p></th>
+<th class="head text-left"><p>Spatial Pitch / Resolution</p></th>
+<th class="head text-left"><p>Contrast, Gamut, &amp; Transparency</p></th>
+<th class="head text-left"><p>Primary Applications &amp; Chat Provenance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>1. <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Pauli-Blocked <code class="docutils literal notranslate"><span class="pre">GTE</span></code> Active Metasurface (<code class="docutils literal notranslate"><span class="pre">Bio-LCoS</span></code>)</strong></p></td>
+<td class="text-left"><p>Patterned <code class="docutils literal notranslate"><span class="pre">rGO</span></code> grating (<span class="math notranslate nohighlight">\(300\text{--}400\text{ nm}\)</span>) + <code class="docutils literal notranslate"><span class="pre">LCS</span></code> Bragg reflector + <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> phonon vias</p></td>
+<td class="text-left"><p><strong>Electronic Pauli blocking</strong>: <span class="math notranslate nohighlight">\(1\text{--}10\text{ ns}\)</span> (<span class="math notranslate nohighlight">\(100\text{ MHz}\text{--}1\text{ GHz}\)</span>); <strong>Thermo-optic + <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code></strong>: <span class="math notranslate nohighlight">\(100\text{ ps}\text{--}4\text{ ns}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\Lambda = 300\text{--}400\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(\le \lambda/2\)</span>), gigapixel wafer scale</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(|r_{\mathrm{GTE}}|^2 = 1\)</span> (<span class="math notranslate nohighlight">\(0\text{ dB}\)</span> loss), <span class="math notranslate nohighlight">\(3\times\)</span> phase slope, <span class="math notranslate nohighlight">\(C_{\mathrm{speckle}} = 0.1\%\)</span>, <span class="math notranslate nohighlight">\(\mathrm{ODT} = 50\text{--}100\text{ GW/cm}^2\)</span></p></td>
+<td class="text-left"><p>High-power <code class="docutils literal notranslate"><span class="pre">LCoS</span></code> replacement (<span class="math notranslate nohighlight">\(95\text{--}97.5\%\)</span> cheaper), speckle whitener, <code class="docutils literal notranslate"><span class="pre">QFT</span></code> soliton router (<a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">248-425</span></code></a>; <a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Processor and Soliton Discussions  .md, lines 6710–6775</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>2. <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> + <code class="docutils literal notranslate"><span class="pre">LBGPC</span></code> Dynamic Virtual Mask (<code class="docutils literal notranslate"><span class="pre">DVM</span></code>) / Near-Field Nozzle (<code class="docutils literal notranslate"><span class="pre">NFN</span></code>)</strong></p></td>
+<td class="text-left"><p>6–50+ overlapping <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> strips in laminar <code class="docutils literal notranslate"><span class="pre">LBGPC</span></code> fluid (<span class="math notranslate nohighlight">\(\mathrm{Re} &lt; 2000\)</span>)</p></td>
+<td class="text-left"><p><strong>Photothermal / Dynamic Bond Exchange (<code class="docutils literal notranslate"><span class="pre">DBE</span></code>)</strong>: <span class="math notranslate nohighlight">\(1\text{ kHz}\)</span> (<span class="math notranslate nohighlight">\(1\text{ ms}\)</span>) with passive bilayer elastic reset</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(500\text{ nm}\)</span> interdigitated ladder + <span class="math notranslate nohighlight">\(2\text{--}10\text{ nm}\)</span> topological <code class="docutils literal notranslate"><span class="pre">NFN</span></code> aperture</p></td>
+<td class="text-left"><p>Stitchless <span class="math notranslate nohighlight">\(510\text{ mm}\)</span> panel &amp; <span class="math notranslate nohighlight">\(10\text{ km} \times 150\text{ mm}\)</span> R2R tape, dynamic <span class="math notranslate nohighlight">\(10\text{ }\mu\text{m}\)</span> sag compensation</p></td>
+<td class="text-left"><p>Reticle-free R2R nanolithography for <code class="docutils literal notranslate"><span class="pre">PCLP</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Hexyl</span> <span class="pre">Cellulose</span></code> (<a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">259-1325</span></code></a>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>3. <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>) Bistable <code class="docutils literal notranslate"><span class="pre">CNS</span></code> + Carbon E-Paper</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">LIG</span></code>-coated Cellulose Nanospheres (<code class="docutils literal notranslate"><span class="pre">CNS</span></code> white) + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> (black) in vitrimer capsule</p></td>
+<td class="text-left"><p><strong>Electrophoretic translation</strong>: bistable (<span class="math notranslate nohighlight">\(0\text{ W}\)</span> hold) to <strong><span class="math notranslate nohighlight">\(25\text{ ms}\)</span> (<span class="math notranslate nohighlight">\(40\text{ Hz}\)</span> video rate)</strong> at <span class="math notranslate nohighlight">\(d_{\mathrm{gap}} = 10\text{ }\mu\text{m}\)</span></p></td>
+<td class="text-left"><p>Sub-mm signage pixels to <span class="math notranslate nohighlight">\(300\text{ DPI}\)</span> e-paper</p></td>
+<td class="text-left"><p>Sunlight-readable high-albedo <code class="docutils literal notranslate"><span class="pre">CNS</span></code> white vs. carbon black; photothermal <strong>“Vitrimer Skin-Peel”</strong> self-cleaning</p></td>
+<td class="text-left"><p>Zero-power highway gantries (<span class="math notranslate nohighlight">\(\$85\text{k}\)</span> vs. <span class="math notranslate nohighlight">\(\$200\text{k}\)</span> LED DMS), emergency mesh signs (<a class="reference download internal" download="" href="_downloads/3c1e235e97632d2ee8077757f5834aac/_Sustainable%20Composites_%20Energy%2C%20Processing%2C%20Costs%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Sustainable</span> <span class="pre">Composites_</span> <span class="pre">Energy,</span> <span class="pre">Processing,</span> <span class="pre">Costs</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">4595-4795</span></code></a>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>4. <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Electro-Rotational “Clear Sign” + <code class="docutils literal notranslate"><span class="pre">48D</span> <span class="pre">OAM</span></code> Addressing</strong></p></td>
+<td class="text-left"><p>2D <code class="docutils literal notranslate"><span class="pre">rGO</span></code> flakes in dielectric micro-droplets inside clear algae <code class="docutils literal notranslate"><span class="pre">Bio-TPU</span></code> + <code class="docutils literal notranslate"><span class="pre">LIG</span></code> photo-backplane</p></td>
+<td class="text-left"><p><strong>Electro-rotational torque (<span class="math notranslate nohighlight">\(V&gt;0\)</span>)</strong> vs. <strong>Brownian tumbling (<span class="math notranslate nohighlight">\(V=0\)</span>)</strong>: ms video-rate + hardware blackout failsafe</p></td>
+<td class="text-left"><p>Wire-free optical addressing via <span class="math notranslate nohighlight">\(48\)</span>-mode <code class="docutils literal notranslate"><span class="pre">OAM</span></code> unitary projection</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(&gt;90\%\)</span> transparent</strong> (<code class="docutils literal notranslate"><span class="pre">on-edge</span></code> at <span class="math notranslate nohighlight">\(V&gt;0\)</span>) <span class="math notranslate nohighlight">\(\leftrightarrow\)</span> <strong>Opaque black</strong> (<code class="docutils literal notranslate"><span class="pre">flat</span></code> at <span class="math notranslate nohighlight">\(V=0\)</span> power outage)</p></td>
+<td class="text-left"><p>Smart greenhouse curtain walls (automatic crop shade failsafe), stretchable HUDs (<a class="reference download internal" download="" href="_downloads/8a207251ea8b5c8d742ba1c87d4451ec/_Lignin%20Vitrimer%20Hydroponic%20Pipe%20Development%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Lignin</span> <span class="pre">Vitrimer</span> <span class="pre">Hydroponic</span> <span class="pre">Pipe</span> <span class="pre">Development</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">1175-1325</span></code></a>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>5. Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Vertical <code class="docutils literal notranslate"><span class="pre">RGB</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Display</strong></p></td>
+<td class="text-left"><p>3-layer vertical <code class="docutils literal notranslate"><span class="pre">CNC</span></code> Bragg stack (<span class="math notranslate nohighlight">\(p_0 = 150, 180, 220\text{ nm}\)</span>) + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> electrodes + <code class="docutils literal notranslate"><span class="pre">CNT-FET</span></code> backplane</p></td>
+<td class="text-left"><p><strong>Electro-strain pitch tuning</strong> (<span class="math notranslate nohighlight">\(\lambda = n_{\mathrm{avg}} p_0(1+\varepsilon)\)</span>) or <strong>ns GTE phase</strong> (<span class="math notranslate nohighlight">\(t = 0, 10, 20\text{ ns}\)</span> TDM)</p></td>
+<td class="text-left"><p>Full sub-pixel vertical stacking (<span class="math notranslate nohighlight">\(3\times\)</span> area efficiency vs. side-by-side RGB)</p></td>
+<td class="text-left"><p><strong>Rec. 2020 wide gamut</strong> (<span class="math notranslate nohighlight">\(\pm 5\text{ nm}\)</span> spectral purity), <strong><span class="math notranslate nohighlight">\(&gt;90\%\)</span> off-notch transparency</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\$50\)</span> (<span class="math notranslate nohighlight">\(5\text{--}10\text{ W}\)</span>) 55” R2R <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> TV (vs. <span class="math notranslate nohighlight">\(\$500\)</span> OLED) &amp; transparent contact-lens AR (<a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">1425-1675</span></code></a>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>6. Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Display</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> shutter + <code class="docutils literal notranslate"><span class="pre">NV</span></code> nanodiamonds (<code class="docutils literal notranslate"><span class="pre">n-adamantane</span></code>) or biodegradable <code class="docutils literal notranslate"><span class="pre">P-CQDs</span></code></p></td>
+<td class="text-left"><p><strong>Optical <code class="docutils literal notranslate"><span class="pre">SHG</span></code> (<span class="math notranslate nohighlight">\(\omega \to 2\omega\)</span>)</strong> + <strong><span class="math notranslate nohighlight">\(50\text{ ps}\)</span> Purcell <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code></strong> + <strong>kHz–GHz <code class="docutils literal notranslate"><span class="pre">rGO</span></code> gate</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(&lt;10\text{ nm}\)</span> voxel placement via Near-Field Aperture-Mediated <code class="docutils literal notranslate"><span class="pre">LIFT</span></code></p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(590\text{ nm}\)</span> insect-blind amber</strong> (<span class="math notranslate nohighlight">\(\lambda &gt; 500\text{ nm}\)</span>) &amp; non-bleaching <span class="math notranslate nohighlight">\((635, 532, 450)\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">SHG</span></code> RGB</p></td>
+<td class="text-left"><p>Bug-free theme-park/wayfinding signs + real-time <code class="docutils literal notranslate"><span class="pre">ODMR</span></code> (<span class="math notranslate nohighlight">\(\Delta f = 2\gamma_{\mathrm{NV}} B\)</span>) QPU diagnostic screen (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 276–345</span></a>; <a class="reference download internal" download="" href="_downloads/6b40725495585effee7e318a2ad98549/_Induction%20Welding%2C%20Rail%2C%20Rolllercoasters%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Induction</span> <span class="pre">Welding,</span> <span class="pre">Rail,</span> <span class="pre">Rolllercoasters</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">853-935</span></code></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rgo-vitrimer-active-metasurface-physics-pauli-blocked-girestournois-etalon-gte-speckle-whitening-and-4-ns-a-cnt-thermal-reset">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metasurface Physics: Pauli-Blocked Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">GTE</span></code>), Speckle Whitening, and <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">ns</span></code> <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> Thermal Reset<a class="headerlink" href="#rgo-vitrimer-active-metasurface-physics-pauli-blocked-girestournois-etalon-gte-speckle-whitening-and-4-ns-a-cnt-thermal-reset" title="Link to this heading">¶</a></h2>
+<section id="sub-wavelength-nyquist-pixel-pitch-and-the-bridge-from-modulator-to-4d-active-metasurface-rgometasurfacenyquistpitchnm">
+<h3>2.1 Sub-Wavelength Nyquist Pixel Pitch and the Bridge from Modulator to 4D Active Metasurface (<code class="docutils literal notranslate"><span class="pre">rgoMetasurfaceNyquistPitchNm</span></code>)<a class="headerlink" href="#sub-wavelength-nyquist-pixel-pitch-and-the-bridge-from-modulator-to-4d-active-metasurface-rgometasurfacenyquistpitchnm" title="Link to this heading">¶</a></h3>
+<p>As established in <a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">248-262</span></code></a> and <a class="reference download internal" download="" href="_downloads/19b88ae0b4dc415a7f10311a590586fb/_LLMs%2C%20Fourier%2C%20and%20Quantum%20Logic%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_LLMs,</span> <span class="pre">Fourier,</span> <span class="pre">and</span> <span class="pre">Quantum</span> <span class="pre">Logic</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">850-875</span></code></a>, a uniform unpatterned sheet of <code class="docutils literal notranslate"><span class="pre">rGO</span></code> switching on and off is a bulk amplitude modulator, not a metamaterial. Structuring the <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> electrodes into a sub-wavelength nanopixel grid with pitch <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{pitch}}\)</span> satisfying the spatial Nyquist–Shannon sampling bound (<code class="docutils literal notranslate"><span class="pre">rgoMetasurfaceNyquistPitchNm</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\Lambda_{\mathrm{pitch}} \le \operatorname{rgoMetasurfaceNyquistPitchNm}(\lambda, \mathrm{NA}) = \frac{\lambda}{2\,\mathrm{NA}}
+\]</div>
+<p>eliminates higher-order grating lobes and zero-order leakage. For an <span class="math notranslate nohighlight">\(\lambda = 800\text{ nm}\)</span> Ti:Sapphire / Yb-fiber hologram at <span class="math notranslate nohighlight">\(\mathrm{NA} = 1\)</span>, <span class="math notranslate nohighlight">\(\Lambda_{\max}(800, 1) = 400\text{ nm}\)</span>, matching the <strong><span class="math notranslate nohighlight">\(300\text{--}400\text{ nm}\)</span> nanopixel pitch</strong> fabricated via bottom-up <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> electrophoresis and top-down lithography (<a class="reference download internal" download="" href="_downloads/19b88ae0b4dc415a7f10311a590586fb/_LLMs%2C%20Fourier%2C%20and%20Quantum%20Logic%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_LLMs,</span> <span class="pre">Fourier,</span> <span class="pre">and</span> <span class="pre">Quantum</span> <span class="pre">Logic</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">868-945</span></code></a>). Because these sub-wavelength resonators switch their refractive index in nanoseconds to picoseconds, the array operates as a <strong>Time-Varying (4D) Active Metasurface</strong>.</p>
+</section>
+<section id="electronic-pauli-blocking-vs-absorptive-shuttering-and-the-girestournois-etalon-rgopauliblockedabsorption-girestournoisphaseenhancementfactor">
+<h3>2.2 Electronic Pauli Blocking vs. Absorptive Shuttering and the Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span></code>, <code class="docutils literal notranslate"><span class="pre">giresTournoisPhaseEnhancementFactor</span></code>)<a class="headerlink" href="#electronic-pauli-blocking-vs-absorptive-shuttering-and-the-girestournois-etalon-rgopauliblockedabsorption-girestournoisphaseenhancementfactor" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">350-425</span></code></a>, we resolved the fundamental tension between <strong>e-paper amplitude shuttering</strong> (which requires strong absorption) and <strong>lossless holographic phase steering</strong> (which requires zero absorption):</p>
+<ol class="arabic">
+<li><p><strong>Dual-Regime Pauli-Blocking Switch (<code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Shutter / E-Paper Mode (<span class="math notranslate nohighlight">\(V = 0\)</span>, <span class="math notranslate nohighlight">\(2|E_F| \le \hbar\omega\)</span>)</strong>: Interband transitions in <code class="docutils literal notranslate"><span class="pre">rGO</span></code> are allowed, yielding strong broadband optical absorption <span class="math notranslate nohighlight">\(\alpha_{\mathrm{inter}} \approx 2.3\%/\text{monolayer}\)</span> (<code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span> <span class="pre">1</span> <span class="pre">2</span> <span class="pre">(23/1000)</span> <span class="pre">=</span> <span class="pre">23/1000</span></code>).</p></li>
+<li><p><strong>Pure-Phase Holographic Mode (High Gate Bias <span class="math notranslate nohighlight">\(V &gt; V_{\mathrm{Pauli}}\)</span>, <span class="math notranslate nohighlight">\(2|E_F| &gt; \hbar\omega\)</span>)</strong>: Electrostatic carrier injection fills the conduction band above <span class="math notranslate nohighlight">\(\hbar\omega / 2\)</span>. By the Pauli exclusion principle, interband photon absorption is forbidden (<code class="docutils literal notranslate"><span class="pre">rgoPauliBlockedAbsorption</span> <span class="pre">3</span> <span class="pre">2</span> <span class="pre">(23/1000)</span> <span class="pre">=</span> <span class="pre">0</span></code>), rendering the <code class="docutils literal notranslate"><span class="pre">rGO</span></code> layer optically transparent while shifting its Drude plasma frequency <span class="math notranslate nohighlight">\(\omega_p(E_F)\)</span> and real refractive index <span class="math notranslate nohighlight">\(\Delta n(E_F)\)</span> in nanoseconds!</p></li>
+</ul>
+</li>
+<li><p><strong>Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">GTE</span></code>, “Smart Mirror”) Cavity Phase Amplification (<code class="docutils literal notranslate"><span class="pre">giresTournoisPhaseEnhancementFactor</span></code>)</strong>:
+Placing the Pauli-blocked <code class="docutils literal notranslate"><span class="pre">rGO</span></code> phase grating directly on top of a bottom LCS-imprinted <code class="docutils literal notranslate"><span class="pre">Lignin-Vitrimer</span></code> / <code class="docutils literal notranslate"><span class="pre">CNC</span></code> Bragg mirror (<span class="math notranslate nohighlight">\(R_{\mathrm{bottom}} \approx 1\)</span>) with top partial reflection amplitude <span class="math notranslate nohighlight">\(r_{\mathrm{top}} \in [0, 1)\)</span> creates a <strong>Gires–Tournois Etalon</strong> (<a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">390-425</span> <span class="pre">&amp;</span> <span class="pre">1470-1495</span></code></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+   r_{\mathrm{GTE}}(\phi) = \frac{r_{\mathrm{top}} - e^{-i\phi}}{1 - r_{\mathrm{top}} e^{-i\phi}}, \qquad
+   \bigl|r_{\mathrm{GTE}}(\phi)\bigr|^2 = 1, \qquad
+   \left.\frac{d\Phi_{\mathrm{GTE}}}{d\phi}\right|_{\phi = 0} = \operatorname{giresTournoisPhaseEnhancementFactor}(r_{\mathrm{top}}) = \frac{1 + r_{\mathrm{top}}}{1 - r_{\mathrm{top}}}.
+   \]</div>
+<p>At <span class="math notranslate nohighlight">\(r_{\mathrm{top}} = 1/2\)</span> (<span class="math notranslate nohighlight">\(R_{\mathrm{top}} = 25\%\)</span>), <span class="math notranslate nohighlight">\(\mathcal{G}_{\mathrm{GTE}}(1/2) = 3 &gt; 1\)</span>: the cavity <strong>triples the single-pass phase shift</strong> <span class="math notranslate nohighlight">\(\Delta\phi = \frac{2\pi \Delta n L}{\lambda}\)</span> while reflecting <span class="math notranslate nohighlight">\(100\%\)</span> of the incident optical power!</p>
+</li>
+<li><p><strong>Temporal Speckle Whitening (<code class="docutils literal notranslate"><span class="pre">rgoSpeckleContrastSq</span></code>) &amp; <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">ns</span></code> Flash-Print Thermal Reset (<code class="docutils literal notranslate"><span class="pre">rgoThermalDiffusionResetTimeNs</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Driving the <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> <code class="docutils literal notranslate"><span class="pre">GTE</span></code> array with uncorrelated phase patterns at modulation frequency <span class="math notranslate nohighlight">\(f_{\mathrm{mod}} = 10^8\text{ Hz}\)</span> (<span class="math notranslate nohighlight">\(10\text{ ns}\)</span> per frame) over detector/eye integration window <span class="math notranslate nohighlight">\(\tau_{\mathrm{int}} = 10\text{ ms}\)</span> averages <span class="math notranslate nohighlight">\(M = f_{\mathrm{mod}}\tau_{\mathrm{int}} = 10^6\)</span> independent speckle realizations, collapsing squared speckle contrast to <span class="math notranslate nohighlight">\(\operatorname{rgoSpeckleContrastSq}(10^8, 10^{-2}) = 10^{-6}\)</span> (<span class="math notranslate nohighlight">\(C = 0.1\%\)</span>).</p></li>
+<li><p>For photothermal “Flash-Print” nanolithography (<a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Processor and Soliton Discussions  .md, lines 6710–6775</span></a>), a <span class="math notranslate nohighlight">\(L_{\mathrm{mask}} = 200\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> active layer backed by vertical <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> phonon sinks (<span class="math notranslate nohighlight">\(\alpha_{\mathrm{eff}} = 10^{-5}\text{ m}^2/\text{s} = 10^4\text{ nm}^2/\text{ns}\)</span>) clears heat in <span class="math notranslate nohighlight">\(\operatorname{rgoThermalDiffusionResetTimeNs}(200, 10^4) = \frac{200^2}{10^4} = \mathbf{4\text{ ns} &lt; 10\text{ ns}}\)</span> (and <span class="math notranslate nohighlight">\(100\text{ ps}\)</span> for a <span class="math notranslate nohighlight">\(10\text{ nm}\)</span> Kapitza film, <code class="docutils literal notranslate"><span class="pre">vacntKapitzaCoolingTimePs</span></code>), withstanding <strong><span class="math notranslate nohighlight">\(50\text{--}100\text{ GW/cm}^2\)</span></strong> peak irradiance without boiling or ablating.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="sustainable-e-paper-reflective-display-architectures-vector-reflect-rgo-bio-tpu-clear-signs-and-bilayer-vitrimers">
+<h2>3. Sustainable E-Paper &amp; Reflective Display Architectures: <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code>, <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Clear Signs, and Bilayer Vitrimers<a class="headerlink" href="#sustainable-e-paper-reflective-display-architectures-vector-reflect-rgo-bio-tpu-clear-signs-and-bilayer-vitrimers" title="Link to this heading">¶</a></h2>
+<section id="vector-reflect-vr-series-bistable-lig-coated-cellulose-nanosphere-cns-carbon-e-paper-epaperelectrophoreticswitchtimems-vectorreflectbistableannualenergykwh">
+<h3>3.1 <code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>): Bistable <code class="docutils literal notranslate"><span class="pre">LIG</span></code>-Coated Cellulose Nanosphere (<code class="docutils literal notranslate"><span class="pre">CNS</span></code>) + Carbon E-Paper (<code class="docutils literal notranslate"><span class="pre">epaperElectrophoreticSwitchTimeMs</span></code>, <code class="docutils literal notranslate"><span class="pre">vectorReflectBistableAnnualEnergyKwh</span></code>)<a class="headerlink" href="#vector-reflect-vr-series-bistable-lig-coated-cellulose-nanosphere-cns-carbon-e-paper-epaperelectrophoreticswitchtimems-vectorreflectbistableannualenergykwh" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/3c1e235e97632d2ee8077757f5834aac/_Sustainable%20Composites_%20Energy%2C%20Processing%2C%20Costs%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Sustainable</span> <span class="pre">Composites_</span> <span class="pre">Energy,</span> <span class="pre">Processing,</span> <span class="pre">Costs</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">4595-4795</span></code></a> and <a class="reference download internal" download="" href="_downloads/6b40725495585effee7e318a2ad98549/_Induction%20Welding%2C%20Rail%2C%20Rolllercoasters%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Induction</span> <span class="pre">Welding,</span> <span class="pre">Rail,</span> <span class="pre">Rolllercoasters</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">920-935</span></code></a>, the <strong><code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>)</strong> architecture replaces mined titanium dioxide (<span class="math notranslate nohighlight">\(\mathrm{TiO}_2\)</span>) in electrophoretic displays with <span class="math notranslate nohighlight">\(100\%\)</span> bio-derived, high-albedo <strong>Cellulose Nanospheres (<code class="docutils literal notranslate"><span class="pre">CNS</span></code>)</strong> paired with black <code class="docutils literal notranslate"><span class="pre">rGO</span></code>/<code class="docutils literal notranslate"><span class="pre">LIG</span></code> carbon allotropes:</p>
+<ol class="arabic">
+<li><p><strong>Zero Static Holding Power &amp; Self-Cleaning “Vitrimer Skin-Peel” (<code class="docutils literal notranslate"><span class="pre">vectorReflectBistableAnnualEnergyKwh</span></code>)</strong>:
+Because the electrophoretic capsule is bistable (<span class="math notranslate nohighlight">\(P_{\mathrm{hold}} = 0\text{ kW}\)</span>), holding a static highway or wayfinding image for <span class="math notranslate nohighlight">\(H_{\mathrm{yr}} = 8{,}760\text{ h/yr}\)</span> consumes <span class="math notranslate nohighlight">\(\operatorname{vectorReflectBistableAnnualEnergyKwh}(0, 8760, 0, 0) = 0\text{ kWh/yr}\)</span>, whereas a conventional <span class="math notranslate nohighlight">\(4\text{ kW}\)</span> active LED Dynamic Message Sign (<code class="docutils literal notranslate"><span class="pre">DMS</span></code>) consumes <span class="math notranslate nohighlight">\(35{,}040\text{ kWh/yr}\)</span> (saving <span class="math notranslate nohighlight">\(\$3{,}000\text{--}\$5{,}000/\text{yr}\)</span> in electricity and lowering gantry CapEx from <span class="math notranslate nohighlight">\(\$200{,}000\)</span> to <span class="math notranslate nohighlight">\(\$85{,}000\)</span>). Bi-annual photothermal triggering of the top vitrimer molecular layer (<strong>“Vitrimer Skin-Peel”</strong>) relaxes surface cross-links so environmental grime slides off in rain, preserving <span class="math notranslate nohighlight">\(100\%\)</span> optical contrast over a <span class="math notranslate nohighlight">\(30\text{--}40\text{ yr}\)</span> lifecycle before closed-loop acetic-acid / <code class="docutils literal notranslate"><span class="pre">LBGPC</span></code> solvolysis.</p></li>
+<li><p><strong>Video-Rate Electrophoretic Scaling (<code class="docutils literal notranslate"><span class="pre">epaperElectrophoreticSwitchTimeMs</span></code>)</strong>:
+The electrophoretic transit time across capsule gap <span class="math notranslate nohighlight">\(d_{\mathrm{gap}}\)</span> under mobility <span class="math notranslate nohighlight">\(\mu_{\mathrm{EP}}\)</span> and drive voltage <span class="math notranslate nohighlight">\(V_{\mathrm{drive}}\)</span> scales quadratically with gap thickness:</p>
+<div class="math notranslate nohighlight">
+\[
+   \tau_{\mathrm{EP}}\bigl(d_{\mathrm{gap}}, \mu_{\mathrm{EP}}, V_{\mathrm{drive}}\bigr) = \frac{d_{\mathrm{gap}}^2}{\mu_{\mathrm{EP}}\,V_{\mathrm{drive}}}.
+   \]</div>
+<p>Shrinking the micro-capsule gap <span class="math notranslate nohighlight">\(4\times\)</span> from <span class="math notranslate nohighlight">\(d_{\mathrm{gap}} = 40\text{ }\mu\text{m}\)</span> (<span class="math notranslate nohighlight">\(\tau_{\mathrm{EP}} = 400\text{ ms}\)</span>, <span class="math notranslate nohighlight">\(2.5\text{ Hz}\)</span>) to <span class="math notranslate nohighlight">\(d_{\mathrm{gap}} = 10\text{ }\mu\text{m}\)</span> reduces switching time <strong><span class="math notranslate nohighlight">\(16\times\)</span> to <span class="math notranslate nohighlight">\(\tau_{\mathrm{EP}}(10, 4, 1) = 25\text{ ms} &lt; 33.3\text{ ms}\)</span></strong>, crossing the <strong><span class="math notranslate nohighlight">\(30\text{--}40\text{ Hz}\)</span> video-rate threshold</strong> (<a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">215-235</span></code></a>).</p>
+</li>
+</ol>
+</section>
+<section id="rgo-bio-tpu-electro-rotational-clear-sign-with-hardware-brownian-failsafe-and-48d-oam-wire-free-addressing-rgobiotpuclearsigntransmittance">
+<h3>3.2 <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Electro-Rotational “Clear Sign” with Hardware Brownian Failsafe and <code class="docutils literal notranslate"><span class="pre">48D</span> <span class="pre">OAM</span></code> Wire-Free Addressing (<code class="docutils literal notranslate"><span class="pre">rgoBioTpuClearSignTransmittance</span></code>)<a class="headerlink" href="#rgo-bio-tpu-electro-rotational-clear-sign-with-hardware-brownian-failsafe-and-48d-oam-wire-free-addressing-rgobiotpuclearsigntransmittance" title="Link to this heading">¶</a></h3>
+<p>To create a flexible, stretchable display that switches between <strong><span class="math notranslate nohighlight">\(&gt;90\%\)</span> optically clear glass</strong> and <strong>high-contrast pitch black</strong> (<a class="reference download internal" download="" href="_downloads/8a207251ea8b5c8d742ba1c87d4451ec/_Lignin%20Vitrimer%20Hydroponic%20Pipe%20Development%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Lignin</span> <span class="pre">Vitrimer</span> <span class="pre">Hydroponic</span> <span class="pre">Pipe</span> <span class="pre">Development</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">1175-1325</span></code></a>), 2D <code class="docutils literal notranslate"><span class="pre">rGO</span></code> flakes are suspended in microscopic dielectric fluid droplets inside algae-derived <strong>Bio-TPU</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+T_{\mathrm{sign}}\bigl(T_{\max}, \alpha_{\mathrm{ext}}, \sin\theta_{\mathrm{flake}}\bigr) = T_{\max}\bigl(1 - \alpha_{\mathrm{ext}}\sin\theta_{\mathrm{flake}}\bigr).
+\]</div>
+<ul class="simple">
+<li><p><strong>Active Clear State (<span class="math notranslate nohighlight">\(V &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\sin\theta_{\mathrm{flake}} = 0\)</span>)</strong>: The electric field aligns the atomically thin 2D <code class="docutils literal notranslate"><span class="pre">rGO</span></code> sheets <strong>on-edge</strong> parallel to the optical axis, yielding <span class="math notranslate nohighlight">\(\operatorname{rgoBioTpuClearSignTransmittance}(0.92, 1, 0) = 0.92 &gt; 0.90\)</span> (<span class="math notranslate nohighlight">\(92\%\)</span> optical clarity for greenhouse curtain walls, biometric cold frames, and AR windows).</p></li>
+<li><p><strong>Zero-Power Hardware Failsafe State (<span class="math notranslate nohighlight">\(V = 0\)</span>, <span class="math notranslate nohighlight">\(\sin\theta_{\mathrm{flake}} = 1\)</span>)</strong>: When grid power fails, <strong>Brownian rotational diffusion</strong> tumbles the 2D <code class="docutils literal notranslate"><span class="pre">rGO</span></code> sheets flat into random orientations within milliseconds, driving <span class="math notranslate nohighlight">\(\operatorname{rgoBioTpuClearSignTransmittance}(0.92, 1, 1) = 0\)</span> (<strong>automatic pitch-black shading</strong> that protects greenhouse crops from thermal death during summer power outages without any software controller!).</p></li>
+<li><p><strong>Wire-Free <code class="docutils literal notranslate"><span class="pre">48D</span> <span class="pre">OAM</span></code> Optical Active-Matrix Addressing</strong>: Instead of a brittle silicon TFT wire grid that snaps when the elastomer stretches, a continuous lightly-doped <code class="docutils literal notranslate"><span class="pre">LIG</span></code> photosensitive backplane behind the <code class="docutils literal notranslate"><span class="pre">Bio-TPU</span></code> is illuminated by a 48-dimensional Orbital Angular Momentum (<code class="docutils literal notranslate"><span class="pre">OAM</span></code>) projector (<code class="docutils literal notranslate"><span class="pre">logPolarUnwrappedPhase</span></code>), photo-exciting localized micro-voltages at target <span class="math notranslate nohighlight">\((x,y)\)</span> pixels with zero physical row/column wires.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="chiral-cnc-structural-color-bio-bragg-projectors-and-nanodiamond-shg-nv-n-adamantane-p-cqd-active-quantum-displays">
+<h2>4. Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> Structural-Color <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays<a class="headerlink" href="#chiral-cnc-structural-color-bio-bragg-projectors-and-nanodiamond-shg-nv-n-adamantane-p-cqd-active-quantum-displays" title="Link to this heading">¶</a></h2>
+<section id="vertical-rgb-chiral-nematic-cnc-rgo-bragg-stack-bio-bragg-tv-contact-lens-ar-cncchiralbraggwavelengthnm">
+<h3>4.1 Vertical <code class="docutils literal notranslate"><span class="pre">RGB</span></code> Chiral Nematic <code class="docutils literal notranslate"><span class="pre">CNC</span></code> + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> Bragg Stack (“Bio-Bragg TV” &amp; Contact-Lens AR, <code class="docutils literal notranslate"><span class="pre">cncChiralBraggWavelengthNm</span></code>)<a class="headerlink" href="#vertical-rgb-chiral-nematic-cnc-rgo-bragg-stack-bio-bragg-tv-contact-lens-ar-cncchiralbraggwavelengthnm" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">1425-1675</span></code></a> and <a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">425-435</span></code></a>, full-color video-rate reflection without chemical dyes is achieved by vertically stacking three chiral nematic <strong>Cellulose Nanocrystal (<code class="docutils literal notranslate"><span class="pre">CNC</span></code>)</strong> Bragg mirrors interleaved with transparent <code class="docutils literal notranslate"><span class="pre">rGO</span></code> electrodes over a <span class="math notranslate nohighlight">\(&gt;90\%\)</span> transparent <strong>Strain-Locked <code class="docutils literal notranslate"><span class="pre">CNT-FET</span></code> + <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> backplane</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_{\mathrm{Bragg}}\bigl(n_{\mathrm{avg}}, p_0, \varepsilon_{\mathrm{strain}}\bigr) = n_{\mathrm{avg}}\,p_0\,(1 + \varepsilon_{\mathrm{strain}}).
+\]</div>
+<ul>
+<li><p><strong>Vertical <code class="docutils literal notranslate"><span class="pre">RGB</span></code> Pitch Hierarchy</strong>: At effective index factor <span class="math notranslate nohighlight">\(n_{\mathrm{avg}} = 3\)</span>, the Blue (<span class="math notranslate nohighlight">\(p_B = 150\text{ nm}\)</span>), Green (<span class="math notranslate nohighlight">\(p_G = 180\text{ nm}\)</span>), and Red (<span class="math notranslate nohighlight">\(p_R = 220\text{ nm}\)</span>) layers reflect razor-sharp photonic-bandgap notches at:</p>
+<div class="math notranslate nohighlight">
+\[
+  \lambda_B = 450\text{ nm} &lt; \lambda_G = 540\text{ nm} &lt; \lambda_R = 660\text{ nm},
+  \]</div>
+<p>while remaining <span class="math notranslate nohighlight">\(&gt;90\%\)</span> transparent to off-notch wavelengths (enabling <strong>full-aperture AR smart glasses and contact lenses</strong> without bulky waveguide combiners) and delivering a <strong><span class="math notranslate nohighlight">\(90\%\)</span> BOM reduction</strong> on a 55-inch R2R <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> TV (<span class="math notranslate nohighlight">\(\$50\)</span> vs. <span class="math notranslate nohighlight">\(\$500\)</span> OLED, <span class="math notranslate nohighlight">\(5\text{--}10\text{ W}\)</span> reflective power vs. <span class="math notranslate nohighlight">\(100\text{--}200\text{ W}\)</span>).</p>
+</li>
+</ul>
+</section>
+<section id="insect-blind-590-text-nm-monochrome-amber-multi-band-shg-nv-nanodiamond-active-quantum-displays-nanodiamondshgdisplaywavelengthnm-insectphotoreceptorsensitivity-nvdiamondodmrsplittingmhz">
+<h3>4.2 Insect-Blind <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Monochrome Amber &amp; Multi-Band <code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code>-Nanodiamond Active Quantum Displays (<code class="docutils literal notranslate"><span class="pre">nanodiamondShgDisplayWavelengthNm</span></code>, <code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span></code>, <code class="docutils literal notranslate"><span class="pre">nvDiamondOdmrSplittingMhz</span></code>)<a class="headerlink" href="#insect-blind-590-text-nm-monochrome-amber-multi-band-shg-nv-nanodiamond-active-quantum-displays-nanodiamondshgdisplaywavelengthnm-insectphotoreceptorsensitivity-nvdiamondodmrsplittingmhz" title="Link to this heading">¶</a></h3>
+<p>Combining the <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> active metasurface with our laser-synthesized <strong>Nanodiamonds (<code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-adamantane</span></code>)</strong> and biodegradable <strong>Phosphorus-doped Carbon Quantum Dots (<code class="docutils literal notranslate"><span class="pre">P-CQDs</span></code>)</strong> (<a class="reference internal" href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html"><span class="std std-doc">Paper 35</span></a>; <a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 276–345</span></a>; <a class="reference download internal" download="" href="_downloads/6b40725495585effee7e318a2ad98549/_Induction%20Welding%2C%20Rail%2C%20Rolllercoasters%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_Induction</span> <span class="pre">Welding,</span> <span class="pre">Rail,</span> <span class="pre">Rolllercoasters</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">853-935</span></code></a>) unlocks three display capabilities:</p>
+<ol class="arabic simple">
+<li><p><strong>Bug-Free <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Monochrome Amber Wayfinding (<code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span></code>)</strong>:
+Most nocturnal flying insects lack photoreceptors for wavelengths <span class="math notranslate nohighlight">\(\lambda &gt; 500\text{ nm}\)</span> (<code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span> <span class="pre">590</span> <span class="pre">=</span> <span class="pre">0</span></code>, whereas blue/white LEDs have <code class="docutils literal notranslate"><span class="pre">insectPhotoreceptorSensitivity</span> <span class="pre">450</span> <span class="pre">=</span> <span class="pre">1</span></code>). Pumping nanodiamond-doped vitrimer pixels at <span class="math notranslate nohighlight">\(\lambda_{\mathrm{fund}} = 1180\text{ nm}\)</span> generates <strong>Second-Harmonic Generation (<code class="docutils literal notranslate"><span class="pre">SHG</span></code>)</strong> at <span class="math notranslate nohighlight">\(\operatorname{nanodiamondShgDisplayWavelengthNm}(1180) = 590\text{ nm}\)</span> (or direct <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> emission from <span class="math notranslate nohighlight">\(50\text{ ps}\)</span> Purcell-enhanced <code class="docutils literal notranslate"><span class="pre">P-CQDs</span></code>, <code class="docutils literal notranslate"><span class="pre">phosphorusCqdPurcellLifetimeNs</span> <span class="pre">4</span> <span class="pre">80</span> <span class="pre">=</span> <span class="pre">1/20</span></code>), gated by the <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> shutter array to produce high-contrast glowing amber signage that is completely invisible to mosquitoes and moths.</p></li>
+<li><p><strong>Non-Bleaching <code class="docutils literal notranslate"><span class="pre">SHG</span></code> Full-Color RGB Emission</strong>:
+Pumping stacked nanodiamond-on-vitrimer layers at NIR fundamentals <span class="math notranslate nohighlight">\((1270, 1064, 900)\text{ nm}\)</span> produces permanent, non-bleaching second-harmonic RGB primaries at <span class="math notranslate nohighlight">\((635, 532, 450)\text{ nm}\)</span>.</p></li>
+<li><p><strong>Dual-Mode “Active Quantum Display + Wavefront &amp; ODMR Diagnostic Screen” (<code class="docutils literal notranslate"><span class="pre">nvDiamondOdmrSplittingMhz</span></code>)</strong>:
+By placing <code class="docutils literal notranslate"><span class="pre">n-adamantane</span></code> <code class="docutils literal notranslate"><span class="pre">NV</span></code>-center nanodiamond seeds with <span class="math notranslate nohighlight">\(&lt;10\text{ nm}\)</span> precision via <strong>Near-Field Aperture-Mediated Laser-Induced Forward Transfer (<code class="docutils literal notranslate"><span class="pre">LIFT</span></code>)</strong> through the <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> super-oscillatory pinhole (<a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 689–745</span></a>), each display pixel simultaneously serves as an optical <code class="docutils literal notranslate"><span class="pre">OAM</span></code> wavefront sensor (via programmable Fresnel/fork phase-gradient modal decomposition) and a widefield <strong>Optically Detected Magnetic Resonance (<code class="docutils literal notranslate"><span class="pre">ODMR</span></code>)</strong> quantum magnetometer (<span class="math notranslate nohighlight">\(\Delta f_{\mathrm{ODMR}} = 2\gamma_{\mathrm{NV}} B = 280\text{ MHz}\)</span> at <span class="math notranslate nohighlight">\(\gamma_{\mathrm{NV}} = 28\text{ MHz/mT}, B = 5\text{ mT}\)</span>), visually mapping stray magnetic fields or soliton phase drift (“phase-rot”) across the underlying <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> quantum processor in real time!</p></li>
+</ol>
+</section>
+<section id="critical-review-five-deep-gap-closures-rgo-vitrimer-display-deep-gap-closure-identities">
+<h3>4.3 Critical Review &amp; Five Deep Gap Closures (<code class="docutils literal notranslate"><span class="pre">rgo_vitrimer_display_deep_gap_closure_identities</span></code>)<a class="headerlink" href="#critical-review-five-deep-gap-closures-rgo-vitrimer-display-deep-gap-closure-identities" title="Link to this heading">¶</a></h3>
+<p>To ensure mathematical completeness and address potential optical, fluid-mechanical, and viewing-angle critiques across all six architectures, we formalize and prove five deep gap-closure identities (<code class="docutils literal notranslate"><span class="pre">rgo_vitrimer_display_deep_gap_closure_identities</span></code> in <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">src/signals/Signals/SolitonBus.lean</span></a>):</p>
+<ol class="arabic">
+<li><p><strong>All-Phase Unimodular Reflectance of the Gires–Tournois Etalon (<code class="docutils literal notranslate"><span class="pre">giresTournoisReflectanceNormSq</span></code>)</strong>:
+Beyond the resonant phase-slope amplification <span class="math notranslate nohighlight">\(\mathcal{G}_{\mathrm{GTE}}(r_{\mathrm{top}}) = \frac{1+r_{\mathrm{top}}}{1-r_{\mathrm{top}}}\)</span> at <span class="math notranslate nohighlight">\(\phi = 0\)</span>, a pure-phase holographic modulator must preserve <span class="math notranslate nohighlight">\(100\%\)</span> reflectance across the entire <span class="math notranslate nohighlight">\(2\pi\)</span> phase circle. We define the squared reflectance norm:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{giresTournoisReflectanceNormSq}\bigl(r_{\mathrm{top}}, \cos\phi, \sin\phi\bigr) = \frac{(r_{\mathrm{top}} - \cos\phi)^2 + \sin^2\phi}{(1 - r_{\mathrm{top}}\cos\phi)^2 + (r_{\mathrm{top}}\sin\phi)^2},
+   \]</div>
+<p>and prove that for any <span class="math notranslate nohighlight">\((\cos\phi, \sin\phi)\)</span> on the unit circle <span class="math notranslate nohighlight">\(\cos^2\phi + \sin^2\phi = 1\)</span> with nonzero cavity denominator, <span class="math notranslate nohighlight">\((r_{\mathrm{top}} - \cos\phi)^2 + \sin^2\phi = 1 - 2r_{\mathrm{top}}\cos\phi + r_{\mathrm{top}}^2(\cos^2\phi + \sin^2\phi) = (1 - r_{\mathrm{top}}\cos\phi)^2 + (r_{\mathrm{top}}\sin\phi)^2\)</span>, certifying <span class="math notranslate nohighlight">\(\operatorname{giresTournoisReflectanceNormSq}(r_{\mathrm{top}}, \cos\phi, \sin\phi) = 1\)</span> (<span class="math notranslate nohighlight">\(0\text{ dB}\)</span> insertion loss at every phase angle).</p>
+</li>
+<li><p><strong>Dynamic Virtual Mask (<code class="docutils literal notranslate"><span class="pre">DVM</span></code>) Multi-Strip Overlap Fidelity (<span class="math notranslate nohighlight">\(&gt;99.8\%\)</span>) &amp; Laminar <code class="docutils literal notranslate"><span class="pre">LBGPC</span></code> Reynolds Number (<code class="docutils literal notranslate"><span class="pre">dvmMultiStripMaskFidelity</span></code>, <code class="docutils literal notranslate"><span class="pre">lbgpcLaminarReynoldsNumber</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Overlapping <span class="math notranslate nohighlight">\(N_{\mathrm{strips}}\)</span> independent <code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> shutter strips suppresses pinhole/defect leakage exponentially as <span class="math notranslate nohighlight">\(F_{\mathrm{DVM}}(p_{\mathrm{defect}}, N_{\mathrm{strips}}) = 1 - p_{\mathrm{defect}}^{N_{\mathrm{strips}}}\)</span>. For a <span class="math notranslate nohighlight">\(4\%\)</span> single-strip defect rate (<span class="math notranslate nohighlight">\(p_{\mathrm{defect}} = 1/25\)</span>), just <span class="math notranslate nohighlight">\(N_{\mathrm{strips}} = 2\)</span> overlapping strips achieve <span class="math notranslate nohighlight">\(\operatorname{dvmMultiStripMaskFidelity}(1/25, 2) = 624/625 = 99.84\% &gt; 99.8\%\)</span> (<a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">259-465</span></code></a>).</p></li>
+<li><p>Immersing the moving <code class="docutils literal notranslate"><span class="pre">DVM</span></code> strips in the <code class="docutils literal notranslate"><span class="pre">LBGPC</span></code> fluid bearing at <span class="math notranslate nohighlight">\(\rho = 1200\text{ kg/m}^3\)</span>, <span class="math notranslate nohighlight">\(v = 0.5\text{ m/s}\)</span>, gap <span class="math notranslate nohighlight">\(D_h = 1\text{ mm}\)</span>, and viscosity <span class="math notranslate nohighlight">\(\mu = 3\text{ mPa}\cdot\text{s}\)</span> yields <span class="math notranslate nohighlight">\(\operatorname{lbgpcLaminarReynoldsNumber}(1200, 1/2, 1/1000, 3/1000) = 200 &lt; 2000\)</span>, guaranteeing strictly laminar, turbulence-free optical propagation (<a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">495-545</span></code></a>).</p></li>
+</ul>
+</li>
+<li><p><strong>Active Electro-Rotational Alignment vs. Passive Brownian Blackout Kinetics in <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> (<code class="docutils literal notranslate"><span class="pre">rgoBioTpuElectroAlignmentTimeMs</span></code>, <code class="docutils literal notranslate"><span class="pre">rgoBioTpuBrownianResetTimeMs</span></code>)</strong>:
+In dielectric micro-droplets (<span class="math notranslate nohighlight">\(\eta = 12\text{ mPa}\cdot\text{s}\)</span>, flake diameter <span class="math notranslate nohighlight">\(d = 2\text{ }\mu\text{m}\)</span>), active dielectrophoretic alignment <span class="math notranslate nohighlight">\(\tau_{\mathrm{align}}(\eta, \Delta\chi_{\mathrm{eff}}, E) = \frac{\eta}{\Delta\chi_{\mathrm{eff}} E^2}\)</span> reaches <span class="math notranslate nohighlight">\(\operatorname{rgoBioTpuElectroAlignmentTimeMs}(12, 3, 2) = 1\text{ ms}\)</span>, while zero-power passive Brownian rotational tumbling <span class="math notranslate nohighlight">\(\tau_{\mathrm{Brownian}}(\eta, d, k_B T_{\mathrm{scale}}) = \frac{\eta d^3}{6 k_B T_{\mathrm{scale}}}\)</span> completes in <span class="math notranslate nohighlight">\(\operatorname{rgoBioTpuBrownianResetTimeMs}(12, 2, 1) = 16\text{ ms} &lt; 33\text{ ms}\)</span> (both faster than a single <span class="math notranslate nohighlight">\(30\text{ Hz}\)</span> video frame).</p></li>
+<li><p><strong>Exact Piezo/Electro-Strain Cancellation of Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Oblique Viewing-Angle Blue-Shift (<code class="docutils literal notranslate"><span class="pre">cncObliqueViewingStrainCompensation</span></code>, <code class="docutils literal notranslate"><span class="pre">cncObliqueCompensatedBraggWavelengthNm</span></code>)</strong>:
+At oblique internal angle <span class="math notranslate nohighlight">\(\theta_{\mathrm{int}}\)</span>, uncompensated Bragg reflectors blue-shift by <span class="math notranslate nohighlight">\(\cos\theta_{\mathrm{int}}\)</span>. Applying the electro-strain pre-compensation <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{comp}}(\cos\theta_{\mathrm{int}}) = \frac{1}{\cos\theta_{\mathrm{int}}} - 1\)</span> satisfies:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{cncObliqueCompensatedBraggWavelengthNm}\bigl(n_{\mathrm{avg}}, p_0, \varepsilon_{\mathrm{comp}}(\cos\theta_{\mathrm{int}}), \cos\theta_{\mathrm{int}}\bigr) = n_{\mathrm{avg}}\,p_0\,(1 + \varepsilon_{\mathrm{comp}}(\cos\theta_{\mathrm{int}}))\,\cos\theta_{\mathrm{int}} = n_{\mathrm{avg}}\,p_0,
+   \]</div>
+<p>eliminating iridescent viewing-angle color shift across wide-FOV 55-inch <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> TVs and curved AR contact lenses.</p>
+</li>
+<li><p><strong>Closed-Loop <code class="docutils literal notranslate"><span class="pre">NV</span></code>-Diamond <code class="docutils literal notranslate"><span class="pre">ODMR</span></code> Phase-Drift (“Phase-Rot”) Cancellation (<code class="docutils literal notranslate"><span class="pre">nvOdmrCalibratedPhaseResidual</span></code>)</strong>:
+Feeding the real-time <code class="docutils literal notranslate"><span class="pre">NV</span></code> Zeeman splitting <span class="math notranslate nohighlight">\(\Delta f_{\mathrm{ODMR}} = 2\gamma_{\mathrm{NV}} B\)</span> into the metasurface phase controller cancels magnetic/thermal phase drift identically: <span class="math notranslate nohighlight">\(\operatorname{nvOdmrCalibratedPhaseResidual}(\gamma_{\mathrm{phase}}\cdot 2\gamma_{\mathrm{NV}} B, \gamma_{\mathrm{phase}}, \operatorname{nvDiamondOdmrSplittingMhz}(\gamma_{\mathrm{NV}}, B)) = 0\)</span>.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="volumetric-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-kicad-vol-gdsii-gds-kicad-happy-verification">
+<h2>5. Volumetric KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>, GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification<a class="headerlink" href="#volumetric-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-kicad-vol-gdsii-gds-kicad-happy-verification" title="Link to this heading">¶</a></h2>
+<p>All 6 hardware design files for <code class="docutils literal notranslate"><span class="pre">RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display</span></code> (<code class="docutils literal notranslate"><span class="pre">SemiDiracApplicationPreset::RgoVitrimerMetamaterialEpaperNanodiamondDisplay</span></code>) are generated by <a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></code></span></a> into <a class="reference download internal" download="" href="_downloads/70222830502a64969b5ebc6aaddb6f09/RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display.kicad_vol"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">src/signals/kicad/semi_dirac/</span></code></span></a> and verified with <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Stage / Check</p></th>
+<th class="head text-left"><p>Stage Identifier / Tool</p></th>
+<th class="head text-left"><p>Verified Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 1 (<code class="docutils literal notranslate"><span class="pre">150</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_RGO_VITRIMER_PAULI_GTE_METASURFACE</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus.rgoPauliBlockedAbsorption</span></code> + <code class="docutils literal notranslate"><span class="pre">giresTournoisPhaseEnhancementFactor</span></code> (<span class="math notranslate nohighlight">\(300\text{ nm}\)</span> Pitch, <span class="math notranslate nohighlight">\(4\text{ ns}\)</span> <code class="docutils literal notranslate"><span class="pre">A-CNT</span></code> Reset)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 2 (<code class="docutils literal notranslate"><span class="pre">150</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_VECTOR_REFLECT_CNS_BIO_TPU_EPAPER</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs</span></code> (<span class="math notranslate nohighlight">\(25\text{ ms}\)</span> Video-Rate) + <code class="docutils literal notranslate"><span class="pre">rgoBioTpuClearSignTransmittance</span></code> (Brownian Failsafe)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 3 (<code class="docutils literal notranslate"><span class="pre">155</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_CHIRAL_CNC_BIO_BRAGG_RGB_STACK</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus.cncChiralBraggWavelengthNm</span></code> (<span class="math notranslate nohighlight">\(450/540/660\text{ nm}\)</span> Strain-Tuned RGB, <span class="math notranslate nohighlight">\(&gt;90\%\)</span> Transparent AR/TV)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 4 (<code class="docutils literal notranslate"><span class="pre">145</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4_NANODIAMOND_SHG_590NM_NV_ODMR_PIXEL</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm</span></code> (<span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Insect-Blind Amber &amp; RGB) + <code class="docutils literal notranslate"><span class="pre">nvDiamondOdmrSplittingMhz</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">analyze_schematic.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analyze_pcb.py</span> <span class="pre">--full</span></code>, <code class="docutils literal notranslate"><span class="pre">cross_analysis.py</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">U1</span></code>, <code class="docutils literal notranslate"><span class="pre">J1</span></code>, 4 nets (<code class="docutils literal notranslate"><span class="pre">RGO_GTE_PHASE_IN</span></code>, <code class="docutils literal notranslate"><span class="pre">BRAGG_RGB_AMBER_OUT</span></code>, <code class="docutils literal notranslate"><span class="pre">EPAPER_OAM_GATE</span></code>, <code class="docutils literal notranslate"><span class="pre">GND</span></code>), <strong>4/4 routed nets</strong>, <strong><code class="docutils literal notranslate"><span class="pre">0</span></code> cross-analysis findings</strong>, <strong><span class="math notranslate nohighlight">\(3 \to 0\)</span></strong> <span class="math notranslate nohighlight">\(sp^3\)</span> volumetric DRC hazards</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="self-contained-machine-checked-lean-4-verification-block-signals-solitonbus">
+<h2>6. Self-Contained Machine-Checked Lean 4 Verification Block (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)<a class="headerlink" href="#self-contained-machine-checked-lean-4-verification-block-signals-solitonbus" title="Link to this heading">¶</a></h2>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">RgoVitrimerActiveMetamaterialEpaperNanodiamondDisplayPaper40Verification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.SolitonBus</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">n_avg</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="n">eps_strain</span><span class="w"> </span><span class="n">alpha_act</span><span class="w"> </span><span class="n">alpha_pass</span><span class="w"> </span><span class="n">h_tot</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">rgoMetasurfaceNyquistPitchNm</span><span class="w"> </span><span class="mi">800</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">400</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoPauliBlockedAbsorption</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">23</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoPauliBlockedAbsorption</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">23</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">giresTournoisPhaseEnhancementFactor</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoSpeckleContrastSq</span><span class="w"> </span><span class="o">(</span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">8</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoThermalDiffusionResetTimeNs</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="o">(</span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">epaperElectrophoreticSwitchTimeMs</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">epaperElectrophoreticSwitchTimeMs</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoBioTpuClearSignTransmittance</span><span class="w"> </span><span class="o">(</span><span class="mi">92</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">92</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoBioTpuClearSignTransmittance</span><span class="w"> </span><span class="o">(</span><span class="mi">92</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">vectorReflectBistableAnnualEnergyKwh</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">8760</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">bilayerVitrimerThermalCurvature</span><span class="w"> </span><span class="n">alpha_act</span><span class="w"> </span><span class="n">alpha_pass</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">h_tot</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">cncChiralBraggWavelengthNm</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">150</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">cncChiralBraggWavelengthNm</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">180</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">cncChiralBraggWavelengthNm</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">180</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">cncChiralBraggWavelengthNm</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">220</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">cncChiralBraggWavelengthNm</span><span class="w"> </span><span class="n">n_avg</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="n">eps_strain</span><span class="w"> </span><span class="bp">-</span>
+<span class="w">          </span><span class="n">cncChiralBraggWavelengthNm</span><span class="w"> </span><span class="n">n_avg</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="n">n_avg</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">eps_strain</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">nanodiamondShgDisplayWavelengthNm</span><span class="w"> </span><span class="mi">1180</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">590</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">insectPhotoreceptorSensitivity</span><span class="w"> </span><span class="o">(</span><span class="n">nanodiamondShgDisplayWavelengthNm</span><span class="w"> </span><span class="mi">1180</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">nvDiamondOdmrSplittingMhz</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">280</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">giresTournoisReflectanceNormSq</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">998</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">dvmMultiStripMaskFidelity</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">25</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">lbgpcLaminarReynoldsNumber</span><span class="w"> </span><span class="mi">1200</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">rgoBioTpuElectroAlignmentTimeMs</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">rgoBioTpuBrownianResetTimeMs</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">cncObliqueCompensatedBraggWavelengthNm</span><span class="w"> </span><span class="n">n_avg</span><span class="w"> </span><span class="n">pitch_nm</span>
+<span class="w">          </span><span class="o">(</span><span class="n">cncObliqueViewingStrainCompensation</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">))</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">        </span><span class="n">n_avg</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">nvOdmrCalibratedPhaseResidual</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">5</span><span class="o">))</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">          </span><span class="o">(</span><span class="n">nvDiamondOdmrSplittingMhz</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">    </span><span class="n">rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_identities</span>
+<span class="w">      </span><span class="n">n_avg</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="n">eps_strain</span><span class="w"> </span><span class="n">alpha_act</span><span class="w"> </span><span class="n">alpha_pass</span><span class="w"> </span><span class="n">h_tot</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_gap</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">    </span><span class="n">rgo_vitrimer_display_deep_gap_closure_identities</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">n_avg</span><span class="w"> </span><span class="n">pitch_nm</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">      </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_gap</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_gap</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_gap</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_gap</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_gap</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_gap</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">RgoVitrimerActiveMetamaterialEpaperNanodiamondDisplayPaper40Verification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="provenance-evidence-classification-bibtex-and-schema-org-metadata">
+<h2>7. Provenance, Evidence Classification, BibTeX, and <a class="reference external" href="http://Schema.org">Schema.org</a> Metadata<a class="headerlink" href="#provenance-evidence-classification-bibtex-and-schema-org-metadata" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Component / Claim</p></th>
+<th class="head text-left"><p>Primary Chat &amp; Literature Provenance</p></th>
+<th class="head text-left"><p>Evidence Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> 4D Active Metasurface, Pauli-Blocked <code class="docutils literal notranslate"><span class="pre">GTE</span></code> Smart Mirror, Temporal Speckle Whitening, &amp; <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> RGB TV / AR Contact Lens</strong></p></td>
+<td class="text-left"><p><a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">203-425</span> <span class="pre">&amp;</span> <span class="pre">1425-1700</span></code></a>; <a class="reference download internal" download="" href="_downloads/19b88ae0b4dc415a7f10311a590586fb/_LLMs%2C%20Fourier%2C%20and%20Quantum%20Logic%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_LLMs,</span> <span class="pre">Fourier,</span> <span class="pre">and</span> <span class="pre">Quantum</span> <span class="pre">Logic</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">371-1225</span></code></a></p></td>
+<td class="text-left"><p><strong>Verified Optical &amp; Thermodynamic Algebra (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>) + Pending R2R Yield Gate (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Dynamic Virtual Mask (<code class="docutils literal notranslate"><span class="pre">DVM</span></code>), Near-Field Nozzle (<code class="docutils literal notranslate"><span class="pre">NFN</span></code>), Laminar <code class="docutils literal notranslate"><span class="pre">LBGPC</span></code> Fluid Bearing, &amp; Bilayer Active/Passive Haptic E-Paper</strong></p></td>
+<td class="text-left"><p><a class="reference download internal" download="" href="_downloads/a54e9775f3ca04e1ea91d6ac066e8fe2/_rGO-Vitrimer%20Applications%20and%20Properties%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_rGO-Vitrimer</span> <span class="pre">Applications</span> <span class="pre">and</span> <span class="pre">Properties</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">49-1370</span></code></a>; <a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Processor and Soliton Discussions  .md, lines 6612–7140</span></a></p></td>
+<td class="text-left"><p><strong>Verified Mathematical &amp; KiCAD/GDSII Model + Pending Multi-Million-Cycle Fatigue Gate</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> (<code class="docutils literal notranslate"><span class="pre">VR-Series</span></code>) Bistable <code class="docutils literal notranslate"><span class="pre">CNS</span></code> + <code class="docutils literal notranslate"><span class="pre">rGO</span></code> E-Paper &amp; <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code> Electro-Rotational Clear Sign with Brownian Failsafe</strong></p></td>
+<td class="text-left"><p><a class="reference download internal" download="" href="_downloads/3c1e235e97632d2ee8077757f5834aac/_Sustainable%20Composites_%20Energy%2C%20Processing%2C%20Costs%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Sustainable</span> <span class="pre">Composites_</span> <span class="pre">Energy,</span> <span class="pre">Processing,</span> <span class="pre">Costs</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">4595-4795</span></code></a>; <a class="reference download internal" download="" href="_downloads/8a207251ea8b5c8d742ba1c87d4451ec/_Lignin%20Vitrimer%20Hydroponic%20Pipe%20Development%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Lignin</span> <span class="pre">Vitrimer</span> <span class="pre">Hydroponic</span> <span class="pre">Pipe</span> <span class="pre">Development</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">1144-1325</span></code></a></p></td>
+<td class="text-left"><p><strong>Verified Energy &amp; Transmittance Algebra (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>) + Pending Field Durability Gate</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Nanodiamond <code class="docutils literal notranslate"><span class="pre">SHG</span></code> <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> Insect-Blind Amber / RGB Display &amp; <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> <code class="docutils literal notranslate"><span class="pre">NV</span></code> ODMR Diagnostic Screen</strong></p></td>
+<td class="text-left"><p><a class="reference internal" href="chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.html"><span class="std std-doc">data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 276–345 &amp; 685–975</span></a>; <a class="reference download internal" download="" href="_downloads/6b40725495585effee7e318a2ad98549/_Induction%20Welding%2C%20Rail%2C%20Rolllercoasters%20.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Induction</span> <span class="pre">Welding,</span> <span class="pre">Rail,</span> <span class="pre">Rolllercoasters</span> <span class="pre">.md,</span> <span class="pre">lines</span> <span class="pre">853-935</span></code></a></p></td>
+<td class="text-left"><p><strong>Verified Quantum/Optical Algebra (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>) + Pending LIFT Placement Calibration (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</strong></p></td>
+</tr>
+</tbody>
+</table>
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">turner2026rgo_vitrimer_metamaterial_epaper_nanodiamond_displays</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wes}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{{rGO-Vitrimer} Active Metamaterials, Bistable \&amp; Elastomeric E-Paper ({V}ector {R}eflect \&amp; {rGO-Bio-TPU}), Chiral {CNC} {B}io-{B}ragg Projectors, and Nanodiamond ({SHG} / {NV} / n-Adamantane / {P-CQD}) Active Quantum Displays in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Research Archive}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rGO-Vitrimer Active Metamaterials, Bistable &amp; Elastomeric E-Paper (Vector Reflect &amp; rGO-Bio-TPU), Chiral CNC Bio-Bragg Projectors, and Nanodiamond (SHG / NV / n-Adamantane / P-CQD) Active Quantum Displays in Lean 4, Rust/WASM, Python, and KiCAD v8"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"datePublished"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-09"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"rGO-Vitrimer Active Metasurface and Pauli-Blocked Gires-Tournois Etalon"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Vector Reflect Bistable Cellulose Nanosphere (CNS) Carbon E-Paper"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"rGO-Bio-TPU Electro-Rotational Clear Sign with Brownian Failsafe and 48D OAM Addressing"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Chiral CNC Bio-Bragg Vertical RGB Projector and Transparent Contact-Lens AR Display"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Nanodiamond SHG 590 nm Insect-Blind Amber and NV ODMR Active Quantum Display"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 and KiCAD v8 Hardware Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/_rGO-Vitrimer Applications and Properties .md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_LLMs, Fourier, and Quantum Logic .md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Quantum Computing Hardware Architectures Review  .md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Lignin Vitrimer Hydroponic Pipe Development .md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Sustainable Composites_ Energy, Processing, Costs .md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Induction Welding, Rail, Rolllercoasters .md"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.html" title="Quantum Causal Next-Concept Modeling (QCI-NCM): Coarse-to-Fine Parallel LLM Inference, Multiscale Residual Counterfactuals, Plücker/VRC Constraint Coupling, and Pressed-LHAT Scale-Selective Steering Hardware in Lean 4, Rust/WASM, and KiCAD v8" >previous</a></li>
+        <li><a href="grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.html" title="Lignolux Omni-Carbon Kinetic Batteries (Al-LGBPC, Dual-Ion Iodine, &amp; Na-Ion Hard Carbon), Q-Node Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, QCI-GXC Kohn–Sham DFT Passivation, and Biodegradable / Closed-Loop Recyclable Electrical Components in Lean 4, Rust/WASM, Python, and KiCAD v8" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

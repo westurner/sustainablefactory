@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert iGPE, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric \(\mathcal{Q}_4\) in Lean 4 and Rust/WASM" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html" />
+    <link rel="prev" title="Holographic \(405\text{ nm} / 532\text{ nm}\) Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (CVA6, CHERI-CVA6, &amp; Ibex), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM" href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-of-the-variational-bridge-from-superfluid-action-to-ddf-jamming-gr-mathbb-c-2-4">1. Architecture of the Variational Bridge: From Superfluid Action to DDF Jamming &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></a><ul>
+<li><a class="reference internal" href="#resolving-two-foundational-questions-from-the-research-corpus">1.1 Resolving Two Foundational Questions from the Research Corpus</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#superfluid-grosspitaevskii-action-madelung-polar-substitution-and-eulerlagrange-hydrodynamics">2. Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, and Euler–Lagrange Hydrodynamics</a><ul>
+<li><a class="reference internal" href="#exact-polar-substitution-in-the-grosspitaevskii-lagrangian-density">2.1 Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density</a></li>
+<li><a class="reference internal" href="#eulerlagrange-variations-compressible-continuity-quantum-hamiltonjacobi-qhj-equations">2.2 Euler–Lagrange Variations: Compressible Continuity &amp; Quantum Hamilton–Jacobi (QHJ) Equations</a></li>
+<li><a class="reference internal" href="#field-legendre-transform-mathcal-h-mathrm-mad-ge-0-gradient-bridge-to-the-compressible-madelungeuler-momentum-equation">2.3 Field Legendre Transform (<span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{Mad}} \ge 0\)</span>) &amp; Gradient Bridge to the Compressible Madelung–Euler Momentum Equation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dilatant-phase-varphi-coupling-variational-recovery-of-ddf-jamming-lambda-parallel-v-gamma-varphi-v-and-action-derived-proper-time">3. Dilatant-Phase (<span class="math notranslate nohighlight">\(\varphi\)</span>) Coupling: Variational Recovery of DDF Jamming <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span> and Action-Derived Proper Time</a><ul>
+<li><a class="reference internal" href="#variational-derivation-of-longitudinal-sheath-compression-lambda-parallel-v-gamma-varphi-v">3.1 Variational Derivation of Longitudinal Sheath Compression <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span></a></li>
+<li><a class="reference internal" href="#worldline-dilatant-action-legendre-transform-to-h-mathrm-ddf-gamma-varphi-v-m-c-2-and-unconditional-minkowski-proper-time">3.2 Worldline Dilatant Action, Legendre Transform to <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2\)</span>, and Unconditional Minkowski Proper Time</a></li>
+<li><a class="reference internal" href="#four-way-equivalence-with-complex-grassmannian-gr-mathbb-c-2-4-plucker-channels-tensor-splats">3.3 Four-Way Equivalence with Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels &amp; Tensor Splats</a></li>
+<li><a class="reference internal" href="#cross-domain-bridge-to-text-ads-5-text-cft-4-black-brane-emblackening-405-text-nm-532-text-nm-sted-nanolithography-and-kicad-volumetric-drc">3.4 Cross-Domain Bridge to <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span> Black-Brane Emblackening, <span class="math notranslate nohighlight">\(405\text{ nm}/532\text{ nm}\)</span> STED Nanolithography, and <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> DRC</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#strain-thickened-dilatant-bogoliubov-dispersion-evidence-boundaries-signals-pending">4. Strain-Thickened Dilatant Bogoliubov Dispersion &amp; Evidence Boundaries (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a><ul>
+<li><a class="reference internal" href="#epistemic-physical-evidence-boundary-madelungdilatantvariationalhypothesis">Epistemic &amp; Physical Evidence Boundary (<code class="docutils literal notranslate"><span class="pre">MadelungDilatantVariationalHypothesis</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#catalog-of-check-figures-quantitative-benchmarks-across-lean-4-and-rust-wasm">5. Catalog of Check Figures &amp; Quantitative Benchmarks Across Lean 4 and Rust/WASM</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-ddf-signals-pending">6. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html" title="Holographic \(405\text{ nm} / 532\text{ nm}\) Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (CVA6, CHERI-CVA6, &amp; Ibex), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html" title="Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert iGPE, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric \(\mathcal{Q}_4\) in Lean 4 and Rust/WASM" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-madelung-lagrangian-ddf-jamming-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-of-the-variational-bridge-from-superfluid-action-to-ddf-jamming-gr-mathbb-c-2-4">1. Architecture of the Variational Bridge: From Superfluid Action to DDF Jamming &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></a><ul>
+<li><a class="reference internal" href="#resolving-two-foundational-questions-from-the-research-corpus">1.1 Resolving Two Foundational Questions from the Research Corpus</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#superfluid-grosspitaevskii-action-madelung-polar-substitution-and-eulerlagrange-hydrodynamics">2. Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, and Euler–Lagrange Hydrodynamics</a><ul>
+<li><a class="reference internal" href="#exact-polar-substitution-in-the-grosspitaevskii-lagrangian-density">2.1 Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density</a></li>
+<li><a class="reference internal" href="#eulerlagrange-variations-compressible-continuity-quantum-hamiltonjacobi-qhj-equations">2.2 Euler–Lagrange Variations: Compressible Continuity &amp; Quantum Hamilton–Jacobi (QHJ) Equations</a></li>
+<li><a class="reference internal" href="#field-legendre-transform-mathcal-h-mathrm-mad-ge-0-gradient-bridge-to-the-compressible-madelungeuler-momentum-equation">2.3 Field Legendre Transform (<span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{Mad}} \ge 0\)</span>) &amp; Gradient Bridge to the Compressible Madelung–Euler Momentum Equation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dilatant-phase-varphi-coupling-variational-recovery-of-ddf-jamming-lambda-parallel-v-gamma-varphi-v-and-action-derived-proper-time">3. Dilatant-Phase (<span class="math notranslate nohighlight">\(\varphi\)</span>) Coupling: Variational Recovery of DDF Jamming <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span> and Action-Derived Proper Time</a><ul>
+<li><a class="reference internal" href="#variational-derivation-of-longitudinal-sheath-compression-lambda-parallel-v-gamma-varphi-v">3.1 Variational Derivation of Longitudinal Sheath Compression <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span></a></li>
+<li><a class="reference internal" href="#worldline-dilatant-action-legendre-transform-to-h-mathrm-ddf-gamma-varphi-v-m-c-2-and-unconditional-minkowski-proper-time">3.2 Worldline Dilatant Action, Legendre Transform to <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2\)</span>, and Unconditional Minkowski Proper Time</a></li>
+<li><a class="reference internal" href="#four-way-equivalence-with-complex-grassmannian-gr-mathbb-c-2-4-plucker-channels-tensor-splats">3.3 Four-Way Equivalence with Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels &amp; Tensor Splats</a></li>
+<li><a class="reference internal" href="#cross-domain-bridge-to-text-ads-5-text-cft-4-black-brane-emblackening-405-text-nm-532-text-nm-sted-nanolithography-and-kicad-volumetric-drc">3.4 Cross-Domain Bridge to <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span> Black-Brane Emblackening, <span class="math notranslate nohighlight">\(405\text{ nm}/532\text{ nm}\)</span> STED Nanolithography, and <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> DRC</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#strain-thickened-dilatant-bogoliubov-dispersion-evidence-boundaries-signals-pending">4. Strain-Thickened Dilatant Bogoliubov Dispersion &amp; Evidence Boundaries (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a><ul>
+<li><a class="reference internal" href="#epistemic-physical-evidence-boundary-madelungdilatantvariationalhypothesis">Epistemic &amp; Physical Evidence Boundary (<code class="docutils literal notranslate"><span class="pre">MadelungDilatantVariationalHypothesis</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#catalog-of-check-figures-quantitative-benchmarks-across-lean-4-and-rust-wasm">5. Catalog of Check Figures &amp; Quantitative Benchmarks Across Lean 4 and Rust/WASM</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-ddf-signals-pending">6. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html"
+                          title="previous chapter">Holographic <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"
+                          title="next chapter">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> in Lean 4 and Rust/WASM</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-madelung-lagrangian-ddf-jamming-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="from-superfluid-grosspitaevskii-action-and-madelung-polar-substitution-to-eulerlagrange-hydrodynamics-and-dilatant-dark-fluid-ddf-jamming-recovery-in-complex-grassmannian-gr-mathbb-c-2-4-mechanics">
+<span id="grassmannian-madelung-lagrangian-ddf-jamming-paper"></span><h1>From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics<a class="headerlink" href="#from-superfluid-grosspitaevskii-action-and-madelung-polar-substitution-to-eulerlagrange-hydrodynamics-and-dilatant-dark-fluid-ddf-jamming-recovery-in-complex-grassmannian-gr-mathbb-c-2-4-mechanics" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Quantum Gases (<code class="docutils literal notranslate"><span class="pre">cond-mat.quant-gas</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> LeanArchitect Blueprint (<a class="reference download internal" download="" href="_downloads/83f1c657b6beda0595bd85cd103de33b/content.tex"><span class="xref download myst">…/src/signals/blueprint/src/content.tex</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM Variational &amp; Hydrodynamic Engine (<a class="reference download internal" download="" href="_downloads/b6056d7b3d1a5f753054f7f0089451f3/madelung_lagrangian.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/madelung_lagrangian.rs</span></a>)</p></li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <span class="xref myst">…/src/signals/docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md</span></p></li>
+</ul>
+</li>
+<li><p><strong>Companion <code class="docutils literal notranslate"><span class="pre">grassmannian-*-paper.md</span></code> Series:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-imaging-depth-recovery-paper.html"><span class="std std-doc">Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-vectorial-longitudinal-polarization-paper.html"><span class="std std-doc">3D Vectorial Wave Model for Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>) and Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-enz-hyperbolic-metamaterials-paper.html"><span class="std std-doc">Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA <span class="math notranslate nohighlight">\(p\text{-}^{11}\text{B}\)</span> / <span class="math notranslate nohighlight">\(s\text{CO}_2\)</span> Power Ledgers in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html"><span class="std std-doc">Holographic <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc">Hawking Radiation, Inverse Gross–Pitaevskii (<code class="docutils literal notranslate"><span class="pre">iGPE</span></code>) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> in Lean 4 and Rust/WASM</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>In earlier modules of <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, the Madelung representation of the continuous superfluid condensate (<span class="math notranslate nohighlight">\(\phi\)</span>) was introduced at the kinematic variable level (<span class="math notranslate nohighlight">\(\rho = |\psi|^2\)</span>, <span class="math notranslate nohighlight">\(A = \sqrt{\rho}\)</span>, <span class="math notranslate nohighlight">\(S = \hbar\arg\psi\)</span>, <span class="math notranslate nohighlight">\(\mathbf{v}_\phi = \frac{\hbar}{m_\phi}\nabla\theta = \frac{1}{m_\phi}\nabla S\)</span>, and <span class="math notranslate nohighlight">\(Q = -\frac{\hbar^2}{2 m_\phi}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}\)</span>), while the operational Minkowski interval theorem (<code class="docutils literal notranslate"><span class="pre">material_minkowski_interval</span></code>) took the clock proper-time relation <span class="math notranslate nohighlight">\(d\tau_D = dt / \gamma_\varphi(v)\)</span> as an external hypothesis (<code class="docutils literal notranslate"><span class="pre">h_dtau</span></code>). In this paper, we upgrade the <strong>DDF <span class="math notranslate nohighlight">\(\to\)</span> Madelung <span class="math notranslate nohighlight">\(\to\)</span> Lagrangian</strong> connection from a kinematic variable decomposition to a machine-checked <strong>variational dynamics theorem</strong> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>) paired with a zero-dependency <strong>Rust/WASM</strong> variational and conservative finite-difference solver (<a class="reference download internal" download="" href="_downloads/b6056d7b3d1a5f753054f7f0089451f3/madelung_lagrangian.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/madelung_lagrangian.rs</span></a>):</p>
+<ol class="arabic">
+<li><p><strong>Superfluid Gross–Pitaevskii Action &amp; Exact Madelung Polar Substitution (<span class="math notranslate nohighlight">\(\psi = A e^{i S / \hbar}\)</span>)</strong>:
+We formalize the polar complex order parameter <span class="math notranslate nohighlight">\(\psi(A, \theta) = A(\cos\theta + i\sin\theta)\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungPolarWavefunction</span></code>) and its chain-rule spatiotemporal derivative <span class="math notranslate nohighlight">\(\partial_\mu\psi = (\partial_\mu A + i A\,\partial_\mu\theta)e^{i\theta}\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungPolarDerivative</span></code>) for <span class="math notranslate nohighlight">\(\theta = S / \hbar\)</span>. Substituting these into the complex Gross–Pitaevskii / nonlinear Schrödinger (NLS) Lagrangian density <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{GP}}\)</span> (<code class="docutils literal notranslate"><span class="pre">grossPitaevskiiPolarLagrangianDensity</span></code>) proves over <span class="math notranslate nohighlight">\(\mathbb{C}\)</span> that the temporal symplectic term <span class="math notranslate nohighlight">\(-\hbar\,\operatorname{Im}(\psi^*\partial_t\psi)\)</span> equals <span class="math notranslate nohighlight">\(-A^2\,\partial_t S = -\rho\,\partial_t S\)</span> (canceling <span class="math notranslate nohighlight">\(\dot{A}\)</span> identically), the spatial gradient norm squared <span class="math notranslate nohighlight">\(|\nabla\psi|^2\)</span> splits into <span class="math notranslate nohighlight">\((\nabla A)^2 + A^2(\nabla S / \hbar)^2\)</span>, and <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{GP}}\)</span> equals both the amplitude-phase Lagrangian density <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)\)</span> and the hydrodynamic density-phase Lagrangian density <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}^\rho(\rho, \nabla\rho, \partial_t S, \nabla S)\)</span> for <span class="math notranslate nohighlight">\(\rho = A^2, \nabla\rho = 2 A\nabla A\)</span>.</p></li>
+<li><p><strong>Euler–Lagrange Variations Yield Compressible Continuity, Quantum Hamilton–Jacobi (QHJ), and Stationary <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> Gravity</strong>:</p>
+<ul class="simple">
+<li><p>Varying <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}\)</span> with respect to the action phase <span class="math notranslate nohighlight">\(S\)</span> (with canonical momentum <span class="math notranslate nohighlight">\(\pi_S = \partial\mathcal{L}_{\mathrm{Mad}}/\partial(\partial_t S) = -\rho\)</span> and spatial flux <span class="math notranslate nohighlight">\(J_S = \partial\mathcal{L}_{\mathrm{Mad}}/\partial(\nabla S) = -\rho v_\phi\)</span>) proves that the Euler–Lagrange phase residual <span class="math notranslate nohighlight">\(\mathcal{E}_S = -\partial_t\pi_S - \nabla\cdot J_S\)</span> is identically the compressible continuity residual <span class="math notranslate nohighlight">\(\partial_t\rho + \nabla\cdot(\rho v_\phi) = 0\)</span>.</p></li>
+<li><p>Varying <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}\)</span> with respect to the amplitude <span class="math notranslate nohighlight">\(A = \sqrt{\rho} &gt; 0\)</span> proves that dividing the Euler–Lagrange amplitude residual <span class="math notranslate nohighlight">\(\mathcal{E}_A = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial A} - \nabla\cdot\frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\nabla A)}\)</span> by <span class="math notranslate nohighlight">\(-2A\)</span> yields the exact <strong>Quantum Hamilton–Jacobi (QHJ)</strong> equation <span class="math notranslate nohighlight">\(\partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi\rho + Q(\rho) = 0\)</span>.</p></li>
+<li><p>In the stationary coarse-grained Painlevé–Gullstrand <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> limit (<span class="math notranslate nohighlight">\(\partial_t S = 0, g_\phi = 0, \Delta A = 0, v_\phi(r) = -\sqrt{2 G_\phi M / r}, V_{\mathrm{ext}}(r) = m_\phi\Phi_\phi(r)\)</span>), the QHJ residual vanishes identically for all <span class="math notranslate nohighlight">\(r &gt; 0\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Dilatant-Phase (<span class="math notranslate nohighlight">\(\varphi\)</span>) Coupling Uniquely Recovers DDF Jamming <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span>, Legendre Energy <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2\)</span>, and Action-Derived Proper Time <span class="math notranslate nohighlight">\(d\tau_D = dt / \gamma_\varphi(v)\)</span></strong>:
+Coupling a translating vortex sheath (<span class="math notranslate nohighlight">\(v &lt; c\)</span>) to the dispersed dilatant <span class="math notranslate nohighlight">\(\varphi\)</span>-substrate defines the sheath-compression Euler–Lagrange residual <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = \Lambda_\parallel(1 - \beta^2) - \Lambda_\parallel^{-1}\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.sheathCompressionResidual</span></code>) and convex variational excess <span class="math notranslate nohighlight">\(\Delta\mathcal{E}_{\mathrm{sheath}}(\Lambda_\parallel) = \frac{1}{2}m c^2(1 - \beta^2)(\Lambda_\parallel - \gamma_\varphi(v))^2 \ge 0\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.sheathVariationalExcess</span></code>). We prove that for <span class="math notranslate nohighlight">\(\Lambda_\parallel &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel = \gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}\)</span>. Evaluating the worldline dilatant Lagrangian <span class="math notranslate nohighlight">\(L_{\mathrm{DDF}}(v) = -m c^2 / \gamma_\varphi(v)\)</span> proves that:</p>
+<ul class="simple">
+<li><p>the Legendre transform <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}}(v) = v\,p_{\mathrm{DDF}}(v) - L_{\mathrm{DDF}}(v)\)</span> recovers <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}}(v) = \gamma_\varphi(v)m c^2 = m c^2 + K_D(v)\)</span> and the relativistic mass shell <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}}^2 - c^2 p_{\mathrm{DDF}}^2 = m^2 c^4\)</span>, and</p></li>
+<li><p>the normalized action increment <span class="math notranslate nohighlight">\(d\tau_D = \bigl(-L_{\mathrm{DDF}}(v)/(m c^2)\bigr)dt = dt / \gamma_\varphi(v)\)</span> (<code class="docutils literal notranslate"><span class="pre">MovingSheath.actionProperTime</span></code>) <strong>derives</strong> the proper-time law from the Lagrangian and satisfies <span class="math notranslate nohighlight">\(c^2 d\tau_D^2 = c^2 dt^2 - (v\,dt)^2\)</span> unconditionally!</p></li>
+</ul>
+</li>
+<li><p><strong>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Duality &amp; Strain-Thickened Bogoliubov Dispersion</strong>:
+We prove that the squared normalized dilatant Lagrangian equals the uncrossed <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel product and the normalized <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> covariance determinant:</p>
+<div class="math notranslate nohighlight">
+\[
+   \left(\frac{L_{\mathrm{DDF}}(v)}{-m c^2}\right)^2 = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{1}{\gamma_\varphi(v)^2} = 1 - \frac{v^2}{c^2},
+   \]</div>
+<p>and that strain-thickened dilatant coupling <span class="math notranslate nohighlight">\(g_{\mathrm{DDF}}(k) = g_0(1 + \gamma_{\mathrm{dil}} k^2)\)</span> strictly accelerates high-wavenumber Bogoliubov quasiparticles (<span class="math notranslate nohighlight">\(v_{p,\mathrm{DDF}}^2(k) &gt; v_p^2(k)\)</span> for <span class="math notranslate nohighlight">\(k, \gamma_{\mathrm{dil}} &gt; 0\)</span>).</p>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="architecture-of-the-variational-bridge-from-superfluid-action-to-ddf-jamming-gr-mathbb-c-2-4">
+<h2>1. Architecture of the Variational Bridge: From Superfluid Action to DDF Jamming &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span><a class="headerlink" href="#architecture-of-the-variational-bridge-from-superfluid-action-to-ddf-jamming-gr-mathbb-c-2-4" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TD
+    subgraph GP[&quot;1. Superfluid Gross–Pitaevskii (NLS) Action (ϕ-Condensate)&quot;]
+        LGP[&quot;Complex GP Lagrangian Density L_GP(ψ, ∂_t ψ, ∇ψ)\nL_GP = -ℏ Im(ψ* ∂_t ψ) - (ℏ²/2m_ϕ)|∇ψ|² - V_ext|ψ|² - (g_ϕ/2)|ψ|⁴&quot;]
+        Polar[&quot;Madelung Polar Substitution ψ = A exp(iS/ℏ), A = √ρ &gt; 0\n• |ψ|² = A² = ρ\n• -ℏ Im(ψ* ∂_t ψ) = -A² ∂_t S = -ρ ∂_t S (A_dot cancels!)\n• |∇ψ|² = (∇A)² + A²(∇S/ℏ)²&quot;]
+        LMad[&quot;Real Hydrodynamic Lagrangian Density L_Mad(ρ, ∇ρ, ∂_t S, ∇S)\nL_Mad = -ρ(∂_t S + |∇S|²/(2m_ϕ) + V_ext + ½ g_ϕ ρ) - (ℏ²/8m_ϕ)|∇ρ|²/ρ&quot;]
+    end
+
+    subgraph EL[&quot;2. Euler–Lagrange Variational Equations&quot;]
+        ELS[&quot;Phase Variation δS / δS = 0 (U(1) Noether Current)\nπ_S = ∂L/∂(∂_t S) = -ρ,  J_S = ∂L/∂(∇S) = -ρ v_ϕ\n⇒ E_S = ∂_t ρ + ∇·(ρ v_ϕ) = 0 (Continuity Equation)&quot;]
+        ELA[&quot;Amplitude Variation δS / δA = 0 (Divided by -2A)\n⇒ ∂_t S + ½ m_ϕ v_ϕ² + V_ext + g_ϕ ρ + Q(ρ) = 0\nwhere Q(ρ) = -(ℏ²/2m_ϕ)(Δ√ρ / √ρ) (Quantum Hamilton–Jacobi)&quot;]
+        River[&quot;Stationary Coarse-Grained RiverExterior Limit\n∂_t S = 0, g_ϕ = 0, Q → 0, v_ϕ = -√(2 G_ϕ M / r)\n⇒ ½ v_ϕ(r)² + Φ_ϕ(r) = 0 ⇔ Φ_ϕ(r) = -G_ϕ M / r&quot;]
+    end
+
+    subgraph DDF[&quot;3. Dilatant-Phase (φ) Coupling &amp; Gr_C(2,4) Plücker Unification&quot;]
+        Sheath[&quot;Sheath Compression Variational Principle (v &lt; c)\nR_sheath(Λ_∥) = Λ_∥(1 - β²) - 1/Λ_∥ = 0,  ΔE_sheath(Λ_∥) ≥ 0\n⇒ Unique Stationary Minimum Λ_∥ = γ_φ(v) = (1 - v²/c²)^(-1/2)&quot;]
+        Worldline[&quot;Worldline Dilatant Action &amp; Legendre Transform\nL_DDF(v) = -m c² / γ_φ(v),  p_DDF = γ_φ m v\n• H_DDF = v p_DDF - L_DDF = γ_φ m c² = m c² + K_D(v)\n• H_DDF² - c² p_DDF² = m² c⁴\n• Action Proper Time dτ_D = (-L_DDF/mc²)dt = dt/γ_φ ⇒ c²dτ_D² = c²dt² - v²dt²&quot;]
+        Gr24[&quot;Complex Grassmannian Gr_C(2,4) &amp; Tensor Splat Identity\n(L_DDF / -mc²)² = |w_A^C(M_sheath)|² |w_B^C(M_sheath)|² = det Σ_DDF / σ_0⁴ = 1 - β²&quot;]
+    end
+
+    LGP --&gt; Polar --&gt; LMad
+    LMad --&gt; ELS
+    LMad --&gt; ELA --&gt; River
+    ELA --&gt; Sheath --&gt; Worldline --&gt; Gr24
+    </pre><section id="resolving-two-foundational-questions-from-the-research-corpus">
+<h3>1.1 Resolving Two Foundational Questions from the Research Corpus<a class="headerlink" href="#resolving-two-foundational-questions-from-the-research-corpus" title="Link to this heading">¶</a></h3>
+<p>In our review of the repository’s Grassmannian and DDF papers (<a class="reference internal" href="#mad-chat-splat2026">Grassmannian Splat Mechanics and Vortex Space Emergence, lines 89–195</a>; <a class="reference internal" href="#mad-chat-gw2026">Review Pop III GW Remnants, lines 621–660</a>), two structural questions emerged regarding the relationship between <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, Madelung hydrodynamics, and Lagrangian field theory:</p>
+<ol class="arabic simple">
+<li><p><strong>From Kinematic Decomposition to Variational Dynamics</strong>:
+Prior to this work, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> defined the Madelung density <span class="math notranslate nohighlight">\(\rho(\mathbf{x}) = |\psi(\mathbf{x})|^2\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungDensity</span></code>), amplitude <span class="math notranslate nohighlight">\(\sqrt{\rho(\mathbf{x})}\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungAmplitude</span></code>), phase <span class="math notranslate nohighlight">\(S(\mathbf{x}) = \arg\psi(\mathbf{x})\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungPhase</span></code>), superfluid velocity <span class="math notranslate nohighlight">\(\mathbf{v}(\mathbf{x}) = \frac{\hbar}{m}\nabla S(\mathbf{x})\)</span> (<code class="docutils literal notranslate"><span class="pre">superfluidVelocity</span></code>), and Bohm quantum potential <span class="math notranslate nohighlight">\(Q(\mathbf{x}) = -\frac{\hbar^2}{2m}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}\)</span> (<code class="docutils literal notranslate"><span class="pre">bohmQuantumPotential</span></code>), and used “Lagrangian” in the particle/wavepacket sense (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code>) rather than as an action functional <span class="math notranslate nohighlight">\(\mathcal{S}[\psi, \psi^*] = \int \mathcal{L}_{\mathrm{GP}}\,dt\,d^3x\)</span>.</p></li>
+<li><p><strong>Discharging the Proper-Time Hypothesis <code class="docutils literal notranslate"><span class="pre">h_dtau</span></code> in <code class="docutils literal notranslate"><span class="pre">material_minkowski_interval</span></code></strong>:
+In <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>, the docstring of <code class="docutils literal notranslate"><span class="pre">material_minkowski_interval</span></code> referred to <em>“action-derived clock proper time <span class="math notranslate nohighlight">\(d\tau_D = dt / \gamma_\varphi(v)\)</span>”</em>, but the theorem signature previously accepted <code class="docutils literal notranslate"><span class="pre">h_dtau</span> <span class="pre">:</span> <span class="pre">dtau</span> <span class="pre">=</span> <span class="pre">dt</span> <span class="pre">/</span> <span class="pre">s.jammingFactor</span></code> as an explicit hypothesis rather than deriving <span class="math notranslate nohighlight">\(d\tau_D\)</span> from a worldline Lagrangian <span class="math notranslate nohighlight">\(L_{\mathrm{DDF}}(v)\)</span>.</p></li>
+</ol>
+<p>Sections 2–4 below show how <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> and <code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code> close both gaps completely.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="superfluid-grosspitaevskii-action-madelung-polar-substitution-and-eulerlagrange-hydrodynamics">
+<h2>2. Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, and Euler–Lagrange Hydrodynamics<a class="headerlink" href="#superfluid-grosspitaevskii-action-madelung-polar-substitution-and-eulerlagrange-hydrodynamics" title="Link to this heading">¶</a></h2>
+<section id="exact-polar-substitution-in-the-grosspitaevskii-lagrangian-density">
+<h3>2.1 Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density<a class="headerlink" href="#exact-polar-substitution-in-the-grosspitaevskii-lagrangian-density" title="Link to this heading">¶</a></h3>
+<p>For a continuous bosonic superfluid condensate <span class="math notranslate nohighlight">\(\psi(\mathbf{x}, t) \in \mathbb{C}\)</span> of boson mass <span class="math notranslate nohighlight">\(m_\phi &gt; 0\)</span> in an external potential <span class="math notranslate nohighlight">\(V_{\mathrm{ext}}\)</span> with contact self-interaction coupling <span class="math notranslate nohighlight">\(g_\phi\)</span>, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is (<a class="reference internal" href="#mad-madelung1927">Madelung 1927</a>; <a class="reference internal" href="#mad-gross1961">Gross 1961</a>; <a class="reference internal" href="#mad-pitaevskii1961">Pitaevskii 1961</a>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
+= \frac{i\hbar}{2}\bigl(\psi^*\partial_t\psi - \psi\partial_t\psi^*\bigr)
+  - \frac{\hbar^2}{2 m_\phi}|\nabla\psi|^2
+  - V_{\mathrm{ext}}|\psi|^2
+  - \frac{g_\phi}{2}|\psi|^4.
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\(\psi^*\partial_t\psi - \psi\partial_t\psi^* = 2 i\,\operatorname{Im}(\psi^*\partial_t\psi)\)</span>, the temporal symplectic term is real-valued and equals (<code class="docutils literal notranslate"><span class="pre">grossPitaevskiiTemporalSymplecticTerm</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{i\hbar}{2}\bigl(\psi^*\partial_t\psi - \psi\partial_t\psi^*\bigr) = -\hbar\,\operatorname{Im}(\psi^*\partial_t\psi).
+\]</div>
+<p>Substituting the polar representation <span class="math notranslate nohighlight">\(\psi(A, \theta) = A(\cos\theta + i\sin\theta) = A e^{i\theta}\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungPolarWavefunction</span></code>) with real square-root amplitude <span class="math notranslate nohighlight">\(A = \sqrt{\rho} &gt; 0\)</span>, phase angle <span class="math notranslate nohighlight">\(\theta = S / \hbar\)</span>, and chain-rule derivative (<code class="docutils literal notranslate"><span class="pre">madelungPolarDerivative</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\partial_\mu\psi = (\partial_\mu A + i A\,\partial_\mu\theta)e^{i\theta}
+= (\partial_\mu A\cos\theta - A\,\partial_\mu\theta\sin\theta) + i(\partial_\mu A\sin\theta + A\,\partial_\mu\theta\cos\theta),
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>) proves four exact algebraic identities over <span class="math notranslate nohighlight">\(\mathbb{C}\)</span>:</p>
+<ol class="arabic">
+<li><p><strong>Amplitude Normalization</strong>: <span class="math notranslate nohighlight">\(|\psi|^2 = \operatorname{Complex.normSq}(\psi) = A^2(\cos^2\theta + \sin^2\theta) = A^2 = \rho\)</span>.</p></li>
+<li><p><strong>Exact Cancellation of <span class="math notranslate nohighlight">\(\dot{A}\)</span> in the Symplectic Time Term</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   -\hbar\,\operatorname{Im}(\psi^*\partial_t\psi) = -\hbar A^2 \dot{\theta}(\cos^2\theta + \sin^2\theta) = -A^2\,\partial_t S = -\rho\,\partial_t S.
+   \]</div>
+</li>
+<li><p><strong>Orthogonal Decomposition of the Spatial Gradient Norm Squared</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   |\nabla\psi|^2 = (\nabla A)^2 + A^2\left(\frac{\nabla S}{\hbar}\right)^2.
+   \]</div>
+</li>
+<li><p><strong>Equivalence of Complex GP, Amplitude-Phase, and Hydrodynamic Density-Phase Lagrangians</strong>:
+$<span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
+= \underbrace{-A^2\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) - \frac{g_\phi}{2}A^4 - \frac{\hbar^2}{2 m_\phi}(\nabla A)^2}_{\mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)}
+= \underbrace{-\rho\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}} + \frac{g_\phi}{2}\rho\right) - \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho}}_{\mathcal{L}_{\mathrm{Mad}}^\rho(\rho, \nabla\rho, \partial_t S, \nabla S)}\)</span><span class="math notranslate nohighlight">\(  
+for \)</span>\rho = A^2 &gt; 0<span class="math notranslate nohighlight">\( and \)</span>\nabla\rho = 2 A\nabla A$,
+where the last term is the Fisher-information / von Weizsäcker quantum gradient density.</p></li>
+</ol>
+</section>
+<section id="eulerlagrange-variations-compressible-continuity-quantum-hamiltonjacobi-qhj-equations">
+<h3>2.2 Euler–Lagrange Variations: Compressible Continuity &amp; Quantum Hamilton–Jacobi (QHJ) Equations<a class="headerlink" href="#eulerlagrange-variations-compressible-continuity-quantum-hamiltonjacobi-qhj-equations" title="Link to this heading">¶</a></h3>
+<p>Treating <span class="math notranslate nohighlight">\(S\)</span> and <span class="math notranslate nohighlight">\(A = \sqrt{\rho}\)</span> as the independent real fields in the action <span class="math notranslate nohighlight">\(\mathcal{S}[A, S] = \int \mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)\,dt\,d^3x\)</span>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variational Field</p></th>
+<th class="head"><p>Canonical Conjugate Momenta &amp; Fluxes</p></th>
+<th class="head"><p>Euler–Lagrange Equation</p></th>
+<th class="head"><p>Physical Meaning &amp; Lean 4 Declaration</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Phase <span class="math notranslate nohighlight">\(S\)</span></strong><br>(<span class="math notranslate nohighlight">\(U(1)\)</span> shift invariance <span class="math notranslate nohighlight">\(\partial\mathcal{L}_{\mathrm{Mad}}/\partial S = 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\pi_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\partial_t S)} = -\rho\)</span>,<br><span class="math notranslate nohighlight">\(\mathbf{J}_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\nabla S)} = -\rho\frac{\nabla S}{m_\phi} = -\rho\mathbf{v}_\phi\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathcal{E}_S = -\partial_t\pi_S - \nabla\cdot\mathbf{J}_S = \partial_t\rho + \nabla\cdot(\rho\mathbf{v}_\phi) = 0\)</span></p></td>
+<td><p><strong>Compressible Continuity Equation</strong> (<code class="docutils literal notranslate"><span class="pre">madelungPhaseEulerLagrangeResidual</span></code>, <code class="docutils literal notranslate"><span class="pre">madelungContinuityResidual</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Amplitude <span class="math notranslate nohighlight">\(A = \sqrt{\rho} &gt; 0\)</span></strong><br>(<span class="math notranslate nohighlight">\(\partial\mathcal{L}_{\mathrm{Mad}}/\partial\dot{A} = 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial A} = -2A\bigl(\partial_t S + \frac{|\nabla S|^2}{2m_\phi} + V_{\mathrm{ext}} + g_\phi A^2\bigr)\)</span>,<br><span class="math notranslate nohighlight">\(\nabla\cdot\frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\nabla A)} = -\frac{\hbar^2}{m_\phi}\Delta A\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{\mathcal{E}_A}{-2A} = \partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi\rho - \frac{\hbar^2}{2m_\phi}\frac{\Delta A}{A} = 0\)</span></p></td>
+<td><p><strong>Quantum Hamilton–Jacobi (QHJ) Equation</strong> with Bohm potential <span class="math notranslate nohighlight">\(Q(\rho) = -\frac{\hbar^2}{2m_\phi}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}\)</span> (<code class="docutils literal notranslate"><span class="pre">madelungAmplitudeEulerLagrangeResidual</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumHamiltonJacobiResidual</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Stationary <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> Limit</strong><br>(<span class="math notranslate nohighlight">\(\partial_t S = 0, g_\phi = 0, \Delta A = 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(v_\phi(r) = -\sqrt{\frac{2 G_\phi M}{r}}\)</span>,<br><span class="math notranslate nohighlight">\(V_{\mathrm{ext}}(r) = m_\phi\Phi_\phi(r) = -\frac{m_\phi G_\phi M}{r}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{QHJ}} = \frac{1}{2}m_\phi\left(\frac{2 G_\phi M}{r}\right) - \frac{m_\phi G_\phi M}{r} = 0\)</span></p></td>
+<td><p><strong>Painlevé–Gullstrand River Bernoulli Balance</strong> (<code class="docutils literal notranslate"><span class="pre">RiverExterior.bernoulli_potential_eq</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="field-legendre-transform-mathcal-h-mathrm-mad-ge-0-gradient-bridge-to-the-compressible-madelungeuler-momentum-equation">
+<h3>2.3 Field Legendre Transform (<span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{Mad}} \ge 0\)</span>) &amp; Gradient Bridge to the Compressible Madelung–Euler Momentum Equation<a class="headerlink" href="#field-legendre-transform-mathcal-h-mathrm-mad-ge-0-gradient-bridge-to-the-compressible-madelungeuler-momentum-equation" title="Link to this heading">¶</a></h3>
+<p>A natural critique of the real hydrodynamic Lagrangian density <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}\)</span> in Section 2.1 is: <em>why do the kinetic, external-potential, self-interaction, and quantum-gradient terms all appear with minus signs in <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}\)</span>?</em> Theorem <code class="docutils literal notranslate"><span class="pre">madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>) resolves this by proving the canonical field Legendre transformation with respect to <span class="math notranslate nohighlight">\(\partial_t S\)</span>:</p>
+<ol class="arabic">
+<li><p><strong>Positive-Definite Field Legendre Hamiltonian Density (<code class="docutils literal notranslate"><span class="pre">madelungAmplitudeHamiltonianDensity</span></code>, <code class="docutils literal notranslate"><span class="pre">madelungHydrodynamicHamiltonianDensity</span></code>)</strong>:
+Because <span class="math notranslate nohighlight">\(\pi_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\partial_t S)} = -\rho = -A^2\)</span>, the canonical Hamilton–Jacobi decomposition <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}} = \pi_S\,\partial_t S - \mathcal{H}_{\mathrm{Mad}}\)</span> yields the strictly nonnegative energy density:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{H}_{\mathrm{Mad}} = \pi_S\,\partial_t S - \mathcal{L}_{\mathrm{Mad}} = A^2\left(\frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) + \frac{g_\phi}{2}A^4 + \frac{\hbar^2}{2 m_\phi}(\nabla A)^2 = \frac{1}{2}m_\phi\rho v_\phi^2 + V_{\mathrm{ext}}\rho + \frac{g_\phi}{2}\rho^2 + \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho} \ge 0
+   \]</div>
+<p>whenever <span class="math notranslate nohighlight">\(m_\phi &gt; 0, V_{\mathrm{ext}} \ge 0, g_\phi \ge 0\)</span>.</p>
+</li>
+<li><p><strong>Spatial Gradient Bridge from QHJ to the Compressible Madelung–Euler Momentum Equation (<code class="docutils literal notranslate"><span class="pre">madelungEulerMomentumResidual</span></code>)</strong>:
+For irrotational flow <span class="math notranslate nohighlight">\(v_\phi = \nabla S / m_\phi\)</span> with mixed-partial symmetry <span class="math notranslate nohighlight">\(\nabla(\partial_t S) = m_\phi\partial_t v_\phi\)</span> and convective identity <span class="math notranslate nohighlight">\(\nabla\bigl(\frac{1}{2}m_\phi v_\phi^2\bigr) = m_\phi v_\phi\nabla v_\phi\)</span>, dividing the spatial gradient of the QHJ equation by <span class="math notranslate nohighlight">\(m_\phi &gt; 0\)</span> yields the exact compressible Madelung–Euler momentum residual:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{(m_\phi\partial_t v_\phi) + (m_\phi v_\phi\nabla v_\phi) + \nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q(\rho)}{m_\phi} = \partial_t v_\phi + v_\phi\nabla v_\phi + \frac{\nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q(\rho)}{m_\phi} = \mathcal{R}_{\mathrm{Euler}}.
+   \]</div>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="dilatant-phase-varphi-coupling-variational-recovery-of-ddf-jamming-lambda-parallel-v-gamma-varphi-v-and-action-derived-proper-time">
+<h2>3. Dilatant-Phase (<span class="math notranslate nohighlight">\(\varphi\)</span>) Coupling: Variational Recovery of DDF Jamming <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span> and Action-Derived Proper Time<a class="headerlink" href="#dilatant-phase-varphi-coupling-variational-recovery-of-ddf-jamming-lambda-parallel-v-gamma-varphi-v-and-action-derived-proper-time" title="Link to this heading">¶</a></h2>
+<section id="variational-derivation-of-longitudinal-sheath-compression-lambda-parallel-v-gamma-varphi-v">
+<h3>3.1 Variational Derivation of Longitudinal Sheath Compression <span class="math notranslate nohighlight">\(\Lambda_\parallel(v) = \gamma_\varphi(v)\)</span><a class="headerlink" href="#variational-derivation-of-longitudinal-sheath-compression-lambda-parallel-v-gamma-varphi-v" title="Link to this heading">¶</a></h3>
+<p>In Marco Fedi’s Dilatant Dark Fluid framework (<a class="reference internal" href="#mad-fedi2026">Fedi 2026</a>; <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>), the continuous <span class="math notranslate nohighlight">\(\phi\)</span>-superfluid coexists with a heavier dispersed dilatant phase (<span class="math notranslate nohighlight">\(\varphi\)</span>) of saturated jamming density <span class="math notranslate nohighlight">\(\varrho_{\max}^\varphi &gt; 0\)</span> and minimum compressibility <span class="math notranslate nohighlight">\(j_{\min}^\varphi &gt; 0\)</span>, supporting transverse phonons at the emergent speed of light <span class="math notranslate nohighlight">\(c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}\)</span> (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate.c</span></code>).</p>
+<p>When a massive vortex-core defect of rest mass <span class="math notranslate nohighlight">\(m &gt; 0\)</span> translates at subluminal velocity <span class="math notranslate nohighlight">\(v &lt; c\)</span> (<span class="math notranslate nohighlight">\(\beta = v/c \in [0, 1)\)</span>, <span class="math notranslate nohighlight">\(\beta^2 = v^2/c^2 &lt; 1\)</span>) through the <span class="math notranslate nohighlight">\(\varphi\)</span>-substrate, the comoving acoustic wave operator acquires the anisotropic convective factor <span class="math notranslate nohighlight">\(1 - v^2/c^2 = 1 - \beta^2 &gt; 0\)</span> along the motion axis. Balancing longitudinal elastic compression of the sheath scale <span class="math notranslate nohighlight">\(\Lambda_\parallel &gt; 0\)</span> against the dilatant log-strain restoring potential defines the sheath-compression variational functional:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{W}_{\mathrm{sheath}}(\Lambda_\parallel; v) = \frac{1}{2}m c^2\bigl[\Lambda_\parallel^2(1 - \beta^2) - 2\ln\Lambda_\parallel - 1\bigr],
+\]</div>
+<p>whose Euler–Lagrange stationary residual with respect to <span class="math notranslate nohighlight">\(\Lambda_\parallel\)</span> (normalized by <span class="math notranslate nohighlight">\(m c^2\)</span>) is (<code class="docutils literal notranslate"><span class="pre">MovingSheath.sheathCompressionResidual</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = \frac{1}{m c^2}\frac{\partial\mathcal{W}_{\mathrm{sheath}}}{\partial\Lambda_\parallel} = \Lambda_\parallel(1 - \beta^2) - \frac{1}{\Lambda_\parallel},
+\]</div>
+<p>with quadratic convex variational excess (<code class="docutils literal notranslate"><span class="pre">MovingSheath.sheathVariationalExcess</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta\mathcal{E}_{\mathrm{sheath}}(\Lambda_\parallel) = \frac{1}{2}m c^2(1 - \beta^2)\bigl(\Lambda_\parallel - \gamma_\varphi(v)\bigr)^2 \ge 0.
+\]</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span></code>, we prove:</p>
+<ol class="arabic">
+<li><p><strong>Stationary Point &amp; Global Minimum at <span class="math notranslate nohighlight">\(\Lambda_\parallel = \gamma_\varphi(v)\)</span></strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{R}_{\mathrm{sheath}}\bigl(\gamma_\varphi(v)\bigr) = 0 \quad\text{and}\quad \Delta\mathcal{E}_{\mathrm{sheath}}\bigl(\gamma_\varphi(v)\bigr) = 0.
+   \]</div>
+</li>
+<li><p><strong>Uniqueness of the Variational Jamming Solution for <span class="math notranslate nohighlight">\(\Lambda_\parallel &gt; 0\)</span></strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel^2(1 - \beta^2) = 1 \iff \Lambda_\parallel = \gamma_\varphi(v) = \frac{1}{\sqrt{1 - v^2/c^2}},
+   \]</div>
+<p>recovering <code class="docutils literal notranslate"><span class="pre">profile_closure_jamming_factor</span></code> directly as the unique Euler–Lagrange stationary point of the dilatant sheath coupling.</p>
+</li>
+</ol>
+</section>
+<section id="worldline-dilatant-action-legendre-transform-to-h-mathrm-ddf-gamma-varphi-v-m-c-2-and-unconditional-minkowski-proper-time">
+<h3>3.2 Worldline Dilatant Action, Legendre Transform to <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2\)</span>, and Unconditional Minkowski Proper Time<a class="headerlink" href="#worldline-dilatant-action-legendre-transform-to-h-mathrm-ddf-gamma-varphi-v-m-c-2-and-unconditional-minkowski-proper-time" title="Link to this heading">¶</a></h3>
+<p>Evaluating the translating vortex-sheath worldline action at its stationary jamming factor <span class="math notranslate nohighlight">\(\Lambda_\parallel = \gamma_\varphi(v)\)</span> yields the relativistic Born–Infeld / dilatant worldline Lagrangian (<code class="docutils literal notranslate"><span class="pre">MovingSheath.dilatantLagrangian</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathrm{DDF}}(v) = -\frac{m c^2}{\gamma_\varphi(v)} = -m c^2\sqrt{1 - \frac{v^2}{c^2}}.
+\]</div>
+<p>From <span class="math notranslate nohighlight">\(L_{\mathrm{DDF}}(v)\)</span>, <code class="docutils literal notranslate"><span class="pre">MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span></code> machine-checks the complete relativistic mechanics and proper-time chain:</p>
+<ol class="arabic">
+<li><p><strong>Canonical Momentum (<code class="docutils literal notranslate"><span class="pre">MovingSheath.dilatantCanonicalMomentum</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   p_{\mathrm{DDF}}(v) = \frac{\partial L_{\mathrm{DDF}}}{\partial v} = \gamma_\varphi(v)\,m\,v.
+   \]</div>
+</li>
+<li><p><strong>Legendre Transform Recovers Total Material Energy &amp; Reversible Kinetic Energy (<code class="docutils literal notranslate"><span class="pre">MovingSheath.dilatantHamiltonian</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   H_{\mathrm{DDF}}(v) = v\,p_{\mathrm{DDF}}(v) - L_{\mathrm{DDF}}(v) = \gamma_\varphi(v) m v^2 + \frac{m c^2}{\gamma_\varphi(v)} = \gamma_\varphi(v)\,m c^2 = m c^2 + K_D(v),
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(K_D(v) = m c^2(\gamma_\varphi(v) - 1)\)</span> is <code class="docutils literal notranslate"><span class="pre">MovingSheath.kineticEnergy</span></code>.</p>
+</li>
+<li><p><strong>Relativistic Mass-Shell Dispersion Invariant</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   H_{\mathrm{DDF}}(v)^2 - c^2\,p_{\mathrm{DDF}}(v)^2 = \bigl(\gamma_\varphi(v) m c^2\bigr)^2 - c^2\bigl(\gamma_\varphi(v) m v\bigr)^2 = (m c^2)^2.
+   \]</div>
+</li>
+<li><p><strong>Action-Derived Clock Proper Time &amp; Unconditional Minkowski Interval (<code class="docutils literal notranslate"><span class="pre">MovingSheath.actionProperTime</span></code>)</strong>:
+Defining the clock proper-time increment directly from the normalized worldline action increment <span class="math notranslate nohighlight">\(-dS_{\mathrm{DDF}}/(m c^2)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   d\tau_D = s.\mathrm{actionProperTime}(m, dt) = \left(\frac{-L_{\mathrm{DDF}}(v)}{m c^2}\right)dt = \frac{dt}{\gamma_\varphi(v)}
+   \]</div>
+<p>proves <strong>unconditionally</strong> (without any external <code class="docutils literal notranslate"><span class="pre">h_dtau</span></code> assumption) that:</p>
+<div class="math notranslate nohighlight">
+\[
+   c^2\,\bigl(s.\mathrm{actionProperTime}(m, dt)\bigr)^2 = c^2\,dt^2 - (v\,dt)^2.
+   \]</div>
+</li>
+</ol>
+</section>
+<section id="four-way-equivalence-with-complex-grassmannian-gr-mathbb-c-2-4-plucker-channels-tensor-splats">
+<h3>3.3 Four-Way Equivalence with Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels &amp; Tensor Splats<a class="headerlink" href="#four-way-equivalence-with-complex-grassmannian-gr-mathbb-c-2-4-plucker-channels-tensor-splats" title="Link to this heading">¶</a></h3>
+<p>Embedding the moving sheath into <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> via <span class="math notranslate nohighlight">\(M_{\mathrm{sheath}} = s.\mathrm{gr24TwistorMatrix}(d, \lambda, L, \Delta\ell, \phi, x)\)</span> and into the normed anisotropic Gaussian splat family via <span class="math notranslate nohighlight">\(\mathrm{splat}_{\mathrm{DDF}} = s.\mathrm{ddfTensorSplat}(c_x, c_y, w, \sigma_0, h_w, h_{\sigma_0}, \theta)\)</span> establishes the exact four-way identity:</p>
+<div class="math notranslate nohighlight">
+\[
+\left(\frac{L_{\mathrm{DDF}}(v)}{-m c^2}\right)^2
+= \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2
+= \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4}
+= \frac{1}{\gamma_\varphi(v)^2}
+= 1 - \frac{v^2}{c^2}.
+\]</div>
+</section>
+<section id="cross-domain-bridge-to-text-ads-5-text-cft-4-black-brane-emblackening-405-text-nm-532-text-nm-sted-nanolithography-and-kicad-volumetric-drc">
+<h3>3.4 Cross-Domain Bridge to <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span> Black-Brane Emblackening, <span class="math notranslate nohighlight">\(405\text{ nm}/532\text{ nm}\)</span> STED Nanolithography, and <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> DRC<a class="headerlink" href="#cross-domain-bridge-to-text-ads-5-text-cft-4-black-brane-emblackening-405-text-nm-532-text-nm-sted-nanolithography-and-kicad-volumetric-drc" title="Link to this heading">¶</a></h3>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>) connects the Madelung variational formalism directly to the companion AdS/CFT (<a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">grassmannian-ads-cft-ddf-paper.md</span></a>) and holographic RISC-V carbon nanolithography (<a class="reference internal" href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html"><span class="std std-doc">grassmannian-riscv-holographic-nanolithography-kicad-paper.md</span></a>) papers:</p>
+<ol class="arabic">
+<li><p><strong><span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> Planar Black-Brane Emblackening vs. DDF Worldline Lagrangian Square</strong>:
+Evaluating <span class="math notranslate nohighlight">\(M_{\text{AdS}_5} = \operatorname{ddfThermalGr24Matrix}\bigl((z/z_H)^2, \theta\bigr)\)</span> for <span class="math notranslate nohighlight">\(0 &lt; z &lt; z_H\)</span> proves that the uncrossed <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel product equals the <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> black-brane emblackening factor:</p>
+<div class="math notranslate nohighlight">
+\[
+   \bigl|w_A^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2 = 1 - \left(\frac{z}{z_H}\right)^4 = \operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, 4) &gt; 0,
+   \]</div>
+<p>matching the squared normalized worldline Lagrangian <span class="math notranslate nohighlight">\(\bigl(L_{\mathrm{DDF}}/(-mc^2)\bigr)^2 = 1 - \beta^2\)</span> on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>.</p>
+</li>
+<li><p><strong>Two-Spline Madelung Polar Wave Superposition &amp; <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> Metric Interference DRC</strong>:
+For two adjacent nanolithography splines with amplitudes <span class="math notranslate nohighlight">\(A_1, A_2 &gt; 0\)</span>:</p>
+<ul class="simple">
+<li><p><strong>Single-Flash In-Phase Exposure (<span class="math notranslate nohighlight">\(\Delta\theta = 0\)</span>)</strong>: <span class="math notranslate nohighlight">\(\operatorname{Complex.normSq}\bigl(\psi(A_1, \theta) + \psi(A_2, \theta)\bigr) = (A_1 + A_2)^2 = \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)\)</span> (which at <span class="math notranslate nohighlight">\(A_1 = A_2 = 4/5\)</span> reaches <span class="math notranslate nohighlight">\(64/25 = 2.56 &gt; 2 = A_{sp3}\)</span>, triggering an unintended <span class="math notranslate nohighlight">\(sp^3\)</span> diamond short/wall).</p></li>
+<li><p><strong>Quadrature (<span class="math notranslate nohighlight">\(\Delta\theta = \pi/2\)</span>) / Orthogonal-Flash Decomposition</strong>: <span class="math notranslate nohighlight">\(\operatorname{Complex.normSq}\bigl(\psi(A_1, \theta) + \psi(A_2, \theta + \pi/2)\bigr) = A_1^2 + A_2^2 &lt; \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)\)</span>, eliminating the <span class="math notranslate nohighlight">\(2 A_1 A_2\)</span> interference cross-term identically.</p></li>
+</ul>
+</li>
+<li><p><strong><span class="math notranslate nohighlight">\(532\text{ nm}\)</span> STED Depletion Amplifies Core Bohm Quantum Potential by <span class="math notranslate nohighlight">\(1 + \zeta_{532} = 64\times\)</span> (<code class="docutils literal notranslate"><span class="pre">stedCoreBohmPotential</span></code>)</strong>:
+Compressing the <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> write spot by a coaxial <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> helical doughnut beam of saturation ratio <span class="math notranslate nohighlight">\(\zeta_{532} &gt; 0\)</span> amplifies the repulsive core Bohm quantum-confinement potential of the focal Gaussian splat by:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, \zeta_{532}) = (1 + \zeta_{532})\,\operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, 0),
+   \]</div>
+<p>yielding an exact <span class="math notranslate nohighlight">\(64\times\)</span> quantum-confinement boost at <span class="math notranslate nohighlight">\(\zeta_{532} = 63\)</span> (<span class="math notranslate nohighlight">\(w_{\mathrm{STED}} \approx 18.08\text{ nm}\)</span>).</p>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="strain-thickened-dilatant-bogoliubov-dispersion-evidence-boundaries-signals-pending">
+<h2>4. Strain-Thickened Dilatant Bogoliubov Dispersion &amp; Evidence Boundaries (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)<a class="headerlink" href="#strain-thickened-dilatant-bogoliubov-dispersion-evidence-boundaries-signals-pending" title="Link to this heading">¶</a></h2>
+<p>In a standard weakly interacting Bose–Einstein condensate (<span class="math notranslate nohighlight">\(\phi\)</span>-phase alone), linearized perturbations around uniform density <span class="math notranslate nohighlight">\(\rho_0 &gt; 0\)</span> obey the Bogoliubov squared phase velocity (<code class="docutils literal notranslate"><span class="pre">standardBogoliubovPhaseVelSq</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+v_p^2(k) = \frac{\omega_{\mathrm{Bog}}^2(k)}{k^2} = \frac{\hbar^2 k^2}{4 m_\phi^2} + \frac{g_0 \rho_0}{m_\phi}.
+\]</div>
+<p>When coupled to the shear-thickening dilatant phase (<span class="math notranslate nohighlight">\(\varphi\)</span>) (<a class="reference internal" href="#mad-chat-gw2026">Review Pop III GW Remnants, lines 621–660</a>), high-wavenumber shear strain promotes the effective contact coupling to <span class="math notranslate nohighlight">\(g_{\mathrm{DDF}}(k) = g_0(1 + \gamma_{\mathrm{dil}} k^2)\)</span> with dilatant coefficient <span class="math notranslate nohighlight">\(\gamma_{\mathrm{dil}} &gt; 0\)</span> (<code class="docutils literal notranslate"><span class="pre">dilatantBogoliubovPhaseVelSq</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+v_{p,\mathrm{DDF}}^2(k) = \frac{\hbar^2 k^2}{4 m_\phi^2} + \frac{g_0(1 + \gamma_{\mathrm{dil}} k^2)\rho_0}{m_\phi}
+= v_p^2(k) + \frac{g_0 \gamma_{\mathrm{dil}} k^2 \rho_0}{m_\phi} &gt; v_p^2(k) \qquad (k &gt; 0, \gamma_{\mathrm{dil}} &gt; 0).
+\]</div>
+<section id="epistemic-physical-evidence-boundary-madelungdilatantvariationalhypothesis">
+<h3>Epistemic &amp; Physical Evidence Boundary (<code class="docutils literal notranslate"><span class="pre">MadelungDilatantVariationalHypothesis</span></code>)<a class="headerlink" href="#epistemic-physical-evidence-boundary-madelungdilatantvariationalhypothesis" title="Link to this heading">¶</a></h3>
+<p>In accordance with the repository’s evidence-triage discipline (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>), <code class="docutils literal notranslate"><span class="pre">MadelungDilatantVariationalHypothesis</span></code> separates the machine-checked variational identities from open experimental premises:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Claim / Mathematical Layer</p></th>
+<th class="head"><p>Status in <code class="docutils literal notranslate"><span class="pre">Signals</span></code></p></th>
+<th class="head"><p>Owning Declaration</p></th>
+<th class="head"><p>Required Experimental / Calibration Control</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Polar substitution <span class="math notranslate nohighlight">\(\psi = \sqrt{\rho}e^{iS/\hbar}\)</span> in <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{GP}}\)</span> yields <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{Mad}}\)</span>, continuity <span class="math notranslate nohighlight">\(\partial_t\rho + \nabla\cdot(\rho v_\phi) = 0\)</span>, and QHJ <span class="math notranslate nohighlight">\(\partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi\rho + Q = 0\)</span></p></td>
+<td><p><strong>Verified</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span></code></p></td>
+<td><p>Exact mathematical identity for any <span class="math notranslate nohighlight">\(C^2\)</span> non-vanishing complex order parameter (<span class="math notranslate nohighlight">\(A = \sqrt{\rho} &gt; 0\)</span> outside vortex cores).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stationary dilatant sheath closure <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel = \gamma_\varphi(v)\)</span>, Legendre transform <span class="math notranslate nohighlight">\(H_{\mathrm{DDF}} = \gamma_\varphi m c^2\)</span>, and action proper time <span class="math notranslate nohighlight">\(d\tau_D = dt/\gamma_\varphi(v)\)</span></p></td>
+<td><p><strong>Verified</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span></code></p></td>
+<td><p>Proves internal variational consistency of the constitutive DDF sheath model; does not by itself prove that physical vacuum is a material ether.</p></td>
+</tr>
+<tr class="row-even"><td><p>Strain-thickened Bogoliubov dispersion <span class="math notranslate nohighlight">\(g(k) = g_0(1 + \gamma_{\mathrm{dil}} k^2) \implies v_{p,\mathrm{DDF}}^2(k) &gt; v_p^2(k)\)</span></p></td>
+<td><p><strong>Verified</strong> algebra / <strong>Pending</strong> physical realization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dilatantBogoliubovPhaseVelSq</span></code>, <code class="docutils literal notranslate"><span class="pre">MadelungDilatantVariationalHypothesis</span></code></p></td>
+<td><p>Requires <code class="docutils literal notranslate"><span class="pre">laboratoryAcousticDispersionCalibrated</span></code> (Bragg spectroscopy or acoustic time-of-flight in a shear-thickening colloidal/BEC medium) and <code class="docutils literal notranslate"><span class="pre">crossedBeamDeflectionDiscriminatorTested</span></code> (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span> vs. <span class="math notranslate nohighlight">\(1\)</span>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="catalog-of-check-figures-quantitative-benchmarks-across-lean-4-and-rust-wasm">
+<h2>5. Catalog of Check Figures &amp; Quantitative Benchmarks Across Lean 4 and Rust/WASM<a class="headerlink" href="#catalog-of-check-figures-quantitative-benchmarks-across-lean-4-and-rust-wasm" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Observable / Variational Identity</p></th>
+<th class="head"><p>Exact Formula / Input Parameters</p></th>
+<th class="head"><p>Verified Check Figure</p></th>
+<th class="head"><p>Lean 4 / Rust Verification</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1</strong></p></td>
+<td><p>Polar wavefunction norm <span class="math notranslate nohighlight">\(|\psi(3, \theta)|^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{Complex.normSq}(\operatorname{madelungPolarWavefunction}(3, \theta))\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(9\)</span> (for all <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SignalsTests.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2</strong></p></td>
+<td><p>GP temporal symplectic term (<span class="math notranslate nohighlight">\(A=3, \hbar=2, \partial_t S = -3\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(-\hbar\,\operatorname{Im}(\psi^*\partial_t\psi) = -A^2\,\partial_t S\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(+27\)</span> (independent of <span class="math notranslate nohighlight">\(\dot{A}\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grossPitaevskiiTemporalSymplecticTerm</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3</strong></p></td>
+<td><p>Equivalence <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathrm{GP}} = \mathcal{L}_{\mathrm{Mad}} = \mathcal{L}_{\mathrm{Mad}}^\rho\)</span> (<span class="math notranslate nohighlight">\(m_\phi=1, \hbar=2, g_\phi=5, V_{\mathrm{ext}}=7, A=3, \nabla A=4, \partial_t S=-3, \nabla S=2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(-9(-3 + 2 + 7) - \frac{5}{2}(81) - 2(16)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-288.5 = -\frac{577}{2}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grossPitaevskiiPolarLagrangianDensity</span></code>, <code class="docutils literal notranslate"><span class="pre">madelungHydrodynamicLagrangianDensity</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4</strong></p></td>
+<td><p>Phase Euler–Lagrange residual <span class="math notranslate nohighlight">\(\mathcal{E}_S\)</span> (<span class="math notranslate nohighlight">\(\partial_t\rho = 0.75, \nabla\cdot(\rho v_\phi) = -0.75\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(-\partial_t\pi_S - \nabla\cdot J_S = \partial_t\rho + \nabla\cdot(\rho v_\phi)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">madelungPhaseEulerLagrangeResidual</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5</strong></p></td>
+<td><p>Amplitude Euler–Lagrange to QHJ ratio (<span class="math notranslate nohighlight">\(A = 3 &gt; 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathcal{E}_A / (-2A) - \mathcal{R}_{\mathrm{QHJ}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (identically)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">madelungAmplitudeEulerLagrangeResidual</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumHamiltonJacobiResidual</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6</strong></p></td>
+<td><p>Stationary <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> QHJ residual (<span class="math notranslate nohighlight">\(G_\phi=1, M=2, r=4, m_\phi=1\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{1}{2}v_\phi(4)^2 + \Phi_\phi(4) = \frac{1}{2}(1) - \frac{1}{2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.bernoulliPotential</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumHamiltonJacobiResidual</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>7</strong></p></td>
+<td><p>Stationary sheath compression at <span class="math notranslate nohighlight">\(\beta = 3/5\)</span> (<span class="math notranslate nohighlight">\(\beta^2 = 9/25\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Lambda_\parallel = \gamma_\varphi = \frac{5}{4} = 1.25\)</span>, <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{sheath}}(5/4)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{sheath}}(5/4) = 0\)</span>, <span class="math notranslate nohighlight">\(\Lambda_\parallel^2 = \frac{25}{16} &gt; 1\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">toyMadelungDilatantVariational</span></code> (<code class="docutils literal notranslate"><span class="pre">SignalsPendingTests.lean</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>8</strong></p></td>
+<td><p>Off-equilibrium sheath variational excess (<span class="math notranslate nohighlight">\(m=3, c=5, \beta=3/5, \Lambda_\parallel = 7/4\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{1}{2}(3)(25)(16/25)(7/4 - 5/4)^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(6.0 &gt; 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.sheathVariationalExcess</span></code>, <code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>9</strong></p></td>
+<td><p>Legendre-transformed dilatant Hamiltonian (<span class="math notranslate nohighlight">\(m=5, c=2, v=1 \implies \gamma_\varphi = 2/\sqrt{3}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(H_{\mathrm{DDF}} = v p_{\mathrm{DDF}} - L_{\mathrm{DDF}} = \gamma_\varphi m c^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{40}{\sqrt{3}} = 20 + 20\left(\frac{2}{\sqrt{3}} - 1\right)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.dilatantHamiltonian</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>10</strong></p></td>
+<td><p>Relativistic mass-shell invariant (<span class="math notranslate nohighlight">\(m=5, c=2, v=1\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(H_{\mathrm{DDF}}^2 - c^2 p_{\mathrm{DDF}}^2 = (m c^2)^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(400\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SignalsTests.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">madelung_lagrangian.rs</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>11</strong></p></td>
+<td><p>Action-derived Minkowski interval (<span class="math notranslate nohighlight">\(c=2, v=1, dt=2.5\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(c^2 d\tau_D^2 = c^2 dt^2 - (v\,dt)^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(18.75 = \frac{75}{4}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.actionProperTime</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>12</strong></p></td>
+<td><p>4-way <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker &amp; splat Lagrangian identity (<span class="math notranslate nohighlight">\(\beta = 3/5\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\((L_{\mathrm{DDF}}/(-mc^2))^2 = |w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = \det\Sigma/\sigma_0^4 = 1 - \beta^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{16}{25} = 0.64\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gr24_plucker_and_splat_invariants</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>13</strong></p></td>
+<td><p>Dilatant vs. standard Bogoliubov squared phase velocity (<span class="math notranslate nohighlight">\(m_\phi=1, g_0=2, \rho_0=3, \gamma_{\mathrm{dil}}=1/2, \hbar=2, k=4\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(v_{p,\mathrm{DDF}}^2 = 16 + 6(1 + 8) = 70\)</span> vs. <span class="math notranslate nohighlight">\(v_p^2 = 16 + 6 = 22\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(v_{p,\mathrm{DDF}}^2 - v_p^2 = 48 &gt; 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dilatantBogoliubovPhaseVelSq</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>14</strong></p></td>
+<td><p>1D periodic conservative Madelung–QHJ time step (<span class="math notranslate nohighlight">\(N=6\)</span> cells, <span class="math notranslate nohighlight">\(\Delta x = 0.5, \Delta t = 0.01\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sum_{i=0}^5 \rho_i(t + \Delta t) - \sum_{i=0}^5 \rho_i(t)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (to machine precision <span class="math notranslate nohighlight">\(&lt; 10^{-12}\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">madelung_1d_periodic_stepper_conserves_total_mass</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>15</strong></p></td>
+<td><p>Field Legendre Hamiltonian density <span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{Mad}} = \pi_S\partial_t S - \mathcal{L}_{\mathrm{Mad}}\)</span> (<span class="math notranslate nohighlight">\(m_\phi=1, \hbar=2, g_\phi=5, V_{\mathrm{ext}}=7, A=3, \nabla A=4, \nabla S=2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(9(2 + 7) + \frac{5}{2}(81) + 2(16)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(+315.5 = \frac{631}{2} &gt; 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">madelungAmplitudeHamiltonianDensity</span></code>, <code class="docutils literal notranslate"><span class="pre">madelungHydrodynamicHamiltonianDensity</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>16</strong></p></td>
+<td><p>QHJ spatial gradient to Madelung–Euler momentum residual</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{m_\phi\partial_t v_\phi + m_\phi v_\phi\nabla v_\phi + \nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q}{m_\phi} - \mathcal{R}_{\mathrm{Euler}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (identically)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">madelungEulerMomentumResidual</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>17</strong></p></td>
+<td><p>Two-spline polar Madelung superposition (<span class="math notranslate nohighlight">\(A_1 = A_2 = 4/5 = 0.8\)</span>)</p></td>
+<td><p>In-phase <span class="math notranslate nohighlight">\(|\psi_1+\psi_2|^2 = (A_1+A_2)^2\)</span> vs. quadrature <span class="math notranslate nohighlight">\(|\psi_1+i\psi_2|^2 = A_1^2+A_2^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2.56 &gt; 2 = A_{sp3}\)</span> vs. <span class="math notranslate nohighlight">\(1.28 &lt; 2 = A_{sp3}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">two_spline_polar_superposition_densities</span></code>, <code class="docutils literal notranslate"><span class="pre">twoTraceConstructiveSqueezePeak</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>18</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(405\text{ nm}/532\text{ nm}\)</span> STED Bohm quantum-confinement amplification (<span class="math notranslate nohighlight">\(\zeta_{532} = 63\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q_{\mathrm{STED}}(\zeta_{532}=63) / Q_{\mathrm{STED}}(\zeta_{532}=0) = 1 + \zeta_{532}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(64\times\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stedCoreBohmPotential</span></code>, <code class="docutils literal notranslate"><span class="pre">sted_core_bohm_potential</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="machine-checked-lean-4-verification-signals-ddf-signals-pending">
+<h2>6. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)<a class="headerlink" href="#machine-checked-lean-4-verification-signals-ddf-signals-pending" title="Link to this heading">¶</a></h2>
+<p>The following self-contained Lean 4 proof block typechecks directly against <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and <code class="docutils literal notranslate"><span class="pre">SignalsPending</span></code> (<code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">env</span> <span class="pre">lean</span></code>) and verifies the complete chain from the Gross–Pitaevskii polar substitution to the Euler–Lagrange continuity and Quantum Hamilton–Jacobi equations, the field Legendre Hamiltonian and Euler momentum bridge, the stationary <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> limit, the dilatant sheath jamming recovery, the Legendre Hamiltonian and mass-shell invariant, the unconditional action-derived Minkowski interval, the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker and <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> black-brane identities, the <span class="math notranslate nohighlight">\(405\text{ nm}/532\text{ nm}\)</span> STED nanolithography quantum-confinement bridge, and the Pending evidence contract:</p>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivMadelungLagrangianDdfJammingVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Pending</span>
+
+<span class="kd">noncomputable</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">paperDDFSubstrate</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">{</span><span class="w"> </span><span class="n">m_phi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">m_phi_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">m_varphi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">    </span><span class="n">m_varphi_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">rho_phi_0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">rho_phi_0_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">rho_max_varphi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">rho_max_varphi_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">j_min_varphi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="n">j_min_varphi_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">}</span>
+
+<span class="kd">noncomputable</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">paperMovingSheath</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">paperDDFSubstrate</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">{</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">velocity_nonneg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">subluminal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">      </span><span class="k">have</span><span class="w"> </span><span class="n">hc</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">        </span><span class="n">dsimp</span><span class="w"> </span><span class="o">[</span><span class="n">DDFSubstrate.c</span><span class="o">,</span><span class="w"> </span><span class="n">paperDDFSubstrate</span><span class="o">]</span>
+<span class="w">        </span><span class="n">norm_num</span>
+<span class="w">      </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">hc</span><span class="o">]</span>
+<span class="w">      </span><span class="n">norm_num</span><span class="w"> </span><span class="o">}</span>
+
+<span class="kd">noncomputable</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">paperRiverExterior</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RiverExterior</span><span class="w"> </span><span class="n">paperDDFSubstrate</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">{</span><span class="w"> </span><span class="n">G_phi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">G_phi_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">sourceMass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">sourceMass_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">}</span>
+
+<span class="kd">noncomputable</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">paperVariationalHypothesis</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MadelungDilatantVariationalHypothesis</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">{</span><span class="w"> </span><span class="n">bosonMass</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">bosonMass_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">baseCouplingG0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">baseCouplingG0_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">dilatantStrainCoeff</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">dilatantStrainCoeff_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">sheathBetaSq</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">25</span>
+<span class="w">    </span><span class="n">sheathBetaSq_nonneg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">sheathBetaSq_lt_one</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">sheathCompressionFactor</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="n">sheathCompressionFactor_pos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">stationaryJammingClosure</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">    </span><span class="n">laboratoryAcousticDispersionCalibrated</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">True</span>
+<span class="w">    </span><span class="n">laboratoryAcousticDispersionCalibrated_hypothesis</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">trivial</span>
+<span class="w">    </span><span class="n">crossedBeamDeflectionDiscriminatorTested</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">True</span>
+<span class="w">    </span><span class="n">crossedBeamDeflectionDiscriminatorTested_hypothesis</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">trivial</span><span class="w"> </span><span class="o">}</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">S</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="n">A_dot</span><span class="w"> </span><span class="n">laplacian_A</span><span class="w"> </span><span class="n">dt_rho</span><span class="w"> </span><span class="n">div_rho_v</span>
+<span class="w">    </span><span class="n">dt_v</span><span class="w"> </span><span class="n">v_phi</span><span class="w"> </span><span class="n">grad_v</span><span class="w"> </span><span class="n">grad_V</span><span class="w"> </span><span class="n">grad_rho</span><span class="w"> </span><span class="n">grad_Q</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ψ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ψ_t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelungPolarDerivative</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">A_dot</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">(</span><span class="n">S_t</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ψ_x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelungPolarDerivative</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">(</span><span class="n">grad_S</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_sheath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">paperMovingSheath.gr24TwistorMatrix</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ψ1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ψ2_inPhase</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">ψ2_quad</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">θ</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">    </span><span class="c1">-- (1) Polar substitution in the Gross-Pitaevskii Lagrangian &amp; Legendre Hamiltonian density:</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="n">ψ</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">grossPitaevskiiTemporalSymplecticTerm</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">ψ</span><span class="w"> </span><span class="n">ψ_t</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">-</span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">grossPitaevskiiPolarLagrangianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">ψ</span><span class="w"> </span><span class="n">ψ_t</span><span class="w"> </span><span class="n">ψ_x</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">madelungAmplitudeLagrangianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">madelungHydrodynamicLagrangianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">madelungAmplitudeLagrangianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">madelungPhaseCanonicalMomentum</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="bp">-</span>
+<span class="w">        </span><span class="n">madelungAmplitudeLagrangianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">madelungAmplitudeHamiltonianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">madelungAmplitudeHamiltonianDensity</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (2) Euler-Lagrange Continuity, QHJ, Euler Momentum, &amp; RiverExterior limit:</span>
+<span class="w">    </span><span class="n">madelungPhaseEulerLagrangeResidual</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="n">dt_rho</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="n">div_rho_v</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">madelungContinuityResidual</span><span class="w"> </span><span class="n">dt_rho</span><span class="w"> </span><span class="n">div_rho_v</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">madelungAmplitudeEulerLagrangeResidual</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">laplacian_A</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">quantumHamiltonJacobiResidual</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">laplacian_A</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="o">(</span><span class="n">grad_S</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">((</span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">dt_v</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">v_phi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">grad_v</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">grad_V</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">grad_rho</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">grad_Q</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">madelungEulerMomentumResidual</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">dt_v</span><span class="w"> </span><span class="n">v_phi</span><span class="w"> </span><span class="n">grad_v</span><span class="w"> </span><span class="n">grad_V</span><span class="w"> </span><span class="n">grad_rho</span><span class="w"> </span><span class="n">grad_Q</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">quantumHamiltonJacobiResidual</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">paperRiverExterior.bernoulliPotential</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="o">(</span><span class="n">paperRiverExterior.velocity</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (3) Dilatant sheath jamming recovery, Legendre Hamiltonian, &amp; unconditional Minkowski interval:</span>
+<span class="w">    </span><span class="n">paperMovingSheath.sheathCompressionResidual</span><span class="w"> </span><span class="n">paperMovingSheath.jammingFactor</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">paperMovingSheath.sheathCompressionResidual</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">paperMovingSheath.jammingFactor</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">paperMovingSheath.dilatantHamiltonian</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">5</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">paperMovingSheath.kineticEnergy</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">paperMovingSheath.dilatantHamiltonian</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">-</span>
+<span class="w">        </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">paperMovingSheath.dilatantCanonicalMomentum</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">paperMovingSheath.actionProperTime</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">dt</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="o">(</span><span class="n">paperMovingSheath.velocity</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">dt</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (4) Complex Gr_C(2,4) Plücker duality, dilatant Bogoliubov, STED Bohm 64x boost, &amp; Pending contract:</span>
+<span class="w">    </span><span class="o">(</span><span class="n">paperMovingSheath.dilatantLagrangian</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">paperDDFSubstrate.c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)))</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_sheath</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_sheath</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">standardBogoliubovPhaseVelSq</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">dilatantBogoliubovPhaseVelSq</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">ψ1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">ψ2_inPhase</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">twoTraceConstructiveSqueezePeak</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">ψ1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">ψ2_quad</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">ψ1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">ψ2_inPhase</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">stedCoreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">64</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">stedCoreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">paperVariationalHypothesis.sheathCompressionFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="n">ψ</span><span class="w"> </span><span class="n">ψ_t</span><span class="w"> </span><span class="n">ψ_x</span><span class="w"> </span><span class="n">M_sheath</span><span class="w"> </span><span class="n">ψ1</span><span class="w"> </span><span class="n">ψ2_inPhase</span><span class="w"> </span><span class="n">ψ2_quad</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">paperMovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities</span>
+<span class="w">    </span><span class="n">paperRiverExterior</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">A_dot</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">laplacian_A</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span>
+<span class="w">    </span><span class="n">dt_rho</span><span class="w"> </span><span class="n">div_rho_v</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">hb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="n">dt_v</span><span class="w"> </span><span class="n">v_phi</span><span class="w"> </span><span class="n">grad_v</span><span class="w"> </span><span class="n">grad_V</span><span class="w"> </span><span class="n">grad_rho</span><span class="w"> </span><span class="n">grad_Q</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_pend</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">paperVariationalHypothesis.compression_sq_gt_one</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">[</span><span class="n">paperVariationalHypothesis</span><span class="o">])</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span>
+<span class="w">    </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_pend</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivMadelungLagrangianDdfJammingVerification</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p id="mad-madelung1927"><a id="mad-madelung1927"></a></p>
+<ol class="arabic simple">
+<li><p>Madelung, E. (1927). <em>Quantentheorie in hydrodynamischer Form</em>. Zeitschrift für Physik 40(3–4), 322–326. <a class="reference external" href="https://doi.org/10.1007/BF01400372">DOI: 10.1007/BF01400372</a>.</p></li>
+</ol>
+<p id="mad-bohm1952"><a id="mad-bohm1952"></a>
+2. Bohm, D. (1952). <em>A Suggested Interpretation of the Quantum Theory in Terms of “Hidden” Variables. I</em>. Physical Review 85(2), 166–179. <a class="reference external" href="https://doi.org/10.1103/PhysRev.85.166">DOI: 10.1103/PhysRev.85.166</a>.</p>
+<p id="mad-gross1961"><a id="mad-gross1961"></a>
+3. Gross, E. P. (1961). <em>Structure of a quantized vortex in boson systems</em>. Il Nuovo Cimento 20(3), 454–477. <a class="reference external" href="https://doi.org/10.1007/BF02731494">DOI: 10.1007/BF02731494</a>.</p>
+<p id="mad-pitaevskii1961"><a id="mad-pitaevskii1961"></a>
+4. Pitaevskii, L. P. (1961). <em>Vortex Lines in an Imperfect Bose Gas</em>. Soviet Physics JETP 13(2), 451–454.</p>
+<p id="mad-unruh1981"><a id="mad-unruh1981"></a>
+5. Unruh, W. G. (1981). <em>Experimental Black-Hole Evaporation?</em> Physical Review Letters 46(21), 1351–1353. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.46.1351">DOI: 10.1103/PhysRevLett.46.1351</a>.</p>
+<p id="mad-fedi2026"><a id="mad-fedi2026"></a>
+6. Fedi, M. (2026). <em>Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology</em>. SSRN Preprint 7406660. <a class="reference external" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660">Preprint page</a>; <a class="reference external" href="https://doi.org/10.2139/ssrn.7406660">SSRN DOI</a>.</p>
+<p id="mad-chat-splat2026"><a id="mad-chat-splat2026"></a>
+7. Provenance Chat Log (2026). <em>Grassmannian Splat Mechanics and Vortex Space Emergence (Gross–Pitaevskii Equation, Madelung Transformation, Continuity &amp; Quantum Pressure Euler Equations, and SQG/DDF Horizon Regularization)</em>. (<a class="reference download internal" download="" href="_downloads/14adb2fa1fe33351e119a7ec282c515d/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Grassmannian</span> <span class="pre">Splat</span> <span class="pre">Mechanics</span> <span class="pre">and</span> <span class="pre">Vortex</span> <span class="pre">Space</span> <span class="pre">Emergence.md,</span> <span class="pre">lines</span> <span class="pre">89-195</span></code></a>).</p>
+<p id="mad-chat-gw2026"><a id="mad-chat-gw2026"></a>
+8. Provenance Chat Log (2026). <em>Review Pop III GW Remnants (Dilatant Dark Fluid Strain-Thickened Bogoliubov Dispersion <span class="math notranslate nohighlight">\(g(k) = g_0(1 + \gamma k^2)\)</span>)</em>. (<a class="reference download internal" download="" href="_downloads/b96b5f4a28bec901e5e622020a2a27ed/Review-Pop-III-GW-Remnants.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Review-Pop-III-GW-Remnants.md,</span> <span class="pre">lines</span> <span class="pre">621-660</span></code></a>).</p>
+<p id="mad-chat-gravity2026"><a id="mad-chat-gravity2026"></a>
+9. Provenance Chat Log (2026). <em>Gravity Models: Dilatant Fluid vs. GR (Lorentz Jamming Factor and Acoustic Horizon Physics)</em>. (<a class="reference download internal" download="" href="_downloads/2ea27626aebd1367e12e4953b7ae792c/_Gravity-Models-Dilatant-Fluid-vs.-GR.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md,</span> <span class="pre">lines</span> <span class="pre">70-185</span></code></a>).</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">madelung1927quantentheorie</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Madelung, Erwin}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantentheorie in hydrodynamischer {F}orm}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Zeitschrift f{\"u}r Physik}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{40}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{3--4}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{322--326}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1927}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1007/BF01400372}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1007/BF01400372}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">gross1961structure</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Gross, Eugene P.}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Structure of a quantized vortex in boson systems}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Il Nuovo Cimento}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{20}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{3}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{454--477}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1961}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1007/BF02731494}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1007/BF02731494}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">fedi2026ddf</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Fedi, Marco}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Electronic Journal}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Preprint 7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.2139/ssrn.7406660}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_grassmannian_splat_gpe_madelung_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Grassmannian Splat Mechanics and Vortex Space Emergence: Gross-Pitaevskii Equation and Madelung Hydrodynamics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 89-195}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_pop_iii_gw_dilatant_bogoliubov_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Review Pop III GW Remnants: Dilatant Dark Fluid Bogoliubov Dispersion}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Review-Pop-III-GW-Remnants.md, lines 621-660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/Review-Pop-III-GW-Remnants.md}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian Gr_C(2,4) Mechanics"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-27"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/Review-Pop-III-GW-Remnants.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Pending.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/madelung_lagrangian.rs"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Gross-Pitaevskii Action"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Madelung Transformation"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Quantum Hamilton-Jacobi Equation"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Euler-Lagrange Variational Principle"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Dilatant Dark Fluid Jamming Factor"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian Gr_C(2,4)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-riscv-holographic-nanolithography-kicad-paper.html" title="Holographic \(405\text{ nm} / 532\text{ nm}\) Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (CVA6, CHERI-CVA6, &amp; Ibex), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM" >previous</a></li>
+        <li><a href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html" title="Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert iGPE, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric \(\mathcal{Q}_4\) in Lean 4 and Rust/WASM" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

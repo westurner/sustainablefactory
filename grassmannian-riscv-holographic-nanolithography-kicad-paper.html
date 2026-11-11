@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Holographic \(405\text{ nm} / 532\text{ nm}\) Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (CVA6, CHERI-CVA6, &amp; Ibex), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html" />
+    <link rel="prev" title="Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: rGO-polyCBD-SS-Lignin Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA \(p\text{-}^{11}\text{B}\) / \(s\text{CO}_2\) Power Ledgers in Lean 4" href="grassmannian-enz-hyperbolic-metamaterials-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Holographic <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#dual-beam-405-text-nm-532-text-nm-holographic-longitudinal-carbon-nanolithography">1. Dual-Beam <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Holographic Longitudinal Carbon Nanolithography</a><ul>
+<li><a class="reference internal" href="#optical-physics-of-the-405-text-nm-excitation-532-text-nm-helical-depletion-lcs-foundry">1.1 Optical Physics of the <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> Excitation + <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Helical Depletion / LCS Foundry</a></li>
+<li><a class="reference internal" href="#why-both-405-text-nm-and-532-text-nm-are-required">1.2 Why Both <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> and <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Are Required</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#review-of-cloned-open-source-risc-v-cores-cva6-cheri-cva6-ibex-for-carbon-nanolithography">2. Review of Cloned Open-Source RISC-V Cores (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>) for Carbon Nanolithography</a><ul>
+<li><a class="reference internal" href="#architectural-comparison-of-the-cloned-risc-v-repositories">2.1 Architectural Comparison of the Cloned RISC-V Repositories</a></li>
+<li><a class="reference internal" href="#why-the-6-stage-cva6-pipeline-matches-18-08-text-nm-carbon-nanolithography">2.2 Why the 6-Stage <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> Pipeline Matches <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> Carbon Nanolithography</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#corpus-wide-kicad-review-kicad-volumetric-kicad-vol-kicad-happy-skills-and-pure-rust-wasm-kicad-mod-gds-synthesis">3. Corpus-Wide KiCAD Review, <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Skills, and Pure-Rust/WASM <code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">.gds</span></code> Synthesis</a><ul>
+<li><a class="reference internal" href="#evolution-of-kicad-in-the-research-corpus-rg-i-kicad-data-chats-md">3.1 Evolution of KiCAD in the Research Corpus (<code class="docutils literal notranslate"><span class="pre">rg</span> <span class="pre">-i</span> <span class="pre">kicad</span> <span class="pre">data/chats/*.md</span></code>)</a></li>
+<li><a class="reference internal" href="#mathematical-theory-of-kicad-volumetric-metric-interference-drc-madelung-polar-superposition">3.2 Mathematical Theory of <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> Metric Interference DRC &amp; Madelung Polar Superposition</a></li>
+<li><a class="reference internal" href="#scaling-from-18-08-text-nm-cva6-22-text-nm-class-to-1-text-nm-0-75-text-nm-0-603-text-nm-0-50-text-nm-convergent-nanoimaging">3.3 Scaling from <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code> <span class="math notranslate nohighlight">\(22\text{ nm}\)</span> Class) to <span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(0.75\text{ nm}\)</span>, <span class="math notranslate nohighlight">\(0.603\text{ nm}\)</span>, &amp; <span class="math notranslate nohighlight">\(0.50\text{ nm}\)</span>) Convergent Nanoimaging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zone-400-to-800-text-ghz-rgo-polycbd-ss-lignin-sfg-audit-exothermic-radical-recombination-and-multi-band-fire-suppression">4. 3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> SFG Audit, Exothermic Radical Recombination, and Multi-Band Fire Suppression</a><ul>
+<li><a class="reference internal" href="#six-mathematical-physical-gaps-closed-in-the-3-zone-400-to-800-text-ghz-sfg-lens">4.1 Six Mathematical &amp; Physical Gaps Closed in the 3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> SFG Lens</a></li>
+<li><a class="reference internal" href="#detailed-catalog-of-exothermic-radical-recombination-applications-multi-band-fire-suppression-sets">4.2 Detailed Catalog of Exothermic Radical-Recombination Applications &amp; Multi-Band Fire-Suppression Sets</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complete-catalog-of-simultaneous-machine-checked-laws-lean-4-verification-block">5. Complete Catalog of Simultaneous Machine-Checked Laws &amp; Lean 4 Verification Block</a><ul>
+<li><a class="reference internal" href="#summary-of-the-simultaneous-conjuncts-across-the-promoted-signals-signals-ddf-theorems">5.1 Summary of the Simultaneous Conjuncts Across the Promoted <code class="docutils literal notranslate"><span class="pre">Signals</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Theorems</a></li>
+<li><a class="reference internal" href="#self-contained-machine-checked-lean-4-proof-block">5.2 Self-Contained Machine-Checked Lean 4 Proof Block</a></li>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-enz-hyperbolic-metamaterials-paper.html" title="Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: rGO-polyCBD-SS-Lignin Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA \(p\text{-}^{11}\text{B}\) / \(s\text{CO}_2\) Power Ledgers in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html" title="From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-riscv-holographic-nanolithography-kicad-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Holographic <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#dual-beam-405-text-nm-532-text-nm-holographic-longitudinal-carbon-nanolithography">1. Dual-Beam <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Holographic Longitudinal Carbon Nanolithography</a><ul>
+<li><a class="reference internal" href="#optical-physics-of-the-405-text-nm-excitation-532-text-nm-helical-depletion-lcs-foundry">1.1 Optical Physics of the <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> Excitation + <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Helical Depletion / LCS Foundry</a></li>
+<li><a class="reference internal" href="#why-both-405-text-nm-and-532-text-nm-are-required">1.2 Why Both <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> and <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Are Required</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#review-of-cloned-open-source-risc-v-cores-cva6-cheri-cva6-ibex-for-carbon-nanolithography">2. Review of Cloned Open-Source RISC-V Cores (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>) for Carbon Nanolithography</a><ul>
+<li><a class="reference internal" href="#architectural-comparison-of-the-cloned-risc-v-repositories">2.1 Architectural Comparison of the Cloned RISC-V Repositories</a></li>
+<li><a class="reference internal" href="#why-the-6-stage-cva6-pipeline-matches-18-08-text-nm-carbon-nanolithography">2.2 Why the 6-Stage <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> Pipeline Matches <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> Carbon Nanolithography</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#corpus-wide-kicad-review-kicad-volumetric-kicad-vol-kicad-happy-skills-and-pure-rust-wasm-kicad-mod-gds-synthesis">3. Corpus-Wide KiCAD Review, <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Skills, and Pure-Rust/WASM <code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">.gds</span></code> Synthesis</a><ul>
+<li><a class="reference internal" href="#evolution-of-kicad-in-the-research-corpus-rg-i-kicad-data-chats-md">3.1 Evolution of KiCAD in the Research Corpus (<code class="docutils literal notranslate"><span class="pre">rg</span> <span class="pre">-i</span> <span class="pre">kicad</span> <span class="pre">data/chats/*.md</span></code>)</a></li>
+<li><a class="reference internal" href="#mathematical-theory-of-kicad-volumetric-metric-interference-drc-madelung-polar-superposition">3.2 Mathematical Theory of <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> Metric Interference DRC &amp; Madelung Polar Superposition</a></li>
+<li><a class="reference internal" href="#scaling-from-18-08-text-nm-cva6-22-text-nm-class-to-1-text-nm-0-75-text-nm-0-603-text-nm-0-50-text-nm-convergent-nanoimaging">3.3 Scaling from <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code> <span class="math notranslate nohighlight">\(22\text{ nm}\)</span> Class) to <span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(0.75\text{ nm}\)</span>, <span class="math notranslate nohighlight">\(0.603\text{ nm}\)</span>, &amp; <span class="math notranslate nohighlight">\(0.50\text{ nm}\)</span>) Convergent Nanoimaging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zone-400-to-800-text-ghz-rgo-polycbd-ss-lignin-sfg-audit-exothermic-radical-recombination-and-multi-band-fire-suppression">4. 3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> SFG Audit, Exothermic Radical Recombination, and Multi-Band Fire Suppression</a><ul>
+<li><a class="reference internal" href="#six-mathematical-physical-gaps-closed-in-the-3-zone-400-to-800-text-ghz-sfg-lens">4.1 Six Mathematical &amp; Physical Gaps Closed in the 3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> SFG Lens</a></li>
+<li><a class="reference internal" href="#detailed-catalog-of-exothermic-radical-recombination-applications-multi-band-fire-suppression-sets">4.2 Detailed Catalog of Exothermic Radical-Recombination Applications &amp; Multi-Band Fire-Suppression Sets</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complete-catalog-of-simultaneous-machine-checked-laws-lean-4-verification-block">5. Complete Catalog of Simultaneous Machine-Checked Laws &amp; Lean 4 Verification Block</a><ul>
+<li><a class="reference internal" href="#summary-of-the-simultaneous-conjuncts-across-the-promoted-signals-signals-ddf-theorems">5.1 Summary of the Simultaneous Conjuncts Across the Promoted <code class="docutils literal notranslate"><span class="pre">Signals</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Theorems</a></li>
+<li><a class="reference internal" href="#self-contained-machine-checked-lean-4-proof-block">5.2 Self-Contained Machine-Checked Lean 4 Proof Block</a></li>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-enz-hyperbolic-metamaterials-paper.html"
+                          title="previous chapter">Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA <span class="math notranslate nohighlight">\(p\text{-}^{11}\text{B}\)</span> / <span class="math notranslate nohighlight">\(s\text{CO}_2\)</span> Power Ledgers in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"
+                          title="next chapter">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-riscv-holographic-nanolithography-kicad-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="holographic-405-text-nm-532-text-nm-longitudinal-carbon-nanolithography-6-stage-linux-risc-v-cva6-cheri-cva6-ibex-volumetric-kicad-gdsii-eda-and-exothermic-radical-recombination-physics-in-lean-4-and-rust-wasm">
+<span id="grassmannian-riscv-holographic-nanolithography-kicad-paper"></span><h1>Holographic <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM<a class="headerlink" href="#holographic-405-text-nm-532-text-nm-longitudinal-carbon-nanolithography-6-stage-linux-risc-v-cva6-cheri-cva6-ibex-volumetric-kicad-gdsii-eda-and-exothermic-radical-recombination-physics-in-lean-4-and-rust-wasm" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Hardware Architecture (<code class="docutils literal notranslate"><span class="pre">cs.AR</span></code>); Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Materials Science (<code class="docutils literal notranslate"><span class="pre">cond-mat.mtrl-sci</span></code>); Chemical Physics (<code class="docutils literal notranslate"><span class="pre">physics.chem-ph</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification, EDA, &amp; RTL Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/1246b311f0cf7ff7ad76d81ff57555c8/Nanolithography.lean"><span class="xref download myst">…/src/signals/Signals/Nanolithography.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8430e1261511c86a1f703750d0dce89c/AntiFireCannon.lean"><span class="xref download myst">…/src/signals/Signals/AntiFireCannon.lean</span></a>, <a class="reference download internal" download="" href="_downloads/48631d4c80c5e92a812f9eddd01b8f92/FireSuppression.lean"><span class="xref download myst">…/src/signals/Signals/FireSuppression.lean</span></a>, <a class="reference download internal" download="" href="_downloads/4a77e4ad5a521f54751b620e3863d174/EMT.lean"><span class="xref download myst">…/src/signals/Signals/EMT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> LeanArchitect Blueprint (<a class="reference download internal" download="" href="_downloads/83f1c657b6beda0595bd85cd103de33b/content.tex"><span class="xref download myst">…/src/signals/blueprint/src/content.tex</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM KiCAD + GDSII + <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code> Engine (<a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></a>, <a class="reference download internal" download="" href="_downloads/a52bd4eab0f9b0b4690a12ce7d65aac9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs</span></a>, <a class="reference download internal" download="" href="_downloads/b6056d7b3d1a5f753054f7f0089451f3/madelung_lagrangian.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/madelung_lagrangian.rs</span></a>)</p></li>
+<li><p>Cloned Open-Source RISC-V &amp; KiCad EDA Repositories: <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/core-v-cores</span></code></span>, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/cheri-cva6</span></code></span>, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/cva6-cheri</span></code></span>, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/ibex</span></code></span>, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/kicad-happy</span></code></span></p></li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <span class="xref myst">…/src/signals/docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md</span></p></li>
+</ul>
+</li>
+<li><p><strong>Companion <code class="docutils literal notranslate"><span class="pre">grassmannian-*-paper.md</span></code> Series:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-imaging-depth-recovery-paper.html"><span class="std std-doc">Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-vectorial-longitudinal-polarization-paper.html"><span class="std std-doc">3D Vectorial Wave Model for Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>) and Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-enz-hyperbolic-metamaterials-paper.html"><span class="std std-doc">Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA <span class="math notranslate nohighlight">\(p\text{-}^{11}\text{B}\)</span> / <span class="math notranslate nohighlight">\(s\text{CO}_2\)</span> Power Ledgers in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We present a formal, end-to-end hardware-synthesis and verification framework that bridges <strong>dual-wavelength (<span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span>) holographic longitudinal carbon nanolithography</strong>, <strong>open-source 6-stage Linux-capable (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>) and 1oo2 lockstep (<code class="docutils literal notranslate"><span class="pre">Ibex</span></code>) RISC-V processor architectures</strong>, <strong>volumetric KiCAD/GDSII electronic design automation (<code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code>)</strong>, and <strong>rigorous thermodynamic/spectroscopic audits of the 3-zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> Sum-Frequency Generation (SFG) lens</strong>. Every mathematical identity is machine-checked without <code class="docutils literal notranslate"><span class="pre">sorry</span></code> in <strong>Lean 4</strong> (<a class="reference download internal" download="" href="_downloads/1246b311f0cf7ff7ad76d81ff57555c8/Nanolithography.lean"><span class="xref download myst">…/src/signals/Signals/Nanolithography.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8430e1261511c86a1f703750d0dce89c/AntiFireCannon.lean"><span class="xref download myst">…/src/signals/Signals/AntiFireCannon.lean</span></a>, <a class="reference download internal" download="" href="_downloads/48631d4c80c5e92a812f9eddd01b8f92/FireSuppression.lean"><span class="xref download myst">…/src/signals/Signals/FireSuppression.lean</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, and <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>) and backed by a zero-dependency <strong>Rust/WASM</strong> CAD and verification engine (<a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></a>). Specifically:</p>
+<ol class="arabic">
+<li><p><strong>Sub-<span class="math notranslate nohighlight">\(20\text{ nm}\)</span> Dual-Beam <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Holographic Carbon Nanolithography (<code class="docutils literal notranslate"><span class="pre">holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities</span></code>)</strong>:
+Combining a <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> radial vector vortex writing beam (<span class="math notranslate nohighlight">\(q = 1/2\)</span>, <span class="math notranslate nohighlight">\(\mathrm{NA} = 1.4\)</span>, longitudinal <span class="math notranslate nohighlight">\(E_z = 2 E_0 \sin\theta\)</span> enhanced at the <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> ENZ horizon) with a coaxial <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> helical doughnut depletion ring (<span class="math notranslate nohighlight">\(\sigma\cdot\ell = +1\)</span>, <span class="math notranslate nohighlight">\(E_z = 0\)</span> on axis, saturation ratio <span class="math notranslate nohighlight">\(\zeta_{532} = I_{532}/I_{\mathrm{sat}} = 63\)</span>) compresses the squared feature linewidth from the Abbe diffraction limit <span class="math notranslate nohighlight">\(w_0^2 = \left(\frac{2025}{14}\right)^2 \approx (144.64\text{ nm})^2 &gt; 20^2\)</span> to:</p>
+<div class="math notranslate nohighlight">
+\[
+   w_{\mathrm{STED}}^2 = \frac{(\lambda_{405} / (2\,\mathrm{NA}))^2}{1 + \zeta_{532}} = \left(\frac{2025}{112}\right)^2 \approx (18.08\text{ nm})^2 &lt; 20^2,
+   \]</div>
+<p>matching the <span class="math notranslate nohighlight">\(22\text{ nm}\)</span> FDSOI gate-length class of the <span class="math notranslate nohighlight">\(1.7\text{ GHz}\)</span> <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> reference processor (<a class="reference internal" href="#zaruba2019">Zaruba &amp; Benini 2019</a>) while using pulsed <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Laser Compression Shock (LCS) to imprint <span class="math notranslate nohighlight">\(d_{\mathrm{Bragg,532}} = \frac{532\text{ nm}}{2 \times 1.59} \approx 167.30\text{ nm}\)</span> optical clock reflectors.</p>
+</li>
+<li><p><strong>6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>) &amp; 1oo2 SIL-4 Lockstep (<code class="docutils literal notranslate"><span class="pre">Ibex</span></code>) Mapping &amp; Volumetric DRC</strong>:
+We map the 6 pipeline stages of <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> / <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code> (<code class="docutils literal notranslate"><span class="pre">PC_GEN</span></code>, <code class="docutils literal notranslate"><span class="pre">IF_ITLB_PTW</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_DECODE</span></code>, <code class="docutils literal notranslate"><span class="pre">ISSUE_SCOREBOARD</span></code>, <code class="docutils literal notranslate"><span class="pre">EX_ALU_FPU_LSU_CHERI</span></code>, <code class="docutils literal notranslate"><span class="pre">COMMIT_CSR_PMP</span></code>) and the 3 stages of <code class="docutils literal notranslate"><span class="pre">Ibex</span></code> (<code class="docutils literal notranslate"><span class="pre">IF</span></code>, <code class="docutils literal notranslate"><span class="pre">ID_EX_CHERIOT</span></code>, <code class="docutils literal notranslate"><span class="pre">WB_1OO2_LOCKSTEP</span></code>) onto five synthesized material layers: <span class="math notranslate nohighlight">\(n\)</span>-type <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> (<span class="math notranslate nohighlight">\(sp^2\)</span> graphene, Layer 10), <span class="math notranslate nohighlight">\(p\)</span>-type <code class="docutils literal notranslate"><span class="pre">S-LIG</span></code> (Sulfur-doped graphene, Layer 11), <span class="math notranslate nohighlight">\(sp^3\)</span> diamond ballistic phonon routers (Layer 12), high-<span class="math notranslate nohighlight">\(k\)</span> <code class="docutils literal notranslate"><span class="pre">O-CNT</span></code> crosstalk shields (Layer 13), and <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">polyCBD</span></code> Bragg mirrors (Layer 14). We prove that single-flash exposure of adjacent stage interconnects (<span class="math notranslate nohighlight">\(A_1 = A_2 = 4/5\)</span>) causes constructive wave overlap <span class="math notranslate nohighlight">\((A_1 + A_2)^2 = 64/25 &gt; 2 = A_{sp3}\)</span> (inadvertently synthesizing an insulating <span class="math notranslate nohighlight">\(sp^3\)</span> diamond wall), whereas 2-color / 6-flash Orthogonal Volume Decomposition keeps every flash at <span class="math notranslate nohighlight">\(A_i^2 = 16/25 &lt; 2\)</span>, eliminating all over-squeeze DRC hazards.</p></li>
+<li><p><strong>Pure-Rust / WASM KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>), GDSII v6.0 (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>, &amp; IOF/PROV-O CBOM Engine (<code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>)</strong>:
+We implement an open, zero-dependency Rust/WASM generator and round-trip binary parser for Calma GDSII v6.0 streams (with exact IBM System/370 excess-64 <code class="docutils literal notranslate"><span class="pre">REAL8</span></code> floats), KiCAD v8 <code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code> footprints, 3D <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code> splines, and W3C PROV-O / IOF / EMMO / QUDT <code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code> files, integrated with the 11 <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code></span> design-review skills.</p></li>
+<li><p><strong>3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> SFG Audit, Exothermic Radical Recombination (<span class="math notranslate nohighlight">\(\Delta H_{\mathrm{rec}}^\circ \approx -499\text{ kJ/mol}\)</span>), &amp; Multi-Band Fire-Suppression Hierarchy</strong>:
+We resolve six mathematical and spectroscopic gaps in the chat’s 3-zone SFG lens (<code class="docutils literal notranslate"><span class="pre">three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">ThreeZoneHyperbolicSFGCannonHypothesis</span></code>) and prove the exothermic radical-recombination trade-off (<code class="docutils literal notranslate"><span class="pre">exothermic_recombination_tradeoff_and_multiband_suppression_identities</span></code>): single-step radical recombination releases <span class="math notranslate nohighlight">\(395\text{ kJ/mol}\)</span> <em>more</em> heat than a CO-oxidation step (<span class="math notranslate nohighlight">\(\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395 &lt; 0\)</span>), requiring <span class="math notranslate nohighlight">\(N_{\mathrm{chain}} \ge 5\)</span> prevented propagation cycles (<span class="math notranslate nohighlight">\(\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541 &gt; 0\)</span>) plus an external heat sink (<span class="math notranslate nohighlight">\(Q_{\mathrm{sink}} &gt; 0\)</span>) for fire quenching, while providing a directly useful enthalpy source for scramjet/rocket nozzles (<span class="math notranslate nohighlight">\(v_{\mathrm{exit}}^2 &gt; v_0^2\)</span>), Langmuir atomic hydrogen/hydroxyl vitrimer welding, reentry bow-shock heat shifting, and green <span class="math notranslate nohighlight">\(\text{H}_2\text{O}_2\)</span>/syngas synthesis.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="dual-beam-405-text-nm-532-text-nm-holographic-longitudinal-carbon-nanolithography">
+<h2>1. Dual-Beam <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Holographic Longitudinal Carbon Nanolithography<a class="headerlink" href="#dual-beam-405-text-nm-532-text-nm-holographic-longitudinal-carbon-nanolithography" title="Link to this heading">¶</a></h2>
+<section id="optical-physics-of-the-405-text-nm-excitation-532-text-nm-helical-depletion-lcs-foundry">
+<h3>1.1 Optical Physics of the <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> Excitation + <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Helical Depletion / LCS Foundry<a class="headerlink" href="#optical-physics-of-the-405-text-nm-excitation-532-text-nm-helical-depletion-lcs-foundry" title="Link to this heading">¶</a></h3>
+<p>Across the repository’s research corpus (<span class="xref myst">_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854–952</span>; <span class="xref myst">gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316–535, 1395–1550</span>; <span class="xref myst">_Quantum Processor and Soliton Discussions  .md, lines 5933–6145</span>; <span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 9839–10250</span>), carbon-based monolithic and Roll-to-Roll (R2R) nanolithography on <code class="docutils literal notranslate"><span class="pre">polyCBD-SS-Lignin</span></code> vitrimer substrates relies on a cooperative <strong>two-wavelength (<span class="math notranslate nohighlight">\(405\text{ nm} + 532\text{ nm}\)</span>) vectorial optical architecture</strong>:</p>
+<pre  class="mermaid">
+        flowchart TD
+    subgraph LaserEngine[&quot;1. Dual-Wavelength Vectorial Laser Engine (405 nm + 532 nm)&quot;]
+        UV405[&quot;405 nm CW / Femtosecond Excitation Beam\n• q = 1/2 Azimuthal polyCBD Bragg Plate → Radial Polarization\n• High-NA (1.4) Debye–Wolf Focus → Longitudinal E_z = 2 E₀ sin θ\n• ENZ Horizon Amplification (50×–200×) in rGO-polyCBD-SS-Lignin&quot;]
+        GR532[&quot;532 nm Green Coaxial Beam (3 Roles)\n1. Helical Doughnut (σ·ℓ = +1, E_z = 0 on axis): Thermal-STED Depletion (ζ_532 = 63)\n2. Pulsed Laser Compression Shock (LCS): Imprints d_Bragg = 167.3 nm Green Mirrors\n3. Homodyne Fiducial Probe: Inter-Flash Thermal Expansion Registration&quot;]
+    end
+
+    subgraph VolumetricEDA[&quot;2. Volumetric KiCAD (.kicad_vol) &amp; GDSII (.gds) Synthesis (cannon_mask_cad.rs)&quot;]
+        Mat5[&quot;5 Synthesized Carbon / Polymer Material Phases\n• Layer 10: n_lig (n-type N-LIG sp² graphene logic &amp; wires, w_STED = 18.08 nm)\n• Layer 11: s_lig (p-type S-LIG complementary gates, 1.4 nm p-n junction)\n• Layer 12: sp3_diamond (5.5 eV insulator &amp; ballistic phonon heat siphon)\n• Layer 13: o_cnt (High-k O-CNT crosstalk shield &amp; Sendust core)\n• Layer 14: polycbd_bragg (Chiral Bragg waveguides &amp; 532 nm clock mirrors)&quot;]
+        DRC[&quot;Metric Interference DRC &amp; Orthogonal Flash Decomposition\n• Single-Flash Hazard: (A₁ + A₂)² = 2.56 &gt; A_sp3 = 2.0 (Unintended Diamond Wall!)\n• Orthogonal 6-Flash Schedule: max(A₁², A₂²) = 0.64 &lt; 2.0 (0 Hazards)&quot;]
+    end
+
+    subgraph RISCV[&quot;3. Synthesized Carbon RISC-V Processors (Cloned in src/)&quot;]
+        CVA6[&quot;CVA6 / CHERI-CVA6 (6-Stage Linux RV64GC + RVY v0.9.3)\nPC_GEN → IF (ITLB/PTW) → ID → ISSUE (Scoreboard) → EX (ALU/FPU/LSU/CHERI) → COMMIT\nRuns Linux, OCI LayerVirt Btrfs Snapshots, &amp; ansiblers WASM Control Loops&quot;]
+        IBEX[&quot;lowRISC Ibex (3-Stage RV32IMCB + CHERIoT + 1oo2 Lockstep)\nIF → ID/EX (ibex_cheriot_ex.sv + ibex_trvk.sv) → WB (ibex_lockstep.sv)\nExecutes 150 μs SIL-4 Deterministic MHD Pinch Handover &amp; SafeHalt&quot;]
+    end
+
+    UV405 --&gt; Mat5
+    GR532 --&gt; Mat5
+    Mat5 --&gt; DRC
+    DRC --&gt; CVA6
+    DRC --&gt; IBEX
+    </pre></section>
+<section id="why-both-405-text-nm-and-532-text-nm-are-required">
+<h3>1.2 Why Both <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> and <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Are Required<a class="headerlink" href="#why-both-405-text-nm-and-532-text-nm-are-required" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Wavelength &amp; Polarization Mode</p></th>
+<th class="head"><p>Physical Interaction with <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code></p></th>
+<th class="head"><p>Governing Mathematical Law in <code class="docutils literal notranslate"><span class="pre">Signals</span></code> / <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code></p></th>
+<th class="head"><p>Role in Carbon RISC-V Fabrication</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong><span class="math notranslate nohighlight">\(405\text{ nm}\)</span> Radial Vector Vortex</strong> (<span class="math notranslate nohighlight">\(q = 1/2\)</span>, <span class="math notranslate nohighlight">\(\mathrm{NA} = 1.4\)</span>)</p></td>
+<td><p>Matches the absorption peak of <span class="math notranslate nohighlight">\(o\)</span>-nitrobenzyl (ONB) ester crosslinkers (<span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 12650–12670</span>) and drives multiphoton C–O/C–H cleavage into <span class="math notranslate nohighlight">\(sp^2\)</span> <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> / <code class="docutils literal notranslate"><span class="pre">S-LIG</span></code> or <span class="math notranslate nohighlight">\(sp^3\)</span> diamond.</p></td>
+<td><p><span class="math notranslate nohighlight">\(E_z(\phi) + E_z(\phi+\pi) = 2 E_0 \sin\theta\)</span>,<br><span class="math notranslate nohighlight">\(w_0 = \frac{\lambda_{405}}{2\,\mathrm{NA}} = \frac{2025}{14}\text{ nm} \approx 144.64\text{ nm}\)</span></p></td>
+<td><p>Primary lithographic write beam for <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> (<span class="math notranslate nohighlight">\(n\)</span>-type), <code class="docutils literal notranslate"><span class="pre">S-LIG</span></code> (<span class="math notranslate nohighlight">\(p\)</span>-type), and <span class="math notranslate nohighlight">\(sp^3\)</span> diamond splines.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Helical Doughnut Ring</strong> (<span class="math notranslate nohighlight">\(\sigma = +1, \ell = +1 \implies \sigma\cdot\ell = +1\)</span>, <span class="math notranslate nohighlight">\(E_z = 0\)</span> at center)</p></td>
+<td><p>Forms a sub-wavelength dark central node surrounded by an intense green ring (<span class="xref myst">_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854–952</span>) that quenches peripheral excited states / confines thermal diffusion (<strong>Thermal-STED</strong>).</p></td>
+<td><p><span class="math notranslate nohighlight">\(w_{\mathrm{STED}}^2 = \frac{w_0^2}{1 + \zeta_{532}} = \left(\frac{2025}{112}\right)^2 \approx (18.08\text{ nm})^2 &lt; (20\text{ nm})^2\)</span> at <span class="math notranslate nohighlight">\(\zeta_{532} = 63\)</span> (<code class="docutils literal notranslate"><span class="pre">stedDepletedLinewidthSq</span></code>, <code class="docutils literal notranslate"><span class="pre">stedCoreBohmPotential</span></code>)</p></td>
+<td><p>Shrinks <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>/<code class="docutils literal notranslate"><span class="pre">S-LIG</span></code> transistor gate lengths from <span class="math notranslate nohighlight">\(144.6\text{ nm}\)</span> down to <strong><span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span></strong> (<span class="math notranslate nohighlight">\(&lt;20\text{ nm}\)</span>) and boosts focal Bohm quantum confinement <span class="math notranslate nohighlight">\(64\times\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Pulsed Laser Compression Shock (LCS)</strong></p></td>
+<td><p>Aromatic lignin/polyCBD absorbs <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(2.33\text{ eV}\)</span>) strongly (<span class="xref myst">gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 520–535</span>), generating <span class="math notranslate nohighlight">\(&gt;1\text{ GPa}\)</span> acoustic shockwaves that strain-lock CNT/GFET bandgaps and compress cholesteric Bragg pitches.</p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{\mathrm{Bragg,532}} = \frac{\lambda_{532}}{2\,\bar{n}} = \frac{532}{2 \times 1.59} \approx 167.30\text{ nm}\)</span> (<code class="docutils literal notranslate"><span class="pre">lcs_green_bragg_pitch_nm</span></code>)</p></td>
+<td><p>Imprints <span class="math notranslate nohighlight">\(R \approx 99.9\%\)</span> <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Distributed Bragg Reflector (DBR) optical clock mirrors and strain-locks transistor channels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Low-Power CW Homodyne Probe</strong></p></td>
+<td><p>Non-cleaving Mach–Zehnder / homodyne readout between sequential flashes (<span class="xref myst">_Quantum Processor and Soliton Discussions  .md, line 6142</span>; <span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 12525–12536</span>).</p></td>
+<td><p>Updates the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,6)\)</span> thermal offset tensor between Flashes <span class="math notranslate nohighlight">\(1 \dots 12\)</span></p></td>
+<td><p>Guarantees sub-nanometer inter-flash registration across all <span class="math notranslate nohighlight">\(6\)</span> pipeline stages.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="review-of-cloned-open-source-risc-v-cores-cva6-cheri-cva6-ibex-for-carbon-nanolithography">
+<h2>2. Review of Cloned Open-Source RISC-V Cores (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>) for Carbon Nanolithography<a class="headerlink" href="#review-of-cloned-open-source-risc-v-cores-cva6-cheri-cva6-ibex-for-carbon-nanolithography" title="Link to this heading">¶</a></h2>
+<section id="architectural-comparison-of-the-cloned-risc-v-repositories">
+<h3>2.1 Architectural Comparison of the Cloned RISC-V Repositories<a class="headerlink" href="#architectural-comparison-of-the-cloned-risc-v-repositories" title="Link to this heading">¶</a></h3>
+<p>We cloned and audited four industrial-grade open-source RISC-V repositories in <code class="docutils literal notranslate"><span class="pre">src/</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Repository &amp; Path in Workspace</p></th>
+<th class="head"><p>Core Family &amp; ISA</p></th>
+<th class="head"><p>Pipeline Depth &amp; Microarchitecture</p></th>
+<th class="head"><p>Memory Management &amp; Hardware Security</p></th>
+<th class="head"><p>Role in the Lignolux / SustainableFactory Stack</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/core-v-cores</span></code></span><br>(<code class="docutils literal notranslate"><span class="pre">openhwfoundation/core-v-cores</span></code>)</p></td>
+<td><p>OpenHW CORE-V Index (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CVW</span></code> Wally, <code class="docutils literal notranslate"><span class="pre">CVE4</span></code>, <code class="docutils literal notranslate"><span class="pre">CVE2</span></code>, <code class="docutils literal notranslate"><span class="pre">CVA5</span></code>)</p></td>
+<td><p>2-stage (<code class="docutils literal notranslate"><span class="pre">CVE2</span></code>) to 6-stage (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>), JEDEC <code class="docutils literal notranslate"><span class="pre">mvendorid</span> <span class="pre">=</span> <span class="pre">0x602</span></code></p></td>
+<td><p>Links to TRL-5 verified embedded (<code class="docutils literal notranslate"><span class="pre">CV32E40P/S/X</span></code>) and application (<code class="docutils literal notranslate"><span class="pre">CV32A60X</span></code>, <code class="docutils literal notranslate"><span class="pre">CV64A60AX</span></code>) cores</p></td>
+<td><p>Canonical architectural registry and CSR/TRL reference for CORE-V processors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/cva6-cheri</span></code></span><br>(<code class="docutils literal notranslate"><span class="pre">lowRISC/cva6-cheri</span></code>) &amp;<br><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/cheri-cva6</span></code></span><br>(<code class="docutils literal notranslate"><span class="pre">Capabilities-Limited/cheri-cva6</span></code>)</p></td>
+<td><p><strong>6-Stage Linux-Capable Application Processor</strong>:<br><code class="docutils literal notranslate"><span class="pre">RV64IMACFD_Zicsr_Zifencei</span></code> (<code class="docutils literal notranslate"><span class="pre">RV64GC</span></code>) + <strong>RVY CHERI v0.9.3</strong></p></td>
+<td><p><strong>6 in-order stages</strong> (<code class="docutils literal notranslate"><span class="pre">PC_GEN</span></code>, <code class="docutils literal notranslate"><span class="pre">IF</span></code>, <code class="docutils literal notranslate"><span class="pre">ID</span></code>, <code class="docutils literal notranslate"><span class="pre">ISSUE</span></code>, <code class="docutils literal notranslate"><span class="pre">EX</span></code>, <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>), single/dual-issue, BTB + BHT + RAS branch prediction, scoreboard (<code class="docutils literal notranslate"><span class="pre">core/scoreboard.sv</span></code>)</p></td>
+<td><p>M/S/U privilege modes, full <strong>Sv39 MMU</strong> (<code class="docutils literal notranslate"><span class="pre">core/cva6_mmu/cva6_tlb.sv</span></code>, hardware PTW <code class="docutils literal notranslate"><span class="pre">cva6_ptw.sv</span></code>), 16-region PMP, and <strong>128-bit + 1-tag-bit CHERI capability unit</strong> (<code class="docutils literal notranslate"><span class="pre">core/cheri_unit.sv</span></code>)</p></td>
+<td><p><strong>Primary Linux &amp; <code class="docutils literal notranslate"><span class="pre">LayerVirt</span></code> Host CPU</strong>: Runs Linux, <code class="docutils literal notranslate"><span class="pre">ansiblers</span></code> WASM containers, Btrfs subvolume streaming (<span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 13915–13965</span>), and <code class="docutils literal notranslate"><span class="pre">CV-X-IF</span></code> Grassmannian tensor coprocessors.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/ibex</span></code></span><br>(<code class="docutils literal notranslate"><span class="pre">lowRISC/ibex</span></code>)</p></td>
+<td><p><strong>2/3-Stage Embedded Safety Controller</strong>:<br><code class="docutils literal notranslate"><span class="pre">RV32IMCB</span></code> (<code class="docutils literal notranslate"><span class="pre">Zba,</span> <span class="pre">Zbb,</span> <span class="pre">Zbc,</span> <span class="pre">Zbs,</span> <span class="pre">Zbkb,</span> <span class="pre">Zbkx</span></code>) + <strong>CHERIoT</strong></p></td>
+<td><p><strong>2 or 3 stages</strong> (<code class="docutils literal notranslate"><span class="pre">IF</span></code>, <code class="docutils literal notranslate"><span class="pre">ID/EX</span></code>, optional <code class="docutils literal notranslate"><span class="pre">WB</span></code>), <span class="math notranslate nohighlight">\(16.85\text{–}66.02\text{ kGE}\)</span> (<span class="math notranslate nohighlight">\(3.13\text{ CoreMark/MHz}\)</span> in <code class="docutils literal notranslate"><span class="pre">maxperf-pmp-bmfull</span></code>)</p></td>
+<td><p><strong>1oo2 Redundant Lockstep Comparator</strong> (<code class="docutils literal notranslate"><span class="pre">rtl/ibex_lockstep.sv</span></code>), CHERIoT capability engine (<code class="docutils literal notranslate"><span class="pre">rtl/ibex_cheriot_ex.sv</span></code>), hardware temporal revocation (<code class="docutils literal notranslate"><span class="pre">rtl/ibex_trvk.sv</span></code>), dummy instruction insertion (<code class="docutils literal notranslate"><span class="pre">rtl/ibex_dummy_instr.sv</span></code>)</p></td>
+<td><p><strong>SIL-4 Real-Time MHD &amp; Anti-Fire Controller</strong>: Executes the bare-metal Rust <code class="docutils literal notranslate"><span class="pre">embassy</span></code> <code class="docutils literal notranslate"><span class="pre">InterruptExecutor</span></code> <span class="math notranslate nohighlight">\(150\text{ }\mu\text{s}\)</span> supercapacitor-to-MHD handover (<span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 14415–14560</span>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="why-the-6-stage-cva6-pipeline-matches-18-08-text-nm-carbon-nanolithography">
+<h3>2.2 Why the 6-Stage <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> Pipeline Matches <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> Carbon Nanolithography<a class="headerlink" href="#why-the-6-stage-cva6-pipeline-matches-18-08-text-nm-carbon-nanolithography" title="Link to this heading">¶</a></h3>
+<p>As proved in <a class="reference download internal" download="" href="_downloads/1246b311f0cf7ff7ad76d81ff57555c8/Nanolithography.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities</span></code></span></a> (<code class="docutils literal notranslate"><span class="pre">h8</span></code> and <code class="docutils literal notranslate"><span class="pre">h9</span></code>), partitioning a total combinational path delay <span class="math notranslate nohighlight">\(T_{\mathrm{total}} &gt; 0\)</span> across <span class="math notranslate nohighlight">\(N = 6\)</span> pipeline stages (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>) strictly reduces the per-stage critical-path period compared to <span class="math notranslate nohighlight">\(N = 3\)</span> or <span class="math notranslate nohighlight">\(N = 2\)</span> stages (<code class="docutils literal notranslate"><span class="pre">Ibex</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+T_{\mathrm{stage}}(T_{\mathrm{total}}, 6) = \frac{T_{\mathrm{total}}}{6}
+&lt; T_{\mathrm{stage}}(T_{\mathrm{total}}, 3) = \frac{T_{\mathrm{total}}}{3}
+&lt; T_{\mathrm{stage}}(T_{\mathrm{total}}, 2) = \frac{T_{\mathrm{total}}}{2}.
+\]</div>
+<p>In Zaruba &amp; Benini’s foundational <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> (Ariane) study (<a class="reference internal" href="#zaruba2019">Zaruba &amp; Benini 2019</a>), the 6-stage pipeline was specifically engineered to minimize critical-path gate depth in <span class="math notranslate nohighlight">\(22\text{ nm}\)</span> FDSOI so the core reaches <span class="math notranslate nohighlight">\(1.7\text{ GHz}\)</span> while supporting full Linux virtual memory (Sv39 page tables). In our <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> STED-depleted carbon nanolithography (<span class="math notranslate nohighlight">\(w_{\mathrm{STED}} = 18.08\text{ nm}\)</span>):</p>
+<ol class="arabic simple">
+<li><p><strong>Stage 1 (<code class="docutils literal notranslate"><span class="pre">1_PC_GEN</span></code>, <code class="docutils literal notranslate"><span class="pre">120</span> <span class="pre">μm</span></code> width)</strong>: Synthesizes the Branch Target Buffer (<code class="docutils literal notranslate"><span class="pre">core/frontend/btb.sv</span></code>), Branch History Table (<code class="docutils literal notranslate"><span class="pre">bht.sv</span></code>), Return Address Stack (<code class="docutils literal notranslate"><span class="pre">ras.sv</span></code>), and instruction realigner (<code class="docutils literal notranslate"><span class="pre">instr_realign.sv</span></code>) in complementary <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> (Layer 10, Flash 1) and <code class="docutils literal notranslate"><span class="pre">S-LIG</span></code> (Layer 11, Flash 3), clocked via a <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> LCS-imprinted <code class="docutils literal notranslate"><span class="pre">polyCBD</span></code> Bragg mirror (Layer 14). In <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, Stage 1 also checks the 128-bit Program Counter Capability (<code class="docutils literal notranslate"><span class="pre">PCC</span></code>) bounds.</p></li>
+<li><p><strong>Stage 2 (<code class="docutils literal notranslate"><span class="pre">2_IF_ITLB_PTW</span></code>, <code class="docutils literal notranslate"><span class="pre">180</span> <span class="pre">μm</span></code> width)</strong>: Synthesizes the Instruction Cache (<code class="docutils literal notranslate"><span class="pre">core/cache_subsystem/</span></code>), Instruction TLB (<code class="docutils literal notranslate"><span class="pre">core/cva6_mmu/cva6_tlb.sv</span></code>), and hardware Page Table Walker (<code class="docutils literal notranslate"><span class="pre">core/cva6_mmu/cva6_ptw.sv</span></code>) required by the Linux kernel’s Sv39 virtual memory manager, shielded by <code class="docutils literal notranslate"><span class="pre">O-CNT</span></code> high-<span class="math notranslate nohighlight">\(k\)</span> dielectric trenches (Layer 13, Flash 6).</p></li>
+<li><p><strong>Stage 3 (<code class="docutils literal notranslate"><span class="pre">3_ID_DECODE</span></code>, <code class="docutils literal notranslate"><span class="pre">110</span> <span class="pre">μm</span></code> width)</strong>: Synthesizes <code class="docutils literal notranslate"><span class="pre">core/id_stage.sv</span></code>, <code class="docutils literal notranslate"><span class="pre">decoder.sv</span></code>, <code class="docutils literal notranslate"><span class="pre">compressed_decoder.sv</span></code> (<code class="docutils literal notranslate"><span class="pre">RV64C</span></code>), and <code class="docutils literal notranslate"><span class="pre">macro_decoder.sv</span></code> in Flash 1 (<code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>) and Flash 3 (<code class="docutils literal notranslate"><span class="pre">S-LIG</span></code>).</p></li>
+<li><p><strong>Stage 4 (<code class="docutils literal notranslate"><span class="pre">4_ISSUE_SCOREBOARD</span></code>, <code class="docutils literal notranslate"><span class="pre">150</span> <span class="pre">μm</span></code> width)</strong>: Synthesizes the scoreboard (<code class="docutils literal notranslate"><span class="pre">core/scoreboard.sv</span></code>), operand issue logic (<code class="docutils literal notranslate"><span class="pre">issue_read_operands.sv</span></code>), and <span class="math notranslate nohighlight">\(32 \times 64\text{-bit}\)</span> (or <span class="math notranslate nohighlight">\(32 \times 129\text{-bit}\)</span> tagged CHERI capability) register file (<code class="docutils literal notranslate"><span class="pre">ariane_regfile_ff.sv</span></code>) in Flash 2 (<code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>) and Flash 4 (<code class="docutils literal notranslate"><span class="pre">S-LIG</span></code>), with dense <code class="docutils literal notranslate"><span class="pre">O-CNT</span></code> bitline isolation to prevent quantum tunneling crosstalk.</p></li>
+<li><p><strong>Stage 5 (<code class="docutils literal notranslate"><span class="pre">5_EX_ALU_FPU_LSU_CHERI</span></code>, <code class="docutils literal notranslate"><span class="pre">220–250</span> <span class="pre">μm</span></code> width)</strong>: Synthesizes <code class="docutils literal notranslate"><span class="pre">core/ex_stage.sv</span></code>, <code class="docutils literal notranslate"><span class="pre">alu.sv</span></code>, <code class="docutils literal notranslate"><span class="pre">multiplier.sv</span></code>, <code class="docutils literal notranslate"><span class="pre">serdiv.sv</span></code>, IEEE-754 FPU (<code class="docutils literal notranslate"><span class="pre">cvfpu/</span></code>), Data TLB + Load/Store Unit (<code class="docutils literal notranslate"><span class="pre">load_store_unit.sv</span></code>), <code class="docutils literal notranslate"><span class="pre">cheri_unit.sv</span></code> (128-bit capability cursor/bounds/permissions unit), and the <code class="docutils literal notranslate"><span class="pre">CV-X-IF</span></code> coprocessor port (<code class="docutils literal notranslate"><span class="pre">cvxif_fu.sv</span></code>). Because Stage 5 has the highest switching power density, the procedural thermal router embeds a dense <span class="math notranslate nohighlight">\(sp^3\)</span> diamond fractal phonon-siphon trunk (Layer 12, Flash 5) directly beneath the ALU/FPU/LSU.</p></li>
+<li><p><strong>Stage 6 (<code class="docutils literal notranslate"><span class="pre">6_COMMIT_CSR_PMP</span></code>, <code class="docutils literal notranslate"><span class="pre">140–150</span> <span class="pre">μm</span></code> width)</strong>: Synthesizes in-order instruction retirement (<code class="docutils literal notranslate"><span class="pre">core/commit_stage.sv</span></code>), M/S/U privilege CSRs (<code class="docutils literal notranslate"><span class="pre">csr_regfile.sv</span></code>), the atomic memory operation buffer (<code class="docutils literal notranslate"><span class="pre">amo_buffer.sv</span></code>), store buffer (<code class="docutils literal notranslate"><span class="pre">store_buffer.sv</span></code>), and 16-region Physical Memory Protection (<code class="docutils literal notranslate"><span class="pre">pmp/</span></code>), terminating at 8 perimeter <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> disulfide solderless pads (Layer 3).</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="corpus-wide-kicad-review-kicad-volumetric-kicad-vol-kicad-happy-skills-and-pure-rust-wasm-kicad-mod-gds-synthesis">
+<h2>3. Corpus-Wide KiCAD Review, <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Skills, and Pure-Rust/WASM <code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">.gds</span></code> Synthesis<a class="headerlink" href="#corpus-wide-kicad-review-kicad-volumetric-kicad-vol-kicad-happy-skills-and-pure-rust-wasm-kicad-mod-gds-synthesis" title="Link to this heading">¶</a></h2>
+<section id="evolution-of-kicad-in-the-research-corpus-rg-i-kicad-data-chats-md">
+<h3>3.1 Evolution of KiCAD in the Research Corpus (<code class="docutils literal notranslate"><span class="pre">rg</span> <span class="pre">-i</span> <span class="pre">kicad</span> <span class="pre">data/chats/*.md</span></code>)<a class="headerlink" href="#evolution-of-kicad-in-the-research-corpus-rg-i-kicad-data-chats-md" title="Link to this heading">¶</a></h3>
+<p>Searching the entire chat corpus (<code class="docutils literal notranslate"><span class="pre">rg</span> <span class="pre">-i</span> <span class="pre">kicad</span> <span class="pre">data/chats/*.md</span></code>) reveals a five-stage progression from 2D laser-ablated lignin PCBs to 3D holographic volumetric chips:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Corpus Source &amp; Exact Line Citations</p></th>
+<th class="head"><p>Technical Mechanism</p></th>
+<th class="head"><p>Implementation in This Repository</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Stage 1: 2D Laser-Ablated Lignin PCBs &amp; Cylindrical Projection</strong></p></td>
+<td><p><span class="xref myst">_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143–195</span>; <span class="xref myst">detail-the-algolaser-laser-engraver-products.md, lines 143–195</span></p></td>
+<td><p>Plots <code class="docutils literal notranslate"><span class="pre">F.Cu</span></code>, <code class="docutils literal notranslate"><span class="pre">F.Mask</span></code>, and <code class="docutils literal notranslate"><span class="pre">F.SilkS</span></code> from KiCad as 1:1 <code class="docutils literal notranslate"><span class="pre">.svg</span></code>/<code class="docutils literal notranslate"><span class="pre">.dxf</span></code> with “Negative Plot” enabled, then wraps flat boards of width <span class="math notranslate nohighlight">\(C = \pi d\)</span> onto 3D cylinders in Blender/FreeCAD.</p></td>
+<td><p>Audited via <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/kicad-happy/skills/kicad</span></code></span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Stage 2: Open-Source RISC-V (<code class="docutils literal notranslate"><span class="pre">NEORV32</span></code>) + Yosys/nextpnr + KiCad</strong></p></td>
+<td><p><span class="xref myst">gemini_google-gemini_2026-01-25T19-40-26-0500.md, lines 273–315</span>; <span class="xref myst">_Red-and-Blue-Laser-Beam-Mixing.md, lines 186–225</span></p></td>
+<td><p>Combines KiCad board layout with Yosys/nextpnr synthesis and open RISC-V IP cores.</p></td>
+<td><p>Expanded to <code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, and <code class="docutils literal notranslate"><span class="pre">Ibex</span></code> in <code class="docutils literal notranslate"><span class="pre">src/</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Stage 3: Volumetric Optical-Chip Schema Query</strong></p></td>
+<td><p><span class="xref myst">Review-Pop-III-GW-Remnants.md, line 3668</span></p></td>
+<td><p>Poses the translation of verified Proca nanolithography parameters into a volumetric KiCAD schema.</p></td>
+<td><p>Formalized in <code class="docutils literal notranslate"><span class="pre">Signals.Nanolithography</span></code> and <code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Stage 4: <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), Metric Interference DRC, Orthogonal Flashes, &amp; IOF/PROV-O CBOM</strong></p></td>
+<td><p><span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 9839–10250</span> &amp; <span class="xref myst">lines 11962–12125</span></p></td>
+<td><p>Replaces 2D layer stacks with 3D topological splines <code class="docutils literal notranslate"><span class="pre">(spline</span> <span class="pre">(points</span> <span class="pre">...)</span> <span class="pre">(material</span> <span class="pre">n_lig</span> <span class="pre">|</span> <span class="pre">s_lig</span> <span class="pre">|</span> <span class="pre">sp3_diamond</span> <span class="pre">|</span> <span class="pre">o_cnt))</span></code>, checks <strong>Metric Interference DRC</strong> against unintended <span class="math notranslate nohighlight">\(sp^3\)</span> diamond over-squeezing, decomposes into orthogonal flashes, and emits an IOF/EMMO/PROV-O/QUDT YAML-LD CBOM.</p></td>
+<td><p>Machine-checked in <code class="docutils literal notranslate"><span class="pre">holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities</span></code> and implemented in <code class="docutils literal notranslate"><span class="pre">export_kicad_volumetric_str</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">export_iof_prov_cbom_yaml_ld</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Stage 5: Parametric <code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code> &amp; Binary <code class="docutils literal notranslate"><span class="pre">.gds</span></code> Exporter for the <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> Lens</strong></p></td>
+<td><p><span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 16539–16915</span></p></td>
+<td><p>Exports Layer 1 azimuthal <span class="math notranslate nohighlight">\(q=1/2\)</span> Bragg sectors, Layer 2 Denisov electrodes, and Layer 3 N-LIG pads to <code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code> and <code class="docutils literal notranslate"><span class="pre">.gds</span></code>.</p></td>
+<td><p>Re-engineered in pure Rust/WASM in <a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">cannon_mask_cad.rs</span></code></span></a> with round-trip GDSII binary parsing and forward/Bragg Denisov pitch modes.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mathematical-theory-of-kicad-volumetric-metric-interference-drc-madelung-polar-superposition">
+<h3>3.2 Mathematical Theory of <code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code> Metric Interference DRC &amp; Madelung Polar Superposition<a class="headerlink" href="#mathematical-theory-of-kicad-volumetric-metric-interference-drc-madelung-polar-superposition" title="Link to this heading">¶</a></h3>
+<p>In 3D holographic lithography (<span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 9880–9976</span>), carbon phase selection is governed by local intensity / metric-squeeze thresholds:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A_{\mathrm{NLIG}} \approx 0.60\text{–}0.85\)</span> converts the precursor into conductive <span class="math notranslate nohighlight">\(sp^2\)</span> <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> / <code class="docutils literal notranslate"><span class="pre">S-LIG</span></code>, whereas</p></li>
+<li><p><span class="math notranslate nohighlight">\(A_{sp3} = 2.0\)</span> compresses the lattice into wide-bandgap (<span class="math notranslate nohighlight">\(5.5\text{ eV}\)</span>) insulating <span class="math notranslate nohighlight">\(sp^3\)</span> diamond.</p></li>
+</ul>
+<p>When two adjacent <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> splines with individual wave amplitudes <span class="math notranslate nohighlight">\(A_1, A_2 &gt; 0\)</span> (e.g. <span class="math notranslate nohighlight">\(A_1 = A_2 = \frac{4}{5}\)</span>, so each individual spline has intensity <span class="math notranslate nohighlight">\(A_i^2 = \frac{16}{25} = 0.64 &lt; A_{sp3}\)</span>) are flashed <strong>simultaneously</strong> in a single holographic exposure, their coherent constructive overlap reaches (<code class="docutils literal notranslate"><span class="pre">twoTraceConstructiveSqueezePeak</span></code>, connected to Madelung polar wavefunctions <span class="math notranslate nohighlight">\(\psi(A, \theta) = A e^{i\theta}\)</span> in <a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities</span></code></span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+I_{\mathrm{single}}(A_1, A_2) = |\psi(A_1, \theta) + \psi(A_2, \theta)|^2 = (A_1 + A_2)^2 = A_1^2 + A_2^2 + 2 A_1 A_2 &gt; A_1^2 + A_2^2 = |\psi(A_1, \theta) + \psi(A_2, \theta + \pi/2)|^2.
+\]</div>
+<p>For <span class="math notranslate nohighlight">\(A_1 = A_2 = \frac{4}{5}\)</span>, <span class="math notranslate nohighlight">\(I_{\mathrm{single}}\!\left(\frac{4}{5}, \frac{4}{5}\right) = \frac{64}{25} = 2.56 &gt; 2 = A_{sp3}\)</span>, synthesizing an unintended insulating <span class="math notranslate nohighlight">\(sp^3\)</span> diamond wall right across the circuit! By partitioning odd and even pipeline stages into <strong>orthogonal sequential flashes</strong> (<code class="docutils literal notranslate"><span class="pre">flash_index</span> <span class="pre">=</span> <span class="pre">1</span></code> vs. <code class="docutils literal notranslate"><span class="pre">2</span></code> in <code class="docutils literal notranslate"><span class="pre">generate_riscv_holographic_module</span></code>), each flash’s peak intensity remains strictly <span class="math notranslate nohighlight">\(\left(\frac{4}{5}\right)^2 = 0.64 &lt; 2\)</span>, reducing the Metric Interference DRC hazard count from <span class="math notranslate nohighlight">\(5\)</span> (in 6-stage <code class="docutils literal notranslate"><span class="pre">CVA6</span></code> / <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>) and <span class="math notranslate nohighlight">\(2\)</span> (in 3-stage <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>) down to <strong><span class="math notranslate nohighlight">\(0\)</span></strong>, while <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> STED depletion (<span class="math notranslate nohighlight">\(\zeta_{532} = 63\)</span>) amplifies the core Bohm quantum-confinement potential <code class="docutils literal notranslate"><span class="pre">stedCoreBohmPotential</span></code> by <span class="math notranslate nohighlight">\(1 + \zeta_{532} = 64\times\)</span>.</p>
+</section>
+<section id="scaling-from-18-08-text-nm-cva6-22-text-nm-class-to-1-text-nm-0-75-text-nm-0-603-text-nm-0-50-text-nm-convergent-nanoimaging">
+<h3>3.3 Scaling from <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code> <span class="math notranslate nohighlight">\(22\text{ nm}\)</span> Class) to <span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(0.75\text{ nm}\)</span>, <span class="math notranslate nohighlight">\(0.603\text{ nm}\)</span>, &amp; <span class="math notranslate nohighlight">\(0.50\text{ nm}\)</span>) Convergent Nanoimaging<a class="headerlink" href="#scaling-from-18-08-text-nm-cva6-22-text-nm-class-to-1-text-nm-0-75-text-nm-0-603-text-nm-0-50-text-nm-convergent-nanoimaging" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/8a1ca10f994550b6ae80814e20d38392/MultiArrayImaging.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.MultiArrayImaging</span></code></span></a> (<code class="docutils literal notranslate"><span class="pre">multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities</span></code>) and <a class="reference internal" href="grassmannian-multispectral-hubble-medical-nanoimaging-paper.html"><span class="std std-doc">grassmannian-multispectral-hubble-medical-nanoimaging-paper.md</span></a>, we prove that the same <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> dual-wavelength engine extends below <span class="math notranslate nohighlight">\(1\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(10\text{ \AA}\)</span>) for atomic-scale p-n junction alignment (<code class="docutils literal notranslate"><span class="pre">1.4</span> <span class="pre">nm</span></code> <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>/<code class="docutils literal notranslate"><span class="pre">S-LIG</span></code> interfaces) and mask metrology:</p>
+<ul class="simple">
+<li><p><strong>Balanced Homodyne Phase-Slope Registration (<code class="docutils literal notranslate"><span class="pre">homodyneSubNanometerLocalizationSq</span></code>)</strong>: Tracking the <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> / <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> homodyne phase gradient across the <span class="math notranslate nohighlight">\(w_{\mathrm{STED}} = \frac{2025}{112}\text{ nm} \approx 18.08\text{ nm}\)</span> focal spot at amplitude <span class="math notranslate nohighlight">\(\mathrm{SNR}_{\mathrm{amp}} = 30\)</span> yields inter-flash registration accuracy <span class="math notranslate nohighlight">\(\sigma_{\mathrm{loc}} = \frac{135}{224}\text{ nm} \approx 0.603\text{ nm} &lt; 1\text{ nm}\)</span> (<span class="math notranslate nohighlight">\(\sigma_{\mathrm{loc}}^2 = (135/224)^2 &lt; 1\)</span>).</p></li>
+<li><p><strong>Cascaded Hyperbolic/SPP Longitudinal Immersion + Multiphoton STED (<code class="docutils literal notranslate"><span class="pre">cascadedNanoImagingLinewidthSq</span></code>)</strong>: Coupling the <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> radially polarized longitudinal field (<span class="math notranslate nohighlight">\(E_z\)</span>) into the <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> hyperbolic metamaterial layer (<span class="math notranslate nohighlight">\(n_{\mathrm{eff}} = 15, M_{\mathrm{harm}} = 2, \zeta_{\mathrm{STED}} = 80\)</span>) compresses the squared linewidth to <span class="math notranslate nohighlight">\(w_{\mathrm{nano}}^2 = (3/4)^2 = (0.75\text{ nm})^2 &lt; 1\text{ nm}^2\)</span>, and at <span class="math notranslate nohighlight">\(n_{\mathrm{eff}} = 27/2 = 13.5, M_{\mathrm{harm}} = 3, \zeta_{\mathrm{STED}} = 99\)</span> reaches <span class="math notranslate nohighlight">\(w_{\mathrm{nano}}^2 = (1/2)^2 = (0.50\text{ nm})^2 = (5\text{ \AA})^2 &lt; 1\text{ nm}^2\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="zone-400-to-800-text-ghz-rgo-polycbd-ss-lignin-sfg-audit-exothermic-radical-recombination-and-multi-band-fire-suppression">
+<h2>4. 3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> SFG Audit, Exothermic Radical Recombination, and Multi-Band Fire Suppression<a class="headerlink" href="#zone-400-to-800-text-ghz-rgo-polycbd-ss-lignin-sfg-audit-exothermic-radical-recombination-and-multi-band-fire-suppression" title="Link to this heading">¶</a></h2>
+<section id="six-mathematical-physical-gaps-closed-in-the-3-zone-400-to-800-text-ghz-sfg-lens">
+<h3>4.1 Six Mathematical &amp; Physical Gaps Closed in the 3-Zone <span class="math notranslate nohighlight">\(400 \to 800\text{ GHz}\)</span> SFG Lens<a class="headerlink" href="#six-mathematical-physical-gaps-closed-in-the-3-zone-400-to-800-text-ghz-sfg-lens" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/8430e1261511c86a1f703750d0dce89c/AntiFireCannon.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities</span></code></span></a> and <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis</span></code></span></a>, we audited and fixed six defects in the chat’s late-stage derivation (<span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 15855–17335</span>):</p>
+<ol class="arabic simple">
+<li><p><strong>Zone 2 EMT Out-of-Plane Dispersion Ordering (<span class="math notranslate nohighlight">\(\varepsilon_{\perp,400} &lt; \varepsilon_{\perp,800}\)</span>)</strong>: At <span class="math notranslate nohighlight">\(f = 3.20\%\)</span> rGO, <span class="math notranslate nohighlight">\(\varepsilon_d = 2.82\)</span>, <span class="math notranslate nohighlight">\(|\varepsilon_m(400\text{ GHz})| = 110\)</span>, and <span class="math notranslate nohighlight">\(|\varepsilon_m(800\text{ GHz})| = 27.5\)</span>, exact EMT gives <span class="math notranslate nohighlight">\(\varepsilon_{\perp,400} = \frac{969375}{332468} \approx 2.9157 &lt; \frac{969375}{331622} \approx 2.9231 = \varepsilon_{\perp,800}\)</span> (correcting the chat’s table value <span class="math notranslate nohighlight">\(\varepsilon_{\perp,2} = 2.85 &lt; 2.92\)</span>, which would make <span class="math notranslate nohighlight">\(\varepsilon_{\perp,2}/\varepsilon_{\perp,1} - 1 &lt; 0\)</span>).</p></li>
+<li><p><strong>Zone 3 <span class="math notranslate nohighlight">\(800\text{ GHz}\)</span> ENZ Fill-Fraction Detuning Fix (<span class="math notranslate nohighlight">\(9.301\%\)</span> vs. <span class="math notranslate nohighlight">\(9.88\%\)</span>)</strong>: Exact <span class="math notranslate nohighlight">\(800\text{ GHz}\)</span> ENZ occurs at <span class="math notranslate nohighlight">\(f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516} \approx 9.3008\%\)</span>, where <span class="math notranslate nohighlight">\(\varepsilon_\parallel = 0\)</span> and <span class="math notranslate nohighlight">\(\Gamma_{\mathrm{ENZ,reg}}(2.82, 0, 0.048) = \left(\frac{235}{4}\right)^2 = 3451.5625\)</span> (<span class="math notranslate nohighlight">\(58.75\times\)</span> field gain). At the chat’s table value <span class="math notranslate nohighlight">\(f = 9.88\%\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_\parallel = -\frac{2744}{15625} \approx -0.1756 \ne 0\)</span>, reducing <span class="math notranslate nohighlight">\(\Gamma_{\mathrm{ENZ,reg}}\)</span> by <span class="math notranslate nohighlight">\(&gt;14\times\)</span>.</p></li>
+<li><p><strong>Denisov Forward Surface-Launch vs. Bragg Grating Pitch</strong>: Proved <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{forward}}(\lambda_0, \sin\theta) = \frac{\lambda_0}{\sin\theta} = 2\,\Lambda_{\mathrm{Bragg}}(\lambda_0, \sin\theta)\)</span> (<span class="math notranslate nohighlight">\(2023.46\text{ }\mu\text{m}\)</span> vs. <span class="math notranslate nohighlight">\(1011.73\text{ }\mu\text{m}\)</span>).</p></li>
+<li><p><strong>Hydroxyl (<span class="math notranslate nohighlight">\(\cdot\text{OH}\)</span>) Spectroscopy Frequency Separation</strong>: Proved <span class="math notranslate nohighlight">\(f_{\Lambda\text{-doubling}} = 1.667\text{ GHz} &lt; 800\text{ GHz} &lt; 1830\text{ GHz} = f_{\mathrm{rot}}\)</span> (<code class="docutils literal notranslate"><span class="pre">oh_frequency_mismatch_bounds</span></code>).</p></li>
+<li><p><strong>Exothermic Radical-Recombination Heat Release (<span class="math notranslate nohighlight">\(\Delta H_{\mathrm{rec}}^\circ \approx -499\text{ kJ/mol}\)</span>)</strong>: Proved <span class="math notranslate nohighlight">\(0 &lt; P_{\mathrm{rec}}\)</span> and proved that cooling an above-reignition fire requires a strictly positive external heat sink (<span class="math notranslate nohighlight">\(0 &lt; Q_{\mathrm{sink}}\)</span>, <code class="docutils literal notranslate"><span class="pre">positive_heat_sink_required</span></code>).</p></li>
+<li><p><strong>Dimensional Consistency (<code class="docutils literal notranslate"><span class="pre">dimensionedSfgEnzField800</span></code>)</strong>: Restored the dimensionless phase-matched interaction factor <span class="math notranslate nohighlight">\((k_{800} L_{\mathrm{eff}})\)</span> to <span class="math notranslate nohighlight">\(\chi^{(2)} E_{400}^2\)</span> and enforced <code class="docutils literal notranslate"><span class="pre">Energy</span></code>-typed joule balances.</p></li>
+</ol>
+</section>
+<section id="detailed-catalog-of-exothermic-radical-recombination-applications-multi-band-fire-suppression-sets">
+<h3>4.2 Detailed Catalog of Exothermic Radical-Recombination Applications &amp; Multi-Band Fire-Suppression Sets<a class="headerlink" href="#detailed-catalog-of-exothermic-radical-recombination-applications-multi-band-fire-suppression-sets" title="Link to this heading">¶</a></h3>
+<p>Proved in <a class="reference download internal" download="" href="_downloads/48631d4c80c5e92a812f9eddd01b8f92/FireSuppression.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.exothermic_recombination_tradeoff_and_multiband_suppression_identities</span></code></span></a>:</p>
+<ul class="simple">
+<li><p><strong>Single-step recombination penalty (<span class="math notranslate nohighlight">\(N_{\mathrm{chain}} = 1\)</span>)</strong>: <span class="math notranslate nohighlight">\(\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395\text{ kJ/mol} &lt; 0\)</span>.</p></li>
+<li><p><strong>Multi-cycle chain-arrest savings (<span class="math notranslate nohighlight">\(N_{\mathrm{chain}} = 10 \ge 5\)</span>)</strong>: <span class="math notranslate nohighlight">\(\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541\text{ kJ/mol} &gt; 0\)</span>.</p></li>
+<li><p><strong>Rocket / Scramjet Nozzle Frozen-Flow Enthalpy Recovery</strong>: <span class="math notranslate nohighlight">\(v_0^2 &lt; v_{\mathrm{exit}}^2 = v_0^2 + 2\,\eta_{\mathrm{nozzle}}\,\frac{n_{\mathrm{rad}}\,\Delta H_{\mathrm{rec}}}{\rho}\)</span>.</p></li>
+<li><p><strong>Acoustic Boundary-Layer Displacement Scaling (<span class="math notranslate nohighlight">\(50\text{ Hz}\)</span> DARPA Bass vs. <span class="math notranslate nohighlight">\(400\text{ GHz}\)</span>)</strong>: <span class="math notranslate nohighlight">\(\frac{\xi_{\mathrm{ac}}(u_{\mathrm{ac}}, 50)}{\xi_{\mathrm{ac}}(u_{\mathrm{ac}}, 400 \times 10^9)} = 8 \times 10^9\)</span>.</p></li>
+</ul>
+<p>For the full 6-domain engineering catalog of exothermic radical recombination and the 4-band fire-suppression frequency comparison table, see Sections 4.7.4 and 4.7.5 (lines 354–395) of <a class="reference internal" href="anti-fire-cannon-review.html"><span class="std std-doc">anti-fire-cannon-review.md</span></a>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="complete-catalog-of-simultaneous-machine-checked-laws-lean-4-verification-block">
+<h2>5. Complete Catalog of Simultaneous Machine-Checked Laws &amp; Lean 4 Verification Block<a class="headerlink" href="#complete-catalog-of-simultaneous-machine-checked-laws-lean-4-verification-block" title="Link to this heading">¶</a></h2>
+<section id="summary-of-the-simultaneous-conjuncts-across-the-promoted-signals-signals-ddf-theorems">
+<h3>5.1 Summary of the Simultaneous Conjuncts Across the Promoted <code class="docutils literal notranslate"><span class="pre">Signals</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Theorems<a class="headerlink" href="#summary-of-the-simultaneous-conjuncts-across-the-promoted-signals-signals-ddf-theorems" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Theorem &amp; Blueprint Label</p></th>
+<th class="head"><p>Conjuncts</p></th>
+<th class="head"><p>Core Verified Identities</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference download internal" download="" href="_downloads/8430e1261511c86a1f703750d0dce89c/AntiFireCannon.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities</span></code></span></a><br>(<code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit</span></code>)</p></td>
+<td><p><strong>18</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{\mathrm{ENZ}}(400\text{ GHz}) = \frac{141}{5641}\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_{\parallel,400}(0.032) = -\frac{9878}{12500} &lt; 0\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_{\perp,400}(0.032) = \frac{969375}{332468} &lt; \frac{969375}{331622} = \varepsilon_{\perp,800}(0.032)\)</span>, <span class="math notranslate nohighlight">\(f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516}\)</span>, <span class="math notranslate nohighlight">\(\Gamma_{\mathrm{ENZ,reg}}(f=0.0988) &lt; \Gamma_{\mathrm{ENZ,reg}}(f=\frac{141}{1516}) = (\frac{235}{4})^2\)</span>, <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{forward}} = 2\Lambda_{\mathrm{Bragg}}\)</span>, <span class="math notranslate nohighlight">\(n_0 &lt; n_{\mathrm{unquenched}}(t)\)</span>, <span class="math notranslate nohighlight">\(n_{\mathrm{quenched}}(t) &lt; n_0\)</span>, and <span class="math notranslate nohighlight">\(0 &lt; P_{\mathrm{rec}}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference download internal" download="" href="_downloads/48631d4c80c5e92a812f9eddd01b8f92/FireSuppression.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">exothermic_recombination_tradeoff_and_multiband_suppression_identities</span></code></span></a><br>(<code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-exothermic-recombination-and-multiband-fire-suppression</span></code>)</p></td>
+<td><p><strong>7</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395 &lt; 0\)</span>, <span class="math notranslate nohighlight">\(\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(v_0^2 &lt; \operatorname{nozzleRecombinationThrustVelSq}\)</span>, <span class="math notranslate nohighlight">\(\xi_{\mathrm{ac}}(f_{\mathrm{hyp}}) &lt; \xi_{\mathrm{ac}}(f_{\mathrm{bass}})\)</span>, and <span class="math notranslate nohighlight">\(\xi_{\mathrm{ac}}(50\text{ Hz}) / \xi_{\mathrm{ac}}(400\text{ GHz}) = 8 \times 10^9\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference download internal" download="" href="_downloads/1246b311f0cf7ff7ad76d81ff57555c8/Nanolithography.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities</span></code></span></a><br>(<code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-holographic-405-532-kicad-vol-and-cva6-pipeline</span></code>)</p></td>
+<td><p><strong>9</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(w_0^2(405\text{ nm}, 1.4) = (\frac{2025}{14})^2 &gt; 20^2\)</span>, <span class="math notranslate nohighlight">\(w_{\mathrm{STED}}^2(405\text{ nm}, 1.4, 63) = (\frac{2025}{112})^2 &lt; 20^2\)</span>, <span class="math notranslate nohighlight">\(w_{\mathrm{STED}}^2(\zeta) &lt; w_0^2\)</span>, <span class="math notranslate nohighlight">\((4/5)^2 &lt; 2 &lt; (4/5 + 4/5)^2\)</span>, <span class="math notranslate nohighlight">\(A_1^2 + A_2^2 &lt; (A_1 + A_2)^2\)</span>, and <span class="math notranslate nohighlight">\(T_{\mathrm{stage}}(6) &lt; T_{\mathrm{stage}}(3) &lt; T_{\mathrm{stage}}(2)\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities</span></code></span></a><br>(<code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-madelung-hamiltonian-euler-ads-nanolithography-bridge</span></code>)</p></td>
+<td><p><strong>11</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\pi_S\partial_t S - \mathcal{L}_{\mathrm{Mad}} = \mathcal{H}_{\mathrm{Mad}} = \mathcal{H}_{\mathrm{Mad}}^\rho \ge 0\)</span>, QHJ gradient <span class="math notranslate nohighlight">\(\to\)</span> <span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{Euler}}\)</span>, <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_{\text{AdS}_5})|^2|w_B^{\mathbb{C}}(M_{\text{AdS}_5})|^2 = 1 - (z/z_H)^4\)</span>, <span class="math notranslate nohighlight">\(|\psi(A_1,\theta)+\psi(A_2,\theta)|^2 = (A_1+A_2)^2\)</span>, <span class="math notranslate nohighlight">\(|\psi(A_1,\theta)+\psi(A_2,\theta+\pi/2)|^2 = A_1^2 + A_2^2\)</span>, and <span class="math notranslate nohighlight">\(Q_{\mathrm{STED}}(\zeta_{532}=63) = 64\,Q_{\mathrm{STED}}(0)\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="self-contained-machine-checked-lean-4-proof-block">
+<h3>5.2 Self-Contained Machine-Checked Lean 4 Proof Block<a class="headerlink" href="#self-contained-machine-checked-lean-4-proof-block" title="Link to this heading">¶</a></h3>
+<p>The following Lean 4 block compiles directly against <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and <code class="docutils literal notranslate"><span class="pre">SignalsPending</span></code>:</p>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">RiscVHolographicNanolithographyKicadPaperVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Pending</span>
+
+<span class="c1">-- 1. Dual-Beam 405nm/532nm STED Linewidth (&lt; 20 nm), kicad-volumetric DRC, &amp; 6-Stage CVA6 vs Ibex Pipeline</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">stedDepletedLinewidthSq</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">2025</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">14</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="mi">20</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">stedDepletedLinewidthSq</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">stedDepletedLinewidthSq</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">2025</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">112</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">stedDepletedLinewidthSq</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="o">(</span><span class="mi">20</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">((</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">twoTraceConstructiveSqueezePeak</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">))</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">riscvPipelineStagePeriod</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">riscvPipelineStagePeriod</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">riscvPipelineStagePeriod</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">riscvPipelineStagePeriod</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities</span>
+<span class="w">    </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">6</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="c1">-- 2. Exothermic Radical-Recombination Trade-Off, Scramjet Nozzle Recovery, &amp; 50 Hz vs 400 GHz Displacement</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">netChainArrestHeatSavings</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">-</span><span class="mi">395</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">netChainArrestHeatSavings</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">netChainArrestHeatSavings</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">541</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">netChainArrestHeatSavings</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">100</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">nozzleRecombinationThrustVelSq</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">acousticDisplacementAmplitude</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">400000000000</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">acousticDisplacementAmplitude</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">acousticDisplacementAmplitude</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">acousticDisplacementAmplitude</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">400000000000</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">8000000000</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="n">exothermic_recombination_tradeoff_and_multiband_suppression_identities</span>
+<span class="w">    </span><span class="mi">100</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="mi">400000000000</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+
+<span class="c1">-- 3. 3-Zone 400-&gt;800 GHz rGO-polyCBD-SS-Lignin SFG Audit, Zone 3 ENZ Fix, &amp; Denisov Forward Pitch</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">emtCriticalEnzFillFraction</span><span class="w"> </span><span class="o">(</span><span class="mi">282</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="mi">110</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">141</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5641</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">emtEpsilonPerp</span><span class="w"> </span><span class="o">(</span><span class="mi">32</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">110</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">282</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">emtEpsilonPerp</span><span class="w"> </span><span class="o">(</span><span class="mi">32</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">55</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">282</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">emtCriticalEnzFillFraction</span><span class="w"> </span><span class="o">(</span><span class="mi">282</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">55</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">141</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1516</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">regularizedEnzEnhancement</span><span class="w"> </span><span class="o">(</span><span class="mi">282</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">2744</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">15625</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">48</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">regularizedEnzEnhancement</span><span class="w"> </span><span class="o">(</span><span class="mi">282</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">(</span><span class="mi">48</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">denisovForwardGratingPitch</span><span class="w"> </span><span class="mi">750</span><span class="w"> </span><span class="o">(</span><span class="mi">37</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">chatDenisovBraggPitch</span><span class="w"> </span><span class="mi">750</span><span class="w"> </span><span class="o">(</span><span class="mi">37</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">semenovRadicalConcentration</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="mi">1800</span><span class="w"> </span><span class="mi">400</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities</span>
+<span class="w">    </span><span class="mi">750</span><span class="w"> </span><span class="o">(</span><span class="mi">37</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">100</span><span class="o">)</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="mi">1800</span><span class="w"> </span><span class="mi">400</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1000</span><span class="o">)</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">499</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">⟩</span>
+
+<span class="c1">-- 4. Madelung Polar Wave Superposition &amp; 64x STED Bohm Quantum-Confinement Boost</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="n">dt_v</span><span class="w"> </span><span class="n">v_phi</span><span class="w"> </span><span class="n">grad_v</span><span class="w"> </span><span class="n">grad_V</span><span class="w"> </span><span class="n">grad_rho</span><span class="w"> </span><span class="n">grad_Q</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">twoTraceConstructiveSqueezePeak</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">madelungPolarWavefunction</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">θ</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">stedCoreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">64</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">stedCoreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">hb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">S_t</span><span class="w"> </span><span class="n">grad_S</span><span class="w"> </span><span class="n">dt_v</span><span class="w"> </span><span class="n">v_phi</span><span class="w"> </span><span class="n">grad_v</span><span class="w"> </span><span class="n">grad_V</span><span class="w"> </span><span class="n">grad_rho</span><span class="w"> </span><span class="n">grad_Q</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">405</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">63</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">hb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">RiscVHolographicNanolithographyKicadPaperVerification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p id="zaruba2019"><a id="zaruba2019"></a></p>
+<ol class="arabic simple">
+<li><p>Zaruba, F., &amp; Benini, L. (2019). The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology. <em>IEEE Transactions on Very Large Scale Integration (VLSI) Systems</em>, 27(11), 2629–2640. DOI: <code class="docutils literal notranslate"><span class="pre">10.1109/TVLSI.2019.2926114</span></code>.</p></li>
+</ol>
+<p id="schiavone2017"><a id="schiavone2017"></a>
+2. Schiavone, P. D., Conti, F., Rossi, D., Gautschi, M., Pullini, A., Flamand, E., &amp; Benini, L. (2017). Slow and steady wins the race? A comparison of ultra-low-power RISC-V cores for Internet-of-Things applications. <em>27th International Symposium on Power and Timing Modeling, Optimization and Simulation (PATMOS)</em>. DOI: <code class="docutils literal notranslate"><span class="pre">10.1109/PATMOS.2017.8106976</span></code>.</p>
+<p id="watson2015"><a id="watson2015"></a>
+3. Watson, R. N. M., Woodruff, J., Neumann, P. G., Moore, S. W., Anderson, J., Chisnall, D., Dave, N., Davis, B., Gudka, K., Laurie, B., Murdoch, S. J., Norton, R., Roe, M., Son, S., &amp; Vadera, M. (2015). CHERI: A Hybrid Capability-System Architecture for Scalable Software Compartmentalization. <em>IEEE Symposium on Security and Privacy</em>, 20–37. DOI: <code class="docutils literal notranslate"><span class="pre">10.1109/SP.2015.9</span></code>.</p>
+<p id="amar2023"><a id="amar2023"></a>
+4. Amar, S., Chisnall, D., Chen, T., Conceptual/lowRISC Team, &amp; Microsoft Research (2023). CHERIoT: Complete Memory Safety for Embedded Systems. <em>32nd USENIX Security Symposium</em>, 6433–6450.</p>
+<p id="hell1994"><a id="hell1994"></a>
+5. Hell, S. W., &amp; Wichmann, J. (1994). Breaking the diffraction resolution limit by stimulated emission: stimulated-emission-depletion fluorescence microscopy. <em>Optics Letters</em>, 19(11), 780–782. DOI: <code class="docutils literal notranslate"><span class="pre">10.1364/OL.19.000780</span></code>.</p>
+<p id="xu2026"><a id="xu2026"></a>
+6. Xu, Y., Liu, X., Davis, B., Sotzing, G., &amp; Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. <em>IEEE MTT-S Radio Frequency Systems and Applications Symposium</em>. DOI: <code class="docutils literal notranslate"><span class="pre">10.1109/imsrfsa70221.2026.11624319</span></code>.</p>
+<p id="davis2026"><a id="davis2026"></a>
+7. Davis, B., Sotzing, G., &amp; Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. <em>Chem Circularity</em> (2026).</p>
+<p id="denisov1957"><a id="denisov1957"></a>
+8. Denisov, N. G. (1957). On a Singularity of the Field of an Electromagnetic Wave Propagating in an Inhomogeneous Plasma. <em>Soviet Physics JETP</em>, 4, 544–553.</p>
+<p id="chat-iq-kicad-2026"><a id="chat_iq_kicad_2026"></a>
+9. Provenance Chat Log (2026). <em>IQ Sampling for Signal Phase (<code class="docutils literal notranslate"><span class="pre">kicad-volumetric</span></code>, Metric Interference DRC, IOF/PROV-O CBOM, and 3-Zone <span class="math notranslate nohighlight">\(400\to 800\text{ GHz}\)</span> Hyperbolic SFG Lens)</em>. Local corpus: (<a class="reference download internal" download="" href="_downloads/5566ffb7d9c41f615f38e0166fafdb96/IQ-Sampling-for-Signal-Phase.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/IQ-Sampling-for-Signal-Phase.md,</span> <span class="pre">lines</span> <span class="pre">9839-10250,</span> <span class="pre">11962-12125,</span> <span class="pre">15706-17335</span></code></a>).</p>
+<p id="chat-sted-lignin-2026"><a id="chat_sted_lignin_2026"></a>
+10. Provenance Chat Log (2026). <em>Laser Engraving Circuits on Lignin and Other Materials (KiCad Negative Plot &amp; <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> STED-Style Helical Doughnut Nanolithography)</em>. Local corpus: (<a class="reference download internal" download="" href="_downloads/95542aa08338f74af8aa49500716d215/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md,</span> <span class="pre">lines</span> <span class="pre">143-195,</span> <span class="pre">854-952</span></code></a>).</p>
+<p id="chat-green-bragg-2026"><a id="chat_green_bragg_2026"></a>
+11. Provenance Chat Log (2026). <em>Green <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Laser Compression Shock (LCS) Bragg Reflectors &amp; Lignin-Vitrimer Photonics</em>. Local corpus: (<a class="reference download internal" download="" href="_downloads/2bcc1ad43414d01ecb1269457558dd24/gemini_google-gemini_2026-01-25T19-35-26-0500.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md,</span> <span class="pre">lines</span> <span class="pre">316-535,</span> <span class="pre">1395-1550</span></code></a>).</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">zaruba2019cost</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Zaruba, Florian and Benini, Luca}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{IEEE Transactions on Very Large Scale Integration (VLSI) Systems}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{27}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{11}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{2629--2640}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2019}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1109/TVLSI.2019.2926114}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1109/TVLSI.2019.2926114}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_iq_kicad_volumetric_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{IQ Sampling for Signal Phase: kicad-volumetric, Metric Interference DRC, and 400-&gt;800 GHz Hyperbolic SFG Lens}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839-10250, 11962-12125, 15706-17335}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/IQ-Sampling-for-Signal-Phase.md}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_laser_engraving_lignin_405_532_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Laser Engraving Circuits on Lignin: KiCad Workflows and 405nm/532nm Helical Doughnut Nanolithography}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143-195, 854-952}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_green_532nm_lcs_bragg_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Green 532nm Laser Compression Shock Bragg Reflectors on Lignin-Vitrimer}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316-535, 1395-1550}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Holographic 405 nm / 532 nm Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (CVA6, CHERI-CVA6, &amp; Ibex), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-25"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/IQ-Sampling-for-Signal-Phase.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/_Quantum Processor and Soliton Discussions  .md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Pending.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/cannon_mask_cad.rs"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/core-v-cores/README.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/cheri-cva6/README.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/cva6-cheri/README.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/ibex/README.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/kicad-happy/README.md"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Holographic Carbon Nanolithography (405 nm / 532 nm)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"RISC-V Processors (CVA6, CHERI-CVA6, Ibex)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Volumetric KiCAD (.kicad_vol) and GDSII (.gds) Synthesis"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Exothermic Radical Recombination Thermodynamics"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"rGO-polyCBD-SS-Lignin Hyperbolic Metamaterials"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-enz-hyperbolic-metamaterials-paper.html" title="Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: rGO-polyCBD-SS-Lignin Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA \(p\text{-}^{11}\text{B}\) / \(s\text{CO}_2\) Power Ledgers in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html" title="From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) Mechanics" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

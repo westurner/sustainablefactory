@@ -1,1 +1,0 @@
-../_Beyond-Jupyter-Notebook-Alternatives-Explored.md

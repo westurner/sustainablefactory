@@ -1,1 +1,0 @@
-../chats/how-to-save-birds-and-bats-from-wind-turbines.md

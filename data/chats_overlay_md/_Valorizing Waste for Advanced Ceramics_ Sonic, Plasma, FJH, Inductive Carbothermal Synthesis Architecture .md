@@ -1,1 +1,0 @@
-../chats/_Valorizing Waste for Advanced Ceramics_ Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture .md

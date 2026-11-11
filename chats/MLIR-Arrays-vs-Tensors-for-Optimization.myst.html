@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MLIR-Arrays-vs-Tensors-for-Optimization &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="../index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="../_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="../_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="../_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="../_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="../_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">MLIR-Arrays-vs-Tensors-for-Optimization</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#prompt-2">Prompt: 2</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/chats/MLIR-Arrays-vs-Tensors-for-Optimization.myst.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">MLIR-Arrays-vs-Tensors-for-Optimization</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#prompt-2">Prompt: 2</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chats/MLIR-Arrays-vs-Tensors-for-Optimization.myst.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mlir-arrays-vs-tensors-for-optimization">
+<h1>MLIR-Arrays-vs-Tensors-for-Optimization<a class="headerlink" href="#mlir-arrays-vs-tensors-for-optimization" title="Link to this heading">¶</a></h1>
+<blockquote>
+<div><p>From: <a class="reference external" href="https://www.google.com/search?client=firefox-b-1-d&amp;hs=9TPB&amp;sca_esv=1b9a0e92a4573b1d&amp;sxsrf=APpeQnvPIAEgqGgmMmz4ufkgp8bsLHNqHA%3A1790993077513&amp;ei=tWLAavzsHtPAp84P5PDS8Qw&amp;biw=1333&amp;bih=728&amp;uact=5&amp;oq=full-vectorial+meta-holography+github&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiJWZ1bGwtdmVjdG9yaWFsIG1ldGEtaG9sb2dyYXBoeSBnaXRodWIyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigAUjJIlDOBViEHHABeACQAQCYAeUBoAHnBaoBBTYuMC4xuAEDyAEA-AEBmAIIoAKNBsICDhAAGIAEGIoFGIYDGLADwgIIEAAY7wUYsAPCAgUQIRirApgDAIgGAZAGB5IHBTcuMC4xoAfTFbIHBTYuMC4xuAeIBsIHBTAuNS4zyAcSgAgB&amp;sclient=gws-wiz-serp&amp;udm=50&amp;ved=0CB8Q2_wOahgKEwjQ_5b-qZ6XAxUAAAAAHQAAAAAQ0gQ&amp;atvm=2&amp;mstk=AUtExfAXl5lhbmP3yP8H84li5F-6y9JwhtT8_t-G7qy1YfKCW_hkeu6ONoLkP8v-Mr3hcP3cGIZI6GTBzQ4ZRGGbSSiyxYmY7e65J-kaKnsUnOirFXM3hWBbpw17OUkJhE7uCzPt8lUB9wICaTo88cnPXY_D9GK-1y8QPgkdBFkpi96UGhumERHMnxtazKXFe6lTBQq75uqYx90V9JufkMsv5SL7npWPKcx7N6pl-6ZIk-LotVfMkxnB9i_kg_aBHPtgWDW1MLUeQFG-s9keH5RZpo4hzxTKvh3STqd5KpZZ8u9Uexxnh6DZzRHlpKU7PIsGyPNdMAtr7S4DGA&amp;mtid=u9S3auLEMJKYptQPzZSGiA0&amp;csuir=1&amp;aep=26&amp;q=MLIR+Arrays+vs+Tensors+for+Optimization">https://www.google.com/search?client=firefox-b-1-d&amp;hs=9TPB&amp;sca_esv=1b9a0e92a4573b1d&amp;sxsrf=APpeQnvPIAEgqGgmMmz4ufkgp8bsLHNqHA%3A1790993077513&amp;ei=tWLAavzsHtPAp84P5PDS8Qw&amp;biw=1333&amp;bih=728&amp;uact=5&amp;oq=full-vectorial+meta-holography+github&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiJWZ1bGwtdmVjdG9yaWFsIG1ldGEtaG9sb2dyYXBoeSBnaXRodWIyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigAUjJIlDOBViEHHABeACQAQCYAeUBoAHnBaoBBTYuMC4xuAEDyAEA-AEBmAIIoAKNBsICDhAAGIAEGIoFGIYDGLADwgIIEAAY7wUYsAPCAgUQIRirApgDAIgGAZAGB5IHBTcuMC4xoAfTFbIHBTYuMC4xuAeIBsIHBTAuNS4zyAcSgAgB&amp;sclient=gws-wiz-serp&amp;udm=50&amp;ved=0CB8Q2_wOahgKEwjQ_5b-qZ6XAxUAAAAAHQAAAAAQ0gQ&amp;atvm=2&amp;mstk=AUtExfAXl5lhbmP3yP8H84li5F-6y9JwhtT8_t-G7qy1YfKCW_hkeu6ONoLkP8v-Mr3hcP3cGIZI6GTBzQ4ZRGGbSSiyxYmY7e65J-kaKnsUnOirFXM3hWBbpw17OUkJhE7uCzPt8lUB9wICaTo88cnPXY_D9GK-1y8QPgkdBFkpi96UGhumERHMnxtazKXFe6lTBQq75uqYx90V9JufkMsv5SL7npWPKcx7N6pl-6ZIk-LotVfMkxnB9i_kg_aBHPtgWDW1MLUeQFG-s9keH5RZpo4hzxTKvh3STqd5KpZZ8u9Uexxnh6DZzRHlpKU7PIsGyPNdMAtr7S4DGA&amp;mtid=u9S3auLEMJKYptQPzZSGiA0&amp;csuir=1&amp;aep=26&amp;q=MLIR+Arrays+vs+Tensors+for+Optimization</a></p>
+</div></blockquote>
+<span class="target" id="chat-prompt-1"></span><section id="prompt-1">
+<h2>Prompt: 1<a class="headerlink" href="#prompt-1" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-09-26 00:00:00</p>
+<p>MLIR distinguishes arrays and tensors by allowing array mutation, but not for tensors; which allows a large class of optimizations</p>
+<p>—</p>
+<p class="rubric" id="googlesearch-response">googlesearch response</p>
+<p>In <strong>MLIR</strong> (Multi-Level Intermediate Representation), the fundamental distinction between <strong>arrays (memrefs)</strong> and <strong>tensors</strong> is built entirely around memory semantics: <strong>arrays are mutable memory references, while tensors are immutable value types.</strong></p>
+<p>This distinction is a deliberate design choice that unlocks a powerful, layered pipeline of compiler optimizations.</p>
+<p>* * *</p>
+<p>Why the Distinction Matters for Optimizations</p>
+<p>By separating value semantics from memory allocation semantics, MLIR allows different optimization passes to run at the level where they are most effective.</p>
+<p>1. Tensor Optimizations (Value Semantics)</p>
+<p>Because tensors are immutable values, they do not suffer from the “aliasing” problem (where two pointers might point to the same memory location). This enables a massive class of high-level, structural transformations:</p>
+<ul class="simple">
+<li><p><strong>Fusion (Loop/Operation Fusion):</strong> Operations like <code class="docutils literal notranslate"><span class="pre">tensor.insert_slice</span></code> or element-wise math can be aggressively fused together. The compiler can easily track data flow from one operation to the next because there are no side effects or hidden mutations.</p></li>
+<li><p><strong>Dead Code Elimination (DCE):</strong> If a tensor value is generated but never read by a subsequent operation, the producing operation can be completely and safely removed.</p></li>
+<li><p><strong>Constant Folding and Propagation:</strong> Since a tensor’s contents cannot change after creation, operations on constant tensors can be evaluated at compile time.</p></li>
+<li><p><strong>Sparsity Rewriting:</strong> High-level sparsity properties are much easier to reason about when tracking pure mathematical transformations on tensor values.</p></li>
+</ul>
+<p>2. MemRef/Array Optimizations (Buffer Semantics)</p>
+<p>Once high-level optimizations are complete, tensors are lowered to <strong>memrefs</strong> through a process called <strong>Bufferization</strong>. Once memory allocations and mutations are explicit, the compiler switches focus to hardware-level performance:</p>
+<ul class="simple">
+<li><p><strong>Loop Tiling and Cache Tuning:</strong> Loops iterating over arrays can be broken down into smaller blocks (tiles) to maximize hardware cache hits.</p></li>
+<li><p><strong>Vectorization:</strong> Contiguous array memory layouts make it easy for the compiler to generate SIMD (Single Instruction, Multiple Data) instructions.</p></li>
+<li><p><strong>Buffer Reuse and Allocation Optimization:</strong> The compiler analyzes the lifecycles of different arrays to reuse the same physical memory space, drastically reducing memory footprint and allocation overhead.</p></li>
+</ul>
+<p>* * *</p>
+<p>Direct Comparison</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Tensors (<code class="docutils literal notranslate"><span class="pre">tensor&lt;...&gt;</span></code>)</p></th>
+<th class="head"><p>Arrays (<code class="docutils literal notranslate"><span class="pre">memref&lt;...&gt;</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Mutability</strong></p></td>
+<td><p><strong>Immutable</strong> (Values cannot change)</p></td>
+<td><p><strong>Mutable</strong> (In-place updates allowed)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Side Effects</strong></p></td>
+<td><p><strong>None</strong> (Pure data-flow)</p></td>
+<td><p><strong>Yes</strong> (Reads and writes to memory)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Primary Level</strong></p></td>
+<td><p>High-level graph / Math representation</p></td>
+<td><p>Low-level / Hardware-specific execution</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Key Optimization</strong></p></td>
+<td><p>Operation fusion, Dead Code Elimination</p></td>
+<td><p>Tiling, Vectorization, Memory reuse</p></td>
+</tr>
+</tbody>
+</table>
+<p>* * *</p>
+<p>If you are working on a specific compiler pipeline or optimization pass, I can help you dive deeper. Would you like to explore <strong>how the Bufferization pass converts tensors to memrefs</strong>, or see <strong>code examples</strong> contrasting <code class="docutils literal notranslate"><span class="pre">tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">memref</span></code> operations in MLIR text format?</p>
+<p>Copied to clipboardFailed to copy to clipboard. Try again later.</p>
+<p>More</p>
+<p>—</p>
+<span class="target" id="chat-prompt-2"></span></div></blockquote>
+</section>
+<section id="prompt-2">
+<h2>Prompt: 2<a class="headerlink" href="#prompt-2" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-09-26 00:00:00</p>
+<p>Does MLIR support different data structures for tensors? Does MLIR support sparse tensors?How best to implement &gt;= 4x4 normed tensor gaussian splatters?</p>
+<p>—</p>
+<p class="rubric" id="id1">googlesearch response</p>
+<p>1. Does MLIR Support Different Data Structures and Sparse Tensors?</p>
+<p><strong>Yes. MLIR natively supports alternative data layouts and sparse tensor structures</strong> using the built-in <code class="docutils literal notranslate"><span class="pre">encoding</span></code> attribute on the <code class="docutils literal notranslate"><span class="pre">tensor</span></code> type.</p>
+<p>Instead of introducing entirely separate types for every structural variation, MLIR attaches metadata to a standard <code class="docutils literal notranslate"><span class="pre">tensor&lt;...&gt;</span></code> declaration. By default, a tensor with an empty encoding represents a standard, contiguous, dense row-major array in memory.</p>
+<p>Sparse Tensor Support (<code class="docutils literal notranslate"><span class="pre">sparse_tensor</span></code> Dialect)</p>
+<p>MLIR treats <strong>sparsity as a property</strong>, not a tedious implementation detail. The built-in <a class="reference external" href="https://mlir.llvm.org/docs/Dialects/SparseTensorOps/"><code class="docutils literal notranslate"><span class="pre">sparse_tensor</span></code> dialect</a> leverages a generalized format (inspired by the <strong>TACO</strong> framework) where you can specify how every individual dimension behaves. Dimensions can be classified as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dense</span></code> (<strong>D</strong>): All elements are stored explicitly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compressed</span></code> (<strong>S</strong>): Only non-zero values and their coordinates are stored (e.g., standard CSR, CSC, or DCSR).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loose_compressed</span></code> / <code class="docutils literal notranslate"><span class="pre">singleton</span></code>: Specialized structures for hypersparse regions.</p></li>
+<li><p><strong>Structured Sparsity:</strong> MLIR also supports hardware-specific sparse constraints, such as NVIDIA’s 2:4 structured sparsity layout.</p></li>
+</ul>
+<p>An MLIR sparse tensor is declared by adding a <code class="docutils literal notranslate"><span class="pre">#sparse_tensor.encoding</span></code> trait:</p>
+<p>mlir</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">A</span> <span class="n">Compressed</span> <span class="n">Sparse</span> <span class="n">Row</span> <span class="p">(</span><span class="n">CSR</span><span class="p">)</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">Dim</span> <span class="mi">0</span> <span class="ow">is</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dim</span> <span class="mi">1</span> <span class="ow">is</span> <span class="n">Compressed</span>
+<span class="c1">#CSR = #sparse_tensor.encoding&lt;{</span>
+  <span class="nb">map</span> <span class="o">=</span> <span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">d0</span> <span class="p">:</span> <span class="n">dense</span><span class="p">,</span> <span class="n">d1</span> <span class="p">:</span> <span class="n">compressed</span><span class="p">)</span>
+<span class="p">}</span><span class="o">&gt;</span>
+
+<span class="o">//</span> <span class="n">The</span> <span class="n">tensor</span> <span class="nb">type</span> <span class="n">itself</span> <span class="n">holds</span> <span class="n">the</span> <span class="n">structure</span> <span class="n">definition</span>
+<span class="o">%</span><span class="n">sparse_matrix</span> <span class="o">=</span> <span class="n">arith</span><span class="o">.</span><span class="n">constant</span> <span class="o">...</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">100</span><span class="n">x100xf32</span><span class="p">,</span> <span class="c1">#CSR&gt;</span>
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>The <strong>MLIR Sparsifier</strong> pass takes high-level operations (like <code class="docutils literal notranslate"><span class="pre">linalg.generic</span></code>) acting on these sparse tensors and automatically generates specialized, irregular loop loops to skip zeros, abstracting away the coordinate/position array indexing.</p>
+<p>Alternate Data Layouts (Layout Encodings)</p>
+<p>Beyond sparsity, frameworks built on top of MLIR (such as <a class="reference external" href="https://iree.dev/">IREE</a> or downstream hardware compilers) use the <code class="docutils literal notranslate"><span class="pre">encoding</span></code> field to implement:</p>
+<ul class="simple">
+<li><p><strong>Tiled/Blocked Layouts:</strong> Packing data into custom N× M sub-blocks (e.g., NHWC to specialized NCHWc formats) to optimize for SIMD execution units.</p></li>
+<li><p><strong>Distributed/Sharded Structures:</strong> Tracking how a tensor’s data layout is partitioned across a grid of parallel TPU cores or GPU threads.</p></li>
+</ul>
+<p>* * *</p>
+<p>2. How Best to Implement ≥ 4x4 Normed Tensor Gaussian Splatters?</p>
+<p>Implementing Gaussian Splatting via <strong>4D (or higher) Normed Tensors</strong>—where splats are extended into spatial-temporal spaces, hyperspectral rendering, or general anisotropic multi-dimensional fields—demands a balance between math modeling and memory efficiency. Because individual splats have dense local parameters but are sparsely distributed across space, a hybrid approach is ideal.</p>
+<p>The Core Math &amp; Representation Strategy</p>
+<p>A standard 3D splat uses a 3D covariance matrix <span class="math notranslate nohighlight">\(\Sigma = R S S^T R^T\)</span>. For a 4×4 or larger normed tensor representation (e.g., adding a time/velocity dimension t or directional feature fields), you must model a higher-dimensional covariance matrix <span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{D \times D}\)</span>that remains <strong>Positive Semi-Definite (PSD)</strong>.</p>
+<p>To achieve this elegantly in code:</p>
+<ol class="arabic simple">
+<li><p><strong>Cholesky Decomposition / Lower Triangular Representation:</strong> Do not store the full 4×4 symmetric matrix directly. Store its scaling diagonal matrix S and an upper/lower triangular rotation/shearing parameter matrix L (often parameterized via 4D quaternions or rotation structures). This guarantees the reconstructed tensor <span class="math notranslate nohighlight">\(\Sigma = L L^T\)</span>is valid and normed.</p></li>
+<li><p><strong>Point Cloud Array Representation:</strong> Do not store the entire world space as a giant sparse 4D tensor. Represent your scene as a <strong>dense array of structs (or structure of arrays) representing the splats</strong>, where <em>each individual splat</em> encapsulates a local, dense 4×4 tensor payload.</p></li>
+</ol>
+<p>The Implementation Pipeline</p>
+<p>Phase 1: High-Level Vectorization &amp; Math (MLIR Tensor / Vector Level)</p>
+<p>Operate inside an MLIR-based compiler pipeline using <code class="docutils literal notranslate"><span class="pre">vector</span></code> and <code class="docutils literal notranslate"><span class="pre">linalg</span></code> dialects to implement the localized splat transformations (projection, scaling, and evaluation of the exponent <span class="math notranslate nohighlight">\(e^{-\frac{1}{2}\Delta ^{T}\Sigma ^{-1}\Delta }\)</span>).</p>
+<p>For a 4×4 matrix operation, avoid loops entirely. Map them to <strong>fixed-size 2D vector registers</strong> using the <code class="docutils literal notranslate"><span class="pre">vector</span></code> dialect to maximize hardware execution:</p>
+<p>mlir</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Evaluate</span> <span class="n">the</span> <span class="n">exponent</span> <span class="k">for</span> <span class="n">an</span> <span class="n">individual</span> <span class="mi">4</span><span class="n">D</span> <span class="n">splat</span> <span class="n">point</span>
+<span class="n">func</span><span class="o">.</span><span class="n">func</span> <span class="nd">@eval_4d_gaussian</span><span class="p">(</span><span class="o">%</span><span class="n">delta</span> <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">%</span><span class="n">inv_cov</span> <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">x4xf32</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">f32</span> <span class="p">{</span>
+  <span class="o">//</span> <span class="n">Matrix</span><span class="o">-</span><span class="n">vector</span> <span class="n">multiplication</span> <span class="k">for</span> \<span class="n">Sigma</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">*</span> \<span class="n">Delta</span>
+  <span class="o">%</span><span class="n">prod</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">matvec</span> <span class="o">%</span><span class="n">inv_cov</span><span class="p">,</span> <span class="o">%</span><span class="n">delta</span> <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">x4xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">xf32</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">xf32</span><span class="o">&gt;</span>
+  <span class="o">//</span> <span class="n">Dot</span> <span class="n">product</span> <span class="k">for</span> \<span class="n">Delta</span><span class="o">^</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span>\<span class="n">Sigma</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">*</span> \<span class="n">Delta</span><span class="p">)</span>
+  <span class="o">%</span><span class="n">exponent</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">dot</span> <span class="o">%</span><span class="n">delta</span><span class="p">,</span> <span class="o">%</span><span class="n">prod</span> <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">4</span><span class="n">xf32</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">f32</span>
+
+  <span class="o">//</span> <span class="n">Scale</span> <span class="ow">and</span> <span class="n">apply</span> <span class="n">standard</span> <span class="n">math</span>
+  <span class="o">%</span><span class="n">half</span> <span class="o">=</span> <span class="n">arith</span><span class="o">.</span><span class="n">constant</span> <span class="o">-</span><span class="mf">0.5</span> <span class="p">:</span> <span class="n">f32</span>
+  <span class="o">%</span><span class="n">scaled_exp</span> <span class="o">=</span> <span class="n">arith</span><span class="o">.</span><span class="n">mulf</span> <span class="o">%</span><span class="n">exponent</span><span class="p">,</span> <span class="o">%</span><span class="n">half</span> <span class="p">:</span> <span class="n">f32</span>
+  <span class="o">%</span><span class="n">result</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span> <span class="o">%</span><span class="n">scaled_exp</span> <span class="p">:</span> <span class="n">f32</span>
+  <span class="k">return</span> <span class="o">%</span><span class="n">result</span> <span class="p">:</span> <span class="n">f32</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>Phase 2: Parallel Accumulation &amp; Rasterization (Hardware Execution)</p>
+<p>The most performance-critical constraint of Gaussian Splatting is the <strong>rasterization pass</strong> (sorting splats and accumulating their contributions per pixel/voxel).</p>
+<ul class="simple">
+<li><p><strong>Tile-Based Sorting:</strong> Organize your target render space into localized tiles (e.g., 16×16 pixels/voxels). Project the 4×4 bounding limits of your splats onto these tiles.</p></li>
+<li><p><strong>Avoid Global Tensors for Rendering:</strong> Do not accumulate splats into a global sparse coordinate tensor. Instead, use a custom CUDA/ROCm kernel or target MLIR’s GPU dialect to parallelize across tiles. Keep the splats sorted by depth/time, and use a sequential, highly localized <strong>α-blending accumulation loop</strong> inside shared memory or fast hardware registers.</p></li>
+</ul>
+<p>Are you targeting a specific hardware architecture for rendering these splats (e.g., <strong>NVIDIA GPUs via CUDA/Triton</strong>, or <strong>CPU-bound vectorized execution</strong>)? I can provide a more tailored pipeline lowering strategy or mathematical breakdown for your 4×4 projection logic if needed.</p>
+<p>Copied to clipboardFailed to copy to clipboard. Try again later.</p>
+<p>More</p>
+</div></blockquote>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

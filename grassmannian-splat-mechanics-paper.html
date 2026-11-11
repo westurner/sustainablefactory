@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Normed Tensor Gaussian Splat Mechanics for Complex \(Gr_{\mathbb{C}}(2,4)\) Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4" href="grassmannian-thermal-compton-raman-paper.html" />
+    <link rel="prev" title="Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex \(Gr_{\mathbb{C}}(2,4)\) Orbital Precession, Mercury’s Perihelion, \(N\)-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4" href="grassmannian-gravity-from-qed-scattering-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#how-do-normed-tensor-gaussian-splatters-represent-gr-mathbb-c-2-4-twistors">1. How Do Normed Tensor Gaussian Splatters Represent <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors?</a><ul>
+<li><a class="reference internal" href="#from-mathbb-c-4-twistors-and-penrose-incidence-to-gr-mathbb-c-2-4-plucker-channels">1.1 From <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span> Twistors and Penrose Incidence to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels</a></li>
+<li><a class="reference internal" href="#the-fundamental-critique-why-a-purely-real-gaussian-splat-is-only-half-of-a-twistor">1.2 The Fundamental Critique: Why a Purely Real Gaussian Splat Is Only Half of a Twistor</a></li>
+<li><a class="reference internal" href="#the-dual-layer-solution-covariance-tensor-sigma-complex-plucker-wavepacket-psi-mathrm-splat">1.3 The Dual-Layer Solution: Covariance Tensor <span class="math notranslate nohighlight">\(\Sigma\)</span> + Complex Plücker Wavepacket <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}}\)</span></a></li>
+<li><a class="reference internal" href="#what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain">1.4 What Doesn’t <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Cover in This Domain?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advantages-limitations-and-justification-across-all-five-grassmannian-paper-domains">2. Advantages, Limitations, and Justification Across All Five <code class="docutils literal notranslate"><span class="pre">grassmannian-*-paper</span></code> Domains</a><ul>
+<li><a class="reference internal" href="#machine-checked-core-bohm-quantum-potential-madelung-quantum-pressure-tensor-corebohmpotential-identities-quantumpressuretensor-identities">2.1 Machine-Checked Core Bohm Quantum Potential &amp; Madelung Quantum Pressure Tensor (<code class="docutils literal notranslate"><span class="pre">coreBohmPotential_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumPressureTensor_identities</span></code>)</a></li>
+<li><a class="reference internal" href="#adaptive-two-child-splat-splitting-conservation-splitmajor-conservation-identities-3d-to-2d-holographic-gr-mathbb-c-2-4-projection-schurplucker-inversion-free-trick-normedtensorgaussiansplat3d">2.5 Adaptive Two-Child Splat Splitting Conservation (<code class="docutils literal notranslate"><span class="pre">splitMajor_conservation_identities</span></code>) &amp; 3D-to-2D Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Projection / Schur–Plücker Inversion-Free Trick (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practical-browser-execution-why-rust-to-wasm-webgl2-glsl-wins-today-vs-webgpu-webnn-and-webtpu">3. Practical Browser Execution: Why Rust <span class="math notranslate nohighlight">\(\to\)</span> WASM + WebGL2 GLSL Wins Today (vs. WebGPU, WebNN, and WebTPU)</a><ul>
+<li><a class="reference internal" href="#how-the-hybrid-rust-wasm-f64-webgl2-glsl-f32-pipeline-splits-the-workload">3.1 How the Hybrid Rust/WASM (<code class="docutils literal notranslate"><span class="pre">f64</span></code>) + WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">f32</span></code>) Pipeline Splits the Workload</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion-reproducibility">4. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-gravity-from-qed-scattering-paper.html" title="Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex \(Gr_{\mathbb{C}}(2,4)\) Orbital Precession, Mercury’s Perihelion, \(N\)-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-thermal-compton-raman-paper.html" title="Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-splat-mechanics-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#how-do-normed-tensor-gaussian-splatters-represent-gr-mathbb-c-2-4-twistors">1. How Do Normed Tensor Gaussian Splatters Represent <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors?</a><ul>
+<li><a class="reference internal" href="#from-mathbb-c-4-twistors-and-penrose-incidence-to-gr-mathbb-c-2-4-plucker-channels">1.1 From <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span> Twistors and Penrose Incidence to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels</a></li>
+<li><a class="reference internal" href="#the-fundamental-critique-why-a-purely-real-gaussian-splat-is-only-half-of-a-twistor">1.2 The Fundamental Critique: Why a Purely Real Gaussian Splat Is Only Half of a Twistor</a></li>
+<li><a class="reference internal" href="#the-dual-layer-solution-covariance-tensor-sigma-complex-plucker-wavepacket-psi-mathrm-splat">1.3 The Dual-Layer Solution: Covariance Tensor <span class="math notranslate nohighlight">\(\Sigma\)</span> + Complex Plücker Wavepacket <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}}\)</span></a></li>
+<li><a class="reference internal" href="#what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain">1.4 What Doesn’t <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Cover in This Domain?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advantages-limitations-and-justification-across-all-five-grassmannian-paper-domains">2. Advantages, Limitations, and Justification Across All Five <code class="docutils literal notranslate"><span class="pre">grassmannian-*-paper</span></code> Domains</a><ul>
+<li><a class="reference internal" href="#machine-checked-core-bohm-quantum-potential-madelung-quantum-pressure-tensor-corebohmpotential-identities-quantumpressuretensor-identities">2.1 Machine-Checked Core Bohm Quantum Potential &amp; Madelung Quantum Pressure Tensor (<code class="docutils literal notranslate"><span class="pre">coreBohmPotential_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumPressureTensor_identities</span></code>)</a></li>
+<li><a class="reference internal" href="#adaptive-two-child-splat-splitting-conservation-splitmajor-conservation-identities-3d-to-2d-holographic-gr-mathbb-c-2-4-projection-schurplucker-inversion-free-trick-normedtensorgaussiansplat3d">2.5 Adaptive Two-Child Splat Splitting Conservation (<code class="docutils literal notranslate"><span class="pre">splitMajor_conservation_identities</span></code>) &amp; 3D-to-2D Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Projection / Schur–Plücker Inversion-Free Trick (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practical-browser-execution-why-rust-to-wasm-webgl2-glsl-wins-today-vs-webgpu-webnn-and-webtpu">3. Practical Browser Execution: Why Rust <span class="math notranslate nohighlight">\(\to\)</span> WASM + WebGL2 GLSL Wins Today (vs. WebGPU, WebNN, and WebTPU)</a><ul>
+<li><a class="reference internal" href="#how-the-hybrid-rust-wasm-f64-webgl2-glsl-f32-pipeline-splits-the-workload">3.1 How the Hybrid Rust/WASM (<code class="docutils literal notranslate"><span class="pre">f64</span></code>) + WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">f32</span></code>) Pipeline Splits the Workload</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion-reproducibility">4. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-gravity-from-qed-scattering-paper.html"
+                          title="previous chapter">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-thermal-compton-raman-paper.html"
+                          title="next chapter">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-splat-mechanics-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="normed-tensor-gaussian-splat-mechanics-for-complex-gr-mathbb-c-2-4-twistors-advantages-limitations-webgl2-wasm-practicality-and-unification-across-double-slit-qism-ddf-and-planetary-gravity-in-lean-4">
+<span id="grassmannian-splat-mechanics-paper"></span><h1>Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4<a class="headerlink" href="#normed-tensor-gaussian-splat-mechanics-for-complex-gr-mathbb-c-2-4-twistors-advantages-limitations-webgl2-wasm-practicality-and-unification-across-double-slit-qism-ddf-and-planetary-gravity-in-lean-4" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Computational Physics (<code class="docutils literal notranslate"><span class="pre">physics.comp-ph</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM/GLSL Crate</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications</span></a> (<span class="xref myst">src/signals/docs/gaussian-splat-tensors-normed-paper.md</span>)</p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-imaging-depth-recovery-paper.html"><span class="std std-doc">Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-vectorial-longitudinal-polarization-paper.html"><span class="std std-doc">3D Vectorial Wave Model for Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>) and Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>How can a finite set of <strong>normed anisotropic Tensor Gaussian Splatters</strong> (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> and <code class="docutils literal notranslate"><span class="pre">TensorGaussianSplat</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>) faithfully represent complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> twistor planes while conserving mass, energy, and topological phase invariants across wave optics, integrable quantum chains, superfluid dark-fluid hydrodynamics, and <span class="math notranslate nohighlight">\(N\)</span>-body planetary gravity? In this paper, we present a machine-checked formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Huygens</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>) together with a zero-dependency Rust <span class="math notranslate nohighlight">\(\to\)</span> WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) and WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>) implementation (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/</span></code>) establishing:</p>
+<ol class="arabic">
+<li><p><strong>How Normed Tensor Gaussian Splatters Represent <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors (<code class="docutils literal notranslate"><span class="pre">complexTwistor_representation_identities</span></code>)</strong>:
+A complex 2-plane in twistor space <span class="math notranslate nohighlight">\(M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)\)</span> spanned by two twistors <span class="math notranslate nohighlight">\(Z_1, Z_2 \in \mathbb{C}^4\)</span> (with Penrose incidence <span class="math notranslate nohighlight">\(\mu^{\dot{\alpha}} = -i x^{\alpha\dot{\alpha}}\lambda_\alpha\)</span>) is represented by a <strong>dual-layer phase-coherent Tensor Gaussian Splat</strong>:</p>
+<ul class="simple">
+<li><p><strong>Layer 1 (Anisotropic Covariance Tensor <span class="math notranslate nohighlight">\(\Sigma\)</span>)</strong>: The moduli of the two uncrossed Plücker channel amplitudes <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}} = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}\)</span> and <span class="math notranslate nohighlight">\(w_B^{\mathbb{C}} = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}\)</span> set the principal variances <span class="math notranslate nohighlight">\(\sigma_1^2 = \sigma_0^2 |w_A^{\mathbb{C}}|^2\)</span> and <span class="math notranslate nohighlight">\(\sigma_2^2 = \sigma_0^2 |w_B^{\mathbb{C}}|^2\)</span>, so that <span class="math notranslate nohighlight">\(\frac{\operatorname{Tr}\Sigma}{\sigma_0^2} = |w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2\)</span> (total Madelung weight), <span class="math notranslate nohighlight">\(\frac{\sigma_1^2 - \sigma_2^2}{2\sigma_0^2} = d_{\mathrm{bary}}\)</span> (barycentric parallel-axis shift / DDF reduced speed <span class="math notranslate nohighlight">\(\beta = v/c\)</span> / orbital eccentricity <span class="math notranslate nohighlight">\(e\)</span>), and <span class="math notranslate nohighlight">\(\frac{\det\Sigma}{\sigma_0^4} = \mathcal{V}^2 = \gamma_\varphi(v)^{-2} = 1 - e^2 = \frac{p}{a}\)</span>.</p></li>
+<li><p><strong>Layer 2 (Complex Twistor Wavepacket <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}}\)</span>)</strong>: Attaching the complex Plücker sum <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\)</span> to the square-root Gaussian amplitude <span class="math notranslate nohighlight">\(\sqrt{G(x,y)}\)</span> yields <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})\)</span>, whose Madelung intensity <span class="math notranslate nohighlight">\(I_{\mathrm{splat}} = G(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr|^2\)</span> reproduces exact constructive and destructive interference (vanishing at dark fringes where <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0\)</span>) while preserving the <span class="math notranslate nohighlight">\(L^1(\mathbb{R}^2)\)</span> normalization of <span class="math notranslate nohighlight">\(G(x,y)\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Core Bohm Quantum Potential &amp; Madelung Quantum Pressure Tensor (<code class="docutils literal notranslate"><span class="pre">coreBohmPotential_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumPressureTensor_identities</span></code>)</strong>:
+Because Gaussian splats are <span class="math notranslate nohighlight">\(C^\infty\)</span> smooth with <span class="math notranslate nohighlight">\(\det\Sigma &gt; 0\)</span> and have a spatially constant negative log-density Hessian <span class="math notranslate nohighlight">\(-\partial_i\partial_j \ln G(x,y) = (\Sigma^{-1})_{ij}\)</span>, both the core Bohm quantum potential and the full Madelung quantum pressure tensor <span class="math notranslate nohighlight">\(\Pi_{ij}(x,y) = -\frac{\hbar^2}{4m^2} G(x,y) \partial_i\partial_j \ln G(x,y)\)</span> reduce to pure <span class="math notranslate nohighlight">\(2 \times 2\)</span> precision-matrix algebra:</p>
+<div class="math notranslate nohighlight">
+\[
+   Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} &gt; 0, \qquad \Pi_{ij}(x, y) = \frac{\hbar^2}{4m^2}\,G(x, y)\,(\Sigma^{-1})_{ij}, \qquad \frac{\Pi_{11}^{\mathrm{DDF}}(x,y)}{\Pi_{22}^{\mathrm{DDF}}(x,y)} = \gamma_\varphi(v)^2,
+   \]</div>
+<p>preventing <span class="math notranslate nohighlight">\(1/r \to \infty\)</span> point-core singularities in both vortex reconnection and relativistic horizon compression.</p>
+</li>
+<li><p><strong>Justification, Advantages, and Limitations Across All Four Companion Papers</strong>:
+We provide a domain-by-domain audit of where normed tensor Gaussian splatters are exact, where they serve as an <span class="math notranslate nohighlight">\(O(N_{\mathrm{splats}})\)</span> Lagrangian/Madelung discretization, and where hybrid analytic kernels (such as <span class="math notranslate nohighlight">\(\operatorname{sinc}^2\)</span> aperture diffraction or long-range <span class="math notranslate nohighlight">\(1/r\)</span> Ewald/Newtonian tails) are required.</p></li>
+<li><p><strong>Why Rust + WASM + WebGL2 GLSL is the Practical Browser Architecture Today (vs. WebGPU, WebNN, and WebTPU)</strong>:
+We explain why compiling the physics core to <code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code> and rendering the Mahalanobis quadratic forms in WebGL2 (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>) GLSL fragment shaders achieves universal browser reach and <span class="math notranslate nohighlight">\(60\text{–}120\text{ FPS}\)</span> performance today, whereas WebGPU remains unevenly deployed, WebNN is restricted to static neural-network operator graphs, and no W3C “WebTPU” standard exists for custom scientific tensor kernels.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="how-do-normed-tensor-gaussian-splatters-represent-gr-mathbb-c-2-4-twistors">
+<h2>1. How Do Normed Tensor Gaussian Splatters Represent <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors?<a class="headerlink" href="#how-do-normed-tensor-gaussian-splatters-represent-gr-mathbb-c-2-4-twistors" title="Link to this heading">¶</a></h2>
+<section id="from-mathbb-c-4-twistors-and-penrose-incidence-to-gr-mathbb-c-2-4-plucker-channels">
+<h3>1.1 From <span class="math notranslate nohighlight">\(\mathbb{C}^4\)</span> Twistors and Penrose Incidence to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels<a class="headerlink" href="#from-mathbb-c-4-twistors-and-penrose-incidence-to-gr-mathbb-c-2-4-plucker-channels" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code> (<a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">src/signals/Signals/Geometry.lean</span></a>), a four-component twistor <span class="math notranslate nohighlight">\(Z = (\lambda_\alpha, \mu^{\dot{\alpha}}) \in \mathbb{C}^2 \oplus \mathbb{C}^2 \cong \mathbb{C}^4\)</span> (<code class="docutils literal notranslate"><span class="pre">Twistor</span></code>) is linked to a spacetime coordinate matrix <span class="math notranslate nohighlight">\(x^{\alpha\dot{\alpha}}\)</span> by Penrose’s incidence relation (<code class="docutils literal notranslate"><span class="pre">Twistor.incident</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mu^{\dot{\alpha}} = -i\,x^{\alpha\dot{\alpha}}\,\lambda_\alpha.
+\]</div>
+<p>Under a spacetime translation <span class="math notranslate nohighlight">\(x \mapsto x + a\)</span> (<code class="docutils literal notranslate"><span class="pre">Twistor.translate</span></code>, <code class="docutils literal notranslate"><span class="pre">Twistor.translate_incident_iff</span></code>), the primary Weyl spinor <span class="math notranslate nohighlight">\(\lambda_\alpha\)</span> is invariant while <span class="math notranslate nohighlight">\(\mu^{\dot{\alpha}}\)</span> acquires the oscillatory phase shift <span class="math notranslate nohighlight">\(-i a^{\alpha\dot{\alpha}}\lambda_\alpha\)</span>. A complex 2-plane in twistor space is a point in the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, represented by a <span class="math notranslate nohighlight">\(2 \times 4\)</span> complex matrix <span class="math notranslate nohighlight">\(M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}\)</span> whose six <span class="math notranslate nohighlight">\(2 \times 2\)</span> Plücker minors <span class="math notranslate nohighlight">\(\Delta_{ab}^{\mathbb{C}}(M_{\mathbb{C}})\)</span> (<code class="docutils literal notranslate"><span class="pre">complexTwoRowMinor</span></code>) obey the 3-term Plücker identity (<code class="docutils literal notranslate"><span class="pre">complexTwoRowMinor_pluecker</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\underbrace{\Delta_{01}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{23}^{\mathbb{C}}(M_{\mathbb{C}})}_{w_A^{\mathbb{C}}(M_{\mathbb{C}})}
++ \underbrace{\Delta_{03}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{12}^{\mathbb{C}}(M_{\mathbb{C}})}_{w_B^{\mathbb{C}}(M_{\mathbb{C}})}
+= \Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}).
+\]</div>
+</section>
+<section id="the-fundamental-critique-why-a-purely-real-gaussian-splat-is-only-half-of-a-twistor">
+<h3>1.2 The Fundamental Critique: Why a Purely Real Gaussian Splat Is Only Half of a Twistor<a class="headerlink" href="#the-fundamental-critique-why-a-purely-real-gaussian-splat-is-only-half-of-a-twistor" title="Link to this heading">¶</a></h3>
+<p>A classical 2D anisotropic Gaussian splat (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[
+G(x, y) = w\,\mathcal{N}(\Sigma)\,\exp\!\left(-\frac{1}{2} Q_\Sigma(x, y)\right), \qquad
+\mathcal{N}(\Sigma) = \frac{1}{2\pi \sigma_1 \sigma_2}, \qquad
+Q_\Sigma(x, y) = \frac{u_1^2}{\sigma_1^2} + \frac{u_2^2}{\sigma_2^2},
+\]</div>
+<p>is <strong>strictly positive</strong> (<span class="math notranslate nohighlight">\(G(x, y) &gt; 0\)</span> for <span class="math notranslate nohighlight">\(w &gt; 0\)</span>). If we map <span class="math notranslate nohighlight">\(M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)\)</span> <em>only</em> to its real covariance matrix <span class="math notranslate nohighlight">\(\Sigma = R(\theta)\operatorname{diag}(\sigma_1^2, \sigma_2^2)R(\theta)^T\)</span>, we retain the channel moduli <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}|^2\)</span> and <span class="math notranslate nohighlight">\(|w_B^{\mathbb{C}}|^2\)</span> but discard the relative Penrose twistor phase <span class="math notranslate nohighlight">\(\Delta\phi = \arg(w_A^{\mathbb{C}}\,\overline{w_B^{\mathbb{C}}})\)</span>. Just like the real positive Grassmannian <span class="math notranslate nohighlight">\(Gr_{\ge 0}(2,4)\)</span> (<code class="docutils literal notranslate"><span class="pre">gr24UnphasedDoubleSlit_onAxis_relative_error_half</span></code>), a sum of positive real Gaussian densities cannot cancel at destructive dark fringes!</p>
+</section>
+<section id="the-dual-layer-solution-covariance-tensor-sigma-complex-plucker-wavepacket-psi-mathrm-splat">
+<h3>1.3 The Dual-Layer Solution: Covariance Tensor <span class="math notranslate nohighlight">\(\Sigma\)</span> + Complex Plücker Wavepacket <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}}\)</span><a class="headerlink" href="#the-dual-layer-solution-covariance-tensor-sigma-complex-plucker-wavepacket-psi-mathrm-splat" title="Link to this heading">¶</a></h3>
+<p>To represent <span class="math notranslate nohighlight">\(M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)\)</span> faithfully without losing either <span class="math notranslate nohighlight">\(L^1\)</span> energy conservation or coherent twistor phase interference, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> formalizes a <strong>dual-layer representation</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>               Complex Twistor 2-Plane M_C ∈ Gr_C(2,4)
+     w_A^C = Δ_01^C Δ_23^C = |w_A^C| e^{iϕ_A},  w_B^C = Δ_03^C Δ_12^C = |w_B^C| e^{iϕ_B}
+                                   │
+         ┌─────────────────────────┴─────────────────────────┐
+         ▼                                                   ▼
+┌─────────────────────────────────────────┐ ┌──────────────────────────────────────────┐
+│ LAYER 1: Anisotropic Covariance Tensor  │ │ LAYER 2: Coherent Twistor Wavepacket     │
+│  σ₁² = σ₀² |w_A^C|², σ₂² = σ₀² |w_B^C|² │ │  Ψ_splat = √G(x,y) · (w_A^C + w_B^C)     │
+│  • Tr Σ / σ₀² = |w_A^C|² + |w_B^C|²     │ │          = √G(x,y) · Δ_02^C Δ_13^C       │
+│  • (σ₁² - σ₂²)/(2σ₀²) = d_bary = β = e  │ │  • I_splat = G(x,y) |Δ_02^C Δ_13^C|²     │
+│  • det Σ / σ₀⁴ = V² = γ_φ⁻² = p/a       │ │  • Exact dark-fringe null at w_A^C=-w_B^C│
+└─────────────────────────────────────────┘ └──────────────────────────────────────────┘
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p><strong>Layer 1 — Covariance Tensor Dictionary (<code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfTensorSplat_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.gr24TensorSplat_identities</span></code>)</strong>:
+For canonical <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> twistor matrices with <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}|^2 = 1 + d_{\mathrm{bary}}\)</span> and <span class="math notranslate nohighlight">\(|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}\)</span> (<span class="math notranslate nohighlight">\(d_{\mathrm{bary}} \in (-1, 1)\)</span>), setting <span class="math notranslate nohighlight">\(\sigma_1 = \sigma_0\sqrt{1 + d_{\mathrm{bary}}}\)</span> and <span class="math notranslate nohighlight">\(\sigma_2 = \sigma_0\sqrt{1 - d_{\mathrm{bary}}}\)</span> encodes:</p>
+<div class="math notranslate nohighlight">
+\[
+   \operatorname{Tr}\Sigma = 2\sigma_0^2, \qquad \frac{\sigma_1^2 - \sigma_2^2}{2\sigma_0^2} = d_{\mathrm{bary}}, \qquad \det\Sigma = \sigma_0^4(1 - d_{\mathrm{bary}}^2) = \sigma_0^4\,\mathcal{V}^2 = \sigma_0^4\,\gamma_\varphi(v)^{-2} = \sigma_0^4\,\frac{p}{a}.
+   \]</div>
+</li>
+<li><p><strong>Layer 2 — Coherent Twistor Wavepacket &amp; Intensity (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.complexTwistor_representation_identities</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>)</strong>:
+Weighting the square-root Gaussian envelope <span class="math notranslate nohighlight">\(\sqrt{G(x,y)}\)</span> by <span class="math notranslate nohighlight">\(w_A^{\mathbb{C}}(M_{\mathbb{C}}) + w_B^{\mathbb{C}}(M_{\mathbb{C}})\)</span> yields:</p>
+<div class="math notranslate nohighlight">
+\[
+   \Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}),
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   I_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = G(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})\bigr|^2 = G(x,y)\,\Bigl(|w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 + 2\operatorname{Re}\bigl(w_A^{\mathbb{C}}\,\overline{w_B^{\mathbb{C}}}\bigr)\Bigr).
+   \]</div>
+<p>Because <span class="math notranslate nohighlight">\(\int_{\mathbb{R}^2} G(x,y)\,dx\,dy = w\)</span>, the spatially integrated intensity of the twistor splat is conserved and equals <span class="math notranslate nohighlight">\(w\,\bigl|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr|^2\)</span>, while vanishing identically at dark fringes (<span class="math notranslate nohighlight">\(w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0\)</span>).</p>
+</li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivSplatMechanicsPaperVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Coherence</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Huygens</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Scattering</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+
+<span class="c1">-- 1. Dual-layer Gr_C(2,4) twistor splat representation: crossing factorization, interference expansion, and dark-fringe null</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">splat</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">M_C</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">splat.complexTwistorWavepacket</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="bp">↑</span><span class="o">(</span><span class="n">Real.sqrt</span><span class="w"> </span><span class="o">(</span><span class="n">splat.eval</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="o">))</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="o">(</span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat.complexTwistorIntensity</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">splat.eval</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">→</span>
+<span class="w">      </span><span class="n">splat.complexTwistorIntensity</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.complexTwistor_representation_identities</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+</pre></div>
+</div>
+</section>
+<section id="what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain">
+<h3>1.4 What Doesn’t <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Cover in This Domain?<a class="headerlink" href="#what-doesnt-gr-mathbb-c-2-4-cover-in-this-domain" title="Link to this heading">¶</a></h3>
+<p>While a complex 2-plane <span class="math notranslate nohighlight">\(M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)\)</span> completely parameterizes <strong>scale-free, unitary, two-channel phase and barycentric coherence</strong>, four physical features lie strictly <strong>outside</strong> bare projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and are supplied by the paired <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> layers (detailed in <a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">grassmannian-thermal-compton-raman-paper.md</span></a>):</p>
+<ol class="arabic simple">
+<li><p><strong>Absolute Rest-Mass &amp; Klein–Nishina Recoil Scale (<span class="math notranslate nohighlight">\(m_e c^2\)</span>)</strong>: Homogeneous projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> is conformally scale-free (<span class="math notranslate nohighlight">\(M_{\mathbb{C}} \sim g M_{\mathbb{C}}\)</span>) and encodes the massless Thomson Inverse Compton Doppler upshift <span class="math notranslate nohighlight">\(\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2} = \frac{1+\beta}{1-\beta}\)</span>, but not the electron rest-mass recoil denominator <span class="math notranslate nohighlight">\(1 + \epsilon_{\mathrm{rec}}\)</span> (<code class="docutils literal notranslate"><span class="pre">inverseCompton_thomson_and_recoil_identities</span></code>), which requires an infinity twistor <span class="math notranslate nohighlight">\(I_{\alpha\beta}\)</span> or DDF cutoff <span class="math notranslate nohighlight">\((\varrho_{\max}^\varphi, j_{\min}^\varphi)\)</span>.</p></li>
+<li><p><strong>Spontaneous Vacuum Fluctuations &amp; Open-System Thermal Asymmetry</strong>: Unitary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> captures coherent 4-wave mixing (CARS/SRS) and the Stokes/anti-Stokes ratio <span class="math notranslate nohighlight">\(\frac{\omega_{AS}}{\omega_S} = \frac{1+\delta_R}{1-\delta_R}\)</span>, whereas the spontaneous thermal Boltzmann factor <span class="math notranslate nohighlight">\(\exp(-\hbar\Omega_v/(k_B T)) &lt; 1\)</span> (<code class="docutils literal notranslate"><span class="pre">raman_stokes_antiStokes_gr24_identities</span></code>) requires coupling to a Bose–Einstein phonon bath.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(N \ge 3\)</span> Multi-Phonon &amp; Multi-Aperture Cascades</strong>: A single <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> element has <span class="math notranslate nohighlight">\(\binom{4}{2} = 6\)</span> Plücker coordinates for a binary 2-channel split; <span class="math notranslate nohighlight">\(N \ge 3\)</span> slits or multi-phonon Raman overtones require lifting to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span>.</p></li>
+<li><p><strong>Irreversible Entropy Production &amp; Thermal Variance Growth</strong>: Symplectic Anosov flows preserve <span class="math notranslate nohighlight">\(\det\Sigma\)</span>, whereas diffusive entropy production requires positive thermal relaxation (<span class="math notranslate nohighlight">\(\tau_r &gt; 0\)</span>) and semigroup variance evolution <span class="math notranslate nohighlight">\(\sigma_i^2(t+\Delta t) = \sigma_i^2(t) + 2\alpha_i\Delta t\)</span> (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.evolveThermal</span></code>).</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advantages-limitations-and-justification-across-all-five-grassmannian-paper-domains">
+<h2>2. Advantages, Limitations, and Justification Across All Five <code class="docutils literal notranslate"><span class="pre">grassmannian-*-paper</span></code> Domains<a class="headerlink" href="#advantages-limitations-and-justification-across-all-five-grassmannian-paper-domains" title="Link to this heading">¶</a></h2>
+<p>The table below synthesizes the mathematical justification, computational advantages, and physical/numerical limitations of normed Tensor Gaussian Splatters across each of the five companion papers:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Companion Paper &amp; Domain</p></th>
+<th class="head"><p>How Normed Tensor Gaussian Splats Enter the Mechanics</p></th>
+<th class="head"><p>Key Mathematical &amp; Computational Advantages</p></th>
+<th class="head"><p>Explicit Limitations &amp; Required Hybrid Controls</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Double-Slit, <span class="math notranslate nohighlight">\(N\)</span>-Slit (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>), Huygens–Steiner, &amp; OAM</strong> (<a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>)</p></td>
+<td><p>Coherent twistor wavepackets <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y)\)</span> and Wigner phase-space Gaussian marginals (<code class="docutils literal notranslate"><span class="pre">wignerDoubleSlit</span></code>, <code class="docutils literal notranslate"><span class="pre">wignerOAMDoubleSlit</span></code>)</p></td>
+<td><p>• Exact analytical Wigner transform (Gaussians are the unique minimum-uncertainty states with positive Wigner distributions)<br>• Covariance determinant <span class="math notranslate nohighlight">\(\det\Sigma = \sigma_0^4(1 - d_{\mathrm{bary}}^2) = \sigma_0^4\mathcal{V}^2\)</span> encodes Qian–Izadi visibility directly<br>• Zero relative error everywhere when paired with Layer 2 twistor phase (<code class="docutils literal notranslate"><span class="pre">complexTwistorIntensity</span></code>)</p></td>
+<td><p>• <strong>Limitation 1</strong>: Real density-only splats (<span class="math notranslate nohighlight">\(G_A + G_B \ge 0\)</span>) cannot cancel at dark fringes (<span class="math notranslate nohighlight">\(50\%\)</span> unphased error) without Layer 2 complex twistor phase<br>• <strong>Limitation 2</strong>: Sharp rectangular slit edges produce <span class="math notranslate nohighlight">\(\operatorname{sinc}^2\)</span> sidelobes requiring either an explicit <span class="math notranslate nohighlight">\(\operatorname{sinc}^2\)</span> envelope or a multi-Gabor wavelet sum<br>• <strong>Limitation 3</strong>: OAM vortex cores (<span class="math notranslate nohighlight">\(\Delta\ell \neq 0\)</span>) have a central intensity null requiring Laguerre–Gaussian or ring-arranged splats</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. QISM, Algebraic Bethe Ansatz, &amp; Soliton Bus</strong> (<a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">grassmannian-qism-bethe-ansatz-paper.md</span></a>)</p></td>
+<td><p>Solitonic wavepackets in <code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>, <span class="math notranslate nohighlight">\(2 \times 2\)</span> Lax/monodromy covariance transport, and <span class="math notranslate nohighlight">\(GL(2)\)</span> basis-change updates</p></td>
+<td><p>• <span class="math notranslate nohighlight">\(GL(2)\)</span> basis changes <span class="math notranslate nohighlight">\(M \mapsto B M\)</span> (<code class="docutils literal notranslate"><span class="pre">twoRowMinor_basisChange</span></code>) act as affine matrix updates <span class="math notranslate nohighlight">\(\Sigma \mapsto B \Sigma B^T\)</span> instead of <span class="math notranslate nohighlight">\(2^N\)</span> Hilbert-space matrix multiplications<br>• Non-singular covariance (<span class="math notranslate nohighlight">\(\det\Sigma &gt; 0\)</span>) mirrors MTV Casorati Wronskian nondegeneracy (<code class="docutils literal notranslate"><span class="pre">mtv_wronskian_nondegenerate_of_root</span></code>)</p></td>
+<td><p>• <strong>Limitation 1</strong>: Exact discrete spin-chain Bethe roots (<span class="math notranslate nohighlight">\(Q_+(u_m) = 0\)</span>) and <span class="math notranslate nohighlight">\(2 \times 2\)</span> Slavnov Pauli-exclusion zeros (<code class="docutils literal notranslate"><span class="pre">slavnovDet2_pauli_exclusion</span></code>) are exact polynomial/determinant identities; Gaussian splats model continuum NLSE soliton envelopes or Husimi phase-space projections, not discrete spin-chain combinatorics</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Dilatant Dark Fluid (DDF) Moving Sheaths &amp; Anosov Flows</strong> (<a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">grassmannian-ddf-moving-sheath-paper.md</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.ddfTensorSplat</span></code> (<span class="math notranslate nohighlight">\(\sigma_1 = \sigma_0/\gamma_\varphi(v)\)</span>, <span class="math notranslate nohighlight">\(\sigma_2 = \sigma_0\)</span>) and <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.coreBohmPotential</span></code></p></td>
+<td><p>• <strong>Built-in Continuity</strong>: <span class="math notranslate nohighlight">\(L^1\)</span> normalization <span class="math notranslate nohighlight">\(w\,\mathcal{N}(\Sigma)\)</span> conserves mass/energy analytically without Poisson pressure solvers<br>• <strong>Lorentz Jamming</strong>: <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{DDF}} = \sigma_0^4\gamma_\varphi(v)^{-2}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{N}_{\mathrm{DDF}} = \frac{\gamma_\varphi(v)}{2\pi\sigma_0^2}\)</span><br>• <strong>Core Singularity Regularization</strong>: Repulsive Bohm quantum potential <span class="math notranslate nohighlight">\(Q_{\mathrm{core}}^{\mathrm{DDF}} = \frac{\hbar^2}{4m\sigma_0^2}(\gamma_\varphi(v)^2 + 1) &gt; 0\)</span> prevents cavitation/horizon blow-up<br>• <strong>Symplectic Anosov Invariance</strong>: <span class="math notranslate nohighlight">\(\operatorname{diag}(e^{\lambda t}, e^{-\lambda t})\)</span> preserves <span class="math notranslate nohighlight">\(\det\Sigma\)</span></p></td>
+<td><p>• <strong>Limitation 1</strong>: Under long-time chaotic Anosov stretching (<span class="math notranslate nohighlight">\(\lambda t \gg 1\)</span>), a single Gaussian splat becomes arbitrarily thin and elongated, requiring dynamic splat splitting/remeshing to resolve curved streamlines<br>• <strong>Limitation 2</strong>: Hard shock discontinuities (e.g. Sod shock tube in <code class="docutils literal notranslate"><span class="pre">FlowFieldDataset</span></code>) are smoothed over the scale <span class="math notranslate nohighlight">\(\sigma_1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. QED Scattering Gravity, Mercury’s Perihelion, &amp; <span class="math notranslate nohighlight">\(N\)</span>-Body Orbits</strong> (<a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">grassmannian-gravity-from-qed-scattering-paper.md</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.gr24TensorSplat</span></code> (<span class="math notranslate nohighlight">\(\sigma_{1,2} = \sigma_0\sqrt{1\pm e}\)</span>) and multi-layer <code class="docutils literal notranslate"><span class="pre">OrbitalSplatScene</span></code></p></td>
+<td><p>• Encodes the precessing Keplerian orbit in one <span class="math notranslate nohighlight">\(2 \times 2\)</span> tensor with <span class="math notranslate nohighlight">\(\operatorname{Tr}\Sigma = 2\sigma_0^2\)</span>, <span class="math notranslate nohighlight">\(\det\Sigma = \sigma_0^4(1-e^2) = \sigma_0^4(p/a)\)</span>, and orientation <span class="math notranslate nohighlight">\(\varpi(t)\)</span><br>• Softens <span class="math notranslate nohighlight">\(1/r \to \infty\)</span> close-encounter singularities in <span class="math notranslate nohighlight">\(N\)</span>-body sink-flow interactions</p></td>
+<td><p>• <strong>Limitation 1</strong>: A single Gaussian decays exponentially (<span class="math notranslate nohighlight">\(\exp(-r^2/(2\sigma^2))\)</span>), whereas Newtonian/Bernoulli gravity <span class="math notranslate nohighlight">\(\Phi_\phi(r) = -G_\phi M / r\)</span> is long-ranged (<span class="math notranslate nohighlight">\(1/r\)</span>). Long-range orbital forces require either a multi-scale Gaussian sum (<span class="math notranslate nohighlight">\(\frac{1}{r} = \frac{2}{\sqrt{\pi}}\int_0^\infty e^{-u^2 r^2}du\)</span>) or hybridizing exact <span class="math notranslate nohighlight">\(1/r\)</span> sink potentials with Gaussian field/core splats (as in <code class="docutils literal notranslate"><span class="pre">orbital_splat.frag.glsl</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Inverse Compton, Stokes/Anti-Stokes Raman, &amp; Unified Grassmannian–DDF Heat Transport</strong> (<a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">grassmannian-thermal-compton-raman-paper.md</span></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MovingSheath.inverseCompton_gr24_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">raman_stokes_antiStokes_gr24_identities</span></code>, and <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.evolveThermal</span></code></p></td>
+<td><p>• Forward/backward Plücker ratio <span class="math notranslate nohighlight">\(\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2} = \frac{\sigma_1^2}{\sigma_2^2} = \frac{1+\beta}{1-\beta}\)</span> gives exact Thomson Inverse Compton upshift &amp; Raman <span class="math notranslate nohighlight">\(\frac{\omega_{AS}}{\omega_S} = \frac{1+\delta_R}{1-\delta_R}\)</span><br>• Subluminal DDF second-sound diffusivity <span class="math notranslate nohighlight">\(\frac{\alpha_\parallel^{\mathrm{DDF}}}{\alpha_0} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \gamma_\varphi(v)^{-2}\)</span><br>• Exact <span class="math notranslate nohighlight">\(L^1\)</span>-conserving thermal splat variance update <span class="math notranslate nohighlight">\(\sigma_i^2 \mapsto \sigma_i^2 + 2\alpha_i\Delta t\)</span></p></td>
+<td><p>• <strong>Limitation 1</strong>: Parabolic Gaussian diffusion has acausal phase speed <span class="math notranslate nohighlight">\(\sqrt{2\alpha\omega} \to \infty\)</span> unless regularized by Cattaneo–Vernotte relaxation <span class="math notranslate nohighlight">\(\tau_r &gt; 0\)</span> and DDF second-sound bound <span class="math notranslate nohighlight">\(c_{\mathrm{th}}^{\mathrm{DDF}} \le c\)</span><br>• <strong>Limitation 2</strong>: Klein–Nishina recoil (<span class="math notranslate nohighlight">\(1 + \epsilon_{\mathrm{rec}}\)</span>) and spontaneous Raman Boltzmann factors (<span class="math notranslate nohighlight">\(e^{-\hbar\Omega_v/(k_B T)}\)</span>) require explicit mass/thermal bath parameters outside projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<section id="machine-checked-core-bohm-quantum-potential-madelung-quantum-pressure-tensor-corebohmpotential-identities-quantumpressuretensor-identities">
+<h3>2.1 Machine-Checked Core Bohm Quantum Potential &amp; Madelung Quantum Pressure Tensor (<code class="docutils literal notranslate"><span class="pre">coreBohmPotential_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumPressureTensor_identities</span></code>)<a class="headerlink" href="#machine-checked-core-bohm-quantum-potential-madelung-quantum-pressure-tensor-corebohmpotential-identities-quantumpressuretensor-identities" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference internal" href="#splat-chat2026"><span class="xref myst">Provenance Chat Log: Grassmannian Splat Mechanics (2026)</span></a> (lines 658–691 and 1414–1435), a central physical justification for normed tensor Gaussian splatters is that their <span class="math notranslate nohighlight">\(C^\infty\)</span> smoothness regularizes both the scalar Bohm quantum potential <span class="math notranslate nohighlight">\(Q = -\frac{\hbar^2}{2m}\frac{\nabla^2 \sqrt{\rho}}{\sqrt{\rho}}\)</span> and the <strong>Madelung Quantum Pressure Tensor</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\Pi_{ij}(x, y) = -\frac{\hbar^2}{4m^2}\,\rho(x, y)\,\partial_i \partial_j \ln \rho(x, y).
+\]</div>
+<p>For a normed Tensor Gaussian Splat <span class="math notranslate nohighlight">\(\rho(x, y) = G(x, y) = w\,\mathcal{N}(\Sigma)\,\exp\!\left(-\frac{1}{2}(\mathbf{x}-\mathbf{x}_0)^T \Sigma^{-1} (\mathbf{x}-\mathbf{x}_0)\right)\)</span>, the negative Hessian of the log-density is <strong>spatially constant everywhere</strong> and equals the <span class="math notranslate nohighlight">\(2 \times 2\)</span> precision matrix <span class="math notranslate nohighlight">\(\Sigma^{-1} = R(\theta)\operatorname{diag}(\sigma_1^{-2}, \sigma_2^{-2})R(\theta)^T\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+-\partial_i \partial_j \ln G(x, y) = (\Sigma^{-1})_{ij}
+\quad \Longrightarrow \quad
+\Pi_{ij}(x, y) = \frac{\hbar^2}{4m^2}\,G(x, y)\,(\Sigma^{-1})_{ij}.
+\]</div>
+<p>In <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>, <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.coreBohmPotential_identities</span></code> and <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.quantumPressureTensor_identities</span></code> prove:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}\right) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m\,\det\Sigma} &gt; 0, \qquad
+Q_{\mathrm{core}}^{\mathrm{DDF}}(s) = \frac{\hbar^2}{4 m \sigma_0^2}\bigl(\gamma_\varphi(v)^2 + 1\bigr),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Tr}\Pi(x, y) = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x, y) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m^2\,\det\Sigma}\,G(x, y), \qquad
+\det\Pi(x, y) = \left(\frac{\hbar^2}{4m^2}\right)^2 \frac{G(x, y)^2}{\det\Sigma},
+\]</div>
+<p>and for a DDF moving sheath (<code class="docutils literal notranslate"><span class="pre">s.ddfTensorSplat</span></code>), the longitudinal principal quantum stress exceeds the transverse quantum stress by <span class="math notranslate nohighlight">\(\gamma_\varphi(v)^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\Pi_{11}^{\mathrm{DDF}}(x, y) = \gamma_\varphi(v)^2\,\Pi_{22}^{\mathrm{DDF}}(x, y).
+\]</div>
+<p>As <span class="math notranslate nohighlight">\(v \to c\)</span>, <span class="math notranslate nohighlight">\(\gamma_\varphi(v) \to \infty\)</span> and both <span class="math notranslate nohighlight">\(Q_{\mathrm{core}}^{\mathrm{DDF}}(s)\)</span> and <span class="math notranslate nohighlight">\(\Pi_{11}^{\mathrm{DDF}}(x, y)\)</span> grow quadratically with <span class="math notranslate nohighlight">\(\gamma_\varphi(v)\)</span>, providing the exact quantum-hydrodynamic counter-pressure that prevents singular horizon or vortex-core collapse.</p>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 2. DDF MovingSheath and Gr_C(2,4) PlanetaryOrbit tensor splat covariance, core Bohm potential, and Quantum Pressure Tensor Π_ij laws</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">orb</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">PlanetaryOrbit</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">θ</span><span class="w"> </span><span class="n">ϖ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfTensorSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_orb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">orb.gr24TensorSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">ϖ</span>
+<span class="w">    </span><span class="n">splat_ddf.covDet</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_ddf.normFactor</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_ddf.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_ddf.quantumPressureTrace</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="n">splat_ddf.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">splat_ddf.eval</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_ddf.quantumPressurePrincipal1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">s.jammingFactor</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">splat_ddf.quantumPressurePrincipal2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_orb.covTrace</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_orb.covDet</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">orb.semiLatusRectum</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">orb.semiMajorAxis</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="n">splat_orb</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfTensorSplat_identities</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_bohm</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D.coreBohmPotential_identities</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_qp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D.quantumPressureTensor_identities</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_orb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">orb.gr24TensorSplat_identities</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">ϖ</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h_ddf</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_ddf</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_bohm</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_qp</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_qp</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_orb</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_orb</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="c1">-- 3. Relativistic Inverse Compton Gr_C(2,4) Plücker ratio, Raman channel inversion, and Splat-Free Continuum vs. Tensor Splat DDF thermal semigroup &amp; Bohm relaxation</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MovingSheath</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">splat</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">hc_pos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">c_th0</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hc_le</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">sub.c</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">θ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.gr24TwistorMatrix</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_th</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">evolveContinuumThermalMode</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfTensorSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_evol</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.evolveThermal</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_evol2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat_evol.evolveThermal</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.evolveThermal</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_C</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_C</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">inverseComptonDopplerRatio</span><span class="w"> </span><span class="n">s.beta</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructSpectralDiff</span><span class="w"> </span><span class="o">(</span><span class="n">ramanAntiStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ramanStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s.ddfSecondSoundSpeed</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">sub.c</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s.ddfLongitudinalDiffusivity</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_C</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_C</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_th</span><span class="o">)</span><span class="w"> </span><span class="bp">-</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_th</span><span class="o">))</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">evolveContinuumThermalMode</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">evolveContinuumThermalMode</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">continuumBohmPotentialMode</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="bp">≤</span>
+<span class="w">      </span><span class="n">continuumBohmPotentialMode</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">s.ddfLongitudinalDiffusivity</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="n">c_th0</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">splat_ddf.covDet</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol.covTrace</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.covTrace</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat_sum</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_evol.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">splat.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">M_C</span><span class="w"> </span><span class="n">M_th</span><span class="w"> </span><span class="n">kappa1</span><span class="w"> </span><span class="n">splat_ddf</span><span class="w"> </span><span class="n">splat_evol</span><span class="w"> </span><span class="n">splat_evol2</span><span class="w"> </span><span class="n">splat_sum</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ics</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.inverseCompton_gr24_identities</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ram</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">raman_stokes_antiStokes_gr24_identities</span>
+<span class="w">    </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_cont</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfThermalTransport_continuum_identities</span>
+<span class="w">    </span><span class="n">c_th0</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_cont_semi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfContinuum_semigroup_and_bohm_decay</span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">zero_div</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">zero_div</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_th</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">s.ddfThermalTransport_and_splat_identities</span>
+<span class="w">    </span><span class="n">splat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">c_th0</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hc_pos</span><span class="w"> </span><span class="n">hc_le</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_semi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay</span>
+<span class="w">    </span><span class="n">splat</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h_ics</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_ram</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_cont_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_cont_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_th</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_th</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="n">h_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h_semi</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="c1">-- 3. Adaptive two-child Tensor Gaussian Splat splitting conservation &amp; Bohm refinement</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">splat</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NormedTensorGaussianSplat2D</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">splat.splitMajorPlus.weight</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">splat.splitMajorMinus.weight</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.weight</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">splat.splitMajorPlus.centerX</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">splat.splitMajorMinus.centerX</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.centerX</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">splat.splitMajorPlus.centerY</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">splat.splitMajorMinus.centerY</span><span class="o">)</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.centerY</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat.splitMajorPlus.sigma1</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">splat.splitMajorOffset</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">splat.sigma1</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat.splitMajorPlus.covDet</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">splat.covDet</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">splat.splitMajorPlus.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">splat.splitMajor_conservation_identities</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivSplatMechanicsPaperVerification</span>
+</pre></div>
+</div>
+</section>
+<section id="adaptive-two-child-splat-splitting-conservation-splitmajor-conservation-identities-3d-to-2d-holographic-gr-mathbb-c-2-4-projection-schurplucker-inversion-free-trick-normedtensorgaussiansplat3d">
+<h3>2.5 Adaptive Two-Child Splat Splitting Conservation (<code class="docutils literal notranslate"><span class="pre">splitMajor_conservation_identities</span></code>) &amp; 3D-to-2D Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Projection / Schur–Plücker Inversion-Free Trick (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D</span></code>)<a class="headerlink" href="#adaptive-two-child-splat-splitting-conservation-splitmajor-conservation-identities-3d-to-2d-holographic-gr-mathbb-c-2-4-projection-schurplucker-inversion-free-trick-normedtensorgaussiansplat3d" title="Link to this heading">¶</a></h3>
+<p>When Anosov hyperbolic stretching (<span class="math notranslate nohighlight">\(\lambda t \gg 1\)</span>) or <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> OPA squeezing (<span class="math notranslate nohighlight">\(r_{\mathrm{sq}} \gg 1\)</span>) elongates a <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> beyond a prescribed aspect-ratio threshold, <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.splitMajorPlus</span></code> and <code class="docutils literal notranslate"><span class="pre">splitMajorMinus</span></code> (paired with <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D::split_if_anisotropic</span></code> and <code class="docutils literal notranslate"><span class="pre">OrbitalSplatScene::adaptive_remesh</span></code> in <a class="reference download internal" download="" href="_downloads/e58d11253e8426e968d4c0ab5f675aad/orbital_splat.rs"><span class="xref download myst">orbital_splat.rs</span></a>) split the parent splat along its major axis <span class="math notranslate nohighlight">\((\cos\theta, \sin\theta)\)</span> into two child splats with weights <span class="math notranslate nohighlight">\(w_\pm = w/2\)</span>, halved major width <span class="math notranslate nohighlight">\(\tilde{\sigma}_1 = \sigma_1/2\)</span>, and displacements <span class="math notranslate nohighlight">\(\pm\delta_1 = \pm\frac{\sqrt{3}}{2}\sigma_1\)</span>. Theorem <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.splitMajor_conservation_identities</span></code> proves:</p>
+<ol class="arabic simple">
+<li><p><strong>Exact <span class="math notranslate nohighlight">\(L^1(\mathbb{R}^2)\)</span> Mass Conservation</strong>: <span class="math notranslate nohighlight">\(w_+ + w_- = w\)</span>,</p></li>
+<li><p><strong>Exact Center-of-Mass Preservation</strong>: <span class="math notranslate nohighlight">\(\frac{1}{2}(x_+ + x_-) = x_c\)</span> and <span class="math notranslate nohighlight">\(\frac{1}{2}(y_+ + y_-) = y_c\)</span>,</p></li>
+<li><p><strong>Exact Major-Axis Second-Moment Variance Conservation</strong>: <span class="math notranslate nohighlight">\(\tilde{\sigma}_1^2 + \delta_1^2 = (\sigma_1/2)^2 + (\frac{\sqrt{3}}{2}\sigma_1)^2 = \sigma_1^2\)</span>,</p></li>
+<li><p><strong>Aspect-Ratio Halving &amp; Covariance Determinant Reduction</strong>: <span class="math notranslate nohighlight">\(\tilde{\sigma}_1/\tilde{\sigma}_2 = \frac{1}{2}(\sigma_1/\sigma_2)\)</span> and <span class="math notranslate nohighlight">\(\det\Sigma_+ = \frac{1}{4}\det\Sigma\)</span>,</p></li>
+<li><p><strong>Repulsive Core Bohm Potential Refinement</strong>: <span class="math notranslate nohighlight">\(Q_{\mathrm{core}}(\Sigma_+) - Q_{\mathrm{core}}(\Sigma) = \frac{3\hbar^2}{4m\sigma_1^2} &gt; 0\)</span>.</p></li>
+</ol>
+<p>Furthermore, <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D</span></code> (<code class="docutils literal notranslate"><span class="pre">splitMajor3D_and_holographic_gr24_projection_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">schur_plucker_inversion_free_and_twistor_vane_identities</span></code>, and <code class="docutils literal notranslate"><span class="pre">holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">src/signals/Signals/DDF.lean</span></a>; see the dedicated companion treatises <a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">gaussian-splat-tensors-normed-paper.md</span></a> and <a class="reference internal" href="grassmannian-holographic-imaging-depth-recovery-paper.html"><span class="std std-doc">grassmannian-holographic-imaging-depth-recovery-paper.md</span></a>) formalizes all <strong>10 simultaneous 3D conservation and holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> projection laws</strong>, together with the <strong>inversion-free Schur–Plücker bypass</strong> of <span class="math notranslate nohighlight">\(4 \times 4\)</span> Jacobian matrix algebra (<a class="reference internal" href="chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.html#L2384-L2394"><span class="std std-ref">LBGPC-Fluid-Datacenter-Energy-Savings.myst.md</span></a>):</p>
+<ol class="arabic simple">
+<li><p><strong>3D <span class="math notranslate nohighlight">\(L^1(\mathbb{R}^3)\)</span> Mass Conservation</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5480</span></a>): <span class="math notranslate nohighlight">\(w_+ + w_- = w\)</span>.</p></li>
+<li><p><strong>3D Center-of-Mass Vector Preservation</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.1</span></code>–<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5481-L5483</span></a>): <span class="math notranslate nohighlight">\(\frac{1}{2}(\mathbf{x}_+ + \mathbf{x}_-) = \mathbf{x}_c\)</span>.</p></li>
+<li><p><strong>3D Spherical-Harmonic <span class="math notranslate nohighlight">\((\theta, \psi)\)</span> Major-Axis Variance Conservation</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5484-L5487</span></a>): <span class="math notranslate nohighlight">\((x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2\)</span>.</p></li>
+<li><p><strong>3D Covariance Volume Quartering</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5488</span></a>): <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{3D},+} = \frac{1}{4}\det\Sigma_{\mathrm{3D}}\)</span>.</p></li>
+<li><p><strong>Dimension-Independent Core Bohm Refinement Increment &amp; Strict Amplification</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.2.1</span></code>–<code class="docutils literal notranslate"><span class="pre">.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5489-L5491</span></a>): <span class="math notranslate nohighlight">\(Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D},+}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{3\hbar^2}{4m\sigma_1^2} &gt; 0\)</span>.</p></li>
+<li><p><strong>Holographic 3D-to-2D Additive Core Bohm Mode Decomposition</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.2.2.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5492-L5494</span></a>): <span class="math notranslate nohighlight">\(Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \operatorname{continuumBohmPotentialMode}(m, \hbar, \frac{1}{\sqrt{2}\sigma_3})\)</span>.</p></li>
+<li><p><strong>Perspective / Poincaré AdS Bulk-to-Boundary Covariance &amp; Bohm RG Scaling</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.2.2.2.2.1</span></code>–<code class="docutils literal notranslate"><span class="pre">.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5495-L5497</span></a>): <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{2D}}^{\mathrm{persp}} = (f/z_c)^4(\det\Sigma_{\mathrm{3D}}/\sigma_3^2)\)</span> and <span class="math notranslate nohighlight">\(Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}}) = (z_c/f)^2 Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})\)</span>.</p></li>
+<li><p><strong>Strict Depth-Invariance of Projective <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Lateral Anisotropy</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.2.2.2.2.2.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5498-L5501</span></a>): <span class="math notranslate nohighlight">\(\frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2}\)</span>.</p></li>
+<li><p><strong>Exact Commutativity of In-Plane (<span class="math notranslate nohighlight">\(\psi = 0\)</span>) 3D Splitting and 2D Projection</strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.2.2.2.2.2.2.2.1</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5502-L5503</span></a>): <span class="math notranslate nohighlight">\(\psi = 0 \implies (\text{splat}.\mathrm{splitMajorPlus}).\mathrm{projectOrthographic2D} = (\text{splat}.\mathrm{projectOrthographic2D}).\mathrm{splitMajorPlus}\)</span>.</p></li>
+<li><p><strong>Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channel Recovery of the 3rd Principal Variance <span class="math notranslate nohighlight">\(\sigma_3^2\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">h3d.2.2.2.2.2.2.2.2.2.2.2.2.2.1</span></code>–<code class="docutils literal notranslate"><span class="pre">.2.2</span></code>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5504-L5509</span></a>, inverted in <code class="docutils literal notranslate"><span class="pre">recoverDepthVarianceSq</span></code> at <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5867-L5972</span></a>): <span class="math notranslate nohighlight">\(\delta_{\mathrm{depth}} = \frac{\sigma_1^2 + \sigma_2^2 - \sigma_3^2}{\sigma_1^2 + \sigma_2^2 + \sigma_3^2} \in (-1, 1)\)</span> and <span class="math notranslate nohighlight">\(\frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}\)</span>, allowing WebGL2 (<code class="docutils literal notranslate"><span class="pre">orbital_splat.frag.glsl</span></code>) and 2D holographic sensors to reconstruct 3D splats from 2D screen splats!</p></li>
+</ol>
+<ul>
+<li><p><strong>Why Plücker / Twistor Minor Algebra Is More Efficient Than <span class="math notranslate nohighlight">\(4 \times 4\)</span> Jacobians + Schur Pseudo-Inverses (<code class="docutils literal notranslate"><span class="pre">schur_plucker_inversion_free_and_twistor_vane_identities</span></code> at <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean#L5744-L5860</span></a>)</strong>:</p>
+<ul>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">TensorCFDSolver</span></code> (<a class="reference internal" href="chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.html#L2299-L2348"><span class="std std-ref">LBGPC-Fluid-Datacenter-Energy-Savings.myst.md</span></a>), updating <span class="math notranslate nohighlight">\(\Sigma' = J(s,\tau)\Sigma J(s,\tau)^T\)</span> and evaluating the Schur complement <span class="math notranslate nohighlight">\(\Sigma_{\mathrm{3D}} = A - B D^{-1} C\)</span> requires <span class="math notranslate nohighlight">\(4 \times 4\)</span> matrix multiplications and a matrix pseudo-inverse <code class="docutils literal notranslate"><span class="pre">pinv(D)</span></code> per particle per frame.</p></li>
+<li><p>By the <strong>Schur determinant identity</strong>, <span class="math notranslate nohighlight">\(\det(\Sigma_{4\times 4}) = D_{33}\,\det(\Sigma_{\mathrm{3D}})\)</span> where <span class="math notranslate nohighlight">\(\det J(s,\tau) = 1 - \tau^2\)</span> and <span class="math notranslate nohighlight">\(D_{33} = 1 + \tau^2\)</span>, so the exact 3D Schur-complement volume is given in <span class="math notranslate nohighlight">\(O(1)\)</span> inversion-free closed form by the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel product <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_\tau)|^2|w_B^{\mathbb{C}}(M_\tau)|^2 = 1 - \tau^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+    \det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2} = \frac{\bigl(|w_A^{\mathbb{C}}(M_\tau)|^2\,|w_B^{\mathbb{C}}(M_\tau)|^2\bigr)^2}{1 + \tau^2}.
+    \]</div>
+</li>
+<li><p>Our theorem also identifies and fixes a sign/triangularity bug in the chat’s <code class="docutils literal notranslate"><span class="pre">AmplituhedronFluidSplat</span></code> (<code class="docutils literal notranslate"><span class="pre">chatAmplituhedronTwistorMatrix</span></code> has upper-triangular determinant <span class="math notranslate nohighlight">\(1 + s\tau\)</span>, which increases with turbulence <span class="math notranslate nohighlight">\(\tau &gt; 0\)</span>, whereas <code class="docutils literal notranslate"><span class="pre">correctedTwistorShearMatrix</span></code> and <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channels give <span class="math notranslate nohighlight">\(1 - \tau^2 \in (0, 1)\)</span>, strictly favoring vortical vanes <span class="math notranslate nohighlight">\(\tau = 0\)</span>).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="practical-browser-execution-why-rust-to-wasm-webgl2-glsl-wins-today-vs-webgpu-webnn-and-webtpu">
+<h2>3. Practical Browser Execution: Why Rust <span class="math notranslate nohighlight">\(\to\)</span> WASM + WebGL2 GLSL Wins Today (vs. WebGPU, WebNN, and WebTPU)<a class="headerlink" href="#practical-browser-execution-why-rust-to-wasm-webgl2-glsl-wins-today-vs-webgpu-webnn-and-webtpu" title="Link to this heading">¶</a></h2>
+<p>A decisive practical benefit of formulating <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, DDF, and <span class="math notranslate nohighlight">\(N\)</span>-body orbital mechanics in terms of <strong>normed 2D/3D anisotropic Tensor Gaussian Splatters</strong> is that per-step dynamical evolution reduces to low-dimensional <span class="math notranslate nohighlight">\(2 \times 2\)</span> or <span class="math notranslate nohighlight">\(3 \times 3\)</span> matrix algebra in <strong>Rust + WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>)</strong>, while spatial field evaluation reduces to embarrassingly parallel Mahalanobis quadratic forms in <strong>WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>)</strong>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Browser Target / API</p></th>
+<th class="head"><p>Browser &amp; OS Availability (2026)</p></th>
+<th class="head"><p>Precision &amp; Kernel Expressiveness</p></th>
+<th class="head"><p>Suitability for <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; DDF Tensor Splat Mechanics</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Rust <span class="math notranslate nohighlight">\(\to\)</span> WASM (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) + WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>)</strong> (<a class="reference download internal" download="" href="_downloads/5cf1d712e3faba8bc10c2f2fe1cdb5bb/double_slit.frag.glsl"><span class="xref download myst">double_slit.frag.glsl</span></a>, <a class="reference download internal" download="" href="_downloads/9c0743071d654c897d20afff6aefe7dc/orbital_splat.frag.glsl"><span class="xref download myst">orbital_splat.frag.glsl</span></a>)</p></td>
+<td><p><strong>Ubiquitous (<span class="math notranslate nohighlight">\(\sim 98\%+\)</span>)</strong> across desktop, mobile (iOS/Android), Linux containers, and headless CI (Playwright SwiftShader / Lavapipe)</p></td>
+<td><p><strong>WASM</strong>: IEEE-754 <code class="docutils literal notranslate"><span class="pre">f64</span></code> for symplectic Velocity-Verlet, Kepler/precession, and complex Plücker minors<br><strong>WebGL2 GLSL</strong>: <code class="docutils literal notranslate"><span class="pre">highp</span> <span class="pre">float</span></code> (<code class="docutils literal notranslate"><span class="pre">f32</span></code>) with native <code class="docutils literal notranslate"><span class="pre">vec2</span></code>/<code class="docutils literal notranslate"><span class="pre">vec4</span></code>, <code class="docutils literal notranslate"><span class="pre">mat2</span></code>, <code class="docutils literal notranslate"><span class="pre">cos</span></code>, <code class="docutils literal notranslate"><span class="pre">sin</span></code>, <code class="docutils literal notranslate"><span class="pre">exp</span></code> per fragment</p></td>
+<td><p><strong>Optimal &amp; Deployed</strong>: WASM updates the compact splat array (<code class="docutils literal notranslate"><span class="pre">u_splat_center_weight_role</span></code>, <code class="docutils literal notranslate"><span class="pre">u_splat_sigma_angle_norm</span></code>) in microseconds; WebGL2 evaluates all splats per pixel at <span class="math notranslate nohighlight">\(60\text{–}120\text{ FPS}\)</span> with zero external runtime dependencies</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. WebGPU (WGSL Compute &amp; Render Shaders)</strong></p></td>
+<td><p><strong>Partial (<span class="math notranslate nohighlight">\(\sim 65\text{–}75\%\)</span>)</strong>; often disabled or unavailable on Linux browsers, older mobile GPUs, enterprise policies, and unprivileged Docker/Podman CI without Vulkan/Metal passthrough</p></td>
+<td><p>Supports general-purpose compute shaders and storage buffers (<code class="docutils literal notranslate"><span class="pre">f32</span></code>/<code class="docutils literal notranslate"><span class="pre">f16</span></code>, optional <code class="docutils literal notranslate"><span class="pre">f64</span></code> extension rarely exposed)</p></td>
+<td><p><strong>Future Optional Backend</strong>: Useful when millions of 3D splats require GPU radix sorting, but unnecessary for analytic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> / DDF tensor splats and breaks fallback-free portability</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. WebNN (W3C Web Neural Network API)</strong></p></td>
+<td><p><strong>Experimental / Hardware-Gated</strong>; varies across OS NPU drivers (DirectML, CoreML, XNNPACK)</p></td>
+<td><p>Fixed operator graph (<code class="docutils literal notranslate"><span class="pre">conv2d</span></code>, <code class="docutils literal notranslate"><span class="pre">matmul</span></code>, <code class="docutils literal notranslate"><span class="pre">softmax</span></code> in <code class="docutils literal notranslate"><span class="pre">f16</span></code>/<code class="docutils literal notranslate"><span class="pre">int8</span></code>); <strong>no custom transcendental shaders</strong>, no complex Plücker determinants, no <code class="docutils literal notranslate"><span class="pre">f64</span></code> symplectic ODE integrators</p></td>
+<td><p><strong>Unsuitable for Primary Physics</strong>: Expressing Mahalanobis splat evaluation or Velocity-Verlet orbital integration as a static ONNX/WebNN graph incurs severe memory-bandwidth and quantization overhead</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. “WebTPU” (Hypothetical Browser TPU API)</strong></p></td>
+<td><p><strong>Does Not Exist (<span class="math notranslate nohighlight">\(0\%\)</span>)</strong>; no W3C standard exposes raw systolic-array TPU/NPU instructions to browser sandboxes</p></td>
+<td><p>N/A — client NPUs/TPUs are fixed-function low-precision (<code class="docutils literal notranslate"><span class="pre">int4</span></code>/<code class="docutils literal notranslate"><span class="pre">int8</span></code>/<code class="docutils literal notranslate"><span class="pre">bf16</span></code>) matrix engines behind OS-specific ML runtimes</p></td>
+<td><p><strong>Non-Existent in Browsers</strong>: Even on devices with neural accelerators, custom scientific PDE and tensor-splat kernels execute far more portably and accurately on WebGL2 fragment pipelines + WASM</p></td>
+</tr>
+</tbody>
+</table>
+<section id="how-the-hybrid-rust-wasm-f64-webgl2-glsl-f32-pipeline-splits-the-workload">
+<h3>3.1 How the Hybrid Rust/WASM (<code class="docutils literal notranslate"><span class="pre">f64</span></code>) + WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">f32</span></code>) Pipeline Splits the Workload<a class="headerlink" href="#how-the-hybrid-rust-wasm-f64-webgl2-glsl-f32-pipeline-splits-the-workload" title="Link to this heading">¶</a></h3>
+<p>In <a class="reference download internal" download="" href="_downloads/e58d11253e8426e968d4c0ab5f675aad/orbital_splat.rs"><span class="xref download myst">src/signals/numerical_adapter/src/orbital_splat.rs</span></a> and <a class="reference download internal" download="" href="_downloads/f8f9cf2c6d8e8eb55e7c467f18040797/double_slit.rs"><span class="xref download myst">src/signals/numerical_adapter/src/double_slit.rs</span></a>:</p>
+<ol class="arabic simple">
+<li><p><strong>CPU / WASM (<code class="docutils literal notranslate"><span class="pre">f64</span></code> Exact Invariant Layer)</strong>:</p>
+<ul class="simple">
+<li><p>Integrates the symplectic Velocity-Verlet trajectory (<code class="docutils literal notranslate"><span class="pre">RelativisticOrbitState::step_velocity_verlet</span></code>), where <code class="docutils literal notranslate"><span class="pre">f64</span></code> precision is essential to prevent secular drift in specific angular momentum <span class="math notranslate nohighlight">\(h\)</span> and mechanical energy <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> over thousands of orbits, and to resolve Mercury’s <span class="math notranslate nohighlight">\(42.98''/\text{century}\)</span> (<span class="math notranslate nohighlight">\(\Delta\varpi \approx 5.02 \times 10^{-7}\text{ rad/orbit}\)</span>) precession.</p></li>
+<li><p>Evaluates the exact <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Plücker minors (<code class="docutils literal notranslate"><span class="pre">Gr24OrbitalInvariants::evaluate</span></code>, <code class="docutils literal notranslate"><span class="pre">nbody_bernoulli_potential_gr2n</span></code>) and packs each <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D</span></code> into two <code class="docutils literal notranslate"><span class="pre">vec4</span></code> uniform slots via <code class="docutils literal notranslate"><span class="pre">to_glsl_uniform_pair()</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">u_splat_center_weight_role[i]</span> <span class="pre">=</span> <span class="pre">vec4(center_x,</span> <span class="pre">center_y,</span> <span class="pre">weight,</span> <span class="pre">float(role))</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">u_splat_sigma_angle_norm[i]</span> <span class="pre">=</span> <span class="pre">vec4(sigma1,</span> <span class="pre">sigma2,</span> <span class="pre">orientation_angle,</span> <span class="pre">norm_factor)</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>GPU / WebGL2 Fragment Shader (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code> Parallel Field Layer)</strong>:</p>
+<ul class="simple">
+<li><p>In <a class="reference download internal" download="" href="_downloads/9c0743071d654c897d20afff6aefe7dc/orbital_splat.frag.glsl"><span class="xref download myst">orbital_splat.frag.glsl</span></a>, each pixel <span class="math notranslate nohighlight">\((x, y)\)</span> evaluates <code class="docutils literal notranslate"><span class="pre">evaluate_normed_tensor_splat</span></code> in 12 floating-point operations (one 2D rotation, two divisions, two squarings, one <code class="docutils literal notranslate"><span class="pre">exp</span></code>), accumulating four physically distinct channels in a single pass:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplatRole::BodySinkSource</span> <span class="pre">(0)</span></code>: Central solar sink and planetary attractors/sources,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplatRole::Gr24OrbitalField</span> <span class="pre">(1)</span></code>: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> orbital covariance splats (<span class="math notranslate nohighlight">\(\sigma_{1,2} = \sigma_0\sqrt{1\pm e}\)</span>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplatRole::DdfMovingSheathField</span> <span class="pre">(2)</span></code>: DDF shear-jammed moving-sheath splats (<span class="math notranslate nohighlight">\(\sigma_1 = \sigma_0 / \gamma_\varphi(v)\)</span>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplatRole::VortexSwirlField</span> <span class="pre">(3)</span></code>: Gravitomagnetic Kerr–Lense–Thirring vortex swirl splats.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusion-reproducibility">
+<h2>4. Conclusion &amp; Reproducibility<a class="headerlink" href="#conclusion-reproducibility" title="Link to this heading">¶</a></h2>
+<p>Normed anisotropic Tensor Gaussian Splatters provide a mathematically verified, conservation-preserving bridge between abstract Grassmannian twistor geometry (<span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span>) and continuum quantum-hydrodynamic / orbital simulations (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>). By pairing the covariance tensor <span class="math notranslate nohighlight">\(\Sigma\)</span> (<span class="math notranslate nohighlight">\(\det\Sigma = \sigma_0^4 \mathcal{V}^2 = \sigma_0^4 \gamma_\varphi(v)^{-2} = \sigma_0^4 (p/a)\)</span>) with the complex Plücker wavepacket <span class="math notranslate nohighlight">\(\Psi_{\mathrm{splat}} = \sqrt{G}\,\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\)</span> and executing the pipeline in Rust/WASM (<code class="docutils literal notranslate"><span class="pre">f64</span></code>) + WebGL2 GLSL (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>), the entire framework runs with machine-checked mathematical rigor and universal browser compatibility.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>signals_build
+<span class="nb">pushd</span><span class="w"> </span>src/signals
+lake<span class="w"> </span>build<span class="w"> </span>:blueprint<span class="w"> </span>:blueprintJson
+<span class="nb">pushd</span><span class="w"> </span>numerical_adapter
+cargo<span class="w"> </span><span class="nb">test</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--lib<span class="w"> </span>--target<span class="w"> </span>wasm32-unknown-unknown<span class="w"> </span>--release
+<span class="nb">popd</span>
+<span class="nb">popd</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="splat-qian2023"></a></p>
+<ol class="arabic simple">
+<li><p>Qian, X.-F., and Izadi, M. (2023). <em>Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation</em>. Physical Review Research 5(3), 033110. <a class="reference external" href="https://doi.org/10.1103/PhysRevResearch.5.033110">DOI: 10.1103/PhysRevResearch.5.033110</a>.</p></li>
+</ol>
+<p><a id="splat-arkani2014"></a>
+2. Arkani-Hamed, N., and Trnka, J. (2014). <em>The Amplituhedron</em>. Journal of High Energy Physics 2014(10), 030. <a class="reference external" href="https://doi.org/10.1007/JHEP10%282014%29030">DOI: 10.1007/JHEP10(2014)030</a>; <a class="reference external" href="https://arxiv.org/abs/1312.2007">arXiv:1312.2007</a>.</p>
+<p><a id="splat-fedi2026"></a>
+3. Fedi, M. (2026). <em>Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology</em>. SSRN Preprint 7406660. <a class="reference external" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660">Preprint page</a>; <a class="reference external" href="https://doi.org/10.2139/ssrn.7406660">SSRN DOI</a>.</p>
+<p><a id="splat-partanen2025"></a>
+4. Partanen, M., and Tulkki, J. (2025). <em>Gravity Generated by Four One-Dimensional Unitary Gauge Symmetries and the Standard Model</em>. Reports on Progress in Physics 88, 057802; <a class="reference external" href="https://arxiv.org/abs/2506.14447">arXiv:2506.14447</a>.</p>
+<p><a id="splat-chat2026"></a>
+5. Provenance Chat Log (2026). <em>Grassmannian Splat Mechanics and Vortex Space Emergence</em>. (<a class="reference download internal" download="" href="_downloads/14adb2fa1fe33351e119a7ec282c515d/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Grassmannian</span> <span class="pre">Splat</span> <span class="pre">Mechanics</span> <span class="pre">and</span> <span class="pre">Vortex</span> <span class="pre">Space</span> <span class="pre">Emergence.md,</span> <span class="pre">lines</span> <span class="pre">1395-1558</span></code></a>).</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">qian2023bridging</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Qian, Xiao-Feng and Izadi, Misagh}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Physical Review Research}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{5}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{3}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{033110}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2023}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1103/PhysRevResearch.5.033110}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1103/PhysRevResearch.5.033110}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">fedi2026ddf</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Fedi, Marco}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Electronic Journal}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{SSRN Preprint 7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.2139/ssrn.7406660}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_grassmannian_splat_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{{Unknown}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Grassmannian Splat Mechanics and Vortex Space Emergence}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 1395-1558}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Normed Tensor Gaussian Splat Mechanics for Complex Gr_C(2,4) Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-24"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Normed Tensor Gaussian Splatting"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian Gr_C(2,4)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Twistor Geometry"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Dilatant Dark Fluid"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"WebGL2 GLSL"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"WebAssembly"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-huygens-double-slit-oam-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-qism-bethe-ansatz-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-ddf-moving-sheath-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-gravity-from-qed-scattering-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/orbital_splat.rs"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-gravity-from-qed-scattering-paper.html" title="Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex \(Gr_{\mathbb{C}}(2,4)\) Orbital Precession, Mercury’s Perihelion, \(N\)-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-thermal-compton-raman-paper.html" title="Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

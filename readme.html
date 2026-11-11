@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>README &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Process Schema" href="schema.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">README</a></li>
+<li><a class="reference internal" href="#sustainable-factory">Sustainable Factory</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#research-and-evidence-workflow">Research and Evidence Workflow</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#cli-reference-sfcli">CLI Reference (<code class="docutils literal notranslate"><span class="pre">sfcli</span></code>)</a></li>
+<li><a class="reference internal" href="#search-indexing-docindex">Search Indexing (<code class="docutils literal notranslate"><span class="pre">docindex</span></code>)</a></li>
+<li><a class="reference internal" href="#directory-structure">Directory Structure</a></li>
+<li><a class="reference internal" href="#development-tasks">Development Tasks</a></li>
+<li><a class="reference internal" href="#formal-verification-simulation-src-signals">Formal Verification &amp; Simulation (<code class="docutils literal notranslate"><span class="pre">src/signals/</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="schema.html" title="Process Schema" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/readme.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">README</a></li>
+<li><a class="reference internal" href="#sustainable-factory">Sustainable Factory</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#research-and-evidence-workflow">Research and Evidence Workflow</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#cli-reference-sfcli">CLI Reference (<code class="docutils literal notranslate"><span class="pre">sfcli</span></code>)</a></li>
+<li><a class="reference internal" href="#search-indexing-docindex">Search Indexing (<code class="docutils literal notranslate"><span class="pre">docindex</span></code>)</a></li>
+<li><a class="reference internal" href="#directory-structure">Directory Structure</a></li>
+<li><a class="reference internal" href="#development-tasks">Development Tasks</a></li>
+<li><a class="reference internal" href="#formal-verification-simulation-src-signals">Formal Verification &amp; Simulation (<code class="docutils literal notranslate"><span class="pre">src/signals/</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="schema.html"
+                          title="next chapter">Process Schema</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="readme">
+<span id="index-0"></span><span id="id1"></span><h1>README<a class="headerlink" href="#readme" title="Link to this heading">¶</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="sustainable-factory">
+<h1>Sustainable Factory<a class="headerlink" href="#sustainable-factory" title="Link to this heading">¶</a></h1>
+<p>Modeling sustainable factory processes with Linked Data and MyST Markdown.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>This project parses industrial process descriptions (stored as MyST Markdown and JSON chat exports) and converts them into a structured graph linked data representation using the <a class="reference external" href="https://spec.industrialontologies.org/">Industrial Ontologies Foundry (IOF)</a> core schema.</p>
+</section>
+<section id="research-and-evidence-workflow">
+<h2>Research and Evidence Workflow<a class="headerlink" href="#research-and-evidence-workflow" title="Link to this heading">¶</a></h2>
+<p>Chat-derived physics and engineering work follows an explicit evidence
+boundary. Use the <a class="reference internal" href="#.agents/skills/research-evidence-triage/SKILL.md"><span class="xref myst">research evidence triage skill</span></a>
+to search and cite source chats, then use the <a class="reference internal" href="#.agents/skills/signals-evidence-modeling/SKILL.md"><span class="xref myst">Signals evidence modeling skill</span></a>
+to decide whether a result belongs in verified Lean Signals, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>,
+the process/RDF catalog, or an exclusions list. The <a class="reference internal" href="#docs/chat-physics-catalog.md"><span class="xref myst">chat physics catalog</span></a>
+shows the current applications, processes, products, evidence status, and
+recommended model updates. See <a class="reference internal" href="#AGENTS.md"><span class="xref myst">AGENTS.md</span></a> for project-wide
+boundaries and validation commands.</p>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>MyST Markdown &amp; JSON Parser</strong>: Extracts process steps, properties, equipment, materials, cost figures, metrics, and source citations.</p></li>
+<li><p><strong>Linked Data</strong></p>
+<ul>
+<li><p>RDFS</p></li>
+<li><p>ValueFlows (VF), Industrial Ontologies Foundry (IOF),
+Elementary Multiperspective Material Ontology (EMMO)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">schematool</span></code> (<code class="docutils literal notranslate"><span class="pre">src/schematool</span></code>) generates a directory of precedent RDFS schema in <code class="docutils literal notranslate"><span class="pre">schema/</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Mermaid Integration</strong>: Visualizes process flows directly from documentation.</p></li>
+<li><p><strong>Sphinx Documentation</strong>: High-quality HTML output with integrated diagrams.</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Prerequisites: Python 3.11+.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install the package and its dependencies in editable mode</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="cli-reference-sfcli">
+<h2>CLI Reference (<code class="docutils literal notranslate"><span class="pre">sfcli</span></code>)<a class="headerlink" href="#cli-reference-sfcli" title="Link to this heading">¶</a></h2>
+<p>The project provides the <code class="docutils literal notranslate"><span class="pre">sfcli</span></code> tool line for data extraction and conversion:</p>
+<ul>
+<li><p><strong>Parse a file</strong>: Read a Markdown or JSON file to verify parsed processes to the console.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sfcli<span class="w"> </span>parse<span class="w"> </span>&lt;input_file&gt;
+</pre></div>
+</div>
+</li>
+<li><p><strong>Export to RDF</strong>: Parse a file and export the output as a <code class="docutils literal notranslate"><span class="pre">.ttl</span></code> script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sfcli<span class="w"> </span>export_rdf<span class="w"> </span>&lt;input_file&gt;<span class="w"> </span>--output<span class="w"> </span>process_data.ttl
+</pre></div>
+</div>
+</li>
+<li><p><strong>Batch Export</strong>: Batch process an entire directory of MyST and JSON files into a consolidated graph representation.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sfcli<span class="w"> </span>batch_export<span class="w"> </span>data/chats/<span class="w"> </span>--output<span class="w"> </span>all_processes.ttl
+</pre></div>
+</div>
+</li>
+<li><p><strong>Info</strong>: Display package version information.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sfcli<span class="w"> </span>info
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="search-indexing-docindex">
+<h2>Search Indexing (<code class="docutils literal notranslate"><span class="pre">docindex</span></code>)<a class="headerlink" href="#search-indexing-docindex" title="Link to this heading">¶</a></h2>
+<p>The project includes an indexer and search library (<code class="docutils literal notranslate"><span class="pre">docindex</span></code>) under <code class="docutils literal notranslate"><span class="pre">src/</span></code> to index sphinx documentation and chat logs:</p>
+<ul class="simple">
+<li><p><strong>Default backend</strong>: <code class="docutils literal notranslate"><span class="pre">oxirs</span></code> (RDF/SPARQL using <code class="docutils literal notranslate"><span class="pre">pyoxigraph</span></code> store).</p></li>
+<li><p><strong>Supported backends</strong>: <code class="docutils literal notranslate"><span class="pre">oxirs</span></code>, <code class="docutils literal notranslate"><span class="pre">milli</span></code> (Meilisearch).</p></li>
+<li><p><strong>Multi-backend</strong>: Index to both backends simultaneously using <code class="docutils literal notranslate"><span class="pre">--backend</span> <span class="pre">oxirs,milli</span></code>.</p></li>
+</ul>
+<p>Usage examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Index chats using default OxiRS backend</span>
+docindex<span class="w"> </span>index-chats<span class="w"> </span>--source<span class="w"> </span>data/chats/
+
+<span class="c1"># Index Sphinx HTML atomically</span>
+docindex<span class="w"> </span>index-html<span class="w"> </span>--source<span class="w"> </span>docs/_build/html<span class="w"> </span>--backend<span class="w"> </span>oxirs,milli
+</pre></div>
+</div>
+</section>
+<section id="directory-structure">
+<h2>Directory Structure<a class="headerlink" href="#directory-structure" title="Link to this heading">¶</a></h2>
+<p>Here is a brief overview of the top-level directories in this workspace:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">data/</span></code></strong>: Raw input data, including interactive chat exports (Markdown and JSON) describing sustainable processes.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">docs/</span></code></strong>: Sphinx documentation source files, configuration, and generated HTML builds.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">schema/</span></code></strong>: Foundational Industrial Ontologies Foundry (IOF) RDF schemas, ontologies, and the core <code class="docutils literal notranslate"><span class="pre">sustainable-factory.ttl</span></code> schema.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">src/</span></code></strong>: Supplementary source code utilities like <code class="docutils literal notranslate"><span class="pre">schematool</span></code> and <code class="docutils literal notranslate"><span class="pre">transform_md</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">sustainablefactory/</span></code></strong>: The core Python package providing parsing logic, knowledge graph generation, and RDF extraction features.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tests/</span></code></strong>: Unit testing suite using <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tools/</span></code></strong>: Standalone helper scripts, such as data aggregation utilities and RDF-to-Mermaid conversions.</p></li>
+</ul>
+</section>
+<section id="development-tasks">
+<h2>Development Tasks<a class="headerlink" href="#development-tasks" title="Link to this heading">¶</a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> is included to streamline common tasks:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> / <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">pytest</span></code>: Run unit tests and generate a coverage report.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">build</span></code>: Perform full pipeline generation (aggregates data, transforms markdown to docs, and builds HTML pages).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docs</span></code>: Builds HTML documentation using Sphinx and MyST-parser.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">aggregate_data</span></code>: Runs data aggregation tools to process technical features.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">serve</span></code>: Serves the documentation using a local Python HTTP server.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>: Builds the Lean 4 <code class="docutils literal notranslate"><span class="pre">Signals</span></code>, <code class="docutils literal notranslate"><span class="pre">SignalsTests</span></code>, <code class="docutils literal notranslate"><span class="pre">SignalsPending</span></code>, and <code class="docutils literal notranslate"><span class="pre">SignalsPendingTests</span></code> targets in <a class="reference internal" href="#src/signals/README.md"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/signals/</span></code></span></a>.</p></li>
+</ul>
+</section>
+<section id="formal-verification-simulation-src-signals">
+<h2>Formal Verification &amp; Simulation (<code class="docutils literal notranslate"><span class="pre">src/signals/</span></code>)<a class="headerlink" href="#formal-verification-simulation-src-signals" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="#src/signals/README.md"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/signals/</span></code></span></a> package and its companion Rust/WASM/WebGL2 crate <a class="reference internal" href="#src/signals/numerical_adapter/"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/</span></code></span></a> formalize and test our unified <strong>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,N+2)\)</span></strong> and <strong>Dilatant Dark Fluid (DDF)</strong> mechanics (both without splats and with Normed 2D/3D Anisotropic Tensor Gaussian Splats) across forty-three companion papers in <a class="reference internal" href="#docs/"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">docs/</span></code></span></a>. Reported error scores are listed below; “not reported” means the roadmap gives no numerical error score for that paper:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#docs/grassmannian-huygens-double-slit-oam-paper.md"><span class="xref myst">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00% relative error for the complex phase-locked models; positive-real baseline: 50% on-axis and 100% at dark fringes.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-qism-bethe-ansatz-paper.md"><span class="xref myst">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> Zero residual for valid 3-point Casorati-Wronskian solutions; no empirical prediction-error metric is reported.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-ddf-moving-sheath-paper.md"><span class="xref myst">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0% for the complex Grassmannian crossing model; positive-real baseline: 50% on-axis and 100% at dark fringes.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-gravity-from-qed-scattering-paper.md"><span class="xref myst">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00% for revised Turner 1PN and 2.5PN models in the stated solar-system and sub-critical regimes; strong-field corrections are conditional.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-splat-mechanics-paper.md"><span class="xref myst">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No aggregate numerical error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-thermal-compton-raman-paper.md"><span class="xref myst">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-polariton-spp-mechanics-paper.md"><span class="xref myst">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-holographic-principle-paper.md"><span class="xref myst">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-ads-cft-ddf-paper.md"><span class="xref myst">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/gaussian-splat-tensors-normed-paper.md"><span class="xref myst">Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications</span></a> (<a class="reference internal" href="#src/signals/docs/gaussian-splat-tensors-normed-paper.md"><span class="xref myst">src/signals/docs/gaussian-splat-tensors-normed-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No aggregate numerical error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-holographic-imaging-depth-recovery-paper.md"><span class="xref myst">Holographic <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-vectorial-longitudinal-polarization-paper.md"><span class="xref myst">3D Vectorial Wave Model for Longitudinal Polarization (<span class="math notranslate nohighlight">\(E_z\)</span>) and Higher-Rank <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-enz-hyperbolic-metamaterials-paper.md"><span class="xref myst">Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: <code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code> Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA <span class="math notranslate nohighlight">\(p\text{-}^{11}\text{B}\)</span> / <span class="math notranslate nohighlight">\(s\text{CO}_2\)</span> Power Ledgers in Lean 4</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md"><span class="xref myst">Holographic <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (<code class="docutils literal notranslate"><span class="pre">CVA6</span></code>, <code class="docutils literal notranslate"><span class="pre">CHERI-CVA6</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Ibex</span></code>), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md"><span class="xref myst">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Mechanics</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-hawking-radiation-decoding-paper.md"><span class="xref myst">Hawking Radiation, Inverse Gross–Pitaevskii (<code class="docutils literal notranslate"><span class="pre">iGPE</span></code>) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-hawking-radiation-decoding-paper.md"><span class="xref myst">src/signals/docs/grassmannian-hawking-radiation-decoding-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md"><span class="xref myst">Multi-Spectral and Multi-Array Grassmannian Imaging Across Scales: Hubble <span class="math notranslate nohighlight">\(2\times\)</span> CCD Mosaics (<span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}})\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)\)</span>), Cosmic-Ray Particle Telemetry, LVP Medical Direct-Conversion &amp; Proca Phase-Contrast Arrays, LIFU / AOT / TRUE Sub-Surface Optical Focusing, and Sub-Nanometer (<span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span>) Convergent Holographic Nanolithography in Lean 4 and Rust/WASM</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md"><span class="xref myst">src/signals/docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No aggregate numerical error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-quantum-causal-inference-mpemba-paper.md"><span class="xref myst">Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws in Lean 4 and Rust/WASM</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-quantum-causal-inference-mpemba-paper.md"><span class="xref myst">src/signals/docs/grassmannian-quantum-causal-inference-mpemba-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md"><span class="xref myst">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> in Lean 4 and Rust/WASM</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md"><span class="xref myst">src/signals/docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00% for revised Model 6 and Models 14a/14b in the stated phase-locked, solar-system, and sub-critical regimes; conditional corrections can be nonzero.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md"><span class="xref myst">Quantum Causal Grassmannian Transformers, JEV vs. <span class="math notranslate nohighlight">\(\operatorname{do}\)</span>-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation in Lean 4 and Rust/WASM</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md"><span class="xref myst">src/signals/docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md"><span class="xref myst">Exceeding <span class="math notranslate nohighlight">\(6{,}400\times\)</span> Volumetric Efficiency in 3D Normed Tensor Gaussian Splat Nanoimaging, Surgical Medicine, Jeffrey’s Kinematic Engine, and Quantum Causal Semantic GraphRAG in Lean 4 and Rust/WASM</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md"><span class="xref myst">src/signals/docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md"><span class="xref myst">Unrestricted Spin-Polarized Grassmannian Kohn–Sham Density Functional Theory, Complex Plabic Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>), Quantum Causal Inference (<code class="docutils literal notranslate"><span class="pre">QCI</span></code>), and Soliton / Topological Braiding in Lean 4 and Rust/WASM</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No aggregate numerical error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md"><span class="xref myst">Overcoming the Speed–Accuracy Barrier in Quantum Chemistry via Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>), Complex Plabic Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>), and Polariton / Plasmon / Skyrmion / MZM Non-Destructive Readout in Lean 4 and Rust/WASM</span></a></p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> WTMAD-2 = 1.643 kcal/mol on GMTKN55 (an energy-error metric, not a percentage).</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-tuning-materials-with-light-paper.md"><span class="xref myst">Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span>, Graphite, and <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span> in Lean 4, Python, and Rust</span></a> (<a class="reference internal" href="#docs/tuning-materials-with-light-plan.md"><span class="xref myst">docs/tuning-materials-with-light-plan.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No aggregate prediction-error score is reported in the roadmap; 1.44 × 10^8 is a speedup, not an error score.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-interfacial-heat-transport-paper.md"><span class="xref myst">Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): Grassmannian Thermal Boundary Conductance (<code class="docutils literal notranslate"><span class="pre">G-TBC</span></code>), Bond-Stiffness Plücker Transmission, Anharmonic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,5)\)</span> Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in Lean 4, Python, and Rust</span></a> (<a class="reference internal" href="#docs/interfacial-heat-transport-plan.md"><span class="xref myst">docs/interfacial-heat-transport-plan.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 1.17% overall MAPE across 7 datasets.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-cuprate-superconductivity-paper.md"><span class="xref myst">A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): Grassmannian Zhang–Rice Plücker Pairing (<code class="docutils literal notranslate"><span class="pre">G-CSC</span></code>), <span class="math notranslate nohighlight">\(d_{x^2-y^2}\)</span> Dome, Pseudogap Fermi Arcs, Planckian Strange Metal, and 12-Target Benchmarks Across <span class="math notranslate nohighlight">\(\mathrm{LSCO}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Bi2212}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{YBCO}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Tl2201}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Hg1201}\)</span> in Lean 4, Python, and Rust</span></a> (<a class="reference internal" href="#docs/cuprate-superconductivity-plan.md"><span class="xref myst">docs/cuprate-superconductivity-plan.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.79% overall MAPE across 12 targets.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-interfacial-electrical-properties-paper.md"><span class="xref myst">Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): Grassmannian Process-to-Electrical Modeling (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>), Plabic 3-Flux Deal–Grove Kinetics, McWeeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar <span class="math notranslate nohighlight">\(\mathrm{Si/SiO_2}\)</span>, Curved <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> Nanowires, <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Ge/SiGe}\)</span> in Lean 4, Python, and Rust</span></a> (<a class="reference internal" href="#docs/interfacial-electrical-properties-plan.md"><span class="xref myst">docs/interfacial-electrical-properties-plan.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 1.20% overall MAPE across 5 interfaces.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md"><span class="xref myst">Superconductivity, Quantum Anomalous Hall (<code class="docutils literal notranslate"><span class="pre">QAHE/FQAH</span></code>), Supersolid Vortices, and Topological Quantum Computing in Rhombohedral and Moiré Multilayer Graphene (<code class="docutils literal notranslate"><span class="pre">G-MGS</span></code>): Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,2N)\)</span> Boundary Sublattice Projection, <code class="docutils literal notranslate"><span class="pre">MATTG</span></code> Light–Heavy Kondo Hybridization, and 8-Target Benchmarks Across Trilayer (<code class="docutils literal notranslate"><span class="pre">RTG</span></code>, <code class="docutils literal notranslate"><span class="pre">MATTG</span></code>) and Pentalayer (<code class="docutils literal notranslate"><span class="pre">R5G</span></code>) Graphene in Lean 4, Python, and Rust</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md"><span class="xref myst">src/signals/docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.64% overall MAPE across 8 target families.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-semi-dirac-fermions-ddf-paper.md"><span class="xref myst">Semi-Dirac Fermions (Mass in Only One Direction) With and Without Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}\)</span> and Dilatant Dark Fluid (DDF) Mechanics: <span class="math notranslate nohighlight">\(\mathrm{ZrSiS}\)</span> <span class="math notranslate nohighlight">\(B^{2/3}\)</span> Landau Scaling, Dirac-Cone Merging on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span>, Directional Sheath Jamming, Anisotropic Tensor Splats, and Quantum/Photonic Applications in Lean 4, Rust, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-semi-dirac-fermions-ddf-paper.md"><span class="xref myst">src/signals/docs/grassmannian-semi-dirac-fermions-ddf-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.50% relative error for the ZrSiS B^(2/3) Landau-level scaling benchmark (Dirac baseline: 28.94%; Schrödinger baseline: 101.01%).</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md"><span class="xref myst"><span class="math notranslate nohighlight">\(\mathrm{SU}(4)\)</span> Symmetry, Witten’s Twistor String Theory, Lower Grassmannians in <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}\)</span>, Relative Merits of Cachazo (CSW / BCFW / Hodges / CHY) vs. DDF vs. Turner Models, and Grand Unification with the Holographic Principle and AdS/CFT in Lean 4, Rust, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md"><span class="xref myst">src/signals/docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0% Mercury perihelion error for Cachazo-Skinner and Turner at solar-system scales; Witten conformal-twistor baseline: 100%.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper.md"><span class="xref myst">Semi-Dirac Nanoelectronic, Hyperbolic THz Plasmonic, and Orthogonal Thermoelectric Devices in <span class="math notranslate nohighlight">\(405\text{ nm} / 532\text{ nm}\)</span> Carbon Nanolithography and Volumetric KiCAD/GDSII EDA: Ballistic Klein Diodes/Transistors, Lithography-Free <span class="math notranslate nohighlight">\(400\text{–}800\text{ GHz}\)</span> THz Bolometers, and Cross-Axis <span class="math notranslate nohighlight">\(ZT\)</span> Harvesters in Lean 4, Rust/WASM, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap; DRC reports 0 cross-analysis findings.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.md"><span class="xref myst">Etch-Free 1D Semi-Dirac Topological Majorana (<span class="math notranslate nohighlight">\(\mathrm{MZM}\)</span>), <span class="math notranslate nohighlight">\(\mathbb{Z}_6\)</span> Parafermion, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Plücker, and Phase-Steered Helical <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> OAM Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-RIE <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span> Suppression, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap; DRC reports 0 findings.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md"><span class="xref myst">Revised Semi-Dirac and Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> Soliton Bus Architecture: Dispersionless <span class="math notranslate nohighlight">\(\hat{y}\)</span>-Channeling, <span class="math notranslate nohighlight">\(C_8\)</span> Star-Via Ancilla Hubs, Slow-Light <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>-Carbonate <span class="math notranslate nohighlight">\(\chi^{(3)}\)</span> CNOT Gates, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md"><span class="xref myst">Integrated Multi-Band Classical and Quantum Photonics (<span class="math notranslate nohighlight">\(405\text{–}1550\text{ nm}\)</span> &amp; <span class="math notranslate nohighlight">\(400\text{–}800\text{ GHz}\)</span>): Periodic Cellulose Nanocrystal (CNC) <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> Signal Boosters in <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> Waveguides, Adiabatic Scarf-Joint <span class="math notranslate nohighlight">\(c\text{-BAs}\)</span> Plasmonic-Slot Homodyne Detectors, <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> <span class="math notranslate nohighlight">\(n\)</span>-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis in Lean 4, Rust/WASM, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.md"><span class="xref myst">Laser-Induced <span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> Carbon and Nanodiamonds from Lignin, Plastics (<code class="docutils literal notranslate"><span class="pre">PET</span></code>/<code class="docutils literal notranslate"><span class="pre">PE</span></code>), <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>, and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (<code class="docutils literal notranslate"><span class="pre">2DHG</span></code>) FETs, and Biodegradable Carbon Semiconductor Alternatives to <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> (<code class="docutils literal notranslate"><span class="pre">P-CQDs</span></code>) and <code class="docutils literal notranslate"><span class="pre">c-BAs</span></code> (<code class="docutils literal notranslate"><span class="pre">Ox-s-CNT</span></code> / <code class="docutils literal notranslate"><span class="pre">VACNT</span></code>) in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md"><span class="xref myst">3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> and 8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., <em>Nature</em> 2025), and 4-Wire Kelvin + Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md"><span class="xref myst">Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>, <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m} \times 10\text{ km}\)</span>, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable vs. <span class="math notranslate nohighlight">\(18\text{ TB}\)</span> LTO-9): <span class="math notranslate nohighlight">\(3{,}000\times\)</span> OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar <span class="math notranslate nohighlight">\(64\times 64\)</span> FFT Tracking, <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza Quench, and <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.md"><span class="xref myst">Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>) with Passive Optical Matrix-Vector Multiplication (<code class="docutils literal notranslate"><span class="pre">MVM</span></code>), Soliton/OAM QRAM, and Active <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code>/<code class="docutils literal notranslate"><span class="pre">B-LIG</span></code> LoRA Steering Layers in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> No numerical prediction-error score is reported in the roadmap.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md"><span class="xref myst">Quantum Causal Next-Concept Modeling (<code class="docutils literal notranslate"><span class="pre">QCI-NCM</span></code>): Coarse-to-Fine Parallel LLM Inference, Multiscale Residual Counterfactuals, Plücker/<code class="docutils literal notranslate"><span class="pre">VRC</span></code> Constraint Coupling, and Pressed-<code class="docutils literal notranslate"><span class="pre">LHAT</span></code> Scale-Selective Steering Hardware in Lean 4, Rust/WASM, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 99.99% exact token reconstruction on OpenWebText and 100.00% on Sudoku for the NCM multiscale VQ-VAE tokenizer (<code class="docutils literal notranslate"><span class="pre">arXiv:2610.14162</span></code>); DRC reports 0 cross-analysis findings.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">rGO-Vitrimer</span></code> Active Metamaterials, Bistable &amp; Elastomeric E-Paper (<code class="docutils literal notranslate"><span class="pre">Vector</span> <span class="pre">Reflect</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">rGO-Bio-TPU</span></code>), Chiral <code class="docutils literal notranslate"><span class="pre">CNC</span></code> <code class="docutils literal notranslate"><span class="pre">Bio-Bragg</span></code> Projectors, and Nanodiamond (<code class="docutils literal notranslate"><span class="pre">SHG</span></code> / <code class="docutils literal notranslate"><span class="pre">NV</span></code> / <code class="docutils literal notranslate"><span class="pre">n-Adamantane</span></code> / <code class="docutils literal notranslate"><span class="pre">P-CQD</span></code>) Active Quantum Displays in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00% Pauli-blocked interband absorption loss (<span class="math notranslate nohighlight">\(\alpha = 0\)</span> for <span class="math notranslate nohighlight">\(2E_F &gt; \hbar\omega\)</span>), 0.1% speckle contrast (<span class="math notranslate nohighlight">\(C^2 = 10^{-6}\)</span> at <span class="math notranslate nohighlight">\(100\text{ MHz}\)</span>), and 99.8% mask fidelity; DRC reports 0 cross-analysis findings.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md"><span class="xref myst">Lignolux Omni-Carbon Kinetic Batteries (<code class="docutils literal notranslate"><span class="pre">Al-LGBPC</span></code>, Dual-Ion <code class="docutils literal notranslate"><span class="pre">Iodine</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">Na-Ion</span></code> Hard Carbon), <code class="docutils literal notranslate"><span class="pre">Q-Node</span></code> Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Kohn–Sham DFT Passivation, and Biodegradable / Closed-Loop Recyclable Electrical Components in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00 V PEM electrolyzer voltage mismatch, &lt; 1% McWeeny-passivated self-discharge leakage factor (<span class="math notranslate nohighlight">\(3402/625000 \approx 0.54\%\)</span>), and <span class="math notranslate nohighlight">\(10^{-13} &lt; 10^{-12}\text{ cm}^2/\text{s}\)</span> polyiodide shuttle diffusivity; DRC reports 0 cross-analysis findings.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md"><span class="xref myst">Plasma-Fluffed Chitosan–Alginate–Magnesium Hemostatic Gauze &amp; <code class="docutils literal notranslate"><span class="pre">VEGF</span></code> Wound Sprays, <code class="docutils literal notranslate"><span class="pre">Sprout-Zero</span></code> Biodegradable Diapers, <code class="docutils literal notranslate"><span class="pre">Aero-Fleece</span></code> Thermal Liners, <code class="docutils literal notranslate"><span class="pre">CAM</span></code> Struvite Geotextiles, and Graphene-Susceptor <code class="docutils literal notranslate"><span class="pre">FJH</span></code> Quartzite Argon Plasma Tubes in Lean 4, Rust/WASM, Python, and KiCAD v8</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md"><span class="xref myst">src/signals/docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00 charge-neutrality residual in <code class="docutils literal notranslate"><span class="pre">PEC</span></code> coacervation, exact physiological <span class="math notranslate nohighlight">\(\mathrm{pH} = 7.4\)</span> bimodal <span class="math notranslate nohighlight">\(\mathrm{Mg}\)</span> buffering, and <span class="math notranslate nohighlight">\(92\%\)</span> fused-quartz optical transmittance; DRC reports 0 cross-analysis findings.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md"><span class="xref myst">Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>), and Unrestricted Grassmannian Quantum Chemistry (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>) in <code class="docutils literal notranslate"><span class="pre">MADNESS</span></code> Multiwavelet <code class="docutils literal notranslate"><span class="pre">MRA-PNO</span></code> and <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> for Computational Advantage</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md"><span class="xref myst">src/signals/docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> 0.00 residual on 4-stage Plabic/LGV-to-Complex-VRC relations (<span class="math notranslate nohighlight">\(V K^\top = 0\)</span>) across the <span class="math notranslate nohighlight">\(x_X = -1\)</span> resonance, <span class="math notranslate nohighlight">\(&lt; 10^{-12}\)</span> unitary and idempotency error in PySCF-free Cayley–McWeeny orbital optimization (<span class="math notranslate nohighlight">\(9\times\text{–}144\times\)</span> speedup), and <span class="math notranslate nohighlight">\(10{,}000\times\text{–}810{,}000\times\)</span> 4-index <span class="math notranslate nohighlight">\(g\)</span>-tensor compression in <code class="docutils literal notranslate"><span class="pre">MADNESS</span></code> <code class="docutils literal notranslate"><span class="pre">MRA-PNO</span></code>.</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md"><span class="xref myst">A Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Quantum Simulation Backend for <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>: Complex Grassmannians <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(k, n)\)</span>, Layer-Coded Plabic Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>), Madelung/DDF Hydrodynamics, and Quantum Causal Inference (<code class="docutils literal notranslate"><span class="pre">QCI</span></code>) in Lean 4, Rust, and Python</span></a> (<a class="reference internal" href="#src/signals/docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md"><span class="xref myst">src/signals/docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md</span></a>)</p>
+<ul class="simple">
+<li><p><strong>Reported error score:</strong> <span class="math notranslate nohighlight">\(&lt; 10^{-14}\)</span> expectation and wavefunction discrepancy vs. Tequila’s reference symbolic backend, 0.00 imaginary drift on Hermitian Pauli expectations, <span class="math notranslate nohighlight">\(2.2\times\text{–}61.7\times\)</span> speedup over <code class="docutils literal notranslate"><span class="pre">qulacs</span></code> on dense <span class="math notranslate nohighlight">\(2^n\)</span> circuits up to <span class="math notranslate nohighlight">\(n = 28\)</span> (<span class="math notranslate nohighlight">\(4.00\text{ GiB}\)</span>), and <span class="math notranslate nohighlight">\(68{,}253\times\)</span> speedup on particle-conserving <code class="docutils literal notranslate"><span class="pre">HCB-SPA</span></code> circuits scaling up to <span class="math notranslate nohighlight">\(n = 126\)</span> qubits (<span class="math notranslate nohighlight">\(1.82\text{ ms}\)</span>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="schema.html" title="Process Schema" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

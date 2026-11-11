@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>mmap python rdma &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="../index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="../_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="../_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="../_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="../_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="../_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">mmap python rdma</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#google-search-title">Google Search Title:</a></li>
+<li><a class="reference internal" href="#google-search-ai-overview">Google Search AI Overview:</a></li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/chats/mmap python rdma.myst.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">mmap python rdma</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#google-search-title">Google Search Title:</a></li>
+<li><a class="reference internal" href="#google-search-ai-overview">Google Search AI Overview:</a></li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chats/mmap python rdma.myst.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mmap-python-rdma">
+<h1>mmap python rdma<a class="headerlink" href="#mmap-python-rdma" title="Link to this heading">¶</a></h1>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#google-search-title">Google Search Title:</a></p></li>
+<li><p><a class="reference internal" href="#google-search-ai-overview">Google Search AI Overview:</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-3">1. Create a memory-mapped buffer (e.g., for a file)</a></p></li>
+<li><p><a class="reference internal" href="#map-the-file-into-memory">Map the file into memory</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-5">2. Register the mmap buffer with the RDMA stack</a></p></li>
+<li><p><a class="reference internal" href="#specific-api-call-will-be-in-the-python-rdma-documentation">(Specific API call will be in the python-rdma documentation)</a></p></li>
+<li><p><a class="reference internal" href="#pd-get-a-protection-domain-object">pd = … # Get a Protection Domain object</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-8">mr = pd.reg_mr(mm) # Register the mmap object as a Memory Region</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-9">3. Use the MR for RDMA operations</a></p></li>
+<li><p><a class="reference internal" href="#qp-get-a-queue-pair-object">qp = … # Get a Queue Pair object</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-11">qp.post_recv(mr, …)</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-12">qp.post_send(mr, …)</a></p></li>
+<li><p><a class="reference internal" href="#chat-heading-13">… RDMA communication logic …</a></p></li>
+<li><p><a class="reference internal" href="#close-the-mmap-object-unmaps-the-memory">Close the mmap object (unmaps the memory)</a></p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="google-search-title">
+<span id="id1"></span><h1>Google Search Title:<a class="headerlink" href="#google-search-title" title="Link to this heading">¶</a></h1>
+<p>mmap python rdma</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="google-search-ai-overview">
+<span id="id2"></span><h1>Google Search AI Overview:<a class="headerlink" href="#google-search-ai-overview" title="Link to this heading">¶</a></h1>
+<p>The</p>
+<p><code class="docutils literal notranslate"><span class="pre">mmap</span></code> module in Python can be used with RDMA by registering the memory-mapped regions with the RDMA stack, typically via the <code class="docutils literal notranslate"><span class="pre">python-rdma</span></code> library. This allows RDMA operations to directly access data in the memory-mapped buffer, bypassing extra data copies between the application and the OS kernel, which is a key benefit of RDMA.</p>
+<p>Key Components</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mmap</span></code> Module</strong>: The built-in <a class="reference external" href="https://docs.python.org/3/library/mmap.html">Python <code class="docutils literal notranslate"><span class="pre">mmap</span></code> module</a> provides an interface to the operating system’s <code class="docutils literal notranslate"><span class="pre">mmap</span></code> system call, which maps a file or anonymous memory into a process’s virtual address space.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">python-rdma</span></code> Library</strong>: This third-party library provides a Python API for the Linux RDMA stack (libibverbs, etc.). It allows you to manage RDMA resources like Protection Domains (PD), Memory Regions (MR), and Queue Pairs (QP).</p></li>
+</ul>
+<p>How it Works</p>
+<p>To use <code class="docutils literal notranslate"><span class="pre">mmap</span></code> memory with RDMA in Python, the general process involves:</p>
+<ol class="arabic simple">
+<li><p><strong>Allocate Memory with <code class="docutils literal notranslate"><span class="pre">mmap</span></code></strong>: Use the Python <code class="docutils literal notranslate"><span class="pre">mmap</span></code> module to create a memory buffer, either backed by a file or as anonymous memory for inter-process communication (IPC).</p></li>
+<li><p><strong>Register as an RDMA Memory Region (MR)</strong>: The virtual memory address obtained from <code class="docutils literal notranslate"><span class="pre">mmap</span></code> must be registered with the RDMA device through the <code class="docutils literal notranslate"><span class="pre">python-rdma</span></code> library’s APIs. This registration process involves “pinning” the memory pages in physical RAM so they are not swapped out, which is necessary for the NIC (Network Interface Card) to perform direct memory access.</p></li>
+<li><p><strong>Perform RDMA Operations</strong>: Once the memory region is registered, the buffer can be used as the target or source for zero-copy RDMA operations (e.g., RDMA Read, Write, Send). The NIC then translates the virtual addresses to physical addresses and transfers data directly.</p></li>
+</ol>
+<p>Benefits</p>
+<ul class="simple">
+<li><p><strong>Zero-Copy Networking</strong>: The primary advantage is eliminating unnecessary data copies between the application’s buffer and the kernel’s network buffers, leading to higher performance and lower latency.</p></li>
+<li><p><strong>Efficient I/O</strong>: <code class="docutils literal notranslate"><span class="pre">mmap</span></code> itself is an efficient way to handle large files or shared memory, and combining it with RDMA leverages this efficiency for network operations.</p></li>
+</ul>
+<p>Example (Conceptual)</p>
+<p>While specific implementation details depend on the <code class="docutils literal notranslate"><span class="pre">python-rdma</span></code> version, the core idea is to obtain the memory buffer from the <code class="docutils literal notranslate"><span class="pre">mmap</span></code> object and use the library’s <code class="docutils literal notranslate"><span class="pre">register_mr</span></code> (Memory Region) equivalent function.</p>
+<p>python</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import mmap
+import rdma  # This requires the python-rdma library
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-3"><div class="highlight"><pre><span></span># 1. Create a memory-mapped buffer (e.g., for a file)
+with open("large_data.bin", "r+b") as f:
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="map-the-file-into-memory"><div class="highlight"><pre><span></span>    # Map the file into memory
+    mm = mmap.mmap(f.fileno(), 0) # 0 means map the entire file
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-5"><div class="highlight"><pre><span></span>    # 2. Register the mmap buffer with the RDMA stack
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="specific-api-call-will-be-in-the-python-rdma-documentation"><div class="highlight"><pre><span></span>    # (Specific API call will be in the python-rdma documentation)
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="pd-get-a-protection-domain-object"><div class="highlight"><pre><span></span>    # pd = ... # Get a Protection Domain object
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-8"><div class="highlight"><pre><span></span>    # mr = pd.reg_mr(mm) # Register the mmap object as a Memory Region
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-9"><div class="highlight"><pre><span></span>    # 3. Use the MR for RDMA operations
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="qp-get-a-queue-pair-object"><div class="highlight"><pre><span></span>    # qp = ... # Get a Queue Pair object
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-11"><div class="highlight"><pre><span></span>    # qp.post_recv(mr, ...)
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-12"><div class="highlight"><pre><span></span>    # qp.post_send(mr, ...)
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="chat-heading-13"><div class="highlight"><pre><span></span>    # ... RDMA communication logic ...
+</pre></div>
+</div>
+<div class="highlight-none notranslate" id="close-the-mmap-object-unmaps-the-memory"><div class="highlight"><pre><span></span>    # Close the mmap object (unmaps the memory)
+    mm.close()
+</pre></div>
+</div>
+<p>Copied to clipboard</p>
+<p>For official documentation and usage examples of the <code class="docutils literal notranslate"><span class="pre">python-rdma</span></code> library, refer to its <a class="reference external" href="https://github.com/jgunthorpe/python-rdma">GitHub repository</a>.</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/jgunthorpe/python-rdma#:~:text=This%20package%20contains%20the%20Python,code%20is%20available%20on%20GitHub."></a></p>
+<p>jgunthorpe/python-rdma - GitHub</p>
+<p>Aug 21, 2017 — This package contains the Python module rdma which provides a Python API for the Linux RDMA stack. It is an amalgamation of the fu…</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>GitHub</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+</li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/33971851/what-happens-when-rdma-operates-over-mmaped-region"></a></p>
+<p>What happens when RDMA operates over mmaped region?</p>
+<p>Nov 28, 2015 — What happens when RDMA operates over mmaped region? … RDMA is an efficient way to bypass the useless data copies between applica…</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Stack Overflow</p>
+</li>
+<li><p><a class="reference external" href="https://www.oracle.com/database/technologies/exadata/hardware/rdmanetwork/#:~:text=RDMA%20(Remote%20Direct%20Memory%20Access,and%20with%20very%20low%20latency."></a></p>
+<p>RDMA Network Fabric | Oracle Exadata Database Machine</p>
+<p>RDMA (Remote Direct Memory Access) allows one computer to directly access data from another without operating system or CPU involv…</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Oracle</p>
+</li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/mmap.html#:~:text=In%20either%20case%20you%20must%20provide%20a,file%20object%2C%20use%20its%20fileno()%20method%20to"></a></p>
+<p>mmap — Memory-mapped file support — Python 3.14.3 …</p>
+<p>Mar 7, 2026 — In either case you must provide a file descriptor for a file opened for update. If you wish to map an existing Python file object,</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Python documentation</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+</li>
+<li><p><a class="reference external" href="https://www.reddit.com/r/C_Programming/comments/j1dxpu/python_mmap_mlock_wrapper/#:~:text=Hi%20!,Thanks%20!"></a></p>
+<p>Python mmap / mlock wrapper : r/C_Programming - Reddit</p>
+<p>Sep 28, 2020 — Hi ! I’m running a python 3.8 program that is in charge of manipulating cryptographic materials (keys gen, encrypt, decrypt). And …</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Reddit</p>
+</li>
+<li><p><a class="reference external" href="https://realpython.com/python-mmap/#:~:text=Python's%20mmap%20provides%20memory%2Dmapped,lot%20of%20file%20I/O."></a></p>
+<p>Python mmap: Improved File I/O With Memory Mapping</p>
+<p>Aug 24, 2020 — Python mmap: Improved File I/O With Memory Mapping. … The Zen of Python has a lot of wisdom to offer. One especially useful idea…</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Real Python</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+</li>
+<li><p><a class="reference external" href="https://github.com/offchan42/python-mmap-ipc#:~:text=This%20repository%20is%20an%20example,from%20one%20process%20to%20another."></a></p>
+<p>GitHub - offchan42/python-mmap-ipc: :zap: Fast inter-process …</p>
+<p>This repository is an example on how to do fast inter-process communication using memory mapped file in python. It is designed to …</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>GitHub</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+</li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Mmap#:~:text=In%20computing%2C%20mmap(2),no%20physical%20RAM%20at%20all."></a></p>
+<p>mmap - Wikipedia</p>
+<p>In computing, mmap(2) is a POSIX-compliant Unix system call that maps files or devices into memory. It is a method of memory-mappe…</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Wikipedia</p>
+</li>
+<li><p><a class="reference external" href="https://programmingappliedai.substack.com/p/what-is-mmap-in-linux-and-how-it"></a></p>
+<p>What is MMAP in Linux and how it is useful?</p>
+<p>Dec 30, 2024 — mmap (memory-mapped file) is a system call that maps a file or a portion of it into a process’s virtual memory space. … This all…</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+<p>Substack</p>
+<p><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></p>
+</li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/33971851/what-happens-when-rdma-operates-over-mmaped-region#:~:text=1%20Answer.%20Yes%2C%20you%20can%20register%20with,be%20registered%2C%20including%2C%20but%20not%20limited%20to:"></a></p>
+<p>What happens when RDMA operates over mmaped region?</p>
+<p>Nov 28, 2015 — 1 Answer. Yes, you can register with RDMA a region of memory mapped using mmap() . See the docs for ibv_reg_mr (<a class="reference external" href="http://www.rdmamoj">http://www.rdmamoj</a>…</p>
+<p><img alt="" src="https://encrypted-tbn3.gstatic.com/faviconV2?url=https://stackoverflow.com&amp;client=AIM&amp;size=128&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL" /></p>
+<p>Stack Overflow</p>
+</li>
+<li><p><a class="reference external" href="https://www.ibm.com/docs/pl/aix/7.3.0?topic=m-mmap-mmap64-subroutine#:~:text=The%20mmap%20subroutine%20creates%20a%20new%20mapped,if%20the%20program%20attempts%20to%20map%20itself."></a></p>
+<p>mmap or mmap64 Subroutine</p>
+<p>The mmap subroutine creates a new mapped file or anonymous memory region by establishing a mapping between a process-address space…</p>
+<p><img alt="" src="https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.ibm.com&amp;client=AIM&amp;size=128&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL" /></p>
+<p>IBM</p>
+</li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=ky1n6luzL3Y"></a></p>
+<p>File I/O With Memory Mapping Using Python mmap</p>
+<p>Jun 23, 2022 — welcome to python mmap doing file i o with memory mapping my name is christopher. and i will be your guide. this course is about t…</p>
+<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAwFBMVEUVNUwSM0sNMUkAJUEuRlo+UmUAKkTKz9S4vsSFkJqDjZcAJkEbOVDd4eUnQVYAHzwAETTU2d3Bx82psbgAHjzu8PIABDFHWmsALUaYoqsAK0bp6u2PmKJzf4ustLspXHz///9PYnIgSmYwbJA8ha83YHYZNkhdbHpfbnwneqwTdq+koGvXtj4AJE1Efp3WuUv/1jzkwUAAFzk2TWASP11ccW3/4Dm8pENmZUkAACguQUjzzEBOV0oAGzsAABsAACHQQO+gAAABdUlEQVR4AczRVYKkMBRA0YRoER4OFSGpMEa70O77X9W4wNh35/eeOHpVA+P/5oRQxv/XqZCb9LtQf1k+g7woqyz52uvkD8AbVuG267eaK94CRggna2CsI0NTN34TNhQ0QrtdhpciQ5DFEaiHPOZgkzdv373/sBRYuzilodkTe9EC2b3bPzg8Ol6AvOmq0cuyFo1TULw9OT09O18CXFTbapbNRbcHForLq+ujm1u7BFzeVV5daDUDDnv2/uHocdWLyfi2Si3i2lOVIHx8vLpnW4ftlM4llIbrv/yJCqknmSie3F339Ldv4zWtSi9J6Z7dzHGWJ1yjpdKbUdx17Gmv844MM4St8W61DJmkGEqJOwqmvgDvRVNfLETCTEzTOfbupQvBS3MRvbhYXANfDM0LTLF0L3FP7kmp4rwCSPvQVw2o0HdPgg57ieirFUBo1NPorMIXhWRKI6s9XV82SaYL1yKEkfoW/ngvfBFY8mn4kz0bUH5wAgCtOiDtyPnzkwAAAABJRU5ErkJggg==" /></p>
+<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAcElEQVR4AWP4//8/RZh6BgCZAkDsAMUNWDFCXgDFACCV8J/B+D8pGKwHRAKRAUyQDEMMQAYEUGBAAsiABpwKHjz4/9/BAZ8BDXgNgIMNGyg04MABkg1AeCEgAK8XKA5EiqORooSELykXEJuUBz43AgAIA1ZhBoG9vwAAAABJRU5ErkJggg==" /></p>
+<p>YouTube·Real Python</p>
+<p><img alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1m8W7PR3GEm6PR-vkWxBlI7wIaqAgDmT_pvOSteMBI3_JNSvn" /></p>
+<p>23:02</p>
+</li>
+<li><p><a class="reference external" href="https://docs.nvidia.com/networking/display/public/sol/howto+configure+pvrdma+in+vmware+vsphere+6-5+and+6-7#:~:text=Zero%2Dcopy%20%2D%20Allows%20applications%20to%20perform%20data,without%20being%20copied%20between%20the%20network%20layers."></a></p>
+<p>HowTo Configure PVRDMA in VMware vSphere 6.5 and 6.7 - NVIDIA Docs</p>
+<p>Aug 8, 2019 — Zero-copy - Allows applications to perform data transfers without involving the network software stack. Data is sent and received …</p>
+<p><img alt="" src="https://encrypted-tbn0.gstatic.com/faviconV2?url=https://docs.nvidia.com&amp;client=AIM&amp;size=128&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL" /></p>
+<p>NVIDIA Docs</p>
+<p><img alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBzVpCkE1ePa0IL_TvTJP8iKP6qwnawwsKK4TsGCcSZWivTuEU" /></p>
+</li>
+<li><p><a class="reference external" href="https://www.linkedin.com/pulse/rdma-networking-trends-rakesh-cheerla-izpuc#:~:text=Low%20Latency%20and%20Memory%20Efficiency:%20RDMA%20bypasses,and%20zero%2Dcopy%20features%20minimize%20latency%20and%20jitter."></a></p>
+<p>RDMA Networking Trends - Rakesh Cheerla</p>
+<p>Oct 12, 2023 — Low Latency and Memory Efficiency: RDMA bypasses the Linux kernel and directly transfers data to application buffers, a feature kn…</p>
+<p><img alt="" src="https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.linkedin.com&amp;client=AIM&amp;size=128&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL" /></p>
+<p>LinkedIn</p>
+<p><img alt="" src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSbQEn3hGkyVe5spo0rbk0Ws4cODoCzvqKWAwftEWeIAjllefpC" /></p>
+</li>
+<li><p><a class="reference external" href="https://www.lr-link.com/newsdetail/695.html#:~:text=In%20addition%2C%20RDMA%20also%20supports%20features%20such,further%20improve%20the%20efficiency%20of%20data%20transmission."></a></p>
+<p>What is RDMA?</p>
+<p>Jul 24, 2025 — In addition, RDMA also supports features such as zero copy and kernel bypass, which can further improve the efficiency of data tra…</p>
+<p><img alt="" src="https://encrypted-tbn0.gstatic.com/faviconV2?url=https://www.lr-link.com&amp;client=AIM&amp;size=128&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL" /></p>
+<p>LR-LINK</p>
+<p><img alt="" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTuz1Ew6qlvvCrjJtJZDZjBEpyt5tICbjs7k2bSl8dt-hV52kgF" /></p>
+</li>
+<li><p><a class="reference external" href="https://github.com/syoyo/python-rdma-examples#:~:text=These%20are%20example%20scripts%20utilizing%20Python%20RDMA%20(%20https://github.com/jgunthorpe/python%2Drdma%20)%20."></a></p>
+<p>syoyo/python-rdma-examples - GitHub</p>
+<p>These are example scripts utilizing Python RDMA ( <a class="reference external" href="https://github.com/jgunthorpe/python-rdma">https://github.com/jgunthorpe/python-rdma</a> ) .</p>
+<p><img alt="" src="https://encrypted-tbn2.gstatic.com/faviconV2?url=https://github.com&amp;client=AIM&amp;size=128&amp;type=FAVICON&amp;fallback_opts=TYPE,SIZE,URL" /></p>
+<p>GitHub</p>
+</li>
+<li><p><a class="reference external" href="https://github.com/jgunthorpe/python-rdma#:~:text=This%20package%20contains%20the%20Python,code%20is%20available%20on%20GitHub."></a></p>
+<p>jgunthorpe/python-rdma - GitHub</p>
+<p>Aug 21, 2017 — This package contains the Python module rdma which provides a Python API for the Linux RDMA stack. It is an amalgamation of the fu…</p>
+<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAb1BMVEX///8kKS74+PgsMTY+Q0f8/Pzw8PGRk5ZNUVXr6+xDSEzCxMUpLjLV1tYuMzc/Q0i3ubuUl5lbX2NTV1uLjpFKTlKxs7Xh4uOFh4rn5+h3en1vcnZ9gIPc3d6/wcJzd3o3PECmqKpjZ2rOz9CfoaRP5W5KAAABU0lEQVQ4jW1T7aKCIAzdEEUTSUuzLMtuvf8zXtiQVDx/lJ3DvgEIEPU9l1rL/F4LiFEMCQYkj2JDC6VxhaRJl3x2xgin7MePMuYRD7cQftrjrcL7ELk9nNt8yXXtyRm5mquzXADKA6LpzgZRlgBPZ1WO7yn/yrmqyGdGn95Zjav2hbNghZHMV3uNG3DZCigEmhRq+pmyrUAcifj4CO+49xciWqAe6p3pCJrNH1ATp5gH6KghQLrDnoB8GxaYPYFkhpONipjrl+wI61hQ8tB5EvYb4eTL5Ebhd8u/2f4EYfhvvWJpw9ZJ0LQfb5uxbMKi3pp5xVp30miexZHbRriHvUnojrKt7isXqWRBFQQNF2w3aYCPUl8/EREWzxtuE+pVI/wbkSGp0a51Nyg1F+L5/nel56xXgt+zcMgeC0FK27gdTzVoPXtI9DBuO2tRhJj94m3/A1GiDZXoM3d5AAAAAElFTkSuQmCC" /></p>
+<p>GitHub</p>
+<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFIAAABSCAMAAADw8nOpAAAATlBMVEXw8PBN0YHz8fPk7ec2znU+z3n48vbE5s9H0H6E2aNCz3ve7OOr4b1r1ZOD2qK/5cwjzG3J59Nz1pd82J4tzXGQ3KuW3a+f37X98/pi1I2cdTi7AAAAzUlEQVRYhe3XyQ6DIBSFYYpMUgWHju//ol16INHQimmann8L99vCFYL9Z02FMnFQuxuiTEh12p22JEmSPJx0STVIN7VhaV43y0k9GqjxNUi8Kc8kSZI8nhw05FZvZqTDqUv62xDRQldXRrpphKmYfYokZDpfSLYG58R68g1ygyFJkiRJkiRJfoXUsDspC++/afDIh2Iyzu1SuHXQPeBRV0oKicvTo9d+SZukUjHze/x0uc8QkiRJViKfCvYlVYXEdcnaGmSyZW3uS+wXegGxvSCoeZ1U1gAAAABJRU5ErkJggg==" /></p>
+</li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/33971851/what-happens-when-rdma-operates-over-mmaped-region"></a></p>
+<p>What happens when RDMA operates over mmaped region?</p>
+<p>Nov 28, 2015 — What happens when RDMA operates over mmaped region? … RDMA is an efficient way to bypass the useless data copies between applica…</p>
+<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAflBMVEX/XgAgHB0dGx0AFx4tHxzMTwn1WwD/YQAaGx0OGR4YGh2IOhESGh0AGB0VGh4SGR7BSwudQBC6SQxFJxo1IhskHhwAEx+NOxIeHRyyRw3rWATkVgXZUwhVKxnSUQhuMhd6NhOBNxQ7JBqUPRGmQw9iLxhnMBZ1NBZbLBlKJxk8C7FfAAAELklEQVR4nO2Z67aiOBCFMcGEQECuXrgpiJfz/i84AfUIId3tmSlg9azsv7qsz6pNVSUYhpaWlpaWlpaWltZ/Ew12y8Y/uO6ZLhmfIcSb5eL7CVqt0L5ZKAfUN62VEOKHRQhEfHvVyUoOS8TPX/FbAn/+HPjv+ILAmj0H6358QWDO7YMjXg1kWeG8AOTCJYIknDcH6Z1JBGY5cxXucg5W/rwAoxzYcT5zFQqZoM5mBRAEUhU2UT4vQRl7QwIekVkBaCYTbKJ5q0DXtZyDIp00Yi6nuIxtiSCakiCLC6nlUmkqiCoUE1bhzLz9MRs+7b5MwKPJ4meuWIDY/pz2EWiZSARsMh+cus6D8H1QBzrOwWWap7FbQruWx479OgsfWHIOpiAgx3frZcmuVwcaJhIBr+AJaNhvvIgV/eE3IvBu4IOJSHm2t9fyTee7aEiAT8A5oI3U88QTH1fG63/SQCZAwMfGvLZkAFGHuCEvhIYPCZBbgQLs8Ci+kOUeX5vYKAeIg+Ygv3qjGnR1ML+LfZZzYFeQTqTh3UMKAsTq1wE5cKXP8A7UieTsMhWC5d6edXDkKlgBJIBB05vc95914NWj/QcSIdpCH5nCCCvrgKNDl+3dMAfDng0iEiClFWx+afsScXqrMnKhu1ErmlXuuCUIedhp/+77eUV7Z5qDAvFrZR1W7Cug1Di5r7KcJwnfqYmZisDCtRhR1aNhuMGEByWaO66yL9lJlfrd2MSn6cJ38guusoLoS3FbH3aD81++JopkUqOJuIJghdr4Xg0W3qBFcnd8g44gaH7aKusgzBCv4QAMjGyGcR2UqSFB0PxuKR9JG/K+ZI2fDudF1eQSA2kSxXxgkAsZ3X0/cTb3zK+qJAN7pVUi18GqQQ8Gl/7vI4th69b0bUn9y7AvIQR6ZZZHcpXRhpn3KiTftiQH3q/D5gIZ3whVRu9sGQVl9rAEJU6y+f6Mw07As7LpPm35dWryRyLWV/zMFIZ9h0EK5QryYmBeEjl+Srq+9HQgbAJSrhx8vWoIWybH1pZZ3X6VA89AX7mOyxCeaxYnx2zfoCDYmzJ6U49+RSI2m/abmyPwEF6fYow96zMKIbf882/+VHlwrRP2Oy++ZU9yM0BpFu4KjpXb6FBsqrd41Eizw7WdBsrp9xKKJ6jAG4Ia/vlaq49HzwrcJ4z/gCC57yRb/ItEsIkWcVlpc432zB5nAs91XS4sEZ7vlrDlcBDzmeI/GEgWXkzEN2+G6S0gQ1BjHdxixp6OYLCn8Q8hhC2r+HEcc2d+b/VCECrbmYVM8C6QrT9TGbRriwX+voTu9uZnSh4ehL4mpw5Dn6mzgHeEnkTU+eVCqOyDoNdy/wZgtzAAXxwA/E5EA/x1AEubEH4f+nEjAo5v0GqLf6DtFfxQQH4o6PhaWlpaWlpaWlpaWlr/f/0DViY+xu94gUsAAAAASUVORK5CYII=" /></p>
+<p>Stack Overflow</p>
+</li>
+<li><p><a class="reference external" href="https://www.oracle.com/database/technologies/exadata/hardware/rdmanetwork/#:~:text=RDMA%20(Remote%20Direct%20Memory%20Access,and%20with%20very%20low%20latency."></a></p>
+<p>RDMA Network Fabric | Oracle Exadata Database Machine</p>
+<p>RDMA (Remote Direct Memory Access) allows one computer to directly access data from another without operating system or CPU involv…</p>
+<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEoklEQVRYhbWXTYgdRRDHf1Xd72M3ZmM+BMFLVBDRKHgSScSjGlASjBoRBBMRPXjIQQXxKIh6iOghomI8BBFjIOIhns3m4kFJQDCioARviclqNvvem+kqDz2zb968jcS4KRh6uru6//+u7qqultfeeJ2miDdrEaEHHgFQz99YDBhWJZWOjnslf179VxoAeFWP0hgANgUQzYBymcAESTHcDWRMAK8hsp5WJKhKrVRDVcZgTQJNU2Twno0qZZtScTXcvNU6PV+pMKpWLCgdg16CmCBuGJQTK24S6CRjxpzgNu4TYwypmPuyOamsWZtbPVshKSx1oBQlGnQTrCmgkyDesnBpZQJA8JIZH9KxMcnxXmZJPtngMmkBcUgCo5jLYEq/hLWjTCTeeOmvKZPVe6yU23oM7w1e3gr0gZa9DWs35S0QYAD8AnxnMF+E3NtJmcBsURFYP7owRUBhPdhLYDtU0t2KheW+Jp4YWNE6hBNekFw4acJXmngvGBe6Sekl6JYQHOTM7u2T4M4+4B3EAhgiMgaj7aaGeAGSGpyWueIy3rJglNF5OSZ9t5MyuDpEpHkIOWzCrgkAndxjbdWMCMQVFcTHbgdEg/2lcl8SnqwWS2wcvC+gCb4s3wDfAn/C9CF0X9GNBVivwgM4D9ZWszz+CQQDnqJB/Rng8dYkx4AXgd9XQrhCeRPYDBwAHmq07wa+Bj5ToAd80Bp4ENj+P8Fr+Q14GPi01f4h0FHy6mcaHT8Be1YBuC3PAqcb9TXA0wrsaCm+cg3Aa3m1Vd+pwJZGw0XyobtWcqzCqGWLApsaDaeBYrXQxKFj+VMHF0Yu/NyI3pui6ERokfYk07fdlUsw6Bd50qUOFAJJUK36guW4ebYx5nayV6yKuEARoNAcA1zom3BbKbltFDmrwKnGmFngkdUiMAxwoQ/nZ2CQI86jwGxSWOzCQo+TChxpjXt7tQh4tdJiHCzfgnwtDyJc7HJEgUNA806+GTi8GgRClXz0S+gYXwZjc70tg8j5Sx0+VyAxHXh2AceBO1aBx53AfFIeS5o9o5dgbsiejUtYfRccAT5pEdkG/AicAI6LyrmVZv8XL9mYlPsLZWsN3LGciFw/4KPZgqMxQVy7lEgKSdmbBE/KXgCtPNLdtwJbpX0N1gT88m5qkH1QchzoGPRLPp4b8jwDoIQ4d3EIAUY9WIo8NxROuLA/GOsApM7xLoPjPp0t16JWEchZ8EK/YN/agoM0UpBI6uWc3aBwGDkHk3AoqL6gsFORu9QnouUkgcsxAwo4VwqngKMKBzpCUQj06qRJIC7MbqQIOVINIowClEohIu9H44euyz3BuElEJgJU2/QrbMWoCPyxGPk+KfPdAIsB/g7Qj9k7gkP8dd0GUiNilQFKAVRQmO8lmQ/OODe8cgIU1XsgaX6E9FJ+C3RTPg/iEE/dMLc8oAqXlAopZMAgglwlgfpdWFmbaONP6qT0zHWzBM9BI1oelBSKKJjk56leJYG21KAwLuNiVwmVfzYtUVbZsCbJ5voPBGqPNfJimul5XdbacRRyZpo0W0HIA2oFrZm3VjMVfxr14NOgzWd63ecC/wDOqvk4G7oeyQAAAABJRU5ErkJggg==" /></p>
+<p>Oracle</p>
+</li>
+</ul>
+<p>Show all</p>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

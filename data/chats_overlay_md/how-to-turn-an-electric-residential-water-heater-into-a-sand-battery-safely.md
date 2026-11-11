@@ -1,1 +1,0 @@
-../chats/how-to-turn-an-electric-residential-water-heater-into-a-sand-battery-safely.md

@@ -1,0 +1,6727 @@
+import Mathlib.Tactic
+import SignalsPending
+
+namespace SignalsPendingTests
+
+open Signals.Applications
+open Signals.Acoustics
+open Signals.Geometry
+open Signals.IQ
+open Signals.Antennas
+open Signals.Maxwell
+open Signals.MHD
+open Signals.NonDestructive
+open Signals.OAM
+open Signals.Pending
+open Signals.Proca
+open Signals.Propagation
+open Signals.Units
+
+def pendingCalculus : VectorCalculus where
+  divergence := fun _ => 0
+  curl := fun _ => 0
+  vectorTimeDerivative := fun _ => 0
+  scalarTimeDerivative := fun _ => 0
+  divergence_curl := by intro; rfl
+  divergence_add := by intro left right; norm_num
+  divergence_timeDerivative := by intro; rfl
+
+noncomputable def toyModel : Model :=
+  { mass := 3
+    mass_pos := by norm_num
+    coupling := 1
+    medium := { refractiveIndex := 1, refractiveIndex_pos := by norm_num }
+    boundary :=
+      { reflectionMagnitude := 1
+        reflectionMagnitude_nonneg := by norm_num
+        reflectionMagnitude_le_one := by norm_num } }
+
+noncomputable def toyCurrent : FourCurrent :=
+  { chargeDensity := 0
+    currentX := 0
+    currentY := 0
+    currentZ := 0
+    continuityResidual := 0 }
+
+noncomputable def toyConstitutive : ConstitutiveRelation :=
+  { relativePermittivity := 2
+    relativePermittivity_pos := by norm_num
+    relativePermeability := 1
+    relativePermeability_pos := by norm_num
+    conductivity := 0
+    conductivity_nonneg := by norm_num
+    lossTangent := 0
+    lossTangent_nonneg := by norm_num }
+
+noncomputable def toyField : DrivenField toyModel :=
+  { fourDivergence := 0
+    coupling :=
+      { strength := 1
+        strength_nonneg := by norm_num
+        constitutive := toyConstitutive
+        source := toyCurrent }
+    couplingStrengthLaw := by rfl
+    fieldEquation := by norm_num [toyModel, toyCurrent] }
+
+noncomputable def toyMode : Mode toyModel :=
+  { frequency := 5
+    frequency_pos := by norm_num
+    transverseWaveNumber := 0
+    longitudinalWaveNumber := 4
+    dispersion := by norm_num [toyModel] }
+
+example : toyField.fourDivergence = 0 := by
+  apply toyField.lorenz_condition
+  rfl
+
+noncomputable def toyPendingLink : LinkBudget :=
+  { mode := PropagationMode.throughSpaceBallistic
+    sourcePower := { watts := 1 }
+    sourcePower_nonnegative := by norm_num
+    distance := { meters := 1 }
+    distance_nonnegative := by norm_num
+    coupling :=
+      { regime := CouplingRegime.farField
+        antennaEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+        impedanceMatch := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+        apertureCoupling := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+        alignment := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+        radiativeCoupling := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+        reactiveFraction := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+        energyPartition := by norm_num }
+    medium :=
+      { attenuationPerLength := 0
+        attenuation_nonneg := by norm_num
+        bulkTransmission := { value := 1, nonnegative := by norm_num, le_one := by norm_num } }
+    interface :=
+      { reflectionPower := 0
+        transmissionPower := 1
+        absorptionPower := 0
+        reflection_nonnegative := by norm_num
+        transmission_nonnegative := by norm_num
+        absorption_nonnegative := by norm_num
+        power_conservation := by norm_num } }
+
+noncomputable def toyPureMediumComposition (constituent : MediumConstituent) : MediumComposition :=
+  { basis := CompositionBasis.volume
+    constituents := {constituent}
+    fraction := fun _ => { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    fractions_sum_to_one := by simp }
+
+noncomputable def toySoilRockComposition : MediumComposition := by
+  let fraction : MediumConstituent → BoundedFactor := fun constituent =>
+    if constituent = MediumConstituent.soil then
+      { value := 3 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    else
+      { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+  refine
+    { basis := CompositionBasis.volume
+      constituents := {MediumConstituent.soil, MediumConstituent.rock}
+      fraction := fraction
+      fractions_sum_to_one := ?_ }
+  rw [Finset.sum_insert (by simp)]
+  simp [fraction]
+  norm_num
+
+noncomputable def toySoilRockLayer : PropagationLayer :=
+  { composition := toySoilRockComposition
+    responseRegimes := {MediumResponseRegime.ordinary}
+    thickness := { meters := 1 }
+    thickness_positive := by norm_num
+    bulkLoss := toyPendingLink.medium }
+
+noncomputable def toyRockLayer : PropagationLayer :=
+  { composition := toyPureMediumComposition MediumConstituent.rock
+    responseRegimes := {MediumResponseRegime.ordinary}
+    thickness := { meters := 2 }
+    thickness_positive := by norm_num
+    bulkLoss := toyPendingLink.medium }
+
+noncomputable def toyThroughSpacePath : LayeredPropagationPath :=
+  { geometry := PropagationRegime.freeSpace
+    frequency := { hz := 5 }
+    frequency_positive := by norm_num
+    layers := [
+      { composition := toyPureMediumComposition MediumConstituent.vacuum
+        responseRegimes := {MediumResponseRegime.ordinary}
+        thickness := { meters := 1 }
+        thickness_positive := by norm_num
+        bulkLoss := toyPendingLink.medium }
+    ]
+    layers_nonempty := by simp
+    interfaces := [toyPendingLink.interface, toyPendingLink.interface]
+    interface_count := by norm_num }
+
+noncomputable def toySoilRockPath : LayeredPropagationPath :=
+  { geometry := PropagationRegime.lithosphericPath
+    frequency := { hz := 400e9 }
+    frequency_positive := by norm_num
+    layers := [toySoilRockLayer]
+    layers_nonempty := by simp
+    interfaces := [toyPendingLink.interface, toyPendingLink.interface]
+    interface_count := by norm_num }
+
+noncomputable def toyOrderedLayerPath : LayeredPropagationPath :=
+  { geometry := PropagationRegime.lithosphericPath
+    frequency := { hz := 400e9 }
+    frequency_positive := by norm_num
+    layers := [toySoilRockLayer, toyRockLayer]
+    layers_nonempty := by simp
+    interfaces := [toyPendingLink.interface, toyPendingLink.interface,
+      toyPendingLink.interface]
+    interface_count := by norm_num }
+
+example : toySoilRockComposition.constituents.sum
+    (fun constituent => (toySoilRockComposition.fraction constituent).value) = 1 :=
+  toySoilRockComposition.fractions_sum_to_one
+
+example : toyOrderedLayerPath.layers = [toySoilRockLayer, toyRockLayer] := by
+  rfl
+
+example : toyOrderedLayerPath.totalThickness = 3 := by
+  norm_num [LayeredPropagationPath.totalThickness, toyOrderedLayerPath,
+    toySoilRockLayer, toyRockLayer]
+
+noncomputable def toyChannel : ProcaChannel :=
+  { path := toyThroughSpacePath
+    model := toyModel
+    field := toyField
+    mode := toyMode
+    link := toyPendingLink
+    pathFrequencyLaw := by rfl
+    pathDistanceLaw := by norm_num [LayeredPropagationPath.totalThickness,
+      toyThroughSpacePath, toyPendingLink]
+    longitudinalCoupling := 1
+    longitudinalCoupling_nonzero := by norm_num
+    longitudinalModeAssumed := by norm_num [toyMode] }
+
+example : toyChannel.longitudinalCoupling * toyChannel.mode.longitudinalWaveNumber ≠ 0 := by
+  exact toyChannel.longitudinalModeAssumed
+
+noncomputable def toyEzPropagationTrial : ProcaPropagationTrial :=
+  { path := toySoilRockPath
+    frequency := { hz := 400e9 }
+    frequency_nonnegative := by norm_num
+    pathFrequencyLaw := by rfl
+    interpretation := ProcaModeInterpretation.materialLongitudinalEz
+    representation := ProcaStateRepresentation.twistorCoordinates
+    evidenceStatus := ProcaEvidenceStatus.simulation
+    link := toyPendingLink
+    pathDistanceLaw := by norm_num [LayeredPropagationPath.totalThickness,
+      toySoilRockPath, toySoilRockLayer, toyPendingLink]
+    ezFieldFraction := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    longitudinalFieldFraction :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    attenuationUncertaintyPerLength := 0
+    attenuationUncertainty_nonnegative := by norm_num
+    procaDispersionResidual := 1
+    procaDispersionResidual_nonnegative := by norm_num
+    procaDispersionTolerance := 1 / 100
+    procaDispersionTolerance_nonnegative := by norm_num
+    masslessControlResidual := 0
+    masslessControlResidual_nonnegative := by norm_num
+    masslessControlSeparationThreshold := 1 / 10
+    masslessControlSeparationThreshold_nonnegative := by norm_num }
+
+example : toyEzPropagationTrial.interpretation = ProcaModeInterpretation.materialLongitudinalEz := by
+  rfl
+
+example : toyEzPropagationTrial.representation = ProcaStateRepresentation.twistorCoordinates := by
+  rfl
+
+example : ¬ toyEzPropagationTrial.procaModeQualified := by
+  simp [ProcaPropagationTrial.procaModeQualified, toyEzPropagationTrial]
+
+example : toyEzPropagationTrial.link.receivedPower ≤ toyEzPropagationTrial.link.sourcePower.watts := by
+  exact toyEzPropagationTrial.receivedPower_le_sourcePower
+
+noncomputable def toyEarthArgonSource : AtmosphericArgonSource :=
+  { body := BodyTarget.earth
+    argonMoleFraction := earthArgonMoleFraction
+    ambientMolarFlow := { molesPerSecond := 1000 }
+    ambientMolarFlow_nonnegative := by norm_num
+    capturedArgonMolarFlow := { molesPerSecond := 9 }
+    capturedArgonMolarFlow_nonnegative := by norm_num
+    captureLaw := by norm_num [earthArgonMoleFraction] }
+
+noncomputable def toyMarsArgonSource : AtmosphericArgonSource :=
+  { body := BodyTarget.planet "Mars"
+    argonMoleFraction := marsArgonMoleFraction
+    ambientMolarFlow := { molesPerSecond := 1000 }
+    ambientMolarFlow_nonnegative := by norm_num
+    capturedArgonMolarFlow := { molesPerSecond := 19 }
+    capturedArgonMolarFlow_nonnegative := by norm_num
+    captureLaw := by norm_num [marsArgonMoleFraction] }
+
+example : toyEarthArgonSource.argonMoleFraction.value = 0.009 := by
+  rfl
+
+example : toyMarsArgonSource.argonMoleFraction.value = 0.019 := by
+  rfl
+
+example : toyEarthArgonSource.capturedArgonMolarFlow.molesPerSecond = 9 := by
+  norm_num [AtmosphericArgonSource.capture_flow_holds,
+    toyEarthArgonSource, earthArgonMoleFraction]
+
+example : toyMarsArgonSource.capturedArgonMolarFlow.molesPerSecond = 19 := by
+  norm_num [AtmosphericArgonSource.capture_flow_holds,
+    toyMarsArgonSource, marsArgonMoleFraction]
+
+noncomputable def toyPendingArgonFlow : ConductiveArgonFlow :=
+  { massFlow := { kilogramsPerSecond := 3 / 2 }
+    massFlow_nonnegative := by norm_num
+    velocity := { metersPerSecond := 2 }
+    velocity_nonnegative := by norm_num
+    ionizationFraction :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    ionizationFraction_positive := by norm_num
+    conductivity := { siemensPerMeter := 1 }
+    conductivity_positive := by norm_num }
+
+noncomputable def toyPendingFaradayChannel : FaradayChannel :=
+  { conductivity := { siemensPerMeter := 1 }
+    conductivity_nonnegative := by norm_num
+    velocity := { metersPerSecond := 2 }
+    velocity_nonnegative := by norm_num
+    magneticFluxDensity := { tesla := 2 }
+    magneticFluxDensity_nonnegative := by norm_num
+    load :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    channelVolume := { cubicMeters := 1 }
+    channelVolume_pos := by norm_num
+    powerDensity := { wattsPerCubicMeter := 4 }
+    powerDensityLaw := by
+      norm_num [idealFaradayPowerDensity, loadingFactor]
+    extractedPower := { watts := 4 }
+    extractedPower_nonnegative := by norm_num
+    extractedPowerLaw := by norm_num }
+
+def toyPendingMHDAccounting : MHDPowerAccounting :=
+  { controlPower := { watts := 1 }
+    controlPower_nonnegative := by norm_num
+    motivePower := { watts := 3 }
+    motivePower_nonnegative := by norm_num
+    electricalOutputPower := { watts := 4 }
+    electricalOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 0 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+noncomputable def toyPendingArgonMHDPlant : ArgonMHDPlant :=
+  { argon := toyPendingArgonFlow
+    channel := toyPendingFaradayChannel
+    accounting := toyPendingMHDAccounting
+    kineticInputPower := { watts := 3 }
+    kineticInputPowerLaw := by
+      norm_num [argonKineticPower, toyPendingArgonFlow]
+    motivePowerLaw := by rfl
+    outputPowerLaw := by rfl }
+
+noncomputable def toyProcaMHDHypothesis : ProcaMHDHypothesis :=
+  { channel := toyChannel
+    plant := toyPendingArgonMHDPlant
+    operatingCosts :=
+      { pumpPower := { watts := 1 }
+        pumpPower_nonnegative := by norm_num
+        ionizationPower := { watts := 2 }
+        ionizationPower_nonnegative := by norm_num
+        fieldPower := { watts := 1 }
+        fieldPower_nonnegative := by norm_num
+        coolingPower := { watts := 1 }
+        coolingPower_nonnegative := by norm_num }
+    controlField :=
+      { channel := toyChannel
+        role := ProcaMHDFieldRole.coupling
+        frequency := { hz := 5 }
+        frequency_pos := by norm_num
+        frequencyMatch := by
+          change (5 : ℝ) = 5
+          rfl
+        controlPower := { watts := 1 }
+        controlPower_nonnegative := by norm_num
+        couplingGain := 3
+        couplingGain_nonnegative := by norm_num
+        coupledMotivePower := { watts := 3 }
+        coupledMotivePower_nonnegative := by norm_num
+        couplingPowerLaw := by norm_num
+        couplingResidual := 0
+        couplingResidual_nonnegative := by norm_num
+        couplingTolerance := 1
+        couplingTolerance_nonnegative := by norm_num
+        couplingWithinTolerance := by norm_num }
+    controlFieldChannelLaw := by rfl
+    opticalControlPower := { watts := 1 }
+    opticalControlPower_pos := by norm_num
+    opticalControlPowerLaw := by rfl
+    controlFieldPowerLaw := by rfl
+    motivePower := { watts := 3 }
+    motivePower_nonnegative := by norm_num
+    motivePowerLaw := by rfl
+    coupledMotivePowerLaw := by rfl
+    reportedQFactor := 4
+    reportedQFactorLaw := by
+      norm_num [controlOnlyRatio, toyPendingArgonMHDPlant,
+        toyPendingMHDAccounting] }
+
+example : toyPendingArgonMHDPlant.channel.load.value = 1 / 2 := by
+  rfl
+
+example : toyPendingArgonMHDPlant.accounting.electricalOutputPower.watts =
+    toyPendingArgonMHDPlant.accounting.controlPower.watts +
+      toyPendingArgonMHDPlant.accounting.motivePower.watts -
+        toyPendingArgonMHDPlant.accounting.lossPower.watts := by
+  norm_num [toyPendingArgonMHDPlant, toyPendingMHDAccounting]
+
+example : toyProcaMHDHypothesis.reportedQFactor = 4 := by
+  rfl
+
+example : toyProcaMHDHypothesis.controlField.coupledMotivePower.watts =
+    toyProcaMHDHypothesis.controlField.couplingGain *
+      toyProcaMHDHypothesis.controlField.controlPower.watts := by
+  exact toyProcaMHDHypothesis.controlField.coupled_motive_power_holds
+
+example : toyProcaMHDHypothesis.reportedQFactor > 2 ↔
+    2 * toyProcaMHDHypothesis.opticalControlPower.watts <
+      toyProcaMHDHypothesis.plant.accounting.electricalOutputPower.watts := by
+  exact toyProcaMHDHypothesis.reported_qfactor_gt_iff 2
+
+example : toyProcaMHDHypothesis.plant.accounting.totalInputPower.watts =
+    toyProcaMHDHypothesis.opticalControlPower.watts +
+      toyProcaMHDHypothesis.motivePower.watts := by
+  exact toyProcaMHDHypothesis.total_input_includes_motive
+
+example : toyProcaMHDHypothesis.plant.accounting.efficiency ≤ 1 := by
+  apply toyProcaMHDHypothesis.actual_efficiency_le_one
+  change (0 : ℝ) < 1 + 3
+  norm_num
+
+example : toyProcaMHDHypothesis.plant.accounting.fullEfficiency
+    toyProcaMHDHypothesis.operatingCosts ≤ 1 := by
+  apply toyProcaMHDHypothesis.actual_full_efficiency_le_one
+  change (0 : ℝ) < (1 + 3) + (1 + 2 + 1 + 1)
+  norm_num
+
+def earthLfVector : RadioTestVector :=
+  { band := RadioBand.lf
+    frequencyHz := 100000
+    frequency_positive := by norm_num
+    inBand := by norm_num [RadioBand.inRange, RadioBand.lowerHz, RadioBand.upperHz] }
+
+def marsVlfVector : RadioTestVector :=
+  { band := RadioBand.vlf
+    frequencyHz := 10000
+    frequency_positive := by norm_num
+    inBand := by norm_num [RadioBand.inRange, RadioBand.lowerHz, RadioBand.upperHz] }
+
+def earthRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.earth
+    geometry := PropagationRegime.throughBody BodyTarget.earth
+    frequency := earthLfVector
+    geometryLaw := by rfl }
+
+def marsRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.planet "Mars"
+    geometry := PropagationRegime.throughBody (BodyTarget.planet "Mars")
+    frequency := marsVlfVector
+    geometryLaw := by rfl }
+
+def asteroidRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.asteroid "Ceres"
+    geometry := PropagationRegime.throughBody (BodyTarget.asteroid "Ceres")
+    frequency := earthLfVector
+    geometryLaw := by rfl }
+
+def namedBodyRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.named "TestBody"
+    geometry := PropagationRegime.throughBody (BodyTarget.named "TestBody")
+    frequency := marsVlfVector
+    geometryLaw := by rfl }
+
+example : earthRouteVector.frequency.band = RadioBand.lf := by
+  rfl
+
+example : marsRouteVector.frequency.band = RadioBand.vlf := by
+  rfl
+
+example : asteroidRouteVector.target.kind = BodyKind.asteroid := by
+  rfl
+
+example : namedBodyRouteVector.geometry =
+    PropagationRegime.throughBody (BodyTarget.named "TestBody") := by
+  exact namedBodyRouteVector.geometry_eq_target
+
+noncomputable def toyIGPE : IGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    potential := 0
+    coupling := 0
+    density := 0
+    density_nonnegative := by norm_num
+    wavefunction := 1
+    timeDerivative := 0
+    laplacian := 0
+    balance := by norm_num }
+
+example :
+    Complex.I * toyIGPE.hbar * toyIGPE.timeDerivative =
+      (-(toyIGPE.hbar ^ 2 / (2 * toyIGPE.effectiveMass))) * toyIGPE.laplacian +
+        (toyIGPE.potential + toyIGPE.coupling * toyIGPE.density) * toyIGPE.wavefunction := by
+  exact toyIGPE.balance_holds
+
+example : toyIGPE.formulation = GPEVariant.interactive := by
+  rfl
+
+noncomputable def toyInverseGPE : InverseGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    coupling := 0
+    density := 0
+    density_nonnegative := by norm_num
+    wavefunction := 1
+    wavefunction_nonzero := by norm_num
+    timeDerivative := 0
+    laplacian := 0
+    potential := 0
+    inverseLaw := by norm_num }
+
+example : toyInverseGPE.formulation = GPEVariant.inverse := by
+  rfl
+
+example : toyInverseGPE.potential =
+    Complex.I * toyInverseGPE.hbar * toyInverseGPE.timeDerivative /
+        toyInverseGPE.wavefunction +
+      ((toyInverseGPE.hbar ^ 2 /
+          (2 * toyInverseGPE.effectiveMass) : ℝ) : ℂ) *
+        toyInverseGPE.laplacian / toyInverseGPE.wavefunction -
+      ((toyInverseGPE.coupling * toyInverseGPE.density : ℝ) : ℂ) := by
+  exact toyInverseGPE.potential_reconstruction
+
+noncomputable def toyInhomogeneousGPE : InhomogeneousGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    potential := 0
+    coupling := 0
+    density := 0
+    density_nonnegative := by norm_num
+    wavefunction := 1
+    timeDerivative := -Complex.I
+    laplacian := 0
+    source := 1
+    balance := by norm_num }
+
+example : toyInhomogeneousGPE.formulation = GPEVariant.inhomogeneous := by
+  rfl
+
+example :
+    Complex.I * toyInhomogeneousGPE.hbar * toyInhomogeneousGPE.timeDerivative =
+      (-(toyInhomogeneousGPE.hbar ^ 2 /
+          (2 * toyInhomogeneousGPE.effectiveMass))) *
+          toyInhomogeneousGPE.laplacian +
+        (toyInhomogeneousGPE.potential +
+          toyInhomogeneousGPE.coupling * toyInhomogeneousGPE.density) *
+          toyInhomogeneousGPE.wavefunction +
+        toyInhomogeneousGPE.source := by
+  exact toyInhomogeneousGPE.balance_holds
+
+def toyThermalCovariance : Matrix (Fin 3) (Fin 3) ℝ :=
+  fun row column => if row = column then 1 else 0
+
+def toyNitrogen : AtmosphericSpecies :=
+  { name := "N2"
+    particleMass := 28
+    particleMass_pos := by norm_num
+    partialDensity := 7
+    partialDensity_nonnegative := by norm_num
+    temperature := 300
+    temperature_pos := by norm_num }
+
+def toyOxygen : AtmosphericSpecies :=
+  { name := "O2"
+    particleMass := 32
+    particleMass_pos := by norm_num
+    partialDensity := 2
+    partialDensity_nonnegative := by norm_num
+    temperature := 300
+    temperature_pos := by norm_num }
+
+noncomputable def toyNitrogenSplat : TensorGaussianSplat :=
+  { species := toyNitrogen
+    meanVelocity := fun _ => 0
+    covariance := toyThermalCovariance
+    covariance_symmetric := by
+      intro row column
+      by_cases equal : row = column
+      · simp [equal]
+      · have notEqual : column ≠ row := by
+          intro reverse
+          exact equal reverse.symm
+        simp [toyThermalCovariance, equal, notEqual]
+    covariance_diagonal_nonnegative := by
+      intro axis
+      simp [toyThermalCovariance]
+    boltzmannScale := 28 / 300
+    boltzmannScale_pos := by norm_num
+    thermalVariance := 1
+    thermalVariance_nonnegative := by norm_num
+    thermalVarianceLaw := by norm_num [toyNitrogen]
+    covarianceDiagonalLaw := by
+      intro axis
+      simp [toyThermalCovariance] }
+
+noncomputable def toyOxygenSplat : TensorGaussianSplat :=
+  { species := toyOxygen
+    meanVelocity := fun _ => 0
+    covariance := toyThermalCovariance
+    covariance_symmetric := by
+      intro row column
+      by_cases equal : row = column
+      · simp [equal]
+      · have notEqual : column ≠ row := by
+          intro reverse
+          exact equal reverse.symm
+        simp [toyThermalCovariance, equal, notEqual]
+    covariance_diagonal_nonnegative := by
+      intro axis
+      simp [toyThermalCovariance]
+    boltzmannScale := 32 / 300
+    boltzmannScale_pos := by norm_num
+    thermalVariance := 1
+    thermalVariance_nonnegative := by norm_num
+    thermalVarianceLaw := by norm_num [toyOxygen]
+    covarianceDiagonalLaw := by
+      intro axis
+      simp [toyThermalCovariance] }
+
+noncomputable def toyAtmosphericMixture : AtmosphericMixture 2 :=
+  { component := fun index =>
+      if index = 0 then toyNitrogenSplat else toyOxygenSplat }
+
+example : (toyAtmosphericMixture.component 0).species.name = "N2" := by
+  rfl
+
+example : (toyAtmosphericMixture.component 1).species.name = "O2" := by
+  rfl
+
+example : toyAtmosphericMixture.totalPartialDensity = 9 := by
+  norm_num [AtmosphericMixture.totalPartialDensity, toyAtmosphericMixture,
+    toyNitrogenSplat, toyOxygenSplat, toyNitrogen, toyOxygen,
+    Fin.sum_univ_succ]
+
+noncomputable def toyAtmosphericScavenging : AtmosphericScavenging 2 :=
+  { mixture := toyAtmosphericMixture
+    gateWidth := 1
+    gateWidth_pos := by norm_num
+    acceptance := fun index => if index = 0 then 1 else 1 / 2
+    acceptance_nonnegative := by
+      intro index
+      fin_cases index <;> norm_num
+    acceptance_le_one := by
+      intro index
+      fin_cases index <;> norm_num
+    normalizedThroughput := 8
+    normalizedThroughputLaw := by
+      norm_num [toyAtmosphericMixture, toyNitrogenSplat, toyOxygenSplat,
+        toyNitrogen, toyOxygen, Fin.sum_univ_succ] }
+
+example : toyAtmosphericScavenging.normalizedThroughput = 8 := by
+  rfl
+
+example : 0 ≤ toyAtmosphericScavenging.normalizedThroughput := by
+  exact toyAtmosphericScavenging.normalizedThroughput_nonnegative
+
+noncomputable def toyDimensionedScavenging : DimensionedScavengingFlow 2 :=
+  { normalizedModel := toyAtmosphericScavenging
+    flowScale := { kilogramsPerSecond := 2 }
+    flowScale_nonnegative := by norm_num
+    massFlow := { kilogramsPerSecond := 16 }
+    massFlowLaw := by norm_num [toyAtmosphericScavenging] }
+
+example : toyDimensionedScavenging.massFlow.kilogramsPerSecond = 16 := by
+  rfl
+
+example : 0 ≤ toyDimensionedScavenging.massFlow.kilogramsPerSecond := by
+  exact toyDimensionedScavenging.massFlow_nonnegative
+
+def toyClassicalControlVolume : ClassicalControlVolume :=
+  { inletMassFlow := { kilogramsPerSecond := 2 }
+    inletMassFlow_nonnegative := by norm_num
+    outletMassFlow := { kilogramsPerSecond := 2 }
+    outletMassFlow_nonnegative := by norm_num
+    massStorageRate := { kilogramsPerSecond := 0 }
+    massBalance := by norm_num
+    inletSpeed := { metersPerSecond := 10 }
+    inletSpeed_nonnegative := by norm_num
+    outletSpeed := { metersPerSecond := 20 }
+    outletSpeed_nonnegative := by norm_num
+    inletMomentumFlux := { newtons := 20 }
+    inletMomentumFluxLaw := by norm_num
+    outletMomentumFlux := { newtons := 40 }
+    outletMomentumFluxLaw := by norm_num
+    momentumStorageRate := { newtons := 0 }
+    externalAxialForce := { newtons := 20 }
+    momentumBalance := by norm_num
+    electricalInputPower := { watts := 5 }
+    electricalInputPower_nonnegative := by norm_num
+    aerodynamicHeatPower := { watts := 7 }
+    aerodynamicHeatPower_nonnegative := by norm_num
+    usefulOutputPower := { watts := 10 }
+    usefulOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 2 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+example : toyClassicalControlVolume.inletMassFlow.kilogramsPerSecond =
+    toyClassicalControlVolume.outletMassFlow.kilogramsPerSecond := by
+  exact toyClassicalControlVolume.steady_mass_flow (by
+    norm_num [toyClassicalControlVolume])
+
+example : toyClassicalControlVolume.externalAxialForce.newtons = 20 := by
+  norm_num [ClassicalControlVolume.external_force_eq_momentum_change,
+    toyClassicalControlVolume]
+
+example : toyClassicalControlVolume.usefulOutputPower.watts ≤
+    toyClassicalControlVolume.electricalInputPower.watts +
+      toyClassicalControlVolume.aerodynamicHeatPower.watts := by
+  exact toyClassicalControlVolume.useful_output_le_input
+
+def toyFlowBoundaryCondition : FlowBoundaryCondition :=
+  { pressure := { pascals := 101325 }
+    pressure_nonnegative := by norm_num
+    heatFlux := { wattsPerSquareMeter := 100 }
+    heatFlux_nonnegative := by norm_num
+    velocity := fun _ => { metersPerSecond := 3 } }
+
+def toyFlowBoundaryObservation : FlowBoundaryObservation :=
+  { measured := toyFlowBoundaryCondition
+    predicted := toyFlowBoundaryCondition
+    pressureTolerance := 1
+    pressureTolerance_nonnegative := by norm_num
+    pressureResidual := 0
+    pressureResidualLaw := by norm_num [toyFlowBoundaryCondition]
+    heatFluxTolerance := 1
+    heatFluxTolerance_nonnegative := by norm_num
+    heatFluxResidual := 0
+    heatFluxResidualLaw := by norm_num [toyFlowBoundaryCondition]
+    velocityTolerance := 1
+    velocityTolerance_nonnegative := by norm_num
+    velocityResidual := fun _ => 0
+    velocityResidualLaw := by
+      intro axis
+      norm_num [toyFlowBoundaryCondition]
+    consistent := by
+      constructor
+      · norm_num
+      constructor
+      · norm_num
+      · intro axis
+        norm_num }
+
+example : |toyFlowBoundaryObservation.pressureResidual| ≤
+    toyFlowBoundaryObservation.pressureTolerance := by
+  exact toyFlowBoundaryObservation.pressure_within_tolerance
+
+example : |toyFlowBoundaryObservation.heatFluxResidual| ≤
+    toyFlowBoundaryObservation.heatFluxTolerance := by
+  exact toyFlowBoundaryObservation.heatFlux_within_tolerance
+
+example : |toyFlowBoundaryObservation.velocityResidual 2| ≤
+    toyFlowBoundaryObservation.velocityTolerance := by
+  exact toyFlowBoundaryObservation.velocity_within_tolerance 2
+
+noncomputable def toyHomogenization : PhaseSlipHomogenization 2 :=
+  { input := toyAtmosphericMixture
+    targetVelocity := fun _ => 1
+    outputVelocity := fun _ => fun _ => 1
+    outputCovariance := fun _ => 0
+    velocityLock := by
+      intro index
+      rfl
+    covarianceCollapse := by
+      intro index
+      rfl }
+
+example : toyHomogenization.outputVelocity 0 = toyHomogenization.targetVelocity := by
+  exact toyHomogenization.common_velocity 0
+
+example : toyHomogenization.outputCovariance 1 = 0 := by
+  exact toyHomogenization.zero_output_covariance 1
+
+def toySquarePanel : SquarePanel :=
+  { width := 1
+    width_pos := by norm_num
+    height := 1
+    height_pos := by norm_num
+    tileRows := 2
+    tileRows_positive := by norm_num
+    tileColumns := 2
+    tileColumns_positive := by norm_num }
+
+noncomputable def toySquarePanelPlume : SquarePanelPlume :=
+  { panel := toySquarePanel
+    unshapedEdgeShear := 10
+    unshapedEdgeShear_nonnegative := by norm_num
+    apodization := 3 / 5
+    apodization_nonnegative := by norm_num
+    apodization_le_one := by norm_num
+    residualEdgeShear := 4
+    residualEdgeShearLaw := by norm_num }
+
+example : toySquarePanelPlume.edgeShearIndicator = 4 := by
+  rfl
+
+example : toySquarePanelPlume.edgeShearIndicator ≤
+    toySquarePanelPlume.unshapedEdgeShear := by
+  exact toySquarePanelPlume.edgeShearIndicator_bounds.2
+
+noncomputable def toyAcousticMedium : Signals.Acoustics.Medium :=
+  { density := 1
+    density_pos := by norm_num
+    soundSpeed := 1
+    soundSpeed_pos := by norm_num
+    attenuationPerLength := 0
+    attenuation_nonnegative := by norm_num }
+
+noncomputable def toyAcousticWave : Signals.Acoustics.Wave :=
+  { frequencyHz := 30000
+    frequency_positive := by norm_num
+    pressureAmplitude := 1
+    pressureAmplitude_nonnegative := by norm_num
+    medium := toyAcousticMedium }
+
+noncomputable def toyUltrasonicTransfer : Signals.Acoustics.UltrasonicTransfer :=
+  { wave := toyAcousticWave
+    ultrasonicFrequency := by norm_num [toyAcousticWave]
+    link := toyPendingLink
+    apertureArea := 1
+    apertureArea_pos := by norm_num
+    transmitterEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    receiverEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    sourcePowerLaw := by
+      norm_num [toyPendingLink, toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity, Signals.Acoustics.Medium.impedance] }
+
+noncomputable def toyAcousticMeasurement : Signals.Acoustics.TransferMeasurement :=
+  { predictedPower := 1
+    observedPower := 6 / 5
+    tolerance := 1 / 10
+    tolerance_nonnegative := by norm_num
+    residual := 1 / 5
+    residualLaw := by norm_num }
+
+noncomputable def toyAcousticEvidence : AcousticFractureEvidence :=
+  { transfer := toyUltrasonicTransfer
+    measurement := toyAcousticMeasurement
+    predictedPowerLaw := by
+      norm_num [toyUltrasonicTransfer, toyPendingLink,
+        Signals.Acoustics.UltrasonicTransfer.receivedPower,
+        LinkBudget.receivedPower, LinkBudget.transferFactor,
+        CouplingFactors.total, LinkBudget.attenuationFactor,
+        toyAcousticMeasurement]
+    outsideClassicalTolerance := by
+      norm_num [Signals.Acoustics.TransferMeasurement.consistent,
+        toyAcousticMeasurement] }
+
+example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incidentPower := by
+  exact toyUltrasonicTransfer.receivedPower_le_incidentPower
+
+noncomputable def toyAcousticPathLayer : AcousticPathLayer :=
+  { materialReference := "toy acoustic material"
+    materialReference_nonempty := by decide
+    medium := toyAcousticMedium
+    thickness := { meters := 1 }
+    thickness_positive := by norm_num
+    transferMatrix := AcousticTransferMatrix.identity
+    transferResidual := 0
+    transferResidual_nonnegative := by norm_num
+    transferTolerance := 1 / 10
+    transferTolerance_nonnegative := by norm_num
+    transferWithinTolerance := by norm_num }
+
+noncomputable def toyAcousticPathInterface : AcousticPathInterface :=
+  { interfaceReference := "toy acoustic interface"
+    interfaceReference_nonempty := by decide
+    response := toyPendingLink.interface
+    transferMatrix := AcousticTransferMatrix.identity
+    transferResidual := 0
+    transferResidual_nonnegative := by norm_num
+    transferTolerance := 1 / 10
+    transferTolerance_nonnegative := by norm_num
+    transferWithinTolerance := by norm_num }
+
+noncomputable def toyLayeredAcousticPath : LayeredAcousticPath :=
+  { frequency := { hz := 1000000 }
+    frequency_positive := by norm_num
+    sourceImpedance := 1
+    sourceImpedance_positive := by norm_num
+    loadImpedance := 1
+    loadImpedance_positive := by norm_num
+    layers := [toyAcousticPathLayer]
+    layers_nonempty := by simp
+    interfaces := [toyAcousticPathInterface, toyAcousticPathInterface]
+    interface_count := by norm_num
+    transferMatrix := AcousticTransferMatrix.identity
+    transferMatrixLaw := by
+      simp [AcousticTransferMatrix.orderedCascade, AcousticTransferMatrix.identity,
+        AcousticTransferMatrix.cascade, toyAcousticPathLayer, toyAcousticPathInterface]
+    transferDenominator_nonzero := by
+      norm_num [AcousticTransferMatrix.transmissionDenominator,
+        AcousticTransferMatrix.identity]
+    powerTransmission := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    powerTransmissionLaw := by
+      norm_num [AcousticTransferMatrix.powerTransmission,
+        AcousticTransferMatrix.transmissionDenominator, AcousticTransferMatrix.identity]
+    phaseDelay := { seconds := 1 / 1000000 }
+    phaseDelay_nonnegative := by norm_num
+    calibrationResidual := 0
+    calibrationResidual_nonnegative := by norm_num
+    calibrationTolerance := 1 / 10
+    calibrationTolerance_nonnegative := by norm_num
+    calibrationWithinTolerance := by norm_num
+    artifactReference := "synthetic matched-port layer-stack fixture" }
+
+noncomputable def toyLayeredUltrasonicTransfer : LayeredUltrasonicTransfer :=
+  { path := toyLayeredAcousticPath
+    electricalInputPower := { watts := 100 }
+    electricalInput_nonnegative := by norm_num
+    transmitterEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    acousticLaunchPower := { watts := 50 }
+    acousticLaunchPower_nonnegative := by norm_num
+    transmitterLossPower := { watts := 50 }
+    transmitterLossPower_nonnegative := by norm_num
+    transmitterConversionLaw := by norm_num
+    transmitterEnergyBalance := by norm_num
+    auxiliaryPathInputPower := { watts := 0 }
+    auxiliaryPathInputPower_nonnegative := by norm_num
+    acousticReceivedPower := { watts := 50 }
+    acousticReceivedPower_nonnegative := by norm_num
+    reflectedPower := { watts := 0 }
+    reflectedPower_nonnegative := by norm_num
+    absorbedPower := { watts := 0 }
+    absorbedPower_nonnegative := by norm_num
+    distributedLossPower := { watts := 0 }
+    distributedLossPower_nonnegative := by norm_num
+    pathTransmissionLaw := by norm_num [toyLayeredAcousticPath]
+    pathEnergyBalance := by norm_num
+    receiverEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    deliveredElectricalPower := { watts := 25 }
+    deliveredElectricalPower_nonnegative := by norm_num
+    receiverLossPower := { watts := 25 }
+    receiverLossPower_nonnegative := by norm_num
+    receiverConversionLaw := by norm_num
+    receiverEnergyBalance := by norm_num }
+
+example : toyLayeredAcousticPath.totalThickness = 1 := by
+  norm_num [LayeredAcousticPath.totalThickness, toyLayeredAcousticPath,
+    toyAcousticPathLayer]
+
+example : toyLayeredAcousticPath.powerTransmission.value = 1 := by
+  rfl
+
+example : toyLayeredUltrasonicTransfer.electricalInputPower.watts +
+  toyLayeredUltrasonicTransfer.auxiliaryPathInputPower.watts =
+    toyLayeredUltrasonicTransfer.deliveredElectricalPower.watts +
+      toyLayeredUltrasonicTransfer.transmitterLossPower.watts +
+      toyLayeredUltrasonicTransfer.reflectedPower.watts +
+      toyLayeredUltrasonicTransfer.absorbedPower.watts +
+      toyLayeredUltrasonicTransfer.distributedLossPower.watts +
+      toyLayeredUltrasonicTransfer.receiverLossPower.watts := by
+  exact toyLayeredUltrasonicTransfer.energy_balance
+
+example : toyLayeredUltrasonicTransfer.deliveredElectricalPower.watts ≤
+    toyLayeredUltrasonicTransfer.electricalInputPower.watts +
+      toyLayeredUltrasonicTransfer.auxiliaryPathInputPower.watts := by
+  exact toyLayeredUltrasonicTransfer.deliveredPower_le_totalInput
+
+noncomputable def toyMatrixA : AcousticTransferMatrix :=
+  { a := 1, b := 1, c := 0, d := 1 }
+
+noncomputable def toyMatrixB : AcousticTransferMatrix :=
+  { a := 1, b := 0, c := 1, d := 1 }
+
+example : (AcousticTransferMatrix.cascade toyMatrixA toyMatrixB).a ≠
+  (AcousticTransferMatrix.cascade toyMatrixB toyMatrixA).a := by
+  norm_num [AcousticTransferMatrix.cascade, toyMatrixA, toyMatrixB]
+
+example : toyAcousticEvidence.supportsFractureHypothesis := by
+  exact toyAcousticEvidence.outsideClassicalTolerance
+
+noncomputable def toyFractureMediatedUltrasonicTransfer :
+    FractureMediatedUltrasonicTransfer :=
+  { transfer := toyUltrasonicTransfer
+    fractureMechanismLabel := "cavitation-assisted fracture transfer"
+    fractureCouplingFraction :=
+      { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    fractureCouplingResidual := 1 / 100
+    fractureCouplingResidual_nonnegative := by norm_num
+    fractureCouplingTolerance := 1 / 10
+    fractureCouplingTolerance_nonnegative := by norm_num
+    fractureCouplingWithinTolerance := by norm_num
+    receiverPower := { watts := 1 / 10 }
+    receiverPower_nonnegative := by norm_num
+    receiverPowerLaw := by
+      norm_num [toyUltrasonicTransfer,
+        Signals.Acoustics.UltrasonicTransfer.receivedPower,
+        Signals.Acoustics.UltrasonicTransfer.incidentPower,
+        toyPendingLink, LinkBudget.receivedPower, LinkBudget.transferFactor,
+        CouplingFactors.total, LinkBudget.attenuationFactor,
+        toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity,
+        Signals.Acoustics.Medium.impedance]
+    absorbedPower := { watts := 1 / 10 }
+    absorbedPower_nonnegative := by norm_num
+    lossPower := { watts := 4 / 5 }
+    lossPower_nonnegative := by norm_num
+    receivedPowerBalance := by
+      norm_num [toyUltrasonicTransfer,
+        Signals.Acoustics.UltrasonicTransfer.incidentPower,
+        toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity,
+        Signals.Acoustics.Medium.impedance]
+    cavitationControl := True
+    cavitationControl_hypothesis := True.intro
+    fractureControl := True
+    fractureControl_hypothesis := True.intro
+    thermalControl := True
+    thermalControl_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    replicationCount := 2
+    replicationCount_min := by norm_num }
+
+example : FractureMediatedUltrasonicTransfer.comparisonReady
+    toyFractureMediatedUltrasonicTransfer := by
+  simp [FractureMediatedUltrasonicTransfer.comparisonReady,
+    toyFractureMediatedUltrasonicTransfer]
+  norm_num
+
+noncomputable def toyAcousticCrackleObservation : AcousticCrackleObservation :=
+  { sourceLabel := "lignin-vitrimer acoustic crackle run"
+    artifactReference := "calibrated I/Q acoustic capture"
+    calibratedIQLength := 4096
+    calibratedIQLength_min := by norm_num
+    acousticResidual := 2
+    acousticResidual_nonnegative := by norm_num
+    classicalResidualTolerance := 1
+    classicalResidualTolerance_nonnegative := by norm_num
+    outsideClassicalTolerance := by norm_num
+    bispectrumMagnitude := 2
+    bispectrumMagnitude_nonnegative := by norm_num
+    trispectrumMagnitude := 3
+    trispectrumMagnitude_nonnegative := by norm_num
+    higherOrderNoiseFloor := 1
+    higherOrderNoiseFloor_nonnegative := by norm_num
+    trispectrumAboveNoise := by norm_num
+    thermalNoiseEstimate := 1 / 10
+    thermalNoiseEstimate_nonnegative := by norm_num
+    strainRate := 4
+    strainRate_nonnegative := by norm_num
+    dielectricPhaseResidual := 1 / 100
+    dielectricPhaseResidual_nonnegative := by norm_num
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    negativeControlPassed := True
+    negativeControlPassed_hypothesis := True.intro
+    replicationCount := 2
+    replicationCount_min := by norm_num }
+
+example : AcousticCrackleObservation.comparisonReady
+    toyAcousticCrackleObservation := by
+  simp [AcousticCrackleObservation.comparisonReady,
+    toyAcousticCrackleObservation]
+
+noncomputable def toyPhaseSlipCoreObservation : PhaseSlipCoreObservation :=
+  { sourceLabel := "phase-ordered superfluid analog"
+    artifactReference := "phase-density interferometric capture"
+    winding := 1
+    phaseJump := 2 * Real.pi
+    phaseJumpLaw := by norm_num
+    orderParameterAmplitude := 0
+    orderParameterAmplitude_nonnegative := by norm_num
+    coreDensity := 0
+    coreDensity_nonnegative := by norm_num
+    coreDensityZero := by rfl
+    phaseUndefinedAtCore := True
+    phaseUndefinedAtCore_hypothesis := True.intro
+    densityCalibration := True
+    densityCalibration_hypothesis := True.intro
+    phaseCalibration := True
+    phaseCalibration_hypothesis := True.intro
+    controlCoreDensity := 0
+    controlCoreDensity_nonnegative := by norm_num
+    controlCoreDensityTolerance := 1 / 10
+    controlCoreDensityTolerance_nonnegative := by norm_num
+    controlCoreWithinTolerance := by norm_num }
+
+example : PhaseSlipCoreObservation.supportsCandidate
+    toyPhaseSlipCoreObservation := by
+  simp [PhaseSlipCoreObservation.supportsCandidate,
+    toyPhaseSlipCoreObservation]
+
+noncomputable def toyMagnusControl : MagnusEffectControl :=
+  { mediumDensity := { kilogramsPerCubicMeter := 2 }
+    mediumDensity_nonnegative := by norm_num
+    inflowSpeed := { metersPerSecond := 3 }
+    inflowSpeed_nonnegative := by norm_num
+    signedCirculation := 4
+    predictedLiftPerSpan := 24
+    predictedLiftPerSpanLaw := by norm_num
+    measuredLiftPerSpan := 24
+    liftResidual := 0
+    liftResidualLaw := by norm_num
+    liftTolerance := 1 / 10
+    liftTolerance_nonnegative := by norm_num
+    liftWithinTolerance := by norm_num
+    circulationConvention := "positive counter-clockwise circulation"
+    inflowCalibrationReference := "classical flow-control fixture" }
+
+example : toyMagnusControl.consistent := by
+  exact toyMagnusControl.liftWithinTolerance
+
+noncomputable def toyDDFVortexObservable : DDFVortexObservable :=
+  { circulation := 2
+    circulationUncertainty := 1 / 10
+    circulationUncertainty_nonnegative := by norm_num
+    bernoulliPressureDeficit := { pascals := 3 }
+    bernoulliPressureDeficit_nonnegative := by norm_num
+    radialInflow := -4
+    swirlVelocity := 1
+    transverseModeAmplitude := 1 / 2
+    transverseModeAmplitude_nonnegative := by norm_num
+    independentCalibration := True
+    independentCalibration_hypothesis := True.intro
+    observableLabel := "independent vortex circulation and pressure fixture" }
+
+example : toyDDFVortexObservable.circulation_detectable := by
+  norm_num [DDFVortexObservable.circulation_detectable,
+    toyDDFVortexObservable, abs_of_nonneg]
+
+example : toyDDFVortexObservable.supportsIndependentDefectSlot := by
+  simp [DDFVortexObservable.supportsIndependentDefectSlot,
+    DDFVortexObservable.circulation_detectable,
+    DDFVortexObservable.pressure_deficit_detectable,
+    DDFVortexObservable.transverse_mode_detectable,
+    toyDDFVortexObservable]
+
+noncomputable def toyDDFSubstrate : Signals.DDF.DDFSubstrate :=
+  { m_phi := 1
+    m_phi_pos := by norm_num
+    m_varphi := 2
+    m_varphi_pos := by norm_num
+    rho_phi_0 := 1
+    rho_phi_0_pos := by norm_num
+    rho_max_varphi := 1
+    rho_max_varphi_pos := by norm_num
+    j_min_varphi := 1
+    j_min_varphi_pos := by norm_num }
+
+noncomputable def toyMadelungEulerKortewegBridge :
+    MadelungEulerKortewegBridge :=
+  { phaseConvention := MadelungPhaseConvention.actionPhase
+    hbar := 1
+    hbar_pos := by norm_num
+    mass := 2
+    mass_pos := by norm_num
+    densityFloor := 1 / 10
+    densityFloor_pos := by norm_num
+    observedDensity := 1
+    observedDensity_nonnegative := by norm_num
+    densityAboveFloor := by norm_num
+    phaseGradientMagnitude := 2
+    phaseGradientMagnitude_nonnegative := by norm_num
+    velocityPotentialMagnitude := 1
+    velocityPotentialMagnitude_nonnegative := by norm_num
+    velocityPotentialLaw := by norm_num
+    quantumPressureCoefficient := 1 / 8
+    quantumPressureCoefficientLaw := by norm_num
+    continuityResidual := 1 / 100
+    continuityResidual_nonnegative := by norm_num
+    continuityTolerance := 1 / 10
+    continuityTolerance_nonnegative := by norm_num
+    continuityWithinTolerance := by norm_num
+    momentumResidual := 1 / 100
+    momentumResidual_nonnegative := by norm_num
+    momentumTolerance := 1 / 10
+    momentumTolerance_nonnegative := by norm_num
+    momentumWithinTolerance := by norm_num
+    irrotationalResidual := 1 / 100
+    irrotationalResidual_nonnegative := by norm_num
+    irrotationalTolerance := 1 / 10
+    irrotationalTolerance_nonnegative := by norm_num
+    irrotationalWithinTolerance := by norm_num
+    quantumPressureIncluded := True
+    quantumPressureIncluded_hypothesis := True.intro
+    calibrated := True
+    calibrated_hypothesis := True.intro }
+
+example : toyMadelungEulerKortewegBridge.velocityPotentialMagnitude = 1 := by
+  rfl
+
+noncomputable def toyNSDDFBridge : NSDDFBridge :=
+  { substrate := toyDDFSubstrate
+    regime := DDFFlowRegime.lowMachEffectiveIncompressible
+    sourceLabel := "low-Mach DDF bridge diagnostic"
+    artifactReference := "synthetic continuity-pressure comparison"
+    density := 1
+    density_pos := by norm_num
+    densityRate := 0
+    divergence := 0
+    sinkRate := 0
+    sinkRate_nonnegative := by norm_num
+    continuityResidual := 0
+    continuityResidual_nonnegative := by norm_num
+    continuityTolerance := 1 / 10
+    continuityTolerance_nonnegative := by norm_num
+    continuityWithinTolerance := by norm_num
+    continuityLaw := by norm_num
+    velocityMagnitude := 1 / 10
+    velocityMagnitude_nonnegative := by norm_num
+    machNumber := 1 / 10
+    machLaw := by norm_num [toyDDFSubstrate, Signals.DDF.DDFSubstrate.c]
+    lowMachThreshold := 1 / 5
+    lowMachThreshold_pos := by norm_num
+    incompressibilityResidual := 0
+    incompressibilityResidualLaw := by simp
+    incompressibilityTolerance := 1 / 10
+    incompressibilityTolerance_nonnegative := by norm_num
+    lowMachProjectionResidual := 1 / 100
+    lowMachProjectionResidual_nonnegative := by norm_num
+    lowMachProjectionTolerance := 1 / 10
+    lowMachProjectionTolerance_nonnegative := by norm_num
+    lowMachProjectionWithinTolerance := by norm_num
+    baselineViscosity := 1
+    baselineViscosity_nonnegative := by norm_num
+    effectiveViscosity := 1
+    effectiveViscosity_nonnegative := by norm_num
+    shearRate := 1 / 10
+    shearRate_nonnegative := by norm_num
+    viscosityFloorLaw := by norm_num
+    shearJammingThreshold := 1
+    shearJammingThreshold_pos := by norm_num
+    shearJammingCrossed := false
+    pressureResidual := 1 / 100
+    pressureResidual_nonnegative := by norm_num
+    pressureTolerance := 1 / 10
+    pressureTolerance_nonnegative := by norm_num
+    pressureWithinTolerance := by norm_num
+    calibrated := True
+    calibrated_hypothesis := True.intro }
+
+example : NSDDFBridge.comparisonReady toyNSDDFBridge := by
+  simp [NSDDFBridge.comparisonReady, NSDDFBridge.lowMachEffectiveIncompressible,
+    toyNSDDFBridge, toyDDFSubstrate]
+  norm_num
+
+noncomputable def toyShearJammedDDFBridge : NSDDFBridge :=
+  { toyNSDDFBridge with
+    regime := DDFFlowRegime.shearJammed
+    effectiveViscosity := 2
+    effectiveViscosity_nonnegative := by norm_num
+    viscosityFloorLaw := by norm_num [toyNSDDFBridge]
+    shearRate := 2
+    shearRate_nonnegative := by norm_num
+    shearJammingCrossed := true }
+
+example : NSDDFBridge.comparisonReady toyShearJammedDDFBridge := by
+  simp [NSDDFBridge.comparisonReady, toyShearJammedDDFBridge,
+    toyNSDDFBridge, toyDDFSubstrate]
+  norm_num
+
+noncomputable def toyDDFUltrasonicTransferComparison :
+    DDFUltrasonicTransferComparison :=
+  { baselineDDFState := toyNSDDFBridge
+    shearJammedDDFState := toyShearJammedDDFBridge
+    baselineTransfer := toyLayeredUltrasonicTransfer
+    shearJammedTransfer := toyLayeredUltrasonicTransfer
+    baselineMeasurement :=
+      { predictedPower := 25
+        observedPower := 25
+        tolerance := 1
+        tolerance_nonnegative := by norm_num
+        residual := 0
+        residualLaw := by norm_num }
+    shearJammedMeasurement :=
+      { predictedPower := 25
+        observedPower := 25
+        tolerance := 1
+        tolerance_nonnegative := by norm_num
+        residual := 0
+        residualLaw := by norm_num }
+    baselineMeasurementPrediction := by rfl
+    shearJammedMeasurementPrediction := by rfl
+    baselineMeasurementConsistent := by
+      norm_num [Signals.Acoustics.TransferMeasurement.consistent]
+    shearJammedMeasurementConsistent := by
+      norm_num [Signals.Acoustics.TransferMeasurement.consistent]
+    evidenceStatus := UPTEvidenceStatus.simulation
+    sameDDFSubstrate := by simp [toyShearJammedDDFBridge]
+    baselineNotShearJammed := by decide
+    baselineBelowJammingThreshold := by norm_num [toyNSDDFBridge]
+    shearJammedRegime := by simp [toyShearJammedDDFBridge]
+    shearThresholdExceeded := by norm_num [toyShearJammedDDFBridge,
+      toyNSDDFBridge]
+    shearJammingFlag := by simp [toyShearJammedDDFBridge]
+    baselineDDFReady := by
+      simp [NSDDFBridge.comparisonReady,
+        NSDDFBridge.lowMachEffectiveIncompressible,
+        toyNSDDFBridge, toyDDFSubstrate]
+      norm_num
+    shearJammedDDFReady := by
+      simp [NSDDFBridge.comparisonReady, toyShearJammedDDFBridge,
+        toyNSDDFBridge, toyDDFSubstrate]
+      norm_num
+    sameFrequency := by rfl
+    sameElectricalInput := by rfl
+    sameAuxiliaryPathInput := by rfl
+    sameOrderedStack := by
+      simp [Signals.Acoustics.LayeredAcousticPath.sameStackGeometry,
+        toyLayeredUltrasonicTransfer]
+    sameTransmitterEfficiency := by rfl
+    sameReceiverEfficiency := by rfl
+    thermalControlPassed := True
+    thermalControlPassed_hypothesis := True.intro
+    shamControlPassed := True
+    shamControlPassed_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    transferDifferenceWatts := 0
+    transferDifferenceLaw := by norm_num
+    transferDifferenceUncertaintyWatts := 1
+    transferDifferenceUncertainty_nonnegative := by norm_num
+    replicationCount := 2
+    replicationCount_min := by norm_num
+    artifactReference := "synthetic DDF-UPT comparison fixture" }
+
+example : ¬ toyDDFUltrasonicTransferComparison.comparisonReady := by
+  apply toyDDFUltrasonicTransferComparison.not_ready_without_calibrated_measurement
+  decide
+
+noncomputable def toyEHTShadowRingObservation : EHTShadowRingObservation :=
+  { sourceLabel := "synthetic EHT-like compact-object ring"
+    artifactReference := "EHT ring-model comparison fixture"
+    observableLayer := EHTObservableLayer.emissionRing
+    metricReference := EHTMetricReference.kerrReference
+    ringDiameterMicroarcsec := 50
+    ringDiameter_nonnegative := by norm_num
+    ringDiameterUncertaintyMicroarcsec := 2
+    ringDiameterUncertainty_nonnegative := by norm_num
+    angularGravitationalRadiusMicroarcsec := 5
+    angularGravitationalRadius_pos := by norm_num
+    schwarzschildRadiusMicroarcsec := 10
+    schwarzschildRadiusLaw := by norm_num
+    ringScaleFactor := 10
+    ringScaleFactor_pos := by norm_num
+    ringDiameterLaw := by norm_num
+    shadowScaleFactor := 10
+    shadowScaleFactor_pos := by norm_num
+    inferredShadowDiameterMicroarcsec := 50
+    inferredShadowDiameter_nonnegative := by norm_num
+    inferredShadowDiameterLaw := by norm_num
+    centralBrightnessDepression := { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    ringEmissionInterpretation := True
+    ringEmissionInterpretation_hypothesis := True.intro
+    modelResidual := 1 / 100
+    modelResidual_nonnegative := by norm_num
+    modelTolerance := 1 / 10
+    modelTolerance_nonnegative := by norm_num
+    modelWithinTolerance := by norm_num
+    calibrationReady := True
+    calibrationReady_hypothesis := True.intro }
+
+example : EHTShadowRingObservation.comparisonReady
+    toyEHTShadowRingObservation := by
+  simp [EHTShadowRingObservation.comparisonReady,
+    toyEHTShadowRingObservation]
+  norm_num
+
+example : toyEHTShadowRingObservation.schwarzschildRadiusMicroarcsec = 10 := by
+  rfl
+
+noncomputable def toyEulerKortewegResidualObservation :
+    EulerKortewegResidualObservation :=
+  { sourceLabel := "Madelung density-phase sample"
+    artifactReference := "Euler-Korteweg residual run"
+    hbar := 1
+    hbar_pos := by norm_num
+    mass := 2
+    mass_pos := by norm_num
+    interactionCoupling := 1
+    interactionCoupling_nonnegative := by norm_num
+    densityFloor := 1 / 10
+    densityFloor_pos := by norm_num
+    observedDensity := 1
+    observedDensity_nonnegative := by norm_num
+    densityAboveFloor := by norm_num
+    bohmsCoefficient := 1 / 8
+    bohmsCoefficientLaw := by norm_num
+    continuityResidual := 1 / 100
+    continuityResidual_nonnegative := by norm_num
+    continuityTolerance := 1 / 10
+    continuityTolerance_nonnegative := by norm_num
+    continuityWithinTolerance := by norm_num
+    momentumResidual := 1 / 100
+    momentumResidual_nonnegative := by norm_num
+    momentumTolerance := 1 / 10
+    momentumTolerance_nonnegative := by norm_num
+    momentumWithinTolerance := by norm_num
+    irrotationalResidual := 1 / 100
+    irrotationalResidual_nonnegative := by norm_num
+    irrotationalTolerance := 1 / 10
+    irrotationalTolerance_nonnegative := by norm_num
+    irrotationalWithinTolerance := by norm_num
+    quantumPressureTermIncluded := True
+    quantumPressureTermIncluded_hypothesis := True.intro
+    calibrated := True
+    calibrated_hypothesis := True.intro }
+
+example : EulerKortewegResidualObservation.comparisonReady
+    toyEulerKortewegResidualObservation := by
+  simp [EulerKortewegResidualObservation.comparisonReady,
+    toyEulerKortewegResidualObservation]
+  norm_num
+
+example : toyEulerKortewegResidualObservation.bohmsCoefficient = 1 / 8 := by
+  rfl
+
+noncomputable def toyHomodyneQuadratureVarianceObservation :
+    HomodyneQuadratureVarianceObservation :=
+  { sourceLabel := "balanced homodyne quadrature"
+    artifactReference := "shot-noise calibrated variance run"
+    quadratureLabel := "X difference"
+    measuredVariance := 1 / 2
+    measuredVariance_nonnegative := by norm_num
+    shotNoiseReference := 1
+    shotNoiseReference_pos := by norm_num
+    varianceTolerance := 1 / 10
+    varianceTolerance_nonnegative := by norm_num
+    detectorNoise := 1 / 10
+    detectorNoise_nonnegative := by norm_num
+    calibratedVariance := 2 / 5
+    calibratedVarianceLaw := by norm_num
+    calibrationResidual := 1 / 100
+    calibrationResidual_nonnegative := by norm_num
+    calibrationTolerance := 1 / 10
+    calibrationTolerance_nonnegative := by norm_num
+    calibrationWithinTolerance := by norm_num
+    localOscillatorPhase := 0
+    phaseReferenceCalibrated := True
+    phaseReferenceCalibrated_hypothesis := True.intro
+    modeMatched := True
+    modeMatched_hypothesis := True.intro }
+
+example : HomodyneQuadratureVarianceObservation.supportsSubShotNoiseCandidate
+    toyHomodyneQuadratureVarianceObservation := by
+  simp [HomodyneQuadratureVarianceObservation.supportsSubShotNoiseCandidate,
+    toyHomodyneQuadratureVarianceObservation]
+  norm_num
+
+noncomputable def toyLongitudinalBeamApplicationEvidence :
+    LongitudinalBeamApplicationEvidence :=
+  { application := LongitudinalBeamApplication.imaging
+    sourceLabel := "radial-vector high-NA source"
+    artifactReference := "longitudinal-beam aperture-matched run"
+    wavelength := { meters := 532e-9 }
+    wavelength_pos := by norm_num
+    sourcePower := { watts := 1 }
+    sourcePower_nonnegative := by norm_num
+    absorbedPower := { watts := 1 / 2 }
+    absorbedPower_nonnegative := by norm_num
+    absorbedPower_le_source := by norm_num
+    longitudinalFraction := { value := 3 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    transverseFraction := { value := 2 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    longitudinalToTransverseRatio := 3 / 2
+    ratioLaw := by norm_num
+    longitudinalProbeCalibration := True
+    longitudinalProbeCalibration_hypothesis := True.intro
+    apertureMatchedControl := True
+    apertureMatchedControl_hypothesis := True.intro
+    longitudinalSuppressionControl := True
+    longitudinalSuppressionControl_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    psfResidual := 1 / 100
+    psfResidual_nonnegative := by norm_num
+    psfTolerance := 1 / 10
+    psfTolerance_nonnegative := by norm_num
+    psfWithinTolerance := by norm_num
+    mtfResidual := 1 / 100
+    mtfResidual_nonnegative := by norm_num
+    mtfTolerance := 1 / 10
+    mtfTolerance_nonnegative := by norm_num
+    mtfWithinTolerance := by norm_num
+    sideLobeEnergyFraction := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    propagationBroadening := { meters := 1 / 1000 }
+    propagationBroadening_nonnegative := by norm_num
+    propagationBroadeningTolerance := { meters := 1 / 100 }
+    propagationBroadeningTolerance_nonnegative := by norm_num
+    broadeningWithinTolerance := by norm_num
+    groupSpeed := { metersPerSecond := 2e8 }
+    groupSpeed_pos := by norm_num
+    groupSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    informationSpeed := { metersPerSecond := 2e8 }
+    informationSpeed_pos := by norm_num
+    informationSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    communicationResidual := 1 / 100
+    communicationResidual_nonnegative := by norm_num
+    communicationTolerance := 1 / 10
+    communicationTolerance_nonnegative := by norm_num
+    communicationWithinTolerance := by norm_num
+    yieldMetric := 6
+    yieldMetric_nonnegative := by norm_num
+    classicalControlYieldMetric := 4
+    classicalControlYieldMetric_nonnegative := by norm_num
+    yieldImprovement := 2
+    yieldImprovementLaw := by norm_num
+    thermalLoad := { kelvin := 300 }
+    thermalLoad_nonnegative := by norm_num
+    replicationCount := 2
+    replicationCount_min := by norm_num
+    modeCalibration := True
+    modeCalibration_hypothesis := True.intro }
+
+example : LongitudinalBeamApplicationEvidence.comparisonReady
+    toyLongitudinalBeamApplicationEvidence := by
+  simp [LongitudinalBeamApplicationEvidence.comparisonReady,
+    toyLongitudinalBeamApplicationEvidence]
+  norm_num [vacuumSpeedOfLight]
+
+example : toyLongitudinalBeamApplicationEvidence.yieldImprovement = 2 := by
+  rfl
+
+noncomputable def toyVitrimerLithographyObservation :
+    VitrimerLithographyObservation :=
+  { nodeLabel := "CW lignin-vitrimer N-LIG node"
+    precursorLabel := "lignin-vitrimer with amine precursor"
+    atmosphereLabel := "nitrogen"
+    artifactReference := "CW N-LIG process observation"
+    beamKind := LaserBeamKind.continuousWave
+    beamKind_continuousWave := rfl
+    carbonStateBefore := VitrimerCarbonState.amorphousLignin
+    carbonStateAfter := VitrimerCarbonState.grapheneSp2
+    nitrogenStateBefore := VitrimerNitrogenState.aminePrecursor
+    nitrogenStateAfter := VitrimerNitrogenState.graphiticNitrogen
+    incidentPower := { watts := 2 }
+    incidentPower_nonnegative := by norm_num
+    incidentFluence := { joulesPerSquareMeter := 2 }
+    incidentFluence_nonnegative := by norm_num
+    spotWidth := { meters := 1 }
+    spotWidth_pos := by norm_num
+    scanSpeed := { metersPerSecond := 1 }
+    scanSpeed_pos := by norm_num
+    incidentFluenceLaw := by norm_num
+    absorbedFluence := { joulesPerSquareMeter := 1 }
+    absorbedFluence_nonnegative := by norm_num
+    absorbedFluence_le_incident := by norm_num
+    exposureDuration := { seconds := 1 }
+    exposureDuration_pos := by norm_num
+    laserWavelength := { meters := 1e-6 }
+    laserWavelength_pos := by norm_num
+    substrateTemperatureBefore := { kelvin := 300 }
+    substrateTemperatureBefore_nonnegative := by norm_num
+    substrateTemperatureAfter := { kelvin := 350 }
+    substrateTemperatureAfter_nonnegative := by norm_num
+    vitrimerTransitionTemperature := { kelvin := 400 }
+    vitrimerTransitionTemperature_pos := by norm_num
+    temperatureAtOrBelowTransition := by norm_num
+    sheetResistance := 10
+    sheetResistance_nonnegative := by norm_num
+    ramanDToGRatio := 1 / 2
+    ramanDToGRatio_nonnegative := by norm_num
+    xpsNitrogenFraction := 1 / 20
+    xpsNitrogenFraction_nonnegative := by norm_num
+    patternFidelity := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    processResidual := 1 / 100
+    processResidual_nonnegative := by norm_num
+    processTolerance := 1 / 10
+    processTolerance_nonnegative := by norm_num
+    processWithinTolerance := by norm_num
+    instrumentCalibration := True
+    instrumentCalibration_hypothesis := True.intro
+    thermalControl := True
+    thermalControl_hypothesis := True.intro
+    ordinaryLaserControl := True
+    ordinaryLaserControl_hypothesis := True.intro
+    independentBatchCount := 2
+    independentBatchCount_min := by norm_num }
+
+example : VitrimerLithographyObservation.comparisonReady
+    toyVitrimerLithographyObservation := by
+  simp [VitrimerLithographyObservation.comparisonReady,
+    toyVitrimerLithographyObservation]
+  norm_num
+
+example : VitrimerLithographyObservation.grapheneFormationObserved
+    toyVitrimerLithographyObservation := by
+  exact toyVitrimerLithographyObservation.graphene_formation_holds ⟨rfl, rfl⟩
+
+example : toyVitrimerLithographyObservation.carbonStateAfter =
+    VitrimerCarbonState.grapheneSp2 := by
+  apply toyVitrimerLithographyObservation.cw_graphene_induction
+  exact ⟨rfl, rfl⟩
+
+example : VitrimerLithographyObservation.nitrogenIncorporationObserved
+    toyVitrimerLithographyObservation := by
+  simp [VitrimerLithographyObservation.nitrogenIncorporationObserved,
+    toyVitrimerLithographyObservation]
+
+noncomputable def toyFaradayGoldstoneObservation : FaradayGoldstoneObservation :=
+  { materialLabel := "K0.3MoO3 blue bronze"
+    artifactReference := "10.1073/pnas.2535297123"
+    pumpFluence := { joulesPerSquareMeter := 2 }
+    pumpFluence_nonnegative := by norm_num
+    thresholdFluence := { joulesPerSquareMeter := 1 }
+    thresholdFluence_pos := by norm_num
+    aboveThreshold := by norm_num
+    higgsModeAmplitude := 3 / 2
+    higgsModeAmplitude_nonnegative := by norm_num
+    goldstoneModeAmplitude := 1
+    goldstoneModeAmplitude_nonnegative := by norm_num
+    nonlinearModeCoupling := 1 / 2
+    nonlinearModeCoupling_nonnegative := by norm_num
+    phaseModeFrequency := { hz := 2 }
+    phaseModeFrequency_nonnegative := by norm_num
+    amplitudeModeFrequency := { hz := 4 }
+    amplitudeModeFrequency_pos := by norm_num
+    beatingAmplitude := 1 / 4
+    beatingAmplitude_nonnegative := by norm_num
+    patternResidual := 1 / 100
+    patternResidual_nonnegative := by norm_num
+    patternTolerance := 1 / 10
+    patternTolerance_nonnegative := by norm_num
+    patternWithinTolerance := by norm_num
+    thermalNoiseResidual := 1 / 20
+    thermalNoiseResidual_nonnegative := by norm_num
+    coherentPatternObserved := True
+    coherentPatternObserved_hypothesis := True.intro
+    modelExperimentAgreement := True
+    modelExperimentAgreement_hypothesis := True.intro
+    calibrationReady := True
+    calibrationReady_hypothesis := True.intro }
+
+example : FaradayGoldstoneObservation.comparisonReady
+    toyFaradayGoldstoneObservation := by
+  simp [FaradayGoldstoneObservation.comparisonReady,
+    toyFaradayGoldstoneObservation]
+  norm_num
+
+example : toyFaradayGoldstoneObservation.thresholdFluence.joulesPerSquareMeter ≤
+    toyFaradayGoldstoneObservation.pumpFluence.joulesPerSquareMeter := by
+  exact toyFaradayGoldstoneObservation.above_threshold_holds
+
+noncomputable def toyPhotonicTimeCrystalPatternModel :
+    PhotonicTimeCrystalPatternModel :=
+  { artifactReference := "10.1103/PhysRevA.111.053509"
+    spatialDimension := 2
+    spatialDimensionLaw := by rfl
+    modulationFrequency := { hz := 10 }
+    modulationFrequency_pos := by norm_num
+    permittivityModulationAmplitude := 1 / 2
+    permittivityModulationAmplitude_nonnegative := by norm_num
+    kerrNonlinearity := 1
+    kerrNonlinearity_nonnegative := by norm_num
+    driveAmplitude := 2
+    driveAmplitude_nonnegative := by norm_num
+    criticalDriveAmplitude := 1
+    criticalDriveAmplitude_pos := by norm_num
+    aboveTransition := by norm_num
+    spatialTranslationBroken := True
+    spatialTranslationBroken_hypothesis := True.intro
+    temporalTranslationBroken := True
+    temporalTranslationBroken_hypothesis := True.intro
+    goldstoneLikeModeFrequency := { hz := 1 }
+    goldstoneLikeModeFrequency_nonnegative := by norm_num
+    higgsLikeModeFrequency := { hz := 3 }
+    higgsLikeModeFrequency_pos := by norm_num
+    latticePatternResidual := 1 / 100
+    latticePatternResidual_nonnegative := by norm_num
+    latticePatternTolerance := 1 / 10
+    latticePatternTolerance_nonnegative := by norm_num
+    latticePatternWithinTolerance := by norm_num
+    modelOnly := True
+    modelOnly_hypothesis := True.intro }
+
+example : toyPhotonicTimeCrystalPatternModel.spatialDimension = 2 := by
+  exact toyPhotonicTimeCrystalPatternModel.spatial_dimension_two
+
+example : PhotonicTimeCrystalPatternModel.transitionReady
+    toyPhotonicTimeCrystalPatternModel := by
+  simp [PhotonicTimeCrystalPatternModel.transitionReady,
+    toyPhotonicTimeCrystalPatternModel]
+  norm_num
+
+noncomputable def toyDDFTwistorSliceConditioning : DDFTwistorSliceConditioning :=
+  { baselineViscosity := 1
+    baselineViscosity_nonnegative := by norm_num
+    shearCoefficient := 1
+    shearCoefficient_nonnegative := by norm_num
+    waveNumber := 2
+    viscosity := 5
+    viscosityLaw := by norm_num [dilatantViscosity]
+    spatialCovariance := 0
+    spatialTemporalCovariance := 0
+    inverseTemporalCovariance := 0
+    temporalSpatialCovariance := 0
+    conditionedSlice := 0
+    conditioningLaw := by
+      simp [schurConditionedTwistorSlice]
+    stiffenedSlice := 0
+    stiffenedSliceLaw := by
+      simp [viscosityConditionedTwistorSlice]
+    artifactReference := "finite DDF twistor-slice diagnostic" }
+
+example : toyDDFTwistorSliceConditioning.viscosity = 5 := by
+  rfl
+
+example : toyDDFTwistorSliceConditioning.conditionedSlice =
+    schurConditionedTwistorSlice
+      toyDDFTwistorSliceConditioning.spatialCovariance
+      toyDDFTwistorSliceConditioning.spatialTemporalCovariance
+      toyDDFTwistorSliceConditioning.inverseTemporalCovariance
+      toyDDFTwistorSliceConditioning.temporalSpatialCovariance := by
+  exact toyDDFTwistorSliceConditioning.conditioned_slice_holds
+
+example : toyDDFTwistorSliceConditioning.stiffenedSlice =
+    viscosityConditionedTwistorSlice
+      toyDDFTwistorSliceConditioning.spatialCovariance
+      toyDDFTwistorSliceConditioning.spatialTemporalCovariance
+      toyDDFTwistorSliceConditioning.inverseTemporalCovariance
+      toyDDFTwistorSliceConditioning.temporalSpatialCovariance
+      toyDDFTwistorSliceConditioning.viscosity := by
+  exact toyDDFTwistorSliceConditioning.stiffened_slice_holds
+
+example : dilatantViscosity 1 1 2 = 5 := by
+  norm_num [dilatantViscosity]
+
+example : 0 < gpeVortexScatteringPotential 1 2 1 := by
+  norm_num [gpeVortexScatteringPotential]
+
+noncomputable def toyDDFWaveTailObservation : DDFWaveTailObservation :=
+  { sourceLabel := "analog polariton tail simulation"
+    artifactReference := "bounded wave-tail run"
+    mechanism := WaveTailMechanism.ddfVortexScattering
+    primaryAmplitude := 1
+    primaryAmplitude_nonnegative := by norm_num
+    tailAmplitude := 1 / 10
+    tailAmplitude_nonnegative := by norm_num
+    tailDecayExponent := 7
+    tailDecayExponent_nonnegative := by norm_num
+    tailFitResidual := 1 / 100
+    tailFitTolerance := 1 / 10
+    tailFitTolerance_nonnegative := by norm_num
+    tailFitWithinTolerance := by norm_num
+    secondaryWaveletAmplitude := 1 / 5
+    secondaryWaveletAmplitude_nonnegative := by norm_num
+    fractureBurstAmplitude := 1 / 2
+    fractureBurstAmplitude_nonnegative := by norm_num
+    shearRate := 2
+    shearRate_nonnegative := by norm_num
+    criticalShearRate := 1
+    criticalShearRate_pos := by norm_num
+    fractureThresholdCrossed := by norm_num
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    independentVortexControl := True
+    independentVortexControl_hypothesis := True.intro
+    replicationCount := 2
+    replicationCount_min := by norm_num
+    energyClosed := True
+    energyClosed_hypothesis := True.intro }
+
+example : DDFWaveTailObservation.supportsDDFCandidate
+    toyDDFWaveTailObservation := by
+  simp [DDFWaveTailObservation.supportsDDFCandidate,
+    toyDDFWaveTailObservation]
+  norm_num
+
+noncomputable def toyPopIII5Hz : PopIIIGWRemnantInference :=
+  { sourceLabel := "Population III remnant simulation"
+    artifactReference := "arXiv:2608.05846"
+    networkLabel := "Einstein Telescope and Cosmic Explorer"
+    lowFrequencyCutoff := { hz := 5 }
+    lowFrequencyCutoff_pos := by norm_num
+    trueRedshift := 99 / 5
+    trueRedshift_nonnegative := by norm_num
+    redshiftLowerBound90 := 37 / 2
+    redshiftLowerBound90_nonnegative := by norm_num
+    redshiftBoundValid := by norm_num
+    sourceFrameMassRelativeUncertainty := 12 / 100
+    sourceFrameMassRelativeUncertainty_nonnegative := by norm_num
+    sourceFrameMassRelativeUncertainty_le_one := by norm_num
+    skyLocalizationUncertainty := 1
+    skyLocalizationUncertainty_nonnegative := by norm_num
+    spinConstraint := SpinConstraintStatus.modest
+    posteriorCalibration := True
+    posteriorCalibration_hypothesis := True.intro
+    simulationOnly := True
+    simulationOnly_hypothesis := True.intro }
+
+noncomputable def toyPopIII10Hz : PopIIIGWRemnantInference :=
+  { sourceLabel := "Population III remnant simulation"
+    artifactReference := "arXiv:2608.05846"
+    networkLabel := "Einstein Telescope and Cosmic Explorer"
+    lowFrequencyCutoff := { hz := 10 }
+    lowFrequencyCutoff_pos := by norm_num
+    trueRedshift := 99 / 5
+    trueRedshift_nonnegative := by norm_num
+    redshiftLowerBound90 := 35 / 2
+    redshiftLowerBound90_nonnegative := by norm_num
+    redshiftBoundValid := by norm_num
+    sourceFrameMassRelativeUncertainty := 12 / 100
+    sourceFrameMassRelativeUncertainty_nonnegative := by norm_num
+    sourceFrameMassRelativeUncertainty_le_one := by norm_num
+    skyLocalizationUncertainty := 2
+    skyLocalizationUncertainty_nonnegative := by norm_num
+    spinConstraint := SpinConstraintStatus.modest
+    posteriorCalibration := True
+    posteriorCalibration_hypothesis := True.intro
+    simulationOnly := True
+    simulationOnly_hypothesis := True.intro }
+
+noncomputable def toyPopIIICutoffComparison : PopIIIGWCutoffComparison :=
+  { fiveHz := toyPopIII5Hz
+    tenHz := toyPopIII10Hz
+    fiveHz_cutoff := by norm_num [toyPopIII5Hz]
+    tenHz_cutoff := by norm_num [toyPopIII10Hz]
+    same_true_redshift := by rfl
+    fiveHz_bound_below_true := by norm_num [toyPopIII5Hz]
+    tenHz_bound_below_true := by norm_num [toyPopIII10Hz]
+    fiveHz_bound_improves := by norm_num [toyPopIII5Hz, toyPopIII10Hz]
+    mass_uncertainty_reported := by norm_num [toyPopIII5Hz]
+    spin_constraint_recorded := by rfl
+    simulation_provenance := by simp [toyPopIII5Hz, toyPopIII10Hz] }
+
+example : toyPopIII5Hz.highRedshift := by
+  norm_num [PopIIIGWRemnantInference.highRedshift, toyPopIII5Hz]
+
+example : toyPopIIICutoffComparison.tenHz.redshiftLowerBound90 <
+    toyPopIIICutoffComparison.fiveHz.redshiftLowerBound90 := by
+  exact toyPopIIICutoffComparison.fiveHz_bound_improves
+
+example : PopIIIGWCutoffComparison.characterizationReady
+    toyPopIIICutoffComparison := by
+  simp [PopIIIGWCutoffComparison.characterizationReady,
+    PopIIIGWRemnantInference.characterizationReady,
+    toyPopIIICutoffComparison, toyPopIII5Hz, toyPopIII10Hz]
+  norm_num
+
+noncomputable def toyActivatedHolographyTransfer : HolographyMaskTransfer :=
+  { state := HolographyMaskState.activatedMask
+    amplitudeTransmission := 4 / 5
+    amplitudeTransmission_nonnegative := by norm_num
+    phaseDelay := 1 / 4
+    phaseDelay_uncertainty := 1 / 100
+    phaseDelay_uncertainty_nonnegative := by norm_num
+    polarizationConversion := 1 / 10
+    polarizationConversion_nonnegative := by norm_num
+    insertionLoss := 1 / 5
+    insertionLoss_nonnegative := by norm_num
+    temperature := { kelvin := 300 }
+    temperature_nonnegative := by norm_num
+    controlLabel := "activated rGO-vitrimer phase drive"
+    calibrationReference := "interferometric transfer calibration" }
+
+noncomputable def toyMultiBeamHolographyResult : MultiBeamHolographyResult :=
+  { beamCount := 4
+    beamCount_min := by norm_num
+    maskTransfer := toyActivatedHolographyTransfer
+    solverName := "weighted Gerchberg-Saxton"
+    solverIterations := 25
+    solverIterations_pos := by norm_num
+    targetFieldRMSE := 1 / 100
+    targetFieldRMSE_nonnegative := by norm_num
+    intensityUniformityError := 1 / 100
+    intensityUniformityError_nonnegative := by norm_num
+    sideLobeRatio := 1 / 20
+    sideLobeRatio_nonnegative := by norm_num
+    crosstalkError := 1 / 100
+    crosstalkError_nonnegative := by norm_num
+    deliveredPower := { watts := 2 }
+    deliveredPower_nonnegative := by norm_num
+    absorbedPower := { watts := 1 / 2 }
+    absorbedPower_nonnegative := by norm_num
+    calibrationResidual := 1 / 100
+    calibrationResidual_nonnegative := by norm_num
+    heldOutPattern := True
+    heldOutPattern_hypothesis := True.intro }
+
+example : toyMultiBeamHolographyResult.maskTransfer.state =
+    HolographyMaskState.activatedMask := by
+  rfl
+
+example : toyMultiBeamHolographyResult.withinTolerances
+    (1 / 10) (1 / 10) (1 / 5) (1 / 10) (1 / 10) := by
+  norm_num [MultiBeamHolographyResult.withinTolerances,
+    toyMultiBeamHolographyResult]
+
+noncomputable def toyRange0 : TrilaterationRange :=
+  { beamIndex := 0
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 0" }
+
+noncomputable def toyRange1 : TrilaterationRange :=
+  { beamIndex := 1
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 1" }
+
+noncomputable def toyRange2 : TrilaterationRange :=
+  { beamIndex := 2
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 2" }
+
+noncomputable def toyRange3 : TrilaterationRange :=
+  { beamIndex := 3
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 3" }
+
+noncomputable def toyMultiBeamTrilateration : MultiBeamTrilateration :=
+  { beamCount := 4
+    beamCount_min := by norm_num
+    ranges := [toyRange0, toyRange1, toyRange2, toyRange3]
+    rangeCountLaw := by norm_num
+    targetX := 0
+    targetY := 0
+    targetZ := 0
+    sharedDelayBias := 0
+    positionErrorMeters := 1 / 100
+    positionError_nonnegative := by norm_num
+    covarianceTrace := 3 / 10000
+    covarianceTrace_nonnegative := by norm_num
+    independentSensorLabel := "four-channel time-of-flight array"
+    calibrationResidual := 1 / 1000
+    calibrationResidual_nonnegative := by norm_num }
+
+example : toyMultiBeamTrilateration.ranges.length =
+    toyMultiBeamTrilateration.beamCount := by
+  exact MultiBeamTrilateration.range_count_holds toyMultiBeamTrilateration
+
+example : toyMultiBeamTrilateration.independentlySensed := by
+  simp [MultiBeamTrilateration.independentlySensed,
+    toyMultiBeamTrilateration]
+  norm_num
+
+noncomputable def toyHelicalFiberApparatus : HelicalBeamApparatus :=
+  { beamCount := 4
+    beamCount_min := by norm_num
+    wavelength := { meters := 405e-9 }
+    wavelength_pos := by norm_num
+    sourcePower := { watts := 20 }
+    sourcePower_nonnegative := by norm_num
+    beamPower := { watts := 5 }
+    beamPower_nonnegative := by norm_num
+    beamPowerLaw := by norm_num
+    oamCharge := 1
+    polarizationLabel := "radial vector vortex from q-plate"
+    polarizationPurity := 9 / 10
+    polarizationPurity_nonnegative := by norm_num
+    polarizationPurity_le_one := by norm_num
+    phaseResidual := 1 / 100
+    phaseResidual_nonnegative := by norm_num
+    topologicalChargeFidelity := 19 / 20
+    topologicalChargeFidelity_nonnegative := by norm_num
+    topologicalChargeFidelity_le_one := by norm_num
+    longitudinalNearFieldFraction := 1 / 5
+    longitudinalNearFieldFraction_nonnegative := by norm_num
+    longitudinalNearFieldFraction_le_one := by norm_num
+    alignmentError := 1 / 1000
+    alignmentError_nonnegative := by norm_num
+    sourceCalibration := True
+    sourceCalibration_hypothesis := True.intro
+    polarizationCalibration := True
+    polarizationCalibration_hypothesis := True.intro
+    modeCalibration := True
+    modeCalibration_hypothesis := True.intro
+    apparatusLabel := "20 W four-beam radial-vector fiber apparatus" }
+
+example : toyHelicalFiberApparatus.isMultiBeam := by
+  norm_num [HelicalBeamApparatus.isMultiBeam, toyHelicalFiberApparatus]
+
+example : toyHelicalFiberApparatus.calibrated := by
+  simp [HelicalBeamApparatus.calibrated, toyHelicalFiberApparatus]
+
+example : toyHelicalFiberApparatus.beamPower.watts ≤
+    toyHelicalFiberApparatus.sourcePower.watts := by
+  exact toyHelicalFiberApparatus.beamPowerLaw
+
+noncomputable def toyNLIGProcessObservation : NLIGProcessObservation :=
+  { batchLabel := "N-LIG batch A"
+    precursorLabel := "lignin-cellulose nitrogen precursor"
+    atmosphereLabel := "nitrogen"
+    laserWavelength := { meters := 1.064e-6 }
+    laserWavelength_positive := by norm_num
+    incidentPower := { watts := 2 }
+    incidentPower_nonnegative := by norm_num
+    absorbedFluence := { joulesPerSquareMeter := 1000 }
+    absorbedFluence_nonnegative := by norm_num
+    substrateTemperature := { kelvin := 450 }
+    substrateTemperature_nonnegative := by norm_num
+    sheetResistance := 10
+    sheetResistance_nonnegative := by norm_num
+    ramanDToGRatio := 1
+    ramanDToGRatio_nonnegative := by norm_num
+    xpsNitrogenFraction := 1 / 10
+    xpsNitrogenFraction_nonnegative := by norm_num
+    heatAffectedZone := { meters := 1e-4 }
+    heatAffectedZone_nonnegative := by norm_num
+    patternFidelity := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    batchReplicateCount := 3
+    batchReplicateCount_min := by norm_num
+    instrumentCalibration := True
+    instrumentCalibration_hypothesis := True.intro
+    negativeControlPassed := True
+    negativeControlPassed_hypothesis := True.intro
+    artifactReference := "synthetic://nlig/process-v1" }
+
+example : toyNLIGProcessObservation.ingestionReady := by
+  simp [NLIGProcessObservation.ingestionReady, toyNLIGProcessObservation]
+
+noncomputable def toyFlatLightPropagationObservation : FlatLightPropagationObservation :=
+  { modeLabel := "aperture-matched classical control"
+    controlLabel := "Gaussian/Bessel/Airy matched-aperture control"
+    wavelength := { meters := 405e-9 }
+    wavelength_positive := by norm_num
+    apertureDiameter := { meters := 1e-3 }
+    apertureDiameter_positive := by norm_num
+    propagationDistance := { meters := 1e-2 }
+    propagationDistance_positive := by norm_num
+    inputPower := { watts := 1 }
+    inputPower_nonnegative := by norm_num
+    initialSecondMomentRadius := { meters := 1e-4 }
+    initialSecondMomentRadius_positive := by norm_num
+    finalSecondMomentRadius := { meters := 1e-4 }
+    finalSecondMomentRadius_positive := by norm_num
+    broadening := { meters := 0 }
+    broadeningLaw := by norm_num
+    broadeningUncertainty := { meters := 1e-6 }
+    broadeningUncertainty_nonnegative := by norm_num
+    psfResidual := 1 / 100
+    psfResidual_nonnegative := by norm_num
+    mtfResidual := 1 / 100
+    mtfResidual_nonnegative := by norm_num
+    sideLobeEnergyFraction := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    apertureMatchedControl := True
+    apertureMatchedControl_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    replicationCount := 3
+    replicationCount_min := by norm_num
+    artifactReference := "synthetic://flat-light/psf-v1" }
+
+example : toyFlatLightPropagationObservation.withinBroadeningBound := by
+  norm_num [FlatLightPropagationObservation.withinBroadeningBound,
+    toyFlatLightPropagationObservation]
+
+example : toyFlatLightPropagationObservation.supportsBoundedFlatLightClaim := by
+  simp [FlatLightPropagationObservation.supportsBoundedFlatLightClaim,
+    FlatLightPropagationObservation.withinBroadeningBound,
+    toyFlatLightPropagationObservation]
+  norm_num
+
+noncomputable def toyDDFFractureEvidence : DDFFractureCommunicationEvidence :=
+  { sourceLabel := "controlled DDF transverse-mode fixture"
+    defectObservableLabel := "independent vortex pressure proxy"
+    defectObservable := 2
+    defectUncertainty := 1 / 10
+    defectUncertainty_nonnegative := by norm_num
+    independentDefectObservable := True
+    independentDefectObservable_hypothesis := True.intro
+    classicalResidual := 3 / 10
+    classicalTolerance := 1 / 10
+    classicalTolerance_nonnegative := by norm_num
+    outsideClassicalTolerance := by norm_num [abs_of_nonneg]
+    couplingGain := 1 / 2
+    couplingGain_nonzero := by norm_num
+    propagationMode := DDFCommunicationMode.transversePhonon
+    pathLength := 2
+    pathLength_pos := by norm_num
+    arrivalTime := 3
+    arrivalTime_pos := by norm_num
+    emergentSpeed := 1
+    emergentSpeed_pos := by norm_num
+    causalArrival := by norm_num
+    replicationCount := 3
+    replicationCount_min := by norm_num
+    heldOutResidual := 1 / 20
+    heldOutTolerance := 1 / 10
+    heldOutTolerance_nonnegative := by norm_num
+    heldOutWithinTolerance := by norm_num [abs_of_nonneg]
+    energyClosed := True
+    energyClosed_hypothesis := True.intro }
+
+example : toyDDFFractureEvidence.defectObservable_detectable := by
+  norm_num [DDFFractureCommunicationEvidence.defectObservable_detectable,
+    toyDDFFractureEvidence, abs_of_nonneg]
+
+example : toyDDFFractureEvidence.supportsDDFHypothesis := by
+  simp [DDFFractureCommunicationEvidence.supportsDDFHypothesis,
+    DDFFractureCommunicationEvidence.defectObservable_detectable,
+    toyDDFFractureEvidence]
+  norm_num [abs_of_nonneg]
+
+noncomputable def toySQGMedium : SQGMedium :=
+  { baseline :=
+      { permittivity := 2
+        permittivity_pos := by norm_num
+        permeability := 3
+        permeability_pos := by norm_num }
+    metricCorrection := 0
+    effectivePermittivity := 2
+    effectivePermittivity_pos := by norm_num
+    effectivePermeability := 3
+    effectivePermeability_pos := by norm_num
+    permittivityLaw := by norm_num
+    permeabilityLaw := by norm_num
+    dilatantPressure := 0
+    dilatantPressure_nonnegative := by norm_num }
+
+noncomputable def toySQGMaxwell : SQGMaxwellSystem pendingCalculus :=
+  { medium := toySQGMedium
+    vacuumState := toyIGPE
+    electricField := 0
+    displacementField := 0
+    magneticField := 0
+    magneticIntensity := 0
+    rho := 0
+    current := 0
+    sqgCurrent := 0
+    constitutiveElectric := by
+      ext index
+      simp
+    constitutiveMagnetic := by
+      ext index
+      simp
+    gaussElectric := by rfl
+    gaussMagnetic := by rfl
+    faraday := by
+      ext index
+      simp [pendingCalculus]
+    ampere := by
+      ext index
+      simp [pendingCalculus] }
+
+example : toySQGMaxwell.medium.effectivePermittivity =
+    toySQGMaxwell.medium.baseline.permittivity *
+      (1 + toySQGMaxwell.medium.metricCorrection) := by
+  exact toySQGMaxwell.medium.permittivityLaw
+
+example : pendingCalculus.scalarTimeDerivative toySQGMaxwell.rho +
+    pendingCalculus.divergence (toySQGMaxwell.current + toySQGMaxwell.sqgCurrent) = 0 := by
+  exact toySQGMaxwell.total_charge_continuity
+
+example : pendingCalculus.curl toySQGMaxwell.magneticIntensity =
+    toySQGMaxwell.current +
+      pendingCalculus.vectorTimeDerivative toySQGMaxwell.displacementField := by
+  exact toySQGMaxwell.toMaxwellSystem_ampere (by
+    funext index
+    rfl)
+
+noncomputable def toyMetric : EffectiveAcousticMetric :=
+  { density := 1
+    density_nonnegative := by norm_num
+    soundSpeed := 1
+    soundSpeed_pos := by norm_num
+    flowSpeed := 2
+    gTT := 3
+    gTT_law := by norm_num }
+
+example : toyMetric.ergoregion := by
+  norm_num [EffectiveAcousticMetric.ergoregion, toyMetric]
+
+noncomputable def toySlip : PhaseSlip :=
+  { winding := 0
+    phaseJump := 0
+    windingLaw := by norm_num }
+
+example : toySlip.phaseJump = 0 := by
+  exact toySlip.zero_winding_phase rfl
+
+noncomputable def toyProfile : AmplituhedronProfile :=
+  { dimension := 4
+    dimension_positive := by norm_num
+    phaseWeight := 1 / 2
+    phaseWeight_nonnegative := by norm_num
+    phaseWeight_le_one := by norm_num }
+
+noncomputable def toyWave : FractureWave :=
+  { model := toyModel
+    field := toyField
+    state := FractureState.generated
+    profile := toyProfile
+    frequency := 400
+    frequency_positive := by norm_num
+    amplitude := 2
+    amplitude_nonnegative := by norm_num }
+
+example : toyWave.effectiveAmplitude = 1 := by
+  norm_num [FractureWave.effectiveAmplitude, toyWave, toyProfile]
+
+noncomputable def toyAntiProfile : AntiAmplituhedronProfile :=
+  { phaseGradient := 1
+    phaseGradient_nonnegative := by norm_num
+    divergence := -2
+    divergent := by norm_num
+    profileWeight := 3
+    profileWeight_nonnegative := by norm_num
+    pressureExpansion := 6
+    expansionLaw := by norm_num }
+
+noncomputable def toyExpansion : SQGVacuumExpansion :=
+  { baselineCoupling := 1
+    effectiveCoupling := -1
+    negativeCoupling := by norm_num
+    vacuumDensity := 2
+    vacuumDensity_nonnegative := by norm_num
+    expansionProfile := toyAntiProfile
+    pressure := 12
+    pressureLaw := by norm_num [toyAntiProfile] }
+
+example : 0 ≤ toyExpansion.pressure := by
+  exact toyExpansion.pressure_nonnegative
+
+noncomputable def toyBarrier : WKBBarrier :=
+  { properDistanceFactor := 1
+    properDistanceFactor_nonnegative := by norm_num
+    effectiveBarrier := 4
+    effectiveBarrier_nonnegative := by norm_num
+    exponent := 2
+    exponent_nonnegative := by norm_num
+    exponentLaw := by norm_num
+    tunnelingProbability := Real.exp (-4)
+    probabilityLaw := by norm_num }
+
+example : 0 ≤ toyBarrier.tunnelingProbability ∧ toyBarrier.tunnelingProbability ≤ 1 := by
+  exact toyBarrier.probability_bounds
+
+noncomputable def toyFusion : FusionReaction :=
+  { reactionProbability := 1
+    probability_nonnegative := by norm_num
+    probability_le_one := by norm_num
+    energyPerReaction := 18
+    energyPerReaction_nonnegative := by norm_num
+    reactionRate := 2
+    reactionRate_nonnegative := by norm_num
+    inputPower := 10
+    inputPower_nonnegative := by norm_num
+    outputPower := 36
+    outputPower_nonnegative := by norm_num
+    outputLaw := by norm_num }
+
+noncomputable def toyDeterministicFusion : DeterministicFusionClaim :=
+  { reaction := toyFusion
+    probabilityOne := by norm_num [toyFusion] }
+
+example : toyDeterministicFusion.reaction.outputPower =
+    toyDeterministicFusion.reaction.energyPerReaction *
+      toyDeterministicFusion.reaction.reactionRate := by
+  exact toyDeterministicFusion.outputLaw
+
+noncomputable def toyLedger : EnergyLedger :=
+  { controlPower := 1
+    controlPower_nonnegative := by norm_num
+    fuelPower := 2
+    fuelPower_nonnegative := by norm_num
+    spacetimePower := 3
+    spacetimePower_nonnegative := by norm_num
+    outputPower := 5
+    outputPower_nonnegative := by norm_num
+    lossPower := 1
+    lossPower_nonnegative := by norm_num
+    balance := by norm_num }
+
+example : toyLedger.outputPower ≤
+    toyLedger.controlPower + toyLedger.fuelPower + toyLedger.spacetimePower := by
+  exact toyLedger.output_le_declared_input
+
+noncomputable def toyExtractionClaim : SpacetimeExtractionClaim :=
+  { ledger := toyLedger
+    overControlAndFuel := by norm_num [toyLedger] }
+
+example : 0 < toyExtractionClaim.ledger.spacetimePower := by
+  exact toyExtractionClaim.spacetimePower_positive
+
+noncomputable def toyMeasuredEnergyEvidence : EnergyExtractionEvidence :=
+  { sourceLabel := "actively pumped optical amplifier fixture"
+    artifactReference := "synthetic://energy-ledger/active-pump-v1"
+    observationDuration := { seconds := 2 }
+    observationDuration_pos := by norm_num
+    controlInputPower := { watts := 1 }
+    controlInputPower_nonnegative := by norm_num
+    motiveInputPower := { watts := 0 }
+    motiveInputPower_nonnegative := by norm_num
+    pumpInputPower := { watts := 2 }
+    pumpInputPower_nonnegative := by norm_num
+    auxiliaryInputPower := { watts := 1 }
+    auxiliaryInputPower_nonnegative := by norm_num
+    exportedOutputPower := { watts := 3 }
+    exportedOutputPower_nonnegative := by norm_num
+    measuredLossPower := { watts := 1 }
+    measuredLossPower_nonnegative := by norm_num
+    storedEnergyChange := { joules := 0 }
+    storedEnergyChangeLaw := by norm_num
+    balanceResidualPower := 0
+    balanceResidualPowerLaw := by norm_num
+    balanceTolerancePower := 1 / 10
+    balanceTolerancePower_nonnegative := by norm_num
+    balanceWithinTolerance := by norm_num
+    independentCalibration := True
+    independentCalibration_hypothesis := True.intro
+    negativeControlPassed := True
+    negativeControlPassed_hypothesis := True.intro
+    replicationCount := 3
+    replicationCount_min := by norm_num
+    interpretation := EnergyExtractionInterpretation.activelyPumped }
+
+example : toyMeasuredEnergyEvidence.exportedOutputPower.watts +
+      toyMeasuredEnergyEvidence.storedEnergyChange.joules /
+        toyMeasuredEnergyEvidence.observationDuration.seconds +
+      toyMeasuredEnergyEvidence.measuredLossPower.watts =
+    toyMeasuredEnergyEvidence.totalInputPower.watts +
+      toyMeasuredEnergyEvidence.balanceResidualPower := by
+  exact toyMeasuredEnergyEvidence.exported_power_balance
+
+example : ¬toyMeasuredEnergyEvidence.supportsAdditionalSource := by
+  apply toyMeasuredEnergyEvidence.not_supported_within_tolerance
+  exact toyMeasuredEnergyEvidence.balanceWithinTolerance
+
+def toyAmplituhedronSource : GrassmannianMatrix 1 1 :=
+  { mat := fun _ _ => 1 }
+
+def toyAmplituhedronExternalData : Matrix (Fin 1) (Fin 1) ℝ :=
+  fun _ _ => 3
+
+def toyAmplituhedronMap : AmplituhedronMap 1 1 1 :=
+  { source := toyAmplituhedronSource
+    externalData := toyAmplituhedronExternalData
+    image := fun _ _ => 3
+    imageLaw := by
+      funext row column
+      change (3 : ℝ) = ∑ index : Fin 1, 1 * 3
+      simp }
+
+def toyAmplituhedronBoundary : OrderedColumns 1 1 :=
+  { index := fun _ => 0
+    strictlyIncreasing := by
+      intro left right greater
+      omega }
+
+def toyLogarithmicChart : LogarithmicChart 1 1 1 :=
+  { map := toyAmplituhedronMap
+    source_positive := by
+      intro columns
+      have index_zero : columns.index 0 = 0 := Fin.eq_zero (columns.index 0)
+      change 0 < (toyAmplituhedronSource.mat.submatrix id columns.index).det
+      rw [Matrix.det_fin_one]
+      change 0 < toyAmplituhedronSource.mat 0 (columns.index 0)
+      rw [index_zero]
+      norm_num [toyAmplituhedronSource, Matrix.submatrix]
+    boundary := toyAmplituhedronBoundary
+    boundaryCoordinate := 1
+    boundaryCoordinateLaw := by
+      change (1 : ℝ) =
+        (toyAmplituhedronSource.mat.submatrix id toyAmplituhedronBoundary.index).det
+      rw [Matrix.det_fin_one]
+      norm_num [toyAmplituhedronSource, toyAmplituhedronBoundary,
+        Matrix.submatrix]
+    boundaryCoordinate_nonzero := by norm_num
+    residue := 7 }
+
+def toyAmplituhedronHypothesis : AmplituhedronScatteringHypothesis 1 1 1 :=
+  { chart := toyLogarithmicChart
+    measuredAmplitude := 7
+    measuredAmplitudeLaw := by
+      norm_num [LogarithmicChart.weight, toyLogarithmicChart] }
+
+example : toyAmplituhedronMap.image =
+    toyAmplituhedronMap.source.mat * toyAmplituhedronMap.externalData := by
+  exact toyAmplituhedronMap.image_eq
+
+example : toyLogarithmicChart.weight *
+    toyLogarithmicChart.boundaryCoordinate = toyLogarithmicChart.residue := by
+  exact toyLogarithmicChart.weight_mul_boundary
+
+example : toyAmplituhedronHypothesis.measuredAmplitude = 7 := by
+  rfl
+
+def toyALSRank2 : ALSRank :=
+  { rank := 2
+    lowerBound := by norm_num
+    upperBound := by norm_num }
+
+def toyALSRank10 : ALSRank :=
+  { rank := 10
+    lowerBound := by norm_num
+    upperBound := by norm_num }
+
+example : toyALSRank2.rank = 2 := by
+  rfl
+
+example : toyALSRank10.rank = 10 := by
+  rfl
+
+def toyPreparedModulation : PreparedModulation 2 :=
+  { value := fun _ => 0 }
+
+def toyObservedHomodyneTensor : ObservedHomodyneTensor 1 1 2 :=
+  { value := fun _ _ time => (time.val : ℝ) }
+
+noncomputable def toyFiniteIQFT : FiniteIQFT 2 :=
+  { dimension_positive := by norm_num
+    input := fun _ => 0
+    output := fun outputIndex =>
+      finiteInverseQFT 2 (fun _ => 0) outputIndex
+    normalizationFactor := 1 / Real.sqrt (2 : ℝ)
+    normalizationLaw := by rfl
+    outputLaw := by
+      intro outputIndex
+      rfl }
+
+noncomputable def toyHawkingAmplituhedronMap : AmplituhedronMap 1 1 2 :=
+  { source := { mat := fun _ _ => 1 }
+    externalData := fun _ column => (toyFiniteIQFT.output column).re
+    image := fun _ column => (toyFiniteIQFT.output column).re
+    imageLaw := by
+      funext row column
+      change (toyFiniteIQFT.output column).re =
+        ∑ index : Fin 1, 1 * (toyFiniteIQFT.output column).re
+      simp }
+
+noncomputable def toyHawkingLogarithmicChart : LogarithmicChart 1 1 2 :=
+  { map := toyHawkingAmplituhedronMap
+    source_positive := by
+      intro columns
+      have index_zero : columns.index 0 = 0 := Fin.eq_zero (columns.index 0)
+      change 0 < (toyHawkingAmplituhedronMap.source.mat.submatrix id columns.index).det
+      rw [Matrix.det_fin_one]
+      change 0 < toyHawkingAmplituhedronMap.source.mat 0 (columns.index 0)
+      rw [index_zero]
+      norm_num [toyHawkingAmplituhedronMap]
+    boundary := toyAmplituhedronBoundary
+    boundaryCoordinate := 1
+    boundaryCoordinateLaw := by
+      change (1 : ℝ) =
+        (toyHawkingAmplituhedronMap.source.mat.submatrix id
+          toyAmplituhedronBoundary.index).det
+      rw [Matrix.det_fin_one]
+      norm_num [toyHawkingAmplituhedronMap, toyAmplituhedronBoundary,
+        Matrix.submatrix]
+    boundaryCoordinate_nonzero := by norm_num
+    residue := 1 }
+
+noncomputable def toyHawkingALS : ALSDecomposition 1 1 2 :=
+  { rank := toyALSRank2
+    observed := fun _ _ time => (toyFiniteIQFT.output time).re
+    reconstructed := fun _ _ _ => 0
+    factorX := fun _ _ => 0
+    factorY := fun _ _ => 0
+    factorT := fun _ _ => 0
+    reconstructionLaw := by
+      intro x y time
+      simp [cpReconstruction]
+    residualMagnitude := 0
+    residualMagnitude_nonnegative := by norm_num
+    residualMagnitudeLaw := by
+      simp [tensorResidualMagnitude, toyFiniteIQFT, finiteInverseQFT]
+    residualTolerance := 1
+    residualTolerance_nonnegative := by norm_num
+    residualWithinTolerance := by norm_num
+    iterations := 2
+    maximumIterations := 10
+    iterationsWithinLimit := by norm_num }
+
+example : toyHawkingALS.rank.rank = 2 := by
+  rfl
+
+example : toyHawkingALS.residualMagnitude ≤ toyHawkingALS.residualTolerance := by
+  exact toyHawkingALS.residual_within_tolerance
+
+noncomputable def toyHawkingDecoding : HawkingRadiationDecoding 1 1 2 :=
+  { emission := toyWave
+    interactiveGPE := toyIGPE
+    inverseGPE := toyInverseGPE
+    preparedModulation := toyPreparedModulation
+    observedTensor := toyObservedHomodyneTensor
+    observationX := 0
+    observationY := 0
+    observedTrace := toyObservedHomodyneTensor.trace 0 0
+    observedTraceLaw := by
+      intro time
+      rfl
+    iGPEOutput := fun _ => 0
+    iGPEResidualMagnitude := 0
+    iGPEResidualMagnitude_nonnegative := by norm_num
+    iGPEResidualTolerance := 1
+    iGPEResidualTolerance_nonnegative := by norm_num
+    iGPEResidualWithinTolerance := by norm_num
+    iqft := toyFiniteIQFT
+    iqftInputLaw := by
+      intro inputIndex
+      rfl
+    amplituhedron := toyHawkingAmplituhedronMap
+    amplituhedronChart := toyHawkingLogarithmicChart
+    amplituhedronChartMapLaw := by
+      rfl
+    iqftExternalDataLaw := by
+      intro row column
+      rfl
+    als := toyHawkingALS
+    alsSliceY := 0
+    alsProjection := fun _ time => toyHawkingAmplituhedronMap.image 0 time
+    alsProjectionObservedLaw := by
+      intro x time
+      rfl
+    alsProjectionMapLaw := by
+      rfl
+    inputComparison :=
+      { prepared := toyPreparedModulation.value
+        recovered := fun time => (toyFiniteIQFT.output time).re
+        residualMagnitude := 0
+        residualMagnitude_nonnegative := by norm_num
+        residualMagnitudeLaw := by
+          simp [traceResidualMagnitude, toyPreparedModulation, toyFiniteIQFT,
+            finiteInverseQFT]
+        residualTolerance := 1
+        residualTolerance_nonnegative := by norm_num
+        residualWithinTolerance := by norm_num }
+    inputComparisonPreparedLaw := by
+      rfl
+    inputComparisonRecoveredLaw := by
+      intro time
+      rfl }
+
+example : toyHawkingDecoding.observedTrace 0 =
+    toyHawkingDecoding.observedTensor.trace 0 0 0 := by
+  exact toyHawkingDecoding.observed_trace_holds 0
+
+example : toyHawkingDecoding.iqft.input 0 = toyHawkingDecoding.iGPEOutput 0 := by
+  exact toyHawkingDecoding.iqft_input_holds 0
+
+example : toyHawkingDecoding.alsProjection =
+    toyHawkingDecoding.amplituhedron.image := by
+  exact toyHawkingDecoding.als_projection_holds
+
+example : tensorResidualMagnitude 1 1 1
+    (fun _ _ _ => 3) (fun _ _ _ => 2) = 1 := by
+  norm_num [tensorResidualMagnitude]
+
+example : traceResidualMagnitude 1 (fun _ => 3) (fun _ => 2) = 1 := by
+  norm_num [traceResidualMagnitude]
+
+example : toyHawkingDecoding.comparisonReady := by
+  exact toyHawkingDecoding.comparison_ready
+
+noncomputable def toyQudit : Qudit 1 :=
+  { amplitudes := fun _ => 1
+    normalized := by norm_num [Fin.sum_univ_succ] }
+
+noncomputable def toyQNDParity : QuantumNonDemolitionParity 1 :=
+  { readout :=
+      { signalBefore := toyQudit
+        signalAfter := toyQudit
+        signalPreserved := by rfl
+        signalEnergyBefore := { joules := 1 }
+        signalEnergyAfter := { joules := 1 }
+        signalEnergyPreserved := by rfl
+        absorbedSignalEnergy := { joules := 0 }
+        absorbedSignalEnergy_nonnegative := by norm_num
+        absorbedSignalEnergy_zero := by norm_num
+        probePhaseBefore := 0
+        probePhaseAfter := 2
+        probePhaseShift := 2
+        coupling := 1
+        signalObservable := 2
+        probePhaseLaw := by norm_num
+        probePhaseShiftLaw := by norm_num
+        absorbedProbeEnergy := { joules := 0 }
+        absorbedProbeEnergy_nonnegative := by norm_num
+        absorbedProbeEnergy_zero := by norm_num }
+    detectorLoss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+    parityBefore := false
+    parityAfter := false
+    parityPreserved := by rfl
+    measuredParity := false
+    parityReadoutLaw := by rfl
+    repeatedParity := false
+    repeatedParityLaw := by rfl
+    parityResidual := 0
+    parityResidual_nonnegative := by norm_num
+    parityResidualBound := 1
+    parityResidualBound_nonnegative := by norm_num
+    parityResidualWithinBound := by norm_num
+    signalDisturbance := 0
+    signalDisturbance_nonnegative := by norm_num
+    disturbanceBound := 1
+    disturbanceBound_nonnegative := by norm_num
+    disturbanceWithinBound := by norm_num
+    absorptionMeasurement := { joules := 0 }
+    absorptionMeasurement_nonnegative := by norm_num
+    absorptionBound := { joules := 1 }
+    absorptionBound_nonnegative := by norm_num
+    absorptionWithinBound := by norm_num }
+
+example : toyQNDParity.readout.signalAfter = toyQNDParity.readout.signalBefore := by
+  exact toyQNDParity.signal_preserved
+
+example : toyQNDParity.parityAfter = toyQNDParity.parityBefore := by
+  exact toyQNDParity.parity_preserved
+
+example : toyQNDParity.measuredParity = toyQNDParity.parityAfter := by
+  exact toyQNDParity.measured_parity_eq
+
+example : toyQNDParity.repeatedParity = toyQNDParity.measuredParity := by
+  exact toyQNDParity.repeated_parity_eq
+
+example : toyQNDParity.parityResidual ≤ toyQNDParity.parityResidualBound := by
+  exact toyQNDParity.parity_residual_within_bound
+
+example : toyQNDParity.signalDisturbance ≤ toyQNDParity.disturbanceBound := by
+  exact toyQNDParity.disturbance_within_bound
+
+example : toyQNDParity.absorptionMeasurement.joules ≤
+    toyQNDParity.absorptionBound.joules := by
+  exact toyQNDParity.absorption_within_bound
+
+noncomputable def toyQuantumQuadratureAssumption : QuantumQuadratureAssumption :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    amplitudeVariance := 1
+    amplitudeVariance_nonnegative := by norm_num
+    phaseVariance := 1
+    phaseVariance_nonnegative := by norm_num
+    commutatorMagnitude := 1 / 2
+    commutatorLaw := by norm_num
+    uncertaintyProduct := 1
+    uncertaintyBound := 1 / 4
+    uncertaintyBoundLaw := by norm_num
+    uncertaintyWithinBound := by norm_num
+    squeezingParameter := 0
+    squeezingParameter_nonnegative := by norm_num }
+
+noncomputable def toyTwoModeSqueezedVacuum : TwoModeSqueezedVacuum :=
+  { squeezingParameter := 0
+    squeezingParameter_nonnegative := by norm_num
+    xDifferenceVariance := 2
+    pSumVariance := 2
+    xDifferenceVarianceLaw := by norm_num
+    pSumVarianceLaw := by norm_num }
+
+noncomputable def toyCVBellStateMeasurement : CVBellStateMeasurement :=
+  { inputX := 3
+    resourceX := 1
+    inputP := 1
+    resourceP := 1
+    measuredX := (3 - 1) / Real.sqrt 2
+    measuredP := (1 + 1) / Real.sqrt 2
+    measuredXLaw := by rfl
+    measuredPLaw := by rfl }
+
+def toyCVFeedForward : CVFeedForward :=
+  { gain := 2
+    measuredX := 1
+    measuredP := -1
+    displacementX := 2
+    displacementP := -2
+    displacementXLaw := by norm_num
+    displacementPLaw := by norm_num }
+
+noncomputable def toyCVTeleportationBookkeeping : CVTeleportationBookkeeping :=
+  { bellMeasurement := toyCVBellStateMeasurement
+    feedForward :=
+      { toyCVFeedForward with
+        measuredX := toyCVBellStateMeasurement.measuredX
+        measuredP := toyCVBellStateMeasurement.measuredP
+        displacementX := 2 * toyCVBellStateMeasurement.measuredX
+        displacementP := 2 * toyCVBellStateMeasurement.measuredP
+        displacementXLaw := by rfl
+        displacementPLaw := by rfl }
+    resourceLoss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+    finiteSqueezingNoise := 0
+    finiteSqueezingNoise_nonnegative := by norm_num
+    feedForwardMeasurementLaw := by constructor <;> rfl }
+
+example : toyQuantumQuadratureAssumption.commutatorMagnitude =
+    toyQuantumQuadratureAssumption.hbar / 2 := by
+  exact toyQuantumQuadratureAssumption.commutator_holds
+
+example : toyQuantumQuadratureAssumption.uncertaintyBound ≤
+    toyQuantumQuadratureAssumption.uncertaintyProduct := by
+  exact toyQuantumQuadratureAssumption.uncertaintyWithinBound
+
+example : toyTwoModeSqueezedVacuum.xDifferenceVariance = 2 := by
+  norm_num [TwoModeSqueezedVacuum.x_difference_variance_holds,
+    toyTwoModeSqueezedVacuum]
+
+example : toyCVBellStateMeasurement.measuredX =
+    (toyCVBellStateMeasurement.inputX - toyCVBellStateMeasurement.resourceX) /
+      Real.sqrt 2 := by
+  exact toyCVBellStateMeasurement.measured_x_holds
+
+example : toyCVTeleportationBookkeeping.feedForward.displacementP =
+    2 * toyCVTeleportationBookkeeping.feedForward.measuredP := by
+  exact toyCVTeleportationBookkeeping.feedForward.displacement_p_holds
+
+def toyKerrInteraction : KerrInteraction ℝ :=
+  { signalBefore := 1
+    signalAfter := 1
+    signalPreserved := by rfl
+    couplingStrength := 2
+    couplingStrength_nonnegative := by norm_num
+    interactionLength := { meters := 1 }
+    interactionLength_nonnegative := by norm_num
+    signalObservable := 3
+    probePhaseShift := 6
+    probePhaseShiftLaw := by norm_num }
+
+example : toyKerrInteraction.probePhaseShift = 6 := by
+  norm_num [KerrInteraction.probe_phase_shift_holds, toyKerrInteraction]
+
+def toyHomodyneHardwareReadiness : HomodyneHardwareReadiness :=
+  { insertionLoss := 0
+    insertionLoss_nonnegative := by norm_num
+    beamSplitterImbalance := 0
+    beamSplitterImbalance_nonnegative := by norm_num
+    detectorBandwidth := { hz := 1 }
+    detectorBandwidth_pos := by norm_num
+    thermalLoad := { watts := 1 }
+    thermalLoad_nonnegative := by norm_num
+    materialResponse := 1
+    materialResponse_nonnegative := by norm_num
+    modeOverlap := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    calibrationReady := true }
+
+example : toyHomodyneHardwareReadiness.insertionLoss = 0 := by
+  rfl
+
+noncomputable def toyPendingLigninVitrimer : LigninVitrimerDielectric :=
+  { relativePermittivity := 2
+    relativePermittivity_pos := by norm_num
+    lossTangent := 0
+    lossTangent_nonnegative := by norm_num
+    tuningRange := 1
+    tuningRange_nonnegative := by norm_num
+    moistureSensitivity :=
+      { value := 0
+        nonnegative := by norm_num
+        le_one := by norm_num } }
+
+noncomputable def toyLVPProcess : LVPProcess :=
+  { route := LVPProcessRoute.rollToRoll
+    webSpeed := { metersPerSecond := 1 }
+    webSpeed_pos := by norm_num
+    webTension := { newtons := 1 }
+    webTension_nonnegative := by norm_num
+    rollerRate := { hz := 1 }
+    rollerRate_nonnegative := by norm_num
+    precursorViscosity := { pascalSeconds := 1 }
+    precursorViscosity_nonnegative := by norm_num
+    precursorMassFlow := { kilogramsPerSecond := 1 }
+    precursorMassFlow_nonnegative := by norm_num
+    ambientHumidity := { fraction := 1 / 2 }
+    ambientHumidity_nonnegative := by norm_num
+    ambientHumidity_le_one := by norm_num
+    wetFilmThickness := { meters := 1 / 1000 }
+    wetFilmThickness_pos := by norm_num
+    processTemperature := { kelvin := 300 }
+    processTemperature_pos := by norm_num
+    crystallizationTime := { seconds := 1 }
+    crystallizationTime_pos := by norm_num
+    availableCureTime := { seconds := 2 }
+    availableCureTime_pos := by norm_num
+    cureSufficient := by norm_num }
+
+noncomputable def toyLVP : LigninVitrimerPerovskite :=
+  { perovskiteComposition := "lead-halide"
+    ligninFraction := { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    vitrimerFraction := { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    perovskiteFraction := { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    carbonTransportFraction :=
+      { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    compositionLaw := by norm_num
+    activeLayerThickness := { meters := 1 / 1000000 }
+    activeLayerThickness_pos := by norm_num
+    process := toyLVPProcess }
+
+example : toyLVPProcess.crystallizationTime.seconds ≤
+    toyLVPProcess.availableCureTime.seconds := by
+  exact toyLVPProcess.cure_sufficient
+
+example : toyLVP.ligninFraction.value + toyLVP.vitrimerFraction.value +
+    toyLVP.perovskiteFraction.value + toyLVP.carbonTransportFraction.value = 1 := by
+  exact toyLVP.composition_holds
+
+noncomputable def toyLVPSolarObservation : LVPPhotovoltaicObservation :=
+  { material := toyLVP
+    activeArea := { squareMeters := 2 }
+    activeArea_pos := by norm_num
+    incidentIrradiance := { wattsPerSquareMeter := 1000 }
+    incidentIrradiance_nonnegative := by norm_num
+    outputPower := { watts := 400 }
+    outputPower_nonnegative := by norm_num
+    conversionEfficiency :=
+      { value := 1 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    outputPowerLaw := by norm_num
+    openCircuitVoltage := { volts := 1 }
+    openCircuitVoltage_nonnegative := by norm_num
+    shortCircuitCurrentDensity := { amperesPerSquareMeter := 20 }
+    shortCircuitCurrentDensity_nonnegative := by norm_num
+    fillFactor := { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    operatingTemperature := { kelvin := 300 }
+    operatingTemperature_pos := by norm_num
+    relativeHumidity := { fraction := 1 / 2 }
+    relativeHumidity_nonnegative := by norm_num
+    relativeHumidity_le_one := by norm_num
+    exposureDuration := { seconds := 10 }
+    exposureDuration_pos := by norm_num
+    postExposureOutputPower := { watts := 360 }
+    postExposureOutputPower_nonnegative := by norm_num
+    retainedPowerFraction :=
+      { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    retentionLaw := by norm_num
+    comparisonResidual := 0
+    comparisonResidual_nonnegative := by norm_num
+    comparisonTolerance := 1
+    comparisonTolerance_nonnegative := by norm_num
+    comparisonWithinTolerance := by norm_num }
+
+example : toyLVPSolarObservation.outputPower.watts =
+    toyLVPSolarObservation.conversionEfficiency.value *
+      toyLVPSolarObservation.incidentIrradiance.wattsPerSquareMeter *
+        toyLVPSolarObservation.activeArea.squareMeters := by
+  exact toyLVPSolarObservation.output_power_holds
+
+example : toyLVPSolarObservation.comparisonResidual ≤
+    toyLVPSolarObservation.comparisonTolerance := by
+  exact toyLVPSolarObservation.comparison_within_tolerance
+
+noncomputable def toyLVPDirectConversionImaging : LVPDirectConversionImaging 2 2 :=
+  { material := toyLVP
+    validationLevel := LVPImagingValidationLevel.benchtop
+    pixelPitch := { meters := 1 / 1000 }
+    pixelPitch_pos := by norm_num
+    incidentDose := { grays := 1 }
+    incidentDose_nonnegative := by norm_num
+    exposureDuration := { seconds := 1 }
+    exposureDuration_pos := by norm_num
+    pixelDose := fun _ _ => { grays := 1 }
+    pixelDose_nonnegative := by
+      intro row column
+      norm_num
+    rawSignal := fun _ _ => 3
+    darkSignal := fun _ _ => 1
+    correctedSignal := fun _ _ => 2
+    darkCorrectionLaw := by
+      intro row column
+      norm_num
+    signalGain := 2
+    signalGain_nonnegative := by norm_num
+    directConversionLaw := by
+      intro row column
+      norm_num
+    detectionSensitivity := 1
+    detectionSensitivity_nonnegative := by norm_num
+    spatialResolution := { meters := 1 / 1000 }
+    spatialResolution_pos := by norm_num
+    imageResidual := 0
+    imageResidual_nonnegative := by norm_num
+    imageResidualTolerance := 1
+    imageResidualTolerance_nonnegative := by norm_num
+    imageResidualWithinTolerance := by norm_num }
+
+example : toyLVPDirectConversionImaging.correctedSignal 0 0 =
+    toyLVPDirectConversionImaging.rawSignal 0 0 -
+      toyLVPDirectConversionImaging.darkSignal 0 0 := by
+  exact toyLVPDirectConversionImaging.dark_correction_holds 0 0
+
+example : toyLVPDirectConversionImaging.correctedSignal 1 1 =
+    toyLVPDirectConversionImaging.signalGain *
+      (toyLVPDirectConversionImaging.pixelDose 1 1).grays := by
+  exact toyLVPDirectConversionImaging.dose_response_holds 1 1
+
+noncomputable def toyLVPProcaImaging : LVPProcaImagingHypothesis 1 1 :=
+  { material := toyLVP
+    channel := toyChannel
+    phaseMap := fun _ _ => 0
+    longitudinalFraction :=
+      { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    spatialResolution := { meters := 1 / 1000000 }
+    spatialResolution_pos := by norm_num
+    incidentProbeEnergy := { joules := 1 }
+    incidentProbeEnergy_nonnegative := by norm_num
+    absorbedProbeEnergy := { joules := 1 / 1000000 }
+    absorbedProbeEnergy_nonnegative := by norm_num
+    phaseResidual := 0
+    phaseResidual_nonnegative := by norm_num
+    phaseResidualTolerance := 1
+    phaseResidualTolerance_nonnegative := by norm_num
+    phaseResidualWithinTolerance := by norm_num
+    masslessControlResidual := 0
+    masslessControlResidual_nonnegative := by norm_num
+    masslessControlTolerance := 1
+    masslessControlTolerance_nonnegative := by norm_num
+    masslessControlWithinTolerance := by norm_num }
+
+example : toyLVPProcaImaging.phaseResidual ≤
+    toyLVPProcaImaging.phaseResidualTolerance := by
+  exact toyLVPProcaImaging.phase_residual_within_tolerance
+
+example : toyLVPProcaImaging.masslessControlResidual ≤
+    toyLVPProcaImaging.masslessControlTolerance := by
+  exact toyLVPProcaImaging.massless_control_within_tolerance
+
+noncomputable def toyPendingLightSlinger : DirectionalBroadbandAntenna :=
+  { material := toyPendingLigninVitrimer
+    polarizationCurrent :=
+      { supportVolume := { cubicMeters := 1 }
+        supportVolume_pos := by norm_num
+        sourceCount := 1
+        sourceCount_positive := by norm_num
+        currentDensityAmplitude := { amperesPerSquareMeter := 1 }
+        currentDensityAmplitude_nonnegative := by norm_num
+        directionality := 1
+        directionality_nonnegative := by norm_num }
+    carrierFrequency := { hz := 5 }
+    carrierFrequency_pos := by norm_num
+    bandwidth := { hz := 1 }
+    bandwidth_pos := by norm_num
+    trackLength := { meters := 1 }
+    trackLength_pos := by norm_num
+    sweepDuration := { seconds := 1 }
+    sweepDuration_pos := by norm_num
+    sweepSpeed := { metersPerSecond := 1 }
+    sweepSpeedLaw := by norm_num
+    phasePatternSpeed := { metersPerSecond := 1 }
+    phasePatternSpeed_pos := by norm_num
+    groupSpeed := { metersPerSecond := 1 }
+    groupSpeed_pos := by norm_num
+    groupSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    informationSpeed := { metersPerSecond := 1 }
+    informationSpeed_pos := by norm_num
+    informationSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    inputPower := { watts := 1 }
+    inputPower_nonnegative := by norm_num
+    radiatedPower := { watts := 1 }
+    radiatedPower_nonnegative := by norm_num
+    radiationEfficiency :=
+      { value := 1
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    radiatedPowerLaw := by norm_num }
+
+noncomputable def toyCWResonator : ContinuousWaveResonator :=
+  { mode := ResonatorMode.longitudinal
+    resonantFrequency := { hz := 5 }
+    resonantFrequency_pos := by norm_num
+    driveFrequency := { hz := 5 }
+    driveFrequency_pos := by norm_num
+    resonanceMatch := by norm_num
+    drivePower := { watts := 1 }
+    drivePower_nonnegative := by norm_num
+    intracavityPower := { watts := 2 }
+    intracavityPower_nonnegative := by norm_num
+    enhancementFactor := 2
+    enhancementFactor_ge_one := by norm_num
+    intracavityPowerLaw := by norm_num
+    emittedPower := { watts := 1 }
+    emittedPower_nonnegative := by norm_num
+    dissipatedPower := { watts := 0 }
+    dissipatedPower_nonnegative := by norm_num
+    passivePowerBalance := by norm_num }
+
+example : toyCWResonator.isDriven := by
+  norm_num [ContinuousWaveResonator.isDriven, toyCWResonator]
+
+example : toyCWResonator.drivePower.watts ≤
+    toyCWResonator.intracavityPower.watts := by
+  exact toyCWResonator.drive_power_le_intracavity
+
+example : toyCWResonator.emittedPower.watts ≤ toyCWResonator.drivePower.watts := by
+  exact toyCWResonator.emitted_power_le_drive
+
+noncomputable def toyLightSlingerProca : LightSlingerProcaCoupling :=
+  { antenna := toyPendingLightSlinger
+    channel := toyChannel
+    frequencyMatch := by
+      change (5 : ℝ) = 5
+      rfl
+    longitudinalCouplingAssumed := toyChannel.longitudinalModeAssumed }
+
+noncomputable def toyCWProcaEmission : CWProcaEmissionHypothesis :=
+  { application := CWApplication.topologicalThruster
+    massiveModeRequired := by rfl
+    resonator := toyCWResonator
+    channel := toyChannel
+    cwDriven := by
+      norm_num [ContinuousWaveResonator.isDriven, toyCWResonator]
+    longitudinalMode := by rfl
+    frequencyMatch := by
+      change (5 : ℝ) = 5
+      rfl
+    massiveMode := toyChannel.model.mass_pos
+    longitudinalCouplingAssumed := toyChannel.longitudinalModeAssumed
+    emittedPower := { watts := 1 }
+    emittedPower_nonnegative := by norm_num
+    emittedPowerLaw := by rfl }
+
+example : toyLightSlingerProca.antenna.carrierFrequency.hz =
+    toyLightSlingerProca.channel.mode.frequency := by
+  exact toyLightSlingerProca.frequency_match
+
+example : toyLightSlingerProca.channel.longitudinalCoupling *
+    toyLightSlingerProca.channel.mode.longitudinalWaveNumber ≠ 0 := by
+  exact toyLightSlingerProca.longitudinal_mode_assumed
+
+example : toyCWProcaEmission.resonator.mode = ResonatorMode.longitudinal := by
+  exact toyCWProcaEmission.longitudinal_mode
+
+example : toyCWProcaEmission.channel.model.mass > 0 := by
+  exact toyCWProcaEmission.massive_mode
+
+example : toyCWProcaEmission.emittedPower.watts =
+    toyCWProcaEmission.resonator.emittedPower.watts := by
+  exact toyCWProcaEmission.emitted_power_eq
+
+def toyPaperProcaDispersion : ProcaDispersion :=
+  { mass := 3
+    mass_nonnegative := by norm_num
+    angularFrequency := 5
+    angularFrequency_pos := by norm_num
+    waveNumber := 4
+    waveNumber_nonnegative := by norm_num
+    aboveCutoff := by norm_num
+    dispersionLaw := by norm_num }
+
+noncomputable def toyPaperProcaResponse : ProcaMaterialResponse :=
+  { mode := toyPaperProcaDispersion
+    transverseDielectric := 16 / 25
+    longitudinalDielectric := 0
+    transverseLaw := by norm_num [toyPaperProcaDispersion]
+    longitudinalLaw := by norm_num [toyPaperProcaDispersion] }
+
+example : toyPaperProcaResponse.longitudinalDielectric = 0 := by
+  exact toyPaperProcaResponse.longitudinal_zero_on_dispersion
+
+noncomputable def toyPaperPlanarResponse : PlanarProcaCSResponse :=
+  { procaMass := 3
+    procaMass_nonnegative := by norm_num
+    chernSimonsMass := 2
+    angularFrequency := 5
+    angularFrequency_pos := by norm_num
+    waveNumber := 4
+    transverseDielectric := 16 / 25
+    longitudinalDielectric := 0
+    chernSimonsDielectric := Complex.I * (2 : ℂ) / (5 : ℂ) ^ 3
+    transverseLaw := by norm_num
+    longitudinalLaw := by norm_num
+    chernSimonsLaw := rfl }
+
+example : toyPaperPlanarResponse.chernSimonsDielectric =
+    Complex.I * (2 : ℂ) / (5 : ℂ) ^ 3 := by
+  exact toyPaperPlanarResponse.chern_simons_holds
+
+noncomputable def toyMassiveCavityMode : MassiveCavityMode :=
+  { masslessFrequency := 3
+    masslessFrequency_pos := by norm_num
+    photonMassFrequency := 4
+    photonMassFrequency_nonnegative := by norm_num
+    massiveFrequency := 5
+    massiveFrequency_pos := by norm_num
+    resonanceLaw := by norm_num
+    radiationPressureRatio := 5 / 3
+    radiationPressureRatioLaw := by norm_num }
+
+example : 1 < toyMassiveCavityMode.radiationPressureRatio := by
+  exact toyMassiveCavityMode.radiation_pressure_ratio_gt_one
+    (by norm_num [toyMassiveCavityMode])
+
+noncomputable def toyPaperDipolePattern : ProcaDipolePattern :=
+  { scale := 2
+    scale_nonnegative := by norm_num
+    angle := 0
+    transversePattern := 0
+    longitudinalPattern := 2
+    totalPattern := 2
+    transverseLaw := by norm_num
+    longitudinalLaw := by norm_num
+    totalLaw := by norm_num }
+
+example : toyPaperDipolePattern.totalPattern = toyPaperDipolePattern.scale := by
+  exact toyPaperDipolePattern.total_isotropic
+
+noncomputable def toyQuantumSourceDirectivity : QuantumSourceDirectivity :=
+  { localDetectionRate := 3
+    localDetectionRate_nonnegative := by norm_num
+    angularAverageRate := 2
+    angularAverageRate_pos := by norm_num
+    directivity := 3 / 2
+    directivityLaw := by norm_num }
+
+example : 0 ≤ toyQuantumSourceDirectivity.directivity := by
+  exact toyQuantumSourceDirectivity.directivity_nonnegative
+
+noncomputable def toyNonlocalityDecay : NonlocalityDecay :=
+  { separation := 2
+    separation_pos := by norm_num
+    coefficient := 3
+    coefficient_pos := by norm_num
+    commutatorMagnitude := 3 / 16
+    commutatorMagnitudeLaw := by norm_num }
+
+example : 0 < toyNonlocalityDecay.commutatorMagnitude := by
+  exact toyNonlocalityDecay.commutator_positive
+
+noncomputable def toyCoupledCavityModes : CoupledCavityModes :=
+  { cavityFrequency := { hz := 5 }
+    cavityFrequency_pos := by norm_num
+    matterFrequency := { hz := 5 }
+    matterFrequency_pos := by norm_num
+    couplingFrequency := { hz := 1 }
+    couplingFrequency_nonnegative := by norm_num
+    lowerHybridFrequency := { hz := 4 }
+    lowerHybridFrequency_nonnegative := by norm_num
+    upperHybridFrequency := { hz := 6 }
+    upperHybridFrequency_pos := by norm_num
+    modeSplitting := { hz := 2 }
+    modeSplitting_nonnegative := by norm_num
+    normalizedCoupling := 1 / 5
+    lowerHybridLaw := by norm_num
+    upperHybridLaw := by norm_num
+    modeSplittingLaw := by norm_num
+    normalizedCouplingLaw := by norm_num }
+
+example : toyCoupledCavityModes.modeSplitting.hz = 2 := by
+  rw [toyCoupledCavityModes.resonant_splitting rfl]
+  norm_num [toyCoupledCavityModes]
+
+noncomputable def toyCarrierDensityResonance : CarrierDensityResonance :=
+  { carrierDensity := 4
+    carrierDensity_pos := by norm_num
+    prefactor := 2
+    prefactor_pos := by norm_num
+    exponent := 0
+    resonanceFrequency := { hz := 2 }
+    resonanceFrequency_pos := by norm_num
+    resonanceLaw := by norm_num }
+
+example : toyCarrierDensityResonance.resonanceFrequency.hz = 2 := by
+  rw [toyCarrierDensityResonance.resonanceLaw]
+  norm_num [toyCarrierDensityResonance]
+
+def toySpectralWeightTransfer : SpectralWeightTransfer :=
+  { upperWeightBefore := 4
+    upperWeightBefore_nonnegative := by norm_num
+    lowerWeightBefore := 1
+    lowerWeightBefore_nonnegative := by norm_num
+    upperWeightAfter := 2
+    upperWeightAfter_nonnegative := by norm_num
+    lowerWeightAfter := 3
+    lowerWeightAfter_nonnegative := by norm_num
+    conservation := by norm_num
+    transferAmount := 2
+    transferAmount_nonnegative := by norm_num
+    transferLaw := by norm_num }
+
+example : toySpectralWeightTransfer.lowerWeightAfter -
+    toySpectralWeightTransfer.lowerWeightBefore =
+    toySpectralWeightTransfer.transferAmount := by
+  exact toySpectralWeightTransfer.lower_branch_gain
+
+def toyGroverPhaseInversion : GroverPhaseInversion :=
+  { targetBefore := 1
+    targetAfter := -1
+    orthogonalBefore := 2
+    orthogonalAfter := 2
+    targetLaw := by norm_num
+    orthogonalLaw := by norm_num }
+
+noncomputable def toyGroverRotation : GroverRotation :=
+  { overlap := 1 / 2
+    overlap_nonnegative := by norm_num
+    overlap_le_one := by norm_num
+    angle := Real.pi / 3
+    overlapLaw := by
+      rw [show Real.pi / 3 / 2 = Real.pi / 6 by ring,
+        Real.sin_pi_div_six]
+    iterationCount := 1
+    targetAmplitude := 1
+    orthogonalAmplitude := 0
+    targetAmplitudeLaw := by
+      have angle_identity :
+          ((2 * 1 + 1 : ℕ) : ℝ) * (Real.pi / 3) / 2 = Real.pi / 2 := by
+        norm_num
+        ring
+      rw [angle_identity, Real.sin_pi_div_two]
+    orthogonalAmplitudeLaw := by
+      have angle_identity :
+          ((2 * 1 + 1 : ℕ) : ℝ) * (Real.pi / 3) / 2 = Real.pi / 2 := by
+        norm_num
+        ring
+      rw [angle_identity, Real.cos_pi_div_two]
+    fidelity := 1
+    fidelityLaw := by norm_num }
+
+example : toyGroverRotation.targetAmplitude = 1 ∧
+    toyGroverRotation.fidelity = 1 := by
+  exact toyGroverRotation.one_step_perfect rfl rfl
+
+noncomputable def toyDickeStateOverlap : DickeStateOverlap :=
+  { qubitCount := 4
+    excitations := 2
+    excitations_le_qubits := by norm_num
+    rotationAngle := 0
+    overlapAmplitude := 0
+    overlapLaw := by norm_num }
+
+example : toyDickeStateOverlap.overlapAmplitude = 0 := by
+  rw [toyDickeStateOverlap.overlapLaw]
+  norm_num [toyDickeStateOverlap]
+
+def toyCavityQEDPhaseOracle : CavityQEDPhaseOracle :=
+  { atomCavityCoupling := 2
+    atomCavityCoupling_nonnegative := by norm_num
+    detuning := 4
+    detuning_ne_zero := by norm_num
+    dispersiveShift := 1
+    dispersiveShiftLaw := by norm_num
+    bareCavityFrequency := { hz := 10 }
+    bareCavityFrequency_pos := by norm_num
+    selectedExcitation := 3
+    targetExcitation := 3
+    shiftedCavityFrequency := { hz := 13 }
+    shiftedCavityFrequency_pos := by norm_num
+    shiftedFrequencyLaw := by norm_num
+    reflectedPhase := -1
+    reflectedPhaseLaw := by norm_num }
+
+example : toyCavityQEDPhaseOracle.shiftedCavityFrequency.hz = 13 := by
+  rw [toyCavityQEDPhaseOracle.shifted_frequency_holds]
+  norm_num [toyCavityQEDPhaseOracle]
+
+example : Complex.normSq toyCavityQEDPhaseOracle.reflectedPhase = 1 := by
+  exact toyCavityQEDPhaseOracle.reflected_phase_normSq
+
+noncomputable def toyGroverCavityFidelityScaling : GroverCavityFidelityScaling :=
+  { cooperativity := 100
+    cooperativity_pos := by norm_num
+    bandwidthRatio := 1 / 100
+    bandwidthRatio_nonnegative := by norm_num
+    unheraldedExponent := 1 / 2
+    unheraldedExponentLaw := by norm_num
+    heraldedExponent := 2 / 3
+    heraldedExponentLaw := by norm_num
+    modeMatching := 99 / 100
+    modeMatching_nonnegative := by norm_num
+    modeMatching_le_one := by norm_num
+    heraldingSuccessProbability := 4 / 5
+    heraldingSuccessProbability_nonnegative := by norm_num
+    heraldingSuccessProbability_le_one := by norm_num }
+
+example : toyGroverCavityFidelityScaling.heraldedExponent = 2 / 3 := by
+  exact toyGroverCavityFidelityScaling.heralded_exponent
+
+noncomputable def toySecondHarmonicResonance : SecondHarmonicResonance :=
+  { fundamentalFrequency := { hz := 5 }
+    fundamentalFrequency_pos := by norm_num
+    secondHarmonicFrequency := { hz := 10 }
+    secondHarmonicFrequency_pos := by norm_num
+    resonantFrequency := { hz := 10 }
+    resonantFrequency_pos := by norm_num
+    secondHarmonicLaw := by norm_num
+    resonanceLaw := by norm_num }
+
+noncomputable def toyActiveOpticalAmplifier : ActiveOpticalAmplifier :=
+  { signalInputPower := { watts := 1 }
+    signalInputPower_nonnegative := by norm_num
+    pumpPower := { watts := 2 }
+    pumpPower_nonnegative := by norm_num
+    signalOutputPower := { watts := 2 }
+    signalOutputPower_nonnegative := by norm_num
+    dissipatedPower := { watts := 1 }
+    dissipatedPower_nonnegative := by norm_num
+    linearGain := 2
+    linearGain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    powerBalance := by norm_num }
+
+noncomputable def toyLowPowerIntegratedOPA : LowPowerIntegratedOPA :=
+  { resonance := toySecondHarmonicResonance
+    amplifier := toyActiveOpticalAmplifier
+    reportedGainDecibels := 17
+    reportedGainDecibels_min := by norm_num
+    bandwidthHz := 1
+    bandwidth_nonnegative := by norm_num
+    inputPowerLimitWatts := 200
+    inputPowerLimit_pos := by norm_num
+    inputPowerBelowLimit := by norm_num [toyActiveOpticalAmplifier] }
+
+example : toyLowPowerIntegratedOPA.amplifier.signalOutputPower.watts ≤
+    toyLowPowerIntegratedOPA.amplifier.signalInputPower.watts +
+      toyLowPowerIntegratedOPA.amplifier.pumpPower.watts := by
+  exact toyLowPowerIntegratedOPA.amplifier.output_le_input_and_pump
+
+noncomputable def toySPPFreeElectronAmplifier : SPPFreeElectronAmplifier :=
+  { inputPower := { watts := 1 }
+    inputPower_nonnegative := by norm_num
+    electronPumpPower := { watts := 3 }
+    electronPumpPower_nonnegative := by norm_num
+    outputPower := { watts := 3 }
+    outputPower_nonnegative := by norm_num
+    lossPower := { watts := 1 }
+    lossPower_nonnegative := by norm_num
+    linearGain := 3
+    linearGain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    powerBalance := by norm_num
+    initialFrequency := { hz := 4 }
+    initialFrequency_pos := by norm_num
+    finalFrequency := { hz := 2 }
+    finalFrequency_pos := by norm_num
+    interactionLength := { meters := 1 }
+    interactionLength_pos := by norm_num
+    twofoldRedshiftLaw := by norm_num
+    phaseAlignment := { value := 1, nonnegative := by norm_num, le_one := by norm_num } }
+
+example : toySPPFreeElectronAmplifier.finalFrequency.hz =
+    toySPPFreeElectronAmplifier.initialFrequency.hz / 2 := by
+  exact toySPPFreeElectronAmplifier.twofold_redshift
+
+def toyCylindricalSPPMode : CylindricalSPPMode :=
+  { laserWaveNumber := 3
+    laserWaveNumber_nonnegative := by norm_num
+    sppWaveNumber := 3
+    sppWaveNumber_nonnegative := by norm_num
+    laserAzimuthalIndex := 1
+    sppAzimuthalIndex := 1
+    phaseMatching := by norm_num
+    azimuthalMatching := by norm_num
+    overlapEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    electronDensity := 1
+    electronDensity_pos := by norm_num
+    criticalDensity := 1
+    criticalDensity_pos := by norm_num
+    nearCriticalRatio := 1
+    nearCriticalRatioLaw := by norm_num }
+
+def toyCoherentRadiationScaling : CoherentRadiationScaling :=
+  { electronCount := 4
+    electronCount_ge_one := by norm_num
+    singleElectronIntensity := 2
+    singleElectronIntensity_nonnegative := by norm_num
+    coherentIntensity := 32
+    coherentIntensity_nonnegative := by norm_num
+    incoherentIntensity := 8
+    incoherentIntensity_nonnegative := by norm_num
+    coherentLaw := by norm_num
+    incoherentLaw := by norm_num }
+
+example : toyCoherentRadiationScaling.incoherentIntensity ≤
+    toyCoherentRadiationScaling.coherentIntensity := by
+  exact toyCoherentRadiationScaling.incoherent_le_coherent
+
+def toyCSSStabilizerCode : CSSStabilizerCode :=
+  { physicalQubits := 3
+    physicalQubits_positive := by norm_num
+    logicalQubits := 1
+    logicalQubits_le_physical := by norm_num
+    codeDistance := 1
+    codeDistance_positive := by norm_num
+    maximumCheckWeight := 4
+    maximumCheckWeight_positive := by norm_num
+    cssCommutationResidual := 0
+    cssCommutationLaw := by norm_num }
+
+def toyLayerCodeLift : LayerCodeLift :=
+  { input := toyCSSStabilizerCode
+    layerCount := 2
+    layerCount_positive := by norm_num
+    outputPhysicalQubits := 4
+    outputPhysicalQubits_positive := by norm_num
+    outputLogicalQubits := 1
+    outputLogicalQubits_le_physical := by norm_num
+    outputCodeDistance := 1
+    outputCodeDistance_positive := by norm_num
+    topologicalDimension := 3
+    junctionDimension := 1
+    maximumStabilizerWeight := 6
+    logicalQubitsLaw := by norm_num [toyCSSStabilizerCode]
+    topologicalDimensionLaw := by norm_num
+    junctionDimensionLaw := by norm_num
+    stabilizerWeightBound := by norm_num
+    outputCommutationResidual := 0
+    outputCommutationLaw := by norm_num
+    optimalScalingClaimed := true
+    energyBarrierSystemSize := 2
+    energyBarrierSystemSize_pos := by norm_num
+    energyBarrierCoefficient := 1
+    energyBarrierCoefficient_nonnegative := by norm_num
+    energyBarrierExponent := 2
+    energyBarrierExponent_positive := by norm_num
+    energyBarrier := 4
+    energyBarrier_nonnegative := by norm_num
+    energyBarrierLaw := by norm_num }
+
+example : toyLayerCodeLift.maximumStabilizerWeight ≤ 6 := by
+  exact toyLayerCodeLift.stabilizer_weight_le_six
+
+example : surfaceCodeReference.localStatus = QECReferenceStatus.referenceOnly := by
+  rfl
+
+example : layerCodeReference.localStatus =
+    QECReferenceStatus.localParameterMetadata := by
+  rfl
+
+example : attachedLaserScholarlyReferences.length = 13 := by
+  exact attachedLaserScholarlyReferences_count
+
+example :
+    (attachedLaserScholarlyReferences.filter (fun reference =>
+      reference.localArtifactStatus = LaserReferenceArtifactStatus.localPdf)).length = 4 := by
+  exact attachedLaserScholarlyReferences_local_pdf_count
+
+example : laserReferenceWan2018.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceYe2024.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceCheng2026.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceCheng2026.localArtifactStatus =
+    LaserReferenceArtifactStatus.localPdf := by
+  rfl
+
+example : laserReferenceCheng2026.doi =
+    some "10.1007/s44275-026-00046-7" := by
+  rfl
+
+example : laserReferencePark2024.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceYou2020.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceClaro2022.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceLee2023.doi =
+    some "10.1038/s41377-023-01143-0" := by
+  rfl
+
+example : laserReferenceKim2025.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceLin2021.evidenceStatus =
+    LaserReferenceEvidenceStatus.experimental := by
+  rfl
+
+example : laserReferenceJoshi2021.powerEvidence =
+    LaserReferencePowerEvidence.pulseEnergyOrFluence := by
+  rfl
+
+example : laserReferenceMorais2026.procaFieldStatus =
+    LaserReferenceClaimStatus.conditionalModel := by
+  rfl
+
+example : laserReferenceAkkanen2022.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceMikki2021.procaFieldStatus =
+    LaserReferenceClaimStatus.conditionalModel := by
+  rfl
+
+example : laserReferenceClaro2022.localArtifact =
+    some "data/papers/c2022sustainable.pdf" := by
+  rfl
+
+example : laserReferenceLee2023.localArtifact =
+    some "data/papers/lee2023ultra.pdf" := by
+  rfl
+
+example : laserReferenceMorais2026.localArtifact =
+    some "data/papers/2607.23013v1.pdf" := by
+  rfl
+
+example : laserReferenceWan2018.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceYe2024.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferencePark2024.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceYou2020.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceKim2025.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceLin2021.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceJoshi2021.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceAkkanen2022.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceMikki2021.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : ∀ reference ∈ attachedLaserScholarlyReferences,
+    reference.cwHolographicCarbonSynthesisStatus ≠
+      LaserReferenceClaimStatus.demonstrated := by
+  exact attachedLaserScholarlyReferences_claim_boundary
+
+example : ∀ reference ∈ attachedLaserScholarlyReferences,
+    reference.procaFieldStatus ≠ LaserReferenceClaimStatus.demonstrated ∧
+      reference.cwHolographicCarbonSynthesisStatus ≠
+        LaserReferenceClaimStatus.demonstrated := by
+  exact attachedLaserScholarlyReferences_no_Proca_or_CW_holography
+
+noncomputable def toyGroundDrivenAntiFireDevice : GroundDrivenAntiFireDevice :=
+  { member := GroundDrivenMember.shaft
+    suppression :=
+      { baselineRate := 10
+        baselineRate_nonnegative := by norm_num
+        effectiveRate := 4
+        effectiveRate_nonnegative := by norm_num
+        profile :=
+          { divergence := -1
+            divergent := by norm_num
+            phaseGradient := 0
+            phaseGradient_nonnegative := by norm_num
+            profileWeight := 1
+            profileWeight_nonnegative := by norm_num
+            pressureExpansion := 1
+            expansionLaw := by norm_num }
+        suppression := by norm_num }
+    memberLength := { meters := 3 }
+    memberLength_positive := by norm_num
+    memberRadius := { meters := 0.1 }
+    memberRadius_positive := by norm_num
+    insertionStroke := { meters := 0.5 }
+    insertionStroke_positive := by norm_num
+    insertionForce := { newtons := 1000 }
+    insertionForce_nonnegative := by norm_num
+    thermalHarvestedPower := { watts := 30 }
+    thermalHarvestedPower_nonnegative := by norm_num
+    piezoelectricHarvestedPower := { watts := 10 }
+    piezoelectricHarvestedPower_nonnegative := by norm_num
+    conversionEfficiency :=
+      { value := 0.5
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    batteryPower := { watts := 0 }
+    batteryPower_nonnegative := by norm_num
+    externalInputPower := { watts := 0 }
+    externalInputPower_nonnegative := by norm_num
+    emitterPower := { watts := 20 }
+    emitterPower_nonnegative := by norm_num
+    inputPowerLaw := by norm_num }
+
+example : toyGroundDrivenAntiFireDevice.member = GroundDrivenMember.shaft := by
+  rfl
+
+example :
+    toyGroundDrivenAntiFireDevice.thermalHarvestedPower.watts +
+      toyGroundDrivenAntiFireDevice.piezoelectricHarvestedPower.watts = 40 := by
+  norm_num [toyGroundDrivenAntiFireDevice]
+
+example :
+    toyGroundDrivenAntiFireDevice.emitterPower.watts ≤
+      (toyGroundDrivenAntiFireDevice.thermalHarvestedPower.watts +
+        toyGroundDrivenAntiFireDevice.piezoelectricHarvestedPower.watts +
+        toyGroundDrivenAntiFireDevice.batteryPower.watts +
+        toyGroundDrivenAntiFireDevice.externalInputPower.watts) *
+        toyGroundDrivenAntiFireDevice.conversionEfficiency.value := by
+  exact toyGroundDrivenAntiFireDevice.emitterPower_le_availableInputPower
+
+noncomputable def toyExternallyPoweredAntiFireDevice : GroundDrivenAntiFireDevice :=
+  { toyGroundDrivenAntiFireDevice with
+    batteryPower := { watts := 5 }
+    batteryPower_nonnegative := by norm_num
+    externalInputPower := { watts := 15 }
+    externalInputPower_nonnegative := by norm_num
+    inputPowerLaw := by norm_num [toyGroundDrivenAntiFireDevice] }
+
+example :
+    toyExternallyPoweredAntiFireDevice.batteryPower.watts = 5 ∧
+      toyExternallyPoweredAntiFireDevice.externalInputPower.watts = 15 := by
+  norm_num [toyExternallyPoweredAntiFireDevice]
+
+example :
+    toyExternallyPoweredAntiFireDevice.emitterPower.watts ≤
+      (toyExternallyPoweredAntiFireDevice.thermalHarvestedPower.watts +
+        toyExternallyPoweredAntiFireDevice.piezoelectricHarvestedPower.watts +
+        toyExternallyPoweredAntiFireDevice.batteryPower.watts +
+        toyExternallyPoweredAntiFireDevice.externalInputPower.watts) *
+        toyExternallyPoweredAntiFireDevice.conversionEfficiency.value := by
+  exact toyExternallyPoweredAntiFireDevice.emitterPower_le_availableInputPower
+
+def toyStarConsensusCouncil : StarConsensusCouncil :=
+  { nodeCount := 10
+    nodeCount_at_least_two := by norm_num
+    anchorCount := 1
+    anchorCountLaw := by norm_num
+    spokeCount := 9
+    spokeCountLaw := by norm_num
+    globalEntanglingRounds := 1
+    globalEntanglingRounds_positive := by norm_num
+    postProcessingMajority := true }
+
+noncomputable def toyConsensusObservation : ConsensusObservation :=
+  { shots := 100
+    shots_positive := by norm_num
+    logicalSuccesses := 99
+    logicalSuccesses_le_shots := by norm_num
+    logicalFidelity := 99 / 100
+    logicalFidelity_nonnegative := by norm_num
+    logicalFidelity_le_one := by norm_num
+    logicalFidelityLaw := by norm_num }
+
+noncomputable def toyMajorityDecodedObservation : MajorityDecodedObservation :=
+  { council := toyStarConsensusCouncil
+    measuredHammingWeight := 7
+    hammingWeight_le_nodeCount := by norm_num [toyStarConsensusCouncil]
+    decodedBit := some true
+    decodedBitLaw := by norm_num [majorityDecision, toyStarConsensusCouncil]
+    fidelity := toyConsensusObservation }
+
+def toyProtocolZ8ReportedBenchmark : ProtocolZ8ReportedBenchmark :=
+  { backend := "ibm_torino"
+    heartbeat :=
+      { backend := "ibm_torino"
+        date := "2026-01-09"
+        run1 :=
+          { runId := 1
+            logicalFidelity := 0.9353
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run1_id_law := by norm_num
+        run2 :=
+          { runId := 2
+            logicalFidelity := 0.9080
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run2_id_law := by norm_num
+        run3 :=
+          { runId := 3
+            logicalFidelity := 0.9363
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run3_id_law := by norm_num
+        run4 :=
+          { runId := 4
+            logicalFidelity := 0.9204
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run4_id_law := by norm_num
+        run5 :=
+          { runId := 5
+            logicalFidelity := 0.9211
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run5_id_law := by norm_num
+        averageFidelity := 0.92422
+        averageFidelity_nonnegative := by norm_num
+        averageFidelity_le_one := by norm_num
+        averageFidelityLaw := by norm_num
+        reportedAverageFidelity := 0.9242
+        reportedAverageFidelity_nonnegative := by norm_num
+        reportedAverageFidelity_le_one := by norm_num
+        reportedAverageFidelityLaw := by norm_num }
+    jobIdentifier := "d5gk867ea9qs739131u0"
+    totalShots := 4096
+    totalShots_positive := by norm_num
+    majorityThreshold := 5
+    majorityThreshold_positive := by norm_num
+    consensusZeroCount := 1983
+    consensusOneCount := 1674
+    correctedCount := 103
+    listedRawCountCoverage := 3760
+    listedRawCountCoverageLaw := by norm_num
+    listedRawCountCoverage_le_total := by norm_num
+    reportedPhysicalFidelity := 0.6809
+    reportedPhysicalFidelity_nonnegative := by norm_num
+    reportedPhysicalFidelity_le_one := by norm_num
+    reportedLogicalFidelity := 0.9885
+    reportedLogicalFidelityLaw := by norm_num
+    reportedLogicalFidelity_nonnegative := by norm_num
+    reportedLogicalFidelity_le_one := by norm_num
+    reportedCorrectionRate := 0.1072
+    reportedCorrectionRate_nonnegative := by norm_num
+    reportedCorrectionRate_le_one := by norm_num
+    evidenceStatus := ConsensusEvidenceStatus.reportedHardware
+    completeRawCounts := false
+    reproduction := false
+    sourceRepository := "https://github.com/ENKI-420/consensus-quantum-protocol" }
+
+example : ¬toyProtocolZ8ReportedBenchmark.independentlyVerified := by
+  apply toyProtocolZ8ReportedBenchmark.not_independentlyVerified_of_incomplete
+  rfl
+
+example : toyProtocolZ8ReportedBenchmark.heartbeat.averageFidelity = 0.92422 := by
+  rw [toyProtocolZ8ReportedBenchmark.heartbeat.average_fidelity_holds]
+  norm_num [toyProtocolZ8ReportedBenchmark]
+
+example : toyProtocolZ8ReportedBenchmark.heartbeat.reportedAverageFidelity =
+    0.9242 := by
+  exact toyProtocolZ8ReportedBenchmark.heartbeat.reported_average_fidelity_holds
+
+example : cyclicShift (by norm_num : 0 < 100)
+    ⟨0, by norm_num⟩ ⟨7, by norm_num⟩ = ⟨7, by norm_num⟩ := by
+  exact cyclicShift_zero (by norm_num) ⟨7, by norm_num⟩
+
+noncomputable def toyGKPQutrit : GKPQuditModel 3 :=
+  { dimension_at_least_two := by norm_num
+    logicalPauliSpacing := Real.sqrt (Real.pi / 3)
+    logicalPauliSpacing_nonnegative := Real.sqrt_nonneg _
+    logicalPauliSpacingLaw := by rfl
+    stabilizerLength := Real.sqrt (Real.pi * 3)
+    stabilizerLength_nonnegative := Real.sqrt_nonneg _
+    stabilizerLengthLaw := by rfl
+    envelopeParameter := 0.32
+    envelopeParameter_pos := by norm_num
+    meanPhotonNumber := 1 / (2 * (0.32 : ℝ) ^ 2)
+    meanPhotonNumber_nonnegative := by positivity
+    finiteEnergyEnvelopeLaw := by rfl }
+
+noncomputable def toyGKPQuquart : GKPQuditModel 4 :=
+  { dimension_at_least_two := by norm_num
+    logicalPauliSpacing := Real.sqrt (Real.pi / 4)
+    logicalPauliSpacing_nonnegative := Real.sqrt_nonneg _
+    logicalPauliSpacingLaw := by rfl
+    stabilizerLength := Real.sqrt (Real.pi * 4)
+    stabilizerLength_nonnegative := Real.sqrt_nonneg _
+    stabilizerLengthLaw := by rfl
+    envelopeParameter := 0.32
+    envelopeParameter_pos := by norm_num
+    meanPhotonNumber := 1 / (2 * (0.32 : ℝ) ^ 2)
+    meanPhotonNumber_nonnegative := by positivity
+    finiteEnergyEnvelopeLaw := by rfl }
+
+noncomputable def toyQutritGain : QuditQECGainObservation :=
+  { dimension := 3
+    dimension_at_least_two := by norm_num
+    physicalDecayRate := 1
+    physicalDecayRate_pos := by norm_num
+    logicalDecayRate := 1 / 1.82
+    logicalDecayRate_pos := by norm_num
+    gain := 1.82
+    gain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    reportedStandardError := 0.03
+    reportedStandardError_nonnegative := by norm_num
+    reportedGainAboveBreakEven := by norm_num
+    sourceStatus := "Brock et al. 2025; experimentally reported qutrit" }
+
+noncomputable def toyQuquartGain : QuditQECGainObservation :=
+  { dimension := 4
+    dimension_at_least_two := by norm_num
+    physicalDecayRate := 1
+    physicalDecayRate_pos := by norm_num
+    logicalDecayRate := 1 / 1.87
+    logicalDecayRate_pos := by norm_num
+    gain := 1.87
+    gain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    reportedStandardError := 0.03
+    reportedStandardError_nonnegative := by norm_num
+    reportedGainAboveBreakEven := by norm_num
+    sourceStatus := "Brock et al. 2025; experimentally reported ququart" }
+
+example : 1 < toyQutritGain.gain := by
+  apply toyQutritGain.gain_gt_one
+  norm_num [toyQutritGain]
+
+example : 1 < toyQuquartGain.gain := by
+  apply toyQuquartGain.gain_gt_one
+  norm_num [toyQuquartGain]
+
+noncomputable def toyOAM100State : Qudit 100 :=
+  { amplitudes := fun mode =>
+      if mode = ⟨0, by norm_num⟩ then 1 else 0
+    normalized := by
+      classical
+      simp }
+
+noncomputable def toyOAM100QuditQECDesign : OAM100QuditQECDesign :=
+  { state := toyOAM100State
+    modeLabel := centeredOAMMode
+    modeLabelLaw := by intro mode; rfl
+    modeLabel_injective := centeredOAMMode_injective
+    modeSpacing := 1
+    modeSpacing_pos := by norm_num
+    gkpModel :=
+      { dimension_at_least_two := by norm_num
+        logicalPauliSpacing := Real.sqrt (Real.pi / 100)
+        logicalPauliSpacing_nonnegative := Real.sqrt_nonneg _
+        logicalPauliSpacingLaw := by rfl
+        stabilizerLength := Real.sqrt (Real.pi * 100)
+        stabilizerLength_nonnegative := Real.sqrt_nonneg _
+        stabilizerLengthLaw := by rfl
+        envelopeParameter := 0.1
+        envelopeParameter_pos := by norm_num
+        meanPhotonNumber := 50
+        meanPhotonNumber_nonnegative := by norm_num
+        finiteEnergyEnvelopeLaw := by norm_num }
+    factorLeft := 4
+    factorRight := 25
+    factorizationLaw := by norm_num
+    syndromeAxisCount := 2
+    syndromeAxisCountLaw := by norm_num
+    syndromeReadoutSpecified := false
+    recoveryMapSpecified := false
+    modeLossRate := 0
+    modeLossRate_nonnegative := by norm_num
+    modeDephasingRate := 0
+    modeDephasingRate_nonnegative := by norm_num }
+
+example : toyOAM100QuditQECDesign.factorLeft *
+    toyOAM100QuditQECDesign.factorRight = 100 := by
+  exact toyOAM100QuditQECDesign.factorization
+
+example : toyOAM100QuditQECDesign.syndromeAxisCount = 2 := by
+  exact toyOAM100QuditQECDesign.two_syndrome_axes
+
+noncomputable def toySemiDiracQuadraticAxis : SemiDiracDispersion :=
+  { mass := 2
+    mass_pos := by norm_num
+    linearVelocity := 3
+    linearVelocity_pos := by norm_num
+    momentumX := 2
+    momentumY := 0
+    energy := 1
+    energy_nonnegative := by norm_num
+    dispersionLaw := by norm_num }
+
+noncomputable def toySemiDiracLinearAxis : SemiDiracDispersion :=
+  { mass := 2
+    mass_pos := by norm_num
+    linearVelocity := 3
+    linearVelocity_pos := by norm_num
+    momentumX := 0
+    momentumY := 2
+    energy := 6
+    energy_nonnegative := by norm_num
+    dispersionLaw := by norm_num }
+
+example : toySemiDiracQuadraticAxis.energy ^ 2 =
+    (toySemiDiracQuadraticAxis.momentumX ^ 2 /
+      (2 * toySemiDiracQuadraticAxis.mass)) ^ 2 := by
+  apply toySemiDiracQuadraticAxis.quadratic_axis_energy_squared
+  rfl
+
+example : toySemiDiracLinearAxis.energy ^ 2 =
+    (toySemiDiracLinearAxis.linearVelocity *
+      toySemiDiracLinearAxis.momentumY) ^ 2 := by
+  apply toySemiDiracLinearAxis.linear_axis_energy_squared
+  rfl
+
+noncomputable def toySemiDiracOpticalResponse : SemiDiracOpticalResponse :=
+  { pumpPower := { watts := 2 }
+    pumpPower_nonnegative := by norm_num
+    quadraticResponse := 1
+    quadraticResponse_nonnegative := by norm_num
+    linearResponse := 2
+    linearResponse_nonnegative := by norm_num
+    quadraticResponseGain := 3
+    quadraticResponseGain_nonnegative := by norm_num
+    linearResponseGain := 1
+    linearResponseGain_nonnegative := by norm_num
+    quadraticSignal := 7
+    quadraticSignal_nonnegative := by norm_num
+    linearSignal := 4
+    linearSignal_nonnegative := by norm_num
+    quadraticResponseLaw := by norm_num
+    linearResponseLaw := by norm_num }
+
+example : toySemiDiracOpticalResponse.quadraticResponse <
+    toySemiDiracOpticalResponse.quadraticSignal := by
+  apply toySemiDiracOpticalResponse.quadratic_response_increases
+  · norm_num [toySemiDiracOpticalResponse]
+  · norm_num [toySemiDiracOpticalResponse]
+
+noncomputable def toySemiDiracPowerBudget : SemiDiracOpticalPowerBudget :=
+  { fiberLaserPower := { watts := 10 }
+    fiberLaserPower_nonnegative := by norm_num
+    resonatorPower := { watts := 2 }
+    resonatorPower_nonnegative := by norm_num
+    metamaterialPower := { watts := 3 }
+    metamaterialPower_nonnegative := by norm_num
+    processPower := { watts := 4 }
+    processPower_nonnegative := by norm_num
+    lossPower := { watts := 1 }
+    lossPower_nonnegative := by norm_num
+    inputPower := { watts := 10 }
+    inputPower_nonnegative := by norm_num
+    powerBalance := by norm_num
+    laserInputLaw := by norm_num }
+
+example : toySemiDiracPowerBudget.resonatorPower.watts +
+    toySemiDiracPowerBudget.metamaterialPower.watts +
+    toySemiDiracPowerBudget.processPower.watts ≤
+      toySemiDiracPowerBudget.fiberLaserPower.watts := by
+  exact toySemiDiracPowerBudget.outputs_le_fiber_laser
+
+noncomputable def toySemiDiracGrapheneProcess : SemiDiracGrapheneProcess :=
+  { budget := toySemiDiracPowerBudget
+    endToEndEfficiency :=
+      { value := 1 / 2
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    absorbedPower := { watts := 5 }
+    absorbedPower_nonnegative := by norm_num
+    absorbedPowerLaw := by norm_num [toySemiDiracPowerBudget]
+    requiredAbsorbedPower := { watts := 4 }
+    requiredAbsorbedPower_nonnegative := by norm_num
+    thresholdLaw := by norm_num
+    materialCalibrationSpecified := true
+    phaseIdentificationSpecified := false
+    grapheneFormationVerified := false }
+
+example : toySemiDiracGrapheneProcess.requiredAbsorbedPower.watts ≤
+    toySemiDiracGrapheneProcess.absorbedPower.watts := by
+  exact toySemiDiracGrapheneProcess.threshold_holds
+
+example : 8 ≤ toySemiDiracGrapheneProcess.budget.fiberLaserPower.watts := by
+  have lowerBound :=
+    toySemiDiracGrapheneProcess.fiber_laser_power_lower_bound (by
+      norm_num [toySemiDiracGrapheneProcess])
+  norm_num [toySemiDiracGrapheneProcess] at lowerBound ⊢
+  exact lowerBound
+
+noncomputable def toyPulsedAblation : PulsedLaserTask :=
+  { task := LaserTask.ablation
+    beamKind := LaserBeamKind.femtosecondPulse
+    status := LaserTaskStatus.demonstratedAnalog
+    wavelength := { meters := 800e-9 }
+    wavelength_pos := by norm_num
+    pulseEnergy := { joules := 1e-6 }
+    pulseEnergy_nonnegative := by norm_num
+    pulseDuration := { seconds := 100e-15 }
+    pulseDuration_pos := by norm_num
+    repetitionRate := { hz := 100000 }
+    repetitionRate_nonnegative := by norm_num
+    spotArea := { squareMeters := 1e-10 }
+    spotArea_pos := by norm_num
+    fluence := { joulesPerSquareMeter := 10000 }
+    fluence_nonnegative := by norm_num
+    peakPower := { watts := 1e7 }
+    peakPower_nonnegative := by norm_num
+    maximumPeakPower := { watts := 2e7 }
+    maximumPeakPower_nonnegative := by norm_num
+    peakPower_le_maximum := by norm_num
+    fluenceLaw := by norm_num
+    peakPowerLaw := by norm_num }
+
+example : toyPulsedAblation.fluence.joulesPerSquareMeter *
+  toyPulsedAblation.spotArea.squareMeters =
+    toyPulsedAblation.pulseEnergy.joules := by
+  exact toyPulsedAblation.fluence_holds
+
+example : toyPulsedAblation.peakPower.watts ≤
+    toyPulsedAblation.maximumPeakPower.watts := by
+  exact toyPulsedAblation.peak_power_le_maximum
+
+noncomputable def toyLaserCompressionShock : LaserShockTask :=
+  { pulsedTask :=
+      { task := LaserTask.laserCompressionShock
+        beamKind := LaserBeamKind.pulsedShockDrive
+        status := LaserTaskStatus.demonstratedAnalog
+        wavelength := { meters := 527e-9 }
+        wavelength_pos := by norm_num
+        pulseEnergy := { joules := 16 }
+        pulseEnergy_nonnegative := by norm_num
+        pulseDuration := { seconds := 10e-9 }
+        pulseDuration_pos := by norm_num
+        repetitionRate := { hz := 1 }
+        repetitionRate_nonnegative := by norm_num
+        spotArea := { squareMeters := 1e-8 }
+        spotArea_pos := by norm_num
+        fluence := { joulesPerSquareMeter := 1.6e9 }
+        fluence_nonnegative := by norm_num
+        peakPower := { watts := 1.6e9 }
+        peakPower_nonnegative := by norm_num
+        maximumPeakPower := { watts := 2e9 }
+        maximumPeakPower_nonnegative := by norm_num
+        peakPower_le_maximum := by norm_num
+        fluenceLaw := by norm_num
+        peakPowerLaw := by norm_num }
+    shockPressure := { pascals := 2.27e9 }
+    shockPressure_nonnegative := by norm_num
+    shockPressureThreshold := { pascals := 2e9 }
+    shockPressureThreshold_nonnegative := by norm_num
+    pressureThresholdLaw := by norm_num
+    substrateCalibrated := true
+    shockConfinementCalibrated := false }
+
+example : toyLaserCompressionShock.shockPressureThreshold.pascals ≤
+    toyLaserCompressionShock.shockPressure.pascals := by
+  exact toyLaserCompressionShock.pressure_threshold_met
+
+example : toyLaserCompressionShock.pulsedTask.peakPower.watts ≤
+    toyLaserCompressionShock.pulsedTask.maximumPeakPower.watts := by
+  exact toyLaserCompressionShock.pulsedTask.peak_power_le_maximum
+
+noncomputable def toyDirectWriteGraphene : ContinuousWaveLaserTask :=
+  { task := LaserTask.graphene
+    beamKind := LaserBeamKind.continuousWave
+    status := LaserTaskStatus.demonstratedProcess
+    wavelength := { meters := 10.6e-6 }
+    wavelength_pos := by norm_num
+    averagePower := { watts := 32 }
+    averagePower_nonnegative := by norm_num
+    maximumAveragePower := { watts := 40 }
+    maximumAveragePower_nonnegative := by norm_num
+    averagePower_le_maximum := by norm_num
+    spotArea := { squareMeters := 1e-8 }
+    spotArea_pos := by norm_num
+    scanSpeed := { metersPerSecond := 0.2 }
+    scanSpeed_pos := by norm_num
+    absorbedPowerThreshold := { watts := 16 }
+    absorbedPowerThreshold_nonnegative := by norm_num
+    endToEndEfficiency := 1 / 2
+    endToEndEfficiency_nonnegative := by norm_num
+    endToEndEfficiency_le_one := by norm_num
+    absorbedPowerLaw := by norm_num }
+
+example : 32 ≤ toyDirectWriteGraphene.averagePower.watts := by
+  have lowerBound := toyDirectWriteGraphene.average_power_lower_bound (by
+    norm_num [toyDirectWriteGraphene])
+  norm_num [toyDirectWriteGraphene] at lowerBound ⊢
+
+example : toyDirectWriteGraphene.averagePower.watts ≤
+    toyDirectWriteGraphene.maximumAveragePower.watts := by
+  exact toyDirectWriteGraphene.average_power_le_maximum
+
+noncomputable def toyShockSynthesizedDiamond : LaserShockTask :=
+  { pulsedTask := toyLaserCompressionShock.pulsedTask
+    shockPressure := { pascals := 60e9 }
+    shockPressure_nonnegative := by norm_num
+    shockPressureThreshold := { pascals := 50e9 }
+    shockPressureThreshold_nonnegative := by norm_num
+    pressureThresholdLaw := by norm_num
+    substrateCalibrated := true
+    shockConfinementCalibrated := true }
+
+example : toyShockSynthesizedDiamond.shockPressureThreshold.pascals ≤
+    toyShockSynthesizedDiamond.shockPressure.pascals := by
+  exact toyShockSynthesizedDiamond.pressure_threshold_met
+
+example : toyShockSynthesizedDiamond.pulsedTask.peakPower.watts ≤
+    toyShockSynthesizedDiamond.pulsedTask.maximumPeakPower.watts := by
+  exact toyShockSynthesizedDiamond.pulsedTask.peak_power_le_maximum
+
+noncomputable def toyConvergentHolographicGraphene : HolographicLaserTaskBoundary :=
+  { task := LaserTask.convergentHolographicGraphene
+    beamKind := LaserBeamKind.unsupportedProcaHolographic
+    status := LaserTaskStatus.unsupportedProposal
+    sourcePower := { watts := 0.06 }
+    sourcePower_nonnegative := by norm_num
+    maximumSourcePower := { watts := 0.12 }
+    maximumSourcePower_nonnegative := by norm_num
+    sourcePower_le_maximum := by norm_num
+    beamCount := 4
+    beamCount_pos := by norm_num
+    phaseControlCalibrated := false
+    focalVolumeCalibrated := false
+    materialTransformationVerified := false
+    independentStructuralVerification := false }
+
+example : toyConvergentHolographicGraphene.status =
+    LaserTaskStatus.unsupportedProposal := by
+  exact toyConvergentHolographicGraphene.is_unsupported_proposal rfl
+
+example : toyConvergentHolographicGraphene.sourcePower.watts ≤
+    toyConvergentHolographicGraphene.maximumSourcePower.watts := by
+  exact toyConvergentHolographicGraphene.source_power_le_maximum
+
+noncomputable def toyConvergentHolographicGrapheneAndDiamond :
+    HolographicLaserTaskBoundary :=
+  { task := LaserTask.convergentHolographicGrapheneAndDiamond
+    beamKind := LaserBeamKind.unsupportedProcaHolographic
+    status := LaserTaskStatus.unsupportedProposal
+    sourcePower := { watts := 25000 }
+    sourcePower_nonnegative := by norm_num
+    maximumSourcePower := { watts := 25000 }
+    maximumSourcePower_nonnegative := by norm_num
+    sourcePower_le_maximum := by norm_num
+    beamCount := 4
+    beamCount_pos := by norm_num
+    phaseControlCalibrated := false
+    focalVolumeCalibrated := false
+    materialTransformationVerified := false
+    independentStructuralVerification := false }
+
+example : toyConvergentHolographicGrapheneAndDiamond.status =
+    LaserTaskStatus.unsupportedProposal := by
+  exact toyConvergentHolographicGrapheneAndDiamond.is_unsupported_proposal rfl
+
+example : toyConvergentHolographicGrapheneAndDiamond.sourcePower.watts ≤
+    toyConvergentHolographicGrapheneAndDiamond.maximumSourcePower.watts := by
+  exact toyConvergentHolographicGrapheneAndDiamond.source_power_le_maximum
+
+noncomputable def toyMethodCalibration : MethodCalibration :=
+  { method := MeasurementMethod.inspection InspectionMethod.mmWaveRadar
+    unitLabel := "arbitrary calibrated amplitude units"
+    referenceStandard := "synthetic reference target"
+    instrumentCalibration :=
+      { rawBefore := 1
+        rawAfter := 1
+        rawPreserved := by rfl
+        multiplier := 1
+        offset := 0
+        calibrated := 1
+        calibrationLaw := by norm_num }
+    detectorLoss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+    repeatabilityUncertainty := 1 / 10
+    repeatabilityUncertainty_nonnegative := by norm_num
+    environmentalDrift := 1 / 100
+    environmentalDrift_nonnegative := by norm_num
+    frequencyDependentNoise := none }
+
+noncomputable def toyCalibratedObservation (raw : ℝ) : CalibratedObservation :=
+  { rawValue := raw
+    calibration :=
+      { rawBefore := raw
+        rawAfter := raw
+        rawPreserved := by rfl
+        multiplier := 1
+        offset := 0
+        calibrated := raw
+        calibrationLaw := by ring }
+    rawValueLaw := by rfl
+    calibratedValue := raw
+    calibratedValueLaw := by rfl
+    uncertainty :=
+      { lower := raw - 1 / 10
+        upper := raw + 1 / 10
+        lower_le_upper := by linarith }
+    calibratedWithinUncertainty := by
+      unfold UncertaintyInterval.contains
+      constructor <;> linarith }
+
+noncomputable def toyRepeatedObservationAt (value : ℝ) : RepeatedObservation :=
+  { methodCalibration := toyMethodCalibration
+    trials :=
+      [ toyCalibratedObservation value,
+        toyCalibratedObservation value,
+        toyCalibratedObservation value ]
+    trials_nonempty := by simp
+    summary := value
+    summaryLaw := by
+      norm_num [toyCalibratedObservation]; ring
+    summaryUncertainty :=
+      { lower := value - 1 / 10
+        upper := value + 1 / 10
+        lower_le_upper := by linarith }
+    summaryWithinUncertainty := by
+      unfold UncertaintyInterval.contains
+      constructor <;> linarith }
+
+noncomputable def toyRepeatedObservation : RepeatedObservation :=
+  toyRepeatedObservationAt 1
+
+noncomputable def toyBackgroundControl : RepeatedObservation :=
+  toyRepeatedObservationAt 0
+
+noncomputable def toyFlowMethodCalibration : MethodCalibration :=
+  { toyMethodCalibration with
+    method := MeasurementMethod.flowBoundary
+    unitLabel := "SI boundary quantities" }
+
+noncomputable def toyFlowRepeatedObservationAt (value : ℝ) : RepeatedObservation :=
+  { toyRepeatedObservationAt value with
+    methodCalibration := toyFlowMethodCalibration }
+
+noncomputable def toyFlowControlledAt (summary baseline tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance) : ControlledMeasurement :=
+  { baseline := baseline
+    baselineName := "classical flow boundary prediction"
+    observation := toyFlowRepeatedObservationAt summary
+    residual := summary - baseline
+    residualLaw := by rfl
+    tolerance := tolerance
+    tolerance_nonnegative := tolerance_nonnegative
+    positiveControl := none
+    negativeControl := none
+    heldOutCheck := none
+    syntheticCheck := none }
+
+noncomputable def toyCompressibleControlledAt (summary baseline tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance) : ControlledMeasurement :=
+  { toyFlowControlledAt summary baseline tolerance tolerance_nonnegative with
+    observation :=
+      { toyFlowRepeatedObservationAt summary with
+        methodCalibration :=
+          { toyFlowMethodCalibration with
+            method := MeasurementMethod.compressibleFlow
+            unitLabel := "compressible-flow output" } } }
+
+noncomputable def toyControlledMeasurement : ControlledMeasurement :=
+  { baseline := 1
+    baselineName := "classical mmWave reference"
+    observation := toyRepeatedObservation
+    residual := 0
+    residualLaw := by
+      norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+    tolerance := 1 / 10
+    tolerance_nonnegative := by norm_num
+    positiveControl := some toyRepeatedObservation
+    negativeControl := some toyBackgroundControl
+    heldOutCheck := some toyRepeatedObservation
+    syntheticCheck := some toyBackgroundControl }
+
+noncomputable def toyAnomalousMeasurement : ControlledMeasurement :=
+  { baseline := 2
+    baselineName := "classical mmWave reference"
+    observation := toyRepeatedObservation
+    residual := -1
+    residualLaw := by
+      norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+    tolerance := 1 / 10
+    tolerance_nonnegative := by norm_num
+    positiveControl := some toyRepeatedObservation
+    negativeControl := some toyBackgroundControl
+    heldOutCheck := some toyRepeatedObservation
+    syntheticCheck := some toyBackgroundControl }
+
+example : toyMethodCalibration.unitLabel = "arbitrary calibrated amplitude units" := by
+  rfl
+
+example :
+    (toyCalibratedObservation 3).calibration.rawBefore =
+      (toyCalibratedObservation 3).rawValue := by
+  exact (toyCalibratedObservation 3).raw_value_holds
+
+example :
+    (toyCalibratedObservation 3).calibratedValue =
+      (toyCalibratedObservation 3).calibration.calibrated := by
+  exact (toyCalibratedObservation 3).calibrated_value_holds
+
+example : (toyCalibratedObservation 3).uncertainty.contains 3 := by
+  exact (toyCalibratedObservation 3).calibratedWithinUncertainty
+
+example :
+    (toyCalibratedObservation 3).uncertainty.lower ≤
+      (toyCalibratedObservation 3).uncertainty.upper := by
+  exact (toyCalibratedObservation 3).uncertainty.endpoints_ordered
+
+example : toyRepeatedObservation.trials.length = 3 := by
+  norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+
+example : 0 < toyRepeatedObservation.trials.length := by
+  exact toyRepeatedObservation.trials_length_pos
+
+example : toyRepeatedObservation.summary = 1 := by
+  norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+
+example :
+    toyRepeatedObservation.summary =
+      (toyRepeatedObservation.trials.map (fun trial => trial.calibratedValue)).sum /
+        toyRepeatedObservation.trials.length := by
+  exact toyRepeatedObservation.summary_holds
+
+example : toyControlledMeasurement.residual = 0 := by
+  norm_num [toyControlledMeasurement, toyRepeatedObservation,
+    toyRepeatedObservationAt]
+
+example : toyControlledMeasurement.consistent := by
+  norm_num [ControlledMeasurement.consistent, toyControlledMeasurement]
+
+example :
+    toyControlledMeasurement.consistent ∨
+      toyControlledMeasurement.anomalyCandidate := by
+  exact toyControlledMeasurement.consistent_or_anomaly
+
+example : ¬toyAnomalousMeasurement.consistent := by
+  norm_num [ControlledMeasurement.consistent, toyAnomalousMeasurement]
+
+example : toyAnomalousMeasurement.anomalyCandidate := by
+  norm_num [ControlledMeasurement.anomalyCandidate, ControlledMeasurement.consistent,
+    toyAnomalousMeasurement, toyRepeatedObservation, toyRepeatedObservationAt]
+
+example : toyControlledMeasurement.positiveControl.isSome := by
+  simp [toyControlledMeasurement]
+
+example : toyControlledMeasurement.negativeControl.isSome := by
+  simp [toyControlledMeasurement]
+
+example : toyControlledMeasurement.heldOutCheck.isSome := by
+  simp [toyControlledMeasurement]
+
+example : toyControlledMeasurement.syntheticCheck.isSome := by
+  simp [toyControlledMeasurement]
+
+noncomputable def toyFlowBoundaryEvidence : FlowBoundaryEvidence :=
+  { boundary := toyFlowBoundaryObservation
+    pressure := toyFlowControlledAt 101325 101325 1 (by norm_num)
+    pressureMethodLaw := by
+      rfl
+    pressureSummaryLaw := by
+      rfl
+    pressureBaselineLaw := by
+      rfl
+    pressureResidualLaw := by
+      norm_num [toyFlowControlledAt, toyFlowBoundaryObservation]
+    pressureToleranceLaw := by
+      rfl
+    heatFlux := toyFlowControlledAt 100 100 1 (by norm_num)
+    heatFluxMethodLaw := by
+      rfl
+    heatFluxSummaryLaw := by
+      rfl
+    heatFluxBaselineLaw := by
+      rfl
+    heatFluxResidualLaw := by
+      norm_num [toyFlowControlledAt, toyFlowBoundaryObservation]
+    heatFluxToleranceLaw := by
+      rfl
+    velocity := fun _ => toyFlowControlledAt 3 3 1 (by norm_num)
+    velocityMethodLaw := by
+      intro axis
+      rfl
+    velocitySummaryLaw := by
+      intro axis
+      rfl
+    velocityBaselineLaw := by
+      intro axis
+      rfl
+    velocityResidualLaw := by
+      intro axis
+      norm_num [toyFlowControlledAt, toyFlowBoundaryObservation]
+    velocityToleranceLaw := by
+      intro axis
+      rfl }
+
+example : toyFlowBoundaryEvidence.pressure.consistent := by
+  exact toyFlowBoundaryEvidence.pressure_consistent
+
+example : toyFlowBoundaryEvidence.heatFlux.consistent := by
+  exact toyFlowBoundaryEvidence.heat_flux_consistent
+
+example : (toyFlowBoundaryEvidence.velocity 2).consistent := by
+  exact toyFlowBoundaryEvidence.velocity_consistent 2
+
+noncomputable def toyCompressibleFlowComparison : CompressibleFlowComparison :=
+  { boundary := toyFlowBoundaryEvidence
+    controlVolume := toyClassicalControlVolume
+    massFlow := toyCompressibleControlledAt 2 2 1 (by norm_num)
+    massFlowMethodLaw := by
+      rfl
+    massFlowBaselineLaw := by
+      rfl
+    momentumFlux := toyCompressibleControlledAt 20 20 1 (by norm_num)
+    momentumFluxMethodLaw := by
+      rfl
+    momentumFluxBaselineLaw := by
+      rfl
+    heatPower := toyCompressibleControlledAt 7 7 1 (by norm_num)
+    heatPowerMethodLaw := by
+      rfl
+    heatPowerBaselineLaw := by
+      rfl
+    acousticPower := toyCompressibleControlledAt 0 0 1 (by norm_num)
+    acousticPowerMethodLaw := by
+      rfl
+    acousticBaseline := { watts := 0 }
+    acousticBaseline_nonnegative := by norm_num
+    acousticPowerBaselineLaw := by
+      rfl }
+
+example :
+    toyCompressibleFlowComparison.massFlow.baseline =
+      toyCompressibleFlowComparison.controlVolume.inletMassFlow.kilogramsPerSecond := by
+  exact toyCompressibleFlowComparison.massFlowBaselineLaw
+
+example :
+    toyCompressibleFlowComparison.momentumFlux.baseline =
+      toyCompressibleFlowComparison.controlVolume.externalAxialForce.newtons := by
+  exact toyCompressibleFlowComparison.momentumFluxBaselineLaw
+
+example :
+    toyCompressibleFlowComparison.heatPower.baseline =
+      toyCompressibleFlowComparison.controlVolume.aerodynamicHeatPower.watts := by
+  exact toyCompressibleFlowComparison.heatPowerBaselineLaw
+
+example : toyCompressibleFlowComparison.outputsConsistent := by
+  unfold CompressibleFlowComparison.outputsConsistent
+  constructor
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+  constructor
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+  constructor
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+
+example :
+    toyCompressibleFlowComparison.outputsConsistent ↔
+      toyCompressibleFlowComparison.massFlow.consistent ∧
+        toyCompressibleFlowComparison.momentumFlux.consistent ∧
+          toyCompressibleFlowComparison.heatPower.consistent ∧
+            toyCompressibleFlowComparison.acousticPower.consistent := by
+  exact toyCompressibleFlowComparison.outputs_consistent_iff
+
+def toyCompressibleFlowMetadata : FlowDatasetMetadata :=
+  { artifactReference := "data/flow/steady-square-panel.csv"
+    artifactChecksum := "sha256:synthetic-flow-fixture"
+    licenseReference := "internal synthetic fixture"
+    unitConvention := "SI"
+    calibrationReference := "flow-sensor-calibration-v1"
+    executionContext := "solver=synthetic; mesh=uniform; timestep=steady"
+    completeness := by decide }
+
+noncomputable def toyCompressibleFlowDataset : CompressibleFlowDataset 2 :=
+  { origin := FlowDataOrigin.simulated
+    caseName := "steady square-panel baseline"
+    sourceLabel := "synthetic compressible-flow fixture"
+    metadata := toyCompressibleFlowMetadata
+    samples := fun _ => toyCompressibleFlowComparison
+    sampleCount_positive := by norm_num
+    rawBoundary := fun _ => toyFlowBoundaryObservation
+    rawBoundaryLaw := by
+      intro index
+      rfl }
+
+example : toyCompressibleFlowDataset.origin = FlowDataOrigin.simulated := by
+  rfl
+
+example : toyCompressibleFlowMetadata.complete := by
+  exact toyCompressibleFlowMetadata.complete_holds
+
+example :
+    toyCompressibleFlowMetadata.complete ↔
+      toyCompressibleFlowMetadata.artifactReference ≠ "" ∧
+        toyCompressibleFlowMetadata.artifactChecksum ≠ "" ∧
+          toyCompressibleFlowMetadata.licenseReference ≠ "" ∧
+            toyCompressibleFlowMetadata.unitConvention ≠ "" ∧
+              toyCompressibleFlowMetadata.calibrationReference ≠ "" ∧
+                toyCompressibleFlowMetadata.executionContext ≠ "" := by
+  exact toyCompressibleFlowMetadata.complete_iff
+
+example : 0 < 2 := by
+  exact toyCompressibleFlowDataset.sample_count_pos
+
+example : toyCompressibleFlowDataset.ingestionReady := by
+  exact toyCompressibleFlowDataset.ingestion_ready
+
+example :
+    toyCompressibleFlowDataset.rawBoundary 1 =
+      (toyCompressibleFlowDataset.samples 1).boundary.boundary := by
+  exact toyCompressibleFlowDataset.raw_boundary_holds 1
+
+noncomputable def toyWeakTraceJump : WeakTraceJumpContract :=
+  { measureLabel := "one-dimensional Lebesgue measure"
+    functionSpaceLabel := "piecewise H1 test space"
+    traceOperatorLabel := "one-sided boundary trace"
+    testFunctionLabel := "compactly supported scalar test function"
+    boundaryCoordinate := 0
+    leftTrace := 1
+    rightTrace := 3
+    traceJump := 2
+    traceJumpLaw := by norm_num
+    prescribedTraceJump := 2
+    traceJumpResidual := 0
+    traceJumpResidualLaw := by norm_num
+    traceJumpTolerance := 1 / 10
+    traceJumpTolerance_nonnegative := by norm_num
+    traceJumpWithinTolerance := by norm_num
+    leftFlux := 4
+    rightFlux := 5
+    fluxJump := 1
+    fluxJumpLaw := by norm_num
+    prescribedFluxJump := 1
+    fluxJumpResidual := 0
+    fluxJumpResidualLaw := by norm_num
+    fluxJumpTolerance := 1 / 10
+    fluxJumpTolerance_nonnegative := by norm_num
+    fluxJumpWithinTolerance := by norm_num
+    weakDerivativePairing := 7
+    testFunctionBoundaryTerm := 6
+    weakBalanceResidual := 0
+    weakBalanceLaw := by norm_num
+    weakBalanceTolerance := 1 / 10
+    weakBalanceTolerance_nonnegative := by norm_num
+    weakBalanceWithinTolerance := by norm_num }
+
+example : toyWeakTraceJump.traceJump = 2 := by
+  norm_num [WeakTraceJumpContract.trace_jump_holds, toyWeakTraceJump]
+
+example : toyWeakTraceJump.fluxJump = 1 := by
+  norm_num [WeakTraceJumpContract.flux_jump_holds, toyWeakTraceJump]
+
+example : toyWeakTraceJump.weakDerivativePairing =
+    toyWeakTraceJump.testFunctionBoundaryTerm + toyWeakTraceJump.fluxJump +
+      toyWeakTraceJump.weakBalanceResidual := by
+  exact toyWeakTraceJump.weak_balance_holds
+
+noncomputable def toyMadelungGPSplat : MadelungGPSplat :=
+  { massDensity := 2
+    massDensity_pos := by norm_num
+    meanVelocity := fun _ => 3
+    covariance := fun _ _ => 1
+    covariance_symmetric := by
+      intro row column
+      rfl
+    covariance_diagonal_nonnegative := by
+      intro axis
+      norm_num
+    compressibility := 1 / 2
+    compressibility_nonnegative := by norm_num
+    healingLength := { meters := 1 / 10 }
+    healingLength_pos := by norm_num
+    spatialStep := { meters := 1 / 100 }
+    spatialStep_pos := by norm_num
+    timeStep := { seconds := 1 / 1000 }
+    timeStep_pos := by norm_num
+    ftleWindow := { seconds := 1 }
+    ftleWindow_pos := by norm_num
+    ftleIndicator := -2 }
+
+example : toyMadelungGPSplat.covariance 0 1 =
+    toyMadelungGPSplat.covariance 1 0 := by
+  exact toyMadelungGPSplat.symmetric_covariance 0 1
+
+example : 0 ≤ toyMadelungGPSplat.covariance 2 2 := by
+  exact toyMadelungGPSplat.diagonal_covariance_nonnegative 2
+
+noncomputable def toyMadelungGPGrid : MadelungGPGrid 2 :=
+  { splat := fun _ => toyMadelungGPSplat
+    sampleCount_positive := by norm_num }
+
+example : 0 < 2 := by
+  exact toyMadelungGPGrid.sample_count_pos
+
+/-- Ordered labels for the two columns in the finite slit-hypothesis fixture. -/
+def slitColumnLabel (column : Fin 2) : OrderedColumns 1 2 :=
+  { index := fun _ => column
+    strictlyIncreasing := by
+      intro left right less
+      fin_cases left
+      fin_cases right
+      simp at less }
+
+/-- A full-rank nonnegative map with two distinct column labels. -/
+def slitGeometryMap : AmplituhedronMap 1 2 1 :=
+  { source := { mat := !![1, 0] }
+    externalData := !![1; 0]
+    image := !![1]
+    imageLaw := by
+      ext row column
+      fin_cases row
+      fin_cases column
+      norm_num [Matrix.mul_apply, Fin.sum_univ_two] }
+
+/-- Empty classical apertures make a checkable zero-amplitude Pending fixture.
+
+This fixture supplies the matching functions; it does not compute residues
+from the Grassmannian map or establish a physical amplituhedron interpretation.
+-/
+noncomputable def emptySlitHypothesis : GrassmannianDoubleSlitHypothesis 0 0 1 2 1 :=
+  { slits :=
+      { wave := { wavelength := ⟨1⟩, wavelength_positive := by norm_num }
+        source := 0
+        first := { point := Fin.elim0, weight := Fin.elim0 }
+        second := { point := Fin.elim0, weight := Fin.elim0 }
+        firstOpen := true
+        secondOpen := true }
+    geometry := slitGeometryMap
+    source_nonnegative := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      change 0 ≤ (!![1, 0] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0)
+      generalize columns.index 0 = column
+      fin_cases column <;> norm_num
+    source_full_rank := ⟨slitColumnLabel 0, by
+      norm_num [slitGeometryMap, GrassmannianMatrix.pluckerCoordinate, selectedMinor,
+        Matrix.det_fin_one, Matrix.submatrix, slitColumnLabel]⟩
+    firstColumns := slitColumnLabel 0
+    secondColumns := slitColumnLabel 1
+    distinct_labels := by
+      intro equal
+      have impossible := congrFun equal 0
+      norm_num [slitColumnLabel] at impossible
+    contribution := fun _ _ => 0
+    firstMatch := by intro detector; simp [Signals.Huygens.Aperture.amplitude]
+    secondMatch := by intro detector; simp [Signals.Huygens.Aperture.amplitude] }
+
+example (detector : Signals.Huygens.Point3) :
+    emptySlitHypothesis.slits.amplitude detector =
+      emptySlitHypothesis.contribution 0 detector + emptySlitHypothesis.contribution 1 detector :=
+  emptySlitHypothesis.amplitude_eq detector rfl rfl
+
+example (detector : Signals.Huygens.Point3) :
+    emptySlitHypothesis.slits.intensity detector = 0 := by
+  rw [emptySlitHypothesis.intensity_eq detector rfl rfl]
+  norm_num [emptySlitHypothesis, Signals.Huygens.intensity, Complex.normSq]
+
+/-- Toy fixture for an unclosed dual-spacetime polygon transferring momentum to a bi-twistor wakefield sink. -/
+def toyTwistorMomentumSink : TwistorMomentumSinkHypothesis :=
+  { particleCount := 4
+    expandedGrassmannianColumns := 6
+    expandedColumnsLaw := by norm_num
+    dualPolygonStart := ![0, 0, 0]
+    dualPolygonEnd := ![0, 0, -5]
+    wakefieldMomentum := ![0, 0, -5]
+    polygonClosureResidualLaw := by
+      ext i
+      fin_cases i <;> norm_num
+    craftMomentumChange := ![0, 0, 5]
+    momentumBalanceLaw := by
+      ext i
+      fin_cases i <;> norm_num }
+
+/-- Vehicle momentum change is equal and opposite to the wakefield sink momentum. -/
+example :
+    toyTwistorMomentumSink.craftMomentumChange =
+      -toyTwistorMomentumSink.wakefieldMomentum := by
+  exact toyTwistorMomentumSink.craft_momentum_opposite_wake
+
+/-- Toy fixture for a closed dual-spacetime polygon with zero wakefield momentum transfer. -/
+def toyClosedTwistorPolygon : TwistorMomentumSinkHypothesis :=
+  { particleCount := 4
+    expandedGrassmannianColumns := 6
+    expandedColumnsLaw := by norm_num
+    dualPolygonStart := ![1, 2, 3]
+    dualPolygonEnd := ![1, 2, 3]
+    wakefieldMomentum := 0
+    polygonClosureResidualLaw := by
+      ext i
+      fin_cases i <;> norm_num
+    craftMomentumChange := 0
+    momentumBalanceLaw := by
+      ext i
+      fin_cases i <;> norm_num }
+
+/-- A closed dual polygon transfers zero net impulse to the craft. -/
+example : toyClosedTwistorPolygon.craftMomentumChange = 0 := by
+  exact toyClosedTwistorPolygon.closed_polygon_zero_thrust rfl
+
+/-- Toy fixture for a pulsed wakefield cavity and Halbach Faraday extraction contract. -/
+noncomputable def toyPulsedWakefieldHalbach : PulsedWakefieldHalbachHypothesis :=
+  { permittivity := 2
+    permittivity_nonneg := by norm_num
+    fieldAmplitude := { voltsPerMeter := 3 }
+    fieldAmplitude_nonneg := by norm_num
+    dawsonFieldCeiling := { voltsPerMeter := 5 }
+    fieldBoundedByDawson := by norm_num
+    cavityVolume := { cubicMeters := 4 }
+    cavityVolume_nonneg := by norm_num
+    storedWaveEnergy := { joules := 36 }
+    storedEnergyLaw := by
+      norm_num [Signals.MHD.electrostaticWaveEnergyDensity]
+    extractedPulseEnergy := { joules := 10 }
+    extractedEnergy_nonneg := by norm_num
+    extractedEnergyBounded := by norm_num
+    peakThrust := { newtons := 100 }
+    peakThrust_nonneg := by norm_num
+    dutyCycle := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    averageThrust := { newtons := 10 }
+    averageThrustLaw := by
+      unfold Signals.MHD.pulsedAverageForce
+      congr 1
+      norm_num
+    transmissionVoltage := { volts := 1200000 }
+    transmissionVoltage_pos := by norm_num
+    calibrated := True
+    calibrated_hypothesis := trivial }
+
+/-- Extracted pulse energy is bounded by the Dawson wave-breaking ceiling over the cavity volume. -/
+example :
+    toyPulsedWakefieldHalbach.extractedPulseEnergy.joules ≤
+      Signals.MHD.electrostaticWaveEnergyDensity
+        toyPulsedWakefieldHalbach.permittivity
+        toyPulsedWakefieldHalbach.dawsonFieldCeiling.voltsPerMeter *
+        toyPulsedWakefieldHalbach.cavityVolume.cubicMeters := by
+  exact toyPulsedWakefieldHalbach.extracted_pulse_energy_le_dawson_ceiling
+
+/-- Time-averaged pulsed thrust is bounded above by the peak pulse thrust. -/
+example :
+    toyPulsedWakefieldHalbach.averageThrust.newtons ≤
+      toyPulsedWakefieldHalbach.peakThrust.newtons := by
+  exact toyPulsedWakefieldHalbach.average_thrust_le_peak
+
+/-- Toy fixture for an unpowered supercritical DDF phase-slip hull-stress hypothesis. -/
+noncomputable def toyDDFHullStressUnpowered : DDFPhaseSlipHullStressHypothesis :=
+  { substrate :=
+      { m_phi := 1
+        m_phi_pos := by norm_num
+        m_varphi := 10
+        m_varphi_pos := by norm_num
+        rho_phi_0 := 1
+        rho_phi_0_pos := by norm_num
+        rho_max_varphi := 1
+        rho_max_varphi_pos := by norm_num
+        j_min_varphi := 1 / 4
+        j_min_varphi_pos := by norm_num }
+    hbar := 1
+    hbar_pos := by norm_num
+    winding := 1
+    winding_nonzero := by decide
+    densityFloor := 1 / 10
+    densityFloor_pos := by norm_num
+    boundaryDensity := 1
+    densityAboveFloor := by norm_num
+    flowVelocity := { metersPerSecond := 5 }
+    flowVelocity_pos := by norm_num
+    criticalVelocity := { metersPerSecond := 2 }
+    criticalVelocity_pos := by norm_num
+    supercriticalFlow := by norm_num
+    hullArea := { squareMeters := 2 }
+    hullArea_pos := by norm_num
+    quantumStressPressure := { pascals := 0 }
+    quantumStressPressure_nonneg := by norm_num
+    inferredThrust := { newtons := 0 }
+    inferredThrust_nonneg := by norm_num
+    thrustLaw := by norm_num
+    mechanicalThrustPower := { watts := 0 }
+    mechanicalPowerLaw := by norm_num
+    externalDrivePower := { watts := 0 }
+    externalDrivePower_nonneg := by norm_num
+    drivePowerCoversThrust := by norm_num }
+
+/-- Regularized hull-boundary density is strictly positive. -/
+example : 0 < toyDDFHullStressUnpowered.boundaryDensity := by
+  exact toyDDFHullStressUnpowered.boundary_density_pos
+
+/-- Zero external drive power forces zero net forward thrust in supercritical flow. -/
+example : toyDDFHullStressUnpowered.inferredThrust.newtons = 0 := by
+  exact toyDDFHullStressUnpowered.zero_drive_zero_thrust rfl
+
+/-- Toy fixture for a cryogenic He-3 centrifugal spool and 5-axis AMB operating at 39 K. -/
+noncomputable def toyCryogenicSpoolAMB : CryogenicSpoolAMBHypothesis :=
+  { operatingTemperature := { kelvin := 39 }
+    operatingTemperature_pos := by norm_num
+    he3CriticalTemperature := { kelvin := 3.32 }
+    he3CriticalLaw := rfl
+    mgb2CriticalTemperature := { kelvin := 39 }
+    mgb2CriticalLaw := rfl
+    superconductingMargin := by norm_num
+    operatingPressure := { pascals := 500000 }
+    operatingPressure_nonneg := by norm_num
+    he3MinimumSolidificationPressure := { pascals := 3400000 }
+    he3SolidPressureLaw := rfl
+    coldLegDensity := { kilogramsPerCubicMeter := 60 }
+    coldLegDensity_pos := by norm_num
+    hotLegDensity := { kilogramsPerCubicMeter := 40 }
+    hotLegDensity_pos := by norm_num
+    thermosyphonDensityOrder := by norm_num
+    innerRadius := { meters := 1 / 2 }
+    innerRadius_nonneg := by norm_num
+    outerRadius := { meters := 2 }
+    radiusOrder := by norm_num
+    angularSpeed := 100
+    spoolInertia := 50
+    spoolInertia_pos := by norm_num
+    airGapClearance := { meters := 2 / 1000 }
+    airGapClearance_pos := by norm_num
+    peakGyroscopicDisplacement := { meters := 1 / 1000 }
+    peakGyroscopicDisplacement_nonneg := by norm_num
+    gapClearanceMaintained := by norm_num }
+
+/-- At 39 K, He-3 is in the supercritical gas regime above its 3.32 K critical temperature. -/
+example : toyCryogenicSpoolAMB.isSupercriticalGas := by
+  exact toyCryogenicSpoolAMB.supercritical_at_39K rfl
+
+/-- At 0.5 MPa (below 3.4 MPa), He-3 cannot solidify into a labyrinth seal wall. -/
+example : ¬toyCryogenicSpoolAMB.canSolidifyHe3 := by
+  exact toyCryogenicSpoolAMB.no_solid_seal_below_3_4_MPa (by norm_num [toyCryogenicSpoolAMB])
+
+/-- Toy fixture for the 3-zone 400->800 GHz rGO-polyCBD-SS-Lignin hyperbolic SFG cannon hypothesis. -/
+noncomputable def toyThreeZoneHyperbolicSFGCannon : ThreeZoneHyperbolicSFGCannonHypothesis :=
+  { zone1EnzFill400 := 141 / 5641
+    zone1EnzFillLaw := by unfold Signals.emtCriticalEnzFillFraction; norm_num
+    zone2HyperbolicFill := 32 / 1000
+    zone2HyperbolicFillLaw := rfl
+    zone3EnzFill800 := 141 / 1516
+    zone3EnzFillLaw := by unfold Signals.emtCriticalEnzFillFraction; norm_num
+    denisovEfficiency := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    sfgConversionEfficiency := { value := 1 / 20, nonnegative := by norm_num, le_one := by norm_num }
+    soilTransmissionFactor := { value := 1 / 100, nonnegative := by norm_num, le_one := by norm_num }
+    ohLambdaDoublingFreqGHz := 1.667
+    ohLambdaDoublingLaw := rfl
+    sfgCarrierFreqGHz := 800
+    sfgCarrierLaw := rfl
+    ohFundamentalRotationalFreqGHz := 1830
+    ohRotationalLaw := rfl
+    initialFireStoredHeat := { joules := 500000 }
+    initialFireStoredHeat_nonneg := by norm_num
+    exothermicRecombinationHeat := { joules := 25000 }
+    exothermicRecombinationHeat_nonneg := by norm_num
+    absorbedSubTHzHeating := { joules := 10000 }
+    absorbedSubTHzHeating_nonneg := by norm_num
+    heatRemovedBySink := { joules := 350000 }
+    heatRemovedBySink_nonneg := by norm_num
+    reignitionThresholdHeat := { joules := 200000 }
+    reignitionThresholdHeat_nonneg := by norm_num
+    postTreatmentBelowReignition := by norm_num
+    subTHzEllipsometryCalibrated := True
+    subTHzEllipsometryCalibrated_hypothesis := trivial
+    calorimetricQuenchVerified := True
+    calorimetricQuenchVerified_hypothesis := trivial }
+
+/-- The 800 GHz SFG carrier sits strictly between the 1.667 GHz OH Λ-doubling line and the 1830 GHz rotational line. -/
+example :
+    toyThreeZoneHyperbolicSFGCannon.ohLambdaDoublingFreqGHz <
+      toyThreeZoneHyperbolicSFGCannon.sfgCarrierFreqGHz ∧
+    toyThreeZoneHyperbolicSFGCannon.sfgCarrierFreqGHz <
+      toyThreeZoneHyperbolicSFGCannon.ohFundamentalRotationalFreqGHz := by
+  exact toyThreeZoneHyperbolicSFGCannon.oh_frequency_mismatch_bounds
+
+/-- Cooling an above-reignition fire requires a strictly positive external heat sink. -/
+example : 0 < toyThreeZoneHyperbolicSFGCannon.heatRemovedBySink.joules := by
+  exact toyThreeZoneHyperbolicSFGCannon.positive_heat_sink_required
+    (by norm_num [toyThreeZoneHyperbolicSFGCannon])
+
+/-- Toy fixture for the Madelung variational action and dilatant jamming hypothesis. -/
+noncomputable def toyMadelungDilatantVariational : MadelungDilatantVariationalHypothesis :=
+  { bosonMass := 1
+    bosonMass_pos := by norm_num
+    baseCouplingG0 := 2
+    baseCouplingG0_pos := by norm_num
+    dilatantStrainCoeff := 1 / 4
+    dilatantStrainCoeff_pos := by norm_num
+    sheathBetaSq := 9 / 25
+    sheathBetaSq_nonneg := by norm_num
+    sheathBetaSq_lt_one := by norm_num
+    sheathCompressionFactor := 5 / 4
+    sheathCompressionFactor_pos := by norm_num
+    stationaryJammingClosure := by norm_num
+    laboratoryAcousticDispersionCalibrated := True
+    laboratoryAcousticDispersionCalibrated_hypothesis := trivial
+    crossedBeamDeflectionDiscriminatorTested := True
+    crossedBeamDeflectionDiscriminatorTested_hypothesis := trivial }
+
+/-- At the stationary jamming point Λ_∥ = 5/4 for β = 3/5, the Euler-Lagrange residual is zero. -/
+example :
+    toyMadelungDilatantVariational.sheathCompressionFactor *
+      (1 - toyMadelungDilatantVariational.sheathBetaSq) -
+      1 / toyMadelungDilatantVariational.sheathCompressionFactor = 0 := by
+  exact toyMadelungDilatantVariational.stationary_residual_zero
+
+/-- For β² = 9/25 > 0, the squared sheath compression factor Λ_∥² = 25/16 exceeds 1. -/
+example : 1 < toyMadelungDilatantVariational.sheathCompressionFactor ^ 2 := by
+  exact toyMadelungDilatantVariational.compression_sq_gt_one
+    (by norm_num [toyMadelungDilatantVariational])
+
+/-- Non-trivial interactive GPE fixture with nonzero potential `V = 5`, coupling `g = 2`,
+density `ρ = 3`, wavefunction `ψ = 2`, and Laplacian `Δψ = 44`. -/
+noncomputable def toyNonzeroInteractiveGPE : InteractiveGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    potential := 5
+    coupling := 2
+    density := 3
+    density_nonnegative := by norm_num
+    wavefunction := 2
+    timeDerivative := 0
+    laplacian := 44
+    balance := by norm_num }
+
+/-- Non-trivial inverse GPE fixture sharing state data with `toyNonzeroInteractiveGPE`
+and reconstructing `potential = 5`. -/
+noncomputable def toyNonzeroInverseGPE : InverseGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    coupling := 2
+    density := 3
+    density_nonnegative := by norm_num
+    wavefunction := 2
+    wavefunction_nonzero := by norm_num
+    timeDerivative := 0
+    laplacian := 44
+    potential := 5
+    inverseLaw := by norm_num }
+
+/-- Non-zero prepared modulation trace `X = ![2, 0]`. -/
+def toyNonzeroPreparedModulation : PreparedModulation 2 :=
+  { value := ![2, 0] }
+
+/-- Non-zero observed homodyne tensor `Y(x, y, t)` on `1 × 2 × 2`. -/
+noncomputable def toyNonzeroObservedHomodyneTensor : ObservedHomodyneTensor 1 2 2 :=
+  { value := fun _ _ _ => Real.sqrt 2 }
+
+/-- Dual-quadrature observed homodyne tensor `X + i P` on `1 × 2 × 2`. -/
+noncomputable def toyNonzeroQuadratureHomodyneTensor :
+    ObservedQuadratureHomodyneTensor 1 2 2 :=
+  { inPhase := fun _ _ _ => Real.sqrt 2
+    quadrature := fun _ _ time => if time = 0 then 1 else -1 }
+
+/-- Non-zero 2-point `FiniteIQFT` fixture transforming `fun _ => √2` into the
+sharp frequency-domain spectral peak `![2, 0]`. -/
+noncomputable def toyNonzeroFiniteIQFT : FiniteIQFT 2 :=
+  { dimension_positive := by norm_num
+    input := fun _ => (Real.sqrt 2 : ℂ)
+    output := ![2, 0]
+    normalizationFactor := 1 / Real.sqrt (2 : ℝ)
+    normalizationLaw := rfl
+    outputLaw := by
+      intro outputIndex
+      have h_had := finiteInverseQFT_two_hadamard (fun _ => (Real.sqrt 2 : ℂ))
+      have h_ne : (Real.sqrt 2 : ℂ) ≠ 0 := by
+        norm_cast
+        exact ne_of_gt (Real.sqrt_pos.mpr (by norm_num))
+      fin_cases outputIndex
+      · change (2 : ℂ) = finiteInverseQFT 2 (fun _ => (Real.sqrt 2 : ℂ)) 0
+        rw [h_had.1]
+        push_cast
+        field_simp [h_ne]
+        ring
+      · change (0 : ℂ) = finiteInverseQFT 2 (fun _ => (Real.sqrt 2 : ℂ)) 1
+        rw [h_had.2]
+        ring }
+
+/-- Non-trivial `1 × 2 × 2` `AmplituhedronMap` with a positive Grassmannian fork row
+`!![2, 3]`, non-zero iQFT external data, and non-zero image `!![10, 0]`. -/
+noncomputable def toyHawkingNonzeroAmplituhedronMap : AmplituhedronMap 1 2 2 :=
+  { source := { mat := !![2, 3] }
+    externalData := fun _ column => (toyNonzeroFiniteIQFT.output column).re
+    image := !![10, 0]
+    imageLaw := by
+      ext row column
+      fin_cases row
+      fin_cases column
+      · change (10 : ℝ) = ∑ y : Fin 2, (!![2, 3] : Matrix (Fin 1) (Fin 2) ℝ) 0 y *
+          (toyNonzeroFiniteIQFT.output 0).re
+        rw [Fin.sum_univ_two]
+        simp [toyNonzeroFiniteIQFT]
+        norm_num
+      · change (0 : ℝ) = ∑ y : Fin 2, (!![2, 3] : Matrix (Fin 1) (Fin 2) ℝ) 0 y *
+          (toyNonzeroFiniteIQFT.output 1).re
+        rw [Fin.sum_univ_two]
+        simp [toyNonzeroFiniteIQFT] }
+
+/-- Positive Grassmannian `LogarithmicChart 1 2 2` for `toyHawkingNonzeroAmplituhedronMap`
+with strictly positive minors `2 > 0` and `3 > 0`, boundary minor `2`, and residue `10`. -/
+noncomputable def toyHawkingNonzeroLogarithmicChart : LogarithmicChart 1 2 2 :=
+  { map := toyHawkingNonzeroAmplituhedronMap
+    source_positive := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      change 0 < (!![2, 3] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0)
+      generalize columns.index 0 = col
+      fin_cases col <;> norm_num
+    boundary := OrderedColumns.single 0
+    boundaryCoordinate := 2
+    boundaryCoordinateLaw := by
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      rfl
+    boundaryCoordinate_nonzero := by norm_num
+    residue := 10 }
+
+/-- Non-zero rank-2 CP/ALS decomposition on `1 × 2 × 2` reconstructing the
+spectral-peak slice `10` at `time = 0` and `0` at `time = 1` with zero residual. -/
+noncomputable def toyHawkingNonzeroALS : ALSDecomposition 1 2 2 :=
+  { rank := toyALSRank2
+    observed := fun _ _ time => (toyHawkingNonzeroAmplituhedronMap.image 0 time)
+    reconstructed := fun _ _ time => (toyHawkingNonzeroAmplituhedronMap.image 0 time)
+    factorX := !![1, 1]
+    factorY := !![1, 1; 1, 1]
+    factorT := !![5, 5; 0, 0]
+    reconstructionLaw := by
+      intro x y time
+      fin_cases x
+      fin_cases y <;> fin_cases time
+      · change (10 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 0 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 0 component
+        rw [Fin.sum_univ_two]
+        norm_num
+      · change (0 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 0 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 1 component
+        rw [Fin.sum_univ_two]
+        norm_num
+      · change (10 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 1 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 0 component
+        rw [Fin.sum_univ_two]
+        norm_num
+      · change (0 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 1 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 1 component
+        rw [Fin.sum_univ_two]
+        norm_num
+    residualMagnitude := 0
+    residualMagnitude_nonnegative := by norm_num
+    residualMagnitudeLaw := by
+      simp [tensorResidualMagnitude]
+    residualTolerance := 1 / 10
+    residualTolerance_nonnegative := by norm_num
+    residualWithinTolerance := by norm_num
+    iterations := 3
+    maximumIterations := 10
+    iterationsWithinLimit := by norm_num }
+
+/-- Connected non-zero `HawkingRadiationDecoding 1 2 2` instance with non-zero
+prepared modulation, non-zero iGPE/iQFT stages, positive Grassmannian `1 × 2` fork
+matrix `!![2, 3]`, and non-zero rank-2 ALS factors. -/
+noncomputable def toyConnectedHawkingDecoding : HawkingRadiationDecoding 1 2 2 :=
+  { emission := toyWave
+    interactiveGPE := toyNonzeroInteractiveGPE
+    inverseGPE := toyNonzeroInverseGPE
+    preparedModulation := toyNonzeroPreparedModulation
+    observedTensor := toyNonzeroObservedHomodyneTensor
+    observationX := 0
+    observationY := 0
+    observedTrace := toyNonzeroObservedHomodyneTensor.trace 0 0
+    observedTraceLaw := fun _ => rfl
+    iGPEOutput := fun _ => (Real.sqrt 2 : ℂ)
+    iGPEResidualMagnitude := 0
+    iGPEResidualMagnitude_nonnegative := by norm_num
+    iGPEResidualTolerance := 1 / 10
+    iGPEResidualTolerance_nonnegative := by norm_num
+    iGPEResidualWithinTolerance := by norm_num
+    iqft := toyNonzeroFiniteIQFT
+    iqftInputLaw := fun _ => rfl
+    amplituhedron := toyHawkingNonzeroAmplituhedronMap
+    amplituhedronChart := toyHawkingNonzeroLogarithmicChart
+    amplituhedronChartMapLaw := rfl
+    iqftExternalDataLaw := fun _ _ => rfl
+    als := toyHawkingNonzeroALS
+    alsSliceY := 0
+    alsProjection := toyHawkingNonzeroAmplituhedronMap.image
+    alsProjectionObservedLaw := by
+      intro x time
+      fin_cases x
+      rfl
+    alsProjectionMapLaw := rfl
+    inputComparison :=
+      { prepared := toyNonzeroPreparedModulation.value
+        recovered := fun time => (toyNonzeroFiniteIQFT.output time).re
+        residualMagnitude := 0
+        residualMagnitude_nonnegative := by norm_num
+        residualMagnitudeLaw := by
+          unfold traceResidualMagnitude
+          rw [Fin.sum_univ_two]
+          simp [toyNonzeroPreparedModulation, toyNonzeroFiniteIQFT]
+        residualTolerance := 1 / 10
+        residualTolerance_nonnegative := by norm_num
+        residualWithinTolerance := by norm_num }
+    inputComparisonPreparedLaw := rfl
+    inputComparisonRecoveredLaw := fun _ => rfl }
+
+/-- Connected synthesis contract instance linking `toyConnectedHawkingDecoding`
+to dual-quadrature homodyne data, shared-state GPE/iGPE potential inversion,
+and the Page-curve bond-dimension bound (`S_BH / k_B = 10 > 2 ln 10`). -/
+noncomputable def toyHawkingGrassmannianSynthesis :
+    HawkingGrassmannianSynthesisContract 1 2 2 :=
+  { regime := HawkingDecodeRegime.withDDF_withSplats
+    decoding := toyConnectedHawkingDecoding
+    quadratureTensor := toyNonzeroQuadratureHomodyneTensor
+    quadratureInPhaseLaw := fun _ _ _ => rfl
+    gpeSharedHbar := rfl
+    gpeSharedMass := rfl
+    gpeSharedCoupling := rfl
+    gpeSharedDensity := rfl
+    gpeSharedWavefunction := rfl
+    gpeSharedTimeDerivative := rfl
+    gpeSharedLaplacian := rfl
+    alsReconstructedMatchesImage := by
+      intro x time
+      fin_cases x
+      rfl
+    horizonEntropyNats := 10
+    horizonEntropy_pos := by norm_num
+    pageBondDimensionLowerBound := Real.exp 5
+    pageBondDimensionLaw := by norm_num
+    calibratedHomodyneQuadratures := True
+    calibratedHomodyneQuadratures_hypothesis := trivial
+    heldOutControlVerified := True
+    heldOutControlVerified_hypothesis := trivial }
+
+example (sample : Sample) :
+    Signals.Homodyne.rotatedQuadrature sample 0 = sample.inPhase ∧
+      Signals.Homodyne.rotatedQuadrature sample (Real.pi / 2) = sample.quadrature :=
+  ⟨(homodyne_pi_div_two_phase_sweep_recovers_quadrature sample).1,
+    (homodyne_pi_div_two_phase_sweep_recovers_quadrature sample).2.1⟩
+
+example :
+    toyConnectedHawkingDecoding.als.observed 0 toyConnectedHawkingDecoding.alsSliceY 0 =
+      (∑ y : Fin 2, toyConnectedHawkingDecoding.amplituhedron.source.mat 0 y) *
+        toyConnectedHawkingDecoding.inputComparison.recovered 0 :=
+  toyConnectedHawkingDecoding.als_observed_slice_eq_weighted_recovered 0 0
+
+example :
+    toyHawkingGrassmannianSynthesis.decoding.inverseGPE.potential =
+      (toyHawkingGrassmannianSynthesis.decoding.interactiveGPE.potential : ℂ) ∧
+    (toyHawkingGrassmannianSynthesis.decoding.inverseGPE.potential).im = 0 :=
+  toyHawkingGrassmannianSynthesis.connected_gpe_potential_recovery
+
+example :
+    toyHawkingGrassmannianSynthesis.decoding.inverseGPE.potential =
+      (Signals.HawkingRadiation.madelungInversePotentialReconstruction 1 1 2 2 52 0 0 : ℂ) ∧
+    Signals.DDF.quantumHamiltonJacobiResidual 1 1 2
+      toyHawkingGrassmannianSynthesis.decoding.interactiveGPE.potential 2 52 0 0 = 0 :=
+  toyHawkingGrassmannianSynthesis.madelung_and_pointwise_igpe_potential_bridge
+    1 1 2 2 52 0 0 (by
+      unfold Signals.HawkingRadiation.madelungInversePotentialReconstruction
+      norm_num [toyHawkingGrassmannianSynthesis, toyConnectedHawkingDecoding,
+        toyNonzeroInteractiveGPE])
+
+/-- 2×2 LVP Proca phase-contrast imaging fixture sharing `toyLVP` with `toyLVPDirectConversionImaging`. -/
+noncomputable def toyLVPProcaImaging2x2 : LVPProcaImagingHypothesis 2 2 :=
+  { material := toyLVP
+    channel := toyChannel
+    phaseMap := !![1 / 10, 2 / 10; 3 / 10, 4 / 10]
+    longitudinalFraction :=
+      { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    spatialResolution := { meters := 5 / 10000000000 }
+    spatialResolution_pos := by norm_num
+    incidentProbeEnergy := { joules := 1 / 1000 }
+    incidentProbeEnergy_nonnegative := by norm_num
+    absorbedProbeEnergy := { joules := 1 / 1000000 }
+    absorbedProbeEnergy_nonnegative := by norm_num
+    phaseResidual := 1 / 100
+    phaseResidual_nonnegative := by norm_num
+    phaseResidualTolerance := 1 / 10
+    phaseResidualTolerance_nonnegative := by norm_num
+    phaseResidualWithinTolerance := by norm_num
+    masslessControlResidual := 1 / 50
+    masslessControlResidual_nonnegative := by norm_num
+    masslessControlTolerance := 1 / 10
+    masslessControlTolerance_nonnegative := by norm_num
+    masslessControlWithinTolerance := by norm_num }
+
+/-- Connected `MultiModalSubSurfaceImagingHypothesis 2 2` instance linking Hubble 2× mosaic
+dithering, `toyLVPDirectConversionImaging`, `toyLVPProcaImaging2x2`, `toyMultiBeamHolographyResult`,
+`toyLongitudinalBeamApplicationEvidence`, LIFU safety ($\mathrm{MI}^2 = 18/77 \le 1.9^2$),
+TRUE 1024-mode focusing, and cascaded $0.75\text{ nm}$ ($< 1\text{ nm}$) nanolithography. -/
+noncomputable def toyMultiModalSubSurfaceImaging :
+    MultiModalSubSurfaceImagingHypothesis 2 2 :=
+  { directConversion := toyLVPDirectConversionImaging
+    procaHypothesis := toyLVPProcaImaging2x2
+    multiBeamHolography := toyMultiBeamHolographyResult
+    longitudinalEvidence := toyLongitudinalBeamApplicationEvidence
+    layerCode := toyLayerCodeLift
+    sharedMaterial := rfl
+    hubbleMosaicChips := 2
+    hubbleMosaicChips_min := by norm_num
+    ditherExposures := 4
+    ditherExposures_min := by norm_num
+    lifuPeakNegPressureMPa := 3 / 5
+    lifuPeakNegPressure_pos := by norm_num
+    lifuFreqMHz := 154 / 100
+    lifuFreqMHz_pos := by norm_num
+    lifuNonCavitatingSafety := by
+      unfold Signals.MultiArrayImaging.lifuMechanicalIndexSq
+      norm_num
+    trueControlledModes := 1024
+    trueControlledModes_gt_one := by norm_num
+    nanoLambda0Nm := 405
+    nanoEffIndex := 15
+    nanoStedSatRatio := 80
+    nanoHarmonicOrder := 2
+    subNanometerTargetMet := by
+      unfold Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+      norm_num
+    mastFitsChecksumVerified := True
+    mastFitsChecksumVerified_hypothesis := trivial
+    phantomMtfAndDoseCalibrated := True
+    phantomMtfAndDoseCalibrated_hypothesis := trivial
+    acousticThermalSafetyVerified := True
+    acousticThermalSafetyVerified_hypothesis := trivial }
+
+example :
+    toyMultiModalSubSurfaceImaging.layerCode.topologicalDimension = 3 ∧
+      toyMultiModalSubSurfaceImaging.layerCode.junctionDimension = 1 ∧
+      toyMultiModalSubSurfaceImaging.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.MultiArrayImaging.lifuMechanicalIndexSq
+        toyMultiModalSubSurfaceImaging.lifuPeakNegPressureMPa
+        toyMultiModalSubSurfaceImaging.lifuFreqMHz ≤ (19 / 10 : ℝ) ^ 2 ∧
+      1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
+        toyMultiModalSubSurfaceImaging.trueControlledModes ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+        toyMultiModalSubSurfaceImaging.nanoLambda0Nm
+        toyMultiModalSubSurfaceImaging.nanoEffIndex
+        toyMultiModalSubSurfaceImaging.nanoStedSatRatio
+        toyMultiModalSubSurfaceImaging.nanoHarmonicOrder < 1 ∧
+      toyMultiModalSubSurfaceImaging.directConversion.imageResidual ≤
+        toyMultiModalSubSurfaceImaging.directConversion.imageResidualTolerance ∧
+      toyMultiModalSubSurfaceImaging.procaHypothesis.masslessControlResidual ≤
+        toyMultiModalSubSurfaceImaging.procaHypothesis.masslessControlTolerance :=
+  SignalsPending.multi_modal_subsurface_imaging_layer_and_safety_bounds
+    toyMultiModalSubSurfaceImaging
+
+/-- Connected `QuantumCausalMpembaSynthesisContract` fixture linking `toyLayerCodeLift`,
+Bell fidelity `F = 99/100 > 1/2`, QRT shortcut `D_siphon = 1 < 4 = D_alone`, and
+closed-loop Second-Law compliance. -/
+noncomputable def toyQuantumCausalMpembaSynthesis :
+    QuantumCausalMpembaSynthesisContract :=
+  { layerCode := toyLayerCodeLift
+    thermalScaleJoules := 1
+    thermalScale_pos := by norm_num
+    bellFidelity := 99 / 100
+    bellFidelity_gt_half := by norm_num
+    bellFidelity_le_one := by norm_num
+    qrtDistanceAloneBits := 4
+    qrtDistanceSiphonBits := 1
+    qrtShortcut_lt := by norm_num
+    opticalAndMemoryOverheadJoules := 1 / 10
+    overhead_nonneg := by norm_num
+    causalControlResidual := 1 / 100
+    causalControlTolerance := 1 / 10
+    causalControl_nonneg := by norm_num
+    causalControlWithinTolerance := by norm_num
+    unentangledControlSubtracted := True
+    unentangledControlSubtracted_hypothesis := trivial
+    tesBolometerCalibrated := True
+    tesBolometerCalibrated_hypothesis := trivial }
+
+example :
+    toyQuantumCausalMpembaSynthesis.layerCode.topologicalDimension = 3 ∧
+      toyQuantumCausalMpembaSynthesis.layerCode.junctionDimension = 1 ∧
+      toyQuantumCausalMpembaSynthesis.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        toyQuantumCausalMpembaSynthesis.thermalScaleJoules
+        toyQuantumCausalMpembaSynthesis.bellFidelity < 0 ∧
+      0 < Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        toyQuantumCausalMpembaSynthesis.thermalScaleJoules 0 ∧
+      toyQuantumCausalMpembaSynthesis.thermalScaleJoules ≤
+        Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
+          toyQuantumCausalMpembaSynthesis.thermalScaleJoules
+          toyQuantumCausalMpembaSynthesis.bellFidelity
+          toyQuantumCausalMpembaSynthesis.opticalAndMemoryOverheadJoules ∧
+      0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
+        toyQuantumCausalMpembaSynthesis.qrtDistanceAloneBits
+        toyQuantumCausalMpembaSynthesis.qrtDistanceSiphonBits ∧
+      Signals.QuantumCausalInference.ocbCausalSeparableBound <
+        Signals.QuantumCausalInference.ocbQuantumIndefiniteBound ∧
+      0 < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
+      toyQuantumCausalMpembaSynthesis.causalControlResidual ≤
+        toyQuantumCausalMpembaSynthesis.causalControlTolerance :=
+  SignalsPending.quantum_causal_mpemba_and_entropy_siphon_bounds
+    toyQuantumCausalMpembaSynthesis
+
+noncomputable def toyGrassmannianGPEPluckerMadelungContract :
+    ComplexGrassmannianGPEAndPluckerMadelungHypothesis :=
+  { gpeParams :=
+      { hbar := 1
+        mass := 1
+        g_coupling := 2
+        g_dual := 1
+        lambda_int := ⟨1 / 2, 0⟩
+        modular_weight := 1 }
+    hbar_pos := by norm_num
+    mass_pos := by norm_num
+    affineChart := 0
+    cotangentMomentum := 1
+    kineticNorm_nonneg :=
+      (Signals.DDF.kahlerDetFactor_eq_pluckerNormSq_and_ge_one 0 1).2.2.2.2.2.2
+    coupledState :=
+      { psi := ⟨3, 4⟩
+        phi := ⟨1, -2⟩
+        h0_real := 2
+        h0_dual_real := 3
+        g_nl_real := 5
+        g_dual_nl_real := 4
+        v_re := 1
+        v_im := 0
+        lam_re := 1 / 2
+        lam_im := 1 / 4 }
+    hermitianLimit := rfl
+    pluckerState :=
+      { p := Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor 0)
+        on_quadric :=
+          (Signals.DDF.plucker_hodge_klein_quadric_and_projector_identities
+            (Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor 0))
+            0 (Signals.DDF.chartToTwistor 0)).2.2.2.1
+        rho := 4
+        rho_dual := 9
+        s_real := 2
+        s_imag := 0
+        s_dual := 2
+        kinetic_vel_sq := 3
+        projected_hessian_sqrt_rho := 6 }
+    rho_pos := by norm_num
+    rho_dual_pos := by norm_num
+    interactiveGPE := toyIGPE
+    inverseGPE := toyInverseGPE
+    sharedHbar := rfl
+    sharedMass := rfl
+    sharedCoupling := rfl
+    sharedDensity := rfl
+    sharedWavefunction := rfl
+    sharedTimeDeriv := rfl
+    sharedLaplacian := rfl
+    bogoliubovDispersionCalibrated := True
+    bogoliubovDispersionCalibrated_hypothesis := trivial
+    procaMassUpperBoundVerified := True
+    procaMassUpperBoundVerified_hypothesis := trivial
+    schubertVortexBraidingInterferometryTested := True
+    schubertVortexBraidingInterferometryTested_hypothesis := trivial }
+
+example (i : Signals.DDF.PluckerIdx) (dtau_s_real : ℝ) :
+    let c := toyGrassmannianGPEPluckerMadelungContract
+    let v_rec := Signals.DDF.pluckerInversePotentialReconstruction
+      dtau_s_real c.gpeParams.hbar c.gpeParams.mass c.gpeParams.g_coupling
+      c.gpeParams.modular_weight c.coupledState.lam_re c.coupledState.lam_im c.pluckerState
+    1 ≤ Signals.DDF.kahlerDetFactor c.affineChart ∧
+      Signals.DDF.kahlerDetFactor c.affineChart =
+        Signals.DDF.pluckerNormSq
+          (Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor c.affineChart)) ∧
+      Signals.DDF.grassmannianEinsteinKahlerScalarCurvature 2 4 = 16 ∧
+      c.coupledState.totalNormTimeDerivative = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply c.pluckerState.p c.pluckerState.p i = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply
+        c.pluckerState.p (Signals.DDF.pluckerConjHodgeNormal c.pluckerState.p) i = 0 ∧
+      Signals.DDF.pluckerHamiltonJacobiResidual
+        dtau_s_real c.gpeParams.hbar c.gpeParams.mass c.gpeParams.g_coupling
+        c.gpeParams.modular_weight v_rec c.coupledState.lam_re c.coupledState.lam_im
+        c.pluckerState = 0 ∧
+      c.inverseGPE.potential = (c.interactiveGPE.potential : ℂ) :=
+  SignalsPending.complex_grassmannian_gpe_and_plucker_madelung_bounds
+    toyGrassmannianGPEPluckerMadelungContract i dtau_s_real
+
+noncomputable def toyQuantumCausalBundleVideoGenContract :
+    QuantumCausalBundleVideoGenHypothesis :=
+  { pDo := 3 / 5
+    bConf := 1 / 5
+    u1 := 10
+    u2 := 2
+    bConf_pos := by norm_num
+    u_lt := by norm_num
+    c0 := 10
+    etaEff := 4
+    d0 := 100
+    epsEx := 1 / 2
+    c0_pos := by norm_num
+    etaEff_pos := by norm_num
+    d0_pos := by norm_num
+    epsEx_pos := by norm_num
+    crossLagWeight1 := 2
+    crossLagWeight12 := 3
+    crossLag1_pos := by norm_num
+    crossLag12_pos := by norm_num
+    grassmannRankK := 4
+    frobOverlapSq := 5 / 2
+    frob_nonneg := by norm_num
+    frob_le_k := by norm_num
+    qramStatePrepLatencySec := 100
+    qftGateLatencySec := 10
+    qftGate_pos := by norm_num
+    qramNativeOpticalInputVerified := True
+    qramNativeOpticalInputVerified_hypothesis := trivial
+    polarFiberGaugeTransportCalibrated := True
+    polarFiberGaugeTransportCalibrated_hypothesis := trivial
+    kapitzaThermalViaCalibrated := True
+    kapitzaThermalViaCalibrated_hypothesis := trivial }
+
+example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 : ℝ) :
+    let c := toyQuantumCausalBundleVideoGenContract
+    0 < Signals.QuantumCausalInference.jevEvidentialExpectedUtility
+          (c.pDo + c.bConf) ((1 - c.pDo) - c.bConf) c.u1 c.u2 -
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility
+          c.pDo (1 - c.pDo) c.u1 c.u2 ∧
+      c.c0 * c.d0 <
+        Signals.QuantumCausalInference.jevonsTotalComputeEnergy
+          c.c0 c.etaEff c.d0 c.epsEx ∧
+      Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc1 zp0 zp1)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc2 zp0 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc3 zp0 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc2 zp1 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc3 zp1 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      0 < Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        c.crossLagWeight1 0 0 0 0 c.crossLagWeight12 ∧
+      0 ≤ Signals.QuantumCausalInference.grassmannChordalDistSq
+        c.grassmannRankK c.frobOverlapSq ∧
+      Signals.QuantumCausalInference.grassmannChordalDistSq
+        c.grassmannRankK c.frobOverlapSq ≤ c.grassmannRankK ∧
+      Signals.QuantumCausalInference.spatiotemporalGrassmannVideoComplexity 16 16 16 6 496 <
+        Signals.QuantumCausalInference.spatiotemporalFullAttentionComplexity 16 16 16 64 ∧
+      c.qramStatePrepLatencySec <
+        Signals.QuantumCausalInference.qftAssociativeTotalLatency
+          c.qramStatePrepLatencySec c.qftGateLatencySec ∧
+      Signals.QuantumCausalInference.rgoVitrimerKapitzaCoolTime (5e-9) (2e6) (1e-8) = 1e-10 :=
+  SignalsPending.quantum_causal_bundle_videogen_bounds
+    toyQuantumCausalBundleVideoGenContract zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3
+
+noncomputable def toySurgicalSplat3D : Signals.DDF.NormedTensorGaussianSplat3D :=
+  { centerX := 1
+    centerY := -2
+    centerZ := 4
+    weight := 6
+    weight_nonneg := by norm_num
+    sigma1 := 8
+    sigma1_pos := by norm_num
+    sigma2 := 2
+    sigma2_pos := by norm_num
+    sigma3 := 1
+    sigma3_pos := by norm_num
+    orientationAngle := 0
+    pitchAngle := 0 }
+
+noncomputable def toyQuantumCausalSurgicalSplatGraphRAGContract :
+    QuantumCausalSurgicalSplatGraphRAGHypothesis :=
+  { splat3D := toySurgicalSplat3D
+    priorP1 := 1 / 2
+    priorP2 := 1 / 2
+    posteriorQ1 := 4 / 5
+    posteriorQ2 := 1 / 5
+    prior_norm := by norm_num
+    posterior_norm := by norm_num
+    posteriorQ1_nonneg := by norm_num
+    posteriorQ2_nonneg := by norm_num
+    c1Do := 10
+    c2Do := 2
+    c1Do_nonneg := by norm_num
+    c2Do_nonneg := by norm_num
+    confounderBias1 := 1 / 2
+    confounderBias2 := 1 / 4
+    tautologicalScore := 3
+    coherenceGamma := 1 / 10
+    motionConfounderSubtracted := True
+    motionConfounderSubtracted_hypothesis := trivial
+    surgicalAcousticThermalSafetyVerified := True
+    surgicalAcousticThermalSafetyVerified_hypothesis := trivial
+    graphRagDisjointProvenanceVerified := True
+    graphRagDisjointProvenanceVerified_hypothesis := trivial }
+
+example (wA_re wA_im wB_re wB_im c s beta : ℝ)
+    (u x v w_out : NNReal) (zAB zBA : ℂ) :
+    let contract := toyQuantumCausalSurgicalSplatGraphRAGContract
+    let splat_j := contract.splat3D.jeffreyKinematicWeightUpdate
+      contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do
+      contract.posteriorQ1_nonneg contract.posteriorQ2_nonneg
+      contract.c1Do_nonneg contract.c2Do_nonneg
+    let c_plus := splat_j.splitMajorPlus
+    let c_minus := splat_j.splitMajorMinus
+    let s_ortho := splat_j.projectOrthographic2D
+    let R_depth := (contract.splat3D.sigma1 ^ 2 + contract.splat3D.sigma2 ^ 2) /
+      contract.splat3D.sigma3 ^ 2
+    Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 32 64 32768 2 10 = 104857.6 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 = 1310720 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicShift
+          contract.priorP1 contract.priorP2 contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do =
+        (contract.posteriorQ1 - contract.priorP1) * (contract.c1Do - contract.c2Do) ∧
+      Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2) -
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      c_plus.weight + c_minus.weight =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do ∧
+      Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth =
+        contract.splat3D.sigma3 ^ 2 ∧
+      Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2)
+          contract.coherenceGamma wA_re wA_im wB_re wB_im -
+        Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do
+          contract.coherenceGamma wA_re wA_im wB_re wB_im =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) ∧
+      (Signals.Geometry.singleHubRepresentative u x v w_out).mat.det = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight zAB zBA +
+          Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) :=
+  SignalsPending.quantum_causal_surgical_splat_graphrag_bounds
+    toyQuantumCausalSurgicalSplatGraphRAGContract
+    wA_re wA_im wB_re wB_im c s beta u x v w_out zAB zBA
+
+noncomputable def toyQuantumCausalGrassmannianDFTContract : QuantumCausalGrassmannianDFTHypothesis :=
+  { eps1 := 1
+    eps2 := 2
+    eps_le := by norm_num
+    xNormSq := 3 / 4
+    xNormSq_nonneg := by norm_num
+    wAlpha := 1 / 5
+    wBeta := 1 / 10
+    wAlpha_nonneg := by norm_num
+    wBeta_nonneg := by norm_num
+    cayleyTheta := 1 / 2
+    twoElectronCoulombExchangeEvaluated := True
+    twoElectronCoulombExchangeEvaluated_hypothesis := trivial
+    gmtkn55BenchmarkValidated := True
+    gmtkn55BenchmarkValidated_hypothesis := trivial
+    experimentalAnyonBraidingVerified := True
+    experimentalAnyonBraidingVerified_hypothesis := trivial }
+
+example (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    let contract := toyQuantumCausalGrassmannianDFTContract
+    let vrc_pre := Signals.Plabic.gr24HomogeneousVRC x1 x2 xX
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1 x2 (-1)
+    let test_x1 : ℂ := 1 / 2 + (1 / 5 : ℂ) * Complex.I
+    let test_x2 : ℂ := -(3 / 10 : ℂ) + (7 / 10 : ℂ) * Complex.I
+    let test_xX : ℂ := 6 / 5 - (2 / 5 : ℂ) * Complex.I
+    vrc_pre.vectors * vrc_pre.relations.transpose = 0 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.Plabic.pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      Signals.Plabic.plucker2x4Minor (Signals.Plabic.gr24RationalChartMatrix test_x1 test_x2 test_xX) 0 3 =
+        (3 / 10 : ℂ) - (7 / 10 : ℂ) * Complex.I ∧
+      (Signals.Plabic.gr24ClusterMutation test_x1 test_x2 test_xX).2.2 =
+        (3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 2 1 4 = 14 ∧
+      contract.eps1 ≤ Signals.DFT.grassmannianKohnShamEnergy2x2
+        contract.eps1 contract.eps2 contract.xNormSq ∧
+      Signals.DFT.hartreeToKcalPerMol
+        (Signals.DFT.spinPolarized4OrbitalCoreEnergy 0 0) = 2510.036 ∧
+      4 ≤ Signals.DFT.spinPolarized4OrbitalCoreEnergy
+        contract.wAlpha contract.wBeta ∧
+      Signals.DFT.cayleyRetractionNormSq contract.cayleyTheta = 1 ∧
+      Signals.DFT.mcweenyPurificationPoly (9 / 10) = 243 / 250 ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (1 / 10) ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (7 / 2) ∧
+      Signals.DFT.merminThreeQuditGHZWitness 1 = 4 ∧
+      (2 : ℝ) < Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) :=
+  SignalsPending.quantum_causal_grassmannian_dft_bounds
+    toyQuantumCausalGrassmannianDFTContract x1 x2 xX hxX
+
+example (p q s_sum k_ab k_cd boys_f0 eri_diag p_diag : ℝ)
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    Signals.DFT.gaussianFourCenterSWaveERI p q s_sum k_ab k_cd boys_f0 =
+        Signals.DFT.gaussianFourCenterSWaveERI q p s_sum k_cd k_ab boys_f0 ∧
+      Signals.DFT.boysF0Taylor2 0 = 1 ∧
+      Signals.DFT.sameSpinDiagonalCoulombMinusExchange eri_diag p_diag = 0 ∧
+      Signals.DFT.riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 10 120 = 144 ∧
+      Signals.DFT.gmtkn55TotalSubsetCount = 55 ∧
+      Signals.DFT.gmtkn55TotalReactionCount = 1505 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 = 494.54 / 301 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.0 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.81 ∧
+      Signals.QuantumCausalInference.qciRecommendBackend true false = .complexHomogeneousVRC ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 2 =
+        xX * Signals.QuantumCausalInference.qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 2 ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 1 2 =
+        x2 - x1 ∧
+      Signals.DFT.skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      Signals.DFT.mzmDispersiveParityContrast 1 = 2 :=
+  SignalsPending.quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds
+    toyQuantumCausalGrassmannianDFTContract
+    p q s_sum k_ab k_cd boys_f0 eri_diag p_diag x1 x2 xX hxX
+
+noncomputable def toyLightDrivenMaterialsContract : LightDrivenMaterialsPendingHypothesis :=
+  { dftContract := toyQuantumCausalGrassmannianDFTContract
+    deltaPi0MeV := 11 / 5
+    deltaPi0_pos := by norm_num
+    probeFreqTHz := 63 / 100
+    probeFreq_pos := by norm_num
+    dampingTHz := 1 / 10
+    drivenSuperfluidFraction := 3 / 10
+    equilibriumSuperfluidFraction := 1
+    superfluidDepleted := by norm_num
+    hubbardChainAndLadderValidated := True
+    hubbardChainAndLadderValidated_hypothesis := trivial
+    wse2ExcitonTrArpesValidated := True
+    wse2ExcitonTrArpesValidated_hypothesis := trivial
+    graphiteDiffuseScatteringValidated := True
+    graphiteDiffuseScatteringValidated_hypothesis := trivial
+    mgb2ThzHarmonicAndConductivityValidated := True
+    mgb2ThzHarmonicAndConductivityValidated_hypothesis := trivial }
+
+example :
+    let c := toyLightDrivenMaterialsContract
+    Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 15 <
+        Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.hubbardDoublonDecayRate 1 15 <
+        Signals.DFT.hubbardDoublonDecayRate 1 5 ∧
+      Signals.DFT.hubbardOpticalConductivityThreshold 3 2 <
+        Signals.DFT.hubbardOpticalConductivityThreshold 6 2 ∧
+      Signals.DFT.wse2DarkExcitonBuildupFs = 400 ∧
+      Signals.DFT.wse2LateTimeBrightToDarkRatio 1 2 = 1 / 2 ∧
+      Signals.DFT.graphiteTotalEnergyBalance 4 (9 / 2) 2 1 (1 / 2) =
+        Signals.DFT.graphiteTotalEnergyBalance (1 / 2) (1 / 5) (3 / 10) 6 5 ∧
+      Signals.DFT.mgb2LowerPiGapSq c.deltaPi0MeV 38 Signals.DFT.mgb2KatsumiCriticalTempK = 0 ∧
+      Signals.DFT.mgb2NormalizedFirstHarmonic 20 Signals.DFT.mgb2KatsumiCriticalTempK <
+        Signals.DFT.mgb2NormalizedFirstHarmonic 7 Signals.DFT.mgb2KatsumiCriticalTempK ∧
+      Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq 1 1 c.dampingTHz ≤
+        Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq c.probeFreqTHz 1 c.dampingTHz ∧
+      Signals.DFT.mgb2DrivenSuperfluidConductivityIm c.drivenSuperfluidFraction c.probeFreqTHz <
+        Signals.DFT.mgb2DrivenSuperfluidConductivityIm c.equilibriumSuperfluidFraction c.probeFreqTHz :=
+  SignalsPending.light_driven_materials_gkba_and_four_target_bounds
+    toyLightDrivenMaterialsContract
+
+example (n_ex n_mott : ℝ) (hn_ex_pos : 0 < n_ex) (hn_ex_lt : n_ex < n_mott)
+    (p_laser g1 g2 g3 g4 g5 g6 g7 g8 : ℝ) :
+    Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      (10000000 : ℝ) < Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 ∧
+      Signals.DFT.hubbardSuperexchangeScale 1 15 < Signals.DFT.hubbardSuperexchangeScale 1 5 ∧
+      Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_mott n_mott = 0 ∧
+      0 < Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_ex n_mott ∧
+      Signals.DFT.graphiteFiveReservoirRateSum p_laser g1 g2 g3 g4 g5 g6 g7 g8 = p_laser ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 0 = 38 ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 :=
+  SignalsPending.light_driven_materials_critique_and_gap_closure_bounds
+    toyLightDrivenMaterialsContract
+    n_ex n_mott hn_ex_pos hn_ex_lt p_laser g1 g2 g3 g4 g5 g6 g7 g8
+
+noncomputable def toyInterfacialHeatTransportContract :
+    Signals.Pending.InterfacialHeatTransportPendingHypothesis :=
+  { lightContract := toyLightDrivenMaterialsContract
+    z1Impedance := 17
+    z1_pos := by norm_num
+    z2Impedance := 20
+    z2_pos := by norm_num
+    xiBondStrong := 1 / 5
+    xiBondWeak := 2
+    xiStrong_nonneg := by norm_num
+    xiStrong_lt_weak := by norm_num
+    gammaAnharmonic := 1 / 4
+    gammaAnharmonic_pos := by norm_num
+    kappaPmma := 1 / 5
+    kappaPmma_pos := by norm_num
+    alSiAndAlGaN80To700KValidated := True
+    alSiAndAlGaN80To700KValidated_hypothesis := trivial
+    cuTiCDiamondInterlayerValidated := True
+    cuTiCDiamondInterlayerValidated_hypothesis := trivial
+    auMetalPmmaSiStackValidated := True
+    auMetalPmmaSiStackValidated_hypothesis := trivial
+    hiddenAlNGaNTransferValidated := True
+    hiddenAlNGaNTransferValidated_hypothesis := trivial }
+
+example :
+    let c := toyInterfacialHeatTransportContract
+    Signals.DFT.ammNormalTransmission c.z1Impedance c.z2Impedance ≤ 1 ∧
+      Signals.DFT.gtbcBondWeightedTransmission c.z1Impedance c.z2Impedance c.xiBondWeak <
+        Signals.DFT.gtbcBondWeightedTransmission c.z1Impedance c.z2Impedance c.xiBondStrong ∧
+      Signals.DFT.gtbcAlSi300KConductance = 379 ∧
+      Signals.DFT.gtbcAlGaN300KConductance = 423 ∧
+      Signals.DFT.gtbcAlSi300KConductance < Signals.DFT.gtbcAlGaN300KConductance ∧
+      Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 c.gammaAnharmonic 400 <
+        Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 c.gammaAnharmonic 700 ∧
+      Signals.DFT.ammNormalTransmission 1 9 < (Signals.DFT.ammNormalTransmission 1 3) ^ 2 ∧
+      Signals.DFT.gtbcInterlayerEnhancementRatio 103.6 70.0 =
+        Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      (1 : ℝ) < Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      Signals.DFT.gtbcAuPmmaSiConductance < Signals.DFT.gtbcAuTiPmmaSiConductance ∧
+      Signals.DFT.gtbcAuTiPmmaSiConductance < Signals.DFT.gtbcAuNiPmmaSiConductance ∧
+      Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 10 c.kappaPmma <
+        Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 2 c.kappaPmma :=
+  SignalsPending.interfacial_heat_transport_gtbc_and_three_target_bounds
+    toyInterfacialHeatTransportContract
+
+example (w_ad1 w_ad2 d0 omega : ℝ)
+    (hw1 : 0 < w_ad1) (hw_lt : w_ad1 < w_ad2) (hd0 : 0 < d0) (homega : 0 < omega)
+    (tau_spec tau_diff delta_t q_max : ℝ) (hdt : 0 < delta_t) (hq_max : 0 < q_max) :
+    let c := toyInterfacialHeatTransportContract
+    Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0 <
+        Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0 ∧
+      Signals.DFT.gtbcBondComplianceRatio omega c.z1Impedance c.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0) <
+        Signals.DFT.gtbcBondComplianceRatio omega c.z1Impedance c.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0) ∧
+      Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ∧
+      Signals.DFT.gtbcZimanSpecularityFactor 0 = 1 ∧
+      Signals.DFT.gtbcMixedSpecularDiffuseTransmission 1 tau_spec tau_diff = tau_spec ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < 379 * delta_t ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < q_max ∧
+      Signals.DFT.gtbcRelativeError 374.8 379 < Signals.DFT.gtbcRelativeError 290 379 ∧
+      Signals.DFT.gtbcRelativeError 417.6 423 < Signals.DFT.gtbcRelativeError 310 423 ∧
+      Signals.DFT.gtbcRelativeError
+          (Signals.DFT.gtbcInterlayerEnhancementRatio
+            (Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000) 70.5) 1.48 <
+        Signals.DFT.gtbcRelativeError (78 / 95) 1.48 ∧
+      Signals.DFT.gtbcRelativeError 58.1 59 < Signals.DFT.gtbcRelativeError 92 59 ∧
+      Signals.DFT.gtbcRelativeError 620 625 < Signals.DFT.gtbcRelativeError 740 625 :=
+  SignalsPending.interfacial_heat_transport_critique_and_gap_closure_bounds
+    toyInterfacialHeatTransportContract
+    w_ad1 w_ad2 d0 omega hw1 hw_lt hd0 homega tau_spec tau_diff delta_t q_max hdt hq_max
+
+noncomputable def toyCuprateSuperconductivityContract :
+    Signals.Pending.CuprateSuperconductivityPendingHypothesis :=
+  { heatContract := toyInterfacialHeatTransportContract
+    tcMax := 93
+    tcMax_pos := by norm_num
+    tStar0 := 400
+    tStar0_pos := by norm_num
+    gammaNormal := 1
+    gammaNormal_pos := by norm_num
+    tPgEff := 50
+    tPgEff_pos := by norm_num
+    rhoS0 := 100
+    rhoS0_pos := by norm_num
+    jZrMeV := 130
+    jZrMeV_pos := by norm_num
+    sMaxCdw := 10
+    sMaxCdw_pos := by norm_num
+    xiScaleCdw := 100
+    xiScaleCdw_pos := by norm_num
+    lambdaNemSq := 5
+    lambdaNemSq_pos := by norm_num
+    etaDisorder := 10
+    etaDisorder_pos := by norm_num
+    tPdEv := 7 / 5
+    tPdEv_pos := by norm_num
+    deltaCtLowEv := 3 / 2
+    deltaCtHighEv := 2
+    deltaCtLow_pos := by norm_num
+    deltaCtLow_lt_high := by norm_num
+    uEffEv := 8
+    uEffEv_pos := by norm_num
+    twelveCuprateTargetsValidated := True
+    twelveCuprateTargetsValidated_hypothesis := trivial
+    fiveCuprateFamiliesValidated := True
+    fiveCuprateFamiliesValidated_hypothesis := trivial }
+
+example :
+    let c := toyCuprateSuperconductivityContract
+    Signals.DFT.cuprateSuperconductingTc c.tcMax (5 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc c.tcMax (27 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc c.tcMax (16 / 100) = c.tcMax ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 1 = 0 ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 (-1) = 2 ∧
+      Signals.DFT.cuprateDWaveGapSq 35 1 (-1) 0 c.tcMax = 35 ^ 2 ∧
+      Signals.DFT.cupratePseudogapTemp c.tStar0 (19 / 100) = 0 ∧
+      (Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 300 -
+          Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 100) / (300 - 100) = 6 / 5 ∧
+      0 < Signals.DFT.cupratePseudogapEntropySuppression c.gammaNormal 10 c.tPgEff ∧
+      Signals.DFT.cuprateSuperfluidStiffness c.rhoS0 20 c.tcMax <
+        Signals.DFT.cuprateSuperfluidStiffness c.rhoS0 10 c.tcMax ∧
+      Signals.DFT.cuprateAntiferromagneticMomentSq (36 / 100) (5 / 100) = 0 ∧
+      0 < Signals.DFT.cuprateParamagnonEnergy c.jZrMeV (30 / 100) ∧
+      Signals.DFT.cuprateCdwStructureFactorPeak c.sMaxCdw c.xiScaleCdw (16 / 100) < c.sMaxCdw ∧
+      Signals.DFT.cuprateResonantUltrasoundModulusShift
+          c.lambdaNemSq 300 Signals.DFT.cuprateYbco660PseudogapTempK c.etaDisorder <
+        c.lambdaNemSq / c.etaDisorder ∧
+      Signals.DFT.cuprateChargeTransferSuperexchange c.tPdEv c.deltaCtHighEv c.uEffEv <
+        Signals.DFT.cuprateChargeTransferSuperexchange c.tPdEv c.deltaCtLowEv c.uEffEv ∧
+      Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < 1 / 100 :=
+  SignalsPending.cuprate_superconductivity_twelve_targets_and_family_bounds
+    toyCuprateSuperconductivityContract
+
+example (p cos_kx omega xi0 q_cdw : ℝ) :
+    let c := toyCuprateSuperconductivityContract
+    Signals.DFT.cuprateMicroscopicRvbDome c.tcMax p =
+        Signals.DFT.cuprateSuperconductingTc c.tcMax p ∧
+      Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 112 (16 / 100) <
+        Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 140 (37 / 100) ∧
+      Signals.DFT.cuprateYrzPseudogapSelfEnergy 40 cos_kx cos_kx omega xi0 = 0 ∧
+      Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 cos_kx cos_kx = 0 ∧
+      0 < Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 1 (-1) ∧
+      Signals.DFT.cuprateHomesSuperfluidDensity 1 c.tcMax 120 <
+        Signals.DFT.cuprateHomesSuperfluidDensity 1 c.tcMax 80 ∧
+      0 < Signals.DFT.cuprateDynamicalSpinStructureFactor 10 c.jZrMeV c.jZrMeV 50 ∧
+      Signals.DFT.cuprateMomentumResolvedCdwStructureFactor
+          c.sMaxCdw c.xiScaleCdw (1 / 8) 20 q_cdw q_cdw = c.sMaxCdw ∧
+      Signals.DFT.cupratePseudogapSpecificHeatCoeff c.gammaNormal 100 c.tPgEff <
+        c.gammaNormal ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < Signals.DFT.gtbcRelativeError 40 93 ∧
+      Signals.DFT.gtbcRelativeError 306 310 < Signals.DFT.gtbcRelativeError 0 310 :=
+  SignalsPending.cuprate_superconductivity_gap_closure_bounds
+    toyCuprateSuperconductivityContract p cos_kx omega xi0 q_cdw
+
+noncomputable def toyInterfacialElectricalPropertiesContract :
+    Signals.Pending.InterfacialElectricalPropertiesPendingHypothesis :=
+  { cuprateContract := toyCuprateSuperconductivityContract
+    thetaHydrogen := 9 / 10
+    thetaHydrogen_pos := by norm_num
+    thetaHydrogen_lt_one := by norm_num
+    sigmaNanowireLow := 2
+    sigmaNanowireHigh := 5
+    sigmaLow_pos := by norm_num
+    sigmaLow_lt_high := by norm_num
+    rCarbonCFace := 1
+    rCarbonSiFace := 8
+    rCarbonC_pos := by norm_num
+    rCarbonC_lt_Si := by norm_num
+    bInterlayerRegrowth := 2
+    bInterlayerRegrowth_pos := by norm_num
+    deltaGeSnowplow := 1 / 5
+    deltaGeSnowplow_pos := by norm_num
+    planarSiSiO2Validated := True
+    planarSiSiO2Validated_hypothesis := trivial
+    curvedSiNanowireValidated := True
+    curvedSiNanowireValidated_hypothesis := trivial
+    sicSiO2Validated := True
+    sicSiO2Validated_hypothesis := trivial
+    hfo2SiO2SiStackValidated := True
+    hfo2SiO2SiStackValidated_hypothesis := trivial
+    geAndSiGeOxideValidated := True
+    geAndSiGeOxideValidated_hypothesis := trivial }
+
+example :
+    let c := toyInterfacialElectricalPropertiesContract
+    Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 20 <
+        Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 5 ∧
+      Signals.DFT.giepConsumedSiliconThickness 10 < 10 ∧
+      Signals.DFT.giepSi100PassivatedDit < Signals.DFT.giepSi511PassivatedDit ∧
+      Signals.DFT.giepSi511PassivatedDit < Signals.DFT.giepSi110PassivatedDit ∧
+      Signals.DFT.giepSi110PassivatedDit < Signals.DFT.giepSi111PassivatedDit ∧
+      Signals.DFT.giepSi100FixedCharge < Signals.DFT.giepSi111FixedCharge ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25 c.thetaHydrogen < 25 ∧
+      Signals.DFT.giepNanowireStressRetardedRate 10 c.sigmaNanowireHigh 1 <
+        Signals.DFT.giepNanowireStressRetardedRate 10 c.sigmaNanowireLow 1 ∧
+      Signals.DFT.giepSiCCarbonRetardedRate 10 c.rCarbonSiFace <
+        Signals.DFT.giepSiCCarbonRetardedRate 10 c.rCarbonCFace ∧
+      Signals.DFT.giepHfO2InterlayerRegrowthSq 1 c.bInterlayerRegrowth 2 <
+        Signals.DFT.giepHfO2InterlayerRegrowthSq 1 c.bInterlayerRegrowth 10 ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      0 < Signals.DFT.giepGeOxideNetRate 5 2 ∧
+      Signals.DFT.giepGeOxideNetRate 5 8 < 0 ∧
+      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) c.deltaGeSnowplow 2 5 <
+        Signals.DFT.giepSiGeSnowplowProfile (1 / 4) c.deltaGeSnowplow 0 5 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+        Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 ∧
+      Signals.DFT.gtbcRelativeError 14.2 14.0 < Signals.DFT.gtbcRelativeError 25.0 14.0 ∧
+      Signals.DFT.gtbcRelativeError 18.3 18.5 < Signals.DFT.gtbcRelativeError 85.0 18.5 :=
+  SignalsPending.interfacial_electrical_properties_five_interfaces_and_critique_bounds
+    toyInterfacialElectricalPropertiesContract
+
+example (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
+    let c := toyInterfacialElectricalPropertiesContract
+    let x_dg := Signals.DFT.giepDealGroveExplicitThickness 2 4 0 t_ox
+    x_dg ^ 2 + 2 * x_dg = 4 * (t_ox + 0) ∧
+      Signals.DFT.giepDealGroveTimeForThickness 2 4 0 x_dg = t_ox ∧
+      Signals.DFT.giepMassoudThinOxideRate 1 5 6 2 <
+        Signals.DFT.giepMassoudThinOxideRate 1 5 2 2 ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25
+          (Signals.DFT.giepBrowerStesmansEquilibriumCoverage 9 1) =
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepNanowireStressInducedCharge 9 2 10 25 <
+        Signals.DFT.giepNanowireStressInducedCharge 9 2 10 10 ∧
+      Signals.DFT.giepSiCCarbonClusterDit 25 5 c.rCarbonCFace c.thetaHydrogen <
+        Signals.DFT.giepSiCCarbonClusterDit 25 5 c.rCarbonSiFace c.thetaHydrogen ∧
+      Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (5 / 2) <
+        Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (3 / 2) ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 * 3 = (1 / 4) * 6 ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 <
+        Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 12 3 :=
+  SignalsPending.interfacial_electrical_properties_deep_gap_closure_bounds
+    toyInterfacialElectricalPropertiesContract t_ox ht_ox
+
+noncomputable def toyRhombohedralGrapheneSuperconductivityContract :
+    Signals.Pending.RhombohedralGrapheneSuperconductivityPendingHypothesis :=
+  { interfacialContract := toyInterfacialElectricalPropertiesContract
+    t0HoppingMeV := 100
+    gamma1DimerMeV := 380
+    t0_pos := by norm_num
+    t0_lt_gamma1 := by norm_num
+    lambdaKaneMeleUeV := 45
+    lambdaKaneMele_pos := by norm_num
+    vHybridizationMeV := 3
+    vHybridization_pos := by norm_num
+    deltaDoping := 1 / 2
+    deltaDoping_pos := by norm_num
+    deltaDoping_lt_one := by norm_num
+    gFubiniStudy := 2
+    gFubiniStudy_pos := by norm_num
+    etaSupersolidMod := 1 / 2
+    etaSupersolid_pos := by norm_num
+    etaSupersolid_lt_one := by norm_num
+    millikelvinTransportValidated := True
+    millikelvinTransportValidated_hypothesis := trivial
+    squidMagnetometryValidated := True
+    squidMagnetometryValidated_hypothesis := trivial
+    qaheFqahHallPlateauValidated := True
+    qaheFqahHallPlateauValidated_hypothesis := trivial
+    majoranaParafermionBraidingValidated := True
+    majoranaParafermionBraidingValidated_hypothesis := trivial }
+
+example :
+    let c := toyRhombohedralGrapheneSuperconductivityContract
+    Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 5 <
+        Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3 ∧
+      Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3) <
+        Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 5) ∧
+      Signals.DFT.gmgsVanHoveDosExponent 3 < Signals.DFT.gmgsVanHoveDosExponent 5 ∧
+      10 < Signals.DFT.gmgsPauliViolationRatio
+          (Signals.DFT.gmgsInPlaneCriticalField (93 / 50) (1 / 20) 10)
+          (Signals.DFT.gmgsPauliLimitField (93 / 50) (1 / 20)) ∧
+      (1 / 10 : ℝ) < Signals.DFT.gmgsKaneMeleEnhancedTc
+          (1 / 10) (1 / 100) c.lambdaKaneMeleUeV ∧
+      0 < Signals.DFT.gmgsChiralPxPyGapSq 1 1 0 ∧
+      (1 : ℝ) < Signals.DFT.gmgsMattgKondoSuperconductingTc
+          1 2 c.vHybridizationMeV 5 ∧
+      Signals.DFT.gmgsLowEnergyOpticalWeight 0 0 0 1 1 c.gFubiniStudy = 0 ∧
+      0 < Signals.DFT.gmgsLowEnergyOpticalWeight
+          c.deltaDoping 0 0 1 1 c.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness
+          0 1 c.deltaDoping c.gFubiniStudy ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 1 1 = 2 / 3 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 2 1 = 3 / 5 ∧
+      Signals.DFT.gmgsFractionalQuasiparticleCharge 1 1 = 1 / 3 ∧
+      0 < Signals.DFT.gmgsSupersolidLeggettFraction c.etaSupersolidMod ∧
+      Signals.DFT.gmgsSupersolidVortexNucleationBarrier 10 c.etaSupersolidMod < 10 ∧
+      0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsTopologicalDecoherenceRate 1 4 <
+        Signals.DFT.gmgsTopologicalDecoherenceRate 1 2 ∧
+      Signals.DFT.gtbcRelativeError 105.2 106.0 <
+        Signals.DFT.gtbcRelativeError 1.0 106.0 ∧
+      Signals.DFT.gtbcRelativeError 5.163 5.160 < 1 / 1000 ∧
+      Signals.DFT.gtbcRelativeError 0.914 0.920 <
+        Signals.DFT.gtbcRelativeError 0.080 0.920 :=
+  SignalsPending.rhombohedral_graphene_superconductivity_eight_regimes_and_critique_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+
+example (omega_berry inv_phi0 b_chern : ℝ) :
+    let c := toyRhombohedralGrapheneSuperconductivityContract
+    Signals.DFT.gmgsSombreroAnnularDispersion 1 2 4 4 = 1 ∧
+      1 < Signals.DFT.gmgsSombreroAnnularDispersion 1 2 0 4 ∧
+      Signals.DFT.gmgsFlatBandLinearTc 2 3 < Signals.DFT.gmgsFlatBandLinearTc 2 5 ∧
+      |omega_berry| ≤ Signals.DFT.gmgsFubiniStudyTraceMetric omega_berry 0 ∧
+      0 < Signals.DFT.gmgsBktSuperfluidTemp 1 0 c.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsValleySpinMass 1 1 10 9 2 ∧
+      Signals.DFT.gmgsValleySpinMass 1 (-1) 10 9 2 < 0 ∧
+      Signals.DFT.gmgsStredaCarrierSlope 5 inv_phi0 =
+        5 * Signals.DFT.gmgsStredaCarrierSlope 1 inv_phi0 ∧
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 ∧
+      Signals.DFT.gmgsGurzhiVorticityLengthSq 2 3 <
+        Signals.DFT.gmgsGurzhiVorticityLengthSq 2 5 ∧
+      Signals.DFT.gmgsFlatBandKineticInductance 10 5 <
+        Signals.DFT.gmgsFlatBandKineticInductance 10 2 ∧
+      Signals.DFT.gmgsQaheScBdgGapSq 1 0 3 3 = 0 ∧
+      0 < Signals.DFT.gmgsQaheScBdgGapSq 1 0 5 3 :=
+  SignalsPending.rhombohedral_graphene_superconductivity_deep_gap_closure_bounds
+    toyRhombohedralGrapheneSuperconductivityContract omega_berry inv_phi0 b_chern
+
+example {state : Type}
+    (fp : Signals.NonDestructive.DispersivePhaseFingerprint state)
+    (splat : Signals.DDF.NormedTensorGaussianSplat2D)
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ) (x y : ℝ)
+    (cv : Signals.DDF.CattaneoVernotteHeatModel) :
+    let c := toyRhombohedralGrapheneSuperconductivityContract
+    Signals.DFT.gmgsBoundaryGrassmannianRealDim 3 = 16 ∧
+      Signals.DFT.gmgsBoundaryGrassmannianRealDim 5 = 32 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 2 = 6 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 3 = 15 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 5 = 45 ∧
+      Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 1) <
+        Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3) ∧
+      Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3) <
+        Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 5) ∧
+      Signals.DFT.kitaevChemicalPotentialTopological 0 2 ∧
+      Signals.DFT.kitaevBulkGapAtBrillouinBoundary 0 2 = 2 * 2 ∧
+      Signals.DFT.kitaevBulkGapAtBrillouinBoundary (-2 * 2) 2 = 0 ∧
+      Signals.DFT.mzmDispersiveParityContrast 3 = 2 * 3 ∧
+      Signals.DFT.gmgsParafermionQuditDim 1 = 3 ∧
+      Signals.DFT.gmgsParafermionQuditDim 2 = 5 ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 3 < Signals.DFT.gmgsParafermionQuantumDimSq 5 ∧
+      1 < Signals.DFT.gmgsQuditHilbertCompressionRatio 3 4 ∧
+      Signals.DFT.gmgsQuditHilbertCompressionRatio 3 4 <
+        Signals.DFT.gmgsQuditHilbertCompressionRatio 4 4 ∧
+      Signals.DFT.gmgsQuditHilbertCompressionRatio 4 4 <
+        Signals.DFT.gmgsQuditHilbertCompressionRatio 15 4 ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (1 / 10) ∧
+      Signals.DFT.skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      2 < Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+        Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 2 2 6 = 32 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 48 = 144 ∧
+      Signals.DFT.riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      Signals.DFT.sameSpinDiagonalCoulombMinusExchange 7 (1 / 2) = 0 ∧
+      |Signals.DFT.aldBarrierWithSIERestoration (1810 / 100) (620 / 100) (643 / 100) -
+          (1810 / 100)| <
+        |Signals.DFT.aldBarrierWithSIERestoration (1810 / 100) (620 / 100) 0 -
+          (1810 / 100)| ∧
+      fp.readout.signalAfter = fp.readout.signalBefore ∧
+      fp.readout.absorbedSignalEnergy.joules = 0 ∧
+      fp.readout.absorbedProbeEnergy.joules = 0 ∧
+      0 < splat.coreBohmPotential 1 1 ∧
+      (Signals.DDF.complexPluckerSinkAmplitudeA M_C +
+          Signals.DDF.complexPluckerSinkAmplitudeB M_C = 0 →
+        splat.complexTwistorIntensity M_C x y = 0) ∧
+      Signals.Scattering.reconstructRamanTemperature 10 2 150
+        (Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)) = 300 ∧
+      0 < cv.secondSoundSpeedSq ∧
+      (splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)).covTrace =
+        splat.covTrace + 2 * (1 + 2) * 3 :=
+  SignalsPending.rhombohedral_graphene_mzm_qudit_and_four_paper_advantages_bounds
+    toyRhombohedralGrapheneSuperconductivityContract 1 2 3 7 (1 / 2) (by norm_num) (by norm_num)
+    fp splat M_C x y cv
+
+example (kx ky m_x v_y delta_m tx py z1 z2 a b c d beta e : ℝ) :
+    Signals.DFT.semiDiracEnergySq kx 0 m_x v_y 0 = (kx ^ 2 / (2 * m_x)) ^ 2 ∧
+      Signals.DFT.semiDiracEnergySq 0 ky m_x v_y 0 = (v_y * ky) ^ 2 ∧
+      Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 8 =
+        64 * Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 1 ∧
+      Signals.DFT.semiDiracPluckerDet (kx ^ 2 / (2 * m_x)) delta_m (v_y * ky) =
+        Signals.DFT.semiDiracEnergySq kx ky m_x v_y delta_m ∧
+      Signals.DFT.semiDiracKahlerDetFactor tx delta_m py =
+        (1 + Signals.DFT.semiDiracPluckerDet tx delta_m py) ^ 2 ∧
+      1 ≤ Signals.DFT.semiDiracKahlerDetFactor tx delta_m py ∧
+      Signals.DFT.semiDiracDdfJammedMassX 1 (3 / 5) = 25 / 16 ∧
+      Signals.DFT.semiDiracPluckerDet 16 0 0 <
+        Signals.DFT.semiDiracDdfGr24EnergySq 16 0 0 (3 / 5) ∧
+      (Signals.DFT.semiDiracAnisotropicSplatVarX 1 0 1 <
+          Signals.DFT.semiDiracAnisotropicSplatVarX 1 2 1 ∧
+        Signals.DFT.semiDiracAnisotropicSplatVarY 1 2 =
+          Signals.DFT.semiDiracAnisotropicSplatVarY 1 0) ∧
+      Signals.DFT.suNRealDim 4 = 15 ∧
+      2 * (Signals.DFT.suNRealDim 2 + Signals.DFT.suNRealDim 2) + 3 =
+        Signals.DFT.suNRealDim 4 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 6 = 15 ∧
+      Signals.DFT.chySolutionCount 4 = 1 ∧
+      Signals.DFT.chySolutionCount 6 = 6 ∧
+      Signals.DFT.bcfwCatalanTreeCount 6 = 5 ∧
+      Signals.DFT.chyFourPointCrossEquation 3 5
+        (Signals.DFT.chyFourPointRoot 3 5) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual z1 1 1 (z1 + z2) z2 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (a * d - b * c) (a * d - b * c)
+        (2 * a * b) (-2 * c * d) (-(a * d + b * c)) (a * d + b * c) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + beta) (1 - beta) 1 (1 - beta ^ 2) 0 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + e) (1 - e) 1 (1 - e ^ 2) 0 1 = 0 :=
+  SignalsPending.rhombohedral_graphene_semi_dirac_and_su4_witten_chy_unification_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    kx ky m_x v_y delta_m tx py z1 z2 a b c d beta e
+
+example (delta0 l1 l2 phi : ℝ) :
+    Signals.semiDiracStrainMergingGap delta0 2 (delta0 / 2) = 0 ∧
+      1 < Signals.semiDiracKleinRectificationRatio 10 ∧
+      Signals.semiDiracKleinRectificationRatio 10 = 101 ∧
+      Signals.semiDiracDrudeAnisotropySq 1 1 1 4 <
+        Signals.semiDiracDrudeAnisotropySq 1 1 1 1 ∧
+      Signals.semiDiracHyperbolicCanalizationTanSq (3 / 4) (-3) = 1 / 4 ∧
+      0 < Signals.semiDiracBolometerPolarizationContrast 10 1 ∧
+      Signals.semiDiracBolometerPolarizationContrast 10 1 < 1 ∧
+      Signals.semiDiracThermoelectricZT 2 1 300 1 2 <
+        Signals.semiDiracThermoelectricZT 2 10 300 1 2 ∧
+      Signals.semiDiracThermoelectricZT 2 10 300 1 2 <
+        Signals.semiDiracThermoelectricZT 2 10 300 1 1 ∧
+      Signals.semiDiracTransverseGroupVelocityX 0 1 = 0 ∧
+      Signals.semiDiracEtchFreeCoherenceGain (10 ^ 12) (10 ^ 10) = 100 ∧
+      Signals.helicalPhaseLasingAzimuthalShift (l1 + l2) phi =
+        Signals.helicalPhaseLasingAzimuthalShift l1 phi +
+          Signals.helicalPhaseLasingAzimuthalShift l2 phi ∧
+      Signals.spiralPhasePlateStepHeight 1 1550 (3 / 2) = 3100 ∧
+      Signals.cpRank3DVoxelCompressionRatio 1000 50 = 20000 / 3 ∧
+      Signals.oamCarbonQuditHilbertDim 2 4 < Signals.oamCarbonQuditHilbertDim 6 4 ∧
+      Signals.oamCarbonQuditHilbertDim 6 4 < Signals.oamCarbonQuditHilbertDim 15 4 ∧
+      Signals.oamCarbonQuditHilbertDim 15 4 < Signals.oamCarbonQuditHilbertDim 100 4 ∧
+      Signals.oamCarbonQuditHilbertDim 2 66 < Signals.oamCarbonQuditHilbertDim 100 10 :=
+  SignalsPending.rhombohedral_graphene_semi_dirac_four_applications_and_carbon_qudit_lasing_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    delta0 l1 l2 phi
+
+example (l_charge theta_lut theta_true total_len_m loss_db_per_m : ℝ) :
+    Signals.SolitonBus.co2CarbonateChi3CphaseLength 1550 (5 * 1) 1 <
+      Signals.SolitonBus.co2CarbonateChi3CphaseLength 1550 1 1 ∧
+      Signals.SolitonBus.crowSlowLightDelayLength 12 (1 / 2) (3 / 10) 300 <
+        Signals.SolitonBus.crowSlowLightDelayLength 12 (1 / 2) (3 / 10) (3 / 2) ∧
+      Signals.SolitonBus.tieredQnicStrippedPayloadBits 128 64 = 64 ∧
+      Signals.SolitonBus.lutPlusCordicOamPhase l_charge theta_lut (theta_true - theta_lut) =
+        l_charge * theta_true ∧
+      250 * Signals.SolitonBus.nligInternalPumpAvgPowerMw (3 / 2) 500 (3 / 8) < 110 ∧
+      Signals.SolitonBus.cncPeriodicBoosterNetLinkGainDb total_len_m 10 loss_db_per_m
+        (loss_db_per_m * 10) = 0 ∧
+      Signals.SolitonBus.cncCheckpointCount 10000 10 = 1000 ∧
+      Signals.SolitonBus.adiabaticScarfTaperLoss <
+        Signals.SolitonBus.fresnelButtJointReflectance (31 / 20) (16 / 5) ∧
+      12 < Signals.SolitonBus.nvPurcellFactorNormalized 100 (1 / 10) (314 / 100) ∧
+      Signals.SolitonBus.multiBandThirdHarmonicWavelengthNm 1550 = 1550 / 3 :=
+  SignalsPending.rhombohedral_graphene_semi_dirac_soliton_bus_and_multiband_photonics_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    l_charge theta_lut theta_true total_len_m loss_db_per_m
+
+example (l_in m_helix : ℤ)
+    (u_pid p_steady gamma t_max l_real theta lambda_nm length_nm dn_dT w_x alpha_steer v_steer : ℝ)
+    (k_order : ℕ) :
+    Signals.SolitonBus.petEndogenousOxygenShockThresholdGPa <
+      Signals.SolitonBus.hydrocarbonUnassistedShockThresholdGPa ∧
+      Signals.SolitonBus.methanePyrolysisNetCarbonCostPerKg 1 (1 / 3) 2 = 1 / 3 ∧
+      Signals.SolitonBus.h2PlasmaSp2ToSp3EtchSelectivity 500 1 = 500 ∧
+      Signals.SolitonBus.biodegradableOxScntButtJointReflectance <
+        Signals.SolitonBus.fresnelButtJointReflectance (31 / 20) (16 / 5) ∧
+      Signals.SolitonBus.phosphorusCqdPurcellLifetimeNs 4 80 < 1 ∧
+      Signals.SolitonBus.vortexViaOamChargeStep (Signals.SolitonBus.vortexViaOamChargeStep l_in m_helix) (-m_helix) = l_in ∧
+      1 < Signals.SolitonBus.vortexViaHelicalArcFactorSq 3 4 ∧
+      Signals.SolitonBus.aqmCbfSafeHeaterPower u_pid p_steady gamma t_max t_max ≤ p_steady ∧
+      Signals.SolitonBus.vacntKapitzaCoolingTimePs (5 / 10 ^ 9) (2 * 10 ^ 6) (1 / 10 ^ 8) = 100 ∧
+      Signals.SolitonBus.lhatVolumetricMultiplexFactor 2 16 48 8 = 12288 ∧
+      18 < Signals.SolitonBus.lhatCartridgeCapacityTb (1 / 20) 2 16 48 8 ∧
+      Signals.SolitonBus.logPolarUnwrappedPhase l_real 1 (1 * theta) = l_real * theta ∧
+      Signals.SolitonBus.qftRkRequiredTempDelta lambda_nm length_nm dn_dT (k_order + 1) =
+        (1 / 2) * Signals.SolitonBus.qftRkRequiredTempDelta lambda_nm length_nm dn_dT k_order ∧
+      Signals.SolitonBus.pressedLlmSteeredActivation w_x alpha_steer v_steer - w_x =
+        alpha_steer * v_steer :=
+  SignalsPending.rhombohedral_graphene_nanodiamond_vortex_via_shg_aqm_lhat_and_pressed_llm_qram_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    l_in m_helix u_pid p_steady gamma t_max l_real theta lambda_nm length_nm dn_dT w_x alpha_steer v_steer k_order
+
+example (z z_prev delta_k z_obs z_coarse_obs z_coarse_int lam zA zB : ℝ)
+    (p_do_1 u1 u2 wA_re wA_im wB_re wB_im : ℝ)
+    (z_c z_f alpha_c v_c alpha_f v_f : ℝ) :
+    Signals.QuantumCausalInference.ncmCumulativeReconstructionStep z_prev delta_k +
+        Signals.QuantumCausalInference.ncmResidualAtLevel z
+          (Signals.QuantumCausalInference.ncmCumulativeReconstructionStep z_prev delta_k) = z ∧
+      Signals.QuantumCausalInference.ncmCounterfactualConceptReconstruction z_obs z_coarse_obs z_coarse_int - z_obs =
+        z_coarse_int - z_coarse_obs ∧
+      Signals.QuantumCausalInference.ncmStoryConceptComposition lam zA zA = zA ∧
+      0 ≤ Signals.QuantumCausalInference.ncmElboPosteriorKlGap (-10) (-6) (-5) ∧
+      Signals.QuantumCausalInference.ncmCorruptedExpectedConceptUtility p_do_1 u1 u2 1 (1 / 5) =
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility p_do_1 (1 - p_do_1) u1 u2 ∧
+      Signals.QuantumCausalInference.ncmCorruptionDeconfoundedBias (1 / 2) (1 / 5) < 1 / 5 ∧
+      Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im (-wA_re) (-wA_im) = 0 ∧
+      Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im wB_re wB_im +
+          Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im (-wB_re) (-wB_im) =
+        2 * ((wA_re ^ 2 + wA_im ^ 2) + (wB_re ^ 2 + wB_im ^ 2)) ∧
+      (10 : ℝ) < Signals.QuantumCausalInference.ncmNfeSpeedupRatio 128 12 ∧
+      Signals.QuantumCausalInference.ncmNfeSpeedupRatio 128 8 = 16 ∧
+      Signals.QuantumCausalInference.ncmNfeSpeedupRatio 1024 32 = 32 ∧
+      (96 : ℝ) < Signals.QuantumCausalInference.dlmFullSequenceAttentionComplexity 128 128 64 /
+          Signals.QuantumCausalInference.ncmFourLevelBlockDiagonalAttentionComplexity 16 32 64 128 64 ∧
+      (27962 : ℝ) < Signals.QuantumCausalInference.dlmFullSequenceAttentionComplexity 128 128 64 /
+          Signals.QuantumCausalInference.qciGrassmannNcmFourLevelComplexity 16 32 64 128 2 10 ∧
+      Signals.QuantumCausalInference.ncmPressedTwoScaleSteeredLatent z_c z_f alpha_c v_c alpha_f v_f - (z_c + z_f) =
+        alpha_c * v_c + alpha_f * v_f ∧
+      Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps 8 <
+        Signals.QuantumCausalInference.ncmSequentialMbrLatencySteps 16 8 :=
+  SignalsPending.rhombohedral_graphene_qci_ncm_multiscale_counterfactual_corruption_vrc_and_pressed_llm_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    z z_prev delta_k z_obs z_coarse_obs z_coarse_int lam zA zB
+    p_do_1 u1 u2 wA_re wA_im wB_re wB_im z_c z_f alpha_c v_c alpha_f v_f
+
+example (l_k l_cond l_uncond gamma_cfg : ℝ) (hl_k : l_k ≠ 0)
+    (k_cut k_tot : ℕ) (x1_c x2_c : ℂ) :
+    Signals.QuantumCausalInference.ncmFlagManifoldTwoStepRealDim 16 32 128 = 3328 ∧
+      Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm 32 <
+        Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm 16 ∧
+      l_k * Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm l_k = 1 ∧
+      Signals.QuantumCausalInference.ncmClassifierFreeGuidedLogit l_cond l_uncond 0 = l_cond ∧
+      Signals.QuantumCausalInference.ncmClassifierFreeGuidedLogit l_cond l_uncond gamma_cfg - l_uncond =
+        (1 + gamma_cfg) * (l_cond - l_uncond) ∧
+      Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps 11 <
+        Signals.QuantumCausalInference.ncmSequentialMbrLatencySteps 2 11 ∧
+      Signals.QuantumCausalInference.ncmNestedDropoutActiveBraggLayers k_cut k_tot ≤ k_tot ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1_c x2_c (-1) false 1 2 =
+        x2_c - x1_c :=
+  SignalsPending.rhombohedral_graphene_qci_ncm_deep_gap_closure_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    l_k l_cond l_uncond gamma_cfg hl_k k_cut k_tot x1_c x2_c
+
+example (n_avg pitch_nm eps_strain alpha_act alpha_pass h_tot : ℝ) :
+    Signals.SolitonBus.rgoMetasurfaceNyquistPitchNm 800 1 = 400 ∧
+      Signals.SolitonBus.rgoPauliBlockedAbsorption 3 2 (23 / 1000) = 0 ∧
+      Signals.SolitonBus.rgoPauliBlockedAbsorption 1 2 (23 / 1000) = 23 / 1000 ∧
+      Signals.SolitonBus.giresTournoisPhaseEnhancementFactor (1 / 2) = 3 ∧
+      Signals.SolitonBus.rgoSpeckleContrastSq (10 ^ 8) (1 / 100) = 1 / 10 ^ 6 ∧
+      Signals.SolitonBus.rgoThermalDiffusionResetTimeNs 200 (10 ^ 4) = 4 ∧
+      Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs 10 4 1 = 25 ∧
+      Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs 10 4 1 < 33 ∧
+      Signals.SolitonBus.rgoBioTpuClearSignTransmittance (92 / 100) 1 0 = 92 / 100 ∧
+      Signals.SolitonBus.rgoBioTpuClearSignTransmittance (92 / 100) 1 1 = 0 ∧
+      Signals.SolitonBus.vectorReflectBistableAnnualEnergyKwh 0 8760 0 0 = 0 ∧
+      Signals.SolitonBus.bilayerVitrimerThermalCurvature alpha_act alpha_pass 0 h_tot = 0 ∧
+      Signals.SolitonBus.cncChiralBraggWavelengthNm 3 150 0 <
+        Signals.SolitonBus.cncChiralBraggWavelengthNm 3 180 0 ∧
+      Signals.SolitonBus.cncChiralBraggWavelengthNm 3 180 0 <
+        Signals.SolitonBus.cncChiralBraggWavelengthNm 3 220 0 ∧
+      Signals.SolitonBus.cncChiralBraggWavelengthNm n_avg pitch_nm eps_strain -
+          Signals.SolitonBus.cncChiralBraggWavelengthNm n_avg pitch_nm 0 =
+        n_avg * pitch_nm * eps_strain ∧
+      Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm 1180 = 590 ∧
+      Signals.SolitonBus.insectPhotoreceptorSensitivity
+          (Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm 1180) = 0 ∧
+      Signals.SolitonBus.nvDiamondOdmrSplittingMhz 28 5 = 280 :=
+  SignalsPending.rhombohedral_graphene_rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    n_avg pitch_nm eps_strain alpha_act alpha_pass h_tot
+
+example (n_avg pitch_nm gamma_phase gamma_nv b_field : ℝ) :
+    Signals.SolitonBus.giresTournoisReflectanceNormSq (1 / 2) (3 / 5) (4 / 5) = 1 ∧
+      Signals.SolitonBus.dvmMultiStripMaskFidelity (1 / 25) 2 = 624 / 625 ∧
+      (998 / 1000 : ℝ) < Signals.SolitonBus.dvmMultiStripMaskFidelity (1 / 25) 2 ∧
+      Signals.SolitonBus.lbgpcLaminarReynoldsNumber 1200 (1 / 2) (1 / 1000) (3 / 1000) = 200 ∧
+      Signals.SolitonBus.lbgpcLaminarReynoldsNumber 1200 (1 / 2) (1 / 1000) (3 / 1000) < 2000 ∧
+      Signals.SolitonBus.rgoBioTpuElectroAlignmentTimeMs 12 3 2 = 1 ∧
+      Signals.SolitonBus.rgoBioTpuBrownianResetTimeMs 12 2 1 = 16 ∧
+      Signals.SolitonBus.rgoBioTpuElectroAlignmentTimeMs 12 3 2 <
+        Signals.SolitonBus.rgoBioTpuBrownianResetTimeMs 12 2 1 ∧
+      Signals.SolitonBus.rgoBioTpuBrownianResetTimeMs 12 2 1 < 33 ∧
+      Signals.SolitonBus.cncObliqueCompensatedBraggWavelengthNm n_avg pitch_nm
+          (Signals.SolitonBus.cncObliqueViewingStrainCompensation (4 / 5)) (4 / 5) =
+        n_avg * pitch_nm ∧
+      Signals.SolitonBus.nvOdmrCalibratedPhaseResidual
+          (gamma_phase * (2 * gamma_nv * b_field)) gamma_phase
+          (Signals.SolitonBus.nvDiamondOdmrSplittingMhz gamma_nv b_field) = 0 :=
+  SignalsPending.rhombohedral_graphene_rgo_vitrimer_display_deep_gap_closure_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    (1 / 2) (3 / 5) (4 / 5) n_avg pitch_nm (4 / 5) gamma_phase gamma_nv b_field
+    (by norm_num) (by norm_num) (by norm_num)
+
+example (theta_pass : ℝ) :
+    Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 280 (9 / 5) = 504 ∧
+      Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 320 (45 / 32) = 450 ∧
+      Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) = 850 ∧
+      (244 : ℝ) < 550 ∧
+      (643 : ℝ) < Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) ∧
+      Signals.SolitonBus.omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 = 1300 ∧
+      (900 : ℝ) < Signals.SolitonBus.omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 ∧
+      Signals.SolitonBus.znoPiezoCriticalFractureStressSq 100 2 8 <
+        Signals.SolitonBus.znoPiezoCriticalFractureStressSq 100 2 4 ∧
+      Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 1800 =
+        3 * Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 200 ∧
+      Signals.SolitonBus.supercapacitorUsableEnergyFraction (30 / 10) (42 / 10) = 24 / 49 ∧
+      Signals.SolitonBus.supercapacitorUsableEnergyFraction 1 5 = 24 / 25 ∧
+      Signals.SolitonBus.quinoneRedoxPemElectrolyzerVoltageMismatch (31 / 10) 2 (31 / 20) = 0 ∧
+      Signals.SolitonBus.dftNernstOpenCircuitVoltage (62 / 10) 2 <
+        Signals.SolitonBus.dftNernstOpenCircuitVoltage 7 2 ∧
+      Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor 1 theta_pass = 0 ∧
+      Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor (9 / 10) (19 / 20) < 1 / 100 ∧
+      Signals.SolitonBus.plabicThreeStageIonTransportEsr 1 1 2 1 <
+        Signals.SolitonBus.plabicThreeStageIonTransportEsr 1 5 2 1 ∧
+      Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 210 ∧
+      Signals.SolitonBus.maglevKineticSpoolSpecificEnergyMax 800 8000 <
+        Signals.SolitonBus.maglevKineticSpoolSpecificEnergyMax 3600 1800 ∧
+      Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) 1 = 57 / 2 ∧
+      Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) (3 / 20) = 171 / 40 :=
+  SignalsPending.rhombohedral_graphene_omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_bounds
+    toyRhombohedralGrapheneSuperconductivityContract theta_pass
+
+example (d_0 s_steric : ℝ) :
+    Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) = 4 / 5 ∧
+      Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (1 / 5) = 14 / 15 ∧
+      Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) <
+        Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (1 / 5) ∧
+      Signals.SolitonBus.ragoneMatchedLoadPeakPower 3 4 =
+        3 * Signals.SolitonBus.ragoneMatchedLoadPeakPower 3 12 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity d_0 0 s_steric = 0 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity (1 / 10 ^ 7) (1 / 1000) 999 = 1 / 10 ^ 13 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity (1 / 10 ^ 7) (1 / 1000) 999 < 1 / 10 ^ 12 ∧
+      Signals.SolitonBus.microwavePhenolationSpeedupRatio 2880 5 = 576 ∧
+      (500 : ℝ) < Signals.SolitonBus.microwavePhenolationSpeedupRatio 2880 5 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 150 = 39 / 8 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 500 = 65 / 4 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 150 <
+        Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 500 ∧
+      Signals.SolitonBus.closedLoopSolvolysisRetention (49 / 50) 1 = 49 / 50 ∧
+      (19 / 20 : ℝ) < Signals.SolitonBus.closedLoopSolvolysisRetention (49 / 50) 1 ∧
+      Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 1 (5 / 2) 1 = 8 ∧
+      Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 (18 / 100) (5 / 2) (36 / 100) = 16 ∧
+      Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) = 4375 ∧
+      Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) = 70875 ∧
+      Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) <
+        Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) ∧
+      5 * Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) =
+        81 * Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) ∧
+      Signals.SolitonBus.volumetricSpecificSurfaceArea 2500 (7 / 20) = 875 ∧
+      Signals.SolitonBus.volumetricSpecificSurfaceArea 900 (21 / 20) = 945 ∧
+      25 * Signals.SolitonBus.volumetricSpecificSurfaceArea 900 (21 / 20) =
+        27 * Signals.SolitonBus.volumetricSpecificSurfaceArea 2500 (7 / 20) ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) = 105 / 2 ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) = 945 / 2 ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) =
+        9 * Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 2500 = 9 / 20 ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 900 = 401 / 500 ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 300 = 467 / 500 ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 2500 <
+        Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 900 ∧
+      Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30 1000 = 9 / 10 ∧
+      Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30000 1000 = 900000 ∧
+      1000000 * Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30 1000 =
+        Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30000 1000 ∧
+      Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL (945 / 2) (7 / 2) =
+        9 * Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL (105 / 2) (7 / 2) ∧
+      (45 : ℝ) < 130 ∧ (130 : ℝ) < 150 ∧ (150 : ℝ) < 200 ∧
+      (200 : ℝ) < Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 ∧
+      Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 400 ∧
+      (400 : ℝ) < 800 :=
+  SignalsPending.rhombohedral_graphene_omni_carbon_energy_storage_deep_gap_closure_bounds
+    toyRhombohedralGrapheneSuperconductivityContract d_0 s_steric
+
+example (sigma_0 v_pulse n_c : ℝ) :
+    Signals.SolitonBus.quartziteGrapheneFjhSusceptorPower 0 sigma_0 v_pulse = 0 ∧
+      Signals.SolitonBus.quartziteGrapheneFjhSusceptorPower (1 / 50) 1000 10 = 2000 ∧
+      Signals.SolitonBus.velloVacuumFiningBubbleEscapeVelocity 10 2 10 1 =
+        100 * Signals.SolitonBus.velloVacuumFiningBubbleEscapeVelocity 1 2 10 1 ∧
+      Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) 0 = 23 / 25 ∧
+      Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) (4 / 5) <
+        Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) 0 ∧
+      Signals.SolitonBus.pddRosenPiezoStepUpVoltage 12 500 (1 / 2) 4 1 = 12000 ∧
+      Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) (3 / 2) = 41 / 10 ∧
+      Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) 3 = 27 / 5 ∧
+      Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) (3 / 2) <
+        Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) 3 ∧
+      Signals.SolitonBus.lucasWashburnPlasmaWickingVelocityRatio 2 1 1 (1 / 4) = 8 ∧
+      Signals.SolitonBus.chitosanAlginatePecChargeNeutralityResidual n_c 1 n_c (-1) = 0 ∧
+      Signals.SolitonBus.hemostaticClottingTimeSec 180 3 3 5 = 15 ∧
+      Signals.SolitonBus.hemostaticClottingTimeSec 180 3 3 5 <
+        Signals.SolitonBus.hemostaticClottingTimeSec 180 0 0 0 ∧
+      Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 2 = 37 / 5 ∧
+      Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 2 <
+        Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 0 ∧
+      Signals.SolitonBus.compositeWeightedSwellingRatio (3 / 10) 20 (7 / 10) 180 0 0 = 132 ∧
+      (100 : ℝ) < Signals.SolitonBus.compositeWeightedSwellingRatio (3 / 10) 20 (7 / 10) 180 0 0 ∧
+      Signals.SolitonBus.janusTopsheetNetDownwardDrivePressure 72 10 1 (-1 / 2) = 108 / 5 ∧
+      (0 : ℝ) < Signals.SolitonBus.janusTopsheetNetDownwardDrivePressure 72 10 1 (-1 / 2) ∧
+      Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (9 / 10) = 9 ∧
+      Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (9 / 10) =
+        6 * Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (3 / 20) ∧
+      Signals.SolitonBus.compositeWeightedSwellingRatio (6 / 10) 20 (3 / 10) 100 (1 / 10) 0 = 42 ∧
+      (40 : ℝ) < Signals.SolitonBus.compositeWeightedSwellingRatio (6 / 10) 20 (3 / 10) 100 (1 / 10) 0 ∧
+      Signals.SolitonBus.struviteNitrogenCapturedKg 500 14 (243 / 10) = 70000 / 243 ∧
+      (288 : ℝ) < Signals.SolitonBus.struviteNitrogenCapturedKg 500 14 (243 / 10) ∧
+      Signals.SolitonBus.struviteFertilizerGeneratedKg 500 (2453 / 10) (243 / 10) = 1226500 / 243 ∧
+      (5047 : ℝ) < Signals.SolitonBus.struviteFertilizerGeneratedKg 500 (2453 / 10) (243 / 10) :=
+  SignalsPending.rhombohedral_graphene_plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_bounds
+    toyRhombohedralGrapheneSuperconductivityContract sigma_0 v_pulse n_c
+
+example :
+    Signals.SolitonBus.mgoToElementalMgMassKg 240 (243 / 10) (403 / 10) = 58320 / 403 ∧
+      Signals.SolitonBus.struviteFertilizerGeneratedKg (58320 / 403) (2453 / 10) (243 / 10) = 588720 / 403 ∧
+      Signals.SolitonBus.mgoToElementalMgMassKg (201500 / 243) (243 / 10) (403 / 10) = 500 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 0 = 50 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 40 = 25 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 40 <
+        Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 0 ∧
+      Signals.SolitonBus.productGrossMarginFraction (85 / 100) 45 = 883 / 900 ∧
+      (98 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction (85 / 100) 45 ∧
+      Signals.SolitonBus.productGrossMarginFraction 8 45 = 37 / 45 ∧
+      (82 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 8 45 ∧
+      Signals.SolitonBus.productGrossMarginFraction 15 80 = 13 / 16 ∧
+      (81 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 15 80 ∧
+      Signals.SolitonBus.productGrossMarginFraction 40 180 = 7 / 9 ∧
+      (77 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 40 180 ∧
+      Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 = 60 / 79 ∧
+      (3 / 4 : ℝ) < Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 ∧
+      (365 * 2 * 1200 : ℝ) = 876000 ∧
+      Signals.SolitonBus.kStruviteCompetitiveSelectivityFraction 0 10 = 0 ∧
+      Signals.SolitonBus.kStruviteCompetitiveSelectivityFraction 10 10 = 1 / 2 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 2 5 = 21 / 5 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 84 5 = 1 / 10 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 84 5 < 1 ∧
+      (1 : ℝ) < Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 2 5 ∧
+      Signals.SolitonBus.olisFiveNodeTotalShearCapacityKg 5 15 = 75 ∧
+      Signals.SolitonBus.olisVitrimerThermalBridgeReductionRatio 50 (1 / 4) = 200 ∧
+      Signals.SolitonBus.sodisAscorbateHumicFootprintRatio 1 (3 / 2) = 2 / 5 ∧
+      1 - Signals.SolitonBus.sodisAscorbateHumicFootprintRatio 1 (3 / 2) = 3 / 5 :=
+  SignalsPending.rhombohedral_graphene_plasma_fluffed_bio_foundry_deep_gap_closure_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+
+example (d0 d1 d2 u01 u12 l10 l21 : ℝ)
+    (x1_c x2_c : ℂ)
+    (ga1 ga2 ga3 gb1 gb2 gb3 phi_sq grad_phi_sq : ℝ)
+    (n_pairs n_orb : ℕ)
+    (g_ijab gamma_vrc r_raw : ℝ) :
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1_c x2_c (-1)
+    let p12 := ga1 * gb2 - ga2 * gb1
+    let p13 := ga1 * gb3 - ga3 * gb1
+    let p23 := ga2 * gb3 - ga3 * gb2
+    (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 l10 l21 *
+        Signals.Plabic.planarThreeChannelUpperStep d0 d1 d2 u01 u12).det = d0 * d1 * d2 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.Plabic.pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      Signals.Plabic.plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2_c - x1_c ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 5 3 = 216 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 7 3 = 512 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 9 3 = 1000 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 5 3 < Signals.DFT.mraWaveletBoxCoeffCount 7 3 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 7 3 < Signals.DFT.mraWaveletBoxCoeffCount 9 3 ∧
+      Signals.DFT.mraBshGreenMuSq (-1 / 20) 0 = 1 / 10 ∧
+      0 < Signals.DFT.mraBshGreenMuSq (-1 / 20) 0 ∧
+      (ga1 ^ 2 + ga2 ^ 2 + ga3 ^ 2) * (gb1 ^ 2 + gb2 ^ 2 + gb3 ^ 2) -
+          (ga1 * gb1 + ga2 * gb2 + ga3 * gb3) ^ 2 =
+        Signals.DFT.libxcGramDetFromPlucker p12 p13 p23 ∧
+      0 ≤ Signals.DFT.libxcGramDetFromPlucker p12 p13 p23 ∧
+      Signals.DFT.libxcVonWeizsackerSingleOrbitalResidual phi_sq grad_phi_sq = 0 ∧
+      Signals.DFT.mraPnoActiveOrbitalCount n_pairs 1 0 = 2 * n_pairs ∧
+      Signals.DFT.mraPnoActiveOrbitalCount 2 2 0 = 6 ∧
+      Signals.DFT.mraPnoActiveOrbitalCount 4 2 0 = 12 ∧
+      Signals.DFT.mraGtensorCompressionRatio 60 2 = 810000 ∧
+      Signals.DFT.mraGtensorCompressionRatio 90 6 = 50625 ∧
+      Signals.DFT.mraGtensorCompressionRatio 120 12 = 10000 ∧
+      Signals.DFT.tequilaJwQubitCount n_orb = 2 * Signals.DFT.tequilaHcbQubitCount n_orb ∧
+      Signals.DFT.plabicVrcLayerGateCount 4 2 = 11 ∧
+      Signals.DFT.fullUpccgsdPairGateCount 12 = 66 ∧
+      Signals.DFT.plabicVrcLayerGateCount 4 2 < Signals.DFT.fullUpccgsdPairGateCount 12 ∧
+      Signals.DFT.plabicVrcLayerGateCount 10 3 = 39 ∧
+      Signals.DFT.fullUpccgsdPairGateCount 40 = 780 ∧
+      Signals.DFT.plabicVrcLayerGateCount 10 3 < Signals.DFT.fullUpccgsdPairGateCount 40 ∧
+      Signals.DFT.vrcRegularizedPnoAmplitude g_ijab 0 gamma_vrc = 0 ∧
+      Signals.DFT.vrcRegularizedPnoAmplitude g_ijab 2 0 = -g_ijab / 2 ∧
+      -(7 / 5) * Signals.DFT.f12SlaterCuspFactor (7 / 5) r_raw = r_raw :=
+  SignalsPending.rhombohedral_graphene_madness_tequila_plabic_vrc_quantum_chemistry_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    d0 d1 d2 u01 u12 l10 l21 x1_c x2_c ga1 ga2 ga3 gb1 gb2 gb3 phi_sq grad_phi_sq
+    n_pairs n_orb g_ijab 2 gamma_vrc (7 / 5) r_raw (by norm_num) (by norm_num)
+
+example (theta eps g_ijab sigma v_s : ℝ) :
+    Signals.DFT.spinPolarizedGrassmannianRealDim 2 1 6 = 26 ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 4 2 12 = 104 ∧
+      Signals.DFT.suNRealDim 4 = 15 ∧
+      (Signals.DFT.complexGrassmannianRealDim 1 2 = 2 ∧ Signals.DFT.pluckerAmbientCoordCount 1 2 = 2 ∧
+        Signals.DFT.pluckerRelationCodimension 1 2 = 0 ∧ Signals.DFT.grassmannianScalarCurvature 1 2 = 2) ∧
+      (Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧ Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+        Signals.DFT.pluckerRelationCodimension 2 4 = 1 ∧ Signals.DFT.grassmannianScalarCurvature 2 4 = 16) ∧
+      (Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧ Signals.DFT.pluckerAmbientCoordCount 2 6 = 15 ∧
+        Signals.DFT.pluckerRelationCodimension 2 6 = 6 ∧ Signals.DFT.grassmannianScalarCurvature 2 6 = 48) ∧
+      (Signals.DFT.complexGrassmannianRealDim 3 6 = 18 ∧ Signals.DFT.pluckerAmbientCoordCount 3 6 = 20 ∧
+        Signals.DFT.pluckerRelationCodimension 3 6 = 10 ∧ Signals.DFT.grassmannianScalarCurvature 3 6 = 54) ∧
+      (Signals.DFT.complexGrassmannianRealDim 2 10 = 32 ∧ Signals.DFT.pluckerAmbientCoordCount 2 10 = 45 ∧
+        Signals.DFT.pluckerRelationCodimension 2 10 = 28 ∧ Signals.DFT.grassmannianScalarCurvature 2 10 = 160) ∧
+      Signals.DFT.cayleyRetractionNormSq theta = 1 ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (1 - eps) = eps ^ 2 * (3 - 2 * eps) ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (99 / 100) < 1 / 1000 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 12 = 9 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 48 = 144 ∧
+      Signals.DFT.vrcProjectedPairEnergy g_ijab (1 / 20) (1 / 20) = -(g_ijab ^ 2) / (2 * (1 / 20)) ∧
+      -(g_ijab ^ 2) / (2 * (1 / 20)) ≤ Signals.DFT.vrcProjectedPairEnergy g_ijab 2 (1 / 20) ∧
+      Signals.DFT.vrcProjectedPairEnergy g_ijab 2 (1 / 20) ≤ 0 ∧
+      Signals.DFT.tequilaIntraPairVirtVirtGateCount 4 2 = 4 ∧
+      Signals.DFT.tequilaIntraPairVirtVirtGateCount 4 3 = 12 ∧
+      Signals.DFT.mraSeparated1dDirectionalFlops 7 = 12288 ∧
+      Signals.DFT.mraUnseparated3dBoxFlops 7 = 262144 ∧
+      Signals.DFT.mraSeparated1dDirectionalFlops 7 < Signals.DFT.mraUnseparated3dBoxFlops 7 ∧
+      Signals.DFT.libxcSpinSymmetricTotalSigma (sigma / 4) = sigma ∧
+      Signals.DFT.libxcUnpolarizedVsigmaFromPolarized v_s (2 * v_s) = v_s :=
+  SignalsPending.rhombohedral_graphene_madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    theta eps g_ijab 2 (1 / 20) sigma v_s (by norm_num) (by norm_num)
+
+example (f0 g1 q1 q2 c1 c2 wa_re wa_im wb_re wb_im : ℝ) :
+    Signals.DFT.tequilaGrassmannPluckerSectorDim 2 4 = 6 ∧
+      Signals.DFT.tequilaFullHilbertDim 4 = 16 ∧
+      Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 4 = 8 / 3 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 6 = 15 ∧
+      Signals.DFT.tequilaFullHilbertDim 6 = 64 ∧
+      (4 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 6 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 3 6 = 20 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 10 = 45 ∧
+      Signals.DFT.tequilaFullHilbertDim 10 = 1024 ∧
+      (22 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 10 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 12 = 66 ∧
+      Signals.DFT.tequilaFullHilbertDim 12 = 4096 ∧
+      (62 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 12 ∧
+      Signals.DFT.tequilaShiftRuleTwoTermGradient (1 / 2) (f0 + g1) (f0 - g1) = g1 ∧
+      (Signals.DFT.tequilaVqeBellModelEnergy (3 / 5) (4 / 5)) ^ 2 +
+          ((1 / 2) * (3 / 5) - (4 / 5)) ^ 2 = 5 / 4 ∧
+      (Signals.DFT.tequilaVqeBellModelEnergy (3 / 5) (4 / 5)) ^ 2 ≤ 5 / 4 ∧
+      Signals.QuantumCausalInference.quantumJeffreyPluckerKinematicUpdate
+          q1 q2 c1 c2 0 wa_re wa_im wb_re wb_im =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate q1 q2 c1 c2 ∧
+      Signals.DFT.mcweenyPurificationPoly (19 / 20) = 3971 / 4000 ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (19 / 20) < 1 / 100 :=
+  SignalsPending.rhombohedral_graphene_tequila_rust_pyo3_grassmannian_vrc_qci_simulator_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    f0 g1 (3 / 5) (4 / 5) q1 q2 c1 c2 wa_re wa_im wb_re wb_im (by norm_num)
+
+example (k m w : ℕ) (ar ai br bi wr wi a b c d : ℝ) :
+    Signals.DFT.tequilaNaivePauliStringOps (k + 1) m w =
+        2 * w * Signals.DFT.tequilaHermitianButterflyPairOps (k + 1) m ∧
+      Signals.DFT.tequilaHermitianPairImaginaryResidual ar ai br bi wr wi = 0 ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 a b c d -
+          Signals.DFT.tequilaFermionicDeterminant2x2 a b c d = 2 * b * c ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 a 0 0 d =
+        Signals.DFT.tequilaFermionicDeterminant2x2 a 0 0 d ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 0 b c 0 =
+        -Signals.DFT.tequilaFermionicDeterminant2x2 0 b c 0 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 20 = 16777216 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 24 = 268435456 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 26 = 1073741824 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 27 = 2147483648 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 28 = 4294967296 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 4 16 = 1820 ∧
+      Signals.DFT.tequilaFullHilbertDim 16 = 65536 ∧
+      (36 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 4 16 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 6 = 64 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 6 = 2048 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 6 * 2097152 =
+        Signals.DFT.tequilaDenseStatevectorBytes 28 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 8 = 256 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 8 = 8192 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 8 <
+        Signals.DFT.tequilaFullHilbertDim 126 :=
+  SignalsPending.rhombohedral_graphene_tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    k m w ar ai br bi wr wi a b c d
+
+example (psi00 psi01 psi10 psi11 e_null_sq py_massless sigma_y0 t_evol theta_b1 theta_b2 : ℝ) :
+    Signals.DFT.suNRealDim 4 = 15 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.universalPluckerThreeTermResidual 1 (psi00 * psi11 - psi01 * psi10) psi00 psi11 psi01 psi10 = 0 ∧
+      Signals.DFT.twistedHolographyDeformedConifoldResidual psi00 psi11 psi01 psi10 (psi00 * psi11 - psi01 * psi10) = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq 0 = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq (1 / 4) = 1 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker 1 10 0 = 0 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker 1 10 (1 / 4) = 4 * 1 * 10 ∧
+      0 < Signals.DFT.erEprThroatAreaFromPlucker 1 10 (1 / 4) ∧
+      0 < Signals.QuantumCausalInference.causalLightconeInterval (3 / 5) ∧
+      Signals.QuantumCausalInference.causalLightconeInterval 1 = 0 ∧
+      Signals.QuantumCausalInference.causalLightconeInterval (5 / 3) < 0 ∧
+      Signals.DFT.offShellBohmStressTensorUu 1 0 = 1 ∧
+      Signals.DFT.offShellBohmStressTensorUu 1 4 < 0 ∧
+      Signals.DFT.wormholeTransitJammedEnergy 0 (9 / 25) e_null_sq = e_null_sq ∧
+      e_null_sq < Signals.DFT.wormholeTransitJammedEnergy 2 (9 / 25) e_null_sq ∧
+      Signals.DFT.wormholeTransitJammedEnergy 2 0 e_null_sq <
+        Signals.DFT.wormholeTransitJammedEnergy 2 (9 / 25) e_null_sq ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux 2 3 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 5 3 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 py_massless (9 / 25) = py_massless ^ 2 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 py_massless (9 / 25) =
+        Signals.DFT.semiDiracEnergySq 0 py_massless 1 1 0 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 3 py_massless 0 <
+        Signals.DFT.semiDiracWormholeTransitEnergySq 3 py_massless (9 / 25) ∧
+      Signals.DFT.semiDiracWkbBarrierTransmissionX 2 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracAnisotropicSplatVarY sigma_y0 t_evol =
+        Signals.DFT.semiDiracAnisotropicSplatVarY sigma_y0 0 ∧
+      Signals.DFT.erEprNoSignalingMarginalA (psi00 ^ 2) (psi01 ^ 2) theta_b1 =
+        Signals.DFT.erEprNoSignalingMarginalA (psi00 ^ 2) (psi01 ^ 2) theta_b2 :=
+  SignalsPending.rhombohedral_graphene_er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    psi00 psi01 psi10 psi11 1 10 1 4 2 (9 / 25) e_null_sq 2 5 3 3 py_massless sigma_y0 t_evol theta_b1 theta_b2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+
+example (s_bit kappa_l chi_disp : ℝ) :
+    Signals.DFT.erEprTransceiverRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 = 0 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast (1 / 4) = 2 * (1 / 4) ∧
+      0 < Signals.DFT.erEprTransceiverDifferentialContrast (1 / 4) ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 = 1 / 10001 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < 1 / 1000 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracTransceiverIsolationRatio kappa_l = 1 + kappa_l ^ 2 ∧
+      Signals.DFT.semiDiracTransceiverIsolationRatio 10 = 101 ∧
+      0 ≤ Signals.DFT.semiDiracTransceiverThroatMargin 10 8 (1 / 2) ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 (1 / 2) (9 / 25) <
+        Signals.DFT.semiDiracWormholeTransitEnergySq 3 (1 / 2) (9 / 25) ∧
+      Signals.DFT.mzmDispersiveParityContrast chi_disp = 2 * chi_disp :=
+  SignalsPending.rhombohedral_graphene_semi_dirac_er_epr_wormhole_transceiver_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    s_bit (1 / 4) kappa_l 10 8 (1 / 2) 3 (9 / 25) chi_disp
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+example (p_err s_bit : ℝ) :
+    Signals.DFT.transceiverRepeaterMaxRangeMeters 1000 10 = 10000 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 2 (3 / 2) (3 / 8) (3 / 16) (1 / 4) = 2 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 100 (3 / 2) (3 / 8) (3 / 16) (1 / 4) = 100 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 100 (3 / 2) (3 / 8) (3 / 16) (1 / 4) < 110 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (1 / 10001) 1 (9 / 10) = 9 / 100010 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) = 9 / 1010 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) = 8 / 25 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (98 / 100) 1 (95 / 100) = 931 / 1000 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (1 / 10001) 1 (9 / 10) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency (98 / 100) 1 (95 / 100) ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (1 - p_err) =
+        Signals.DFT.transceiverDist3LogicalError p_err ∧
+      Signals.DFT.transceiverDist3LogicalError (1 / 100) = 298 / 1000000 ∧
+      Signals.DFT.transceiverDist3LogicalError (1 / 100) < 3 / 10000 ∧
+      Signals.DFT.transceiverDist3LogicalError
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) < 3 / 10000000 ∧
+      Signals.DFT.transceiverQecNetEfficiency (931 / 1000) 1 (1 / 100) <
+        Signals.DFT.transceiverQecNetEfficiency (931 / 1000) 1
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      (83 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency (931 / 1000) (9 / 10)
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.semiDiracFiniteBeamThroatMargin 10 8 (1 / 2) (1 / 5) (9 / 25) = 7 / 2 ∧
+      0 ≤ Signals.DFT.semiDiracFiniteBeamThroatMargin 10 8 (1 / 2) (1 / 5) (9 / 25) ∧
+      Signals.DFT.erEprExactUnitaryRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.erEprExactUnitaryRxProbability 1 1 -
+          Signals.DFT.erEprExactUnitaryRxProbability 1 (-1) = 1 ∧
+      0 ≤ Signals.DFT.erEprExactUnitaryRxProbability (3 / 5) 1 ∧
+      Signals.DFT.erEprExactUnitaryRxProbability (3 / 5) 1 ≤ 1 :=
+  SignalsPending.rhombohedral_graphene_semi_dirac_er_epr_transceiver_comparison_qec_and_critique_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    p_err s_bit (3 / 5) (by norm_num) (by norm_num)
+
+example (eta_b : ℝ) :
+    Signals.DFT.subwavelengthPhotonTrueConjugateCoupling eta_b 1 = eta_b ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 = 10001 / 20001 ∧
+      (1 / 2 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+      (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 ∧
+      (85 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency
+            (Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.homodyneFieldToIntensityGainRatio (1 / 100) = 100 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 = 9 / 25 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 < 1 ∧
+      Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
+      (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 15 80 2 = (3 / 4) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 = (1 / 2) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 ∧
+      Signals.MultiArrayImaging.iterativeTrueFocalVarianceSq 1 4 = 1 / 4 ∧
+      Signals.DDF.recoverDepthVarianceSq (4 + 9) ((4 + 9) / 16) = 16 ∧
+      Signals.DDF.recoverFocalDepthSq 2 13 (13 * (2 / 5) ^ 2) = 5 ^ 2 ∧
+      2 / 4 ^ 2 < Signals.DDF.convergentCrossedAxialPrecision 1 4 :=
+  SignalsPending.rhombohedral_graphene_subwavelength_photonic_wormhole_holographic_multiarray_decoding_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    eta_b 4 9 16 2 13 5 1 4
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+example (u v w η T_val : ℝ) (T L2 L1 : Signals.QISM.MonodromyMatrix2)
+    (Q_plus Q_minus : ℝ → ℝ) (u0 u1 u2 u3 v0 v1 : ℝ) (K : ℝ → ℝ → ℝ) :
+    Signals.Scattering.yangTransmissionProb 1 0 100 = Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 = 1 / 10001 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 + Signals.Scattering.yangReflectionProb 1 0 100 = 1 ∧
+      (Signals.Scattering.reconstructSpectralDiff
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) =
+        Signals.QISM.spectralDiff u v ∧
+        Signals.Scattering.reconstructYangCoupling
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) = η) ∧
+      Signals.Scattering.yangTransmissionProb 100 0 1 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < Signals.Scattering.yangTransmissionProb 100 0 1 ∧
+      (94 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency (Signals.Scattering.yangTransmissionProb 100 0 1) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      (T.transferTrace - T.A = T.D ∧
+        T.A * T.D - Signals.Geometry.twoRowMinor T.toMatrix 0 1 = T.B * T.C) ∧
+      (L2.comp L1).classicalDet = L2.classicalDet * L1.classicalDet ∧
+      Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u1 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u2 u3 -
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u2 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u3 +
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u3 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u2 = 0 ∧
+      Signals.QISM.baxterTQResidual
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η)) = 0 ∧
+      (Signals.Scattering.baxterTQResidualMeasurement
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))
+        (1 / 10) (by norm_num)).consistent ∧
+      (Signals.Scattering.baxterTQResidualMeasurement T_val 1 1 0 1 1
+        (1 / 10) (by norm_num)).anomalyCandidate ∧
+      Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η =
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u u) = 0 ∧
+      Signals.DFT.qismSlavnovContractionSpeedup 40320 8 = 3175200 ∧
+      (3000000 : ℝ) < Signals.DFT.qismSlavnovContractionSpeedup 40320 8 :=
+  SignalsPending.rhombohedral_graphene_qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    u v w η T_val T L2 L1 Q_plus Q_minus u0 u1 u2 u3 v0 v1 K
+
+example (k0 k1 d0 d1 w_cas sigma_noise_sq m_fact m_packets eta_b g_true : ℝ)
+    (v v0 v1 u0 u1 : ℝ) (K : ℝ → ℝ → ℝ) :
+    Signals.DFT.slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 (1 / 10) =
+        (1 / 10) * (k0 * d1 - k1 * d0) ∧
+      Signals.DFT.slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 0 = 0 ∧
+      Signals.DFT.slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 (1 / 10) / (1 / 10) =
+        k0 * d1 - k1 * d0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v v u0 u1) = 0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u1 u0) =
+        - Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u0 u1) ∧
+      Signals.DFT.slavnovMimoCollisionSnrEfficiency 0 w_cas sigma_noise_sq = 0 ∧
+      Signals.DFT.slavnovMimoCollisionSnrEfficiency (-(1 / 10)) w_cas sigma_noise_sq =
+        Signals.DFT.slavnovMimoCollisionSnrEfficiency (1 / 10) w_cas sigma_noise_sq ∧
+      Signals.DFT.slavnovMimoCollisionSnrEfficiency 10 1 1 = 100 / 101 ∧
+      (99 / 100 : ℝ) < Signals.DFT.slavnovMimoCollisionSnrEfficiency 10 1 1 ∧
+      Signals.DFT.qismSlavnovFullPipelineSpeedup m_fact m_packets 0 =
+        Signals.DFT.qismSlavnovContractionSpeedup m_fact m_packets ∧
+      Signals.DFT.qismSlavnovFullPipelineSpeedup 40320 8 8 = 1587600 ∧
+      (1500000 : ℝ) < Signals.DFT.qismSlavnovFullPipelineSpeedup 40320 8 8 ∧
+      Signals.DFT.qismImpedanceMatchedYangTransmission 1 100 1 =
+        Signals.Scattering.yangTransmissionProb 1 0 100 ∧
+      Signals.DFT.qismImpedanceMatchedYangTransmission 1 100 10000 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < Signals.DFT.qismImpedanceMatchedYangTransmission 1 100 10000 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 100 10 ∧
+      Signals.DFT.subwavelengthTrueTaggedConjugateCoupling eta_b 1 g_true =
+        Signals.DFT.subwavelengthPhotonTrueConjugateCoupling eta_b g_true ∧
+      Signals.DFT.subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 = 1000100 / 1100109 ∧
+      (9 / 10 : ℝ) < Signals.DFT.subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 :=
+  SignalsPending.rhombohedral_graphene_qism_slavnov_pauli_wronskian_mimo_and_impedance_critique_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    k0 k1 d0 d1 (1 / 10) w_cas sigma_noise_sq m_fact m_packets eta_b g_true
+    v v0 v1 u0 u1 K (by norm_num)
+
+end SignalsPendingTests

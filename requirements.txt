@@ -1,3 +1,0 @@
--e ./src/schematool
--e ./src/transform_md
--e ./src/wrd_sphinx_theme

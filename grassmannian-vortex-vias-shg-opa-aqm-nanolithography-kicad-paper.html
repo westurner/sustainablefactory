@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3D Helical VortexVia and 8-Branch StarVortexVia Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., Nature 2025), and 4-Wire Kelvin + Control Barrier Function (CBF) Active-Q Modulators (AQM) in Lean 4, Rust/WASM, Python, and KiCAD v8 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Lignolux Holographic Archival Tape (LHAT, \(12\text{ }\mu\text{m} \times 10\text{ km}\), \(720\text{ TB}\) Raw / \(480\text{ TB}\) Usable vs. \(18\text{ TB}\) LTO-9): \(3{,}000\times\) OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar \(64\times 64\) FFT Tracking, \(182\text{ fs}\) VACNT Kapitza Quench, and \(635\text{ nm}\) QFT-RK Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8" href="grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.html" />
+    <link rel="prev" title="Laser-Induced \(sp^2/sp^3\) Carbon and Nanodiamonds from Lignin, Plastics (PET/PE), \(\mathrm{CO}_2\), and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (2DHG) FETs, and Biodegradable Carbon Semiconductor Alternatives (P-CQDs and Ox-s-CNT / VACNT) to \(590\text{ nm}\) \(n\)-Adamantane and Toxic \(c\text{-BAs}\) in Lean 4, Rust/WASM, Python, and KiCAD v8" href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> and 8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., <em>Nature</em> 2025), and 4-Wire Kelvin + Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) in Lean 4, Rust/WASM, Python, and KiCAD v8</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#d-inter-layer-interconnect-taxonomy-vortexvia-vs-starvortexvia-vs-c-8-starvia">1. 3D Inter-Layer Interconnect Taxonomy: <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> vs. <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> vs. <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code></a></li>
+<li><a class="reference internal" href="#integrating-dean-et-al-nature-2025-second-harmonic-resonant-optical-amplification-shg-opa-into-fabrication">2. Integrating Dean et al. (<em>Nature</em> 2025) Second-Harmonic Resonant Optical Amplification (<code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code>) into Fabrication</a><ul>
+<li><a class="reference internal" href="#how-second-harmonic-resonance-solves-the-polymer-vitrimer-pump-heating-bottleneck">2.1 How Second-Harmonic Resonance Solves the Polymer/Vitrimer Pump-Heating Bottleneck</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lignolux-active-q-modulator-aqm-4-wire-kelvin-sqrt-u-k-linearization-2-dof-pid-smith-predictor-and-control-barrier-function-cbf">3. Lignolux Active-Q Modulator (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>): 4-Wire Kelvin <span class="math notranslate nohighlight">\(\sqrt{u_k}\)</span> Linearization, 2-DOF PID + Smith Predictor, and Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>)</a><ul>
+<li><a class="reference internal" href="#eliminating-tcr-nonlinearity-via-4-wire-kelvin-square-root-drive-aqmkelvinlinearizedvoltagesq">3.1 Eliminating TCR Nonlinearity via 4-Wire Kelvin Square-Root Drive (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span></code>)</a></li>
+<li><a class="reference internal" href="#control-barrier-function-cbf-vitrimer-safety-clamp-aqmcbfsafeheaterpower-182-text-fs-vacnt-quench">3.2 Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Vitrimer Safety Clamp (<code class="docutils literal notranslate"><span class="pre">aqmCbfSafeHeaterPower</span></code>) &amp; <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Quench</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">4. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-solitonbus">5. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html" title="Laser-Induced \(sp^2/sp^3\) Carbon and Nanodiamonds from Lignin, Plastics (PET/PE), \(\mathrm{CO}_2\), and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (2DHG) FETs, and Biodegradable Carbon Semiconductor Alternatives (P-CQDs and Ox-s-CNT / VACNT) to \(590\text{ nm}\) \(n\)-Adamantane and Toxic \(c\text{-BAs}\) in Lean 4, Rust/WASM, Python, and KiCAD v8" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.html" title="Lignolux Holographic Archival Tape (LHAT, \(12\text{ }\mu\text{m} \times 10\text{ km}\), \(720\text{ TB}\) Raw / \(480\text{ TB}\) Usable vs. \(18\text{ TB}\) LTO-9): \(3{,}000\times\) OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar \(64\times 64\) FFT Tracking, \(182\text{ fs}\) VACNT Kapitza Quench, and \(635\text{ nm}\) QFT-RK Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> and 8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., <em>Nature</em> 2025), and 4-Wire Kelvin + Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) in Lean 4, Rust/WASM, Python, and KiCAD v8</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#d-inter-layer-interconnect-taxonomy-vortexvia-vs-starvortexvia-vs-c-8-starvia">1. 3D Inter-Layer Interconnect Taxonomy: <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> vs. <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> vs. <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code></a></li>
+<li><a class="reference internal" href="#integrating-dean-et-al-nature-2025-second-harmonic-resonant-optical-amplification-shg-opa-into-fabrication">2. Integrating Dean et al. (<em>Nature</em> 2025) Second-Harmonic Resonant Optical Amplification (<code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code>) into Fabrication</a><ul>
+<li><a class="reference internal" href="#how-second-harmonic-resonance-solves-the-polymer-vitrimer-pump-heating-bottleneck">2.1 How Second-Harmonic Resonance Solves the Polymer/Vitrimer Pump-Heating Bottleneck</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lignolux-active-q-modulator-aqm-4-wire-kelvin-sqrt-u-k-linearization-2-dof-pid-smith-predictor-and-control-barrier-function-cbf">3. Lignolux Active-Q Modulator (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>): 4-Wire Kelvin <span class="math notranslate nohighlight">\(\sqrt{u_k}\)</span> Linearization, 2-DOF PID + Smith Predictor, and Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>)</a><ul>
+<li><a class="reference internal" href="#eliminating-tcr-nonlinearity-via-4-wire-kelvin-square-root-drive-aqmkelvinlinearizedvoltagesq">3.1 Eliminating TCR Nonlinearity via 4-Wire Kelvin Square-Root Drive (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span></code>)</a></li>
+<li><a class="reference internal" href="#control-barrier-function-cbf-vitrimer-safety-clamp-aqmcbfsafeheaterpower-182-text-fs-vacnt-quench">3.2 Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Vitrimer Safety Clamp (<code class="docutils literal notranslate"><span class="pre">aqmCbfSafeHeaterPower</span></code>) &amp; <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Quench</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">4. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-solitonbus">5. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html"
+                          title="previous chapter">Laser-Induced <span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> Carbon and Nanodiamonds from Lignin, Plastics (<code class="docutils literal notranslate"><span class="pre">PET</span></code>/<code class="docutils literal notranslate"><span class="pre">PE</span></code>), <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>, and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (<code class="docutils literal notranslate"><span class="pre">2DHG</span></code>) FETs, and Biodegradable Carbon Semiconductor Alternatives (<code class="docutils literal notranslate"><span class="pre">P-CQDs</span></code> and <code class="docutils literal notranslate"><span class="pre">Ox-s-CNT</span></code> / <code class="docutils literal notranslate"><span class="pre">VACNT</span></code>) to <span class="math notranslate nohighlight">\(590\text{ nm}\)</span> <span class="math notranslate nohighlight">\(n\)</span>-Adamantane and Toxic <span class="math notranslate nohighlight">\(c\text{-BAs}\)</span> in Lean 4, Rust/WASM, Python, and KiCAD v8</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.html"
+                          title="next chapter">Lignolux Holographic Archival Tape (<code class="docutils literal notranslate"><span class="pre">LHAT</span></code>, <span class="math notranslate nohighlight">\(12\text{ }\mu\text{m} \times 10\text{ km}\)</span>, <span class="math notranslate nohighlight">\(720\text{ TB}\)</span> Raw / <span class="math notranslate nohighlight">\(480\text{ TB}\)</span> Usable vs. <span class="math notranslate nohighlight">\(18\text{ TB}\)</span> LTO-9): <span class="math notranslate nohighlight">\(3{,}000\times\)</span> OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar <span class="math notranslate nohighlight">\(64\times 64\)</span> FFT Tracking, <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Kapitza Quench, and <span class="math notranslate nohighlight">\(635\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">QFT-RK</span></code> Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="d-helical-vortexvia-and-8-branch-starvortexvia-inter-layer-interconnects-low-power-second-harmonic-resonant-optical-amplification-dean-et-al-nature-2025-and-4-wire-kelvin-control-barrier-function-cbf-active-q-modulators-aqm-in-lean-4-rust-wasm-python-and-kicad-v8">
+<span id="grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper"></span><h1>3D Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> and 8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., <em>Nature</em> 2025), and 4-Wire Kelvin + Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Active-Q Modulators (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) in Lean 4, Rust/WASM, Python, and KiCAD v8<a class="headerlink" href="#d-helical-vortexvia-and-8-branch-starvortexvia-inter-layer-interconnects-low-power-second-harmonic-resonant-optical-amplification-dean-et-al-nature-2025-and-4-wire-kelvin-control-barrier-function-cbf-active-q-modulators-aqm-in-lean-4-rust-wasm-python-and-kicad-v8" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Mesoscale and Nanoscale Physics (<code class="docutils literal notranslate"><span class="pre">cond-mat.mes-hall</span></code>); Systems and Control (<code class="docutils literal notranslate"><span class="pre">eess.SY</span></code>); Hardware Architecture (<code class="docutils literal notranslate"><span class="pre">cs.AR</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification, EDA, &amp; KiCAD Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">…/src/signals/Signals/SolitonBus.lean</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">…/src/signals/SignalsPending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM KiCAD + GDSII + <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code> + SHG-OPA Engine (<a class="reference download internal" download="" href="_downloads/5def7639252da5de635d37dd14998fa9/cannon_mask_cad.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/cannon_mask_cad.rs</span></a>, <a class="reference download internal" download="" href="_downloads/d56972f9c893af919cd184840d0c16bb/polariton_spp.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/polariton_spp.rs</span></a>)</p></li>
+<li><p>Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), Calma GDSII v6.0 (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and IOF/EMMO/PROV-O (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) Hardware Files:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/0c9603c33ae95ada31b1d65cd4a04cc5/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_mod"><span class="xref download myst">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_mod</span></a>, <a class="reference download internal" download="" href="_downloads/4b232a2d0a8238d6e4b54a14491f319d/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_sch"><span class="xref download myst">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_sch</span></a>, <a class="reference download internal" download="" href="_downloads/a12c25aaa5e1510436711a43d33eba20/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_pcb"><span class="xref download myst">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_pcb</span></a>, <a class="reference download internal" download="" href="_downloads/d1f1485c63aeaaa689e7f920b24d2c38/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_vol"><span class="xref download myst">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_vol</span></a>, <a class="reference download internal" download="" href="_downloads/f3adff5ac7608cca4709cdbc55d6b11f/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.gds"><span class="xref download myst">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.gds</span></a>, <a class="reference download internal" download="" href="_downloads/984ab8c3f23227715414c926c164f7bd/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect_CBOM.yaml-ld"><span class="xref download myst">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect_CBOM.yaml-ld</span></a></p></li>
+</ul>
+</li>
+<li><p>Canonical <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code> Mirror: <code class="docutils literal notranslate"><span class="pre">src/signals/docs/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html"><span class="std std-doc">Laser-Induced <span class="math notranslate nohighlight">\(sp^2/sp^3\)</span> Carbon and Nanodiamonds from Lignin, Plastics (<code class="docutils literal notranslate"><span class="pre">PET</span></code>/<code class="docutils literal notranslate"><span class="pre">PE</span></code>), <span class="math notranslate nohighlight">\(\mathrm{CO}_2\)</span>, and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (<code class="docutils literal notranslate"><span class="pre">2DHG</span></code>) FETs, and Biodegradable Carbon Semiconductor Alternatives (<code class="docutils literal notranslate"><span class="pre">P-CQDs</span></code> and <code class="docutils literal notranslate"><span class="pre">Ox-s-CNT</span></code> / <code class="docutils literal notranslate"><span class="pre">VACNT</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.html"><span class="std std-doc">Integrated Multi-Band Classical and Quantum Photonics (<span class="math notranslate nohighlight">\(405\text{–}1550\text{ nm}\)</span> &amp; <span class="math notranslate nohighlight">\(400\text{–}800\text{ GHz}\)</span>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We formalize and integrate our 3D inter-layer topological routing primitives—<strong><code class="docutils literal notranslate"><span class="pre">VortexVia</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code></strong>, and <strong><span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code></strong> (<a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">_Quantum Processor and Soliton Discussions  .md, lines 4173–4286, 4766–4808, 5351–5365, 5584–5595, 5710–5725</span></a>)—with <strong>low-power integrated optical amplification through second-harmonic resonance</strong> (<strong>Dean et al., <em>Nature</em> 2025</strong>, <code class="docutils literal notranslate"><span class="pre">arXiv:2509.26425</span></code> / <code class="docutils literal notranslate"><span class="pre">10.1038/s41586-025-09959-z</span></code>; <a class="reference download internal" download="" href="_downloads/5566ffb7d9c41f615f38e0166fafdb96/IQ-Sampling-for-Signal-Phase.md"><code class="xref download docutils literal notranslate"><span class="pre">IQ-Sampling-for-Signal-Phase.md,</span> <span class="pre">lines</span> <span class="pre">565-610,</span> <span class="pre">819-835,</span> <span class="pre">1007-1025,</span> <span class="pre">2298-2315</span></code></a>) and the <strong>Lignolux Active-Q Modulator (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) with 4-wire Kelvin square-root heater linearization, 2-DOF PID + Smith Predictor, and Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) thermal clamp below <span class="math notranslate nohighlight">\(T_g = 85^\circ\text{C}\)</span></strong> (<a class="reference download internal" download="" href="_downloads/5566ffb7d9c41f615f38e0166fafdb96/IQ-Sampling-for-Signal-Phase.md"><code class="xref download docutils literal notranslate"><span class="pre">IQ-Sampling-for-Signal-Phase.md,</span> <span class="pre">lines</span> <span class="pre">2816-2970,</span> <span class="pre">3153-3250,</span> <span class="pre">3915-3975</span></code></a>). Every law is proved in <strong>Lean 4</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>) and exported to verified <strong>KiCAD v8</strong> (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), <strong>GDSII v6.0</strong> (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), and <strong>IOF/PROV-O</strong> (<code class="docutils literal notranslate"><span class="pre">_CBOM.yaml-ld</span></code>) hardware artifacts:</p>
+<ol class="arabic simple">
+<li><p><strong>Taxonomy of 3D Inter-Layer Topological Vias (<code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> vs. <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> vs. <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code>) (<code class="docutils literal notranslate"><span class="pre">vortexViaOamChargeStep</span></code>, <code class="docutils literal notranslate"><span class="pre">vortexViaHelicalArcFactorSq</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code></strong>: A 3D corkscrew <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> / <code class="docutils literal notranslate"><span class="pre">polyCBD-CNC</span></code> vertical interconnect <span class="math notranslate nohighlight">\((x(z), y(z), z) = (R\cos(2\pi\Delta\ell\,z/h), R\sin(2\pi\Delta\ell\,z/h), z)\)</span> written by a <span class="math notranslate nohighlight">\(q=1/2\)</span> Laguerre-Gaussian vortex beam that routes a photonic soliton or electronic current between layer <span class="math notranslate nohighlight">\(k\)</span> and layer <span class="math notranslate nohighlight">\(k+1\)</span> while <strong>deterministically stepping its Orbital Angular Momentum (<code class="docutils literal notranslate"><span class="pre">OAM</span></code>) charge by <span class="math notranslate nohighlight">\(\Delta\ell \in \mathbb{Z}\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">vortexViaOamChargeStep</span> <span class="pre">l_in</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">l_in</span> <span class="pre">+</span> <span class="pre">1</span></code>) and lengthening the phase-matched helical path according to <span class="math notranslate nohighlight">\(L_{\mathrm{arc}}^2(h, R, \Delta\ell) = h^2 + (2\pi R\Delta\ell)^2 &gt; h^2\)</span> (<code class="docutils literal notranslate"><span class="pre">vortexViaHelicalArcFactorSq</span></code>).</p></li>
+<li><p><strong>8-Branch <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> vs. <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code></strong>: Whereas the planar/vertical <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code> (<a class="reference internal" href="grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.html"><span class="std std-doc">Paper 33</span></a>) is an 8-port zero-twist (<span class="math notranslate nohighlight">\(\Delta\ell = 0\)</span>) symmetric ancilla hub that suppresses <span class="math notranslate nohighlight">\(90^\circ\)</span> corner radiation by <span class="math notranslate nohighlight">\(&gt; 40\text{ dB}\)</span>, the <strong><code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code></strong> combines an 8-branch <span class="math notranslate nohighlight">\(C_8\)</span> radial splitter with a central helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> core, simultaneously broadcasting a clock/ancilla soliton across 8 radial arms while assigning distinct OAM mode offsets <span class="math notranslate nohighlight">\(\ell_m = \ell_0 + m\)</span> (<span class="math notranslate nohighlight">\(m \in \{0,\dots,7\}\)</span>) to each inter-layer branch.</p></li>
+</ul>
+</li>
+<li><p><strong>Integrating Dean et al. (<em>Nature</em> 2025) Second-Harmonic Resonant Optical Amplification (<code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code>) into <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> / <code class="docutils literal notranslate"><span class="pre">polyCBD-CNC</span></code> Fabrication (<code class="docutils literal notranslate"><span class="pre">SecondHarmonicResonantOPA</span></code>)</strong>:
+In standard single-resonance traveling-wave <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> amplifiers, achieving <span class="math notranslate nohighlight">\(&gt; 15\text{ dB}\)</span> gain requires watt-scale pump power that would thermally carbonize a polymer/vitrimer substrate. By doubly resonating both the fundamental signal (<span class="math notranslate nohighlight">\(\omega_0 \iff 1550\text{ nm}\)</span>) and second-harmonic pump (<span class="math notranslate nohighlight">\(2\omega_0 \iff 775\text{ nm}\)</span>) inside a chiral <code class="docutils literal notranslate"><span class="pre">polyCBD-CNC</span></code> ring resonator (<strong>Dean et al., <em>Nature</em> 2025</strong>), intracavity pump enhancement <span class="math notranslate nohighlight">\(E_{\mathrm{SH}}^2 &gt; 1\)</span> reduces threshold pump power to <strong><span class="math notranslate nohighlight">\(P_{\mathrm{pump}} = 21\text{ mW}\)</span></strong> while delivering <strong><span class="math notranslate nohighlight">\(17.25\text{ dB}\)</span> net chip-to-fiber gain</strong> across a <strong><span class="math notranslate nohighlight">\(35\text{ nm}\)</span> bandwidth (<span class="math notranslate nohighlight">\(1530\text{–}1565\text{ nm}\)</span>)</strong> with <span class="math notranslate nohighlight">\(0\text{ dB}\)</span> quantum noise figure, preserving squeezed-state quadrature variance <span class="math notranslate nohighlight">\(V_{\mathrm{sq}}(r) = e^{-2r} &lt; 1\)</span>.</p></li>
+<li><p><strong>Lignolux Active-Q Modulator (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>) with 4-Wire Kelvin <span class="math notranslate nohighlight">\(\sqrt{u_k}\)</span> Heater Linearization, 2-DOF PID + Smith Predictor, and Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Clamp (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span></code>, <code class="docutils literal notranslate"><span class="pre">aqmCbfSafeHeaterPower</span></code>)</strong>:
+To lock the doubly resonant <code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code> and <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> ring cavities against thermal drift without crossing the vitrimer glass-transition temperature <span class="math notranslate nohighlight">\(T_g = 85^\circ\text{C}\)</span>, the <code class="docutils literal notranslate"><span class="pre">AQM</span></code> uses a 4-wire Kelvin-sensed <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> micro-heater driven by the exact <strong>square-root voltage law</strong> <span class="math notranslate nohighlight">\(V_{\mathrm{cmd}} = \sqrt{R_{\mathrm{sense}}(T_k)\,P_{\max}\,u_k}\)</span> (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span></code>), rendering thermal power <span class="math notranslate nohighlight">\(P_{\mathrm{actual}} = V_{\mathrm{cmd}}^2 / R_{\mathrm{sense}}(T_k) = P_{\max}\,u_k\)</span> <strong>strictly linear in <span class="math notranslate nohighlight">\(u_k\)</span> and invariant to heater TCR drift</strong>. A <strong>Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>)</strong> safety clamp <span class="math notranslate nohighlight">\(P_{\mathrm{safe}}(T_{\max}, T_k, R_{\mathrm{th}}) = (T_{\max} - T_k)/R_{\mathrm{th}}\)</span> enforces <span class="math notranslate nohighlight">\(T_{\max} = 80^\circ\text{C} &lt; T_g = 85^\circ\text{C}\)</span> (<code class="docutils literal notranslate"><span class="pre">aqmCbfSafeHeaterPower</span></code>), while a <span class="math notranslate nohighlight">\(100\text{ nm}\)</span> vertical <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> forest provides a <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> Kapitza thermal quench (<code class="docutils literal notranslate"><span class="pre">vacntKapitzaCoolingTimePs</span> <span class="pre">&lt;</span> <span class="pre">1</span> <span class="pre">ps</span></code>).</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="d-inter-layer-interconnect-taxonomy-vortexvia-vs-starvortexvia-vs-c-8-starvia">
+<h2>1. 3D Inter-Layer Interconnect Taxonomy: <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> vs. <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> vs. <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code><a class="headerlink" href="#d-inter-layer-interconnect-taxonomy-vortexvia-vs-starvortexvia-vs-c-8-starvia" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    subgraph ViaTypes[&quot;3D Inter-Layer Topological Via Primitives&quot;]
+        VV[&quot;1. Helical VortexVia (1-to-1 Vertical + OAM Step)\n• 3D Corkscrew Spline: (R cos(2πΔℓ z/h), R sin(2πΔℓ z/h), z)\n• Deterministic OAM Mode Step: ℓ_out = ℓ_in + Δℓ (Δℓ = ±1, ±2)\n• Helical Arc Factor: L_arc² = h² + (2π R Δℓ)² &gt; h²&quot;]
+        SV[&quot;2. C8 StarVia (1-to-8 Zero-Twist Symmetric Hub)\n• 8-Fold C8 Radial Symmetry at 45° Intervals (Δℓ = 0)\n• Suppresses 90° Manhattan Corner Radiation by &gt; 40 dB\n• Equal-Phase Clock &amp; Syndrome Ancilla Distribution&quot;]
+        SVV[&quot;3. 8-Branch StarVortexVia (1-to-8 Helical OAM Mode-Sorter)\n• Central Helical VortexVia Core + 8 C8 Radial Whispering-Gallery Arms\n• Simultaneous Inter-Layer Broadcast + OAM Demux (ℓ_m = ℓ_0 + m)\n• Connects Layer-k Soliton Bus to Layer-(k+1) SHG-OPA &amp; QRAM Banks&quot;]
+    end
+
+    VV --&gt; SVV
+    SV --&gt; SVV
+    </pre><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Interconnect Primitive</p></th>
+<th class="head text-left"><p>Symmetry &amp; Geometry</p></th>
+<th class="head text-left"><p>OAM Topological Charge Map</p></th>
+<th class="head text-left"><p>Primary Hardware Role &amp; Corpus Provenance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">VortexVia</span></code></strong></p></td>
+<td class="text-left"><p>1-to-1 vertical helical <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> / <code class="docutils literal notranslate"><span class="pre">polyCBD-CNC</span></code> spline of height <span class="math notranslate nohighlight">\(h\)</span> and helix radius <span class="math notranslate nohighlight">\(R\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\ell_{\mathrm{out}} = \ell_{\mathrm{in}} + \Delta\ell\)</span><br>(<code class="docutils literal notranslate"><span class="pre">vortexViaOamChargeStep</span></code>)</p></td>
+<td class="text-left"><p>Vertical inter-layer soliton/current routing with in-situ OAM mode conversion (<a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">_Quantum Processor and Soliton Discussions  .md, lines 5351–5365</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVia</span></code></strong></p></td>
+<td class="text-left"><p>8-branch octagonal <span class="math notranslate nohighlight">\(C_8\)</span> radial junction (<span class="math notranslate nohighlight">\(\theta_m = m\pi/4\)</span>, <span class="math notranslate nohighlight">\(\Delta\ell = 0\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\ell_{\mathrm{out},m} = \ell_{\mathrm{in}}\)</span> (phase-matched across all 8 arms)</p></td>
+<td class="text-left"><p>Zero-reflection ancilla distribution hub for 4-qubit stabilizer checks (<a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">lines 4173–4286</span></a>; <a class="reference internal" href="grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.html"><span class="std std-doc">Paper 33</span></a>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code></strong></p></td>
+<td class="text-left"><p>Central helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> core coupled to 8 azimuthal <span class="math notranslate nohighlight">\(C_8\)</span> radial drop waveguides</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\ell_{\mathrm{out},m} = \ell_{\mathrm{in}} + m\Delta\ell\)</span> (<span class="math notranslate nohighlight">\(m \in \{0,\dots,7\}\)</span>)</p></td>
+<td class="text-left"><p>Simultaneous 3D inter-layer broadcast and 8-channel OAM mode multiplexer/demultiplexer (<a class="reference internal" href="chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.html"><span class="std std-doc">lines 4766–4808, 5584–5595, 5710–5725</span></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="integrating-dean-et-al-nature-2025-second-harmonic-resonant-optical-amplification-shg-opa-into-fabrication">
+<h2>2. Integrating Dean et al. (<em>Nature</em> 2025) Second-Harmonic Resonant Optical Amplification (<code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code>) into Fabrication<a class="headerlink" href="#integrating-dean-et-al-nature-2025-second-harmonic-resonant-optical-amplification-shg-opa-into-fabrication" title="Link to this heading">¶</a></h2>
+<section id="how-second-harmonic-resonance-solves-the-polymer-vitrimer-pump-heating-bottleneck">
+<h3>2.1 How Second-Harmonic Resonance Solves the Polymer/Vitrimer Pump-Heating Bottleneck<a class="headerlink" href="#how-second-harmonic-resonance-solves-the-polymer-vitrimer-pump-heating-bottleneck" title="Link to this heading">¶</a></h3>
+<p>In <strong>Dean et al. (<em>Nature</em> 2025, <code class="docutils literal notranslate"><span class="pre">arXiv:2509.26425</span></code>)</strong>, low-power integrated optical amplification is achieved by embedding a <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> nonlinear waveguide inside a <strong>doubly resonant microcavity</strong> that simultaneously resonates both the fundamental signal (<span class="math notranslate nohighlight">\(\omega_0\)</span>, <span class="math notranslate nohighlight">\(1550\text{ nm}\)</span>) and the second-harmonic pump (<span class="math notranslate nohighlight">\(2\omega_0\)</span>, <span class="math notranslate nohighlight">\(775\text{ nm}\)</span>). In our <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> / <code class="docutils literal notranslate"><span class="pre">polyCBD-CNC</span></code> foundry (<a class="reference download internal" download="" href="_downloads/5566ffb7d9c41f615f38e0166fafdb96/IQ-Sampling-for-Signal-Phase.md"><code class="xref download docutils literal notranslate"><span class="pre">IQ-Sampling-for-Signal-Phase.md,</span> <span class="pre">lines</span> <span class="pre">565-610,</span> <span class="pre">819-835,</span> <span class="pre">1007-1025,</span> <span class="pre">2298-2315</span></code></a> and <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.DDF.SecondHarmonicResonantOPA</span></code></span></a>), this provides four decisive fabrication and runtime advantages:</p>
+<ol class="arabic simple">
+<li><p><strong>Sub-<span class="math notranslate nohighlight">\(25\text{ mW}\)</span> Pump Threshold Compatible with Vitrimer <span class="math notranslate nohighlight">\(T_g = 85^\circ\text{C}\)</span></strong>:
+Because the second-harmonic cavity build-up factor <span class="math notranslate nohighlight">\(E_{\mathrm{SH}} &gt; 1\)</span> amplifies intracavity parametric gain by <span class="math notranslate nohighlight">\(E_{\mathrm{SH}}^2\)</span> (<code class="docutils literal notranslate"><span class="pre">SecondHarmonicResonantOPA.intracavityParametricGain_gt_travelingWave</span></code>), a <strong><span class="math notranslate nohighlight">\(21\text{ mW}\)</span></strong> continuous-wave <span class="math notranslate nohighlight">\(775\text{ nm}\)</span> pump achieves <strong><span class="math notranslate nohighlight">\(17.25\text{ dB}\)</span> net gain</strong> across <span class="math notranslate nohighlight">\(1530\text{–}1565\text{ nm}\)</span>—requiring <span class="math notranslate nohighlight">\(&gt; 20\times\)</span> less pump power than non-resonant traveling-wave <span class="math notranslate nohighlight">\(\chi^{(2)}\)</span> waveguides and preventing vitrimer transesterification creep.</p></li>
+<li><p><strong>Co-Patterned <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> LCS Quasi-Phase-Matched (<code class="docutils literal notranslate"><span class="pre">QPM</span></code>) Chiral CNC Polling</strong>:
+During R2R fabrication, the <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> Laser Compression Shock (<code class="docutils literal notranslate"><span class="pre">LCS</span></code>) beam periodically modulates the chiral pitch of the <code class="docutils literal notranslate"><span class="pre">polyCBD-CNC</span></code> cladding at the exact quasi-phase-matching period <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QPM}} = \frac{\lambda_{1550}}{2\,(n_{2\omega} - n_\omega)}\)</span>, locking fundamental and second-harmonic phase velocities inside every <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> and <span class="math notranslate nohighlight">\(10\text{ m}\)</span> CNC booster station.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(0\text{ dB}\)</span> Noise Figure Squeezed-State Preservation</strong>:
+In degenerate phase-sensitive mode, the amplifier squeezes the orthogonal quadrature variance to <span class="math notranslate nohighlight">\(V_{\mathrm{sq}}(r) = e^{-2r} &lt; 1\)</span> while amplifying the signal quadrature by <span class="math notranslate nohighlight">\(V_{\mathrm{anti}}(r) = e^{+2r} &gt; 1\)</span> with exact symplectic area conservation <span class="math notranslate nohighlight">\(V_{\mathrm{sq}}(r)\,V_{\mathrm{anti}}(r) = 1\)</span>.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="lignolux-active-q-modulator-aqm-4-wire-kelvin-sqrt-u-k-linearization-2-dof-pid-smith-predictor-and-control-barrier-function-cbf">
+<h2>3. Lignolux Active-Q Modulator (<code class="docutils literal notranslate"><span class="pre">AQM</span></code>): 4-Wire Kelvin <span class="math notranslate nohighlight">\(\sqrt{u_k}\)</span> Linearization, 2-DOF PID + Smith Predictor, and Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>)<a class="headerlink" href="#lignolux-active-q-modulator-aqm-4-wire-kelvin-sqrt-u-k-linearization-2-dof-pid-smith-predictor-and-control-barrier-function-cbf" title="Link to this heading">¶</a></h2>
+<section id="eliminating-tcr-nonlinearity-via-4-wire-kelvin-square-root-drive-aqmkelvinlinearizedvoltagesq">
+<h3>3.1 Eliminating TCR Nonlinearity via 4-Wire Kelvin Square-Root Drive (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span></code>)<a class="headerlink" href="#eliminating-tcr-nonlinearity-via-4-wire-kelvin-square-root-drive-aqmkelvinlinearizedvoltagesq" title="Link to this heading">¶</a></h3>
+<p>Because an <code class="docutils literal notranslate"><span class="pre">N-LIG</span></code> thermo-optic micro-heater has a temperature-dependent resistance <span class="math notranslate nohighlight">\(R_{\mathrm{heater}}(T_k)\)</span>, driving it with a naive voltage <span class="math notranslate nohighlight">\(V \propto u_k\)</span> makes thermal power <span class="math notranslate nohighlight">\(P = V^2 / R_{\mathrm{heater}}(T_k)\)</span> both quadratic in <span class="math notranslate nohighlight">\(u_k\)</span> and nonlinearly coupled to substrate temperature. As derived in <a class="reference download internal" download="" href="_downloads/5566ffb7d9c41f615f38e0166fafdb96/IQ-Sampling-for-Signal-Phase.md"><code class="xref download docutils literal notranslate"><span class="pre">IQ-Sampling-for-Signal-Phase.md,</span> <span class="pre">lines</span> <span class="pre">3153-3250</span></code></a>, adding a <strong>4-wire Kelvin sense trace</strong> (<code class="docutils literal notranslate"><span class="pre">R_sense</span></code>) and commanding squared voltage (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+V_{\mathrm{cmd}}^2\bigl(R_{\mathrm{sense}}, P_{\max}, u_k\bigr) = R_{\mathrm{sense}}\,P_{\max}\,u_k
+\implies P_{\mathrm{actual}} = \frac{V_{\mathrm{cmd}}^2}{R_{\mathrm{sense}}} = P_{\max}\,u_k,
+\]</div>
+<p>cancels <span class="math notranslate nohighlight">\(R_{\mathrm{sense}}(T_k) &gt; 0\)</span> identically (<code class="docutils literal notranslate"><span class="pre">aqmKelvinLinearizedVoltageSq</span> <span class="pre">r_sense</span> <span class="pre">p_max</span> <span class="pre">u_cmd</span> <span class="pre">/</span> <span class="pre">r_sense</span> <span class="pre">=</span> <span class="pre">p_max</span> <span class="pre">*</span> <span class="pre">u_cmd</span></code>), turning the plant into an exact linear gain for the <strong>2-DOF PID + Smith Predictor</strong> loop.</p>
+</section>
+<section id="control-barrier-function-cbf-vitrimer-safety-clamp-aqmcbfsafeheaterpower-182-text-fs-vacnt-quench">
+<h3>3.2 Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>) Vitrimer Safety Clamp (<code class="docutils literal notranslate"><span class="pre">aqmCbfSafeHeaterPower</span></code>) &amp; <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> Quench<a class="headerlink" href="#control-barrier-function-cbf-vitrimer-safety-clamp-aqmcbfsafeheaterpower-182-text-fs-vacnt-quench" title="Link to this heading">¶</a></h3>
+<p>To guarantee that the lignin-vitrimer matrix never approaches its glass-transition / transesterification threshold <span class="math notranslate nohighlight">\(T_g = 85^\circ\text{C}\)</span>, a hard <strong>Control Barrier Function (<code class="docutils literal notranslate"><span class="pre">CBF</span></code>)</strong> clamps maximum allowable heater power (<code class="docutils literal notranslate"><span class="pre">aqmCbfSafeHeaterPower</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+P_{\mathrm{safe}}\bigl(T_{\max}, T_k, R_{\mathrm{th}}\bigr) = \frac{T_{\max} - T_k}{R_{\mathrm{th}}},
+\qquad
+0 &lt; P_{\mathrm{safe}}(80, 65, 1.5) = 10\text{ mW} &lt; P_{\mathrm{safe}}(85, 65, 1.5) = 13.33\text{ mW},
+\]</div>
+<p>while a <span class="math notranslate nohighlight">\(100\text{ nm}\)</span> Vertical Carbon Nanotube (<code class="docutils literal notranslate"><span class="pre">VACNT</span></code>) forest (<span class="math notranslate nohighlight">\(\kappa_{\mathrm{axial}} = 3{,}000\text{ W/m}\cdot\text{K}\)</span>, <span class="math notranslate nohighlight">\(R_K = 1.3\times 10^{-8}\text{ m}^2\text{K/W}\)</span>) drains heat into the backplane with a <strong><span class="math notranslate nohighlight">\(182\text{ fs}\)</span> (<span class="math notranslate nohighlight">\(0.182\text{ ps} &lt; 1\text{ ps}\)</span>) Kapitza relaxation time</strong> (<code class="docutils literal notranslate"><span class="pre">vacntKapitzaCoolingTimePs</span></code>).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification">
+<h2>4. Generated KiCAD v8 (<code class="docutils literal notranslate"><span class="pre">.kicad_mod</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_sch</span></code>, <code class="docutils literal notranslate"><span class="pre">.kicad_pcb</span></code>), Volumetric (<code class="docutils literal notranslate"><span class="pre">.kicad_vol</span></code>), GDSII (<code class="docutils literal notranslate"><span class="pre">.gds</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification<a class="headerlink" href="#generated-kicad-v8-kicad-mod-kicad-sch-kicad-pcb-volumetric-kicad-vol-gdsii-gds-kicad-happy-verification" title="Link to this heading">¶</a></h2>
+<p>All 6 hardware artifacts for <code class="docutils literal notranslate"><span class="pre">VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect</span></code> are generated in <a class="reference download internal" download="" href="_downloads/d1f1485c63aeaaa689e7f920b24d2c38/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_vol"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">src/signals/kicad/semi_dirac/</span></code></span></a> and verified with the <code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> suite:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Stage / Check</p></th>
+<th class="head text-left"><p>Stage Identifier / Tool</p></th>
+<th class="head text-left"><p>Verified Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 1 (<code class="docutils literal notranslate"><span class="pre">135</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_VORTEX_VIA_HELICAL_OAM_STEP</span></code></p></td>
+<td class="text-left"><p>3D helical <code class="docutils literal notranslate"><span class="pre">VortexVia</span></code> (<span class="math notranslate nohighlight">\(\ell_{\mathrm{out}} = \ell_{\mathrm{in}} + 1\)</span>, <span class="math notranslate nohighlight">\(L_{\mathrm{arc}}^2 = h^2 + (2\pi R\Delta\ell)^2 &gt; h^2\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 2 (<code class="docutils literal notranslate"><span class="pre">155</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_STAR_VORTEX_VIA_8BRANCH_SPLITTER</span></code></p></td>
+<td class="text-left"><p>8-branch <span class="math notranslate nohighlight">\(C_8\)</span> <code class="docutils literal notranslate"><span class="pre">StarVortexVia</span></code> inter-layer broadcast &amp; OAM mode-sorting hub</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Stage 3 (<code class="docutils literal notranslate"><span class="pre">165</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_DEAN_2025_SHG_RESONANT_OPA_CORE</span></code></p></td>
+<td class="text-left"><p>Dean et al. (<em>Nature</em> 2025) doubly resonant <span class="math notranslate nohighlight">\(775/1550\text{ nm}\)</span> <code class="docutils literal notranslate"><span class="pre">SHG-OPA</span></code> (<span class="math notranslate nohighlight">\(21\text{ mW}\)</span> pump, <span class="math notranslate nohighlight">\(17.25\text{ dB}\)</span> gain)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Stage 4 (<code class="docutils literal notranslate"><span class="pre">145</span> <span class="pre">μm</span></code>)</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4_KELVIN_SQRT_CBF_AQM_MODULATOR</span></code></p></td>
+<td class="text-left"><p>4-wire Kelvin <span class="math notranslate nohighlight">\(\sqrt{u_k}\)</span> <code class="docutils literal notranslate"><span class="pre">AQM</span></code> + 2-DOF PID/Smith Predictor + <span class="math notranslate nohighlight">\(80^\circ\text{C} &lt; 85^\circ\text{C}\)</span> <code class="docutils literal notranslate"><span class="pre">CBF</span></code> clamp + <span class="math notranslate nohighlight">\(182\text{ fs}\)</span> <code class="docutils literal notranslate"><span class="pre">VACNT</span></code> sink</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">kicad-happy</span></code> Verification</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">analyze_schematic.py</span></code>, <code class="docutils literal notranslate"><span class="pre">analyze_pcb.py</span> <span class="pre">--full</span></code>, <code class="docutils literal notranslate"><span class="pre">cross_analysis.py</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">U1</span></code>, <code class="docutils literal notranslate"><span class="pre">J1</span></code>, 4 nets (<code class="docutils literal notranslate"><span class="pre">VORTEX_VIA_IN</span></code>, <code class="docutils literal notranslate"><span class="pre">STAR_VORTEX_OUT</span></code>, <code class="docutils literal notranslate"><span class="pre">KELVIN_AQM_DRV</span></code>, <code class="docutils literal notranslate"><span class="pre">GND</span></code>), <strong>4/4 routed nets</strong>, <strong><code class="docutils literal notranslate"><span class="pre">0</span></code> cross-analysis findings</strong>, <strong><span class="math notranslate nohighlight">\(3 \to 0\)</span></strong> <span class="math notranslate nohighlight">\(sp^3\)</span> volumetric DRC hazards</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="machine-checked-lean-4-verification-signals-solitonbus">
+<h2>5. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>)<a class="headerlink" href="#machine-checked-lean-4-verification-signals-solitonbus" title="Link to this heading">¶</a></h2>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">VortexViaShgOpaAqmPaper36Verification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.SolitonBus</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">l_in</span><span class="w"> </span><span class="n">m_helix</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">u_power</span><span class="w"> </span><span class="n">r_nlig</span><span class="w"> </span><span class="n">u_pid</span><span class="w"> </span><span class="n">p_steady</span><span class="w"> </span><span class="n">gamma</span><span class="w"> </span><span class="n">t_max</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">hr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">r_nlig</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">vortexViaOamChargeStep</span><span class="w"> </span><span class="n">l_in</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">l_in</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">vortexViaOamChargeStep</span><span class="w"> </span><span class="o">(</span><span class="n">vortexViaOamChargeStep</span><span class="w"> </span><span class="n">l_in</span><span class="w"> </span><span class="n">m_helix</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="n">m_helix</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">l_in</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">vortexViaHelicalArcFactorSq</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">1</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">vortexViaHelicalArcFactorSq</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">aqmKelvinLinearizedVoltageSq</span><span class="w"> </span><span class="n">u_power</span><span class="w"> </span><span class="n">r_nlig</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">r_nlig</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">u_power</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">aqmCbfSafeHeaterPower</span><span class="w"> </span><span class="n">u_pid</span><span class="w"> </span><span class="n">p_steady</span><span class="w"> </span><span class="n">gamma</span><span class="w"> </span><span class="n">t_max</span><span class="w"> </span><span class="n">t_max</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">p_steady</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">vacntKapitzaCoolingTimePs</span><span class="w"> </span><span class="o">(</span><span class="mi">5</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">9</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">6</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">8</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">nanodiamond_biodegradable_photonics_vortex_via_shg_aqm_lhat_and_pressed_llm_qram_identities</span>
+<span class="w">    </span><span class="n">l_in</span><span class="w"> </span><span class="n">m_helix</span><span class="w"> </span><span class="n">u_power</span><span class="w"> </span><span class="n">r_nlig</span><span class="w"> </span><span class="n">u_pid</span><span class="w"> </span><span class="n">p_steady</span><span class="w"> </span><span class="n">gamma</span><span class="w"> </span><span class="n">t_max</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">hr</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">VortexViaShgOpaAqmPaper36Verification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<p id="vv36-dean2025"><a id="vv36-dean2025"></a></p>
+<ol class="arabic simple">
+<li><p><strong>Dean, et al. (2025).</strong> <em>Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance.</em> Nature (<code class="docutils literal notranslate"><span class="pre">arXiv:2509.26425</span></code>). <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1038/s41586-025-09959-z</span></code></p></li>
+</ol>
+<p id="vv36-ames2017"><a id="vv36-ames2017"></a>
+2. <strong>Ames, A. D., et al. (2017).</strong> <em>Control Barrier Function Based Quadratic Programs for Safety Critical Systems.</em> IEEE Transactions on Automatic Control, 62(8), 3861–3876. <code class="docutils literal notranslate"><span class="pre">https://doi.org/10.1109/TAC.2016.2638961</span></code></p>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">turner2026vortex_vias_shg_opa_aqm</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wes}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{3D Helical {VortexVia} and 8-Branch {StarVortexVia} Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification ({D}ean et al., {N}ature 2025), and 4-Wire {K}elvin + Control Barrier Function ({CBF}) Active-{Q} Modulators ({AQM}) in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Research Archive}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3D Helical VortexVia and 8-Branch StarVortexVia Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification (Dean et al., Nature 2025), and 4-Wire Kelvin + Control Barrier Function (CBF) Active-Q Modulators (AQM) in Lean 4, Rust/WASM, Python, and KiCAD v8"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-08"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"3D Helical VortexVia and 8-Branch StarVortexVia Interconnects"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Second-Harmonic Resonant Optical Parametric Amplification (Dean et al. Nature 2025)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lignolux Active-Q Modulator (AQM)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"4-Wire Kelvin Square-Root Heater Linearization and Control Barrier Functions"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.html" title="Laser-Induced \(sp^2/sp^3\) Carbon and Nanodiamonds from Lignin, Plastics (PET/PE), \(\mathrm{CO}_2\), and Methane Pyrolysis (“Teal Carbon”), H-Terminated Nanodiamond 2D Hole Gas (2DHG) FETs, and Biodegradable Carbon Semiconductor Alternatives (P-CQDs and Ox-s-CNT / VACNT) to \(590\text{ nm}\) \(n\)-Adamantane and Toxic \(c\text{-BAs}\) in Lean 4, Rust/WASM, Python, and KiCAD v8" >previous</a></li>
+        <li><a href="grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.html" title="Lignolux Holographic Archival Tape (LHAT, \(12\text{ }\mu\text{m} \times 10\text{ km}\), \(720\text{ TB}\) Raw / \(480\text{ TB}\) Usable vs. \(18\text{ TB}\) LTO-9): \(3{,}000\times\) OAM-Bragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar \(64\times 64\) FFT Tracking, \(182\text{ fs}\) VACNT Kapitza Quench, and \(635\text{ nm}\) QFT-RK Selective Rewritability in Lean 4, Rust/WASM, Python, and KiCAD v8" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

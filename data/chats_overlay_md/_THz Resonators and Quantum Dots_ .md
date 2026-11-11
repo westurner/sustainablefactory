@@ -1,1 +1,0 @@
-../chats/_THz Resonators and Quantum Dots_ .md

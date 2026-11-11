@@ -1,1 +1,0 @@
-../_MetalPlantB Bauxite Reduction Temperatures  .md

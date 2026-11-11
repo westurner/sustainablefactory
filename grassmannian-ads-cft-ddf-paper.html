@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and \(\mathfrak{psl}(2|2)_c\) Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\), \(Gr_{\mathbb{C}}(2,6)\), and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4" href="grassmannian-unification-applications-roadmap-paper.html" />
+    <link rel="prev" title="The Holographic Principle in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4" href="grassmannian-holographic-principle-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#the-ads-cft-correspondence-maldacena-1998-gkpw-dictionary-kss-fluid-gravity-bound-and-ryutakayanagi-entanglement">1. The AdS/CFT Correspondence: Maldacena (1998), GKPW Dictionary, KSS Fluid/Gravity Bound, and Ryu–Takayanagi Entanglement</a><ul>
+<li><a class="reference internal" href="#maldacenas-large-n-c-decoupling-limit-couplingtension-dictionary">1.1 Maldacena’s Large-<span class="math notranslate nohighlight">\(N_c\)</span> Decoupling Limit &amp; Coupling–Tension Dictionary</a></li>
+<li><a class="reference internal" href="#the-gubserklebanovpolyakovwitten-gkpw-massdimension-dictionary-breitenlohnerfreedman-bound">1.2 The Gubser–Klebanov–Polyakov–Witten (GKPW) Mass–Dimension Dictionary &amp; Breitenlohner–Freedman Bound</a></li>
+<li><a class="reference internal" href="#fluid-gravity-duality-kss-bound-ryutakayanagi-entanglement-entropy">1.3 Fluid/Gravity Duality (KSS Bound) &amp; Ryu–Takayanagi Entanglement Entropy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#planar-ads-cft-integrability-spin-chains-spectral-curves-magnon-dispersion-and-the-konishi-benchmark-arxiv-1012-3982">2. Planar AdS/CFT Integrability: Spin Chains, Spectral Curves, Magnon Dispersion, and the Konishi Benchmark (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>)</a></li>
+<li><a class="reference internal" href="#secret-symmetries-in-ads-cft-centrally-extended-mathfrak-psl-2-2-c-braided-coproducts-and-indented-yangians-arxiv-1204-2366">3. Secret Symmetries in AdS/CFT: Centrally Extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span>, Braided Coproducts, and Indented Yangians (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>)</a><ul>
+<li><a class="reference internal" href="#level-0-centrally-extended-mathfrak-psl-2-2-c-d-2-1-1-and-braided-central-charges">3.1 Level-0 Centrally Extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c = D(2,1;-1)\)</span> and Braided Central Charges</a></li>
+<li><a class="reference internal" href="#why-the-secret-symmetry-widehat-mathbb-b-is-indented-absent-at-level-0-present-at-level-1">3.2 Why the Secret Symmetry <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}}\)</span> Is Indented (Absent at Level 0, Present at Level 1)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#unification-of-complex-grassmannian-gr-mathbb-c-2-4-and-ddf-mechanics-with-ads-cft-and-secret-symmetries-with-and-without-splats">4. Unification of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and DDF Mechanics with AdS/CFT and Secret Symmetries (With and Without Splats)</a><ul>
+<li><a class="reference internal" href="#without-splats-the-3-term-plucker-identity-on-gr-mathbb-c-2-4-is-the-mathfrak-psl-2-2-c-outer-automorphism-central-charge-dispersion-law">4.1 Without Splats: The 3-Term Plücker Identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Is the <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Outer-Automorphism Central-Charge Dispersion Law</a></li>
+<li><a class="reference internal" href="#without-splats-universal-gr-mathbb-c-2-4-plucker-redshift-law-physical-discriminators-between-ads-cft-and-ddf">4.2 Without Splats: Universal <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Redshift Law &amp; Physical Discriminators Between AdS/CFT and DDF</a></li>
+<li><a class="reference internal" href="#with-normed-tensor-gaussian-splats-holographic-rg-scale-radius-flow-adsholographicrgsplat">4.3 With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (<code class="docutils literal notranslate"><span class="pre">adsHolographicRGSplat</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#catalog-of-check-figures-quantitative-benchmarks-across-ads-cft-integrability-arxiv-1012-3982-secret-symmetries-arxiv-1204-2366-gr-mathbb-c-2-4-and-ddf">5. Catalog of Check Figures &amp; Quantitative Benchmarks Across AdS/CFT, Integrability (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>), Secret Symmetries (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>), <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, and DDF</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-scattering-signals-ddf">6. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-holographic-principle-paper.html" title="The Holographic Principle in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-unification-applications-roadmap-paper.html" title="Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\), \(Gr_{\mathbb{C}}(2,6)\), and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-ads-cft-ddf-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#the-ads-cft-correspondence-maldacena-1998-gkpw-dictionary-kss-fluid-gravity-bound-and-ryutakayanagi-entanglement">1. The AdS/CFT Correspondence: Maldacena (1998), GKPW Dictionary, KSS Fluid/Gravity Bound, and Ryu–Takayanagi Entanglement</a><ul>
+<li><a class="reference internal" href="#maldacenas-large-n-c-decoupling-limit-couplingtension-dictionary">1.1 Maldacena’s Large-<span class="math notranslate nohighlight">\(N_c\)</span> Decoupling Limit &amp; Coupling–Tension Dictionary</a></li>
+<li><a class="reference internal" href="#the-gubserklebanovpolyakovwitten-gkpw-massdimension-dictionary-breitenlohnerfreedman-bound">1.2 The Gubser–Klebanov–Polyakov–Witten (GKPW) Mass–Dimension Dictionary &amp; Breitenlohner–Freedman Bound</a></li>
+<li><a class="reference internal" href="#fluid-gravity-duality-kss-bound-ryutakayanagi-entanglement-entropy">1.3 Fluid/Gravity Duality (KSS Bound) &amp; Ryu–Takayanagi Entanglement Entropy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#planar-ads-cft-integrability-spin-chains-spectral-curves-magnon-dispersion-and-the-konishi-benchmark-arxiv-1012-3982">2. Planar AdS/CFT Integrability: Spin Chains, Spectral Curves, Magnon Dispersion, and the Konishi Benchmark (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>)</a></li>
+<li><a class="reference internal" href="#secret-symmetries-in-ads-cft-centrally-extended-mathfrak-psl-2-2-c-braided-coproducts-and-indented-yangians-arxiv-1204-2366">3. Secret Symmetries in AdS/CFT: Centrally Extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span>, Braided Coproducts, and Indented Yangians (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>)</a><ul>
+<li><a class="reference internal" href="#level-0-centrally-extended-mathfrak-psl-2-2-c-d-2-1-1-and-braided-central-charges">3.1 Level-0 Centrally Extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c = D(2,1;-1)\)</span> and Braided Central Charges</a></li>
+<li><a class="reference internal" href="#why-the-secret-symmetry-widehat-mathbb-b-is-indented-absent-at-level-0-present-at-level-1">3.2 Why the Secret Symmetry <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}}\)</span> Is Indented (Absent at Level 0, Present at Level 1)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#unification-of-complex-grassmannian-gr-mathbb-c-2-4-and-ddf-mechanics-with-ads-cft-and-secret-symmetries-with-and-without-splats">4. Unification of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and DDF Mechanics with AdS/CFT and Secret Symmetries (With and Without Splats)</a><ul>
+<li><a class="reference internal" href="#without-splats-the-3-term-plucker-identity-on-gr-mathbb-c-2-4-is-the-mathfrak-psl-2-2-c-outer-automorphism-central-charge-dispersion-law">4.1 Without Splats: The 3-Term Plücker Identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Is the <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Outer-Automorphism Central-Charge Dispersion Law</a></li>
+<li><a class="reference internal" href="#without-splats-universal-gr-mathbb-c-2-4-plucker-redshift-law-physical-discriminators-between-ads-cft-and-ddf">4.2 Without Splats: Universal <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Redshift Law &amp; Physical Discriminators Between AdS/CFT and DDF</a></li>
+<li><a class="reference internal" href="#with-normed-tensor-gaussian-splats-holographic-rg-scale-radius-flow-adsholographicrgsplat">4.3 With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (<code class="docutils literal notranslate"><span class="pre">adsHolographicRGSplat</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#catalog-of-check-figures-quantitative-benchmarks-across-ads-cft-integrability-arxiv-1012-3982-secret-symmetries-arxiv-1204-2366-gr-mathbb-c-2-4-and-ddf">5. Catalog of Check Figures &amp; Quantitative Benchmarks Across AdS/CFT, Integrability (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>), Secret Symmetries (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>), <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, and DDF</a></li>
+<li><a class="reference internal" href="#machine-checked-lean-4-verification-signals-scattering-signals-ddf">6. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-holographic-principle-paper.html"
+                          title="previous chapter">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-unification-applications-roadmap-paper.html"
+                          title="next chapter">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,6)\)</span>, and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-ads-cft-ddf-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ads-cft-correspondence-planar-integrability-and-secret-symmetries-in-unified-complex-grassmannian-gr-mathbb-c-2-4-and-dilatant-dark-fluid-ddf-mechanics-from-maldacena-and-mathfrak-psl-2-2-c-yangians-to-plucker-outer-automorphisms-and-holographic-rg-tensor-splatting-in-lean-4">
+<span id="grassmannian-ads-cft-ddf-paper"></span><h1>AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4<a class="headerlink" href="#ads-cft-correspondence-planar-integrability-and-secret-symmetries-in-unified-complex-grassmannian-gr-mathbb-c-2-4-and-dilatant-dark-fluid-ddf-mechanics-from-maldacena-and-mathfrak-psl-2-2-c-yangians-to-plucker-outer-automorphisms-and-holographic-rg-tensor-splatting-in-lean-4" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>High Energy Physics - Theory (<code class="docutils literal notranslate"><span class="pre">hep-th</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Quantum Algebra (<code class="docutils literal notranslate"><span class="pre">math.QA</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust/WASM Crate (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/polariton_spp.rs</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+</ol>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Since <strong>Juan Maldacena’s (1998)</strong> discovery of the <strong>AdS/CFT correspondence</strong> (<a class="reference internal" href="#adscft-maldacena1998"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">hep-th/9711200</span></code></span></a>) and its field-operator formulation by <strong>Gubser, Klebanov, and Polyakov (1998)</strong> (<a class="reference internal" href="#adscft-gkp1998"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">hep-th/9802109</span></code></span></a>) and <strong>Witten (1998)</strong> (<a class="reference internal" href="#adscft-witten1998"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">hep-th/9802150</span></code></span></a>), two major developments have transformed exact gauge–string duality:</p>
+<ol class="arabic simple">
+<li><p><strong>Planar AdS/CFT Integrability</strong> (<a class="reference internal" href="#adscft-minahan2003"><span class="xref myst">Minahan &amp; Zarembo 2003</span></a>; <a class="reference internal" href="#adscft-beisert2012"><span class="xref myst">Beisert et al. 2012, <em>Review of AdS/CFT Integrability: An Overview</em>, <code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code></span></a>), which solves the spectral and scattering problems of planar <span class="math notranslate nohighlight">\(\mathcal{N}=4\)</span> Super Yang–Mills (SYM) and free Type IIB superstrings on <span class="math notranslate nohighlight">\(\text{AdS}_5 \times S^5\)</span> across all values of the ‘t Hooft coupling <span class="math notranslate nohighlight">\(\lambda = g_{\mathrm{YM}}^2 N_c = 4\pi^2 T_{\mathrm{str}}^2\)</span> via the centrally extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c = D(2,1;-1)\)</span> <span class="math notranslate nohighlight">\(S\)</span>-matrix, Baxter <span class="math notranslate nohighlight">\(TQ\)</span>/Hirota <span class="math notranslate nohighlight">\(Y\)</span>-systems, and Grassmannian scattering integrals; and</p></li>
+<li><p><strong>Secret (Bonus) Symmetries in AdS/CFT</strong> (<a class="reference internal" href="#adscft-matsumoto2007"><span class="xref myst">Matsumoto, Moriyama &amp; Torrielli 2007, <code class="docutils literal notranslate"><span class="pre">arXiv:0708.1285</span></code></span></a>; <a class="reference internal" href="#adscft-beisert2011"><span class="xref myst">Beisert &amp; Schwab 2011, <code class="docutils literal notranslate"><span class="pre">arXiv:1103.0646</span></code></span></a>; <a class="reference internal" href="#adscft-berkovits2011"><span class="xref myst">Berkovits &amp; Mikhailov 2011, <code class="docutils literal notranslate"><span class="pre">arXiv:1103.1228</span></code></span></a>; <a class="reference internal" href="#adscft-deleeuw2012"><span class="xref myst">de Leeuw, Matsumoto, Moriyama, Regelskis &amp; Torrielli 2012, <em>Secret Symmetries in AdS/CFT</em>, <code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code></span></a>), which reveal an <em>indented Yangian</em> hypercharge generator <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}} = B_0\operatorname{diag}(1,1,-1,-1)\)</span> present at level <span class="math notranslate nohighlight">\(1\)</span> (and odd levels) with non-vanishing supertrace <span class="math notranslate nohighlight">\(\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0 \neq 0\)</span>, despite the absence of its level-<span class="math notranslate nohighlight">\(0\)</span> partner <span class="math notranslate nohighlight">\(\mathbb{B}\)</span> due to <span class="math notranslate nohighlight">\(\text{fermion} \otimes \text{fermion} \leftrightarrow \text{boson} \otimes \text{boson}\)</span> scattering.</p></li>
+</ol>
+<p>In this paper, we formalize AdS/CFT, planar integrability, and secret symmetries in <strong>Lean 4</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>) and <strong>Rust/WASM</strong> (<code class="docutils literal notranslate"><span class="pre">polariton_spp.rs</span></code>), and unify them with our <strong>Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span></strong> and <strong>Dilatant Dark Fluid (DDF)</strong> mechanics both <strong>without splats</strong> (splat-free continuum Plücker and hydrodynamic laws) and <strong>with Normed 2D Tensor Gaussian Splats</strong>:</p>
+<ol class="arabic">
+<li><p><strong>Maldacena/GKPW AdS/CFT Dictionary, Breitenlohner–Freedman Bound, Ryu–Takayanagi Entanglement Entropy, &amp; KSS Viscosity Bound (<code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code>)</strong>:
+We prove the exact GKPW conformal dimension identities <span class="math notranslate nohighlight">\(\Delta_+ + \Delta_- = d\)</span>, <span class="math notranslate nohighlight">\(\Delta_+\Delta_- = -m^2 R_{\mathrm{AdS}}^2\)</span>, and <span class="math notranslate nohighlight">\(\Delta_+(\Delta_+ - d) = m^2 R_{\mathrm{AdS}}^2\)</span> above the Breitenlohner–Freedman stability bound <span class="math notranslate nohighlight">\(m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2 / 4\)</span>, the Ryu–Takayanagi <span class="math notranslate nohighlight">\(\text{AdS}_3/\text{CFT}_2\)</span> relation <span class="math notranslate nohighlight">\(S_{\mathrm{EE}} = \frac{c_{\mathrm{BH}}}{3}\ln(\ell/\epsilon_{\mathrm{UV}})\)</span>, and positivity of the Kovtun–Son–Starinets shear viscosity bound <span class="math notranslate nohighlight">\((\eta/s)_{\mathrm{KSS}} = \frac{\hbar}{4\pi k_B} &gt; 0\)</span>.</p></li>
+<li><p><strong>Planar Integrability (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>) &amp; <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Secret Symmetries (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>)</strong>:
+We formalize the all-loop bound-state magnon dispersion <span class="math notranslate nohighlight">\(E^2(M, \lambda, p) = M^2 + \frac{\lambda}{\pi^2}\sin^2(p/2)\)</span>, the exact one-loop Konishi (<span class="math notranslate nohighlight">\(L=4, M=2\)</span>, <span class="math notranslate nohighlight">\(u_{\mathrm{K}} = \pm \frac{1}{2\sqrt{3}}\)</span>) anomalous dimension check figure <span class="math notranslate nohighlight">\(2\,\delta D_1(\lambda, u_{\mathrm{K}}) = \frac{3\lambda}{4\pi^2}\)</span>, the braided <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> central-charge identity <span class="math notranslate nohighlight">\(\mathbb{C}(p)\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p) = 0\)</span> and quasi-cocommutative coproduct <span class="math notranslate nohighlight">\((1+\mathbb{C}(p_1))(1+\mathbb{C}(p_2)) = 1 + \Delta(\mathbb{C})\)</span>, the short vs. long <span class="math notranslate nohighlight">\(\mathfrak{gl}(2|2)\)</span> multiplet compression <span class="math notranslate nohighlight">\(4 M &lt; 16(M + 1)\)</span>, the indented Yangian secret supertrace <span class="math notranslate nohighlight">\(\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0\)</span> with <span class="math notranslate nohighlight">\(\operatorname{Tr}(\widehat{\mathbb{B}}) = 0\)</span>, and the degeneracy <span class="math notranslate nohighlight">\(\operatorname{Tr}(DA) = \det(DA) = 0\)</span> of the <span class="math notranslate nohighlight">\(q\)</span>-deformed Hubbard affine Cartan matrix <span class="math notranslate nohighlight">\(DA\)</span>.</p></li>
+<li><p><strong>Without Splats: Exact 3-Term Plücker Realization of the <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Secret Outer Automorphism &amp; Universal <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span>/DDF Redshift Product (<code class="docutils literal notranslate"><span class="pre">RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification</span></code>)</strong>:
+Embedding the Beisert–Torrielli <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> outer-automorphism parameters <span class="math notranslate nohighlight">\((a,b,c,d)\)</span> (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (2.11)) into <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> via</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+   W_{\mathrm{sec}}(a,b,c,d) = \begin{pmatrix} a &amp; b &amp; a &amp; -b \\ c &amp; d &amp; -c &amp; d \end{pmatrix} \in \mathbb{C}^{2 \times 4}
+   \end{split}\]</div>
+<p>proves that its 6 Plücker minors satisfy <span class="math notranslate nohighlight">\(\Delta_{01}^{\mathbb{C}} = \Delta_{23}^{\mathbb{C}} = ad - bc = M\)</span>, <span class="math notranslate nohighlight">\(\Delta_{03}^{\mathbb{C}} = -\Delta_{12}^{\mathbb{C}} = ad + bc = \mathbb{H}\)</span>, and <span class="math notranslate nohighlight">\(\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = -4(ab)(cd) = -4\mathbb{C}\mathbb{C}^\dagger\)</span>, so the <strong>3-term quadratic Plücker identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> IS IDENTICALLY the <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> central-charge dispersion relation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathbb{H}^2 - 4\,\mathbb{C}\,\mathbb{C}^\dagger = (ad + bc)^2 - 4(ab)(cd) = (ad - bc)^2 = M^2 = 1 \quad (ad - bc = 1).
+   \]</div>
+<p>Simultaneously, the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> channel product <span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - \beta^2\)</span> reproduces both the Poincaré <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> planar black-brane emblackening factor <span class="math notranslate nohighlight">\(1 - (z/z_H)^4\)</span> (<span class="math notranslate nohighlight">\(\beta = (z/z_H)^2\)</span>) and the 4D DDF Painlevé–Gullstrand lapse <span class="math notranslate nohighlight">\(1 - r_H/r\)</span> (<span class="math notranslate nohighlight">\(\beta = \sqrt{r_H/r}\)</span>).</p>
+</li>
+<li><p><strong>With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (<code class="docutils literal notranslate"><span class="pre">adsHolographicRGSplat</span></code>)</strong>:
+Identifying the bulk Poincaré <span class="math notranslate nohighlight">\(\text{AdS}\)</span> radial coordinate <span class="math notranslate nohighlight">\(z_{\mathrm{rg}} &gt; 0\)</span> with the boundary CFT Tensor Gaussian Splat coarse-graining width <span class="math notranslate nohighlight">\(\sigma_1 = \sigma_2 = z_{\mathrm{rg}}\)</span> proves that an UV-to-IR coarse-graining dilatation <span class="math notranslate nohighlight">\(z_{\mathrm{UV}} \mapsto \lambda_{\mathrm{rg}}\,z_{\mathrm{UV}}\)</span> (<span class="math notranslate nohighlight">\(\lambda_{\mathrm{rg}} &gt; 1\)</span>) scales the phase-space covariance determinant by <span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{IR}} = \lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}} &gt; \det\Sigma_{\mathrm{UV}}\)</span> and relaxes the repulsive Madelung core Bohm quantum potential by the exact conformal weight:</p>
+<div class="math notranslate nohighlight">
+\[
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{IR}}) = \frac{1}{\lambda_{\mathrm{rg}}^2}\,Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}).
+   \]</div>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="the-ads-cft-correspondence-maldacena-1998-gkpw-dictionary-kss-fluid-gravity-bound-and-ryutakayanagi-entanglement">
+<h2>1. The AdS/CFT Correspondence: Maldacena (1998), GKPW Dictionary, KSS Fluid/Gravity Bound, and Ryu–Takayanagi Entanglement<a class="headerlink" href="#the-ads-cft-correspondence-maldacena-1998-gkpw-dictionary-kss-fluid-gravity-bound-and-ryutakayanagi-entanglement" title="Link to this heading">¶</a></h2>
+<section id="maldacenas-large-n-c-decoupling-limit-couplingtension-dictionary">
+<h3>1.1 Maldacena’s Large-<span class="math notranslate nohighlight">\(N_c\)</span> Decoupling Limit &amp; Coupling–Tension Dictionary<a class="headerlink" href="#maldacenas-large-n-c-decoupling-limit-couplingtension-dictionary" title="Link to this heading">¶</a></h3>
+<p>In his seminal 1998 paper (<a class="reference internal" href="#adscft-maldacena1998"><span class="xref myst">Maldacena 1998, <code class="docutils literal notranslate"><span class="pre">arXiv:hep-th/9711200</span></code></span></a>), Juan Maldacena considered a stack of <span class="math notranslate nohighlight">\(N_c\)</span> coincident <span class="math notranslate nohighlight">\(D3\)</span>-branes in Type IIB superstring theory and took the low-energy decoupling limit <span class="math notranslate nohighlight">\(\alpha' \to 0\)</span> with fixed radial coordinate <span class="math notranslate nohighlight">\(U = r / \alpha'\)</span>. This established an exact duality between four-dimensional <span class="math notranslate nohighlight">\(\mathcal{N}=4\)</span> <span class="math notranslate nohighlight">\(SU(N_c)\)</span> Super Yang–Mills (SYM) theory on the conformally flat boundary <span class="math notranslate nohighlight">\(\partial\text{AdS}_5 \cong \mathbb{R}^{1,3}\)</span> and Type IIB superstring theory on <span class="math notranslate nohighlight">\(\text{AdS}_5 \times S^5\)</span> with equal curvature radii <span class="math notranslate nohighlight">\(R_{\mathrm{AdS}} = R_{S^5}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda = g_{\mathrm{YM}}^2 N_c = \frac{R_{\mathrm{AdS}}^4}{\alpha'^2} = 4\pi^2 T_{\mathrm{str}}^2, \qquad
+T_{\mathrm{str}} = \frac{R_{\mathrm{AdS}}^2}{2\pi\alpha'} = \frac{\sqrt{\lambda}}{2\pi}, \qquad
+\frac{1}{N_c} = \frac{g_{\mathrm{str}}}{4\pi^2 T_{\mathrm{str}}^2}
+\]</div>
+<p>(<code class="docutils literal notranslate"><span class="pre">adsTftHooftCoupling</span></code> and <code class="docutils literal notranslate"><span class="pre">adsCouplingFromStringTension</span></code> in <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">src/signals/Signals/Scattering.lean</span></a>; <a class="reference internal" href="#adscft-beisert2012"><span class="xref myst">Beisert et al. 2012, <code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code></span></a>, Section <em>Parameter Space</em>).</p>
+</section>
+<section id="the-gubserklebanovpolyakovwitten-gkpw-massdimension-dictionary-breitenlohnerfreedman-bound">
+<h3>1.2 The Gubser–Klebanov–Polyakov–Witten (GKPW) Mass–Dimension Dictionary &amp; Breitenlohner–Freedman Bound<a class="headerlink" href="#the-gubserklebanovpolyakovwitten-gkpw-massdimension-dictionary-breitenlohnerfreedman-bound" title="Link to this heading">¶</a></h3>
+<p>By <a class="reference internal" href="#adscft-gkp1998"><span class="xref myst">Gubser, Klebanov, and Polyakov (1998)</span></a> and <a class="reference internal" href="#adscft-witten1998"><span class="xref myst">Witten (1998)</span></a>, the bulk string partition function with boundary field values <span class="math notranslate nohighlight">\(\phi|_{\partial\text{AdS}_{d+1}} = J\)</span> equals the generating functional of connected correlation functions in <span class="math notranslate nohighlight">\(\text{CFT}_d\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+Z_{\mathrm{string}}\bigl[\phi\big|_{\partial\text{AdS}_{d+1}} = J\bigr] = \left\langle \exp\!\left(\int_{\partial\text{AdS}_{d+1}} d^d x\,J(x)\,\mathcal{O}(x)\right) \right\rangle_{\text{CFT}_d}.
+\]</div>
+<p>Near the Poincaré boundary <span class="math notranslate nohighlight">\(z \to 0\)</span> of <span class="math notranslate nohighlight">\(\text{AdS}_{d+1}\)</span> (<span class="math notranslate nohighlight">\(ds^2 = \frac{R_{\mathrm{AdS}}^2}{z^2}(dz^2 + \eta_{\mu\nu}dx^\mu dx^\nu)\)</span>), a bulk scalar field of mass <span class="math notranslate nohighlight">\(m\)</span> scales as <span class="math notranslate nohighlight">\(\phi(z,x) \sim z^{\Delta_-} J(x) + z^{\Delta_+} \langle\mathcal{O}(x)\rangle\)</span>, where <span class="math notranslate nohighlight">\(\Delta_\pm\)</span> (<code class="docutils literal notranslate"><span class="pre">adsCftScalingDimensionPlus</span></code>, <code class="docutils literal notranslate"><span class="pre">adsCftScalingDimensionMinus</span></code>) solve the characteristic quadratic equation <span class="math notranslate nohighlight">\(\Delta(\Delta - d) = m^2 R_{\mathrm{AdS}}^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta_\pm(d, m^2 R_{\mathrm{AdS}}^2) = \frac{d}{2} \pm \sqrt{\left(\frac{d}{2}\right)^2 + m^2 R_{\mathrm{AdS}}^2}, \qquad
+m^2 R_{\mathrm{AdS}}^2 \ge m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -\frac{d^2}{4}
+\]</div>
+<p>(<a class="reference internal" href="#adscft-bf1982"><span class="xref myst">Breitenlohner &amp; Freedman 1982</span></a>). Theorem <code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code> machine-checks the Vieta and boundary identities:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\Delta_+ + \Delta_- = d\)</span> (shadow dimension pairing),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta_+\,\Delta_- = -m^2 R_{\mathrm{AdS}}^2\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta_+(\Delta_+ - d) = m^2 R_{\mathrm{AdS}}^2\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta_+(d, -d^2/4) = d/2\)</span> (saturation at the Breitenlohner–Freedman bound),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta_+(d, 0) = d\)</span> and <span class="math notranslate nohighlight">\(\Delta_-(d, 0) = 0\)</span> (marginal operator dual to a massless bulk scalar such as the axion-dilaton in <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span>).</p></li>
+</ul>
+</section>
+<section id="fluid-gravity-duality-kss-bound-ryutakayanagi-entanglement-entropy">
+<h3>1.3 Fluid/Gravity Duality (KSS Bound) &amp; Ryu–Takayanagi Entanglement Entropy<a class="headerlink" href="#fluid-gravity-duality-kss-bound-ryutakayanagi-entanglement-entropy" title="Link to this heading">¶</a></h3>
+<p>At finite temperature, a planar black brane in <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> is dual to a strongly coupled thermal <span class="math notranslate nohighlight">\(\mathcal{N}=4\)</span> SYM plasma (<a class="reference internal" href="#adscft-chat-fluidgravity2026"><span class="xref myst">Provenance Chat Log: Fluid/Gravity Duality (2026)</span></a>, lines 136–325). Absorbing low-frequency gravitons on the bulk horizon yields the <strong>Kovtun–Son–Starinets (KSS) universal lower bound</strong> (<a class="reference internal" href="#adscft-kss2005"><span class="xref myst">Kovtun, Son &amp; Starinets 2005</span></a>, <code class="docutils literal notranslate"><span class="pre">kssShearViscosityEntropyBound</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\left(\frac{\eta_{\mathrm{shear}}}{s_{\mathrm{ent}}}\right)_{\mathrm{KSS}} = \frac{\hbar}{4\pi k_B} &gt; 0.
+\]</div>
+<p>Similarly, in <span class="math notranslate nohighlight">\(\text{AdS}_3/\text{CFT}_2\)</span>, the <strong>Brown–Henneaux central charge</strong> (<a class="reference internal" href="#adscft-brown1986"><span class="xref myst">Brown &amp; Henneaux 1986</span></a>, <code class="docutils literal notranslate"><span class="pre">brownHenneauxCentralCharge</span></code>) <span class="math notranslate nohighlight">\(c_{\mathrm{BH}} = \frac{3 R_{\mathrm{AdS}}}{2 G_N^{(3)}}\)</span> and the <strong>Ryu–Takayanagi minimal geodesic formula</strong> (<a class="reference internal" href="#adscft-ryu2006"><span class="xref myst">Ryu &amp; Takayanagi 2006</span></a>, <code class="docutils literal notranslate"><span class="pre">ryuTakayanagiEntanglementEntropyAdS3</span></code>) satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+S_{\mathrm{EE}}(\ell, \epsilon_{\mathrm{UV}}) = \frac{L_{\mathrm{geod}}(\ell, \epsilon_{\mathrm{UV}})}{4 G_N^{(3)}} = \frac{R_{\mathrm{AdS}}}{2 G_N^{(3)}}\ln\!\left(\frac{\ell}{\epsilon_{\mathrm{UV}}}\right) = \frac{c_{\mathrm{BH}}}{3}\ln\!\left(\frac{\ell}{\epsilon_{\mathrm{UV}}}\right).
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="planar-ads-cft-integrability-spin-chains-spectral-curves-magnon-dispersion-and-the-konishi-benchmark-arxiv-1012-3982">
+<h2>2. Planar AdS/CFT Integrability: Spin Chains, Spectral Curves, Magnon Dispersion, and the Konishi Benchmark (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>)<a class="headerlink" href="#planar-ads-cft-integrability-spin-chains-spectral-curves-magnon-dispersion-and-the-konishi-benchmark-arxiv-1012-3982" title="Link to this heading">¶</a></h2>
+<p>As synthesized in the 23-chapter coordinated review by <strong>Beisert et al. (2012)</strong> (<em>Review of AdS/CFT Integrability: An Overview</em>, <em>Lett. Math. Phys.</em> 99, 3–32, <a class="reference internal" href="#adscft-beisert2012"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code></span></a>), planar (<span class="math notranslate nohighlight">\(N_c \to \infty\)</span>) <span class="math notranslate nohighlight">\(\mathcal{N}=4\)</span> SYM and free (<span class="math notranslate nohighlight">\(g_{\mathrm{str}} = 0\)</span>) Type IIB strings on <span class="math notranslate nohighlight">\(\text{AdS}_5 \times S^5\)</span> form an <strong>exact quantum integrable system</strong> bridging weak coupling (<span class="math notranslate nohighlight">\(\lambda \ll 1\)</span>, perturbative Feynman diagrams) and strong coupling (<span class="math notranslate nohighlight">\(\lambda \gg 1\)</span>, semiclassical worldsheet sigma model):</p>
+<ol class="arabic">
+<li><p><strong>Spin-Chain Mapping &amp; One-Loop Bethe Ansatz</strong> (<a class="reference internal" href="#adscft-minahan2003"><span class="xref myst">Minahan &amp; Zarembo 2003</span></a>; <code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code> Sec. I.1):
+Single-trace gauge-invariant operators <span class="math notranslate nohighlight">\(\mathcal{O} = \operatorname{Tr}(Z Z \Phi Z \cdots)\)</span> of length <span class="math notranslate nohighlight">\(L\)</span> with <span class="math notranslate nohighlight">\(M\)</span> impurity magnons map to states of an integrable <span class="math notranslate nohighlight">\(\mathfrak{psu}(2,2|4)\)</span> spin chain. At one loop in the <span class="math notranslate nohighlight">\(\mathfrak{su}(2)\)</span> sector, the Bethe rapidities <span class="math notranslate nohighlight">\(u_k\)</span> satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+   \left(\frac{u_k + i/2}{u_k - i/2}\right)^L = \prod_{j \neq k}^M \frac{u_k - u_j + i}{u_k - u_j - i}, \qquad \prod_{j=1}^M \frac{u_j + i/2}{u_j - i/2} = 1, \qquad \delta D_1 = \sum_{j=1}^M \frac{\lambda}{8\pi^2\bigl(u_j^2 + \frac{1}{4}\bigr)}
+   \]</div>
+<p>(<code class="docutils literal notranslate"><span class="pre">betheOneLoopMagnonEnergy</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>).</p>
+</li>
+<li><p><strong>The Konishi Operator Check Figure (<span class="math notranslate nohighlight">\(L=4, M=2\)</span>)</strong> (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code> Sec. I.2):
+For the simplest non-protected local operator (<span class="math notranslate nohighlight">\(L=4, M=2\)</span>), the cyclicity and Bethe equations fix <span class="math notranslate nohighlight">\(u_1 = -u_2 = \frac{1}{2\sqrt{3}}\)</span> (<span class="math notranslate nohighlight">\(u_k^2 = \frac{1}{12}\)</span>, so <span class="math notranslate nohighlight">\(u_k^2 + \frac{1}{4} = \frac{1}{3}\)</span>). Summing the two magnons yields the exact one-loop Konishi anomalous dimension proved in <code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = 2 \cdot \frac{\lambda}{8\pi^2(1/12 + 1/4)} = \frac{3\lambda}{4\pi^2},
+   \]</div>
+<p>which extends at four loops (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code> Sec. I.2) to:</p>
+<div class="math notranslate nohighlight">
+\[
+   \delta D_{\mathrm{Konishi}}(\lambda) = \frac{3\lambda}{4\pi^2} - \frac{3\lambda^2}{16\pi^4} + \frac{21\lambda^3}{256\pi^6} - \frac{\bigl(78 - 18\zeta(3) + 45\zeta(5)\bigr)\lambda^4}{2048\pi^8} + \mathcal{O}(\lambda^5).
+   \]</div>
+</li>
+<li><p><strong>All-Loop <span class="math notranslate nohighlight">\(\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3\)</span> Bound-State Magnon Dispersion Relation</strong> (<a class="reference internal" href="#adscft-beisert2005"><span class="xref myst">Beisert 2005</span></a>; <a class="reference internal" href="#adscft-dorey2006"><span class="xref myst">Dorey 2006</span></a>; <code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code> Sec. III.2):
+Representation theory of the centrally extended <span class="math notranslate nohighlight">\(\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3\)</span> residual symmetry algebra above the BMN vacuum <span class="math notranslate nohighlight">\(\operatorname{Tr}(Z^J)\)</span> fixes the exact all-loop dispersion relation for an <span class="math notranslate nohighlight">\(M\)</span>-magnon bound state (<code class="docutils literal notranslate"><span class="pre">adsMagnonDispersionSq</span></code>, <code class="docutils literal notranslate"><span class="pre">adsMagnonDispersion</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+   E_{\mathrm{mag}}(M, \lambda, p) = \sqrt{M^2 + \frac{\lambda}{\pi^2}\sin^2\!\left(\frac{p}{2}\right)} = \sqrt{M^2 + 4 g_{\mathrm{int}}^2\sin^2\!\left(\frac{p}{2}\right)} \ge M.
+   \]</div>
+</li>
+<li><p><strong>Cusp Anomalous Dimension <span class="math notranslate nohighlight">\(D_{\mathrm{cusp}}(\lambda)\)</span> Interpolating Benchmark</strong> (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code> Sec. III.4):
+For large-spin twist-2 operators, the BES integral equation smoothly interpolates between weak and strong coupling:</p>
+<div class="math notranslate nohighlight">
+\[
+   D_{\mathrm{cusp}}(\lambda) = \frac{\lambda}{2\pi^2} - \frac{\lambda^2}{96\pi^2} + \frac{11\lambda^3}{23040\pi^2} - \cdots \;\underset{\lambda\to\infty}{=}\; \frac{\sqrt{\lambda}}{\pi} - \frac{3\ln 2}{\pi} - \frac{\mathrm{K}_{\mathrm{Catalan}}}{\pi\sqrt{\lambda}} - \cdots.
+   \]</div>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="secret-symmetries-in-ads-cft-centrally-extended-mathfrak-psl-2-2-c-braided-coproducts-and-indented-yangians-arxiv-1204-2366">
+<h2>3. Secret Symmetries in AdS/CFT: Centrally Extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span>, Braided Coproducts, and Indented Yangians (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>)<a class="headerlink" href="#secret-symmetries-in-ads-cft-centrally-extended-mathfrak-psl-2-2-c-braided-coproducts-and-indented-yangians-arxiv-1204-2366" title="Link to this heading">¶</a></h2>
+<p>In <strong>de Leeuw, Matsumoto, Moriyama, Regelskis, and Torrielli (2012)</strong> (<em>Secret Symmetries in AdS/CFT</em>, <em>Physica Scripta</em> 86, 028502, <a class="reference internal" href="#adscft-deleeuw2012"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code></span></a>), the authors review the remarkable discovery (<a class="reference internal" href="#adscft-matsumoto2007"><span class="xref myst">Matsumoto, Moriyama &amp; Torrielli 2007</span></a>) that the AdS/CFT integrable system possesses a <strong>secret (bonus) quantum-group symmetry</strong> <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}}\)</span> at Yangian level <span class="math notranslate nohighlight">\(1\)</span> (and odd levels) that has <strong>no level-<span class="math notranslate nohighlight">\(0\)</span> partner</strong>:</p>
+<section id="level-0-centrally-extended-mathfrak-psl-2-2-c-d-2-1-1-and-braided-central-charges">
+<h3>3.1 Level-0 Centrally Extended <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c = D(2,1;-1)\)</span> and Braided Central Charges<a class="headerlink" href="#level-0-centrally-extended-mathfrak-psl-2-2-c-d-2-1-1-and-braided-central-charges" title="Link to this heading">¶</a></h3>
+<p>The level-<span class="math notranslate nohighlight">\(0\)</span> algebra <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> has even part <span class="math notranslate nohighlight">\(\mathfrak{sl}(2)_L \oplus \mathfrak{sl}(2)_R \oplus \operatorname{span}\{\mathbb{H}, \mathbb{C}, \mathbb{C}^\dagger\}\)</span> and odd supercharges <span class="math notranslate nohighlight">\(\mathbb{Q}_\alpha^a, \mathbb{G}_a^\alpha\)</span> satisfying (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Sec. 2.1):</p>
+<div class="math notranslate nohighlight">
+\[
+\{\mathbb{Q}_\alpha^a, \mathbb{Q}_\beta^b\} = \epsilon_{\alpha\beta}\epsilon^{ab}\mathbb{C}, \qquad
+\{\mathbb{G}_a^\alpha, \mathbb{G}_b^\beta\} = \epsilon^{\alpha\beta}\epsilon_{ab}\mathbb{C}^\dagger, \qquad
+\{\mathbb{Q}_\alpha^a, \mathbb{G}_b^\beta\} = \delta_b^a \mathbb{R}_\alpha^\beta + \delta_\alpha^\beta \mathbb{L}_b^a + \frac{1}{2}\delta_b^a\delta_\alpha^\beta \mathbb{H}.
+\]</div>
+<p>Its braided Hopf coproduct <span class="math notranslate nohighlight">\(\Delta(\mathbb{J}^A) = \mathbb{J}^A \otimes \mathbb{1} + e^{i[[A]]p} \otimes \mathbb{J}^A\)</span> (<code class="docutils literal notranslate"><span class="pre">Eq.</span> <span class="pre">(2.1)</span></code>) is quasi-cocommutative (<span class="math notranslate nohighlight">\(\Delta^{\mathrm{op}}(\mathbb{C}) = \Delta(\mathbb{C})\)</span>) if and only if the central charges are linked to the worldsheet momentum braiding operator <span class="math notranslate nohighlight">\(e^{\pm ip}\)</span> by (<code class="docutils literal notranslate"><span class="pre">Eq.</span> <span class="pre">(2.4)–(2.5)</span></code>, <code class="docutils literal notranslate"><span class="pre">psl22BraidedCentralChargeC</span></code>, <code class="docutils literal notranslate"><span class="pre">psl22BraidedCentralChargeCDag</span></code>, <code class="docutils literal notranslate"><span class="pre">psl22BraidedCoproductC</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+e^{ip} = \mathbb{C}(p) + \mathbb{1}, \qquad e^{-ip} = \mathbb{C}^\dagger(p) + \mathbb{1}
+\implies \Delta(\mathbb{C}) = \mathbb{C} \otimes \mathbb{1} + \mathbb{1} \otimes \mathbb{C} + \mathbb{C} \otimes \mathbb{C} = \Delta^{\mathrm{op}}(\mathbb{C}).
+\]</div>
+<p>As machine-checked in <code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code>, this immediately enforces the nonlinear central-charge constraint:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{C}(p)\,\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p) = (e^{ip} - 1)(e^{-ip} - 1) + (e^{ip} - 1) + (e^{-ip} - 1) = 0,
+\]</div>
+<p>and the two-magnon momentum factorization <span class="math notranslate nohighlight">\((1 + \mathbb{C}(p_1))(1 + \mathbb{C}(p_2)) = 1 + \Delta(\mathbb{C})(\mathbb{C}(p_1), \mathbb{C}(p_2)) = e^{i(p_1 + p_2)}\)</span>.</p>
+</section>
+<section id="why-the-secret-symmetry-widehat-mathbb-b-is-indented-absent-at-level-0-present-at-level-1">
+<h3>3.2 Why the Secret Symmetry <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}}\)</span> Is Indented (Absent at Level 0, Present at Level 1)<a class="headerlink" href="#why-the-secret-symmetry-widehat-mathbb-b-is-indented-absent-at-level-0-present-at-level-1" title="Link to this heading">¶</a></h3>
+<p>In the <span class="math notranslate nohighlight">\((2|2)\)</span>-graded module <span class="math notranslate nohighlight">\(\mathbb{C}^{2|2}\)</span> (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Sec. 2.3 &amp; Sec. 3.1), generic long representations of <span class="math notranslate nohighlight">\(\mathfrak{gl}(2|2)\)</span> have dimension <span class="math notranslate nohighlight">\(\dim V_{\mathrm{long}}(j_1, j_2) = 16(2 j_1 + 1)(2 j_2 + 1)\)</span> (<code class="docutils literal notranslate"><span class="pre">gl22LongRepDim</span></code>), whereas physical <span class="math notranslate nohighlight">\(M\)</span>-magnon bound states live in atypical short representations of dimension <span class="math notranslate nohighlight">\(\dim V_{\mathrm{short}}(M) = 4 M &lt; 16(M + 1)\)</span> (<code class="docutils literal notranslate"><span class="pre">psl22ShortBoundStateDim</span></code>, with <span class="math notranslate nohighlight">\(\dim = 4\)</span> for the fundamental <span class="math notranslate nohighlight">\(M=1\)</span> multiplet <span class="math notranslate nohighlight">\((|\phi^1\rangle, |\phi^2\rangle \mid |\psi^1\rangle, |\psi^2\rangle)\)</span>).</p>
+<p>Every generator of <span class="math notranslate nohighlight">\(Y(\mathfrak{psl}(2|2)_c)\)</span> is <strong>supertraceless</strong> (<span class="math notranslate nohighlight">\(\operatorname{STr}(J) = J_{00} + J_{11} - J_{22} - J_{33} = 0\)</span>). By contrast, the secret hypercharge generator (<code class="docutils literal notranslate"><span class="pre">secretSymmetryMatrix</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{\mathbb{B}}(B_0) = B_0\,\operatorname{diag}(1, 1, -1, -1)
+\]</div>
+<p>has <strong>vanishing ordinary trace</strong> (<span class="math notranslate nohighlight">\(\operatorname{Tr}(\widehat{\mathbb{B}}) = 0\)</span>) but <strong>non-vanishing supertrace</strong> (<code class="docutils literal notranslate"><span class="pre">supertrace22</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{STr}\bigl(\widehat{\mathbb{B}}(B_0)\bigr) = B_0\bigl((1 + 1) - (-1 - 1)\bigr) = 4 B_0 \neq 0.
+\]</div>
+<p>Why does the level-<span class="math notranslate nohighlight">\(0\)</span> operator <span class="math notranslate nohighlight">\(\Delta(\mathbb{B}) = \mathbb{B} \otimes \mathbb{1} + \mathbb{1} \otimes \mathbb{B}\)</span> fail to commute with the AdS/CFT <span class="math notranslate nohighlight">\(R\)</span>-matrix, while the level-<span class="math notranslate nohighlight">\(1\)</span> braided operator (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (3.1)–(3.2)):</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta(\widehat{\mathbb{B}}) = \widehat{\mathbb{B}} \otimes \mathbb{1} + \mathbb{1} \otimes \widehat{\mathbb{B}} + e^{\frac{i}{2}p}\mathbb{G}_a^\alpha \otimes \mathbb{Q}_\alpha^a + e^{-\frac{i}{2}p}\mathbb{Q}_\alpha^a \otimes \mathbb{G}_a^\alpha
+\]</div>
+<p>satisfies <span class="math notranslate nohighlight">\(\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\mathbb{B}})\)</span>?</p>
+<ul>
+<li><p><strong>Level-0 Breakdown</strong>: Beisert’s <span class="math notranslate nohighlight">\(R\)</span>-matrix includes the two-body conversion process <span class="math notranslate nohighlight">\(\text{fermion} \otimes \text{fermion} \longrightarrow \text{boson} \otimes \text{boson}\)</span> (<span class="math notranslate nohighlight">\(|\psi^1\psi^2\rangle \leftrightarrow |\phi^1\phi^2\rangle\)</span>), which changes the naive fermionic grading <span class="math notranslate nohighlight">\(\Delta(\mathbb{B})\)</span> by <span class="math notranslate nohighlight">\(\Delta B = (+2) - (-2) = +4\)</span>.</p></li>
+<li><p><strong>Level-1 Restoration &amp; Level-Raising Property</strong>: The bilinear supercharge tail <span class="math notranslate nohighlight">\(e^{\frac{i}{2}p}\mathbb{G}\otimes\mathbb{Q} + e^{-\frac{i}{2}p}\mathbb{Q}\otimes\mathbb{G}\)</span> supplies the exact off-diagonal <span class="math notranslate nohighlight">\(|\psi^1\psi^2\rangle \leftrightarrow |\phi^1\phi^2\rangle\)</span> counterterm, and commuting <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}}\)</span> with the level-<span class="math notranslate nohighlight">\(0\)</span> supercharges raises the Yangian level (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (3.5) &amp; Sec. 3.3):</p>
+<div class="math notranslate nohighlight">
+\[
+  \widehat{\mathbb{Q}}_\alpha^a = [\widehat{\mathbb{B}}, \mathbb{Q}_\alpha^a] + i(1 + e^{-ip})\epsilon^{ab}\epsilon_{\alpha\beta}\mathbb{G}_b^\beta, \qquad [\widehat{\mathfrak{B}}, \mathfrak{Q}^{\alpha b}] = +\widehat{\mathfrak{Q}}^{\alpha b}.
+  \]</div>
+</li>
+</ul>
+<p>Across the five sectors reviewed in <a class="reference internal" href="#adscft-deleeuw2012"><span class="xref myst">de Leeuw et al. (2012, <code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>)</span></a>, the secret symmetry manifests as:</p>
+<ol class="arabic">
+<li><p><strong>Worldsheet <span class="math notranslate nohighlight">\(S\)</span>-Matrix / Spectral Problem</strong> (Sec. 3.1): <span class="math notranslate nohighlight">\(\Delta^{\mathrm{op}}(\widehat{\mathbb{B}}) R = R \Delta(\widehat{\mathbb{B}})\)</span> for all bound-state representations <span class="math notranslate nohighlight">\(4 M\)</span>. In <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, we formalize the full <span class="math notranslate nohighlight">\(16 \times 16\)</span> <span class="math notranslate nohighlight">\(\mathbb{Z}_2\)</span>-graded permutation matrix <span class="math notranslate nohighlight">\(\Pi_{16}\)</span> (<code class="docutils literal notranslate"><span class="pre">psl22GradedSwap16</span></code>), the 6-parameter <span class="math notranslate nohighlight">\(16 \times 16\)</span> worldsheet <span class="math notranslate nohighlight">\(R\)</span>-matrix <span class="math notranslate nohighlight">\(R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\)</span> (<code class="docutils literal notranslate"><span class="pre">psl22WorldsheetRMatrix16</span></code>), the diagonal secret coproduct <span class="math notranslate nohighlight">\(\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)\)</span> (<code class="docutils literal notranslate"><span class="pre">psl22SecretCoproductDiag16</span></code>), and the antisymmetric off-diagonal Yangian tail <span class="math notranslate nohighlight">\(\Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)\)</span> (<code class="docutils literal notranslate"><span class="pre">psl22YangianTail16</span></code>), proving (<code class="docutils literal notranslate"><span class="pre">psl22_rmatrix16_secret_coproduct_intertwining</span></code>):</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\Pi_{16}^2 = I_{16}\)</span> and <span class="math notranslate nohighlight">\(\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,\Pi_{16} = \Pi_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)\)</span>,</p></li>
+<li><p>When <span class="math notranslate nohighlight">\(B_1 \neq B_2\)</span> and <span class="math notranslate nohighlight">\(L_{BF} \neq 0\)</span>, the diagonal secret coproduct alone leaves a mixed boson–fermion diagonal residual <span class="math notranslate nohighlight">\(2(B_2 - B_1)L_{BF}\)</span> at <span class="math notranslate nohighlight">\(|\phi^1 \otimes \psi^1\rangle\)</span>,</p></li>
+<li><p>Adding the off-diagonal Yangian tail <span class="math notranslate nohighlight">\(\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}) = G_{BF}\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2) + \Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)\)</span> (<code class="docutils literal notranslate"><span class="pre">psl22SecretCoproductFull16</span></code>) cancels this residual identically across all <span class="math notranslate nohighlight">\(16 \times 16\)</span> entries:</p>
+<div class="math notranslate nohighlight">
+\[
+     \Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}).
+     \]</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Open-String Boundary <span class="math notranslate nohighlight">\(K\)</span>-Matrices</strong> (Sec. 3.2): Twisted secret charges <span class="math notranslate nohighlight">\(\widetilde{\mathbb{Q}}_{\alpha,\pm 1}^2, \widetilde{\mathbb{G}}_{2,\pm 1}^\alpha\)</span> for <span class="math notranslate nohighlight">\(Y=0\)</span> maximal giant gravitons (<span class="math notranslate nohighlight">\(D3\)</span>-branes) and horizontal/vertical <span class="math notranslate nohighlight">\(D5\)</span>-branes.</p></li>
+<li><p><strong>Planar <span class="math notranslate nohighlight">\(n\)</span>-Point Scattering Amplitudes &amp; Grassmannian Integral</strong> (Sec. 3.3; <a class="reference internal" href="#adscft-beisert2011"><span class="xref myst">Beisert &amp; Schwab 2011</span></a>): The bonus level-<span class="math notranslate nohighlight">\(1\)</span> generator <span class="math notranslate nohighlight">\(\widehat{\mathfrak{B}}\)</span> leaves the Grassmannian integral formula (<a class="reference internal" href="#adscft-arkani2010"><span class="xref myst">Arkani-Hamed et al. 2010</span></a>) invariant and satisfies the length-changing anomaly equation <span class="math notranslate nohighlight">\(\widehat{\mathfrak{B}}\mathcal{A}_n + \widehat{\mathfrak{B}}^+\mathcal{A}_{n-1} = 0\)</span>.</p></li>
+<li><p><strong>Pure-Spinor Worldsheet Sigma Model</strong> (Sec. 3.4; <a class="reference internal" href="#adscft-berkovits2011"><span class="xref myst">Berkovits &amp; Mikhailov 2011</span></a>): Lifting <span class="math notranslate nohighlight">\(T(z) \in PSU(2,2|4)\)</span> to <span class="math notranslate nohighlight">\(SU(2,2|4)\)</span> and supertracing with the hypercharge matrix <span class="math notranslate nohighlight">\(s = \operatorname{diag}(\mathbb{1}_4, -\mathbb{1}_4)\)</span> generates BRST-closed nonlocal bonus charges <span class="math notranslate nohighlight">\(\operatorname{STr}(s\log T(z))\)</span> at <strong>odd levels only</strong>.</p></li>
+<li><p><strong>Quantum-Deformed Hubbard Affine Algebra <span class="math notranslate nohighlight">\(\widehat{Q} = U_q(\widehat{\mathfrak{sl}}(2|2))_c\)</span></strong> (Sec. 3.5; <a class="reference internal" href="#adscft-deleeuw2011"><span class="xref myst">de Leeuw, Regelskis &amp; Torrielli 2011</span></a>): With symmetric Cartan matrix (<code class="docutils literal notranslate"><span class="pre">qDeformedHubbardCartanDA</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+   DA = \begin{pmatrix} 2 &amp; -1 &amp; 0 &amp; -1 \\ -1 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; -2 &amp; 1 \\ -1 &amp; 0 &amp; 1 &amp; 0 \end{pmatrix}, \qquad \operatorname{Tr}(DA) = 0, \qquad \det(DA) = 0,
+   \end{split}\]</div>
+<p>the bound-state <span class="math notranslate nohighlight">\(R\)</span>-matrix admits a pair of <span class="math notranslate nohighlight">\(q\)</span>-deformed secret symmetries <span class="math notranslate nohighlight">\((\Delta\mathbb{B}_E, \Delta\mathbb{B}_F)\)</span> at levels <span class="math notranslate nohighlight">\(+1\)</span> and <span class="math notranslate nohighlight">\(-1\)</span> that coalesce into <span class="math notranslate nohighlight">\(\Delta\widehat{\mathbb{B}}\)</span> as <span class="math notranslate nohighlight">\(q \to 1\)</span>.</p>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="unification-of-complex-grassmannian-gr-mathbb-c-2-4-and-ddf-mechanics-with-ads-cft-and-secret-symmetries-with-and-without-splats">
+<h2>4. Unification of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and DDF Mechanics with AdS/CFT and Secret Symmetries (With and Without Splats)<a class="headerlink" href="#unification-of-complex-grassmannian-gr-mathbb-c-2-4-and-ddf-mechanics-with-ads-cft-and-secret-symmetries-with-and-without-splats" title="Link to this heading">¶</a></h2>
+<section id="without-splats-the-3-term-plucker-identity-on-gr-mathbb-c-2-4-is-the-mathfrak-psl-2-2-c-outer-automorphism-central-charge-dispersion-law">
+<h3>4.1 Without Splats: The 3-Term Plücker Identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Is the <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Outer-Automorphism Central-Charge Dispersion Law<a class="headerlink" href="#without-splats-the-3-term-plucker-identity-on-gr-mathbb-c-2-4-is-the-mathfrak-psl-2-2-c-outer-automorphism-central-charge-dispersion-law" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code> Section 2.3 (Eqs. (2.10)–(2.11)), any short representation of <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> is constructed by an <span class="math notranslate nohighlight">\(\mathfrak{sl}(2)\)</span> outer automorphism parameterized by four complex numbers <span class="math notranslate nohighlight">\((a, b, c, d)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{Q}_\alpha^a = a\,E_{\alpha a} + b\,\epsilon_{\alpha\beta}\epsilon^{ab} E_{b\beta}, \qquad
+\mathbb{G}_a^\alpha = c\,\epsilon_{ab}\epsilon^{\alpha\beta} E_{\beta b} + d\,E_{a\alpha},
+\]</div>
+<p>subject to the unimodularity constraint <span class="math notranslate nohighlight">\(a d - b c = 1\)</span> (or <span class="math notranslate nohighlight">\(a d - b c = M\)</span> for an <span class="math notranslate nohighlight">\(M\)</span>-magnon bound state), with central charges <span class="math notranslate nohighlight">\(\mathbb{H} = a d + b c\)</span>, <span class="math notranslate nohighlight">\(\mathbb{C} = a b\)</span>, and <span class="math notranslate nohighlight">\(\mathbb{C}^\dagger = c d\)</span>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, we embed <span class="math notranslate nohighlight">\((a, b, c, d)\)</span> directly into the complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> via (<code class="docutils literal notranslate"><span class="pre">psl22SecretAutomorphismGr24Matrix</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+W_{\mathrm{sec}}(a, b, c, d) = \begin{pmatrix} a &amp; b &amp; a &amp; -b \\ c &amp; d &amp; -c &amp; d \end{pmatrix} \in \mathbb{C}^{2 \times 4}.
+\end{split}\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification</span></code> proves that the six <span class="math notranslate nohighlight">\(2 \times 2\)</span> Plücker minors <span class="math notranslate nohighlight">\(\Delta_{ij}^{\mathbb{C}}(W_{\mathrm{sec}})\)</span> evaluate to:</p>
+<ul>
+<li><p><strong>Uncrossed Minors (<span class="math notranslate nohighlight">\(\Delta_{01}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}\)</span>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - b c = M, \qquad \Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - (-b)(-c) = a d - b c = M,
+  \]</div>
+</li>
+<li><p><strong>Crossed Minors (<span class="math notranslate nohighlight">\(\Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}\)</span>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \Delta_{03}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - (-b)c = a d + b c = \mathbb{H}, \qquad \Delta_{12}^{\mathbb{C}}(W_{\mathrm{sec}}) = b(-c) - a d = -(a d + b c) = -\mathbb{H},
+  \]</div>
+</li>
+<li><p><strong>Collector Minors (<span class="math notranslate nohighlight">\(\Delta_{02}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}\)</span>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}}) = -2 a c, \qquad \Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = 2 b d \implies \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = -4(a b)(c d) = -4\,\mathbb{C}\,\mathbb{C}^\dagger.
+  \]</div>
+</li>
+</ul>
+<p>Substituting these into the universal 3-term quadratic Plücker identity <span class="math notranslate nohighlight">\(\Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}} - \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} + \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}} = 0\)</span> on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> yields:</p>
+<div class="math notranslate nohighlight">
+\[
+(a d - b c)^2 - \bigl(-4(a b)(c d)\bigr) - (a d + b c)^2 = 0 \iff \mathbb{H}^2 - 4\,\mathbb{C}\,\mathbb{C}^\dagger = (a d - b c)^2 = M^2!
+\]</div>
+<p>Thus, <strong>the 3-term Plücker identity on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> is the exact geometric origin of the <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> outer-automorphism central-charge invariant <span class="math notranslate nohighlight">\(\mathbb{H}^2 - 4\mathbb{C}\mathbb{C}^\dagger = M^2\)</span> and the all-loop AdS/CFT magnon dispersion relation <span class="math notranslate nohighlight">\(E^2 - \frac{\lambda}{\pi^2}\sin^2(p/2) = M^2\)</span>!</strong></p>
+</section>
+<section id="without-splats-universal-gr-mathbb-c-2-4-plucker-redshift-law-physical-discriminators-between-ads-cft-and-ddf">
+<h3>4.2 Without Splats: Universal <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Redshift Law &amp; Physical Discriminators Between AdS/CFT and DDF<a class="headerlink" href="#without-splats-universal-gr-mathbb-c-2-4-plucker-redshift-law-physical-discriminators-between-ads-cft-and-ddf" title="Link to this heading">¶</a></h3>
+<p>In Poincaré <span class="math notranslate nohighlight">\(\text{AdS}_{d+1}\)</span> (<span class="math notranslate nohighlight">\(d=4\)</span> for <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span>), a planar black brane with horizon at radial depth <span class="math notranslate nohighlight">\(z_H &gt; 0\)</span> has metric emblackening factor (<code class="docutils literal notranslate"><span class="pre">adsPlanarBlackBraneEmblackening</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+f_{\text{AdS}_5}(z) = 1 - \left(\frac{z}{z_H}\right)^4 &gt; 0 \qquad (0 &lt; z &lt; z_H).
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification</span></code> proves that the <strong>same</strong> splat-free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> twistor matrix family <span class="math notranslate nohighlight">\(\operatorname{ddfThermalGr24Matrix}(\beta, \theta)\)</span> governs both <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> planar black branes (with <span class="math notranslate nohighlight">\(\beta_{\text{AdS}_5}(z) = (z/z_H)^2\)</span>) and 4D DDF Painlevé–Gullstrand acoustic horizons (with <span class="math notranslate nohighlight">\(\beta_{\mathrm{DDF}}(r) = \sqrt{r_H/r}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl|w_A^{\mathbb{C}}(M_{\text{AdS}_5}(z))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\text{AdS}_5}(z))\bigr|^2 = 1 - \left(\frac{z}{z_H}\right)^4, \qquad
+\bigl|w_A^{\mathbb{C}}(M_{\mathrm{DDF}}(r))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{DDF}}(r))\bigr|^2 = 1 - \frac{r_H}{r}.
+\]</div>
+<p>At the same time, our formalization maintains a strict physical boundary between <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span> and <span class="math notranslate nohighlight">\((3+1)\)</span>-dimensional <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>/DDF mechanics (<a class="reference internal" href="#adscft-chat-fluidgravity2026"><span class="xref myst">Provenance Chat Log: Dilatant Fluid vs. GR &amp; AdS/CFT (2026)</span></a>, lines 299–325):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Physical Observable / Regime</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span> &amp; Planar Integrability (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)</p></th>
+<th class="head"><p>Unified <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; DDF Mechanics (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></th>
+<th class="head"><p>Machine-Checked Lean 4 Theorem</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Spacetime Geometry &amp; Asymptotics</strong></p></td>
+<td><p>5D Anti-de Sitter bulk (<span class="math notranslate nohighlight">\(\Lambda &lt; 0\)</span>) with 4D conformal boundary <span class="math notranslate nohighlight">\(\partial\text{AdS}_5\)</span></p></td>
+<td><p>4D Painlevé–Gullstrand river flow (<code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code>) with asymptotically flat (<span class="math notranslate nohighlight">\(r\to\infty\)</span>) Minkowski acoustic metric</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">material_minkowski_interval</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.horizon_velocity_matches_c</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Solar-System Ephemerides (Mercury Perihelion)</strong></p></td>
+<td><p>Not directly applicable (<span class="math notranslate nohighlight">\(\Lambda &lt; 0\)</span> saddle boundary conditions)</p></td>
+<td><p>Exact 1PN perihelion precession <span class="math notranslate nohighlight">\(\Delta\varpi = \frac{3\pi r_H}{a(1-e^2)} = 42.98''/\text{cy}\)</span> encoded in <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.gr24PrecessionMatrix</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mercury_perihelion_precession_arcsec_per_century_bounds</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24PrecessionMatrix_orbital_identities</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Galactic Outer-Disk Rotation Curves</strong></p></td>
+<td><p>Requires dark matter or modified bulk profile</p></td>
+<td><p>Isothermal superfluid barotrope yields flat plateau <span class="math notranslate nohighlight">\(v_{\mathrm{flat}} = \sqrt{q_\rho}c_\phi = \sqrt{2}c_\phi\)</span> (<span class="math notranslate nohighlight">\(q_\rho=2\)</span>) without dark matter halos</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isothermal_sphere_flat_velocity</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Quantum Fluid Viscosity vs. Superfluidity</strong></p></td>
+<td><p>Thermal boundary plasma saturates KSS bound <span class="math notranslate nohighlight">\(\eta/s = \frac{\hbar}{4\pi k_B} &gt; 0\)</span></p></td>
+<td><p>Frictionless superflow below Landau critical velocity (<span class="math notranslate nohighlight">\(\Delta E &gt; 0\)</span>); dilatant shear jamming <span class="math notranslate nohighlight">\(\gamma_\varphi(v)\)</span> at high stress</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kssShearViscosityEntropyBound</span></code>, <code class="docutils literal notranslate"><span class="pre">subcritical_no_dissipation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Active Photon-Photon Gravitational Deflection</strong></p></td>
+<td><p>Bulk GR supergravity (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1\)</span>): non-parallel light beams gravitate</p></td>
+<td><p>Passive phonon excitations (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>): mutual gravitational deflection of non-co-propagating laser beams vanishes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ddf_photon_deflection_null</span></code>, <code class="docutils literal notranslate"><span class="pre">gr_photon_deflection_active</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="with-normed-tensor-gaussian-splats-holographic-rg-scale-radius-flow-adsholographicrgsplat">
+<h3>4.3 With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (<code class="docutils literal notranslate"><span class="pre">adsHolographicRGSplat</span></code>)<a class="headerlink" href="#with-normed-tensor-gaussian-splats-holographic-rg-scale-radius-flow-adsholographicrgsplat" title="Link to this heading">¶</a></h3>
+<p>In AdS/CFT, the Poincaré radial coordinate <span class="math notranslate nohighlight">\(z &gt; 0\)</span> is the <strong>renormalization group (RG) coarse-graining length scale</strong> of the boundary CFT (<span class="math notranslate nohighlight">\(z \to 0\)</span> is the UV boundary; <span class="math notranslate nohighlight">\(z \to z_H\)</span> is the IR thermal horizon). Representing a localized boundary CFT state at RG scale <span class="math notranslate nohighlight">\(z_{\mathrm{rg}} &gt; 0\)</span> by <code class="docutils literal notranslate"><span class="pre">adsHolographicRGSplat</span> <span class="pre">cx</span> <span class="pre">cy</span> <span class="pre">weight</span> <span class="pre">z_rg</span></code> (<span class="math notranslate nohighlight">\(\sigma_1 = \sigma_2 = z_{\mathrm{rg}}\)</span>), Theorem <code class="docutils literal notranslate"><span class="pre">RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification</span></code> proves that under an RG scale dilatation <span class="math notranslate nohighlight">\(z_{\mathrm{UV}} \mapsto z_{\mathrm{IR}} = \lambda_{\mathrm{rg}}\,z_{\mathrm{UV}}\)</span> (<span class="math notranslate nohighlight">\(\lambda_{\mathrm{rg}} &gt; 1\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+\det\Sigma_{\mathrm{RG}}(\lambda_{\mathrm{rg}} z_{\mathrm{UV}}) = \lambda_{\mathrm{rg}}^4\,\det\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}}) &gt; \det\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}}),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+Q_{\mathrm{core}}\bigl(\Sigma_{\mathrm{RG}}(\lambda_{\mathrm{rg}} z_{\mathrm{UV}})\bigr) = \frac{\hbar^2}{2 m\,(\lambda_{\mathrm{rg}} z_{\mathrm{UV}})^2} = \frac{1}{\lambda_{\mathrm{rg}}^2}\,Q_{\mathrm{core}}\bigl(\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}})\bigr) \le Q_{\mathrm{core}}\bigl(\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}})\bigr).
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="catalog-of-check-figures-quantitative-benchmarks-across-ads-cft-integrability-arxiv-1012-3982-secret-symmetries-arxiv-1204-2366-gr-mathbb-c-2-4-and-ddf">
+<h2>5. Catalog of Check Figures &amp; Quantitative Benchmarks Across AdS/CFT, Integrability (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>), Secret Symmetries (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>), <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, and DDF<a class="headerlink" href="#catalog-of-check-figures-quantitative-benchmarks-across-ads-cft-integrability-arxiv-1012-3982-secret-symmetries-arxiv-1204-2366-gr-mathbb-c-2-4-and-ddf" title="Link to this heading">¶</a></h2>
+<p>To enable rapid verification and cross-checking across analytical, numerical (Rust/WASM), and formal (Lean 4) implementations, the table below compiles <strong>18 exact check figures</strong> implemented and tested in <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and <code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Domain &amp; Source Citation</p></th>
+<th class="head"><p>Observable / Benchmark Quantity</p></th>
+<th class="head"><p>Exact Formula / Input Parameters</p></th>
+<th class="head"><p>Check Figure / Verified Value</p></th>
+<th class="head"><p>Lean 4 / Rust Verification</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1</strong></p></td>
+<td><p>Maldacena (1998) / Beisert et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>, p. 8)</p></td>
+<td><p>‘t Hooft coupling at unit string tension <span class="math notranslate nohighlight">\(T_{\mathrm{str}} = 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\lambda = 4\pi^2 T_{\mathrm{str}}^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\lambda = 4\pi^2 \approx 39.478418\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adsCouplingFromStringTension</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2</strong></p></td>
+<td><p>Breitenlohner &amp; Freedman (1982) / GKPW (1998)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span> (<span class="math notranslate nohighlight">\(d=4\)</span>) BF stability bound &amp; scaling dimension</p></td>
+<td><p><span class="math notranslate nohighlight">\(m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2/4\)</span>, <span class="math notranslate nohighlight">\(\Delta_+(4, -4)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -4\)</span>, <span class="math notranslate nohighlight">\(\Delta_+ = \Delta_- = 2\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3</strong></p></td>
+<td><p>GKPW (1998, <code class="docutils literal notranslate"><span class="pre">hep-th/9802109</span></code>, <code class="docutils literal notranslate"><span class="pre">hep-th/9802150</span></code>)</p></td>
+<td><p>Massless bulk scalar (<span class="math notranslate nohighlight">\(m^2 R_{\mathrm{AdS}}^2 = 0\)</span>) in <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta_\pm(4, 0) = 2 \pm \sqrt{4 + 0}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta_+ = 4\)</span> (marginal), <span class="math notranslate nohighlight">\(\Delta_- = 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4</strong></p></td>
+<td><p>GKPW (1998)</p></td>
+<td><p>Massive bulk scalar with <span class="math notranslate nohighlight">\(m^2 R_{\mathrm{AdS}}^2 = 5\)</span> in <span class="math notranslate nohighlight">\(\text{AdS}_5/\text{CFT}_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta_\pm(4, 5) = 2 \pm \sqrt{4 + 5}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta_+ = 5\)</span>, <span class="math notranslate nohighlight">\(\Delta_- = -1\)</span>, <span class="math notranslate nohighlight">\(\Delta_+ + \Delta_- = 4\)</span>, <span class="math notranslate nohighlight">\(\Delta_+\Delta_- = -5\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SignalsTests.lean</span></code> (<code class="docutils literal notranslate"><span class="pre">Δ_p</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">Δ_m</span> <span class="pre">=</span> <span class="pre">-1</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5</strong></p></td>
+<td><p>Kovtun, Son &amp; Starinets (2005, <code class="docutils literal notranslate"><span class="pre">hep-th/0405231</span></code>)</p></td>
+<td><p>Holographic shear-viscosity-to-entropy-density bound</p></td>
+<td><p><span class="math notranslate nohighlight">\((\eta/s)_{\mathrm{KSS}} = \frac{\hbar}{4\pi k_B}\)</span> (<span class="math notranslate nohighlight">\(\hbar = k_B = 1\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{1}{4\pi} \approx 0.07957747\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kssShearViscosityEntropyBound</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6</strong></p></td>
+<td><p>Brown &amp; Henneaux (1986) / Ryu &amp; Takayanagi (2006)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{AdS}_3/\text{CFT}_2\)</span> central charge &amp; entanglement (<span class="math notranslate nohighlight">\(R_{\mathrm{AdS}}=6, G_N^{(3)}=3, \ell/\epsilon=5\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(c_{\mathrm{BH}} = \frac{3 R_{\mathrm{AdS}}}{2 G_N^{(3)}}\)</span>, <span class="math notranslate nohighlight">\(S_{\mathrm{EE}} = \frac{c_{\mathrm{BH}}}{3}\ln(\ell/\epsilon)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(c_{\mathrm{BH}} = 3\)</span>, <span class="math notranslate nohighlight">\(S_{\mathrm{EE}} = \ln 5 \approx 1.609438\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ryuTakayanagiEntanglementEntropyAdS3</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>7</strong></p></td>
+<td><p>Minahan &amp; Zarembo (2003) / Beisert et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>, p. 15)</p></td>
+<td><p>Konishi (<span class="math notranslate nohighlight">\(L=4, M=2\)</span>) one-loop Bethe roots &amp; anomalous dimension</p></td>
+<td><p><span class="math notranslate nohighlight">\(u_{1,2} = \pm \frac{1}{2\sqrt{3}}\)</span> (<span class="math notranslate nohighlight">\(u_k^2 = \frac{1}{12}\)</span>), <span class="math notranslate nohighlight">\(\delta D_{\mathrm{K}}^{(1)} = \sum_{k=1}^2 \frac{\lambda}{8\pi^2(u_k^2+1/4)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = \frac{3\lambda}{4\pi^2}\)</span> (at <span class="math notranslate nohighlight">\(\lambda=16\)</span>: <span class="math notranslate nohighlight">\(\frac{12}{\pi^2} \approx 1.215854\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>8</strong></p></td>
+<td><p>Beisert (2005) / Beisert et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>, p. 20)</p></td>
+<td><p>All-loop bound-state magnon energy at <span class="math notranslate nohighlight">\(p=0\)</span> and <span class="math notranslate nohighlight">\(p=\pi\)</span> (<span class="math notranslate nohighlight">\(M=3, \lambda=16\pi^2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(E(M,\lambda,p) = \sqrt{M^2 + \frac{\lambda}{\pi^2}\sin^2(p/2)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(E(3, 16\pi^2, 0) = 3\)</span>; <span class="math notranslate nohighlight">\(E(3, 16\pi^2, \pi) = \sqrt{9+16} = 5\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adsMagnonDispersion</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>9</strong></p></td>
+<td><p>Beisert et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>, p. 21)</p></td>
+<td><p>Cusp anomalous dimension <span class="math notranslate nohighlight">\(D_{\mathrm{cusp}}(\lambda)\)</span> weak vs. strong coefficients</p></td>
+<td><p><span class="math notranslate nohighlight">\(c_1^{\mathrm{weak}} = \frac{1}{2\pi^2}\)</span>, <span class="math notranslate nohighlight">\(c_0^{\mathrm{strong}} = \frac{1}{\pi}\)</span>, <span class="math notranslate nohighlight">\(c_1^{\mathrm{strong}} = -\frac{3\ln 2}{\pi}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(c_1^{\mathrm{weak}} \approx 0.050661\)</span>, <span class="math notranslate nohighlight">\(c_1^{\mathrm{strong}} \approx -0.661907\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AdsCftIntegrabilitySecretModel</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>10</strong></p></td>
+<td><p>de Leeuw et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (2.4)–(2.5))</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> braided central-charge quadratic constraint</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbb{C}(p)\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p)\)</span> for <span class="math notranslate nohighlight">\(\mathbb{C}(p) = e^{ip}-1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (identically for all <span class="math notranslate nohighlight">\(p \in \mathbb{R}\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ads_cft_integrability_and_secret_symmetry_identities</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>11</strong></p></td>
+<td><p>de Leeuw et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Sec. 2.3)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathfrak{gl}(2|2)\)</span> long vs. <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> short bound-state multiplet dimensions</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dim V_{\mathrm{long}}(0,0) = 16(1)(1)\)</span>; <span class="math notranslate nohighlight">\(\dim V_{\mathrm{short}}(M) = 4M\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\dim V_{\mathrm{long}}(0,0) = 16\)</span>; <span class="math notranslate nohighlight">\(\dim V_{\mathrm{short}}(1) = 4\)</span>, <span class="math notranslate nohighlight">\(\dim V_{\mathrm{short}}(2) = 8\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gl22LongRepDim</span></code>, <code class="docutils literal notranslate"><span class="pre">psl22ShortBoundStateDim</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>12</strong></p></td>
+<td><p>de Leeuw et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (3.2) &amp; Sec. 3.4)</p></td>
+<td><p>Indented Yangian secret generator <span class="math notranslate nohighlight">\(\widehat{\mathbb{B}} = B_0\operatorname{diag}(1,1,-1,-1)\)</span> trace vs. supertrace</p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{Tr}(\widehat{\mathbb{B}})\)</span>, <span class="math notranslate nohighlight">\(\operatorname{STr}(\widehat{\mathbb{B}}) = B_{00}+B_{11}-B_{22}-B_{33}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{Tr}(\widehat{\mathbb{B}}) = 0\)</span>, <span class="math notranslate nohighlight">\(\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0\)</span> (at <span class="math notranslate nohighlight">\(B_0=2.5\)</span>: <span class="math notranslate nohighlight">\(\operatorname{STr} = 10\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">secretSymmetryMatrix</span></code>, <code class="docutils literal notranslate"><span class="pre">supertrace22</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>13</strong></p></td>
+<td><p>de Leeuw et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (3.15))</p></td>
+<td><p>Quantum-deformed Hubbard affine Cartan matrix <span class="math notranslate nohighlight">\(DA\)</span> invariants</p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{Tr}(DA)\)</span>, <span class="math notranslate nohighlight">\(\det(DA)\)</span>, row sums of <span class="math notranslate nohighlight">\(DA\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{Tr}(DA) = 0\)</span>, <span class="math notranslate nohighlight">\(\det(DA) = 0\)</span>, <span class="math notranslate nohighlight">\(DA\cdot(1,1,1,1)^T = 0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">qDeformedHubbardCartanDA</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>14</strong></p></td>
+<td><p>This Work (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code> Eq. (2.11))</p></td>
+<td><p><span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker minors of <span class="math notranslate nohighlight">\(W_{\mathrm{sec}}(2,1,1,1)\)</span> (<span class="math notranslate nohighlight">\(ad-bc = 1\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta_{01}^{\mathbb{C}} = \Delta_{23}^{\mathbb{C}} = 1\)</span>, <span class="math notranslate nohighlight">\(\Delta_{03}^{\mathbb{C}} = \mathbb{H} = 3\)</span>, <span class="math notranslate nohighlight">\(\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = -8\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbb{H}^2 - 4\mathbb{C}\mathbb{C}^\dagger = 3^2 - 8 = 1^2 = 1\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">psl22SecretAutomorphismGr24Matrix</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>15</strong></p></td>
+<td><p>This Work (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></td>
+<td><p>Splat-free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker product for <span class="math notranslate nohighlight">\(\text{AdS}_5\)</span> black brane (<span class="math notranslate nohighlight">\(z=1, z_H=2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - (z/z_H)^4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1 - (1/2)^4 = \frac{15}{16} = 0.9375\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adsPlanarBlackBraneEmblackening</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>16</strong></p></td>
+<td><p>This Work (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></td>
+<td><p>Splat-free <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker product for DDF acoustic horizon (<span class="math notranslate nohighlight">\(r_H=1, r=4\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - r_H / r\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1 - \frac{1}{4} = \frac{3}{4} = 0.75\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiverExterior.inflowBeta</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>17</strong></p></td>
+<td><p>This Work (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></td>
+<td><p>Holographic RG Tensor Gaussian Splat flow (<span class="math notranslate nohighlight">\(z_{\mathrm{UV}}=1/2, \lambda_{\mathrm{rg}}=2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{IR}} / \det\Sigma_{\mathrm{UV}} = \lambda_{\mathrm{rg}}^4\)</span>, <span class="math notranslate nohighlight">\(Q_{\mathrm{core}}^{\mathrm{IR}} / Q_{\mathrm{core}}^{\mathrm{UV}} = \lambda_{\mathrm{rg}}^{-2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\det\Sigma_{\mathrm{IR}} / \det\Sigma_{\mathrm{UV}} = 16\)</span>, <span class="math notranslate nohighlight">\(Q_{\mathrm{core}}^{\mathrm{IR}} / Q_{\mathrm{core}}^{\mathrm{UV}} = \frac{1}{4} = 0.25\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adsHolographicRGSplat</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>18</strong></p></td>
+<td><p>Companion Paper 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)</p></td>
+<td><p>1PN Mercury perihelion precession in <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>/DDF (<code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta\varpi_{\mathrm{cy}} = \frac{1944000\,r_{H,\odot}}{a(1-e^2)} \cdot N_{\mathrm{orbits/cy}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(42.98''/\text{century}\)</span> (<span class="math notranslate nohighlight">\(42.98 &lt; \Delta\varpi_{\mathrm{cy}} &lt; 42.99\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mercury_perihelion_precession_arcsec_per_century_bounds</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>19</strong></p></td>
+<td><p>de Leeuw et al. (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>, Eq. (3.1)–(3.3))</p></td>
+<td><p>Full <span class="math notranslate nohighlight">\(16 \times 16\)</span> <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> worldsheet <span class="math notranslate nohighlight">\(R\)</span>-matrix &amp; Yangian tail secret intertwining</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})\,R_{16} - R_{16}\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0_{16 \times 16}\)</span> (for all <span class="math notranslate nohighlight">\(B_1, B_2, A_B, B_B, D_F, E_F, G_{BF}, L_{BF}\)</span>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">psl22_rmatrix16_secret_coproduct_intertwining</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="machine-checked-lean-4-verification-signals-scattering-signals-ddf">
+<h2>6. Machine-Checked Lean 4 Verification (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>)<a class="headerlink" href="#machine-checked-lean-4-verification-signals-scattering-signals-ddf" title="Link to this heading">¶</a></h2>
+<p>The following self-contained Lean 4 proof block typechecks directly against <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and verifies the GKPW mass–dimension dictionary, Breitenlohner–Freedman bound, Ryu–Takayanagi entanglement entropy, KSS viscosity bound, all-loop magnon dispersion, Konishi one-loop check figure, <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> braided central charges, indented Yangian secret supertrace, <span class="math notranslate nohighlight">\(q\)</span>-deformed Hubbard Cartan degeneracy, full <span class="math notranslate nohighlight">\(16 \times 16\)</span> worldsheet <span class="math notranslate nohighlight">\(R\)</span>-matrix secret coproduct intertwining with the Yangian tail, and the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>/DDF unification theorems both with and without splats:</p>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivGrassmannianAdsCftDdfVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Scattering</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.DDF</span>
+
+<span class="c1">-- Unified verification of AdS/CFT (Maldacena 1998, GKPW 1998, KSS 2005, Ryu-Takayanagi 2006),</span>
+<span class="c1">-- Planar Integrability (Beisert et al. 2012, arXiv:1012.3982), Secret Symmetries (de Leeuw et al. 2012, arXiv:1204.2366),</span>
+<span class="c1">-- and Complex Gr_C(2,4) &amp; DDF Mechanics (with and without Normed Tensor Gaussian Splats)</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">sub</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">DDFSubstrate</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">re</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RiverExterior</span><span class="w"> </span><span class="n">sub</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">hr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">re.horizonRadius</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">p</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="n">B0</span><span class="w"> </span><span class="n">B1</span><span class="w"> </span><span class="n">B2</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">Δ_p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">adsCftScalingDimensionPlus</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">Δ_m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">adsCftScalingDimensionMinus</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">C_p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">psl22BraidedCentralChargeC</span><span class="w"> </span><span class="n">p</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">CDag_p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">psl22BraidedCentralChargeCDag</span><span class="w"> </span><span class="n">p</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">C_1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">psl22BraidedCentralChargeC</span><span class="w"> </span><span class="n">p1</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">C_2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">psl22BraidedCentralChargeC</span><span class="w"> </span><span class="n">p2</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">psl22SecretAutomorphismGr24Matrix</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_ads5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="o">((</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">M_ddf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ddfThermalGr24Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">re.inflowBeta</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_uv</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">adsHolographicRGSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">splat_ir</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">adsHolographicRGSplat</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="c1">-- (1) GKPW AdS/CFT mass-dimension dictionary, BF bound, Ryu-Takayanagi entropy, &amp; KSS viscosity bound:</span>
+<span class="w">    </span><span class="n">Δ_p</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">Δ_m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Δ_p</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Δ_m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">-</span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Δ_p</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">Δ_p</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">adsCftScalingDimensionPlus</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">(</span><span class="n">adsBreitenlohnerFreedmanBound</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">adsCftScalingDimensionPlus</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">ryuTakayanagiEntanglementEntropyAdS3</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="n">brownHenneauxCentralCharge</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.log</span><span class="w"> </span><span class="o">(</span><span class="mi">10</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">kssShearViscosityEntropyBound</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">adsCouplingFromStringTension</span><span class="w"> </span><span class="o">(</span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.pi</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (2) Planar Integrability (arXiv:1012.3982): BPS magnon dispersion, Konishi 1-loop, &amp; cusp dimension:</span>
+<span class="w">    </span><span class="n">adsMagnonDispersion</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">adsMagnonDispersionSq</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="n">adsCouplingFromStringTension</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="n">Real.pi</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">adsMagnonDispersionSq</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">betheOneLoopMagnonEnergy</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">3</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">konishiOneLoopAnomalousDim</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">konishiOneLoopAnomalousDim</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">cuspAnomalousDimOneLoop</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (3) Secret Symmetries in AdS/CFT (arXiv:1204.2366): braided central charges, supertrace, Cartan DA, &amp; 16x16 R-matrix:</span>
+<span class="w">    </span><span class="n">C_p</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">CDag_p</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">C_p</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">CDag_p</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">C_1</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">C_2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">psl22BraidedCoproductC</span><span class="w"> </span><span class="n">C_1</span><span class="w"> </span><span class="n">C_2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">gl22LongRepDim</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">psl22ShortBoundStateDim</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Matrix.trace</span><span class="w"> </span><span class="o">(</span><span class="n">secretSymmetryMatrix</span><span class="w"> </span><span class="n">B0</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">supertrace22</span><span class="w"> </span><span class="o">(</span><span class="n">secretSymmetryMatrix</span><span class="w"> </span><span class="n">B0</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">B0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Matrix.mulVec</span><span class="w"> </span><span class="n">qDeformedHubbardCartanDA</span><span class="w"> </span><span class="bp">!</span><span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Matrix.det</span><span class="w"> </span><span class="n">qDeformedHubbardCartanDA</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">psl22SecretCoproductFullOp16</span><span class="w"> </span><span class="n">B1</span><span class="w"> </span><span class="n">B2</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">psl22WorldsheetRMatrix16</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">psl22WorldsheetRMatrix16</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">psl22SecretCoproductFull16</span><span class="w"> </span><span class="n">B1</span><span class="w"> </span><span class="n">B2</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (4) Without Splats: Gr_C(2,4) Plücker realization of psl(2|2)_c secret outer automorphism &amp; AdS_5/DDF lapse:</span>
+<span class="w">    </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">+</span>
+<span class="w">        </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_ads5</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_ads5</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">adsPlanarBlackBraneEmblackening</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeA</span><span class="w"> </span><span class="n">M_ddf</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">Complex.normSq</span><span class="w"> </span><span class="o">(</span><span class="n">complexPluckerSinkAmplitudeB</span><span class="w"> </span><span class="n">M_ddf</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="mi">1</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">re.horizonRadius</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">continuumBohmPotentialMode</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">((</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">continuumBohmPotentialMode</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="c1">-- (5) With Normed Tensor Gaussian Splats: Holographic RG scale-radius covariance &amp; Bohm potential flow:</span>
+<span class="w">    </span><span class="n">splat_ir.covDet</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">splat_uv.covDet</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">splat_ir.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">splat_uv.coreBohmPotential</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">intro</span><span class="w"> </span><span class="n">Δ_p</span><span class="w"> </span><span class="n">Δ_m</span><span class="w"> </span><span class="n">C_p</span><span class="w"> </span><span class="n">CDag_p</span><span class="w"> </span><span class="n">C_1</span><span class="w"> </span><span class="n">C_2</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="n">M_ads5</span><span class="w"> </span><span class="n">M_ddf</span><span class="w"> </span><span class="n">splat_uv</span><span class="w"> </span><span class="n">splat_ir</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">hu_K</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">))</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">    </span><span class="k">have</span><span class="w"> </span><span class="n">h3</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Real.sq_sqrt</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">    </span><span class="k">calc</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">))</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="o">(</span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">3</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">ring</span>
+<span class="w">      </span><span class="n">_</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">h3</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_ads</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ads_cft_integrability_and_secret_symmetry_identities</span>
+<span class="w">    </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">Real.sqrt</span><span class="w"> </span><span class="mi">3</span><span class="o">))</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="n">B0</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="w"> </span><span class="o">[</span><span class="n">adsBreitenlohnerFreedmanBound</span><span class="o">])</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hu_K</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_r16</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">(</span><span class="n">psl22_rmatrix16_secret_coproduct_intertwining</span><span class="w"> </span><span class="n">B1</span><span class="w"> </span><span class="n">B2</span><span class="w"> </span><span class="n">B0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="o">)</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_unif</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">re.grassmannian_ads_cft_ddf_and_secret_symmetry_unification</span>
+<span class="w">    </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">θ</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="n">hr</span>
+<span class="w">    </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_w01</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">h_unif</span><span class="bp">.</span><span class="mi">1</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h_w03</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">complexTwoRowMinor</span><span class="w"> </span><span class="n">W_sec</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">h_unif</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">]</span><span class="bp">;</span><span class="w"> </span><span class="n">norm_num</span>
+<span class="w">  </span><span class="n">rcases</span><span class="w"> </span><span class="n">h_ads</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="o">⟨</span><span class="n">ha1</span><span class="o">,</span><span class="w"> </span><span class="n">ha2</span><span class="o">,</span><span class="w"> </span><span class="n">ha3</span><span class="o">,</span><span class="w"> </span><span class="n">ha4</span><span class="o">,</span><span class="w"> </span><span class="n">ha5</span><span class="o">,</span><span class="w"> </span><span class="n">_ha6</span><span class="o">,</span><span class="w"> </span><span class="n">ha7</span><span class="o">,</span><span class="w"> </span><span class="n">ha8</span><span class="o">,</span><span class="w"> </span><span class="n">ha9</span><span class="o">,</span><span class="w"> </span><span class="n">ha10</span><span class="o">,</span>
+<span class="w">    </span><span class="n">ha11</span><span class="o">,</span><span class="w"> </span><span class="n">ha12</span><span class="o">,</span><span class="w"> </span><span class="n">ha13</span><span class="o">,</span><span class="w"> </span><span class="n">ha14</span><span class="o">,</span><span class="w"> </span><span class="n">_ha15</span><span class="o">,</span><span class="w"> </span><span class="n">ha16</span><span class="o">,</span><span class="w"> </span><span class="n">_ha17</span><span class="o">,</span><span class="w"> </span><span class="n">ha18</span><span class="o">,</span><span class="w"> </span><span class="n">ha19</span><span class="o">,</span><span class="w"> </span><span class="n">ha20</span><span class="o">,</span><span class="w"> </span><span class="n">_ha21</span><span class="o">,</span>
+<span class="w">    </span><span class="n">ha22</span><span class="o">,</span><span class="w"> </span><span class="n">ha23</span><span class="o">,</span><span class="w"> </span><span class="n">_ha24</span><span class="o">,</span><span class="w"> </span><span class="n">ha25</span><span class="o">,</span><span class="w"> </span><span class="n">_ha26</span><span class="o">,</span><span class="w"> </span><span class="n">ha27</span><span class="o">⟩</span>
+<span class="w">  </span><span class="n">rcases</span><span class="w"> </span><span class="n">h_unif</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="o">⟨</span><span class="n">_hu1</span><span class="o">,</span><span class="w"> </span><span class="n">_hu2</span><span class="o">,</span><span class="w"> </span><span class="n">_hu3</span><span class="o">,</span><span class="w"> </span><span class="n">_hu4</span><span class="o">,</span><span class="w"> </span><span class="n">_hu5</span><span class="o">,</span><span class="w"> </span><span class="n">_hu6</span><span class="o">,</span><span class="w"> </span><span class="n">_hu7</span><span class="o">,</span><span class="w"> </span><span class="n">hu8</span><span class="o">,</span>
+<span class="w">    </span><span class="n">hu9</span><span class="o">,</span><span class="w"> </span><span class="n">_hu10</span><span class="o">,</span><span class="w"> </span><span class="n">hu11</span><span class="o">,</span><span class="w"> </span><span class="n">hu12</span><span class="o">,</span><span class="w"> </span><span class="n">hu13</span><span class="o">,</span><span class="w"> </span><span class="n">_hu14</span><span class="o">,</span><span class="w"> </span><span class="n">hu15</span><span class="o">,</span><span class="w"> </span><span class="n">_hu16</span><span class="o">⟩</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">ha1</span><span class="o">,</span><span class="w"> </span><span class="n">ha2</span><span class="o">,</span><span class="w"> </span><span class="n">ha3</span><span class="o">,</span><span class="w"> </span><span class="n">ha4</span><span class="o">,</span><span class="w"> </span><span class="n">ha5</span><span class="o">,</span><span class="w"> </span><span class="n">ha7</span><span class="o">,</span><span class="w"> </span><span class="n">ha8</span><span class="o">,</span><span class="w"> </span><span class="n">ha9</span><span class="o">,</span>
+<span class="w">    </span><span class="n">ha10</span><span class="o">,</span><span class="w"> </span><span class="n">ha11</span><span class="o">,</span><span class="w"> </span><span class="n">ha12</span><span class="o">,</span><span class="w"> </span><span class="n">ha13</span><span class="o">,</span><span class="w"> </span><span class="n">ha14</span><span class="o">,</span>
+<span class="w">    </span><span class="n">ha16</span><span class="o">,</span><span class="w"> </span><span class="n">ha18</span><span class="o">,</span><span class="w"> </span><span class="n">ha19</span><span class="o">,</span><span class="w"> </span><span class="n">ha20</span><span class="o">,</span><span class="w"> </span><span class="n">ha22</span><span class="o">,</span><span class="w"> </span><span class="n">ha23</span><span class="o">,</span><span class="w"> </span><span class="n">ha25</span><span class="o">,</span><span class="w"> </span><span class="n">ha27</span><span class="o">,</span><span class="w"> </span><span class="n">h_r16</span><span class="o">,</span>
+<span class="w">    </span><span class="n">h_w01</span><span class="o">,</span><span class="w"> </span><span class="n">h_w03</span><span class="o">,</span><span class="w"> </span><span class="n">hu8</span><span class="o">,</span><span class="w"> </span><span class="n">hu9</span><span class="o">,</span><span class="w"> </span><span class="n">hu11</span><span class="o">,</span><span class="w"> </span><span class="n">hu12</span><span class="o">,</span><span class="w"> </span><span class="n">hu13</span><span class="o">,</span><span class="w"> </span><span class="n">hu15</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivGrassmannianAdsCftDdfVerification</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="adscft-maldacena1998"></a></p>
+<ol class="arabic simple">
+<li><p>Maldacena, J. M. (1998). <em>The Large N Limit of Superconformal Field Theories and Supergravity</em>. Advances in Theoretical and Mathematical Physics 2, 231–252; International Journal of Theoretical Physics 38, 1113–1133 (1999). <a class="reference external" href="https://doi.org/10.4310/ATMP.1998.v2.n2.a1">DOI: 10.4310/ATMP.1998.v2.n2.a1</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/9711200">arXiv:hep-th/9711200</a>.</p></li>
+</ol>
+<p><a id="adscft-gkp1998"></a>
+2. Gubser, S. S., Klebanov, I. R., and Polyakov, A. M. (1998). <em>Gauge Theory Correlators from Non-Critical String Theory</em>. Physics Letters B 428(1–2), 105–114. <a class="reference external" href="https://doi.org/10.1016/S0370-2693(98)00377-3">DOI: 10.1016/S0370-2693(98)00377-3</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/9802109">arXiv:hep-th/9802109</a>.</p>
+<p><a id="adscft-witten1998"></a>
+3. Witten, E. (1998). <em>Anti De Sitter Space And Holography</em>. Advances in Theoretical and Mathematical Physics 2, 253–291. <a class="reference external" href="https://doi.org/10.4310/ATMP.1998.v2.n2.a2">DOI: 10.4310/ATMP.1998.v2.n2.a2</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/9802150">arXiv:hep-th/9802150</a>.</p>
+<p><a id="adscft-bf1982"></a>
+4. Breitenlohner, P., and Freedman, D. Z. (1982). <em>Stability in Gauged Extended Supergravity</em>. Annals of Physics 144(2), 249–281. <a class="reference external" href="https://doi.org/10.1016/0003-4916(82)90116-6">DOI: 10.1016/0003-4916(82)90116-6</a>.</p>
+<p><a id="adscft-minahan2003"></a>
+5. Minahan, J. A., and Zarembo, K. (2003). <em>The Bethe-Ansatz for N=4 Super Yang-Mills</em>. Journal of High Energy Physics 2003(03), 013. <a class="reference external" href="https://doi.org/10.1088/1126-6708/2003/03/013">DOI: 10.1088/1126-6708/2003/03/013</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0212208">arXiv:hep-th/0212208</a>.</p>
+<p><a id="adscft-kss2005"></a>
+6. Kovtun, P. K., Son, D. T., and Starinets, A. O. (2005). <em>Viscosity in Strongly Interacting Quantum Field Theories from Black Hole Physics</em>. Physical Review Letters 94(11), 111601. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.94.111601">DOI: 10.1103/PhysRevLett.94.111601</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0405231">arXiv:hep-th/0405231</a>.</p>
+<p><a id="adscft-beisert2005"></a>
+7. Beisert, N. (2008). <em>The su(2|2) Dynamic S-Matrix</em>. Advances in Theoretical and Mathematical Physics 12(5), 945–979. <a class="reference external" href="https://doi.org/10.4310/ATMP.2008.v12.n5.a1">DOI: 10.4310/ATMP.2008.v12.n5.a1</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0511082">arXiv:hep-th/0511082</a>.</p>
+<p><a id="adscft-dorey2006"></a>
+8. Dorey, N. (2006). <em>Magnon Bound States and the AdS/CFT Correspondence</em>. Journal of Physics A: Mathematical and General 39(41), 13119–13128. <a class="reference external" href="https://doi.org/10.1088/0305-4470/39/41/S18">DOI: 10.1088/0305-4470/39/41/S18</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0604175">arXiv:hep-th/0604175</a>.</p>
+<p><a id="adscft-brown1986"></a>
+9. Brown, J. D., and Henneaux, M. (1986). <em>Central Charges in the Canonical Realization of Asymptotic Symmetries: An Example from Three-Dimensional Gravity</em>. Communications in Mathematical Physics 104(2), 207–226. <a class="reference external" href="https://doi.org/10.1007/BF01211590">DOI: 10.1007/BF01211590</a>.</p>
+<p><a id="adscft-ryu2006"></a>
+10. Ryu, S., and Takayanagi, T. (2006). <em>Holographic Derivation of Entanglement Entropy from AdS/CFT</em>. Physical Review Letters 96(18), 181602. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.96.181602">DOI: 10.1103/PhysRevLett.96.181602</a>; <a class="reference external" href="https://arxiv.org/abs/hep-th/0603001">arXiv:hep-th/0603001</a>.</p>
+<p><a id="adscft-matsumoto2007"></a>
+11. Matsumoto, T., Moriyama, S., and Torrielli, A. (2007). <em>A Secret Symmetry of the AdS/CFT S-Matrix</em>. Journal of High Energy Physics 2007(09), 099. <a class="reference external" href="https://doi.org/10.1088/1126-6708/2007/09/099">DOI: 10.1088/1126-6708/2007/09/099</a>; <a class="reference external" href="https://arxiv.org/abs/0708.1285">arXiv:0708.1285</a>.</p>
+<p><a id="adscft-arkani2010"></a>
+12. Arkani-Hamed, N., Cachazo, F., Cheung, C., and Kaplan, J. (2010). <em>A Duality For The S Matrix</em>. Journal of High Energy Physics 2010(03), 020. <a class="reference external" href="https://doi.org/10.1007/JHEP03(2010)020">DOI: 10.1007/JHEP03(2010)020</a>; <a class="reference external" href="https://arxiv.org/abs/0907.5418">arXiv:0907.5418</a>.</p>
+<p><a id="adscft-beisert2011"></a>
+13. Beisert, N., and Schwab, B. U. W. (2011). <em>Bonus Yangian Symmetry for the Planar S-Matrix of N=4 Super Yang-Mills</em>. Physical Review Letters 106(23), 231602. <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.106.231602">DOI: 10.1103/PhysRevLett.106.231602</a>; <a class="reference external" href="https://arxiv.org/abs/1103.0646">arXiv:1103.0646</a>.</p>
+<p><a id="adscft-berkovits2011"></a>
+14. Berkovits, N., and Mikhailov, A. (2011). <em>Nonlocal Charges for Bonus Yangian Symmetries of Super-Yang-Mills</em>. Journal of High Energy Physics 2011(07), 125. <a class="reference external" href="https://doi.org/10.1007/JHEP07(2011)125">DOI: 10.1007/JHEP07(2011)125</a>; <a class="reference external" href="https://arxiv.org/abs/1103.1228">arXiv:1103.1228</a>.</p>
+<p><a id="adscft-deleeuw2011"></a>
+15. de Leeuw, M., Regelskis, V., and Torrielli, A. (2012). <em>The Quantum Affine Origin of the AdS/CFT Secret Symmetry</em>. Journal of Physics A: Mathematical and Theoretical 45(17), 175202. <a class="reference external" href="https://doi.org/10.1088/1751-8113/45/17/175202">DOI: 10.1088/1751-8113/45/17/175202</a>; <a class="reference external" href="https://arxiv.org/abs/1112.4989">arXiv:1112.4989</a>.</p>
+<p><a id="adscft-beisert2012"></a>
+16. Beisert, N., Ahn, C., Alday, L. F., Bajnok, Z., Drummond, J. M., et al. (2012). <em>Review of AdS/CFT Integrability: An Overview</em>. Letters in Mathematical Physics 99(1–3), 3–32. <a class="reference external" href="https://doi.org/10.1007/s11005-011-0529-2">DOI: 10.1007/s11005-011-0529-2</a>; <a class="reference external" href="https://arxiv.org/abs/1012.3982">arXiv:1012.3982</a>.</p>
+<p><a id="adscft-deleeuw2012"></a>
+17. de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., and Torrielli, A. (2012). <em>Secret Symmetries in AdS/CFT</em>. Physica Scripta 86(2), 028502. <a class="reference external" href="https://doi.org/10.1088/0031-8949/86/02/028502">DOI: 10.1088/0031-8949/86/02/028502</a>; <a class="reference external" href="https://arxiv.org/abs/1204.2366">arXiv:1204.2366</a>.</p>
+<p><a id="adscft-chat-fluidgravity2026"></a>
+18. Provenance Chat Log (2026). <em>Gravity Models: Dilatant Fluid vs. GR (AdS/CFT Fluid/Gravity Duality, KSS Viscosity Bound, and Mercury Ephemerides)</em>. (<a class="reference download internal" download="" href="_downloads/2ea27626aebd1367e12e4953b7ae792c/_Gravity-Models-Dilatant-Fluid-vs.-GR.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md,</span> <span class="pre">lines</span> <span class="pre">136-325</span></code></a>).</p>
+<p><a id="adscft-chat-bell2026"></a>
+19. Provenance Chat Log (2026). <em>Bell Correlations in Atomic Momentum (Massive Twistors in Gr(2,4), Positive Grassmannians Gr^+(k,n), and Yangian Symmetry Y(psu(2,2|4)))</em>. (<a class="reference download internal" download="" href="_downloads/ca2b89d17d25853ed0618b9957d1ca40/Bell-Correlations-in-Atomic-Momentum.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Bell-Correlations-in-Atomic-Momentum.md,</span> <span class="pre">lines</span> <span class="pre">410-445</span></code></a>).</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">maldacena1998large</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Maldacena, Juan Martin}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{The Large {N} Limit of Superconformal Field Theories and Supergravity}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Advances in Theoretical and Mathematical Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{2}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{231--252}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1998}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.4310/ATMP.1998.v2.n2.a1}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">eprint</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{hep-th/9711200}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.4310/ATMP.1998.v2.n2.a1}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">beisert2012review</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Beisert, Niklas and Ahn, Changrim and Alday, Luis F. and Bajnok, Zoltan and Drummond, James M. and others}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Review of {AdS/CFT} Integrability: An Overview}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Letters in Mathematical Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{99}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{3--32}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2012}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1007/s11005-011-0529-2}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">eprint</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{1012.3982}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1007/s11005-011-0529-2}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">deleeuw2012secret</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{de Leeuw, Marius and Matsumoto, Takuya and Moriyama, Sanefumi and Regelskis, Vidas and Torrielli, Alessandro}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Secret Symmetries in {AdS/CFT}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Physica Scripta}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{86}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{2}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{028502}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2012}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1088/0031-8949/86/02/028502}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">eprint</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{1204.2366}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1088/0031-8949/86/02/028502}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_gravity_models_adscft_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Unknown}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Gravity Models: Dilatant Fluid vs. GR}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 136-325}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian Gr_C(2,4) and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and psl(2|2)_c Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-24"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"AdS/CFT Correspondence"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Juan Maldacena"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"AdS/CFT Integrability"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Secret Symmetries in AdS/CFT"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Centrally Extended psl(2|2)_c"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Complex Grassmannian Gr_C(2,4)"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Dilatant Dark Fluid"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Normed Tensor Gaussian Splatting"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/Bell-Correlations-in-Atomic-Momentum.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Scattering.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/QISM.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/polariton_spp.rs"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-holographic-principle-paper.html" title="The Holographic Principle in Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-unification-applications-roadmap-paper.html" title="Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\), \(Gr_{\mathbb{C}}(2,6)\), and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

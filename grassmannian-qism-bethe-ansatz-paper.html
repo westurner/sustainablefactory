@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4 &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) &amp; \(N\)-ary \(Gr_{\mathbb{C}}(2, N+2)\) Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4" href="grassmannian-ddf-moving-sheath-paper.html" />
+    <link rel="prev" title="Huygens–Steiner Barycentric Coherence, Complex \(Gr_{\mathbb{C}}(2,4)\) Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4" href="grassmannian-huygens-double-slit-oam-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#introduction-architecture-overview">1. Introduction &amp; Architecture Overview</a></li>
+<li><a class="reference internal" href="#yangs-rational-r-matrix-regularity-unitarity-and-braid-identity">2. Yang’s Rational <span class="math notranslate nohighlight">\(R\)</span>-Matrix, Regularity, Unitarity, and Braid Identity</a></li>
+<li><a class="reference internal" href="#monodromy-composition-cauchybinet-expansion-and-shifted-quantum-determinants">3. Monodromy Composition, Cauchy–Binet Expansion, and Shifted Quantum Determinants</a></li>
+<li><a class="reference internal" href="#baxter-q-polynomials-in-gr-2-4-the-qq-system-and-mtv-nondegeneracy">4. Baxter <span class="math notranslate nohighlight">\(Q\)</span>-Polynomials in <span class="math notranslate nohighlight">\(Gr(2,4)\)</span>, the <span class="math notranslate nohighlight">\(QQ\)</span>-System, and MTV Nondegeneracy</a></li>
+<li><a class="reference internal" href="#slavnov-determinant-compression-inverse-scattering-metrology-signals-scattering">5. Slavnov Determinant Compression &amp; Inverse Scattering Metrology (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)</a></li>
+<li><a class="reference internal" href="#conclusion-reproducibility">6. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-huygens-double-slit-oam-paper.html" title="Huygens–Steiner Barycentric Coherence, Complex \(Gr_{\mathbb{C}}(2,4)\) Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-ddf-moving-sheath-paper.html" title="Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) &amp; \(N\)-ary \(Gr_{\mathbb{C}}(2, N+2)\) Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-qism-bethe-ansatz-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#introduction-architecture-overview">1. Introduction &amp; Architecture Overview</a></li>
+<li><a class="reference internal" href="#yangs-rational-r-matrix-regularity-unitarity-and-braid-identity">2. Yang’s Rational <span class="math notranslate nohighlight">\(R\)</span>-Matrix, Regularity, Unitarity, and Braid Identity</a></li>
+<li><a class="reference internal" href="#monodromy-composition-cauchybinet-expansion-and-shifted-quantum-determinants">3. Monodromy Composition, Cauchy–Binet Expansion, and Shifted Quantum Determinants</a></li>
+<li><a class="reference internal" href="#baxter-q-polynomials-in-gr-2-4-the-qq-system-and-mtv-nondegeneracy">4. Baxter <span class="math notranslate nohighlight">\(Q\)</span>-Polynomials in <span class="math notranslate nohighlight">\(Gr(2,4)\)</span>, the <span class="math notranslate nohighlight">\(QQ\)</span>-System, and MTV Nondegeneracy</a></li>
+<li><a class="reference internal" href="#slavnov-determinant-compression-inverse-scattering-metrology-signals-scattering">5. Slavnov Determinant Compression &amp; Inverse Scattering Metrology (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)</a></li>
+<li><a class="reference internal" href="#conclusion-reproducibility">6. Conclusion &amp; Reproducibility</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+<li><a class="reference internal" href="#bibtex-citations">BibTeX Citations</a></li>
+<li><a class="reference internal" href="#schema-org-metadata-json-ld">Schema.org Metadata (JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-huygens-double-slit-oam-paper.html"
+                          title="previous chapter">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-ddf-moving-sheath-paper.html"
+                          title="next chapter">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-qism-bethe-ansatz-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="grassmannian-geometry-of-the-quantum-inverse-scattering-method-algebraic-bethe-ansatz-and-inverse-scattering-metrology-in-lean-4">
+<span id="grassmannian-qism-bethe-ansatz-paper"></span><h1>Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4<a class="headerlink" href="#grassmannian-geometry-of-the-quantum-inverse-scattering-method-algebraic-bethe-ansatz-and-inverse-scattering-metrology-in-lean-4" title="Link to this heading">¶</a></h1>
+<p><strong>Authors:</strong> Wes Turner
+<strong>Subjects:</strong> Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Exactly Solvable and Integrable Systems (<code class="docutils literal notranslate"><span class="pre">nlin.SI</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)
+<strong>Formal Verification Artifact:</strong> <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, Mathlib <code class="docutils literal notranslate"><span class="pre">v4.35.0-rc3</span></code>)
+<strong>Companion Papers:</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">Huygens–Steiner Barycentric Coherence, Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> &amp; <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">Normed Tensor Gaussian Splat Mechanics for Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">The Holographic Principle in Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: ‘t Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4</span></a></p></li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>The Quantum Inverse Scattering Method (QISM) and Algebraic Bethe Ansatz (ABA) solve <span class="math notranslate nohighlight">\((1+1)\)</span>-dimensional integrable quantum many-body systems, yet conventional operator diagonalization scales exponentially with lattice size (<span class="math notranslate nohighlight">\(\dim \mathcal{H}_{\mathrm{phys}} = 2^N\)</span>) and off-shell correlation functions generate <span class="math notranslate nohighlight">\((M!)^2\)</span> algebraic contractions under the <span class="math notranslate nohighlight">\(RTT\)</span> commutation relations. We present a machine-checked formalization in the Lean 4 theorem prover (<code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>) demonstrating how finite Grassmannian geometry resolves these bottlenecks:</p>
+<ol class="arabic simple">
+<li><p><strong>Yang’s <span class="math notranslate nohighlight">\(4 \times 4\)</span> Rational <span class="math notranslate nohighlight">\(R\)</span>-Matrix, Regularity, Unitarity, and Three-Site Braid Identity</strong>:
+We formalize the two-space permutation matrix <span class="math notranslate nohighlight">\(P\)</span> (<span class="math notranslate nohighlight">\(P^2 = I_4\)</span>) and Yang’s rational <span class="math notranslate nohighlight">\(R\)</span>-matrix <span class="math notranslate nohighlight">\(R(u;\eta) = u I_4 + \eta P\)</span>, proving the regularity condition <span class="math notranslate nohighlight">\(R(0;\eta) = \eta P\)</span>, triplet/singlet channel decomposition, quantum unitarity <span class="math notranslate nohighlight">\(R(u-v;\eta)R(v-u;\eta) = (\eta^2 - (u-v)^2)I_4 = -w_{\mathrm{sym}} w_{\mathrm{anti}} I_4\)</span>, and the three-site Yang–Baxter braid interference identity.</p></li>
+<li><p><strong>Monodromy Composition, Cauchy–Binet Expansion, and Shifted Yangian Quantum Determinants</strong>:
+We formalize <span class="math notranslate nohighlight">\(2 \times 2\)</span> auxiliary Lax/monodromy matrices <span class="math notranslate nohighlight">\(T(u) = \begin{pmatrix} A &amp; B \\ C &amp; D \end{pmatrix}\)</span>, proving cyclic transfer-trace invariance <span class="math notranslate nohighlight">\(\operatorname{Tr}(L_2 L_1) = \operatorname{Tr}(L_1 L_2)\)</span>, determinant multiplicativity, Cauchy–Binet path-pair expansion over virtual intermediate channels, and the equivalence of left- and right-ordered shifted Yangian quantum determinants <span class="math notranslate nohighlight">\(\operatorname{qdet}_{L/R}(T(u), T(u-\eta))\)</span> under the antisymmetric <span class="math notranslate nohighlight">\(RTT\)</span> exchange balance.</p></li>
+<li><p><strong>Baxter <span class="math notranslate nohighlight">\(Q\)</span>-Pairs in <span class="math notranslate nohighlight">\(Gr(2,4)\)</span>, the Plücker <span class="math notranslate nohighlight">\(QQ\)</span>-System, <span class="math notranslate nohighlight">\(TQ\)</span> Wronskian Solutions, and MTV Nondegeneracy</strong>:
+Representing a Bethe state by a 2-plane <span class="math notranslate nohighlight">\(W = \operatorname{span}\{Q_+, Q_-\}\)</span> evaluated at four spectral points defines a <span class="math notranslate nohighlight">\(2 \times 4\)</span> Grassmannian matrix whose Plücker coordinates are Casorati Wronskians <span class="math notranslate nohighlight">\(W(u_j, u_k)\)</span>. We prove <span class="math notranslate nohighlight">\(GL(2)\)</span> basis-change covariance, derive Baxter’s functional <span class="math notranslate nohighlight">\(QQ\)</span>-system / Hirota bilinear equation directly from the 3-term Plücker relation on <span class="math notranslate nohighlight">\(Gr(2,4)\)</span>, prove that three-point Casorati Wronskians solve Baxter’s <span class="math notranslate nohighlight">\(TQ\)</span> difference equation identically, expose the spurious triple-zero Bethe-root degeneracy, and prove the Mukhin–Tarasov–Varchenko (MTV) Wronskian nondegeneracy theorem ruling out <span class="math notranslate nohighlight">\(0/0\)</span> Bethe roots.</p></li>
+<li><p><strong>Slavnov / Gaudin Determinant Compression and Inverse Scattering Metrology</strong>:
+We formalize <span class="math notranslate nohighlight">\(2 \times 2\)</span> Slavnov/Gaudin determinants as Grassmannian minors, prove rapidity-swap antisymmetry and Pauli-exclusion vanishing at colliding Bethe or dual rapidities, and integrate <code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code> with <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code> to prove exact inverse parameter recovery, unitary two-body transmission/reflection flux partition, inverse monodromy reconstruction, and calibrated Baxter <span class="math notranslate nohighlight">\(TQ\)</span> residual metrology.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="introduction-architecture-overview">
+<h2>1. Introduction &amp; Architecture Overview<a class="headerlink" href="#introduction-architecture-overview" title="Link to this heading">¶</a></h2>
+<p>Introduced by Takhtajan, Faddeev, and Sklyanin (<a class="reference internal" href="#qism-takhtajan1979"><span class="xref myst">Takhtajan and Faddeev 1979</span></a>; <a class="reference internal" href="#qism-sklyanin1992"><span class="xref myst">Sklyanin 1992</span></a>; <a class="reference internal" href="#qism-korepin1993"><span class="xref myst">Korepin et al. 1993</span></a>; <a class="reference internal" href="#qism-faddeev1996"><span class="xref myst">Faddeev 1996</span></a>), the Quantum Inverse Scattering Method (QISM) reformulates Hans Bethe’s coordinate ansatz into an algebraic framework governed by the Yangian <span class="math notranslate nohighlight">\(Y(\mathfrak{gl}_n)\)</span>. Just as the Grassmannian <span class="math notranslate nohighlight">\(Gr(k,n)\)</span> bypasses exponential Feynman-diagram expansion in <span class="math notranslate nohighlight">\(4\text{D}\)</span> scattering amplitudes (<a class="reference internal" href="#qism-arkani2014"><span class="xref myst">Arkani-Hamed and Trnka 2014</span></a>), Grassmannian geometry bypasses the <span class="math notranslate nohighlight">\(2^N\)</span> Hilbert-space bottleneck of QISM:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>QISM / Bethe Ansatz Object</p></th>
+<th class="head"><p>Conventional Hilbert-Space Formulation</p></th>
+<th class="head"><p>Grassmannian Formulation (<code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>)</p></th>
+<th class="head"><p>Complexity Reduction</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Monodromy <span class="math notranslate nohighlight">\(T(u) = L_N \cdots L_1\)</span></strong></p></td>
+<td><p>Product of operators on <span class="math notranslate nohighlight">\(V_{\mathrm{aux}} \otimes (\mathbb{C}^k)^{\otimes N}\)</span></p></td>
+<td><p>Boundary measurement / Cauchy–Binet composition (<code class="docutils literal notranslate"><span class="pre">comp_det_eq_pathPairs</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(k^N \times k^N\)</span> matrices <span class="math notranslate nohighlight">\(\to\)</span> <span class="math notranslate nohighlight">\(k \times n\)</span> matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Yang–Baxter Equation (<span class="math notranslate nohighlight">\(RTT\)</span>)</strong></p></td>
+<td><p>Operator identity on <span class="math notranslate nohighlight">\(V_1 \otimes V_2 \otimes \mathcal{H}\)</span></p></td>
+<td><p>Spectral cocycle &amp; three-site braid identity (<code class="docutils literal notranslate"><span class="pre">yang_baxter_rational_braid</span></code>)</p></td>
+<td><p>Local graph / braid equivalence</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Transfer Spectrum <span class="math notranslate nohighlight">\(t(u)\)</span> &amp; BAE</strong></p></td>
+<td><p>Canceling <span class="math notranslate nohighlight">\(2^M\)</span> unwanted commutator terms</p></td>
+<td><p>3-term Plücker <span class="math notranslate nohighlight">\(QQ\)</span>-system (<code class="docutils literal notranslate"><span class="pre">baxter_qq_pluecker_identity</span></code>) &amp; Wronskian <span class="math notranslate nohighlight">\(TQ\)</span> identity (<code class="docutils literal notranslate"><span class="pre">baxterTQResidual_wronskian_zero</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(2^N\)</span> diagonalization <span class="math notranslate nohighlight">\(\to\)</span> <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> Plücker algebra</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Spurious Root Filtering</strong></p></td>
+<td><p>Ad-hoc inspection of vanishing wavefunctions</p></td>
+<td><p>MTV Casorati Wronskian nondegeneracy (<code class="docutils literal notranslate"><span class="pre">mtv_wronskian_nondegenerate_of_root</span></code>)</p></td>
+<td><p>Certified full-rank Plücker minor</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Correlators <span class="math notranslate nohighlight">\(\langle \Psi | \mathcal{O} | \Psi \rangle\)</span></strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((M!)^2\)</span> <span class="math notranslate nohighlight">\(RTT\)</span> commutator contractions</p></td>
+<td><p>Single Plücker / Slavnov determinant (<code class="docutils literal notranslate"><span class="pre">slavnovDet2</span></code>, <code class="docutils literal notranslate"><span class="pre">slavnovDet2_pauli_exclusion</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(O((M!)^2) \to O(M^3)\)</span> determinant</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="yangs-rational-r-matrix-regularity-unitarity-and-braid-identity">
+<h2>2. Yang’s Rational <span class="math notranslate nohighlight">\(R\)</span>-Matrix, Regularity, Unitarity, and Braid Identity<a class="headerlink" href="#yangs-rational-r-matrix-regularity-unitarity-and-braid-identity" title="Link to this heading">¶</a></h2>
+<p>For spectral parameters <span class="math notranslate nohighlight">\(u, v \in \mathbb{R}\)</span> and coupling <span class="math notranslate nohighlight">\(\eta \in \mathbb{R}\)</span>, let <span class="math notranslate nohighlight">\(\delta(u,v) = u - v\)</span> (<code class="docutils literal notranslate"><span class="pre">spectralDiff</span></code>). On <span class="math notranslate nohighlight">\(\mathbb{R}^2 \otimes \mathbb{R}^2 \cong \mathbb{R}^4\)</span>, the permutation operator <span class="math notranslate nohighlight">\(P\)</span> (<code class="docutils literal notranslate"><span class="pre">swapMatrix4</span></code>) and Yang’s rational <span class="math notranslate nohighlight">\(R\)</span>-matrix (<code class="docutils literal notranslate"><span class="pre">yangRMatrix4</span></code> in <a class="reference download internal" download="" href="_downloads/3d7c103c6459a4f4ccb5918d61408af1/QISM.lean"><span class="xref download myst">src/signals/Signals/QISM.lean</span></a>) are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+R(u; \eta) = u I_4 + \eta P, \qquad
+P = \begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{pmatrix}.
+\end{split}\]</div>
+<p>We prove in <a class="reference download internal" download="" href="_downloads/3d7c103c6459a4f4ccb5918d61408af1/QISM.lean"><span class="xref download myst">QISM.lean</span></a>:</p>
+<ol class="arabic">
+<li><p><strong>Involutive Swap (<code class="docutils literal notranslate"><span class="pre">swapMatrix4_mul_self</span></code>)</strong>: <span class="math notranslate nohighlight">\(P^2 = I_4\)</span>.</p></li>
+<li><p><strong>Regularity at Zero Spectral Shift (<code class="docutils literal notranslate"><span class="pre">yangRMatrix4_zero</span></code>)</strong>: <span class="math notranslate nohighlight">\(R(0;\eta) = \eta P\)</span>.</p></li>
+<li><p><strong>Symmetric (Triplet) and Antisymmetric (Singlet) Eigenvalues (<code class="docutils literal notranslate"><span class="pre">yangSymmetricWeight</span></code>, <code class="docutils literal notranslate"><span class="pre">yangAntisymmetricWeight</span></code>, <code class="docutils literal notranslate"><span class="pre">yangRMatrix4_triplet_entry</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   w_{\mathrm{sym}}(u,v;\eta) = \delta(u,v) + \eta, \qquad w_{\mathrm{anti}}(u,v;\eta) = \delta(u,v) - \eta, \qquad R(u-v;\eta)_{00} = w_{\mathrm{sym}}(u,v;\eta).
+   \]</div>
+</li>
+<li><p><strong>Quantum Unitarity (<code class="docutils literal notranslate"><span class="pre">yangRMatrix4_unitarity</span></code>)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   R(u - v; \eta)\,R(v - u; \eta) = \bigl(\eta^2 - (u - v)^2\bigr) I_4 = - w_{\mathrm{sym}}(u,v;\eta)\,w_{\mathrm{anti}}(u,v;\eta)\,I_4.
+   \]</div>
+</li>
+<li><p><strong>Three-Site Rational Braid Identity &amp; Full <span class="math notranslate nohighlight">\(8 \times 8\)</span> Matrix Quantum Yang–Baxter Equation (<code class="docutils literal notranslate"><span class="pre">yang_baxter_rational_braid</span></code>, <code class="docutils literal notranslate"><span class="pre">yang_baxter_equation_matrix8</span></code>)</strong>:
+From the spectral cocycle <span class="math notranslate nohighlight">\(\delta(u,v) + \delta(v,w) = \delta(u,w)\)</span> (<code class="docutils literal notranslate"><span class="pre">spectralDiff_add</span></code>) and the symmetric-group representation <code class="docutils literal notranslate"><span class="pre">permMatrix8</span></code> on <span class="math notranslate nohighlight">\((\mathbb{R}^2)^{\otimes 3} \cong \mathbb{R}^8\)</span> (<code class="docutils literal notranslate"><span class="pre">swap12Perm8</span></code>, <code class="docutils literal notranslate"><span class="pre">swap13Perm8</span></code>, <code class="docutils literal notranslate"><span class="pre">swap23Perm8</span></code>), the embedded <span class="math notranslate nohighlight">\(8 \times 8\)</span> rational <span class="math notranslate nohighlight">\(R\)</span>-matrices <code class="docutils literal notranslate"><span class="pre">yangR12_8</span></code>, <code class="docutils literal notranslate"><span class="pre">yangR13_8</span></code>, <code class="docutils literal notranslate"><span class="pre">yangR23_8</span></code> satisfy the exact operator identity:</p>
+<div class="math notranslate nohighlight">
+\[
+   R_{12}(u - v; \eta)\,R_{13}(u - w; \eta)\,R_{23}(v - w; \eta) = R_{23}(v - w; \eta)\,R_{13}(u - w; \eta)\,R_{12}(u - v; \eta).
+   \]</div>
+</li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="n">Signals</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">SignalsPending</span>
+
+<span class="kn">namespace</span><span class="w"> </span><span class="n">ArxivQISMPaperVerification</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Geometry</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.QISM</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Signals.Scattering</span>
+
+<span class="c1">-- 1. Swap involution, R-matrix regularity, quantum unitarity, and full 8×8 Quantum Yang-Baxter Equation</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">swapMatrix4</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">swapMatrix4</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">yangRMatrix4</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">•</span><span class="w"> </span><span class="n">swapMatrix4</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">yangRMatrix4</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">yangRMatrix4</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="o">(</span><span class="bp">-</span><span class="w"> </span><span class="o">(</span><span class="n">yangSymmetricWeight</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">yangAntisymmetricWeight</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">η</span><span class="o">))</span><span class="w"> </span><span class="bp">•</span>
+<span class="w">        </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Matrix</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="mi">4</span><span class="o">)</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">yangR12_8</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">yangR13_8</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">yangR23_8</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">=</span>
+<span class="w">      </span><span class="n">yangR23_8</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">yangR13_8</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="bp">*</span>
+<span class="w">        </span><span class="n">yangR12_8</span><span class="w"> </span><span class="o">(</span><span class="n">spectralDiff</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="o">)</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">⟨</span><span class="n">swapMatrix4_mul_self</span><span class="o">,</span><span class="w"> </span><span class="n">yangRMatrix4_zero</span><span class="w"> </span><span class="n">η</span><span class="o">,</span><span class="w"> </span><span class="n">yangRMatrix4_unitarity</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">η</span><span class="o">,</span>
+<span class="w">    </span><span class="n">yang_baxter_equation_matrix8</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="n">η</span><span class="o">⟩</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="monodromy-composition-cauchybinet-expansion-and-shifted-quantum-determinants">
+<h2>3. Monodromy Composition, Cauchy–Binet Expansion, and Shifted Quantum Determinants<a class="headerlink" href="#monodromy-composition-cauchybinet-expansion-and-shifted-quantum-determinants" title="Link to this heading">¶</a></h2>
+<p>A <span class="math notranslate nohighlight">\(2 \times 2\)</span> auxiliary Lax or monodromy matrix <span class="math notranslate nohighlight">\(T(u) = \begin{pmatrix} A &amp; B \\ C &amp; D \end{pmatrix}\)</span> is represented by <code class="docutils literal notranslate"><span class="pre">MonodromyMatrix2</span></code> (<a class="reference download internal" download="" href="_downloads/3d7c103c6459a4f4ccb5918d61408af1/QISM.lean"><span class="xref download myst">QISM.lean</span></a>):</p>
+<ul>
+<li><p><strong>Transfer Trace &amp; Cyclic Invariance (<code class="docutils literal notranslate"><span class="pre">transferTrace_eq_trace</span></code>, <code class="docutils literal notranslate"><span class="pre">transferTrace_comp_comm</span></code>)</strong>:
+The auxiliary trace <span class="math notranslate nohighlight">\(t(u) = A + D\)</span> agrees with <code class="docutils literal notranslate"><span class="pre">Matrix.trace</span></code> on <code class="docutils literal notranslate"><span class="pre">toMatrix</span></code> and obeys <span class="math notranslate nohighlight">\(\operatorname{Tr}(L_2 L_1) = \operatorname{Tr}(L_1 L_2)\)</span>.</p></li>
+<li><p><strong>Grassmannian Minor &amp; Cauchy–Binet Composition (<code class="docutils literal notranslate"><span class="pre">classicalDet_eq_twoRowMinor</span></code>, <code class="docutils literal notranslate"><span class="pre">classicalDet_comp</span></code>, <code class="docutils literal notranslate"><span class="pre">comp_det_eq_pathPairs</span></code>)</strong>:
+The determinant <span class="math notranslate nohighlight">\(\det T = A D - B C\)</span> equals the <span class="math notranslate nohighlight">\(2 \times 2\)</span> Grassmannian minor <span class="math notranslate nohighlight">\(\Delta_{01}(T)\)</span>, is multiplicative across lattice sites (<span class="math notranslate nohighlight">\(\det(L_2 L_1) = \det(L_2)\det(L_1)\)</span>), and expands via <code class="docutils literal notranslate"><span class="pre">Signals.Geometry.twoStep_det_pathPairs</span></code> as a sum over intermediate virtual channel pairs <span class="math notranslate nohighlight">\((a,b) \in \operatorname{Fin}(2)^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \det(L_2 L_1) = \sum_{a=0}^1 \sum_{b=0}^1 (L_2)_{0a}(L_2)_{1b}\bigl((L_1)_{a0}(L_1)_{b1} - (L_1)_{a1}(L_1)_{b0}\bigr).
+  \]</div>
+</li>
+<li><p><strong>Shifted Yangian Quantum Determinants (<code class="docutils literal notranslate"><span class="pre">quantumDetLeft</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumDetRight</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumDetLeft_self</span></code>, <code class="docutils literal notranslate"><span class="pre">quantumDet_left_eq_right_iff</span></code>)</strong>:
+In the Yangian <span class="math notranslate nohighlight">\(Y(\mathfrak{gl}_2)\)</span>, the central quantum determinant evaluates the second factor at the shifted spectral argument <span class="math notranslate nohighlight">\(u - \eta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \operatorname{qdet}_L(T(u), T(u-\eta)) = A(u)D(u-\eta) - B(u)C(u-\eta), \qquad \operatorname{qdet}_R(T(u), T(u-\eta)) = D(u)A(u-\eta) - C(u)B(u-\eta).
+  \]</div>
+<p>At zero shift (<span class="math notranslate nohighlight">\(T(u-\eta) = T(u)\)</span>), <span class="math notranslate nohighlight">\(\operatorname{qdet}_L(T, T) = \det T\)</span> (<code class="docutils literal notranslate"><span class="pre">quantumDetLeft_self</span></code>). For general shifted matrices, <code class="docutils literal notranslate"><span class="pre">quantumDet_left_eq_right_iff</span></code> proves:</p>
+<div class="math notranslate nohighlight">
+\[
+  \operatorname{qdet}_L(T(u), T(u-\eta)) = \operatorname{qdet}_R(T(u), T(u-\eta)) \iff A(u)D(u-\eta) - D(u)A(u-\eta) = B(u)C(u-\eta) - C(u)B(u-\eta).
+  \]</div>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="baxter-q-polynomials-in-gr-2-4-the-qq-system-and-mtv-nondegeneracy">
+<h2>4. Baxter <span class="math notranslate nohighlight">\(Q\)</span>-Polynomials in <span class="math notranslate nohighlight">\(Gr(2,4)\)</span>, the <span class="math notranslate nohighlight">\(QQ\)</span>-System, and MTV Nondegeneracy<a class="headerlink" href="#baxter-q-polynomials-in-gr-2-4-the-qq-system-and-mtv-nondegeneracy" title="Link to this heading">¶</a></h2>
+<p>In the Mukhin–Tarasov–Varchenko Grassmannian correspondence (<a class="reference internal" href="#qism-mtv2009"><span class="xref myst">Mukhin et al. 2009</span></a>), a Bethe eigenstate is encoded by a 2-plane <span class="math notranslate nohighlight">\(W = \operatorname{span}\{Q_+(u), Q_-(u)\}\)</span> of Baxter functions. Sampling <span class="math notranslate nohighlight">\((Q_+, Q_-)\)</span> at four spectral rapidities <span class="math notranslate nohighlight">\((u_0, u_1, u_2, u_3)\)</span> constructs the <span class="math notranslate nohighlight">\(2 \times 4\)</span> Grassmannian matrix (<code class="docutils literal notranslate"><span class="pre">baxterGrassmannianMatrix</span></code> in <a class="reference download internal" download="" href="_downloads/3d7c103c6459a4f4ccb5918d61408af1/QISM.lean"><span class="xref download myst">QISM.lean</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+M_Q(u_0, u_1, u_2, u_3) =
+\begin{pmatrix}
+Q_+(u_0) &amp; Q_+(u_1) &amp; Q_+(u_2) &amp; Q_+(u_3) \\
+Q_-(u_0) &amp; Q_-(u_1) &amp; Q_-(u_2) &amp; Q_-(u_3)
+\end{pmatrix}, \qquad
+\Delta_{jk}(M_Q) = W(u_j, u_k) = Q_+(u_j)Q_-(u_k) - Q_+(u_k)Q_-(u_j).
+\end{split}\]</div>
+<ol class="arabic">
+<li><p><strong><span class="math notranslate nohighlight">\(GL(2)\)</span> Basis-Change Covariance (<code class="docutils literal notranslate"><span class="pre">baxterGrassmannianMatrix_basisChange</span></code>)</strong>:
+Left-multiplying <span class="math notranslate nohighlight">\(M_Q\)</span> by any basis matrix <span class="math notranslate nohighlight">\(B \in \mathbb{R}^{2 \times 2}\)</span> scales every ordered Casorati Wronskian minor uniformly by <span class="math notranslate nohighlight">\(\det B\)</span>: <span class="math notranslate nohighlight">\(\Delta_J(B M_Q) = (\det B)\,\Delta_J(M_Q)\)</span>.</p></li>
+<li><p><strong>Baxter’s Functional <span class="math notranslate nohighlight">\(QQ\)</span>-System from <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> (<code class="docutils literal notranslate"><span class="pre">baxter_qq_pluecker_identity</span></code>)</strong>:
+Applying the 3-term Plücker identity (<code class="docutils literal notranslate"><span class="pre">twoRowMinor_pluecker</span></code>) to <span class="math notranslate nohighlight">\(M_Q\)</span> immediately yields the functional <span class="math notranslate nohighlight">\(QQ\)</span>-system / Hirota bilinear equation:</p>
+<div class="math notranslate nohighlight">
+\[
+   W(u_0, u_1)W(u_2, u_3) - W(u_0, u_2)W(u_1, u_3) + W(u_0, u_3)W(u_1, u_2) = 0.
+   \]</div>
+</li>
+<li><p><strong>Three-Point Wronskian Solution of Baxter’s <span class="math notranslate nohighlight">\(TQ\)</span> Equation (<code class="docutils literal notranslate"><span class="pre">baxterTQResidual_wronskian_zero</span></code>)</strong>:
+For Baxter’s <span class="math notranslate nohighlight">\(TQ\)</span> difference residual <span class="math notranslate nohighlight">\(\operatorname{baxterTQResidual}(T, a, d, Q(u), Q(u-\eta), Q(u+\eta)) = T Q(u) - (a Q(u-\eta) + d Q(u+\eta))\)</span>, setting <span class="math notranslate nohighlight">\(T(u) = W(u-\eta, u+\eta)\)</span>, <span class="math notranslate nohighlight">\(a(u) = W(u, u+\eta)\)</span>, and <span class="math notranslate nohighlight">\(d(u) = W(u-\eta, u)\)</span> satisfies <code class="docutils literal notranslate"><span class="pre">baxterTQResidual</span> <span class="pre">=</span> <span class="pre">0</span></code> identically for all <span class="math notranslate nohighlight">\(u, \eta \in \mathbb{R}\)</span>.</p></li>
+<li><p><strong>Spurious Triple-Zero Degeneracy vs. MTV Wronskian Nondegeneracy (<code class="docutils literal notranslate"><span class="pre">baxterTQResidual_spurious_zero</span></code>, <code class="docutils literal notranslate"><span class="pre">mtv_wronskian_nondegenerate_of_root</span></code>, <code class="docutils literal notranslate"><span class="pre">baxterGrassmannianMatrix_nonzero_minor</span></code>, <code class="docutils literal notranslate"><span class="pre">bethe_ansatz_ratio_of_tq_root</span></code>)</strong>:</p>
+<ul>
+<li><p>At a Bethe root <span class="math notranslate nohighlight">\(Q_+(u_m) = 0\)</span>, a vanishing <span class="math notranslate nohighlight">\(TQ\)</span> residual implies the polynomial Bethe Ansatz Equation <span class="math notranslate nohighlight">\(a(u_m)Q_+(u_m-\eta) + d(u_m)Q_+(u_m+\eta) = 0\)</span> (<code class="docutils literal notranslate"><span class="pre">bethe_ansatz_eq_of_tq_root</span></code>).</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(Q_+(u_m) = Q_+(u_m-\eta) = Q_+(u_m+\eta) = 0\)</span> simultaneously, <code class="docutils literal notranslate"><span class="pre">baxterTQResidual_spurious_zero</span></code> proves that <span class="math notranslate nohighlight">\(\operatorname{baxterTQResidual}(T, a, d, 0, 0, 0) = 0\)</span> for <em>every</em> <span class="math notranslate nohighlight">\(T \in \mathbb{R}\)</span>, leaving the transfer eigenvalue <span class="math notranslate nohighlight">\(T\)</span> unconstrained and the rational phase-shift ratio <span class="math notranslate nohighlight">\(0/0\)</span> undefined.</p></li>
+<li><p>Theorem <code class="docutils literal notranslate"><span class="pre">mtv_wronskian_nondegenerate_of_root</span></code> proves that when <span class="math notranslate nohighlight">\(Q_+(u_m) = 0\)</span> and the Casorati Wronskian <span class="math notranslate nohighlight">\(W(u_m, u_m-\eta) \neq 0\)</span>, both <span class="math notranslate nohighlight">\(Q_+(u_m-\eta) \neq 0\)</span> and <span class="math notranslate nohighlight">\(Q_-(u_m) \neq 0\)</span> are strictly forced, certifying a nonzero Plücker coordinate on <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> (<code class="docutils literal notranslate"><span class="pre">baxterGrassmannianMatrix_nonzero_minor</span></code>) and yielding the rational Bethe Ansatz Equation (<code class="docutils literal notranslate"><span class="pre">bethe_ansatz_ratio_of_tq_root</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+     \frac{a(u_m)}{d(u_m)} = -\frac{Q_+(u_m + \eta)}{Q_+(u_m - \eta)}.
+     \]</div>
+</li>
+</ul>
+</li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 2. Baxter QQ-system Plücker identity, Wronskian TQ solution, and MTV nondegeneracy</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">u0</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="n">u2</span><span class="w"> </span><span class="n">u3</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u0</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u2</span><span class="w"> </span><span class="n">u3</span><span class="w"> </span><span class="bp">-</span>
+<span class="w">      </span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u0</span><span class="w"> </span><span class="n">u2</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="n">u3</span><span class="w"> </span><span class="bp">+</span>
+<span class="w">      </span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u0</span><span class="w"> </span><span class="n">u3</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="n">u2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">baxterTQResidual</span>
+<span class="w">      </span><span class="o">(</span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">η</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">η</span><span class="o">))</span>
+<span class="w">      </span><span class="o">(</span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">η</span><span class="o">))</span>
+<span class="w">      </span><span class="o">(</span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">η</span><span class="o">)</span><span class="w"> </span><span class="n">u</span><span class="o">)</span>
+<span class="w">      </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">η</span><span class="o">))</span><span class="w"> </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">η</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">⟨</span><span class="n">baxter_qq_pluecker_identity</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u0</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="n">u2</span><span class="w"> </span><span class="n">u3</span><span class="o">,</span>
+<span class="w">    </span><span class="n">baxterTQResidual_wronskian_zero</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">η</span><span class="o">⟩</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="slavnov-determinant-compression-inverse-scattering-metrology-signals-scattering">
+<h2>5. Slavnov Determinant Compression &amp; Inverse Scattering Metrology (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>)<a class="headerlink" href="#slavnov-determinant-compression-inverse-scattering-metrology-signals-scattering" title="Link to this heading">¶</a></h2>
+<p>In Step 4 of Sklyanin’s QISM procedure, two-magnon scalar products and Gaudin norms collapse from <span class="math notranslate nohighlight">\((2!)^2 = 4\)</span> commutator contractions into a single <span class="math notranslate nohighlight">\(2 \times 2\)</span> Grassmannian minor (<code class="docutils literal notranslate"><span class="pre">slavnovDet2</span></code> and <code class="docutils literal notranslate"><span class="pre">slavnovKernelMatrix2</span></code> in <a class="reference download internal" download="" href="_downloads/3d7c103c6459a4f4ccb5918d61408af1/QISM.lean"><span class="xref download myst">QISM.lean</span></a>):</p>
+<ul class="simple">
+<li><p><strong>Matrix Determinant Equivalence (<code class="docutils literal notranslate"><span class="pre">slavnovDet2_eq_det</span></code>)</strong>: <span class="math notranslate nohighlight">\(\operatorname{slavnovDet2}(G) = \Delta_{01}(G) = \det G\)</span>.</p></li>
+<li><p><strong>Pauli Exclusion at Colliding Rapidities (<code class="docutils literal notranslate"><span class="pre">slavnovDet2_pauli_exclusion</span></code>, <code class="docutils literal notranslate"><span class="pre">slavnovDet2_dual_pauli_exclusion</span></code>)</strong>: When either the two Bethe rapidities coincide (<span class="math notranslate nohighlight">\(u_0 = u_1 = u\)</span>) or the two dual rapidities coincide (<span class="math notranslate nohighlight">\(v_0 = v_1 = v\)</span>), the Slavnov minor vanishes identically.</p></li>
+<li><p><strong>Rapidity-Swap Antisymmetry (<code class="docutils literal notranslate"><span class="pre">slavnovDet2_swap_bethe</span></code>)</strong>: Exchanging <span class="math notranslate nohighlight">\(u_0 \leftrightarrow u_1\)</span> negates the Slavnov determinant.</p></li>
+</ul>
+<p>In <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">src/signals/Signals/Scattering.lean</span></a>, <code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code> is integrated directly with the scattering metrology and inverse-reconstruction contracts:</p>
+<ol class="arabic simple">
+<li><p><strong>Exact Inverse <span class="math notranslate nohighlight">\(R\)</span>-Matrix Parameter Recovery (<code class="docutils literal notranslate"><span class="pre">reconstruct_yang_parameters</span></code>)</strong>: <code class="docutils literal notranslate"><span class="pre">reconstructSpectralDiff</span></code> and <code class="docutils literal notranslate"><span class="pre">reconstructYangCoupling</span></code> recover <span class="math notranslate nohighlight">\(\delta(u,v) = u - v\)</span> and <span class="math notranslate nohighlight">\(\eta\)</span> from <span class="math notranslate nohighlight">\(w_{\mathrm{sym}}\)</span> and <span class="math notranslate nohighlight">\(w_{\mathrm{anti}}\)</span>.</p></li>
+<li><p><strong>Unitary Two-Body Scattering Flux Partition (<code class="docutils literal notranslate"><span class="pre">yang_scattering_probability_conservation</span></code>)</strong>: Whenever <span class="math notranslate nohighlight">\(\delta(u,v)^2 + \eta^2 \neq 0\)</span>, the transmission probability <span class="math notranslate nohighlight">\(T_{\mathrm{prob}} = \delta(u,v)^2 / (\delta(u,v)^2 + \eta^2)\)</span> and reflection probability <span class="math notranslate nohighlight">\(R_{\mathrm{prob}} = \eta^2 / (\delta(u,v)^2 + \eta^2)\)</span> are nonnegative and sum to <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><strong>Inverse Monodromy Reconstruction (<code class="docutils literal notranslate"><span class="pre">reconstruct_monodromy_from_trace_and_minor</span></code>)</strong>: Recovers <span class="math notranslate nohighlight">\(D(u) = t(u) - A(u)\)</span> and the off-diagonal magnon product <span class="math notranslate nohighlight">\(B(u)C(u) = A(u)D(u) - \Delta_{01}(T(u))\)</span>.</p></li>
+<li><p><strong>Calibrated Baxter <span class="math notranslate nohighlight">\(TQ\)</span> Residual Metrology (<code class="docutils literal notranslate"><span class="pre">baxterTQResidualMeasurement_wronskian_consistent</span></code>, <code class="docutils literal notranslate"><span class="pre">baxterTQResidualMeasurement_offShell_anomaly</span></code>)</strong>: Three-point Casorati Wronskian solutions on <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> are <code class="docutils literal notranslate"><span class="pre">.consistent</span></code> for every tolerance <span class="math notranslate nohighlight">\(\tau \ge 0\)</span>, whereas off-shell Bethe-root violations exceeding <span class="math notranslate nohighlight">\(\tau\)</span> trigger <code class="docutils literal notranslate"><span class="pre">.anomalyCandidate</span></code>.</p></li>
+<li><p><strong>Inelastic Stokes/Anti-Stokes Raman &amp; Relativistic Inverse Compton Channel Inversion (<code class="docutils literal notranslate"><span class="pre">raman_stokes_antiStokes_gr24_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">inverseCompton_thomson_and_recoil_identities</span></code>)</strong>: The same QISM channel inversion operators <code class="docutils literal notranslate"><span class="pre">reconstructSpectralDiff</span></code> and <code class="docutils literal notranslate"><span class="pre">reconstructYangCoupling</span></code> recover the optical pump frequency <span class="math notranslate nohighlight">\(\omega_L = (\omega_{AS} + \omega_S)/2\)</span> and vibrational phonon frequency <span class="math notranslate nohighlight">\(\Omega_v = (\omega_{AS} - \omega_S)/2\)</span> from the anti-Stokes and Stokes Raman sidebands <span class="math notranslate nohighlight">\(\omega_{AS}, \omega_S\)</span>, while the <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker channel ratio <span class="math notranslate nohighlight">\(\frac{1+\delta_R}{1-\delta_R}\)</span> (Raman) and <span class="math notranslate nohighlight">\(\frac{1+\beta}{1-\beta}\)</span> (Inverse Compton) connects directly to thermal and relativistic scattering metrology (see <a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">grassmannian-thermal-compton-raman-paper.md</span></a>).</p></li>
+</ol>
+<div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 3. Slavnov Pauli exclusion, calibrated Scattering metrology, and Raman/Inverse Compton channel inversion</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">K</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">v0</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">η</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">slavnovDet2</span><span class="w"> </span><span class="o">(</span><span class="n">slavnovKernelMatrix2</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">v0</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">slavnovDet2</span><span class="w"> </span><span class="o">(</span><span class="n">slavnovKernelMatrix2</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v0</span><span class="w"> </span><span class="n">v1</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="o">(</span><span class="n">baxterTQResidualMeasurement</span>
+<span class="w">      </span><span class="o">(</span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">η</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">η</span><span class="o">))</span>
+<span class="w">      </span><span class="o">(</span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">η</span><span class="o">))</span>
+<span class="w">      </span><span class="o">(</span><span class="n">casoratiWronskian</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">η</span><span class="o">)</span><span class="w"> </span><span class="n">u</span><span class="o">)</span>
+<span class="w">      </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="n">η</span><span class="o">))</span><span class="w"> </span><span class="o">(</span><span class="n">Q_plus</span><span class="w"> </span><span class="o">(</span><span class="n">u</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">η</span><span class="o">))</span>
+<span class="w">      </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">))</span><span class="bp">.</span><span class="n">consistent</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructSpectralDiff</span><span class="w"> </span><span class="o">(</span><span class="n">ramanAntiStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ramanStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">reconstructYangCoupling</span><span class="w"> </span><span class="o">(</span><span class="n">ramanAntiStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ramanStokesFreq</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">    </span><span class="n">inverseComptonKleinNishinaRatio</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span>
+<span class="w">      </span><span class="n">inverseComptonDopplerRatio</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="o">⟨</span><span class="n">slavnovDet2_pauli_exclusion</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">v0</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="n">u</span><span class="o">,</span>
+<span class="w">    </span><span class="n">slavnovDet2_dual_pauli_exclusion</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">v0</span><span class="w"> </span><span class="n">v1</span><span class="o">,</span>
+<span class="w">    </span><span class="n">baxterTQResidualMeasurement_wronskian_consistent</span><span class="w"> </span><span class="n">Q_plus</span><span class="w"> </span><span class="n">Q_minus</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="n">η</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">),</span>
+<span class="w">    </span><span class="o">(</span><span class="n">raman_stokes_antiStokes_gr24_identities</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">      </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">))</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">raman_stokes_antiStokes_gr24_identities</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="w">      </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">))</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">1</span><span class="o">,</span>
+<span class="w">    </span><span class="o">(</span><span class="n">inverseCompton_thomson_and_recoil_identities</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span>
+<span class="w">      </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">norm_num</span><span class="o">))</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="bp">.</span><span class="mi">2</span><span class="o">⟩</span>
+
+<span class="kd">end</span><span class="w"> </span><span class="n">ArxivQISMPaperVerification</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="conclusion-reproducibility">
+<h2>6. Conclusion &amp; Reproducibility<a class="headerlink" href="#conclusion-reproducibility" title="Link to this heading">¶</a></h2>
+<p>By formalizing the Grassmannian structure of the Quantum Inverse Scattering Method (<code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>) in Lean 4, we have machine-checked the complete chain from Yang’s <span class="math notranslate nohighlight">\(4 \times 4\)</span> rational <span class="math notranslate nohighlight">\(R\)</span>-matrix and shifted Yangian quantum determinants to the <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> Plücker <span class="math notranslate nohighlight">\(QQ\)</span>-system, three-point Casorati Wronskian <span class="math notranslate nohighlight">\(TQ\)</span> solutions, MTV Wronskian nondegeneracy, and <span class="math notranslate nohighlight">\(2 \times 2\)</span> Slavnov determinant compression. In our companion paper (<a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>), we show that the same <span class="math notranslate nohighlight">\(2 \times 4\)</span> Plücker identity governs the Pythagorean Plücker–Steiner barycentric shift and eliminates the <span class="math notranslate nohighlight">\(50\%\)</span> unphased crossing-minor error in 3D double-slit and OAM interferometry when lifted to <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>.</p>
+<p>To reproduce all Lean proofs and blueprint artifacts from the repository root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>signals_build
+<span class="nb">pushd</span><span class="w"> </span>src/signals
+lake<span class="w"> </span>build<span class="w"> </span>:blueprint<span class="w"> </span>:blueprintJson
+<span class="nb">popd</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<p><a id="qism-takhtajan1979"></a></p>
+<ol class="arabic simple">
+<li><p>Takhtadzhan, L. A., and Faddeev, L. D. (1979). <em>The Quantum Method of the Inverse Problem and the Heisenberg XYZ Model</em>. Russian Mathematical Surveys 34(5), 11–68. <a class="reference external" href="https://doi.org/10.1070/RM1979v034n05ABEH003909">DOI: 10.1070/RM1979v034n05ABEH003909</a>.</p></li>
+</ol>
+<p><a id="qism-sklyanin1992"></a>
+2. Sklyanin, E. K. (1992). <em>Quantum Inverse Scattering Method. Selected Topics</em>. In <em>Quantum Group and Quantum Integrable Systems</em>, Nankai Lectures on Mathematical Physics, pp. 63–97. <a class="reference external" href="https://arxiv.org/abs/hep-th/9211111">arXiv:hep-th/9211111</a>.</p>
+<p><a id="qism-korepin1993"></a>
+3. Korepin, V. E., Bogoliubov, N. M., and Izergin, A. G. (1993). <em>Quantum Inverse Scattering Method and Correlation Functions</em>. Cambridge Monographs on Mathematical Physics, Cambridge University Press. <a class="reference external" href="https://doi.org/10.1017/CBO9780511628832">DOI: 10.1017/CBO9780511628832</a>.</p>
+<p><a id="qism-faddeev1996"></a>
+4. Faddeev, L. D. (1996). <em>How Algebraic Bethe Ansatz Works for Integrable Models</em>. Les Houches Summer School Proceedings 64, 149–219. <a class="reference external" href="https://arxiv.org/abs/hep-th/9605187">arXiv:hep-th/9605187</a>.</p>
+<p><a id="qism-mtv2009"></a>
+5. Mukhin, E., Tarasov, V., and Varchenko, A. (2009). <em>Schubert Calculus and Representations of the General Linear Group</em>. Journal of the American Mathematical Society 22(4), 909–940. <a class="reference external" href="https://doi.org/10.1090/S0894-0347-09-00640-7">DOI: 10.1090/S0894-0347-09-00640-7</a>; <a class="reference external" href="https://arxiv.org/abs/0711.4079">arXiv:0711.4079</a>.</p>
+<p><a id="qism-arkani2014"></a>
+6. Arkani-Hamed, N., and Trnka, J. (2014). <em>The Amplituhedron</em>. Journal of High Energy Physics 2014(10), 030. <a class="reference external" href="https://doi.org/10.1007/JHEP10%282014%29030">DOI: 10.1007/JHEP10(2014)030</a>; <a class="reference external" href="https://arxiv.org/abs/1312.2007">arXiv:1312.2007</a>.</p>
+</section>
+<hr class="docutils" />
+<section id="bibtex-citations">
+<h3>BibTeX Citations<a class="headerlink" href="#bibtex-citations" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">takhtajan1979qism</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Takhtadzhan, Leon A. and Faddeev, L. D.}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{The Quantum Method of the Inverse Problem and the {H}eisenberg {XYZ} Model}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Russian Mathematical Surveys}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{34}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{5}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{11--68}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1979}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1070/RM1979v034n05ABEH003909}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1070/RM1979v034n05ABEH003909}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">sklyanin1992qism</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Sklyanin, Evgeny K.}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantum Inverse Scattering Method. {S}elected Topics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{arXiv preprint hep-th/9211111}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{1992}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://arxiv.org/abs/hep-th/9211111}</span>
+<span class="p">}</span>
+
+<span class="nc">@book</span><span class="p">{</span><span class="nl">korepin1993qism</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Korepin, Vladimir E. and Bogoliubov, N. M. and Izergin, A. G.}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantum Inverse Scattering Method and Correlation Functions}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">publisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Cambridge University Press}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">{1993}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1017/CBO9780511628832}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1017/CBO9780511628832}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">mukhin2009schubert</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Mukhin, Evgeny and Tarasov, Vitaly and Varchenko, Alexander}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Schubert Calculus and Representations of the General Linear Group}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Journal of the American Mathematical Society}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{22}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{4}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{909--940}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2009}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1090/S0894-0347-09-00640-7}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{https://arxiv.org/abs/0711.4079}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="schema-org-metadata-json-ld">
+<h3><a class="reference external" href="http://Schema.org">Schema.org</a> Metadata (JSON-LD)<a class="headerlink" href="#schema-org-metadata-json-ld" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-24"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Quantum Inverse Scattering Method"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Algebraic Bethe Ansatz"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Yang-Baxter Equation"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Grassmannian Geometry"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Baxter QQ-System"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Slavnov Determinant"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Lean 4 Formal Verification"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/QISM.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Scattering.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Geometry.lean"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-huygens-double-slit-oam-paper.html" title="Huygens–Steiner Barycentric Coherence, Complex \(Gr_{\mathbb{C}}(2,4)\) Plücker Channels, and Multi-Model Double-Slit &amp; OAM Relative Predictive Error in Lean 4" >previous</a></li>
+        <li><a href="grassmannian-ddf-moving-sheath-paper.html" title="Complex Grassmannian \(Gr_{\mathbb{C}}(2,4)\) &amp; \(N\)-ary \(Gr_{\mathbb{C}}(2, N+2)\) Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

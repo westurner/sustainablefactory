@@ -1,1 +1,0 @@
-../chats/Write a grant for a RISC CPU made out of graphene transistors .md

@@ -1,1 +1,0 @@
-../chats/_Pyramid Star Shafts_ Waveguides and Resonance .md

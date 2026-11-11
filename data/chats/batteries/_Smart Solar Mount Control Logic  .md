@@ -1,1 +1,0 @@
-../_Smart Solar Mount Control Logic  .md

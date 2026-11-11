@@ -1,1 +1,0 @@
-../chats/_Quantum Annealing Monotone Spectrum .md

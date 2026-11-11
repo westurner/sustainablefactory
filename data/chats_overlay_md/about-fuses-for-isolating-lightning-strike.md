@@ -1,1 +1,0 @@
-../chats/about-fuses-for-isolating-lightning-strike.md

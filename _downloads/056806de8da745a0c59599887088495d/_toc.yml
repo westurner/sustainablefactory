@@ -1,0 +1,109 @@
+format: jb-book
+sustainablefactory:
+  chat_sources:
+    source: ../data/chats
+    overlay_root: ../data/chatoverlay
+    tag_root: ../data/chats
+    manifest_source: ../data/chatoverlay/chats__all
+    output_dir: ../docs/chats
+    output_formats:
+    - myst
+    - ipynb
+    manifest: ../.tmp/workflow/chat-manifest.json
+    temp_dir: ../.tmp/workflow/transform
+    transform:
+      cell_split: m1
+    include:
+    - '*.json'
+    - '*.md'
+    exclude: []
+    files: []
+chapters:
+- file: readme
+- file: schema
+- file: visualization
+- file: cli_reference
+- file: glossary
+- file: tools
+- file: workflow-performance-plan
+- file: chat-markdown-warning-remediation-plan
+- file: plan-index
+
+#- file: chats/index
+#- file: tables_and_figures
+
+
+- file: sphinx-meilisearch-architecture
+- file: lean-blueprint-rust-port-plan
+- file: chat-physics-catalog
+
+- file: paper
+- file: paper-model-review
+- file: soliton-bus
+- file: dispersive-homodyne-plan
+
+- file: research_brief_carbothermic_ultrasonic
+
+- file: anti-fire-cannon-review
+- file: water
+
+- file: signals-blueprint
+
+- file: flat-light-nanolithography-scholarly
+- file: longitudinal-wave-polycbd-upt-dff-evidence
+- file: flat-light-proca-nlig-validation-plan
+
+- file: huygens-grassmannian-amplituhedron-plan
+- file: grassmannian-huygens-double-slit-oam-paper
+- file: grassmannian-qism-bethe-ansatz-paper
+- file: grassmannian-ddf-moving-sheath-paper
+- file: grassmannian-gravity-from-qed-scattering-paper
+- file: grassmannian-splat-mechanics-paper
+- file: grassmannian-thermal-compton-raman-paper
+- file: grassmannian-polariton-spp-mechanics-paper
+- file: grassmannian-holographic-principle-paper
+- file: grassmannian-ads-cft-ddf-paper
+- file: grassmannian-unification-applications-roadmap-paper
+- file: gaussian-splat-tensors-normed-paper
+- file: grassmannian-holographic-imaging-depth-recovery-paper
+- file: grassmannian-vectorial-longitudinal-polarization-paper
+- file: grassmannian-enz-hyperbolic-metamaterials-paper
+- file: grassmannian-riscv-holographic-nanolithography-kicad-paper
+- file: grassmannian-madelung-lagrangian-ddf-jamming-paper
+- file: grassmannian-complex-gpe-igpe-plucker-madelung-paper
+- file: grassmannian-hawking-radiation-decoding-paper
+- file: grassmannian-multispectral-hubble-medical-nanoimaging-paper
+- file: grassmannian-quantum-causal-inference-mpemba-paper
+- file: grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper
+- file: grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper
+- file: grassmannian-kohn-sham-dft-complex-plabic-vrc-paper
+- file: grassmannian-speed-accuracy-barrier-quantum-chemistry-paper
+- file: tuning-materials-with-light-plan
+- file: grassmannian-tuning-materials-with-light-paper
+- file: interfacial-heat-transport-plan
+- file: grassmannian-interfacial-heat-transport-paper
+- file: cuprate-superconductivity-plan
+- file: grassmannian-cuprate-superconductivity-paper
+- file: interfacial-electrical-properties-plan
+- file: grassmannian-interfacial-electrical-properties-paper
+- file: rhombohedral-graphene-superconductivity-plan
+- file: grassmannian-rhombohedral-graphene-superconductivity-qc-paper
+- file: grassmannian-semi-dirac-fermions-ddf-paper
+- file: grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper
+- file: grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper
+- file: grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper
+- file: grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper
+- file: grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper
+- file: grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper
+- file: grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper
+- file: grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper
+- file: grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper
+- file: grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper
+- file: grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper
+- file: grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper
+- file: grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper
+- file: grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper
+- file: grassmannian-tequila-rust-pyo3-quantum-simulator-paper
+- file: grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper
+- file: references
+

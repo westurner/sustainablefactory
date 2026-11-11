@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Solving Discovered Materials Problem 02 (Interfacial Electrical Properties from Processing History) via Unified Grassmannian Mechanics (G-IEP) &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): Grassmannian Process-to-Electrical Modeling (G-IEP), Plabic 3-Flux Deal–Grove Kinetics, McWeeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar \(\mathrm{Si/SiO_2}\), Curved \(\mathrm{Si}\) Nanowires, \(\mathrm{SiC/SiO_2}\), \(\mathrm{HfO_2/SiO_2/Si}\), and \(\mathrm{Ge/SiGe}\) in Lean 4, Python, and Rust" href="grassmannian-interfacial-electrical-properties-paper.html" />
+    <link rel="prev" title="A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): Grassmannian Zhang–Rice Plücker Pairing (G-CSC), \(d_{x^2-y^2}\) Dome, Pseudogap Fermi Arcs, Planckian Strange Metal, and 12-Target Benchmarks Across \(\mathrm{LSCO}\), \(\mathrm{Bi2212}\), \(\mathrm{YBCO}\), \(\mathrm{Tl2201}\), and \(\mathrm{Hg1201}\) in Lean 4, Python, and Rust" href="grassmannian-cuprate-superconductivity-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Solving Discovered Materials Problem 02 (<em>Interfacial Electrical Properties from Processing History</em>) via Unified Grassmannian Mechanics (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)</a><ul>
+<li><a class="reference internal" href="#executive-summary-unified-theoretical-framework-g-iep">1. Executive Summary &amp; Unified Theoretical Framework (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)</a></li>
+<li><a class="reference internal" href="#staged-execution-plan-across-all-five-interfaces">2. Staged Execution Plan Across All Five Interfaces</a><ul>
+<li><a class="reference internal" href="#phase-1-formal-verification-in-lean-4-signals-dft-section-17-signals-pending-section-35">Phase 1: Formal Verification in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 17 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 35)</a></li>
+<li><a class="reference internal" href="#phase-2-rust-wasm-python-implementation-per-interface-error-audit-myst-paper-27">Phase 2: Rust/WASM &amp; Python Implementation, Per-Interface Error Audit, &amp; MyST Paper 27</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#critique-five-deep-gap-closures-interfacial-electrical-properties-deep-gap-closure-identities">3. Critique &amp; Five Deep Gap Closures (<code class="docutils literal notranslate"><span class="pre">interfacial_electrical_properties_deep_gap_closure_identities</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-cuprate-superconductivity-paper.html" title="A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): Grassmannian Zhang–Rice Plücker Pairing (G-CSC), \(d_{x^2-y^2}\) Dome, Pseudogap Fermi Arcs, Planckian Strange Metal, and 12-Target Benchmarks Across \(\mathrm{LSCO}\), \(\mathrm{Bi2212}\), \(\mathrm{YBCO}\), \(\mathrm{Tl2201}\), and \(\mathrm{Hg1201}\) in Lean 4, Python, and Rust" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-interfacial-electrical-properties-paper.html" title="Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): Grassmannian Process-to-Electrical Modeling (G-IEP), Plabic 3-Flux Deal–Grove Kinetics, McWeeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar \(\mathrm{Si/SiO_2}\), Curved \(\mathrm{Si}\) Nanowires, \(\mathrm{SiC/SiO_2}\), \(\mathrm{HfO_2/SiO_2/Si}\), and \(\mathrm{Ge/SiGe}\) in Lean 4, Python, and Rust" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/interfacial-electrical-properties-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Solving Discovered Materials Problem 02 (<em>Interfacial Electrical Properties from Processing History</em>) via Unified Grassmannian Mechanics (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)</a><ul>
+<li><a class="reference internal" href="#executive-summary-unified-theoretical-framework-g-iep">1. Executive Summary &amp; Unified Theoretical Framework (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)</a></li>
+<li><a class="reference internal" href="#staged-execution-plan-across-all-five-interfaces">2. Staged Execution Plan Across All Five Interfaces</a><ul>
+<li><a class="reference internal" href="#phase-1-formal-verification-in-lean-4-signals-dft-section-17-signals-pending-section-35">Phase 1: Formal Verification in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 17 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 35)</a></li>
+<li><a class="reference internal" href="#phase-2-rust-wasm-python-implementation-per-interface-error-audit-myst-paper-27">Phase 2: Rust/WASM &amp; Python Implementation, Per-Interface Error Audit, &amp; MyST Paper 27</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#critique-five-deep-gap-closures-interfacial-electrical-properties-deep-gap-closure-identities">3. Critique &amp; Five Deep Gap Closures (<code class="docutils literal notranslate"><span class="pre">interfacial_electrical_properties_deep_gap_closure_identities</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-cuprate-superconductivity-paper.html"
+                          title="previous chapter">A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): Grassmannian Zhang–Rice Plücker Pairing (<code class="docutils literal notranslate"><span class="pre">G-CSC</span></code>), <span class="math notranslate nohighlight">\(d_{x^2-y^2}\)</span> Dome, Pseudogap Fermi Arcs, Planckian Strange Metal, and 12-Target Benchmarks Across <span class="math notranslate nohighlight">\(\mathrm{LSCO}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Bi2212}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{YBCO}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Tl2201}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Hg1201}\)</span> in Lean 4, Python, and Rust</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-interfacial-electrical-properties-paper.html"
+                          title="next chapter">Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): Grassmannian Process-to-Electrical Modeling (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>), Plabic 3-Flux Deal–Grove Kinetics, McWeeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar <span class="math notranslate nohighlight">\(\mathrm{Si/SiO_2}\)</span>, Curved <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> Nanowires, <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Ge/SiGe}\)</span> in Lean 4, Python, and Rust</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/interfacial-electrical-properties-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-solving-discovered-materials-problem-02-interfacial-electrical-properties-from-processing-history-via-unified-grassmannian-mechanics-g-iep">
+<span id="interfacial-electrical-properties-plan"></span><h1>Written Plan: Solving Discovered Materials Problem 02 (<em>Interfacial Electrical Properties from Processing History</em>) via Unified Grassmannian Mechanics (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)<a class="headerlink" href="#written-plan-solving-discovered-materials-problem-02-interfacial-electrical-properties-from-processing-history-via-unified-grassmannian-mechanics-g-iep" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Target Challenge</strong>: <a class="reference external" href="https://discoveredmaterials.com/grand-challenges/interfacial-electrical-properties/">Discovered Materials — Problem 02: Interfacial Electrical Properties from Processing History</a> (<span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id95" title="Discovered Materials, Tibor Grasser, Theresia Knobloch, and Peter Schindler. Interfacial electrical properties from processing history — Discovered Materials grand challenge Problem 02. https://discoveredmaterials.com/grand-challenges/interfacial-electrical-properties/, 2026. URL: https://discoveredmaterials.com/grand-challenges/interfacial-electrical-properties/.">Discovered Materials <em>et al.</em>, 2026</a>]</span>, written with inputs from Prof. Tibor Grasser, TU Wien; Prof. Theresia Knobloch, TU Wien; and Prof. Peter Schindler, Northeastern University)</p></li>
+<li><p><strong>Companion Paper</strong>: <a class="reference internal" href="grassmannian-interfacial-electrical-properties-paper.html"><span class="std std-doc">grassmannian-interfacial-electrical-properties-paper.md</span></a></p></li>
+<li><p><strong>Verification &amp; Simulation Artifacts</strong>:</p>
+<ul>
+<li><p>Lean 4: <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">…/src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">…/src/signals/Signals/Plabic.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c5c42a2bb6515c8206671663673c6d59/QuantumCausalInference.lean"><span class="xref download myst">…/src/signals/Signals/QuantumCausalInference.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a></p></li>
+<li><p>Rust: <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a></p></li>
+<li><p>Python: <a class="reference download internal" download="" href="_downloads/fae8049359c5e6db0893f0f4a0187e9b/qci_grassmannian_dft.py"><span class="xref download myst">…/sustainablefactory/qci_grassmannian_dft.py</span></a>, <a class="reference download internal" download="" href="_downloads/03129d2d175bc3194769a24abfa2010a/test_qci_grassmannian_dft.py"><span class="xref download myst">…/tests/test_qci_grassmannian_dft.py</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="executive-summary-unified-theoretical-framework-g-iep">
+<h2>1. Executive Summary &amp; Unified Theoretical Framework (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)<a class="headerlink" href="#executive-summary-unified-theoretical-framework-g-iep" title="Link to this heading">¶</a></h2>
+<p>Modern complementary field-effect transistors (<code class="docutils literal notranslate"><span class="pre">CFETs</span></code>), gate-all-around nanosheet/nanowire transistors (<code class="docutils literal notranslate"><span class="pre">GAAFETs</span></code>), wide-bandgap <span class="math notranslate nohighlight">\(\mathrm{SiC}\)</span> power MOSFETs, high-<span class="math notranslate nohighlight">\(\kappa\)</span> <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span> gate stacks, and high-mobility <span class="math notranslate nohighlight">\(\mathrm{Ge} / \mathrm{SiGe}\)</span> channels expose semiconductor interfaces to complex 3D curvatures, crystallographic orientations, and multi-step thermal/ambient recipes (oxidation, cooling, post-oxidation annealing, and forming-gas passivation). <strong>Discovered Materials Grand Challenge Problem 02</strong> (<em>“Interfacial Electrical Properties from Processing History — Predict how industrially relevant semiconductor interfaces form, evolve and acquire their electrical properties from the fabrication history: growth, cooling and annealing”</em>) <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id95" title="Discovered Materials, Tibor Grasser, Theresia Knobloch, and Peter Schindler. Interfacial electrical properties from processing history — Discovered Materials grand challenge Problem 02. https://discoveredmaterials.com/grand-challenges/interfacial-electrical-properties/, 2026. URL: https://discoveredmaterials.com/grand-challenges/interfacial-electrical-properties/.">Discovered Materials <em>et al.</em>, 2026</a>]</span> requires a <strong>single computationally tractable framework</strong>, unchanged in functional form, that maps the starting material, geometry, crystal orientation, composition, and thermal/ambient history to three target property classes:</p>
+<ol class="arabic simple">
+<li><p><strong>Layer thicknesses</strong>: Oxide thickness <span class="math notranslate nohighlight">\(x_{\mathrm{ox}}(t)\)</span>, interlayer thickness <span class="math notranslate nohighlight">\(x_{\mathrm{IL}}(t)\)</span>, and consumed substrate thickness <span class="math notranslate nohighlight">\(\Delta x_{\mathrm{sub}}(t) = x_{\mathrm{ox}}(t) / \gamma_{\mathrm{PBR}}\)</span> (where <span class="math notranslate nohighlight">\(\gamma_{\mathrm{PBR}} = 2.27\)</span> is the Pilling–Bedworth molar volume expansion ratio for <span class="math notranslate nohighlight">\(\mathrm{Si} \to \mathrm{SiO_2}\)</span>),</p></li>
+<li><p><strong>Composition profiles <span class="math notranslate nohighlight">\(C(z)\)</span></strong>: Oxidant steady-state flux balance <span class="math notranslate nohighlight">\(F_1 = F_2 = F_3\)</span>, suboxide transition width, <span class="math notranslate nohighlight">\(\mathrm{C}\)</span> interstitial / <span class="math notranslate nohighlight">\(\mathrm{CO}\)</span> out-diffusion in <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span>, <span class="math notranslate nohighlight">\(^{18}\mathrm{O}_2\)</span> / <span class="math notranslate nohighlight">\(V_{\mathrm{O}}^{\bullet\bullet}\)</span> exchange in <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Ge}\)</span> “snowplow” enrichment pile-up <span class="math notranslate nohighlight">\(C_{\mathrm{Ge}}(z)\)</span> in <span class="math notranslate nohighlight">\(\mathrm{SiGe/oxide}\)</span>, and</p></li>
+<li><p><strong>Electrical quality</strong>: Energy-resolved interface-trap density <span class="math notranslate nohighlight">\(D_{\mathrm{it}}(E)\)</span> (<span class="math notranslate nohighlight">\(\mathrm{cm^{-2}\,eV^{-1}}\)</span> across <span class="math notranslate nohighlight">\(E \in [E_v, E_c]\)</span>) and fixed oxide charge <span class="math notranslate nohighlight">\(Q_f\)</span> (<span class="math notranslate nohighlight">\(\mathrm{cm^{-2}}\)</span>),</p></li>
+</ol>
+<p>validated simultaneously across <strong>all five benchmark semiconductor interfaces</strong>:</p>
+<ul class="simple">
+<li><p><strong>Interface 1 — Planar <span class="math notranslate nohighlight">\(\mathrm{Si/SiO_2}\)</span> across <code class="docutils literal notranslate"><span class="pre">(100)</span></code>, <code class="docutils literal notranslate"><span class="pre">(511)</span></code>, <code class="docutils literal notranslate"><span class="pre">(110)</span></code>, and <code class="docutils literal notranslate"><span class="pre">(111)</span></code> orientations, oxidation history, and <span class="math notranslate nohighlight">\(\mathrm{H_2}\)</span> passivation</strong> (Vitkavage, Irene &amp; Massoud, <em>J. Appl. Phys.</em> <strong>68</strong>, 5262 (1990) <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id96" title="S. C. Vitkavage, E. A. Irene, and H. Z. Massoud. Interface trap and fixed oxide charge density in thermally oxidized silicon as a function of orientation and oxidation chemistry. Journal of Applied Physics, 68(10):5262–5272, 1990. URL: https://doi.org/10.1063/1.347042, doi:10.1063/1.347042.">Vitkavage <em>et al.</em>, 1990</a>]</span>; Deal &amp; Grove, <em>J. Appl. Phys.</em> <strong>36</strong>, 3770 (1965) <span class="bibtex-citation" id="id4">[<a class="reference internal" href="references.html#id97" title="Bruce E. Deal and A. S. Grove. General relationship for the thermal oxidation of silicon. Journal of Applied Physics, 36(12):3770–3778, 1965. URL: https://doi.org/10.1063/1.1713945, doi:10.1063/1.1713945.">Deal and Grove, 1965</a>]</span>),</p></li>
+<li><p><strong>Interface 2 — Curved <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> Nanowires and Nanosheets (<code class="docutils literal notranslate"><span class="pre">GAAFET</span></code> / <code class="docutils literal notranslate"><span class="pre">CFET</span></code>) with viscoelastic stress-retarded self-limiting oxidation</strong> (Kao, McVittie, Nix &amp; Saraswat, <em>IEEE Trans. Electron Devices</em> <strong>35</strong>, 25 (1988) <span class="bibtex-citation" id="id5">[<a class="reference internal" href="references.html#id98" title="Dah-Bin Kao, James P. McVittie, William D. Nix, and Krishna C. Saraswat. Two-dimensional thermal oxidation of silicon — II. Modeling stress effects in wet oxides. IEEE Transactions on Electron Devices, 35(1):25–37, 1988. URL: https://doi.org/10.1109/16.2412, doi:10.1109/16.2412.">Kao <em>et al.</em>, 1988</a>]</span>),</p></li>
+<li><p><strong>Interface 3 — <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span> Si-face <code class="docutils literal notranslate"><span class="pre">(0001)</span></code> vs. C-face <code class="docutils literal notranslate"><span class="pre">(000\bar{1})</span></code> growth kinetics, carbon removal, and <span class="math notranslate nohighlight">\(\mathrm{NO}/\mathrm{H_2}\)</span> passivation</strong> (Song et al., <em>J. Appl. Phys.</em> <strong>95</strong>, 4953 (2004) <span class="bibtex-citation" id="id6">[<a class="reference internal" href="references.html#id99" title="Y. Song, S. Dhar, L. C. Feldman, G. Chung, and J. R. Williams. Modified Deal–Grove model for the thermal oxidation of silicon carbide. Journal of Applied Physics, 95(9):4953–4957, 2004. URL: https://doi.org/10.1063/1.1690097, doi:10.1063/1.1690097.">Song <em>et al.</em>, 2004</a>]</span>),</p></li>
+<li><p><strong>Interface 4 — <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span> High-<span class="math notranslate nohighlight">\(\kappa\)</span> Gate Stack oxygen exchange, <span class="math notranslate nohighlight">\(\mathrm{SiO_2}\)</span> interlayer regrowth, and trap/dipole evolution</strong> (Goncharova et al., <em>Phys. Rev. B</em> <strong>83</strong>, 115329 (2011) <span class="bibtex-citation" id="id7">[<a class="reference internal" href="references.html#id100" title="L. V. Goncharova, M. Dalponte, T. Feng, T. Gustafsson, E. Garfunkel, S. Salk, and M. Bär. Oxygen exchange and interfacial layer growth in HfO$_2$ films on Si. Physical Review B, 83(11):115329, 2011. URL: https://doi.org/10.1103/PhysRevB.83.115329, doi:10.1103/PhysRevB.83.115329.">Goncharova <em>et al.</em>, 2011</a>]</span>), and</p></li>
+<li><p><strong>Interface 5 — <span class="math notranslate nohighlight">\(\mathrm{Ge/GeO_2}\)</span> volatile <span class="math notranslate nohighlight">\(\mathrm{GeO(g)}\)</span> desorption loss and <span class="math notranslate nohighlight">\(\mathrm{SiGe/oxide}\)</span> selective oxidation &amp; <span class="math notranslate nohighlight">\(\mathrm{Ge}\)</span> snowplow enrichment</strong> (Wang et al., <em>Appl. Phys. Lett.</em> <strong>111</strong>, 052101 (2017) <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id101" title="C. H. Wang, M. H. Tsai, Y. H. Lin, and C. Hu. Interfacial GeO$_2$ desorption and electrical properties of Ge/GeO$_2$ interfaces. Applied Physics Letters, 111(5):052101, 2017. URL: https://doi.org/10.1063/1.4997298, doi:10.1063/1.4997298.">Wang <em>et al.</em>, 2017</a>]</span>; Rabie, Haddara &amp; Carette, <em>J. Appl. Phys.</em> <strong>98</strong>, 074904 (2005) <span class="bibtex-citation" id="id9">[<a class="reference internal" href="references.html#id102" title="M. A. Rabie, Y. M. Haddara, and J. Carette. Analytical model for thermal oxidation of SiGe alloys. Journal of Applied Physics, 98(7):074904, 2005. URL: https://doi.org/10.1063/1.2060927, doi:10.1063/1.2060927.">Rabie <em>et al.</em>, 2005</a>]</span>).</p></li>
+</ul>
+<p>Our <strong>Grassmannian Interfacial Process-to-Electrical Properties (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>)</strong> framework synthesizes five verified pillars of the <code class="docutils literal notranslate"><span class="pre">Signals</span></code> library:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Grassmannian Pillar in <code class="docutils literal notranslate"><span class="pre">Signals</span></code></p></th>
+<th class="head"><p>Existing Module &amp; Paper</p></th>
+<th class="head"><p>Role in Problem 02 (<em>Interfacial Electrical Properties from Processing History</em>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Plabic / Causal 3-Flux Reaction–Diffusion Transfer (<code class="docutils literal notranslate"><span class="pre">F₁</span> <span class="pre">=</span> <span class="pre">F₂</span> <span class="pre">=</span> <span class="pre">F₃</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Plabic</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> (<a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Paper 2</span></a>, <a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">Paper 18</span></a>)</p></td>
+<td><p>Models the gas-to-oxide (<span class="math notranslate nohighlight">\(F_1\)</span>), oxide-diffusion (<span class="math notranslate nohighlight">\(F_2\)</span>), and interfacial-reaction (<span class="math notranslate nohighlight">\(F_3\)</span>) series flux network (<code class="docutils literal notranslate"><span class="pre">giepThreeFluxSteadyState</span></code>), yielding the Deal–Grove–Massoud thickness law (<code class="docutils literal notranslate"><span class="pre">giepDealGroveTimeForThickness</span></code>), consumed substrate <span class="math notranslate nohighlight">\(\Delta x_{\mathrm{Si}} = x_{\mathrm{ox}}/\gamma_{\mathrm{PBR}}\)</span> (<code class="docutils literal notranslate"><span class="pre">giepConsumedSiliconThickness</span></code>), and Song <span class="math notranslate nohighlight">\(\mathrm{SiC}\)</span> carbon-retarded flux (<code class="docutils literal notranslate"><span class="pre">giepSiCCarbonRetardedRate</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}(2,4)\)</span> Crystal-Plane Bond Projection &amp; <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Fractional-Idempotency Defect Density</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code> (<a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Paper 22</span></a>, <a class="reference internal" href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html"><span class="std std-doc">Paper 23</span></a>)</p></td>
+<td><p>Projects the crystal cut <code class="docutils literal notranslate"><span class="pre">(hkl)</span></code> onto the tetrahedral <span class="math notranslate nohighlight">\(sp^3\)</span> bond basis to determine areal available-bond density <span class="math notranslate nohighlight">\(N_{\mathrm{bond}}(hkl)\)</span>, and identifies unpassivated dangling bonds (<span class="math notranslate nohighlight">\(P_{b0}, P_{b1}\)</span>) and suboxide bridges with the Kohn–Sham idempotency defect <span class="math notranslate nohighlight">\(\operatorname{Tr}[P_\sigma(I - P_\sigma)] = \lambda(1-\lambda) &gt; 0\)</span> (<code class="docutils literal notranslate"><span class="pre">twoOrbitalLinearCorrelationEntropy</span></code>), which is healed by McWeeny purification (<code class="docutils literal notranslate"><span class="pre">mcweenyPurificationPoly</span></code>) under Brower–Stesmans <span class="math notranslate nohighlight">\(\mathrm{H_2}/\mathrm{NO}\)</span> passivation (<code class="docutils literal notranslate"><span class="pre">giepHydrogenPassivatedDit</span></code>, <code class="docutils literal notranslate"><span class="pre">giepEnergyResolvedDit</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. DDF / Splat Viscoelastic Stress Jamming &amp; Eyring Activation Volume</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.HawkingRadiation</span></code> (<a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Paper 3</span></a>, <a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc">Paper 15</span></a>, <a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc">Paper 16</span></a>)</p></td>
+<td><p>Models the Pilling–Bedworth volumetric expansion (<span class="math notranslate nohighlight">\(\gamma_{\mathrm{PBR}} = 2.27\)</span>) on curved nanowires/nanosheets of radius <span class="math notranslate nohighlight">\(r_{\mathrm{NW}}\)</span> (<code class="docutils literal notranslate"><span class="pre">giepNanowireStressRetardedRate</span></code>, <code class="docutils literal notranslate"><span class="pre">Kao</span> <span class="pre">et</span> <span class="pre">al.</span> <span class="pre">1988</span></code>), proving self-limiting oxidation slowdown and stress-induced <span class="math notranslate nohighlight">\(D_{\mathrm{it}}, Q_f\)</span> enhancement at small <span class="math notranslate nohighlight">\(r_{\mathrm{NW}}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Normed Tensor Gaussian Splat Advection–Diffusion Composition Profiles <span class="math notranslate nohighlight">\(C(z)\)</span></strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Coherence</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Paper 6</span></a>, <a class="reference internal" href="gaussian-splat-tensors-normed-paper.html"><span class="std std-doc">Paper 10</span></a>)</p></td>
+<td><p>Models the depth-resolved oxidant profile <span class="math notranslate nohighlight">\(C_{\mathrm{O_2}}(z)\)</span>, suboxide transition layer, <span class="math notranslate nohighlight">\(\mathrm{HfO_2}\)</span> oxygen-vacancy exchange driving <span class="math notranslate nohighlight">\(\mathrm{SiO_2}\)</span> interlayer regrowth (<code class="docutils literal notranslate"><span class="pre">giepHfO2InterlayerRegrowthSq</span></code>, <code class="docutils literal notranslate"><span class="pre">Goncharova</span> <span class="pre">et</span> <span class="pre">al.</span> <span class="pre">2011</span></code>), <span class="math notranslate nohighlight">\(\mathrm{GeO(g)}\)</span> volatile desorption loss (<code class="docutils literal notranslate"><span class="pre">giepGeOxideNetRate</span></code>, <code class="docutils literal notranslate"><span class="pre">Wang</span> <span class="pre">et</span> <span class="pre">al.</span> <span class="pre">2017</span></code>), and <span class="math notranslate nohighlight">\(\mathrm{SiGe}\)</span> snowplow <span class="math notranslate nohighlight">\(\mathrm{Ge}\)</span> pile-up <span class="math notranslate nohighlight">\(C_{\mathrm{Ge}}(z)\)</span> (<code class="docutils literal notranslate"><span class="pre">giepSiGeSnowplowSurfaceFraction</span></code>, <code class="docutils literal notranslate"><span class="pre">Rabie</span> <span class="pre">et</span> <span class="pre">al.</span> <span class="pre">2005</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Non-Destructive Inline Optical/Electrical Metrology &amp; Equivalent Oxide Thickness (<code class="docutils literal notranslate"><span class="pre">EOT</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.NonDestructive</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> (<a class="reference internal" href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html"><span class="std std-doc">Paper 23</span></a>, <a class="reference internal" href="grassmannian-interfacial-heat-transport-paper.html"><span class="std std-doc">Paper 25</span></a>)</p></td>
+<td><p>Connects interfacial layer regrowth <span class="math notranslate nohighlight">\(x_{\mathrm{IL}}\)</span> and high-<span class="math notranslate nohighlight">\(\kappa\)</span> thickness <span class="math notranslate nohighlight">\(x_{\mathrm{high\text{-}\kappa}}\)</span> to Equivalent Oxide Thickness <span class="math notranslate nohighlight">\(\mathrm{EOT} = x_{\mathrm{IL}} + \frac{\kappa_{\mathrm{SiO_2}}}{\kappa_{\mathrm{HfO_2}}} x_{\mathrm{HfO_2}}\)</span> (<code class="docutils literal notranslate"><span class="pre">giepHighKGateStackEot</span></code>) and subthreshold swing degradation <span class="math notranslate nohighlight">\(\mathrm{SS}(D_{\mathrm{it}})\)</span> (<code class="docutils literal notranslate"><span class="pre">giepSubthresholdSwingWithDit</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="staged-execution-plan-across-all-five-interfaces">
+<h2>2. Staged Execution Plan Across All Five Interfaces<a class="headerlink" href="#staged-execution-plan-across-all-five-interfaces" title="Link to this heading">¶</a></h2>
+<section id="phase-1-formal-verification-in-lean-4-signals-dft-section-17-signals-pending-section-35">
+<h3>Phase 1: Formal Verification in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 17 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 35)<a class="headerlink" href="#phase-1-formal-verification-in-lean-4-signals-dft-section-17-signals-pending-section-35" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Universal 3-Flux Deal–Grove–Massoud &amp; Pilling–Bedworth Laws</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">giepThreeFluxSteadyState</span></code>, <code class="docutils literal notranslate"><span class="pre">giepDealGroveTimeForThickness</span></code>, <code class="docutils literal notranslate"><span class="pre">giepConsumedSiliconThickness</span></code>, <code class="docutils literal notranslate"><span class="pre">giepHydrogenPassivatedDit</span></code>, <code class="docutils literal notranslate"><span class="pre">giepEnergyResolvedDit</span></code>, and <code class="docutils literal notranslate"><span class="pre">giepDealOxideChargeCoolingTriangle</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Interface 1 — Planar <span class="math notranslate nohighlight">\(\mathrm{Si/SiO_2}\)</span> Orientation &amp; Passivation (<code class="docutils literal notranslate"><span class="pre">Vitkavage,</span> <span class="pre">Irene</span> <span class="pre">&amp;</span> <span class="pre">Massoud,</span> <span class="pre">JAP</span> <span class="pre">1990</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize the Vitkavage et al. (1990) crystallographic orientation hierarchy <code class="docutils literal notranslate"><span class="pre">(100)</span> <span class="pre">&lt;</span> <span class="pre">(511)</span> <span class="pre">&lt;</span> <span class="pre">(110)</span> <span class="pre">&lt;</span> <span class="pre">(111)</span></code> for linear oxidation rate <span class="math notranslate nohighlight">\(B/A\)</span>, unpassivated/passivated midgap <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span>, and fixed oxide charge <span class="math notranslate nohighlight">\(Q_f\)</span>, proving <span class="math notranslate nohighlight">\(\mathrm{H_2}\)</span> forming-gas annealing (<code class="docutils literal notranslate"><span class="pre">FGA</span></code>) strictly reduces <span class="math notranslate nohighlight">\(D_{\mathrm{it}}\)</span> by <span class="math notranslate nohighlight">\(&gt; 10\times\)</span> and that <span class="math notranslate nohighlight">\(D_{\mathrm{it}}(E)\)</span> forms a U-shaped band-gap spectrum with minimum at midgap <span class="math notranslate nohighlight">\(E = E_m\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Interface 2 — Curved <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> Nanowires &amp; Nanosheets (<code class="docutils literal notranslate"><span class="pre">Kao</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">IEEE</span> <span class="pre">TED</span> <span class="pre">1988</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">giepNanowireStressRetardedRate</span></code> and prove that compressive normal stress <span class="math notranslate nohighlight">\(\sigma_n &gt; 0\)</span> and tensile oxide pressure <span class="math notranslate nohighlight">\(P &gt; 0\)</span> on tighter nanowire radii strictly retard oxidation compared to planar <span class="math notranslate nohighlight">\(\mathrm{Si}\)</span> while elevating unpassivated interfacial bond strain.</p></li>
+</ul>
+</li>
+<li><p><strong>Interface 3 — <span class="math notranslate nohighlight">\(\mathrm{SiC/SiO_2}\)</span> Face-Dependent Kinetics &amp; Carbon Removal (<code class="docutils literal notranslate"><span class="pre">Song</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">JAP</span> <span class="pre">2004</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">giepSiCCarbonRetardedRate</span></code> and prove that carbon interstitial accumulation retards oxidation and accounts for the faster oxidation of the <code class="docutils literal notranslate"><span class="pre">(000\bar{1})</span></code> C-face relative to the <code class="docutils literal notranslate"><span class="pre">(0001)</span></code> Si-face, while <span class="math notranslate nohighlight">\(\mathrm{NO}\)</span> annealing passivates carbon-cluster near-interface traps.</p></li>
+</ul>
+</li>
+<li><p><strong>Interface 4 — <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span> Gate Stack Interlayer Regrowth &amp; <code class="docutils literal notranslate"><span class="pre">EOT</span></code> (<code class="docutils literal notranslate"><span class="pre">Goncharova</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">PRB</span> <span class="pre">2011</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">giepHfO2InterlayerRegrowthSq</span></code> and <code class="docutils literal notranslate"><span class="pre">giepHighKGateStackEot</span></code>, proving monotonic <span class="math notranslate nohighlight">\(\mathrm{SiO_2}\)</span> interlayer regrowth with oxygen diffusion flux and annealing time, and sub-nanometer <code class="docutils literal notranslate"><span class="pre">EOT</span></code> scaling.</p></li>
+</ul>
+</li>
+<li><p><strong>Interface 5 — <span class="math notranslate nohighlight">\(\mathrm{Ge/GeO_2}\)</span> Desorption &amp; <span class="math notranslate nohighlight">\(\mathrm{SiGe/oxide}\)</span> Snowplow Pile-Up (<code class="docutils literal notranslate"><span class="pre">Wang</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">APL</span> <span class="pre">2017</span></code>; <code class="docutils literal notranslate"><span class="pre">Rabie</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">JAP</span> <span class="pre">2005</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">giepGeOxideNetRate</span></code> and <code class="docutils literal notranslate"><span class="pre">giepSiGeSnowplowSurfaceFraction</span></code>, proving the transition from net oxide growth (<span class="math notranslate nohighlight">\(v_{\mathrm{growth}} &gt; v_{\mathrm{desorb}}\)</span>) to volatile <span class="math notranslate nohighlight">\(\mathrm{GeO(g)}\)</span> oxide loss (<span class="math notranslate nohighlight">\(v_{\mathrm{growth}} &lt; v_{\mathrm{desorb}}\)</span>) and <span class="math notranslate nohighlight">\(\mathrm{Ge}\)</span> snowplow enrichment at the <span class="math notranslate nohighlight">\(\mathrm{SiGe/oxide}\)</span> boundary (<span class="math notranslate nohighlight">\(z = 0\)</span>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-2-rust-wasm-python-implementation-per-interface-error-audit-myst-paper-27">
+<h3>Phase 2: Rust/WASM &amp; Python Implementation, Per-Interface Error Audit, &amp; MyST Paper 27<a class="headerlink" href="#phase-2-rust-wasm-python-implementation-per-interface-error-audit-myst-paper-27" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Implement all <code class="docutils literal notranslate"><span class="pre">G-IEP</span></code> functions and unit tests in <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a> (<code class="docutils literal notranslate"><span class="pre">test_interfacial_electrical_properties_problem02_check_figures</span></code>).</p></li>
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">InterfacialElectricalProcessEngine</span></code> in <a class="reference download internal" download="" href="_downloads/fae8049359c5e6db0893f0f4a0187e9b/qci_grassmannian_dft.py"><span class="xref download myst">…/sustainablefactory/qci_grassmannian_dft.py</span></a> and <code class="docutils literal notranslate"><span class="pre">test_interfacial_electrical_properties_problem02_all_five_interfaces</span></code> in <a class="reference download internal" download="" href="_downloads/03129d2d175bc3194769a24abfa2010a/test_qci_grassmannian_dft.py"><span class="xref download myst">…/tests/test_qci_grassmannian_dft.py</span></a>, including a complete per-interface error audit comparing <code class="docutils literal notranslate"><span class="pre">G-IEP</span></code> against classical orientation/stress/carbon-blind Deal–Grove baselines.</p></li>
+<li><p>Write <a class="reference internal" href="grassmannian-interfacial-electrical-properties-paper.html"><span class="std std-doc">grassmannian-interfacial-electrical-properties-paper.md</span></a> (Paper 27), update all cross-repository indices, run the full verification suite (<code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, Markdown math linters, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code>), and commit with prefix <code class="docutils literal notranslate"><span class="pre">ENH:</span> </code>.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="critique-five-deep-gap-closures-interfacial-electrical-properties-deep-gap-closure-identities">
+<h2>3. Critique &amp; Five Deep Gap Closures (<code class="docutils literal notranslate"><span class="pre">interfacial_electrical_properties_deep_gap_closure_identities</span></code>)<a class="headerlink" href="#critique-five-deep-gap-closures-interfacial-electrical-properties-deep-gap-closure-identities" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Gap 1 (<code class="docutils literal notranslate"><span class="pre">giepDealGroveExplicitThickness</span></code>, <code class="docutils literal notranslate"><span class="pre">giepMassoudThinOxideRate</span></code>)</strong>: Formalizes the explicit forward trajectory <span class="math notranslate nohighlight">\(x_{\mathrm{ox}}(A, B, \tau, t) = \frac{\sqrt{A^2 + 4 B(t + \tau)} - A}{2}\)</span>, proving <span class="math notranslate nohighlight">\(x_{\mathrm{ox}}(t)^2 + A x_{\mathrm{ox}}(t) = B(t + \tau)\)</span> and exact right-inversion of <code class="docutils literal notranslate"><span class="pre">giepDealGroveTimeForThickness</span></code>, together with the Massoud thin-oxide enhancement rate (<code class="docutils literal notranslate"><span class="pre">Vitkavage</span> <span class="pre">et</span> <span class="pre">al.</span> <span class="pre">1990</span></code>).</p></li>
+<li><p><strong>Gap 2 (<code class="docutils literal notranslate"><span class="pre">giepBrowerStesmansEquilibriumCoverage</span></code>, <code class="docutils literal notranslate"><span class="pre">giepBrowerStesmansEquilibriumDit</span></code>)</strong>: Formalizes the Brower–Stesmans competing <span class="math notranslate nohighlight">\(\mathrm{H_2}\)</span> passivation vs. thermal dissociation equilibrium <span class="math notranslate nohighlight">\(\theta_{\mathrm{H}}^{\mathrm{eq}} = \frac{r_{\mathrm{pass}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}}\)</span> (<code class="docutils literal notranslate"><span class="pre">Interface</span> <span class="pre">1</span></code>).</p></li>
+<li><p><strong>Gap 3 (<code class="docutils literal notranslate"><span class="pre">giepNanowireCurvatureStress</span></code>, <code class="docutils literal notranslate"><span class="pre">giepNanowireStressInducedCharge</span></code>)</strong>: Formalizes the Kao cylindrical nanowire stress <span class="math notranslate nohighlight">\(\sigma_{\mathrm{norm}} = \eta_{\mathrm{eff}} / r_{\mathrm{Si}}\)</span> and curvature-induced fixed charge <span class="math notranslate nohighlight">\(Q_{f,\mathrm{NW}}(r_{\mathrm{Si}})\)</span> (<code class="docutils literal notranslate"><span class="pre">Interface</span> <span class="pre">2</span></code>).</p></li>
+<li><p><strong>Gap 4 (<code class="docutils literal notranslate"><span class="pre">giepSiCCarbonClusterDit</span></code>, <code class="docutils literal notranslate"><span class="pre">giepHighKFlatbandVoltageShift</span></code>)</strong>: Formalizes Song <span class="math notranslate nohighlight">\(\mathrm{SiC}\)</span> carbon-cluster interface traps <span class="math notranslate nohighlight">\((D_{\mathrm{it},0} + \gamma_{\mathrm{C}} r_{\mathrm{C}})(1 - \theta_{\mathrm{NO}})\)</span> (<code class="docutils literal notranslate"><span class="pre">Interface</span> <span class="pre">3</span></code>) and Goncharova <span class="math notranslate nohighlight">\(\mathrm{HfO_2/SiO_2/Si}\)</span> flatband shift <span class="math notranslate nohighlight">\(\Delta V_{\mathrm{FB}} = V_{\mathrm{dipole}} - q_{\mathrm{fixed}}\cdot\mathrm{EOT}\)</span> (<code class="docutils literal notranslate"><span class="pre">Interface</span> <span class="pre">4</span></code>).</p></li>
+<li><p><strong>Gap 5 (<code class="docutils literal notranslate"><span class="pre">giepSiGeSnowplowMassBalance</span></code>)</strong>: Proves exact conservation of rejected Germanium mass <span class="math notranslate nohighlight">\(\Delta x_{\mathrm{pile}}\cdot L_{\mathrm{decay}} = x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}\)</span> in <span class="math notranslate nohighlight">\(\mathrm{SiGe}\)</span> snowplow oxidation (<code class="docutils literal notranslate"><span class="pre">Interface</span> <span class="pre">5b</span></code>).</p></li>
+</ol>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-cuprate-superconductivity-paper.html" title="A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): Grassmannian Zhang–Rice Plücker Pairing (G-CSC), \(d_{x^2-y^2}\) Dome, Pseudogap Fermi Arcs, Planckian Strange Metal, and 12-Target Benchmarks Across \(\mathrm{LSCO}\), \(\mathrm{Bi2212}\), \(\mathrm{YBCO}\), \(\mathrm{Tl2201}\), and \(\mathrm{Hg1201}\) in Lean 4, Python, and Rust" >previous</a></li>
+        <li><a href="grassmannian-interfacial-electrical-properties-paper.html" title="Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): Grassmannian Process-to-Electrical Modeling (G-IEP), Plabic 3-Flux Deal–Grove Kinetics, McWeeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar \(\mathrm{Si/SiO_2}\), Curved \(\mathrm{Si}\) Nanowires, \(\mathrm{SiC/SiO_2}\), \(\mathrm{HfO_2/SiO_2/Si}\), and \(\mathrm{Ge/SiGe}\) in Lean 4, Python, and Rust" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

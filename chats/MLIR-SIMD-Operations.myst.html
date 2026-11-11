@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MLIR-SIMD-Operations &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="../index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="../_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="../_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="../_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="../_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="../_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">MLIR-SIMD-Operations</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#prompt-2">Prompt: 2</a></li>
+<li><a class="reference internal" href="#prompt-3">Prompt: 3</a></li>
+<li><a class="reference internal" href="#prompt-4">Prompt: 4</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/chats/MLIR-SIMD-Operations.myst.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">MLIR-SIMD-Operations</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#prompt-2">Prompt: 2</a></li>
+<li><a class="reference internal" href="#prompt-3">Prompt: 3</a></li>
+<li><a class="reference internal" href="#prompt-4">Prompt: 4</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chats/MLIR-SIMD-Operations.myst.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mlir-simd-operations">
+<h1>MLIR-SIMD-Operations<a class="headerlink" href="#mlir-simd-operations" title="Link to this heading">¶</a></h1>
+<blockquote>
+<div><p>From: <a class="reference external" href="https://www.google.com/search?client=firefox-b-1-d&amp;hs=9TPB&amp;sca_esv=1b9a0e92a4573b1d&amp;sxsrf=APpeQnvPIAEgqGgmMmz4ufkgp8bsLHNqHA%3A1790993077513&amp;ei=tWLAavzsHtPAp84P5PDS8Qw&amp;biw=1333&amp;bih=728&amp;uact=5&amp;oq=full-vectorial+meta-holography+github&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiJWZ1bGwtdmVjdG9yaWFsIG1ldGEtaG9sb2dyYXBoeSBnaXRodWIyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigAUjJIlDOBViEHHABeACQAQCYAeUBoAHnBaoBBTYuMC4xuAEDyAEA-AEBmAIIoAKNBsICDhAAGIAEGIoFGIYDGLADwgIIEAAY7wUYsAPCAgUQIRirApgDAIgGAZAGB5IHBTcuMC4xoAfTFbIHBTYuMC4xuAeIBsIHBTAuNS4zyAcSgAgB&amp;sclient=gws-wiz-serp&amp;udm=50&amp;ved=0CBkQ2_wOahgKEwjQ_5b-qZ6XAxUAAAAAHQAAAAAQ0gQ&amp;atvm=2&amp;mstk=AUtExfBlw0vTkx_kyE50c8MrJ2RAT5W_tS_okI_cF9ouv7OWOqPAYKrWwV23V4ggnLKzGMDp3kScoL6eOA7RowEPVnHjiW4h8duXNLFdLEnzeAlmJXLhl02hnC_bgHiAI1mWJMSOF6xrPqvU8AIQNzRLgv4zs1BBFrnA4YENwHgfg2GBBakkgRkKqlJU9KuIN_CU_tgZLvKim-oQ5IwAyQ2mXyphgvEkxPkhBmwt5BhNkYnMkzLdxcZLwg_Xdq1BTqse8pVIMCt59f0sY71ypmUXm0pEHl0-ZsqBa57QM4JCJv6tfoZRWAXsQhgYYZecxJaACre7w8vfLIh-jQ&amp;mtid=Hte3aordJeSPwbkPitTCkA8&amp;csuir=1&amp;aep=26&amp;q=MLIR+SIMD+Operations">https://www.google.com/search?client=firefox-b-1-d&amp;hs=9TPB&amp;sca_esv=1b9a0e92a4573b1d&amp;sxsrf=APpeQnvPIAEgqGgmMmz4ufkgp8bsLHNqHA%3A1790993077513&amp;ei=tWLAavzsHtPAp84P5PDS8Qw&amp;biw=1333&amp;bih=728&amp;uact=5&amp;oq=full-vectorial+meta-holography+github&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiJWZ1bGwtdmVjdG9yaWFsIG1ldGEtaG9sb2dyYXBoeSBnaXRodWIyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigAUjJIlDOBViEHHABeACQAQCYAeUBoAHnBaoBBTYuMC4xuAEDyAEA-AEBmAIIoAKNBsICDhAAGIAEGIoFGIYDGLADwgIIEAAY7wUYsAPCAgUQIRirApgDAIgGAZAGB5IHBTcuMC4xoAfTFbIHBTYuMC4xuAeIBsIHBTAuNS4zyAcSgAgB&amp;sclient=gws-wiz-serp&amp;udm=50&amp;ved=0CBkQ2_wOahgKEwjQ_5b-qZ6XAxUAAAAAHQAAAAAQ0gQ&amp;atvm=2&amp;mstk=AUtExfBlw0vTkx_kyE50c8MrJ2RAT5W_tS_okI_cF9ouv7OWOqPAYKrWwV23V4ggnLKzGMDp3kScoL6eOA7RowEPVnHjiW4h8duXNLFdLEnzeAlmJXLhl02hnC_bgHiAI1mWJMSOF6xrPqvU8AIQNzRLgv4zs1BBFrnA4YENwHgfg2GBBakkgRkKqlJU9KuIN_CU_tgZLvKim-oQ5IwAyQ2mXyphgvEkxPkhBmwt5BhNkYnMkzLdxcZLwg_Xdq1BTqse8pVIMCt59f0sY71ypmUXm0pEHl0-ZsqBa57QM4JCJv6tfoZRWAXsQhgYYZecxJaACre7w8vfLIh-jQ&amp;mtid=Hte3aordJeSPwbkPitTCkA8&amp;csuir=1&amp;aep=26&amp;q=MLIR+SIMD+Operations</a></p>
+</div></blockquote>
+<span class="target" id="chat-prompt-1"></span><section id="prompt-1">
+<h2>Prompt: 1<a class="headerlink" href="#prompt-1" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-09-26 00:00:00</p>
+<p>mlir simd</p>
+<p>—</p>
+<p class="rubric" id="googlesearch-response">googlesearch response</p>
+<p>MLIR handles Single Instruction, Multiple Data (SIMD) operations primarily through its <a class="reference external" href="https://mlir.llvm.org/docs/Dialects/Vector/">Vector Dialect</a> and the <a class="reference external" href="https://mlir.llvm.org/docs/Dialects/Builtin/">Builtin Dialect’s vector type</a>, providing portable abstractions across diverse hardware architectures.</p>
+<p>Core SIMD Concepts in MLIR</p>
+<ul class="simple">
+<li><p><strong>Vector Types</strong>: Represented as <code class="docutils literal notranslate"><span class="pre">vector&lt;vector-dim-list</span> <span class="pre">x</span> <span class="pre">vector-element-type&gt;</span></code>, where dimensions can be fixed-length (e.g., <code class="docutils literal notranslate"><span class="pre">vector&lt;16xf32&gt;</span></code>) or scalable (e.g., <code class="docutils literal notranslate"><span class="pre">vector&lt;[8]</span> <span class="pre">x</span> <span class="pre">f32&gt;</span></code>) for architectures like ARM SVE.</p></li>
+<li><p><strong>Vector Dialect</strong>: Offers hardware-agnostic operations (like <code class="docutils literal notranslate"><span class="pre">vector.transfer_read</span></code>, <code class="docutils literal notranslate"><span class="pre">vector.contract</span></code>, and <code class="docutils literal notranslate"><span class="pre">vector.broadcast</span></code>) that map high-level loops or tensor operations down to hardware intrinsics.</p></li>
+<li><p><strong>Progressive Lowering</strong>: MLIR allows you to write target-independent SIMD code and progressively lower it—moving from high-level abstractions (<code class="docutils literal notranslate"><span class="pre">linalg</span></code> or <code class="docutils literal notranslate"><span class="pre">affine</span></code> loops) through the <code class="docutils literal notranslate"><span class="pre">vector</span></code> dialect, and finally down to LLVM IR or target-specific instructions (AVX2, AVX-512, ARM Neon, and RISC-V Vector extension / RVV).</p></li>
+</ul>
+<p>If you want to dive deeper, let me know:</p>
+<ul class="simple">
+<li><p>Are you trying to <strong>auto-vectorize loops</strong> or write <strong>explicit vector intrinsics</strong>?</p></li>
+<li><p>What <strong>target architecture</strong> (x86, ARM, RISC-V) are you targeting?</p></li>
+</ul>
+<p>Copied to clipboardFailed to copy to clipboard. Try again later.</p>
+<p>More</p>
+<p>—</p>
+<span class="target" id="chat-prompt-2"></span></div></blockquote>
+</section>
+<section id="prompt-2">
+<h2>Prompt: 2<a class="headerlink" href="#prompt-2" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-09-26 00:00:00</p>
+<p>Hot to use MLIR SIMD with tensors? Unroll first?</p>
+<p>—</p>
+<p class="rubric" id="id1">googlesearch response</p>
+<p><strong>No, do not unroll first.</strong> In the standard MLIR CodeGen philosophy, unrolling happens at a much lower abstraction level. Unrolling loops or expanding expressions before vectorization obscures the high-level math, destroys regular access patterns, and makes the vectorizer’s job significantly harder.</p>
+<p>Instead, you use a <strong>structured compilation pipeline</strong>. In MLIR, tensors are vectorized while still structured (usually inside the <code class="docutils literal notranslate"><span class="pre">linalg</span></code> dialect), and unrolling is performed later on the resulting virtual vectors.</p>
+<p>* * *</p>
+<p>The Canonical MLIR SIMD Pipeline for Tensors</p>
+<p>To cleanly go from high-level tensor operations to native SIMD instructions, follow this 4-step progressive lowering sequence:</p>
+<p>1. Tiling to Static Shapes</p>
+<p>High-level tensor operations often have dynamic sizes (e.g., <code class="docutils literal notranslate"><span class="pre">tensor&lt;?x?xf32&gt;</span></code>). Before vectorizing, you use <code class="docutils literal notranslate"><span class="pre">linalg::tileToForallOp</span></code> or <code class="docutils literal notranslate"><span class="pre">linalg::tileToScfForOp</span></code> to break the workload down into <strong>static tiles</strong> that match your target vector registers (e.g., a tile size of <code class="docutils literal notranslate"><span class="pre">8x16</span></code> or <code class="docutils literal notranslate"><span class="pre">1x4</span></code>).</p>
+<p>2. Vectorization (at the Tensor level)</p>
+<p>Instead of generating loops and unrolling them, you vectorize the structured tensor operation directly using <code class="docutils literal notranslate"><span class="pre">linalg::LinalgVectorizationPattern</span></code> (often driven via the <a class="reference external" href="https://mlir.llvm.org/docs/Dialects/Transform/">Transform Dialect</a>).</p>
+<p>This pass captures the structured layout and translates it into virtual <strong>Vector Transfer Operations</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vector.transfer_read</span></code>: Pulls a static tile out of a continuous <code class="docutils literal notranslate"><span class="pre">tensor</span></code> directly into a high-dimensional virtual register.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vector.contract</span></code> / <code class="docutils literal notranslate"><span class="pre">arith</span></code> / <code class="docutils literal notranslate"><span class="pre">math</span></code> ops: Performs the computation directly on the multi-dimensional virtual vector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vector.transfer_write</span></code>: Spills the virtual register back into a destination <code class="docutils literal notranslate"><span class="pre">tensor</span></code>.</p></li>
+</ul>
+<p>3. Bufferization</p>
+<p>Up to this point, you are completely inside the purely functional <strong>tensor</strong> domain (no side effects). Now, you run <strong>One-Shot Bufferization</strong> (<code class="docutils literal notranslate"><span class="pre">-one-shot-bufferize</span></code>) to translate tensors into concrete memory allocations (<code class="docutils literal notranslate"><span class="pre">memref</span></code>). Your vector transfer operations seamlessly adapt, shifting from reading <code class="docutils literal notranslate"><span class="pre">tensors</span></code> to loading from <code class="docutils literal notranslate"><span class="pre">memrefs</span></code>.</p>
+<p>4. Vector Unrolling &amp; Decomposing (The “Unroll” Phase)</p>
+<p><strong>This is where unrolling finally happens.</strong> At this stage, your IR likely contains high-dimensional virtual vectors (e.g., a <code class="docutils literal notranslate"><span class="pre">vector&lt;32x64xf32&gt;</span></code> from a large tile) that do not fit into actual CPU hardware registers (like an <code class="docutils literal notranslate"><span class="pre">xmm</span></code>/<code class="docutils literal notranslate"><span class="pre">ymm</span></code> register).</p>
+<p>You populate <strong>Vector Unroll Patterns</strong> (<code class="docutils literal notranslate"><span class="pre">vector::populateVectorUnrollPatterns</span></code>). This unrolls the <em>vector dimensions</em> themselves—not loops—down to native target sizes (like <code class="docutils literal notranslate"><span class="pre">vector&lt;8xf32&gt;</span></code> for AVX2 or <code class="docutils literal notranslate"><span class="pre">vector&lt;16xf32&gt;</span></code> for AVX-512).</p>
+<p>* * *</p>
+<p>What it Looks Like in MLIR IR</p>
+<p>A. Structured Tensor Op (Before Vectorization)</p>
+<p>mlir</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">A</span> <span class="n">static</span> <span class="n">tile</span> <span class="n">resulting</span> <span class="kn">from</span><span class="w"> </span><span class="nn">step</span> <span class="mi">1</span> <span class="p">(</span><span class="n">Tiling</span><span class="p">)</span>
+<span class="o">%</span><span class="n">tile_A</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">extract_slice</span> <span class="o">%</span><span class="n">A</span><span class="p">[</span><span class="o">%</span><span class="n">i</span><span class="p">,</span> <span class="o">%</span><span class="n">j</span><span class="p">]</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">]</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">x1024xf32</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x16xf32</span><span class="o">&gt;</span>
+<span class="o">%</span><span class="n">tile_B</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">extract_slice</span> <span class="o">%</span><span class="n">B</span><span class="p">[</span><span class="o">%</span><span class="n">j</span><span class="p">,</span> <span class="o">%</span><span class="n">k</span><span class="p">]</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">x1024xf32</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">16</span><span class="n">x4xf32</span><span class="o">&gt;</span>
+
+<span class="o">//</span> <span class="n">High</span><span class="o">-</span><span class="n">level</span> <span class="n">tensor</span> <span class="n">math</span>
+<span class="o">%</span><span class="n">tiled_matmul</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">matmul</span>
+  <span class="n">ins</span><span class="p">(</span><span class="o">%</span><span class="n">tile_A</span><span class="p">,</span> <span class="o">%</span><span class="n">tile_B</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x16xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">16</span><span class="n">x4xf32</span><span class="o">&gt;</span><span class="p">)</span>
+  <span class="n">outs</span><span class="p">(</span><span class="o">%</span><span class="n">tile_C</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x4xf32</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x4xf32</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>B. Vectorized Tensor Op (After Vectorization)</p>
+<p>Notice how loops were completely bypassed. The vectorizer handles the structure natively via transfer operations:</p>
+<p>mlir</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Step</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Read</span> <span class="n">slices</span> <span class="n">directly</span> <span class="n">into</span> <span class="n">virtual</span> <span class="n">vectors</span>
+<span class="o">%</span><span class="n">vA</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">transfer_read</span> <span class="o">%</span><span class="n">A</span><span class="p">[</span><span class="o">%</span><span class="n">i</span><span class="p">,</span> <span class="o">%</span><span class="n">j</span><span class="p">],</span> <span class="o">%</span><span class="n">cst</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">x1024xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x16xf32</span><span class="o">&gt;</span>
+<span class="o">%</span><span class="n">vB</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">transfer_read</span> <span class="o">%</span><span class="n">B</span><span class="p">[</span><span class="o">%</span><span class="n">j</span><span class="p">,</span> <span class="o">%</span><span class="n">k</span><span class="p">],</span> <span class="o">%</span><span class="n">cst</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">x1024xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">16</span><span class="n">x4xf32</span><span class="o">&gt;</span>
+<span class="o">%</span><span class="n">vC</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">transfer_read</span> <span class="o">%</span><span class="n">C</span><span class="p">[</span><span class="o">%</span><span class="n">i</span><span class="p">,</span> <span class="o">%</span><span class="n">k</span><span class="p">],</span> <span class="o">%</span><span class="n">cst</span> <span class="p">:</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">x1024xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x4xf32</span><span class="o">&gt;</span>
+
+<span class="o">//</span> <span class="n">Multi</span><span class="o">-</span><span class="n">dimensional</span> <span class="n">vector</span> <span class="n">math</span>
+<span class="o">%</span><span class="n">vD</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">contract</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span> <span class="o">%</span><span class="n">vA</span><span class="p">,</span> <span class="o">%</span><span class="n">vB</span><span class="p">,</span> <span class="o">%</span><span class="n">vC</span>
+  <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x16xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">16</span><span class="n">x4xf32</span><span class="o">&gt;</span> <span class="n">into</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x4xf32</span><span class="o">&gt;</span>
+
+<span class="o">//</span> <span class="n">Write</span> <span class="n">back</span> <span class="n">to</span> <span class="n">tensor</span>
+<span class="o">%</span><span class="n">res</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">transfer_write</span> <span class="o">%</span><span class="n">vD</span><span class="p">,</span> <span class="o">%</span><span class="n">C</span><span class="p">[</span><span class="o">%</span><span class="n">i</span><span class="p">,</span> <span class="o">%</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">x4xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">x1024xf32</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>Summary Recommendation</p>
+<p>Keep your tensors structured for as long as possible. Let <code class="docutils literal notranslate"><span class="pre">linalg</span></code> map your tensors to multi-dimensional <code class="docutils literal notranslate"><span class="pre">vector</span></code> ops first. Let MLIR handle the unrolling downstream right before it emits LLVM IR.</p>
+<p>Would you like to see a complete <strong>Transform Dialect script</strong> or an <strong>mlir-opt pass pipeline</strong> that executes this tiling-to-vectorization flow on an operation?</p>
+<p>Copied to clipboardFailed to copy to clipboard. Try again later.</p>
+<p>More</p>
+<p>—</p>
+<span class="target" id="chat-prompt-3"></span></div></blockquote>
+</section>
+<section id="prompt-3">
+<h2>Prompt: 3<a class="headerlink" href="#prompt-3" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-09-26 00:00:00</p>
+<p>Yes</p>
+<p>—</p>
+<p class="rubric" id="id2">googlesearch response</p>
+<p>The following <strong>mlir-opt command-line pipeline</strong> and accompanying <strong>Transform Dialect script</strong> execute the entire flow: from high-level, dynamically shaped tensor operations down to target-independent vector code.</p>
+<p>1. The Compilation Pass Pipeline</p>
+<p>To run this compilation pipeline via command-line, pipe your input through mlir-opt using these explicit scheduling passes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mlir-opt<span class="w"> </span>input.mlir<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--transform-dialect-interpreter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--one-shot-bufferize<span class="o">=</span><span class="s2">"bufferize-function-boundaries=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--drop-equivalent-memref-alloc<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--convert-vector-to-scf<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--convert-scf-to-openmp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--finalize-memref-to-llvm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--convert-vector-to-llvm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--convert-func-to-llvm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>output.mlir
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>* * *</p>
+<p>2. Complete MLIR Input &amp; Transform Script</p>
+<p>This unified file contains both the source matrix multiplication on dynamic tensors and the embedded <a class="reference external" href="https://mlir.llvm.org/docs/Dialects/Transform/">Transform Dialect</a> script. It precisely controls tiling sizes, forces direct tensor vectorization, bufferizes to memory, and then unrolls the virtual vector dimensions down to hardware-friendly register sizes.</p>
+<p>mlir</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// RUN: mlir-opt %s --transform-dialect-interpreter
+
+// 1. HIGH-LEVEL FUNCTION (Purely Functional Tensors)
+func.func @dynamic_matmul_simd(%A: tensor&lt;?x?xf32&gt;, %B: tensor&lt;?x?xf32&gt;, %C: tensor&lt;?x?xf32&gt;) -&gt; tensor&lt;?x?xf32&gt; {
+  // Named linalg operations retain the mathematical structure needed for clean SIMD mapping
+  %0 = linalg.matmul ins(%A, %B : tensor&lt;?x?xf32&gt;, tensor&lt;?x?xf32&gt;)
+                     outs(%C : tensor&lt;?x?xf32&gt;) -&gt; tensor&lt;?x?xf32&gt;
+  return %0 : tensor&lt;?x?xf32&gt;
+}
+
+// 2. EMBEDDED TRANSFORM DIALECT SCRIPT
+module attributes {transform.with_named_sequence} {
+  transform.named_sequence @__transform_main(%root: !transform.any_op) {
+
+    // Step A: Find the high-level tensor operation
+    %matmul = transform.structured.match ops{["linalg.matmul"]} in %root : (!transform.any_op) -&gt; !transform.any_op
+
+    // Step B: Tile to static blocks matching target vector lanes (e.g., 8x16x4 registers)
+    // This injects loops for the remainder but exposes a clean static tile inside.
+    %tiled, %loops:3 = transform.structured.tile_using_for %matmul [8, 16, 4]
+      : (!transform.any_op) -&gt; (!transform.any_op, !transform.any_op, !transform.any_op, !transform.any_op)
+
+    // Step C: Vectorize the static tensor tile directly
+    // Creates high-dimensional virtual vector transfer operations (vector.transfer_read / contract)
+    %func = transform.structured.match ops{["func.func"]} in %root : (!transform.any_op) -&gt; !transform.any_op
+    transform.structured.vectorize %func : (!transform.any_op)
+
+    // Step D: Perform Vector Unrolling and Decomposition
+    // Breaks down large virtual vectors (e.g. 8x16) into native architecture dimensions (e.g. 1x8)
+    // right before memory allocations and backend emitting.
+    transform.vector.unroll %func [1, 8] : !transform.any_op
+
+    transform.yield
+  }
+}
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>* * *</p>
+<p>What Makes This Recipe Highly Scalable</p>
+<ol class="arabic simple">
+<li><p><strong>Isolation of Architecture Layout:</strong> If you port this code from an AVX-512 CPU (requiring a <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">16]</span></code> unroll factor) to an AVX2 CPU (requiring a <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">8]</span></code> factor), you only modify the parameters inside the Transform block. The core algorithmic function (<code class="docutils literal notranslate"><span class="pre">&#64;dynamic_matmul_simd</span></code>) remains perfectly untouched.</p></li>
+<li><p><strong>Dynamic to Static Handling:</strong> The <code class="docutils literal notranslate"><span class="pre">tile_using_for</span></code> pass automatically handles edge-case masking or padding loops for sizes that don’t divide cleanly by <code class="docutils literal notranslate"><span class="pre">8</span></code> or <code class="docutils literal notranslate"><span class="pre">16</span></code>. It keeps the inner hot computation completely unrolled and vector-aligned.</p></li>
+</ol>
+<p>If you want to take this further, let me know:</p>
+<ul class="simple">
+<li><p>Would you like to see how to incorporate <strong>vector masking/predication</strong> for when dynamic dimensions don’t divide evenly?</p></li>
+<li><p>Do you want to see the resulting <strong>LLVM-IR assembly output</strong> or target-specific dialect conversions (like <code class="docutils literal notranslate"><span class="pre">X86Vector</span></code>) for this pipeline?</p></li>
+</ul>
+<p>Copied to clipboardFailed to copy to clipboard. Try again later.</p>
+<p>More</p>
+<p>—</p>
+<span class="target" id="chat-prompt-4"></span></div></blockquote>
+</section>
+<section id="prompt-4">
+<h2>Prompt: 4<a class="headerlink" href="#prompt-4" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-09-26 00:00:00</p>
+<p>So in MLIR only tensors which are unrolled to arrays are mutable?</p>
+<p>—</p>
+<p class="rubric" id="id3">googlesearch response</p>
+<p><strong>No, tensors are never unrolled to arrays to become mutable, because tensors are</strong> <strong><em>never</em> mutable in MLIR.</strong></p>
+<p>In MLIR, <code class="docutils literal notranslate"><span class="pre">tensor</span></code> is a purely mathematical, immutable SSA value. Think of a tensor like the number <code class="docutils literal notranslate"><span class="pre">7</span></code>—you cannot mutate <code class="docutils literal notranslate"><span class="pre">7</span></code> into <code class="docutils literal notranslate"><span class="pre">8</span></code>; you can only perform an operation that returns a completely new value.</p>
+<p>When you see a vectorizer generate a pipeline that updates values, it uses an explicitly non-mutating, functional dataflow pattern.</p>
+<p>how “Mutation” Works in Tensor-level SIMD</p>
+<p>At the tensor and vector level, changes are tracked using <strong>Value SSA dataflow</strong>, not memory overrides.</p>
+<ol class="arabic simple">
+<li><p><strong>At the Tensor level (<code class="docutils literal notranslate"><span class="pre">linalg</span></code>)</strong>: Operations use an explicit <code class="docutils literal notranslate"><span class="pre">outs()</span></code> argument. This is not mutated. Instead, the operation returns a <em>new</em> tensor representing the updated state (e.g., <code class="docutils literal notranslate"><span class="pre">%result</span> <span class="pre">=</span> <span class="pre">linalg.matmul</span> <span class="pre">...</span> <span class="pre">outs(%C)</span></code>).</p></li>
+<li><p><strong>At the SIMD Vector level (<code class="docutils literal notranslate"><span class="pre">vector</span></code>)</strong>: When you write data back into a tensor, you use <code class="docutils literal notranslate"><span class="pre">vector.transfer_write</span></code>. This operation takes the old tensor, takes your vector register, and <strong>returns a brand new tensor</strong> representing the merged result.</p></li>
+</ol>
+<p>mlir</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">This</span> <span class="n">does</span> <span class="n">NOT</span> <span class="n">mutate</span> <span class="o">%</span><span class="n">old_tensor</span><span class="o">.</span> <span class="n">It</span> <span class="n">returns</span> <span class="n">a</span> <span class="n">NEW</span> <span class="n">tensor</span> <span class="n">handle</span> <span class="o">%</span><span class="n">new_tensor</span><span class="o">.</span>
+<span class="o">%</span><span class="n">new_tensor</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">transfer_write</span> <span class="o">%</span><span class="n">my_simd_vector</span><span class="p">,</span> <span class="o">%</span><span class="n">old_tensor</span><span class="p">[</span><span class="o">%</span><span class="n">i</span><span class="p">,</span> <span class="o">%</span><span class="n">j</span><span class="p">]</span>
+  <span class="p">:</span> <span class="n">vector</span><span class="o">&lt;</span><span class="mi">8</span><span class="n">xf32</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">tensor</span><span class="o">&lt;</span><span class="mi">1024</span><span class="n">xf32</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Use code with caution.</p>
+<p>When does true, in-place mutation actually happen?</p>
+<p>True mutation only happens during <strong>Bufferization</strong> (Step 3 of the pipeline mentioned earlier).</p>
+<p>Bufferization analyzes the entire dataflow chain of your tensors. If it notices that <code class="docutils literal notranslate"><span class="pre">%old_tensor</span></code> is never used again after <code class="docutils literal notranslate"><span class="pre">vector.transfer_write</span></code>, it optimizes away the creation of a new tensor. It translates the abstract <code class="docutils literal notranslate"><span class="pre">tensor</span></code> into a concrete <code class="docutils literal notranslate"><span class="pre">memref</span></code> (a pointer to raw memory) and converts the operation into a true, in-place SIMD hardware store that directly updates the array in memory.</p>
+<p>Summary</p>
+<ul class="simple">
+<li><p><strong>Tensors</strong> and <strong>Vectors</strong> are always immutable value tokens. They track data dependencies.</p></li>
+<li><p><strong>Memrefs</strong> represent actual mutable memory blocks (arrays).</p></li>
+<li><p><strong>Unrolling</strong> is strictly a structural sizing optimization for hardware registers; it has nothing to do with mutability.</p></li>
+</ul>
+<p>Would you like to see how <strong>One-Shot Bufferization</strong> decides whether it can mutate a piece of memory in-place, or would you like to see the exact <strong><code class="docutils literal notranslate"><span class="pre">memref</span></code> IR code</strong> generated after the tensor layer is stripped away?</p>
+<p>Copied to clipboardFailed to copy to clipboard. Try again later.</p>
+<p>More</p>
+</div></blockquote>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

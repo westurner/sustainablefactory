@@ -1,0 +1,443 @@
+\chapter{Signals Lean library}
+
+This blueprint indexes selected definitions and results in the Signals Lean
+library. The library is organized into modules covering mathematical and
+physical models, signal propagation, measurement, and applications.
+
+Only Lean declarations marked with LeanArchitect's \texttt{@[blueprint]}
+attribute are emitted as formal nodes. The extracted module index is generated
+from the Lean sources before each blueprint build.
+
+Declaration docstrings document the Lean API. Blueprint statements, titles and
+proof summaries are supplied explicitly in the attributes; ordinary declaration
+docstrings do not populate the blueprint statement. Statement and proof
+dependencies are inferred from the corresponding Lean terms.
+
+Readiness markers report sorry-free formal declarations, not experimental
+validation, calibrated data or the realization of a physical model.
+
+\input{../../.lake/build/blueprint/library/Signals.tex}
+\input{../../.lake/build/blueprint/library/SignalsTests.tex}
+\input{../../.lake/build/blueprint/library/SignalsPending.tex}
+\input{../../.lake/build/blueprint/library/SignalsPendingTests.tex}
+
+\section{Finite routing and weighted measurements}
+
+The rotation-system and weighted-network layers are distinct. Neither supplies
+a planar disk embedding, reducedness or a general disjoint-path positivity
+theorem. Fixed-point decorations and signed-pair compatibility remain explicit.
+
+\inputleanmodule{Signals.Plabic}
+
+\section{Ordered minors and geometric representatives}
+
+These nodes describe finite real and complex matrix representatives, not a
+Grassmannian quotient. Positive-condition records need an available ordered
+selection for rank promotion; nonnegative full-rank records retain a
+nonzero-minor witness. General $2\times n$ three-term Pluecker identities are
+proved over both $\mathbb R$ and $\mathbb C$, together with the Pluecker
+barycentric parallel-axis shift
+$d_{\mathrm{bary}}(M)=(\Delta_{01}\Delta_{23}-\Delta_{03}\Delta_{12})/2$ and
+its universal Pythagorean identity
+$d_{\mathrm{bary}}(M)^2+\Delta_{01}\Delta_{23}\Delta_{03}\Delta_{12}=(\Delta_{02}\Delta_{13}/2)^2$.
+
+\inputleanmodule{Signals.Geometry}
+
+\section{Quantum inverse scattering, Grassmannian Bethe ansatz, and scattering metrology}
+
+These nodes formalize the $4\times 4$ permutation operator $P$ and Yang's
+rational $R$-matrix $R(u)=uI_4+\eta P$ (including $u=0$ regularity,
+triplet/singlet channel eigenvalues, quantum unitarity, the three-site braid
+identity, and the full $8\times 8$ matrix Quantum Yang--Baxter Equation
+$R_{12}(u-v)R_{13}(u-w)R_{23}(v-w)=R_{23}(v-w)R_{13}(u-w)R_{12}(u-v)$ on
+$(\mathbb R^2)^{\otimes 3}$), $2\times 2$ monodromy composition with cyclic transfer-trace
+invariance and Cauchy--Binet path-pair expansion, left/right shifted Yangian
+quantum determinants and their $RTT$ exchange balance, the $Gr(2,4)$ Pluecker
+representation of Baxter's $QQ$-system with $GL(2)$ basis-change covariance,
+the three-point Casorati Wronskian solution of Baxter's $TQ$ difference
+equation, the Mukhin--Tarasov--Varchenko Wronskian nondegeneracy guard against
+spurious Bethe roots, the polynomial and rational Bethe Ansatz Equations,
+$2\times 2$ Slavnov/Gaudin determinant compression with rapidity-swap
+antisymmetry and Pauli-exclusion vanishing, and their integration with
+\texttt{Signals.Scattering} inverse parameter recovery, unitary two-body flux
+partition, calibrated Baxter $TQ$ residual metrology, relativistic Inverse
+Compton Thomson upshift and Klein--Nishina recoil suppression and inversion
+($\beta=(D-1)/(D+1)$, $\epsilon_{\mathrm{rec}}=D/R_{\mathrm{KN}}-1$),
+Stokes/anti-Stokes Raman $Gr_{\mathbb C}(2,4)$ channel inversion, Bose--Einstein
+phonon occupancy ratio $\bar{n}_{\mathrm{BE}}/(\bar{n}_{\mathrm{BE}}+1)=\exp(-\xi)$,
+and exact Boltzmann exponent and absolute temperature $T=\Theta_v/\xi$ inversion,
+and Polariton Hopfield--Rabi anticrossing ($\omega_{\mathrm{UP}}-\omega_{\mathrm{LP}}=\sqrt{\Delta^2+4g^2}\ge 2g$),
+inverse Rabi coupling recovery ($g^2=\omega_{\mathrm{ph}}\omega_{\mathrm{ex}}-\omega_{\mathrm{UP}}\omega_{\mathrm{LP}}$),
+Pythagorean Hopfield--Pluecker hybridization complementarity
+($4|C|^2|X|^2=1-d_{\mathrm{Hopfield}}^2=4g^2/(\Delta^2+4g^2)$),
+Lyddane--Sachs--Teller (LST) static, ENZ longitudinal ($\omega=\omega_{\mathrm{LO}}$),
+and Reststrahlen stop-band ($\varepsilon_{\mathrm{pol}}(\omega)<0$) laws,
+Coherent Synchrotron Radiation (CSR) cylindrical SPP bunching superradiance
+$I_{\mathrm{CSR}}=(N_e+N_e(N_e-1)f_{\mathrm{bunch}}^2)I_1\in[N_e I_1,N_e^2 I_1]$
+and $\gamma_e^3$ critical frequency, collective vs.\ single-emitter Cavity QED
+cooperativity $C_{N_e}=N_e C_1$, superluminal transverse plasma phase velocity
+($v_{\mathrm{ph},\perp}^2>c^2$) vs.\ subluminal longitudinal Cherenkov Mach
+cone ($0<1-\cos^2\theta_C<1$), 2D Dirac graphene THz-eV plasmon scaling
+$\omega_{\mathrm{GPP}}^2=E_F q$, 1-step deterministic 4-state Grover
+quantum state carving $\operatorname{groverSuccessAmplitude}(1/2)=1$, and
+second-harmonic ($\chi^{(2)}$) resonant Optical Parametric Amplification (OPA)
+centrosymmetry selection rules ($\chi_2=-\chi_2\implies\chi_2=0$), intracavity
+second-harmonic buildup $P_{2\omega}^{\mathrm{intracav}}=F_{\mathrm{SH}}P_{2\omega}$,
+phase-matching detuning gate $g_{\mathrm{net}}^2=g_{\mathrm{OPA}}^2-(\Delta k/2)^2$,
+symplectic quadrature squeezing $\exp(2r_{\mathrm{sq}})\exp(-2r_{\mathrm{sq}})=1$,
+the Maldacena/GKPW AdS/CFT mass--dimension dictionary
+($\Delta_+ + \Delta_- = d$, $\Delta_+\Delta_- = -m^2 R_{\mathrm{AdS}}^2$)
+above the Breitenlohner--Freedman bound $m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2/4$,
+the Kovtun--Son--Starinets viscosity bound $(\eta/s)_{\mathrm{KSS}}=\hbar/(4\pi k_B)$,
+Ryu--Takayanagi $\text{AdS}_3/\text{CFT}_2$ entanglement entropy
+$S_{\mathrm{EE}}=(c_{\mathrm{BH}}/3)\ln(\ell/\epsilon_{\mathrm{UV}})$,
+all-loop AdS/CFT magnon dispersion $E^2=M^2+(\lambda/\pi^2)\sin^2(p/2)$,
+the Konishi one-loop anomalous dimension $\delta D_{\mathrm{Konishi}}^{(1)}=3\lambda/(4\pi^2)$,
+and centrally extended $\mathfrak{psl}(2|2)_c$ braided central charges
+($\mathbb C\mathbb C^\dagger+\mathbb C+\mathbb C^\dagger=0$), short vs.\ long
+representation dimensions ($4M < 16(M+1)$), indented Yangian secret symmetry
+supertrace $\operatorname{STr}(\widehat{\mathbb B})=4B_0$, and $q$-deformed
+Hubbard Cartan degeneracy $\det(DA)=0$.
+
+\inputleanmodule{Signals.QISM}
+\inputleanmodule{Signals.Scattering}
+
+\section{Scalar propagation, Huygens--Steiner coherence, and five-model double-slit \& OAM error controls}
+
+Finite sums and planar integrals use the chosen scalar approximation.
+Regularity and integrability guards exclude totalized singular inputs;
+intensity remains uncalibrated. Comparison records do not prove independently
+evaluated models agree or solve an exact diffraction boundary problem.
+The five-model far-field section connects the Qian--Izadi ($N$-dimensional and
+binary $N=2$) Huygens--Steiner parallel-axis coherence spectrum
+($P_N^2+K_N^2=1$, $P_N^2=I_O-I_M=d_{\mathrm{bary}}^2$) and finite OAM qudit
+state spaces to the Fraunhofer benchmark, the real $Gr_{\ge 0}(2,4)$ and
+complex $Gr_{\mathbb C}(2,4)$ Pluecker channel models (proving that lifting to
+$Gr_{\mathbb C}(2,4)$ with $\mathbb C^4$ twistor phases eliminates the $50\%$
+unphased crossing-minor error and reproduces both $I_{\mathrm{HS}}(x,y;\sqrt{1-d_{\mathrm{bary}}^2})$
+and $I_{\mathrm{HS,OAM}}(x,y,\phi;\Delta\ell,\sqrt{1-d_{\mathrm{bary}}^2})$
+identically for all $d_{\mathrm{bary}}\in[-1,1]$), de Broglie--Bohm pilot-wave
+intensity, Wigner phase-space marginals, helical OAM vortex-null and
+$(\Delta\ell)^2$ rotational decoherence laws, and the $N$-slit ($N>0$)
+multi-aperture grating generalization.
+
+\inputleanmodule{Signals.Coherence}
+\inputleanmodule{Signals.OAM}
+\inputleanmodule{Signals.Huygens}
+\inputleanmodule{Signals.SolitonBus}
+
+\section{Measure-derived quadrature and refinement}
+
+Error rates require the stated measure, integrability, Lipschitz and mesh
+hypotheses. The nodes do not construct a rectangular mesh or establish
+kernel-specific regularity, a Fraunhofer limit or measured convergence.
+
+\inputleanmodule{Signals.Quadrature}
+
+\section{Affine forms and oriented residues}
+
+These are fixed-chart interval, triangle and square examples. Residues are
+punctured limits; diagonal continuation is separate from off-diagonal
+triangulation equality. General projective canonical forms, amplituhedron
+forms and an optical evaluator remain outside this layer.
+
+\inputleanmodule{Signals.CanonicalForms}
+
+\section{Wakefield, Halbach MHD, centrifugal cooling, and Langmuir--Landau dynamics}
+
+These nodes formalize the classical electrodynamic, fluid, and plasma identities
+used to analyze the electricity plants and thrusters in
+\texttt{Twistors-and-Positive-Grassmannian-Interference.md}:
+cycle-averaged ponderomotive potentials and drift forces, pulsed duty-cycle
+average-force bounds, static Bernoulli pressure and pressure-coefficient surface
+traction (alongside the source chat's dynamic-pressure load proxy and torque
+orthogonality), Halbach transverse Lorentz deflection and its work-free identity
+$(\mathbf v\times\mathbf B)\cdot\mathbf v=0$ (establishing why net electrical
+harvesting requires an opposing Faraday load electric field), radial centrifugal
+pumping head and closed-loop thermosyphon buoyancy head, 3D gyroscopic
+precession torque, warm Langmuir Bohm--Gross dispersion
+($v_\phi v_g=3v_{\mathrm{th}}^2$), Dawson wave-breaking energy-density ceilings,
+signed-wavenumber linear Vlasov--Poisson Landau growth/damping (including
+backward-wave thermal damping) and quasilinear plateau saturation,
+force-free Woltjer--Taylor Beltrami currents ($\mathbf J\times\mathbf B=\mathbf 0$),
+active cooling pinch margins, and discrete 4-cycle 1-cocycle gauge invariance.
+
+\inputleanmodule{Signals.MHD}
+
+\section{Dilatant Dark Fluid, Madelung circulation, and Bogoliubov critical velocity}
+
+These nodes formalize the two-component Dilatant Dark Fluid (DDF) constitutive
+substrate, Madelung amplitude--phase decomposition, regularized Bohm quantum
+potential, continuous quantized vortex circulation
+$\oint \mathbf v\cdot d\boldsymbol\ell = n(2\pi\hbar/m)$, discrete 2D lattice
+plaquette coboundaries and branch-cut syndromes, the Bogoliubov quasiparticle
+Landau critical velocity threshold separating subcritical frictionless flow
+($\Delta E>0$) from supercritical vortex-shedding onset ($\Delta E<0$), the
+Pluecker sink-flux / DDF shear-jamming / Anosov symplectic invariance bridge
+($Q_A+Q_B=\Delta_{02}\Delta_{13}$, $\mathcal{V}=\gamma_\varphi(v)^{-1}$,
+$\varepsilon_{\mathrm{rel}}=(\gamma_\varphi-1)/(2\gamma_\varphi)=K_D/(2E_\varphi)$,
+$d_{\mathrm{bary}}^2/4\le\varepsilon\le d_{\mathrm{bary}}^2/2$,
+$d_{\mathrm{bary}}^2=4\varepsilon(1-\varepsilon)$, and exact Pluecker minor
+invariance under $\operatorname{diag}(e^{\lambda t},e^{-\lambda t})$),
+the constructive resolutions of Critiques 1--3 (squared crossing product and
+complex $Gr_{\mathbb C}(2,4)$ sink amplitudes, projective $GL(2,\mathbb R)$
+jamming invariance $\widehat{d}_{\mathrm{bary}}(BM)=\widehat{d}_{\mathrm{bary}}(M)$,
+constitutive substrate recovery $\varrho_{\max}^\varphi j_{\min}^\varphi=4\varepsilon(1-\varepsilon)/v^2$,
+and quantized vortex Lense--Thirring swirl), the unified
+$Gr_{\mathbb C}(2,4)$ and $N$-ary $Gr_{\mathbb C}(2,N+2)$ ($N\ge 3$) DDF sheath
+twistor embeddings ($M_{\mathbb C}^{\mathrm{DDF}}(s)$,
+$M_{\mathbb C}^{(3),\mathrm{DDF}}(s)$) with $SL(2,\mathbb C)$ gauge invariance
+and vanishing Sorkin third-order parameter $\kappa_3=0$, and the planetary
+orbit, BCJ Pluecker double copy, Mercury perihelion precession
+($\Delta\varpi=3\pi r_H/(a(1-e^2))$, $\Delta\varpi_{\mathrm{arcsec}}=1944000\,r_H/p$,
+and numerical verification of $42.98''/\text{cy}$ and $574.61''/\text{cy}$),
+precessing polar conic turning points, $Gr_{\mathbb C}(2,4)$ orbital precession
+twistor matrix, $N$-body sink potential, and normed 2D anisotropic Tensor
+Gaussian Splatting ($\det\Sigma_{\mathrm{DDF}}=\sigma_0^4\gamma_\varphi^{-2}$,
+$\det\Sigma_{Gr_{\mathbb C}(2,4)}=\sigma_0^4(p/a)$, complex $Gr_{\mathbb C}(2,4)$
+twistor wavepacket $\Psi_{\mathrm{splat}}=\sqrt{G}\,\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}$,
+core Bohm potential $Q_{\mathrm{core}}(\Sigma)=\frac{\hbar^2\operatorname{Tr}\Sigma}{4m\det\Sigma}$,
+Madelung quantum pressure tensor $\Pi_{ij}(x,y)=\frac{\hbar^2}{4m^2}G(x,y)(\Sigma^{-1})_{ij}$
+with $\Pi_{11}^{\mathrm{DDF}}=\gamma_\varphi(v)^2\Pi_{22}^{\mathrm{DDF}}$,
+DDF sheath Inverse Compton Doppler ratio $|w_A^{\mathbb C}|^2/|w_B^{\mathbb C}|^2=(1+\beta)/(1-\beta)$,
+parabolic Fourier acausal phase-speed divergence, hyperbolic Cattaneo--Vernotte
+second-sound telegrapher factorization, splat-free continuum Grassmannian--DDF
+subluminal thermal transport, $Gr_{\mathbb C}(2,4)$ Pluecker characteristic
+flux-limiter, continuum Chapman--Kolmogorov mode/flux semigroup, and continuum
+Bohm potential relaxation laws, and $L^1$-conserving thermal splat evolution
+with Chapman--Kolmogorov splat semigroup additivity, monotonic core Bohm
+potential relaxation, and Second-Law covariance determinant growth
+$\det\Sigma(t+\Delta t)>\det\Sigma(t)$, and Surface Plasmon Polariton (SPP)
+dispersion $n_{\mathrm{SPP}}^2=\varepsilon_d|\varepsilon_m|/(|\varepsilon_m|-\varepsilon_d)>\varepsilon_d$,
+$Gr_{\mathbb C}(2,4)$ Pluecker evanescent skin-depth duality
+$|w_A^{\mathbb C}|^2/|w_B^{\mathbb C}|^2=(1+\chi_{\mathrm{SPP}})/(1-\chi_{\mathrm{SPP}})=|\varepsilon_m|/\varepsilon_d$,
+continuum SPP propagation-length semigroup, and sub-wavelength SPP hotspot
+\texttt{NormedTensorGaussianSplat2D} compression and Bohm quantum pressure
+enhancement $Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}})=\frac{\hbar^2 n_{\mathrm{SPP}}^2(1+\kappa_{\mathrm{ratio}}^2)}{4m\lambda_0^2}$
+both with and without splats, together with the 't Hooft--Susskind--Bekenstein--Hawking
+holographic horizon entropy $S_{\mathrm{BH}}=k_B A_H/(4\ell_P^2)=\pi k_B r_H^2/\ell_P^2$,
+Gauss--Smarr 2D-to-3D bulk mass recovery $\kappa_H A_H/(4\pi G_\phi)=M$,
+splat-free $Gr_{\mathbb C}(2,4)$ Painlev\'e--Gullstrand redshift lapse
+$|w_A^{\mathbb C}|^2|w_B^{\mathbb C}|^2=1-r_H/r$, Planck-splat UV Bohm cutoff
+$Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}})=\hbar^2/(2m\ell_P^2)$,
+low-symmetry shear polariton coupling $\varepsilon_{xy}$,
+$Gr_{\mathbb C}(2,4)$ Anti-Amplituhedron destructive phase cancellation
+$\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}=0$, and symplectic second-harmonic
+OPA squeezed \texttt{NormedTensorGaussianSplat2D} ($\det\Sigma_{\mathrm{OPA}}=\sigma_0^4$)
+and Bohm quantum-potential barrier amplification
+$Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}})=\frac{\hbar^2(\exp(2r_{\mathrm{sq}})+\exp(-2r_{\mathrm{sq}}))}{4m\sigma_0^2}\ge\frac{\hbar^2}{2m\sigma_0^2}$
+and Madelung quantum pressure squeezing anisotropy
+$\Pi_{22}^{\mathrm{OPA}}=\exp(4r_{\mathrm{sq}})\Pi_{11}^{\mathrm{OPA}}$,
+and the unified $Gr_{\mathbb C}(2,4)$ Pluecker realization of the
+$\mathfrak{psl}(2|2)_c$ secret-symmetry outer automorphism
+($(ad+bc)^2-4(ab)(cd)=(ad-bc)^2=1$), universal $Gr_{\mathbb C}(2,4)$ Pluecker
+redshift product across $\text{AdS}_5$ planar black branes ($1-(z/z_H)^4$) and
+DDF acoustic horizons ($1-r_H/r$), holographic RG scale-radius splat flow
+($\det\Sigma_{\mathrm{IR}}=\lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}}$,
+$Q_{\mathrm{core}}^{\mathrm{IR}}=\lambda_{\mathrm{rg}}^{-2}Q_{\mathrm{core}}^{\mathrm{UV}}$)
+both with and without splats, adaptive 2D and 3D two-child Tensor Gaussian Splat
+splitting conservation (\texttt{NormedTensorGaussianSplat2D.splitMajor\_conservation\_identities},
+\texttt{NormedTensorGaussianSplat3D.splitMajor3D\_and\_holographic\_gr24\_projection\_identities}),
+holographic $Gr_{\mathbb C}(2,4)$ affine 3D-to-2D projection and depth-variance
+inversion (\texttt{holographic\_gr24\_imaging\_depth\_recovery\_and\_convergent\_beam\_identities}),
+inversion-free Schur--Pluecker 3D covariance volume evaluation
+(\texttt{schur\_plucker\_inversion\_free\_and\_twistor\_vane\_identities}),
+higher-rank $Gr_{\mathbb C}(3,6)$ direct 3D volumetric splat imaging, splitting
+conservation, perspective projection, Schur--Pluecker determinant calculus, and
+Pluecker syzygy laws (\texttt{NormedTensorGaussianSplat3D.gr36\_volumetric\_imaging\_and\_plucker\_identities},
+\texttt{NormedTensorGaussianSplat3D.gr36\_simultaneous\_conservation\_holographic\_projection\_and\_schur\_identities}),
+and 3-element Debye--Wolf vectorial longitudinal polarization ($E_z = E_0\sin\theta$),
+counter-polarization transverse cancellation, ZRI bulk extinction vs.\ upstream
+collimation, high-NA hyperbolic metasurface phase equalization, and thin-film
+ENZ-lignin boundary amplification ($100\times$--$400\times$ at $\varepsilon_{\mathrm{ENZ}}\in[1/20,1/10]$;
+\texttt{vectorial\_longitudinal\_polarization\_metasurface\_and\_enz\_identities}),
+together with the \texttt{rGO-polyCBD-SS-Lignin} Effective Medium Theory (EMT)
+critical ENZ fill fraction $f_{\mathrm{ENZ}}=\varepsilon_d/(\varepsilon_d+|\varepsilon_m|)$,
+Type-II hyperbolic window ($f_{\mathrm{ENZ}}<f<f_{\perp,\mathrm{pole}}$), $90^\circ$
+disulfide flake-rotation Type-I switch, magnetized Argon/ionospheric
+Trivelpiece--Gould hyperbolicity, Denisov mode-conversion obliquity, and
+$Gr_{\mathbb C}(2,4)$ Pluecker anisotropy (\texttt{rgo\_polycbd\_enz\_hyperbolic\_and\_plasma\_metamaterial\_identities}),
+and the Argon vs.\ Helium/Hydrogen ion-acoustic speed hierarchy, CPA-TNSA
+$p\text{-}^{11}\mathrm{B}$ engineering gain ($Q_E=0.51\to 2.295\to 2.584$),
+$182.4\text{ kg/s}$ $s\mathrm{CO}_2$ Brayton recovery ($Q_E=2.7892$),
+$10\text{ Hz}$ intermediate DC bus supercapacitor capacitance ($14212/1100\approx 12.92\text{ F}$;
+\texttt{argon\_ion\_acoustic\_tnsa\_enz\_polycbd\_and\_sco2\_ledger\_identities}),
+and the 3-zone $400\to 800\text{ GHz}$ \texttt{rGO-polyCBD-SS-Lignin} SFG audit,
+Zone 3 ENZ detuning fix ($141/1516\approx 9.301\%$ vs.\ $9.88\%$), forward vs.\ Bragg
+Denisov grating pitch, Semenov--Hinshelwood radical kinetics, exothermic
+recombination chain-arrest trade-off, scramjet nozzle enthalpy recovery,
+multi-band acoustic displacement scaling, and dual-beam $405\text{ nm}/532\text{ nm}$
+holographic carbon nanolithography, \texttt{kicad-volumetric} orthogonal flash DRC,
+and 6-stage \texttt{CVA6} vs.\ \texttt{Ibex} pipeline scaling
+(\texttt{three\_zone\_rgo\_polycbd\_sfg\_and\_hydroxyl\_kinetics\_audit\_identities},
+\texttt{exothermic\_recombination\_tradeoff\_and\_multiband\_suppression\_identities},
+\texttt{holographic\_405\_532\_nanolithography\_kicad\_vol\_and\_cva6\_pipeline\_identities}),
+and the superfluid Gross--Pitaevskii action, Madelung polar substitution
+$\psi = A e^{i S / \hbar}$, Euler--Lagrange continuity and Quantum Hamilton--Jacobi
+equations, positive-definite field Legendre Hamiltonian $\mathcal{H}_{\mathrm{Mad}}\ge 0$,
+QHJ-to-Euler momentum bridge, dilatant-phase ($\varphi$) variational jamming recovery
+$\Lambda_\parallel(v) = \gamma_\varphi(v)$, Legendre Hamiltonian
+$H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2$, unconditional action-derived
+Minkowski proper time $d\tau_D = dt / \gamma_\varphi(v)$, and $405\text{ nm}/532\text{ nm}$
+STED Bohm quantum-confinement amplification
+(\texttt{MovingSheath.madelung\_lagrangian\_variational\_and\_dilatant\_jamming\_identities},
+\texttt{madelung\_hamiltonian\_euler\_ads\_and\_nanolithography\_bridge\_identities}),
+together with quadrupole gravitational waves both without DDF (\texttt{Signals.QEDGravity}:
+spin-2 double-copy polarizations $F_+(\iota), F_\times(\iota)$, dynamic
+$Gr_{\mathbb C}(2,4)$ quadrupole wave matrix \texttt{gr24QuadrupoleWaveMatrix},
+2.5PN Peters--Mathews eccentricity factor $f_{\mathrm{PM}}(e)^2 = P_{\mathrm{PM}}(e)^2/(|w_A^{\mathbb C}|^2|w_B^{\mathbb C}|^2)^7$,
+$N$-body resonant beat locking, and multi-model relative predictive error comparison
+against Witten's 2004 conformal twistor string, spin-1 vector, Nordström scalar,
+and Newtonian models;
+\texttt{PlanetaryOrbit.qed\_gravitational\_wave\_without\_ddf\_identities},
+\texttt{PlanetaryOrbit.gravity\_models\_relative\_predictive\_error\_comparison})
+and with DDF (\texttt{Signals.DDF}: dispersed-phase $(\varrho_{\max}^\varphi j_{\min}^\varphi)$
+strain/luminosity decomposition, GPE vortex density-gradient secondary-wavelet
+scattering, strain-thickened Kelvin-wave tail damping, 4D Schur-complement
+temporal conditioning, and 3D \texttt{NormedTensorGaussianSplat3D} vs.\ 2D
+\texttt{NormedTensorGaussianSplat2D} orthographic projection;
+\texttt{RiverExterior.gravitational\_wave\_with\_ddf\_identities},
+\texttt{NormedTensorGaussianSplat3D.gravitational\_wave\_splat3d\_and\_projection\_identities}),
+and Hawking thermodynamics without DDF (\texttt{hawking\_thermodynamics\_without\_ddf\_identities})
+and with DDF, hydrodynamic Madelung \texttt{iGPE} potential unwinding
+(\texttt{madelungInversePotentialReconstruction}), and 2D tensor-splat $90^\circ$
+orthogonal eigenvector snap (\texttt{rotateOrthogonal90}) and transformation-toughening
+isotropic metric swelling (\texttt{isotropicTraceSwell};
+\texttt{RiverExterior.hawking\_radiation\_ddf\_and\_splat\_fracture\_identities}),
+and Grassmannian Quantum Causal Inference, acyclic Plabic/LGV d-separation
+bottlenecks, Pearl's $\operatorname{do}(X)$ incoming-edge surgery,
+$\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch
+commutator/anticommutator ratios, Oreshkov--Costa--Brukner causal inequality
+violations ($3/4 < (2+\sqrt{2})/4$), Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$
+slow-mode orthogonal projection ($a_{2,\mathrm{hot}}=0$), Constructor Theory
+task composition, \texttt{del Rio et al.\ (2011)} conditional Landauer cooling vs.\
+isotropic Werner state heating at $F=1/2$ ($0 < 1/2 < \frac{\ln 3}{2\ln 2}$), and the
+$-0.750\text{ }\mu\text{W}$ numerical audit of \texttt{lignolux\_entropy\_siphon\_sim.py}
+(\texttt{grassmannian\_causal\_relations\_do\_calculus\_and\_quantum\_switch\_identities},
+\texttt{mpemba\_constructor\_theory\_and\_entropy\_siphoning\_identities},
+\texttt{grassmannian\_mpemba\_projector\_werner\_threshold\_and\_ocb\_causal\_witness\_identities},
+\texttt{phase\_diagram\_complexity\_mpemba\_and\_quantum\_causal\_synthesis\_identities},
+\texttt{quantum\_causal\_jev\_bundle\_transformer\_and\_videogen\_synthesis\_identities},
+\texttt{quantum\_causal\_plucker\_rank\_rope\_gauge\_and\_qram\_critique\_identities},
+\texttt{quantum\_causal\_jeffrey\_kinematics\_splat\_volumetric\_and\_semantic\_graphrag\_identities},
+\texttt{quantum\_causal\_overhead\_boundary\_commutativity\_and\_splat\_moment\_identities}),
+and the Complex Grassmannian $Gr_{\mathbb C}(2,4)$ Fubini--Study GPE, coupled
+Dual-Grassmannian \texttt{iGPE} ($\mathbf Z \leftrightarrow \mathbf Z^\perp$)
+symplectic norm balance, critical Deborah shear-fracture threshold
+($\mathrm{De}/\mathrm{De}_c \ge 1$), and homogeneous Plücker 6-vector Madelung
+hydrodynamics on the Klein quadric $\mathcal Q_4 \subset \mathbb P^5(\mathbb C)$
+(\texttt{plucker\_hodge\_klein\_quadric\_and\_projector\_identities},
+\texttt{kahlerDetFactor\_eq\_pluckerNormSq\_and\_ge\_one},
+\texttt{grassmannian\_igpe\_norm\_balance\_and\_josephson\_identities},
+\texttt{grassmannian\_bogoliubov\_proca\_and\_deborah\_fracture\_identities},
+\texttt{plucker\_madelung\_qhj\_inverse\_igpe\_and\_weyl\_bridge\_identities},
+\texttt{turner\_2026\_revised\_superposition\_gravity\_and\_gw\_plucker\_igpe\_models}),
+and the Complex Grassmannian Vector-Relation Configurations (\texttt{VectorRelationConfiguration}),
+pole-free square-move resonance at $x_X=-1$, and Grassmannian Kohn-Sham Density
+Functional Theory (\texttt{Signals.DFT}: spin-polarized manifolds, Riemannian Cayley
+retraction unitarity, McWeeny cubic purification, soliton width optimum,
+3-qudit GHZ Mermin nonlocality check figures, and Discovered Materials Problem 03
+\texttt{WTMAD-2}, \texttt{def2-QZVP} $(N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = 144\times$
+occupied-subspace Cayley speedup, and ALD/CVD $\mathrm{Al(CH_3)_3 + H_2O}$ barrier
+restoration;
+\texttt{complex\_plabic\_vrc\_and\_sympy\_check\_figures},
+\texttt{grassmannian\_dft\_vrc\_cayley\_mcweeny\_and\_mermin\_check\_figures},
+\texttt{speed\_accuracy\_barrier\_wtmad2\_ald\_cvd\_and\_cayley\_scaling\_identities},
+\texttt{polariton\_plasmon\_skyrmion\_mzm\_and\_nondestructive\_readout\_identities},
+\texttt{qci\_directed\_phase\_flow\_and\_spin\_mutual\_info\_identities},
+\texttt{qci\_optional\_vrc\_vs\_plabic\_complex\_grassmannian\_identities},
+\texttt{full\_55\_subset\_two\_electron\_eri\_and\_gmtkn55\_wtmad2\_identities},
+\texttt{tuning\_materials\_with\_light\_gkba\_hubbard\_wse2\_graphite\_and\_mgb2\_identities},
+\texttt{tuning\_materials\_with\_light\_cumulant\_pauli\_ode\_and\_neq\_tc\_critique\_identities},
+\texttt{interfacial\_heat\_transport\_gtbc\_al\_si\_gan\_tic\_and\_pmma\_identities},
+\texttt{interfacial\_heat\_transport\_critique\_adhesion\_bridge\_roughness\_and\_error\_identities},
+\texttt{cuprate\_superconductivity\_twelve\_targets\_and\_phase\_diagram\_identities},
+\texttt{cuprate\_superconductivity\_critique\_families\_and\_error\_identities},
+\texttt{cuprate\_superconductivity\_gap\_closure\_yrz\_homes\_mmp\_and\_rvb\_identities},
+\texttt{interfacial\_electrical\_properties\_five\_interfaces\_and\_process\_history\_identities},
+\texttt{interfacial\_electrical\_properties\_critique\_mcweeny\_eot\_ss\_and\_error\_identities},
+\texttt{interfacial\_electrical\_properties\_deep\_gap\_closure\_identities},
+\texttt{graphene\_rhombohedral\_trilayer\_pentalayer\_superconductivity\_and\_qc\_identities},
+\texttt{graphene\_superconductivity\_critique\_sum\_rule\_fqah\_and\_error\_identities},
+\texttt{graphene\_superconductivity\_deep\_gap\_closure\_identities})) theorems.
+
+\inputleanmodule{Signals.EMT}
+\inputleanmodule{Signals.AntiFireCannon}
+\inputleanmodule{Signals.FireSuppression}
+\inputleanmodule{Signals.Nanolithography}
+\inputleanmodule{Signals.QEDGravity}
+\inputleanmodule{Signals.DDF}
+\inputleanmodule{Signals.HawkingRadiation}
+\inputleanmodule{Signals.MultiArrayImaging}
+\inputleanmodule{Signals.QuantumCausalInference}
+\inputleanmodule{Signals.DFT}
+
+\section{Existing model, Pending wakefield/propulsion, and propagation nodes}
+
+The Pending nodes enforce momentum conservation across unclosed dual-spacetime
+polygons ($\Delta\mathbf P_{\mathrm{craft}}=-\Delta\mathbf P_{\mathrm{wake}}$),
+bound extracted pulse energy by the Dawson wave-breaking ceiling over a finite
+cavity volume, require positive hull-boundary density floors and external drive
+power ($F_{\mathrm{thrust}} v\le P_{\mathrm{drive}}$) for supercritical DDF
+phase-slip thrust, record $\mathrm{He\text{-}3}$ supercritical/solidification
+phase constraints ($T_c=3.32\text{ K}$, $P_{\mathrm{solid}}\ge 3.4\text{ MPa}$)
+for the $39\text{ K}$ $\mathrm{MgB}_2$ 5-axis active magnetic bearing spool,
+scope the 3-zone $400\to 800\text{ GHz}$ \texttt{rGO-polyCBD-SS-Lignin}
+hyperbolic SFG anti-fire cannon, $\cdot\mathrm{OH}$ spectroscopic frequency
+separation ($1.667\text{ GHz}<800\text{ GHz}<1830\text{ GHz}$), and exothermic
+recombination heat-sink requirement (\texttt{ThreeZoneHyperbolicSFGCannonHypothesis}),
+record the calibration and crossed-beam discriminator controls for the
+Madelung variational action and dilatant-phase jamming coupling
+(\texttt{MadelungDilatantVariationalHypothesis}), and connect the Hawking-radiation
+decoding stages across dual-quadrature homodyne phase sweeps, shared-state
+\texttt{InteractiveGPEPoint}/\texttt{InverseGPEPoint} potential inversion,
+2-point Hadamard \texttt{finiteInverseQFT} involution, Grassmannian row-sum
+slice projection, and the Page-curve bond-dimension bound
+(\texttt{HawkingGrassmannianSynthesisContract}, \texttt{hawking\_synthesis\_gpe\_and\_page\_bounds}),
+as well as the multi-modal Hubble mosaic, \texttt{LVP} medical, \texttt{LIFU}/\texttt{AOT}/\texttt{TRUE},
+3D Layer-Code, and $<1\text{ nm}$ nanolithography safety and resolution bounds
+(\texttt{MultiModalSubSurfaceImagingHypothesis}, \texttt{multi\_modal\_subsurface\_imaging\_layer\_and\_safety\_bounds}),
+and the Quantum Causal Inference, Mpemba shortcut, and conditional Landauer
+entropy-siphoning Second-Law, OCB, and Werner threshold bounds
+(\texttt{QuantumCausalMpembaSynthesisContract}, \texttt{quantum\_causal\_mpemba\_and\_entropy\_siphoning\_bounds}),
+and the Complex Grassmannian GPE, coupled Dual-Grassmannian \texttt{iGPE},
+and homogeneous Plücker Madelung validation contract
+(\texttt{ComplexGrassmannianGPEAndPluckerMadelungHypothesis},
+\texttt{complex\_grassmannian\_gpe\_and\_plucker\_madelung\_bounds}),
+and the Quantum Causal JEV/QCDT decision, Plücker Klein quadric rank-2 vs.\
+rank-4, Tautological Bundle-Transformer, and QFT/QRAM Soliton VideoGen
+validation contract
+(\texttt{QuantumCausalBundleVideoGenHypothesis},
+\texttt{quantum\_causal\_bundle\_videogen\_bounds}),
+and the $>6{,}400\times$ (`13,107.2x`, `104,857.6x`, `1,310,720x`, and overhead-inclusive `6,553.6x`)
+splat-sparse Grassmannian volumetric efficiency, Jeffrey's Kinematic Engine, 3D
+\texttt{NormedTensorGaussianSplat3D} nanoimaging/surgical reconstruction, and Quantum Causal
+Semantic GraphRAG validation contract
+(\texttt{QuantumCausalSurgicalSplatGraphRAGHypothesis},
+\texttt{quantum\_causal\_surgical\_splat\_graphrag\_bounds}),
+and the Complex Grassmannian Vector-Relation Configuration (\texttt{VRC}),
+\texttt{QCI-GXC} Kohn-Sham DFT, McWeeny idempotency distillation, full 55-subset
+two-electron ERI / GMTKN55 \texttt{WTMAD-2}, optional Complex VRC causal backend,
+Discovered Materials Problem 04 (\texttt{LightDrivenMaterialsPendingHypothesis}),
+Discovered Materials Problem 05 (\texttt{InterfacialHeatTransportPendingHypothesis}),
+Discovered Materials Problem 01 (\texttt{CuprateSuperconductivityPendingHypothesis}),
+Discovered Materials Problem 02 (\texttt{InterfacialElectricalPropertiesPendingHypothesis}),
+Grassmannian Multilayer Graphene Superconductivity and Quantum Computing (\texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis}),
+and 3-qudit GHZ Mermin nonlocality validation contract
+(\texttt{QuantumCausalGrassmannianDFTHypothesis},
+\texttt{quantum\_causal\_grassmannian\_dft\_bounds},
+\texttt{quantum\_causal\_grassmannian\_dft\_eri\_wtmad2\_and\_vrc\_bounds},
+\texttt{light\_driven\_materials\_gkba\_and\_four\_target\_bounds},
+\texttt{light\_driven\_materials\_critique\_and\_gap\_closure\_bounds},
+\texttt{interfacial\_heat\_transport\_gtbc\_and\_three\_target\_bounds},
+\texttt{interfacial\_heat\_transport\_critique\_and\_gap\_closure\_bounds},
+\texttt{cuprate\_superconductivity\_twelve\_targets\_and\_family\_bounds},
+\texttt{cuprate\_superconductivity\_gap\_closure\_bounds},
+\texttt{interfacial\_electrical\_properties\_five\_interfaces\_and\_critique\_bounds},
+\texttt{interfacial\_electrical\_properties\_deep\_gap\_closure\_bounds},
+\texttt{rhombohedral\_graphene\_superconductivity\_eight\_regimes\_and\_critique\_bounds},
+\texttt{rhombohedral\_graphene\_superconductivity\_deep\_gap\_closure\_bounds}).
+
+\inputleanmodule{Signals.Pending}
+\inputleanmodule{SignalsPending}
+\inputleanmodule{Signals.Propagation}

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Flat Light and N-LIG Waveguides for Nanolithography &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Longitudinal Fields, PolyCBD Waveguides, UPT, and DDF Shear-Jamming" href="longitudinal-wave-polycbd-upt-dff-evidence.html" />
+    <link rel="prev" title="Signals Lean Blueprint" href="signals-blueprint.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Flat Light and N-LIG Waveguides for Nanolithography</a><ul>
+<li><a class="reference internal" href="#context-and-hypothesis">Context and Hypothesis</a></li>
+<li><a class="reference internal" href="#proposed-system-architecture">Proposed System Architecture</a></li>
+<li><a class="reference internal" href="#verification-status-and-pending-lean-models">Verification Status and Pending Lean Models</a></li>
+<li><a class="reference internal" href="#literature-check-cw-laser-processing-of-lignin">Literature Check: CW Laser Processing of Lignin</a></li>
+<li><a class="reference internal" href="#reviewed-superfluid-and-gravitational-wave-models">Reviewed Superfluid and Gravitational-Wave Models</a></li>
+<li><a class="reference internal" href="#reviewed-driven-pattern-articles">Reviewed Driven-Pattern Articles</a></li>
+<li><a class="reference internal" href="#reviewed-fracture-phase-slip-and-qhd-summary">Reviewed Fracture, Phase-Slip, and QHD Summary</a></li>
+<li><a class="reference internal" href="#classical-longitudinal-and-structured-light-methods">Classical Longitudinal and Structured-Light Methods</a></li>
+<li><a class="reference internal" href="#high-value-longitudinal-beam-target">High-Value Longitudinal-Beam Target</a><ul>
+<li><a class="reference internal" href="#application-ranking">Application ranking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ns-gpe-ddf-and-eht-bridge">NS, GPE, DDF, and EHT Bridge</a></li>
+<li><a class="reference internal" href="#validation-apparatus-and-lower-power-cw-success">Validation Apparatus and Lower-Power CW Success</a></li>
+<li><a class="reference internal" href="#sub-nanometer-1-text-nm-convergent-nanoimaging-lifu-aot-true-sub-surface-focusing-and-lvpprocaimaginghypothesis-boundaries">Sub-Nanometer (<span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span>) Convergent Nanoimaging, <code class="docutils literal notranslate"><span class="pre">LIFU</span></code>/<code class="docutils literal notranslate"><span class="pre">AOT</span></code>/<code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Sub-Surface Focusing, and <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code> Boundaries</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#chat-provenance">Chat Provenance</a></li>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metadata-citations">Metadata &amp; Citations</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="signals-blueprint.html" title="Signals Lean Blueprint" accesskey="P">previous </a></li>
+              <li><a href="longitudinal-wave-polycbd-upt-dff-evidence.html" title="Longitudinal Fields, PolyCBD Waveguides, UPT, and DDF Shear-Jamming" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/flat-light-nanolithography-scholarly.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Flat Light and N-LIG Waveguides for Nanolithography</a><ul>
+<li><a class="reference internal" href="#context-and-hypothesis">Context and Hypothesis</a></li>
+<li><a class="reference internal" href="#proposed-system-architecture">Proposed System Architecture</a></li>
+<li><a class="reference internal" href="#verification-status-and-pending-lean-models">Verification Status and Pending Lean Models</a></li>
+<li><a class="reference internal" href="#literature-check-cw-laser-processing-of-lignin">Literature Check: CW Laser Processing of Lignin</a></li>
+<li><a class="reference internal" href="#reviewed-superfluid-and-gravitational-wave-models">Reviewed Superfluid and Gravitational-Wave Models</a></li>
+<li><a class="reference internal" href="#reviewed-driven-pattern-articles">Reviewed Driven-Pattern Articles</a></li>
+<li><a class="reference internal" href="#reviewed-fracture-phase-slip-and-qhd-summary">Reviewed Fracture, Phase-Slip, and QHD Summary</a></li>
+<li><a class="reference internal" href="#classical-longitudinal-and-structured-light-methods">Classical Longitudinal and Structured-Light Methods</a></li>
+<li><a class="reference internal" href="#high-value-longitudinal-beam-target">High-Value Longitudinal-Beam Target</a><ul>
+<li><a class="reference internal" href="#application-ranking">Application ranking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ns-gpe-ddf-and-eht-bridge">NS, GPE, DDF, and EHT Bridge</a></li>
+<li><a class="reference internal" href="#validation-apparatus-and-lower-power-cw-success">Validation Apparatus and Lower-Power CW Success</a></li>
+<li><a class="reference internal" href="#sub-nanometer-1-text-nm-convergent-nanoimaging-lifu-aot-true-sub-surface-focusing-and-lvpprocaimaginghypothesis-boundaries">Sub-Nanometer (<span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span>) Convergent Nanoimaging, <code class="docutils literal notranslate"><span class="pre">LIFU</span></code>/<code class="docutils literal notranslate"><span class="pre">AOT</span></code>/<code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Sub-Surface Focusing, and <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code> Boundaries</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#chat-provenance">Chat Provenance</a></li>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metadata-citations">Metadata &amp; Citations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="signals-blueprint.html"
+                          title="previous chapter">Signals Lean Blueprint</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="longitudinal-wave-polycbd-upt-dff-evidence.html"
+                          title="next chapter">Longitudinal Fields, PolyCBD Waveguides, UPT, and DDF Shear-Jamming</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/flat-light-nanolithography-scholarly.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="flat-light-and-n-lig-waveguides-for-nanolithography">
+<h1>Flat Light and N-LIG Waveguides for Nanolithography<a class="headerlink" href="#flat-light-and-n-lig-waveguides-for-nanolithography" title="Link to this heading">¶</a></h1>
+<section id="context-and-hypothesis">
+<h2>Context and Hypothesis<a class="headerlink" href="#context-and-hypothesis" title="Link to this heading">¶</a></h2>
+<p>This document reviews the conceptual framework for replacing diffraction-limited Extreme Ultraviolet (EUV) nanolithography with “Flat Light” Proca metamaterials, particularly using active Nitrogen-doped Laser-Induced Graphene (N-LIG) waveguides.</p>
+<p>Instead of generating transverse short-wavelength photons (13.5 nm) in a high-vacuum chamber, the proposal suggests creating a macroscopic quantum fluid state within a cellulose lattice where light acquires a massive effective inertia (<span class="math notranslate nohighlight">\(m_{\text{eff}} \to \infty\)</span>). According to this pending hypothesis, such a topological field would propagate with effectively zero diffraction blur.</p>
+<p>This proposal must be separated from established structured-light methods. A
+tightly focused radially polarized beam can produce a measurable axial electric
+field component <span class="math notranslate nohighlight">\(E_z\)</span>; circular or helical polarization can create spin-orbit
+and orbital-angular-momentum (OAM) structure; azimuthal polarization is a
+useful control; and ENZ, hyperbolic, plasmonic, or evanescent structures can
+support high-spatial-frequency near-fields. These are classical
+Maxwell/material effects unless an independent, transferable Proca dispersion
+and polarization signature is demonstrated.</p>
+<p>The attached <a class="reference download internal" download="" href="_downloads/e808df35b16ba94e8f542d68309ee1cb/proof_of_cw_and_lignin_and_holography.bib"><span class="xref download myst">bibliography</span></a> supplies
+the classical and materials benchmark for this overview: laser-reduced graphene
+synthesis and applications <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id2" title="Zhengfen Wan, Erik W Streed, Mirko Lobino, Shujun Wang, Robert T Sang, Ivan S Cole, David V Thiel, and Qin Li. Laser-reduced graphene: synthesis, properties, and applications. Advanced Materials Technologies, 3(4):1700315, 2018. URL: https://doi.org/10.1002/admt.201700315.">Wan <em>et al.</em>, 2018</a>, <a class="reference internal" href="references.html#id9" title="Xiaohui Ye, Zhiyuan Yang, Xi Zheng, Hao Qiang, Miaomiao Wei, Yurong Li, Mengzhen Chen, and Nengneng Luo. A review on the laser-induced synthesis of graphene and its applications in sensors. Journal of Materials Science, 59(26):11644–11668, 2024. URL: https://doi.org/10.1007/s10853-024-09883-z.">Ye <em>et al.</em>, 2024</a>]</span>, sustainable carbon precursors <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id13" title="Pedro I C Claro, Tomás Pinheiro, Sara L Silvestre, Ana C Marques, João Coelho, José M Marconcini, Elvira Fortunato, Luiz H C Mattoso, and Rodrigo Martins. Sustainable carbon sources for green laser-induced graphene: a perspective on fundamental principles, applications, and challenges. Applied Physics Reviews, 2022. URL: https://doi.org/10.1063/5.0100785.">C Claro <em>et al.</em>, 2022</a>]</span>,
+flexible and wearable LIG devices <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id12" title="Rui You, Yu-Qing Liu, Yi-Long Hao, Dong-Dong Han, Yong-Lai Zhang, and Zheng You. Laser fabrication of graphene-based flexible electronics. Advanced Materials, 32(15):1901981, 2020. URL: https://doi.org/10.1002/adma.201901981.">You <em>et al.</em>, 2020</a>, <a class="reference internal" href="references.html#id15" title="Hyeonwoo Kim and Young-Jin Kim. Wearable healthcare using laser-induced graphene. JMST Advances, 7(3):177–185, 2025. URL: https://doi.org/10.1007/s42791-025-00113-4.">Kim and Kim, 2025</a>]</span>, maskless and selective laser processing <span class="bibtex-citation" id="id4">[<a class="reference internal" href="references.html#id10" title="Ziyi Cheng, Zihan Zhong, Qisen Wang, Yuefeng Wu, Zhongzheng Li, Jiacong Guo, Yichen Fan, Yu Song, Yiwen Feng, Meisam Farajollahi, and others. Maskless photolithography for micro-and nanofabrication. Moore and More, 3(1):7, 2026. URL: https://doi.org/10.1007/s44275-026-00046-7, doi:10.1007/s44275-026-00046-7.">Cheng <em>et al.</em>, 2026</a>, <a class="reference internal" href="references.html#id11" title="Huijae Park, Jung Jae Park, Phuong-Danh Bui, Hyeokjun Yoon, Costas P Grigoropoulos, Daeho Lee, and Seung Hwan Ko. Laser-based selective material processing for next-generation additive manufacturing. Advanced Materials, 36(34):2307586, 2024. URL: https://doi.org/10.1002/adma.202307586.">Park <em>et al.</em>, 2024</a>]</span>, LIG diffractive optics
+<span class="bibtex-citation" id="id5">[<a class="reference internal" href="references.html#id14" title="Younggeun Lee, Mun Ji Low, Dongwook Yang, Han Ku Nam, Truong-Son Dinh Le, Seung Eon Lee, Hyogeun Han, Seunghwan Kim, Quang Huy Vu, Hongki Yoo, and others. Ultra-thin light-weight laser-induced-graphene (lig) diffractive optics. Light: Science &amp; Applications, 12(1):146, 2023. URL: https://doi.org/10.1038/s41377-023-01143-0.">Lee <em>et al.</em>, 2023</a>]</span>, and optical modification of 2D materials
+<span class="bibtex-citation" id="id6">[<a class="reference internal" href="references.html#id19" title="Suvi-Tuuli Marianne Akkanen, Henry Alexander Fernandez, and Zhipei Sun. Optical modification of 2d materials: methods and applications. Advanced Materials, 34(19):2110152, 2022. URL: https://doi.org/10.1002/adma.202110152.">Akkanen <em>et al.</em>, 2022</a>]</span>. Biomass-to-nanodiamond conversion is a
+separate material control <span class="bibtex-citation" id="id7">[<a class="reference internal" href="references.html#id16" title="Yan Lin, Qijun Zhang, Yongjun Deng, Kuizhong Shen, Kaimeng Xu, Yongchao Yu, Siqun Wang, and Guigan Fang. Fabricating nanodiamonds from biomass by direct laser writing under ambient conditions. ACS Sustainable Chemistry &amp; Engineering, 9(8):3112–3123, 2021. URL: https://doi.org/10.1021/acssuschemeng.0c07607.">Lin <em>et al.</em>, 2021</a>, <a class="reference internal" href="references.html#id17" title="Pratik Joshi, Parand Riley, Siddharth Gupta, Roger J Narayan, and Jagdish Narayan. Advances in laser-assisted conversion of polymeric and graphitic carbon into nanodiamond films. Nanotechnology, 32(43):432001, 2021. URL: https://doi.org/10.1088/1361-6528/ac1097.">Joshi <em>et al.</em>, 2021</a>]</span>. The Proca references <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id18" title="Widervan de Deus Morais, Stamatios Strikos, Ronaldo Thibes, and José Abdalla Helayël-Neto. Investigating planar proca metamaterials in nonlinear (2+ 1)-electrodynamics. arXiv preprint arXiv:2607.23013, 2026. URL: https://arxiv.org/abs/2607.23013.">Morais <em>et al.</em>, 2026</a>, <a class="reference internal" href="references.html#id20" title="Said Mikki. Proca metamaterials, massive electromagnetism, and spatial dispersion. Annalen der Physik, 533(8):2000625, 2021. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/andp.202000625.">Mikki, 2021</a>]</span> are theory/model inputs only; they do not establish
+that a cellulose/N-LIG device generates a massive propagating optical mode.</p>
+<p>By modulating this “flat light” with a dynamic, piezophotonic reduced-Graphene Oxide (rGO) vitrimer mask, proponents argue that Angstrom-scale geometric volumes (Anti-Amplituhedrons or phase-slip gradients) could be encoded directly into the field and used to deterministically sever chemical bonds in specialized photoresists like Photo-Cleavable Lignin Polymers (PCLP).</p>
+</section>
+<section id="proposed-system-architecture">
+<h2>Proposed System Architecture<a class="headerlink" href="#proposed-system-architecture" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Light Injection:</strong> A continuous-wave (CW) master oscillator feeds into an N-LIG cellulose waveguide.</p></li>
+<li><p><strong>Dilatant Transition:</strong> Piezophotonic/acoustic pumping forces the optical field into a strongly interacting, high-effective-mass regime, forming the hypothesized non-diffracting topological fluid.</p></li>
+<li><p><strong>Active rGO Mask:</strong> A programmable rGO vitrimer mask imprints the desired 3D twistor-space “volume” into the Proca fluid by triggering localized phase-slips instead of acting as a classical binary shadow mask.</p></li>
+<li><p><strong>Resist Cleavage:</strong> The projected pattern enters the target photoresist (e.g., PCLP). Standard processing relies on UV/EUV absorption. This model hypothesizes that the Proca field’s sharp longitudinal gradient shears the bonds apart deterministically, effectively reading out an inverse Quantum Fourier Transform (iQFT) pattern perfectly down to the atomic scale.</p></li>
+</ol>
+</section>
+<section id="verification-status-and-pending-lean-models">
+<h2>Verification Status and Pending Lean Models<a class="headerlink" href="#verification-status-and-pending-lean-models" title="Link to this heading">¶</a></h2>
+<p>These mechanisms remain unverified experimental hypotheses. Flat light, in the context described by this proposal, relies on exact phase matching, extreme strain thresholds, and hypothetical coupling constants.</p>
+<p>In the project’s formalized theoretical layer (<code class="docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code>), these assumptions are recorded as <strong>Pending</strong> structural contracts to isolate them from tested classical optics:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FlatLightLithography</span></code>: A structure encoding a strictly zero-diffraction blur state bound to a positive effective mass requirement.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PhaseSlipCleavage</span></code>: A structure defining the hypothetical bond cleavage in PCLP as a function of the phase-slip amplitude overriding standard Beer-Lambert photon absorption.</p></li>
+</ul>
+<p>These records explicitly state they do not establish that a completely non-diffracting topological fluid can be stably maintained outside of specialized theoretical boundary conditions.</p>
+</section>
+<section id="literature-check-cw-laser-processing-of-lignin">
+<h2>Literature Check: CW Laser Processing of Lignin<a class="headerlink" href="#literature-check-cw-laser-processing-of-lignin" title="Link to this heading">¶</a></h2>
+<p>The linked Google Scholar query was blocked by an automated redirect in this
+environment, so the result was cross-checked against Crossref/OpenAlex records
+and accessible publisher metadata. The literature strengthens the classical
+materials branch, but does not establish the full Flat Light proposal.</p>
+<p>Primary material precedents include <span class="bibtex-citation" id="id9">[<a class="reference internal" href="references.html#id3" title="Faisal Mahmood, Hanwen Zhang, Jian Lin, and Caixia Wan. Laser-induced graphene derived from kraft lignin for flexible supercapacitors. ACS Omega, 5(24):14611–14618, 2020. URL: https://doi.org/10.1021/acsomega.0c01293, doi:10.1021/acsomega.0c01293.">Mahmood <em>et al.</em>, 2020</a>]</span> on
+Kraft-lignin LIG by direct laser writing, <span class="bibtex-citation" id="id10">[<a class="reference internal" href="references.html#id4" title="Ruquan Ye, Yieu Chyan, Jibo Zhang, Yilun Li, Xiao Han, Carter Kittrell, and James M. Tour. Laser-induced graphene formation on wood. Advanced Materials, 29(37):1702211, 2017. URL: https://doi.org/10.1002/adma.201702211, doi:10.1002/adma.201702211.">Ye <em>et al.</em>, 2017</a>]</span> on CO2-laser
+graphene scribing on wood, <span class="bibtex-citation" id="id11">[<a class="reference internal" href="references.html#id5" title="Ali Ghavipanjeh and Sadegh Sadeghzadeh. Simulation and experimental evaluation of laser-induced graphene on the cellulose and lignin substrates. Scientific Reports, 14:4475, 2024. URL: https://doi.org/10.1038/s41598-024-54982-1, doi:10.1038/s41598-024-54982-1.">Ghavipanjeh and Sadeghzadeh, 2024</a>]</span>
+on cellulose/lignin laser conversion with molecular-dynamics and experimental
+controls, <span class="bibtex-citation" id="id12">[<a class="reference internal" href="references.html#id6" title="Hanwen Zhang, Qianwei Li, Karl D. Hammond, Xiaoqing He, Jian Lin, and Caixia Wan. Probing laser-induced structural transformation of lignin into few-layer graphene. Green Chemistry, 26(10):5921–5932, 2024. URL: https://doi.org/10.1039/d3gc03603k, doi:10.1039/d3gc03603k.">Zhang <em>et al.</em>, 2024</a>]</span> on laser-induced lignin-to-few-layer
+graphene transformation, and <span class="bibtex-citation" id="id13">[<a class="reference internal" href="references.html#id7" title="Lingyin Meng, Sorana Chirtes, Xianjie Liu, Mats Eriksson, and Wing Cheung Mak. A green route for lignin-derived graphene electrodes: a disposable platform for electrochemical biosensors. Biosensors and Bioelectronics, 218:114742, 2022. URL: https://doi.org/10.1016/j.bios.2022.114742, doi:10.1016/j.bios.2022.114742.">Meng <em>et al.</em>, 2022</a>]</span> on sequential
+laser-lithography/post-treatment of lignin-derived graphene electrodes.
+These support laser-driven carbonization/graphitization, pattern transfer, and
+electrical characterization. They also make precursor chemistry, absorbed
+fluence, scan speed, atmosphere, off-gassing, porosity, defects, and thermal
+transport first-class variables.</p>
+<p>They do not show that CW operation alone yields pristine graphene, that the
+conversion is athermal, or that a low optical power threshold is universal.
+The active chat’s CW block is therefore provenance for a proposed experiment
+(<span class="xref myst">CW Lean block</span>;
+<span class="xref myst">process narrative</span>),
+not external evidence for Proca emission or zero diffraction. The measured
+<code class="docutils literal notranslate"><span class="pre">VitrimerLithographyObservation</span></code> contract records continuous-wave mode, scan
+geometry, absorbed fluence, temperature, Raman/XPS/resistance endpoints,
+controls, and replication; its <code class="docutils literal notranslate"><span class="pre">cw_graphene_induction</span></code> lemma returns only the
+recorded output state.</p>
+</section>
+<section id="reviewed-superfluid-and-gravitational-wave-models">
+<h2>Reviewed Superfluid and Gravitational-Wave Models<a class="headerlink" href="#reviewed-superfluid-and-gravitational-wave-models" title="Link to this heading">¶</a></h2>
+<p>The related superfluid/Hawking discussion proposes a mechanical interpretation
+of Hawking radiation as emission from a shear-driven fracture state
+(<span class="xref myst">superfluid/Hawking chat</span>).
+Its transformation-toughening extension predicts burst-like emission and
+possible remnant behavior (<span class="xref myst">same chat</span>).
+Those passages are hypothesis provenance, not evidence that an astrophysical
+horizon fractures or that Hawking radiation has been decoded.</p>
+<p>The proposed inverse pipeline uses prepared modulation, homodyne observations,
+finite-rank tensor decomposition, and an asserted nonlinear scattering operator
+(<span class="xref myst">same chat</span>).
+The implementation retains only the finite data-flow bookkeeping: observed
+traces, iGPE/iQFT stage laws, Amplituhedron matrix maps, ALS residuals, and known-
+input comparisons. It does not turn a low residual into a black-hole decoder or
+an interior-state reconstruction
+(<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">HawkingRadiationDecoding</span></a>).</p>
+<p>The Population III review concerns a simulated Einstein Telescope/Cosmic
+Explorer inference study, not an observed event (<span class="xref myst">Pop III review</span>).
+The reported comparison uses 5 Hz and 10 Hz low-frequency cutoffs; for the
+reviewed simulated event at <span class="math notranslate nohighlight">\(z \simeq 19.8\)</span>, it reports 90%-credible lower bounds
+of <span class="math notranslate nohighlight">\(z &gt; 18.5\)</span> and <span class="math notranslate nohighlight">\(z &gt; 17.5\)</span>, respectively, approximately 12% source-frame mass
+uncertainty, improved localization, and modest spin constraints
+(<span class="xref myst">reported findings</span>).
+These values are retained as simulation metadata and require verification
+against the cited paper before use as an external dataset.</p>
+<p>The same review connects curvature backscatter to gravitational-wave tails, then
+proposes DDF shear thickening, GPE-vortex scattering, and Schur-complement
+conditioning as a separate analog model (<span class="xref myst">tail and DDF proposal</span>,
+<span class="xref myst">GPE and tensor-conditioning proposal</span>).
+The formal boundary is correspondingly finite and conditional:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> formalizes supplied DDF substrate, river-flow, and radiation-
+sourcing laws (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">river model</span></a>,
+<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">radiation discriminator</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dilatantViscosity</span></code>, <code class="docutils literal notranslate"><span class="pre">dilatantDampingRate</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">DDFTwistorSliceConditioning</span></code> record nonnegative constitutive and Schur-slice
+laws (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpeVortexDensity</span></code> and <code class="docutils literal notranslate"><span class="pre">gpeVortexScatteringPotential</span></code> retain a finite
+depleted-core/scattering proxy (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DDFWaveTailObservation</span></code> requires detector calibration, an independent vortex
+control, replication, an energy-closed ledger, and a declared mechanism
+(<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PopIIIGWRemnantInference</span></code> and <code class="docutils literal notranslate"><span class="pre">PopIIIGWCutoffComparison</span></code> preserve the
+simulation-only provenance, posterior bounds, 5 Hz/10 Hz comparison, and
+modest-spin limitation (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p></li>
+</ul>
+<p>No contract in this review promotes a DDF tail to a gravitational-wave medium,
+a fracture emission to Hawking radiation, a Pop III posterior to a Pop III
+discovery, or a classical longitudinal field to a Proca wave.</p>
+</section>
+<section id="reviewed-driven-pattern-articles">
+<h2>Reviewed Driven-Pattern Articles<a class="headerlink" href="#reviewed-driven-pattern-articles" title="Link to this heading">¶</a></h2>
+<p>Kaplan et al. report optically induced Faraday–Goldstone waves in a
+symmetry-broken quantum material: a light pulse above a threshold fluence drives
+an amplitude (Higgs) mode, which parametrically couples to a phase (Goldstone)
+mode and produces a coherent spatiotemporal phason texture. The work compares
+the calculated signatures with measurements in <span class="math notranslate nohighlight">\(\mathrm{K}_{0.3}\mathrm{MoO}_3\)</span>
+and reports Higgs–Goldstone beating (<a class="reference internal" href="#kaplan2026"><span class="xref myst">Kaplan et al. 2026</span></a>). This
+is a driven nonlinear material response and pattern-formation result, not a
+massive optical mode or a zero-diffraction result.</p>
+<p>Kiselev and Pan analyze a time-varying photonic medium with Kerr nonlinearity.
+Their model describes a continuous transition with broken spatial and temporal
+translation symmetry, lattice-like patterns, soft Goldstone-like deformations,
+and massive Higgs-like amplitude oscillations in <span class="math notranslate nohighlight">\(2+1\)</span> dimensions
+(<a class="reference internal" href="#kiselev2025"><span class="xref myst">Kiselev and Pan 2025</span></a>). It is a theoretical photonic-time-crystal
+model; symmetry breaking, a Goldstone-like label, or a time-crystalline pattern
+does not establish Proca propagation, a photon mass, or Flat Light.</p>
+<p>The corresponding finite Lean layer is deliberately measurement/model scoped:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FaradayGoldstoneObservation</span></code> records pump and threshold fluence, amplitude
+and phase mode amplitudes, nonlinear coupling, beating, pattern residual,
+thermal-noise residual, calibration, and model/experiment agreement
+(<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PhotonicTimeCrystalPatternModel</span></code> records the <span class="math notranslate nohighlight">\(2+1\)</span> dimensionality, periodic
+modulation, Kerr coefficient, transition threshold, broken translation
+symmetries, Goldstone/Higgs-like mode frequencies, pattern residual, and an
+explicit <code class="docutils literal notranslate"><span class="pre">modelOnly</span></code> premise (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p></li>
+</ul>
+<p>These records provide controls for testing light-driven phase and pattern
+formation in N-LIG or related materials. They do not identify a Goldstone-like
+mode with a longitudinal Proca mode, and they do not replace aperture-matched
+PSF/MTF, polarization, power, and propagation measurements.</p>
+</section>
+<section id="reviewed-fracture-phase-slip-and-qhd-summary">
+<h2>Reviewed Fracture, Phase-Slip, and QHD Summary<a class="headerlink" href="#reviewed-fracture-phase-slip-and-qhd-summary" title="Link to this heading">¶</a></h2>
+<p>The attached Navier–Stokes/FTLE/SQG chat connects four useful measurement
+layers: acoustic crackle in a stressed vitrimer, density-zero phase-slip cores,
+calibrated I/Q or homodyne quadratures, and Madelung/Euler–Korteweg residuals.
+The source describes these as a unified physical picture
+(<span class="xref myst">fracture and acoustic-crackle proposal</span>,
+<span class="xref myst">phase-slip proposal</span>,
+<span class="xref myst">homodyne proposal</span>,
+<span class="xref myst">Madelung/Euler–Korteweg proposal</span>).</p>
+<p>The evidence boundary is narrower than the summary’s unifying language:</p>
+<ul class="simple">
+<li><p>A polymer fracture and fluid cavitation can be compared through micro-void,
+strain-rate, acoustic, and dielectric measurements, but one is not proof of
+the other.</p></li>
+<li><p>A phase slip candidate requires a measured winding, a calibrated order-
+parameter/density core, and phase-reference data. Winding alone does not
+prove dissipation, thermalization, or collapse arrest.</p></li>
+<li><p>Balanced homodyne/I/Q detection measures calibrated quadratures. A variance
+below a shot-noise reference is a squeezing candidate only after detector
+noise, local-oscillator phase, mode matching, and covariance controls are
+closed; it is not automatically a measurement of the Bohm potential.</p></li>
+<li><p>The Madelung/Euler–Korteweg equations are a formal hydrodynamic model. Their
+residuals, density floor, irrotationality, and quantum-pressure coefficient
+must be measured or numerically verified before connecting them to SQG,
+horizons, or Navier–Stokes blowup.</p></li>
+</ul>
+<p>The new finite contracts are <code class="docutils literal notranslate"><span class="pre">AcousticCrackleObservation</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PhaseSlipCoreObservation</span></code>, <code class="docutils literal notranslate"><span class="pre">EulerKortewegResidualObservation</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">HomodyneQuadratureVarianceObservation</span></code> (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>,
+<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">QHD and homodyne diagnostics</span></a>).
+They retain the useful signal-processing and fluid diagnostics while rejecting
+unsupported promotion to a quantum-vacuum measurement.</p>
+<p>The ultrasonic-power discussion adds a distinct engineering hypothesis: a
+fracture- or cavitation-mediated acoustic transfer path. It should be modeled
+as an <strong>alternative measured channel</strong> to ordinary ultrasonic transfer, not as
+ordinary transfer plus an unmeasured fracture-energy source. The classical
+baseline already constrains received acoustic power by incident/source power;
+the fracture-mediated candidate must additionally close receiver, absorption,
+loss, and incident-power channels with cavitation, fracture, thermal, detector,
+and replication controls. The chat’s claims of harmless tissue-transparent
+fracture-state wireless power remain speculative and are not supported by the
+ultrasonic engineering discussion (<span class="xref myst">fracture-state power proposal</span>,
+<span class="xref myst">ultrasonic cavitation processing</span>).
+The finite boundary is <code class="docutils literal notranslate"><span class="pre">FractureMediatedUltrasonicTransfer</span></code>
+(<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p>
+</section>
+<section id="classical-longitudinal-and-structured-light-methods">
+<h2>Classical Longitudinal and Structured-Light Methods<a class="headerlink" href="#classical-longitudinal-and-structured-light-methods" title="Link to this heading">¶</a></h2>
+</section>
+<section id="high-value-longitudinal-beam-target">
+<h2>High-Value Longitudinal-Beam Target<a class="headerlink" href="#high-value-longitudinal-beam-target" title="Link to this heading">¶</a></h2>
+<p>The highest-value near-term target is a <strong>calibrated radial-vector,
+high-NA longitudinal near-field source for sub-wavelength imaging</strong>, with
+nanolithography as the second application gate. This target is valuable because
+the same source can be measured directly with vectorial near-field probes,
+aperture-matched PSF/MTF, Stokes polarimetry, OAM analysis, and power/thermal
+instrumentation before any material-processing claim is made.</p>
+<p>The target output is a programmable classical Floquet/vector beam:</p>
+<div class="math notranslate nohighlight">
+\[
+E_{\mathrm{out}}(x,t) = E_0[1+A_H(x,t)]
+\exp\!\left(i[\omega_0t+\phi_G(x,t)]\right),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_H\)</span> is an amplitude-mode control and <span class="math notranslate nohighlight">\(\phi_G\)</span> is a phase-mode control.
+The Faraday–Goldstone and photonic-time-crystal mechanisms can provide
+thresholded modulation, beating, sidebands, and spatial patterning; they do
+not make the field massive or non-diffracting.</p>
+<section id="application-ranking">
+<h3>Application ranking<a class="headerlink" href="#application-ranking" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Imaging: first target.</strong> Optimize <span class="math notranslate nohighlight">\(E_z/E_\perp\)</span>, focal intensity, phase,
+side lobes, and vectorial PSF/MTF under fixed aperture and power. Compare
+radial, azimuthal, linear, circular, and longitudinal-suppressed controls.</p></li>
+<li><p><strong>Nanolithography: second gate.</strong> Use the calibrated field to expose LIG,
+N-LIG, or a resist. Report feature width, HAZ, absorbed fluence, chemistry,
+yield, and throughput against ordinary Gaussian and dielectric controls.</p></li>
+<li><p><strong>Communications: reuse the source.</strong> Encode data in causal amplitude,
+phase, sideband, polarization, or OAM channels. Report BER, bandwidth,
+crosstalk, group delay, and information speed; phase-pattern speed is not
+signal speed.</p></li>
+<li><p><strong>Plasma yield optimization: process branch.</strong> Use amplitude-mode beating
+and sidebands to shape absorption and plasma density. Hold absorbed power,
+gas flow, pressure, temperature, and duty cycle fixed while measuring
+emission spectra, electron density, deposited mass, and energy yield.</p></li>
+</ol>
+<p>The rGO-vitrimer layer is best treated initially as a programmable amplitude/
+phase mask or active metasurface. A blue-bronze layer can serve as a separate
+charge-density-wave amplitude/phase medium, but an rGO/blue-bronze composite is
+only a material hypothesis until compatibility, loss, switching speed, thermal
+stability, and mode coupling are measured. LightSlinger-like distributed
+polarization-current mechanics are useful for directional beam synthesis and
+MIMO steering; they do not imply Proca emission or faster-than-light signaling.</p>
+<p>The finite evidence boundary is <code class="docutils literal notranslate"><span class="pre">LongitudinalBeamApplicationEvidence</span></code> in
+<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code></span></a>. It requires
+longitudinal probe calibration, an aperture-matched control, a
+longitudinal-suppression control, PSF/MTF residuals, side-lobe power, causal
+group and information speeds, absorbed/source-power accounting, replication,
+and a declared application outcome. Passing it demonstrates a useful classical
+structured-light source, not Flat Light or a Proca wave.</p>
+</section>
+</section>
+<section id="ns-gpe-ddf-and-eht-bridge">
+<h2>NS, GPE, DDF, and EHT Bridge<a class="headerlink" href="#ns-gpe-ddf-and-eht-bridge" title="Link to this heading">¶</a></h2>
+<p>The Madelung transform is a bridge from a complex order parameter to
+compressible hydrodynamic variables only where the wavefunction does not vanish
+and a phase convention is fixed. It does not derive GPE from Schwarzschild
+geometry. The resulting Euler–Korteweg model carries continuity, barotropic
+pressure, and quantum-pressure/Korteweg terms; a zero-density core is precisely
+where the phase-to-velocity reconstruction becomes singular.</p>
+<p>The DDF bridge is layered rather than a claim that one fluid is literally both
+compressible and incompressible at once:</p>
+<ol class="arabic simple">
+<li><p><strong>Compressible regime:</strong> retain density evolution, nonzero divergence, and
+any modeled sink/source term.</p></li>
+<li><p><strong>Low-Mach regime:</strong> use an effective-incompressible projection only when
+Mach number, divergence residual, and projection residual are within declared
+tolerances.</p></li>
+<li><p><strong>Shear-jammed regime:</strong> retain the DDF constitutive viscosity/jamming
+threshold as a model parameter and test whether the threshold is crossed.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">MadelungEulerKortewegBridge</span></code> fixes the phase convention and quantum-pressure
+coefficient; <code class="docutils literal notranslate"><span class="pre">NSDDFBridge</span></code> records the three regime labels and residual laws
+(<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>). <code class="docutils literal notranslate"><span class="pre">DDF.lean</span></code>
+supplies the separate substrate, moving-sheath, and river-flow model laws
+(<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>), while
+<a class="reference download internal" download="" href="_downloads/29b68d3520a80417954b9dddcc9eea18/HawkingRadiation.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals/HawkingRadiation.lean</span></code></span></a>
+and <a class="reference internal" href="grassmannian-hawking-radiation-decoding-paper.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">grassmannian-hawking-radiation-decoding-paper.md</span></code></span></a>
+formalize the four-quadrant (<code class="docutils literal notranslate"><span class="pre">Without/With</span> <span class="pre">DDF</span></code> <span class="math notranslate nohighlight">\(\times\)</span> <code class="docutils literal notranslate"><span class="pre">Without/With</span> <span class="pre">Splats</span></code>)
+horizon thermodynamics, Gordon acoustic metric, <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> unwinding, and
+<code class="docutils literal notranslate"><span class="pre">HawkingRadiationDecoding</span></code> boundary. None of these contracts proves that DDF
+describes physical spacetime.</p>
+<p>EHT data do not “show no Schwarzschild radius.” They measure sparse complex VLBI
+visibilities and reconstruct a bright emission ring with a central depression.
+For M87* the EHT reported a <span class="math notranslate nohighlight">\(42\pm3\,\mu\mathrm{as}\)</span> ring; for Sgr A* it
+reported a <span class="math notranslate nohighlight">\(51.8\pm2.3\,\mu\mathrm{as}\)</span> ring. The relation from ring diameter
+to shadow diameter and gravitational-radius scale is model/calibration
+dependent, including emission physics, spin, inclination, scattering, and
+variability (<a class="reference internal" href="#ehtm872019"><span class="xref myst">M87* EHT paper</span></a>, <a class="reference internal" href="#ehtsgr2022"><span class="xref myst">Sgr A* EHT paper</span></a>).
+Thus EHT is strong evidence for compact-object, lensed near-horizon emission
+consistent with Kerr/GR, while still being a model comparison rather than a
+direct pixel image of the event horizon or a ruler placed at <span class="math notranslate nohighlight">\(R_s\)</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">EHTShadowRingObservation</span></code> keeps the observed ring diameter, inferred shadow
+diameter, angular gravitational radius, Schwarzschild reference radius, and
+calibration residual separate (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>).</p>
+<p>The relevant production methods answer different experimental questions:</p>
+<ol class="arabic simple">
+<li><p><strong>Radial polarization plus high-NA focusing:</strong> radially polarized input
+fields converge toward the optical axis and can produce a strong focal
+<span class="math notranslate nohighlight">\(E_z\)</span> component (<a class="reference internal" href="#hao2007"><span class="xref myst">Hao and Leger 2007</span></a>, <a class="reference internal" href="#sato2009"><span class="xref myst">Sato and Kozawa
+2009</span></a>, <a class="reference internal" href="#winnerl2010"><span class="xref myst">Winnerl et al. 2010</span></a>). This is a vectorial
+focal field, not a free propagating longitudinal photon.</p></li>
+<li><p><strong>Azimuthal polarization:</strong> an important negative/control state that changes
+the focal field balance and can emphasize axial magnetic-field components.
+Grating couplers provide a classical generation route for azimuthal and
+radial states (<a class="reference internal" href="#doerr2011"><span class="xref myst">Doerr and Buhl 2011</span></a>).</p></li>
+<li><p><strong>Circular polarization:</strong> can produce an axial component under tight
+focusing, but generally retains transverse fields and aberration sensitivity;
+nonparaxial angular-momentum and Poynting-vector bookkeeping is required
+(<a class="reference internal" href="#prajapati2021"><span class="xref myst">Prajapati 2021</span></a>, <a class="reference internal" href="#biss2004"><span class="xref myst">Biss and Brown 2004</span></a>).</p></li>
+<li><p><strong>Helical/OAM and vector-vortex beams:</strong> q-plates, geometric-phase optics,
+and phase-only SLMs create <span class="math notranslate nohighlight">\(e^{i\ell\phi}\)</span> phase structure and spin-orbit
+states. OAM charge is a measurable optical mode property, not a photon mass;
+aberration and modified vector-field distributions remain classical controls
+(<a class="reference internal" href="#biss2004"><span class="xref myst">Biss and Brown 2004</span></a>, <a class="reference internal" href="#vectorbessel2018"><span class="xref myst">Vector Bessel beams</span></a>).</p></li>
+<li><p><strong>ENZ, hyperbolic, plasmonic, and evanescent structures:</strong> can produce
+high-<span class="math notranslate nohighlight">\(k\)</span> longitudinal near-fields, but loss, skin depth, boundary charge,
+and finite propagation length must be measured.</p></li>
+<li><p><strong>Longitudinal-suppression controls:</strong> vector-beam designs that eliminate
+the longitudinal electric component are valuable negative controls against
+detector, focusing, and scalar-intensity artifacts (<a class="reference internal" href="#stafeev2024a"><span class="xref myst">Stafeev and Kotlyar
+2024a</span></a>, <a class="reference internal" href="#stafeev2024b"><span class="xref myst">Stafeev and Kotlyar 2024b</span></a>).</p></li>
+</ol>
+<p>The chat discussions propose radial vector beams, q-plates, OAM/helical fields,
+and active metamaterial masks (<span class="xref myst">longitudinal CW chat</span>,
+<span class="xref myst">dielectric nanolaser chat</span>,
+<span class="xref myst">Airy/structured-beam chat</span>).
+These are hypothesis and apparatus discussions, not evidence for Proca waves.</p>
+</section>
+<section id="validation-apparatus-and-lower-power-cw-success">
+<h2>Validation Apparatus and Lower-Power CW Success<a class="headerlink" href="#validation-apparatus-and-lower-power-cw-success" title="Link to this heading">¶</a></h2>
+<p>Use a calibrated CW fiber or diode laser, beginning below a nominal 20 W ceiling
+and stepping power downward. The apparatus should include a beam expander,
+spatial filter, polarization cleanup, q-plate or geometric-phase optic, optional
+phase-only SLM, four-or-more-beam splitter, independently monitored phase
+shifters, wavefront sensor, Stokes polarimeter, power meters, and a target-plane
+camera or near-field probe. Compare radial, azimuthal, circular, linear, and
+helical/OAM states with identical aperture, power, wavelength, and focusing
+optics.</p>
+<p>Measure full Stokes polarization, vectorial focal field and <span class="math notranslate nohighlight">\(E_z/E_\perp\)</span>,
+OAM spectrum and charge fidelity, phase residual, alignment error, insertion
+loss, thermal drift, PSF, MTF, side-lobe power, propagation length, encircled
+energy, absorbed power, temperature, and any chemical endpoint.</p>
+<p>For the classical materials branch, benchmark the process window against LIG
+synthesis and sensor/application literature <span class="bibtex-citation" id="id14">[<a class="reference internal" href="references.html#id2" title="Zhengfen Wan, Erik W Streed, Mirko Lobino, Shujun Wang, Robert T Sang, Ivan S Cole, David V Thiel, and Qin Li. Laser-reduced graphene: synthesis, properties, and applications. Advanced Materials Technologies, 3(4):1700315, 2018. URL: https://doi.org/10.1002/admt.201700315.">Wan <em>et al.</em>, 2018</a>, <a class="reference internal" href="references.html#id9" title="Xiaohui Ye, Zhiyuan Yang, Xi Zheng, Hao Qiang, Miaomiao Wei, Yurong Li, Mengzhen Chen, and Nengneng Luo. A review on the laser-induced synthesis of graphene and its applications in sensors. Journal of Materials Science, 59(26):11644–11668, 2024. URL: https://doi.org/10.1007/s10853-024-09883-z.">Ye <em>et al.</em>, 2024</a>, <a class="reference internal" href="references.html#id12" title="Rui You, Yu-Qing Liu, Yi-Long Hao, Dong-Dong Han, Yong-Lai Zhang, and Zheng You. Laser fabrication of graphene-based flexible electronics. Advanced Materials, 32(15):1901981, 2020. URL: https://doi.org/10.1002/adma.201901981.">You <em>et al.</em>, 2020</a>, <a class="reference internal" href="references.html#id15" title="Hyeonwoo Kim and Young-Jin Kim. Wearable healthcare using laser-induced graphene. JMST Advances, 7(3):177–185, 2025. URL: https://doi.org/10.1007/s42791-025-00113-4.">Kim and Kim, 2025</a>]</span>. Use maskless and selective laser-processing work to define
+direct-write controls <span class="bibtex-citation" id="id15">[<a class="reference internal" href="references.html#id10" title="Ziyi Cheng, Zihan Zhong, Qisen Wang, Yuefeng Wu, Zhongzheng Li, Jiacong Guo, Yichen Fan, Yu Song, Yiwen Feng, Meisam Farajollahi, and others. Maskless photolithography for micro-and nanofabrication. Moore and More, 3(1):7, 2026. URL: https://doi.org/10.1007/s44275-026-00046-7, doi:10.1007/s44275-026-00046-7.">Cheng <em>et al.</em>, 2026</a>, <a class="reference internal" href="references.html#id11" title="Huijae Park, Jung Jae Park, Phuong-Danh Bui, Hyeokjun Yoon, Costas P Grigoropoulos, Daeho Lee, and Seung Hwan Ko. Laser-based selective material processing for next-generation additive manufacturing. Advanced Materials, 36(34):2307586, 2024. URL: https://doi.org/10.1002/adma.202307586.">Park <em>et al.</em>, 2024</a>]</span>, and use LIG diffractive optics as a classical pattern-
+transfer control <span class="bibtex-citation" id="id16">[<a class="reference internal" href="references.html#id14" title="Younggeun Lee, Mun Ji Low, Dongwook Yang, Han Ku Nam, Truong-Son Dinh Le, Seung Eon Lee, Hyogeun Han, Seunghwan Kim, Quang Huy Vu, Hongki Yoo, and others. Ultra-thin light-weight laser-induced-graphene (lig) diffractive optics. Light: Science &amp; Applications, 12(1):146, 2023. URL: https://doi.org/10.1038/s41377-023-01143-0.">Lee <em>et al.</em>, 2023</a>]</span>. Optical modification of 2D
+materials can inform exposure and characterization variables <span class="bibtex-citation" id="id17">[<a class="reference internal" href="references.html#id19" title="Suvi-Tuuli Marianne Akkanen, Henry Alexander Fernandez, and Zhipei Sun. Optical modification of 2d materials: methods and applications. Advanced Materials, 34(19):2110152, 2022. URL: https://doi.org/10.1002/adma.202110152.">Akkanen <em>et al.</em>, 2022</a>]</span>; it is not evidence of a Proca coupling.</p>
+<p>The first engineering success can be lower-power CW graphene-on-lignin
+processing. A result is successful if graphene formation, sheet resistance,
+pattern continuity, heat-affected zone, yield, and throughput meet preregistered
+thresholds across independent batches. Multi-beam convergence may improve dose
+uniformity or throughput at fixed total power, but it cannot create energy or
+replace absorbed-power accounting.</p>
+<p>Biomass-to-nanodiamond laser writing is a useful negative material control for
+interpreting laser-driven carbon transformation <span class="bibtex-citation" id="id18">[<a class="reference internal" href="references.html#id16" title="Yan Lin, Qijun Zhang, Yongjun Deng, Kuizhong Shen, Kaimeng Xu, Yongchao Yu, Siqun Wang, and Guigan Fang. Fabricating nanodiamonds from biomass by direct laser writing under ambient conditions. ACS Sustainable Chemistry &amp; Engineering, 9(8):3112–3123, 2021. URL: https://doi.org/10.1021/acssuschemeng.0c07607.">Lin <em>et al.</em>, 2021</a>, <a class="reference internal" href="references.html#id17" title="Pratik Joshi, Parand Riley, Siddharth Gupta, Roger J Narayan, and Jagdish Narayan. Advances in laser-assisted conversion of polymeric and graphitic carbon into nanodiamond films. Nanotechnology, 32(43):432001, 2021. URL: https://doi.org/10.1088/1361-6528/ac1097.">Joshi <em>et al.</em>, 2021</a>]</span>. Its chemistry, thermal history, and phase
+identity must remain distinct from N-LIG formation and from any proposed
+phase-slip cleavage.</p>
+</section>
+<section id="sub-nanometer-1-text-nm-convergent-nanoimaging-lifu-aot-true-sub-surface-focusing-and-lvpprocaimaginghypothesis-boundaries">
+<h2>Sub-Nanometer (<span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span>) Convergent Nanoimaging, <code class="docutils literal notranslate"><span class="pre">LIFU</span></code>/<code class="docutils literal notranslate"><span class="pre">AOT</span></code>/<code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Sub-Surface Focusing, and <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code> Boundaries<a class="headerlink" href="#sub-nanometer-1-text-nm-convergent-nanoimaging-lifu-aot-true-sub-surface-focusing-and-lvpprocaimaginghypothesis-boundaries" title="Link to this heading">¶</a></h2>
+<p>In <a class="reference download internal" download="" href="_downloads/8a1ca10f994550b6ae80814e20d38392/MultiArrayImaging.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.MultiArrayImaging</span></code></span></a> and the companion paper <a class="reference internal" href="grassmannian-multispectral-hubble-medical-nanoimaging-paper.html"><span class="std std-doc">grassmannian-multispectral-hubble-medical-nanoimaging-paper.md</span></a>, we establish the formal boundary between <strong>verified classical sub-surface and sub-nanometer optical/acoustic-optical methods</strong> and <strong>Pending Proca phase-contrast / Flat-Light claims</strong> (<code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code>, <code class="docutils literal notranslate"><span class="pre">MultiModalSubSurfaceImagingHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code></span></a>):</p>
+<ol class="arabic simple">
+<li><p><strong>Verified Sub-Nanometer (<span class="math notranslate nohighlight">\(&lt; 1\text{ nm}\)</span>) Convergent Longitudinal &amp; Transverse Nanoimaging (<code class="docutils literal notranslate"><span class="pre">cascadedNanoImagingLinewidthSq</span></code>, <code class="docutils literal notranslate"><span class="pre">homodyneSubNanometerLocalizationSq</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Without invoking infinite photon effective mass or Proca fields, combining a <span class="math notranslate nohighlight">\(405\text{ nm}\)</span> high-NA radially polarized longitudinal write beam (<span class="math notranslate nohighlight">\(E_z = 2 E_0 \sin\theta\)</span>) with a coaxial <span class="math notranslate nohighlight">\(532\text{ nm}\)</span> helical doughnut STED depletion beam (<span class="math notranslate nohighlight">\(\sigma\cdot\ell = +1\)</span>, <span class="math notranslate nohighlight">\(\zeta_{532} = 63\)</span>) compresses the squared spot width from the Abbe limit <span class="math notranslate nohighlight">\((2025/14\text{ nm})^2 \approx (144.64\text{ nm})^2\)</span> down to <span class="math notranslate nohighlight">\((2025/112\text{ nm})^2 \approx (18.08\text{ nm})^2 &lt; (20\text{ nm})^2\)</span> (<code class="docutils literal notranslate"><span class="pre">stedDepletedLinewidthSq</span></code>).</p></li>
+<li><p>Tracking the interferometric phase slope across that <span class="math notranslate nohighlight">\(18.08\text{ nm}\)</span> spot via balanced homodyne readout (<code class="docutils literal notranslate"><span class="pre">Signals.Homodyne</span></code>) at amplitude <span class="math notranslate nohighlight">\(\mathrm{SNR}_{\mathrm{amp}} = 30\)</span> achieves sub-nanometer centroid localization <span class="math notranslate nohighlight">\(\sigma_{\mathrm{loc}} = \frac{135}{224}\text{ nm} \approx 0.603\text{ nm} &lt; 1\text{ nm}\)</span>.</p></li>
+<li><p>Coupling the convergent longitudinal wave into a high-effective-index hyperbolic/SPP metamaterial nanolaminate (<code class="docutils literal notranslate"><span class="pre">rGO-polyCBD-SS-Lignin</span></code>) with <span class="math notranslate nohighlight">\(M_{\mathrm{harm}}\)</span>-harmonic multiphoton thresholding and STED saturation <span class="math notranslate nohighlight">\(\zeta_{\mathrm{STED}}\)</span> compresses the physical feature linewidth (<code class="docutils literal notranslate"><span class="pre">cascadedNanoImagingLinewidthSq</span></code>) to <strong><span class="math notranslate nohighlight">\(0.75\text{ nm}\)</span></strong> (<span class="math notranslate nohighlight">\(n_{\mathrm{eff}} = 15, M_{\mathrm{harm}} = 2, \zeta_{\mathrm{STED}} = 80\)</span>) and <strong><span class="math notranslate nohighlight">\(0.50\text{ nm} = 5\text{ \AA} &lt; 1\text{ nm}\)</span></strong> (<span class="math notranslate nohighlight">\(n_{\mathrm{eff}} = 13.5, M_{\mathrm{harm}} = 3, \zeta_{\mathrm{STED}} = 99\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Verified Sub-Surface Focusing in Scattering Media via <code class="docutils literal notranslate"><span class="pre">LIFU</span></code>, <code class="docutils literal notranslate"><span class="pre">AOT</span></code>, and <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> Phase Conjugation</strong>:</p>
+<ul class="simple">
+<li><p>In turbid biological tissue or opaque polymer/vitrimer precursors, classical <strong>Low-Intensity Focused Ultrasound (<code class="docutils literal notranslate"><span class="pre">LIFU</span></code>)</strong> (<span class="math notranslate nohighlight">\(f_{\mathrm{US}} = 1.54\text{ MHz}\)</span>, <span class="math notranslate nohighlight">\(\lambda_{\mathrm{US}} = 1\text{ mm}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{MI}^2 = 18/77 &lt; 1.9^2\)</span>), <strong>Acousto-Optic Tomography (<code class="docutils literal notranslate"><span class="pre">AOT</span></code>)</strong> sideband tagging (<span class="math notranslate nohighlight">\(\omega_{\pm 1} = \omega_0 \pm \omega_{\mathrm{US}}\)</span> read out on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> via <span class="math notranslate nohighlight">\(\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}\)</span>), and <strong>Time-Reversed Ultrasonically Encoded (<code class="docutils literal notranslate"><span class="pre">TRUE</span></code>)</strong> optical focusing (<span class="math notranslate nohighlight">\(\eta_{\mathrm{TRUE}}(N_{\mathrm{modes}}) = \frac{\pi}{4}(N_{\mathrm{modes}}-1)+1 &gt; 1\)</span>, iterative <code class="docutils literal notranslate"><span class="pre">DORT</span></code> variance compression <span class="math notranslate nohighlight">\(\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m\)</span>) provide a calibrated, non-ionizing sub-surface focusing benchmark (<a class="reference internal" href="#xu2011true_flat"><span class="xref myst">Xu, Liu, &amp; Wang 2011</span></a>).</p></li>
+</ul>
+</li>
+<li><p><strong>Strict Pending Isolation of <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code></strong>:</p>
+<ul class="simple">
+<li><p>High-<span class="math notranslate nohighlight">\(Z\)</span> <code class="docutils literal notranslate"><span class="pre">LVP</span></code> direct-conversion X-ray arrays (<code class="docutils literal notranslate"><span class="pre">LVPDirectConversionImaging</span></code>) provide a verified classical <span class="math notranslate nohighlight">\(292/45 \approx 6.49\times\)</span> charge-yield improvement and <span class="math notranslate nohighlight">\(16\times\)</span> stopping-efficiency gain over silicon (<code class="docutils literal notranslate"><span class="pre">directConversionChargeYield</span></code>), whereas the chat’s proposed <span class="math notranslate nohighlight">\(0.1\text{–}0.5\text{ \AA}\)</span> whole-body Proca phase-contrast scanner (<span class="xref myst">IQ-Sampling-for-Signal-Phase.md, lines 5902–6140</span>) remains isolated inside <code class="docutils literal notranslate"><span class="pre">LVPProcaImagingHypothesis</span></code> and <code class="docutils literal notranslate"><span class="pre">MultiModalSubSurfaceImagingHypothesis</span></code> until massless Maxwell controls (<code class="docutils literal notranslate"><span class="pre">masslessControlResidual</span> <span class="pre">≤</span> <span class="pre">masslessControlTolerance</span></code>), phantom MTF/NPS calibration, and acoustic/thermal safety bounds are experimentally satisfied.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<section id="chat-provenance">
+<h3>Chat Provenance<a class="headerlink" href="#chat-provenance" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a id="iq_chat2026"></a><strong>Lignolux Conversational Record 2026</strong>: “IQ-Sampling-for-Signal-Phase.” Outlines the Anti-Fire Cannon and Flat Light proposals. Available in <code class="docutils literal notranslate"><span class="pre">docs/chats/IQ-Sampling-for-Signal-Phase.myst.md</span></code>.</p></li>
+<li><p><a id="navier_stokes_ftle_sqg_chat2026"></a><strong>Navier–Stokes, FTLE, and SQG</strong>: compressible-fluid, fracture, phase-slip, homodyne, and Madelung/Euler–Korteweg discussion. Source: <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md</span></code></span>.</p></li>
+<li><p><a id="superfluid_hawking_chat2026"></a><strong>Superfluid Quantum Gravity and Hawking Radiation</strong>: fracture-state, transformation-toughening, homodyne inverse-transform, and analog-fluid proposals. Source: <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md</span></code></span>, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">#L241-L265</span></code></span>.</p></li>
+<li><p><a id="popiii_gw_chat2026"></a><strong>Review: Population III GW Remnants</strong>: ET/CE simulation review, DDF tail proposal, and Schur-conditioning discussion. Source: <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">data/chats/Review-Pop-III-GW-Remnants.md</span></code></span>, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">#L398-L570</span></code></span>.</p></li>
+</ul>
+</section>
+<section id="scholarly-references">
+<h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a id="ehtm872019"></a>Event Horizon Telescope Collaboration et al., “First M87 Event Horizon Telescope Results. I. The Shadow of the Supermassive Black Hole,” <em>The Astrophysical Journal Letters</em> 875, L1 (2019), DOI <a class="reference external" href="https://doi.org/10.3847/2041-8213/ab0ec7"><code class="docutils literal notranslate"><span class="pre">10.3847/2041-8213/ab0ec7</span></code></a>. The reported ring is an emission/lensing observable calibrated against GRMHD and metric models.</p></li>
+<li><p><a id="ehtsgr2022"></a>Event Horizon Telescope Collaboration et al., “First Sagittarius A* Event Horizon Telescope Results. I. The Shadow of the Supermassive Black Hole in the Center of the Milky Way,” <em>The Astrophysical Journal Letters</em> 930, L12 (2022), DOI <a class="reference external" href="https://doi.org/10.3847/2041-8213/ac6674"><code class="docutils literal notranslate"><span class="pre">10.3847/2041-8213/ac6674</span></code></a>. The reported ring and central depression are model-comparison observables, not direct horizon pixels.</p></li>
+<li><p><a id="kaplan2026"></a>Kaplan, D., Volkov, P. A., Cavalleri, A., and Chandra, P., “Optically induced Faraday-Goldstone waves,” <em>Proceedings of the National Academy of Sciences</em> 123(35), e2535297123 (2026), DOI <a class="reference external" href="https://doi.org/10.1073/pnas.2535297123"><code class="docutils literal notranslate"><span class="pre">10.1073/pnas.2535297123</span></code></a>. Experimental/model comparison in a driven quantum material; not evidence of Proca propagation.</p></li>
+<li><p><a id="kiselev2025"></a>Kiselev, E. I. and Pan, Y., “Symmetry breaking and spatiotemporal pattern formation in photonic time crystals,” <em>Physical Review A</em> 111, 053509 (2025), DOI <a class="reference external" href="https://doi.org/10.1103/PhysRevA.111.053509"><code class="docutils literal notranslate"><span class="pre">10.1103/PhysRevA.111.053509</span></code></a>. Theoretical 2+1D time-varying Kerr-medium model; not evidence of a realized photon mass or Flat Light.</p></li>
+<li><p><a id="krishnendu2026"></a>Krishnendu, N. V., Schmidt, P., and Pratten, G., “Prospects for characterizing Population III remnants with next-generation gravitational-wave observatories,” arXiv:2608.05846 (2026), <a class="reference external" href="https://arxiv.org/abs/2608.05846">https://arxiv.org/abs/2608.05846</a>. Simulation-method reference; reported values require verification against the paper and are not an observed-event result.</p></li>
+<li><p><a id="hao2007"></a>Hao and Leger, “Experimental measurement of longitudinal component in the vicinity of focused radially polarized beam,” <em>Optics Express</em> (2007), DOI <a class="reference external" href="https://doi.org/10.1364/OE.15.003550"><code class="docutils literal notranslate"><span class="pre">10.1364/OE.15.003550</span></code></a>.</p></li>
+<li><p><a id="doerr2011"></a>Doerr and Buhl, “Circular grating coupler for creating focused azimuthally and radially polarized beams,” <em>Optics Letters</em> (2011), DOI <a class="reference external" href="https://doi.org/10.1364/OL.36.001209"><code class="docutils literal notranslate"><span class="pre">10.1364/OL.36.001209</span></code></a>.</p></li>
+<li><p><a id="biss2004"></a>Biss and Brown, “Primary aberrations in focused radially polarized vortex beams,” <em>Optics Express</em> (2004), DOI <a class="reference external" href="https://doi.org/10.1364/OPEX.12.000384"><code class="docutils literal notranslate"><span class="pre">10.1364/OPEX.12.000384</span></code></a>.</p></li>
+<li><p><a id="prajapati2021"></a>Prajapati, “Study of electric field vector, angular momentum conservation and Poynting vector of nonparaxial beams,” <em>Journal of Optics</em> (2021), DOI <a class="reference external" href="https://doi.org/10.1088/2040-8986/abe1cc"><code class="docutils literal notranslate"><span class="pre">10.1088/2040-8986/abe1cc</span></code></a>.</p></li>
+<li><p><a id="sato2009"></a>Sato and Kozawa, “Spatial Resolution for Fluorescence Depletion Microscopy Using Axial Electric Field Generated by Focused Radially Polarized Beams” (2009), DOI <a class="reference external" href="https://doi.org/10.1364/NTM.2009.NMA3"><code class="docutils literal notranslate"><span class="pre">10.1364/NTM.2009.NMA3</span></code></a>.</p></li>
+<li><p><a id="winnerl2010"></a>Winnerl, Hubrich, Peter, Schneider, and Helm, “Longitudinal fields in focused radially polarized terahertz beams” (2010), DOI <a class="reference external" href="https://doi.org/10.1109/ICIMW.2010.5613048"><code class="docutils literal notranslate"><span class="pre">10.1109/ICIMW.2010.5613048</span></code></a>.</p></li>
+<li><p><a id="stafeev2024a"></a>Stafeev and Kotlyar, “Tight Focusing of Vector Beams without Longitudinal Component of the Electric Field” (2024), DOI <a class="reference external" href="https://doi.org/10.1109/PIERS62282.2024.10617865"><code class="docutils literal notranslate"><span class="pre">10.1109/PIERS62282.2024.10617865</span></code></a>.</p></li>
+<li><p><a id="stafeev2024b"></a>Stafeev and Kotlyar, “Sharp Focusing of Vector Beams Which Do Not Contain Longitudinal Component of the Electric Field” (2024), DOI <a class="reference external" href="https://doi.org/10.3103/S1060992X24700590"><code class="docutils literal notranslate"><span class="pre">10.3103/S1060992X24700590</span></code></a>.</p></li>
+<li><p><a id="vectorbessel2018"></a>“Vector Bessel Beams with Modified Field Distribution,” <em>Journal of Laser Micro/Nanoengineering</em> (2018), DOI <a class="reference external" href="https://doi.org/10.2961/JLMN.2018.03.0013"><code class="docutils literal notranslate"><span class="pre">10.2961/JLMN.2018.03.0013</span></code></a>.</p></li>
+<li><p><a id="wan2018"></a>Wan et al., “Laser-reduced graphene: synthesis, properties, and applications,” <em>Advanced Materials Technologies</em> 3, 1700315 (2018), DOI <a class="reference external" href="https://doi.org/10.1002/admt.201700315"><code class="docutils literal notranslate"><span class="pre">10.1002/admt.201700315</span></code></a>.</p></li>
+<li><p><a id="mahmood2020"></a>Mahmood, F. et al., “Laser-Induced Graphene Derived from Kraft Lignin for Flexible Supercapacitors,” <em>ACS Omega</em> 5(24), 14611–14618 (2020), DOI <a class="reference external" href="https://doi.org/10.1021/acsomega.0c01293"><code class="docutils literal notranslate"><span class="pre">10.1021/acsomega.0c01293</span></code></a>. Direct-laser-writing lignin/LIG material precedent.</p></li>
+<li><p><a id="ye2017"></a>Ye, R. et al., “Laser-Induced Graphene Formation on Wood,” <em>Advanced Materials</em> 29(37), 1702211 (2017), DOI <a class="reference external" href="https://doi.org/10.1002/adma.201702211"><code class="docutils literal notranslate"><span class="pre">10.1002/adma.201702211</span></code></a>. CO2-laser wood/graphene precedent; not Proca or athermal evidence.</p></li>
+<li><p><a id="ghavipanjeh2024"></a>Ghavipanjeh, A. and Sadeghzadeh, S., “Simulation and experimental evaluation of laser-induced graphene on the cellulose and lignin substrates,” <em>Scientific Reports</em> 14, 4475 (2024), DOI <a class="reference external" href="https://doi.org/10.1038/s41598-024-54982-1"><code class="docutils literal notranslate"><span class="pre">10.1038/s41598-024-54982-1</span></code></a>. Explicitly discusses CO2-laser conversion, gas release, porosity, and defects.</p></li>
+<li><p><a id="zhang2024"></a>Zhang, H. et al., “Probing laser-induced structural transformation of lignin into few-layer graphene,” <em>Green Chemistry</em> 26(10), 5921–5932 (2024), DOI <a class="reference external" href="https://doi.org/10.1039/d3gc03603k"><code class="docutils literal notranslate"><span class="pre">10.1039/d3gc03603k</span></code></a>. Experimental and molecular-dynamics graphitization study.</p></li>
+<li><p><a id="meng2022"></a>Meng, L. et al., “A green route for lignin-derived graphene electrodes: A disposable platform for electrochemical biosensors,” <em>Biosensors and Bioelectronics</em> 218, 114742 (2022), DOI <a class="reference external" href="https://doi.org/10.1016/j.bios.2022.114742"><code class="docutils literal notranslate"><span class="pre">10.1016/j.bios.2022.114742</span></code></a>. Sequential laser-lithography and post-treatment precedent.</p></li>
+<li><p><a id="yang2024"></a>Yang, S. et al., “Low-Defect Laser-Induced Graphene from Lignin for Smart Triboelectric Touch Sensors,” <em>ACS Applied Nano Materials</em> (2024), DOI <a class="reference external" href="https://doi.org/10.1021/acsanm.4c05362"><code class="docutils literal notranslate"><span class="pre">10.1021/acsanm.4c05362</span></code></a>. Low-defect lignin-LIG endpoint precedent.</p></li>
+<li><p><a id="ye2024"></a>Ye et al., “A review on the laser-induced synthesis of graphene and its applications in sensors,” <em>Journal of Materials Science</em> 59, 11644-11668 (2024), DOI <a class="reference external" href="https://doi.org/10.1007/s10853-024-09883-z"><code class="docutils literal notranslate"><span class="pre">10.1007/s10853-024-09883-z</span></code></a>.</p></li>
+<li><p><a id="cheng2026"></a>Cheng et al., “Maskless photolithography for micro- and nanofabrication,” <em>Moore and More</em> 3, 7 (2026), DOI <a class="reference external" href="https://doi.org/10.1007/s44275-026-00046-7"><code class="docutils literal notranslate"><span class="pre">10.1007/s44275-026-00046-7</span></code></a>.</p></li>
+<li><p><a id="park2024"></a>Park et al., “Laser-based selective material processing for next-generation additive manufacturing,” <em>Advanced Materials</em> 36, 2307586 (2024), DOI <a class="reference external" href="https://doi.org/10.1002/adma.202307586"><code class="docutils literal notranslate"><span class="pre">10.1002/adma.202307586</span></code></a>.</p></li>
+<li><p><a id="you2020"></a>You et al., “Laser fabrication of graphene-based flexible electronics,” <em>Advanced Materials</em> 32, 1901981 (2020), DOI <a class="reference external" href="https://doi.org/10.1002/adma.201901981"><code class="docutils literal notranslate"><span class="pre">10.1002/adma.201901981</span></code></a>.</p></li>
+<li><p><a id="claro2022"></a>Claro et al., “Sustainable carbon sources for green laser-induced graphene: A perspective on fundamental principles, applications, and challenges,” <em>Applied Physics Reviews</em> 9 (2022), DOI <a class="reference external" href="https://doi.org/10.1063/5.0100785"><code class="docutils literal notranslate"><span class="pre">10.1063/5.0100785</span></code></a>.</p></li>
+<li><p><a id="lee2023"></a>Lee et al., “Ultra-thin light-weight laser-induced-graphene (LIG) diffractive optics,” <em>Light: Science &amp; Applications</em> 12, 146 (2023), DOI <a class="reference external" href="https://doi.org/10.1038/s41377-023-01143-0"><code class="docutils literal notranslate"><span class="pre">10.1038/s41377-023-01143-0</span></code></a>.</p></li>
+<li><p><a id="kim2025"></a>Kim and Kim, “Wearable healthcare using laser-induced graphene,” <em>JMST Advances</em> 7, 177-185 (2025), DOI <a class="reference external" href="https://doi.org/10.1007/s42791-025-00113-4"><code class="docutils literal notranslate"><span class="pre">10.1007/s42791-025-00113-4</span></code></a>.</p></li>
+<li><p><a id="lin2021"></a>Lin et al., “Fabricating nanodiamonds from biomass by direct laser writing under ambient conditions,” <em>ACS Sustainable Chemistry &amp; Engineering</em> 9, 3112-3123 (2021), DOI <a class="reference external" href="https://doi.org/10.1021/acssuschemeng.0c07607"><code class="docutils literal notranslate"><span class="pre">10.1021/acssuschemeng.0c07607</span></code></a>.</p></li>
+<li><p><a id="joshi2021"></a>Joshi et al., “Advances in laser-assisted conversion of polymeric and graphitic carbon into nanodiamond films,” <em>Nanotechnology</em> 32, 432001 (2021), DOI <a class="reference external" href="https://doi.org/10.1088/1361-6528/ac1097"><code class="docutils literal notranslate"><span class="pre">10.1088/1361-6528/ac1097</span></code></a>.</p></li>
+<li><p><a id="morais2026"></a>Morais et al., “Investigating planar Proca metamaterials in nonlinear (2+1)-Electrodynamics,” arXiv:2607.23013 (2026), <a class="reference external" href="https://arxiv.org/abs/2607.23013">arXiv:2607.23013</a>. Theory/model reference only.</p></li>
+<li><p><a id="akkanen2022"></a>Akkanen, Fernandez, and Sun, “Optical modification of 2D materials: methods and applications,” <em>Advanced Materials</em> 34, 2110152 (2022), DOI <a class="reference external" href="https://doi.org/10.1002/adma.202110152"><code class="docutils literal notranslate"><span class="pre">10.1002/adma.202110152</span></code></a>.</p></li>
+<li><p><a id="mikki2021"></a>Mikki, “Proca metamaterials, massive electromagnetism, and spatial dispersion,” <em>Annalen der Physik</em> 533, 2000625 (2021), DOI <a class="reference external" href="https://doi.org/10.1002/andp.202000625"><code class="docutils literal notranslate"><span class="pre">10.1002/andp.202000625</span></code></a>. Theory/model reference only.</p></li>
+<li><p><a id="xu2011true_flat"></a>Xu, X., Liu, H., and Wang, L. V., “Time-reversed ultrasonically encoded optical focusing into scattering media,” <em>Nature Photonics</em> 5(3), 154–157 (2011), DOI <a class="reference external" href="https://doi.org/10.1038/nphoton.2010.306"><code class="docutils literal notranslate"><span class="pre">10.1038/nphoton.2010.306</span></code></a>. Classical acousto-optic tagging and time-reversal sub-surface focusing benchmark.</p></li>
+</ul>
+</section>
+</section>
+<section id="metadata-citations">
+<h2>Metadata &amp; Citations<a class="headerlink" href="#metadata-citations" title="Link to this heading">¶</a></h2>
+<p><strong>BibTeX</strong></p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_iq_sampling_flatlight</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Wes Turner, Gemini}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{IQ-Sampling-for-Signal-Phase and Flat Light Lithography}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: docs/chats/IQ-Sampling-for-Signal-Phase.myst.md}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_navier_stokes_ftle_sqg_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Wes Turner, Gemini}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Navier-Stokes Breakthrough, FTLE, and SQG}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md, lines 520-756}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_superfluid_hawking_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Wes Turner, Gemini}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Superfluid Quantum Gravity and Hawking Radiation}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md, lines 46-74 and 241-265}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_popiii_gw_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Wes Turner, Gemini}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Review: Population III Gravitational-Wave Remnants}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Review-Pop-III-GW-Remnants.md, lines 43-83 and 398-570}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">kaplan2026faradaygoldstone</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Kaplan, Daniel and Volkov, Pavel A. and Cavalleri, Andrea and Chandra, Premala}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Optically induced Faraday-Goldstone waves}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">{Proceedings of the National Academy of Sciences}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{123}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{35}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{e2535297123}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1073/pnas.2535297123}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1073/pnas.2535297123}</span>
+<span class="p">}</span>
+
+<span class="nc">@article</span><span class="p">{</span><span class="nl">kiselev2025photonic</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Kiselev, Egor I. and Pan, Yiming}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Symmetry breaking and spatiotemporal pattern formation in photonic time crystals}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">{Physical Review A}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{111}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{053509}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{10.1103/PhysRevA.111.053509}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.1103/PhysRevA.111.053509}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>JSON-LD (<a class="reference external" href="http://schema.org">schema.org</a>)</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Flat Light and N-LIG Waveguides for Nanolithography"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"docs/chats/IQ-Sampling-for-Signal-Phase.myst.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/chats/Review-Pop-III-GW-Remnants.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/proof_of_cw_and_lignin_and_holography.bib"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"https://arxiv.org/abs/2608.05846"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"https://doi.org/10.1073/pnas.2535297123"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"https://doi.org/10.1103/PhysRevA.111.053509"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"https://doi.org/10.3847/2041-8205/ab0ec7"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"https://doi.org/10.3847/2041-8205/ac6674"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"nanolithography"</span><span class="p">,</span><span class="w"> </span><span class="s2">"flat light"</span><span class="p">,</span><span class="w"> </span><span class="s2">"N-LIG"</span><span class="p">,</span><span class="w"> </span><span class="s2">"laser-induced graphene"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Proca metamaterials"</span><span class="p">,</span><span class="w"> </span><span class="s2">"rGO vitrimer mask"</span><span class="p">,</span><span class="w"> </span><span class="s2">"vector beams"</span><span class="p">,</span><span class="w"> </span><span class="s2">"longitudinal near-fields"</span><span class="p">,</span><span class="w"> </span><span class="s2">"OAM"</span><span class="p">,</span><span class="w"> </span><span class="s2">"classical laser processing"</span><span class="p">,</span><span class="w"> </span><span class="s2">"superfluid analog gravity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hawking-like decoding bookkeeping"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Population III gravitational-wave simulations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"DDF wave-tail diagnostics"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Faraday-Goldstone waves"</span><span class="p">,</span><span class="w"> </span><span class="s2">"photonic time crystals"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Kerr parametric pattern formation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"acoustic crackle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"phase-slip cores"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Euler-Korteweg diagnostics"</span><span class="p">,</span><span class="w"> </span><span class="s2">"homodyne quadrature calibration"</span><span class="p">,</span><span class="w"> </span><span class="s2">"EHT ring and shadow observables"</span><span class="p">,</span><span class="w"> </span><span class="s2">"metric-model comparison"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-19"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="signals-blueprint.html" title="Signals Lean Blueprint" >previous</a></li>
+        <li><a href="longitudinal-wave-polycbd-upt-dff-evidence.html" title="Longitudinal Fields, PolyCBD Waveguides, UPT, and DDF Shear-Jamming" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

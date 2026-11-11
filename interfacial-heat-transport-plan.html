@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Solving Discovered Materials Problem 05 (Predicting Heat Transport across Solid Interfaces) via Unified Grassmannian Mechanics &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): Grassmannian Thermal Boundary Conductance (G-TBC), Bond-Stiffness Plücker Transmission, Anharmonic \(\mathrm{Gr}_{\mathbb{C}}(2,5)\) Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in Lean 4, Python, and Rust" href="grassmannian-interfacial-heat-transport-paper.html" />
+    <link rel="prev" title="Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (G-GKBA) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, \(\mathrm{WSe}_2\), Graphite, and \(\mathrm{MgB}_2\) in Lean 4, Python, and Rust" href="grassmannian-tuning-materials-with-light-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Solving Discovered Materials Problem 05 (<em>Predicting Heat Transport across Solid Interfaces</em>) via Unified Grassmannian Mechanics</a><ul>
+<li><a class="reference internal" href="#executive-summary-theoretical-synthesis">1. Executive Summary &amp; Theoretical Synthesis</a></li>
+<li><a class="reference internal" href="#staged-execution-plan-across-the-three-required-datasets-hidden-transfer-benchmarks">2. Staged Execution Plan Across the Three Required Datasets &amp; Hidden Transfer Benchmarks</a><ul>
+<li><a class="reference internal" href="#phase-1-mathematical-formalization-in-lean-4-signals-dft-section-15-signals-pending-section-33">Phase 1: Mathematical Formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 15 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 33)</a></li>
+<li><a class="reference internal" href="#phase-2-rust-wasm-python-numerical-implementation-transferability-benchmarks">Phase 2: Rust/WASM &amp; Python Numerical Implementation &amp; Transferability Benchmarks</a></li>
+<li><a class="reference internal" href="#phase-3-myst-paper-unification-integration-build-verification">Phase 3: MyST Paper, Unification Integration, &amp; Build Verification</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#critique-gap-closure-per-dataset-g-tbc-error-summary">3. Critique, Gap Closure, &amp; Per-Dataset <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> Error Summary</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-tuning-materials-with-light-paper.html" title="Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (G-GKBA) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, \(\mathrm{WSe}_2\), Graphite, and \(\mathrm{MgB}_2\) in Lean 4, Python, and Rust" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-interfacial-heat-transport-paper.html" title="Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): Grassmannian Thermal Boundary Conductance (G-TBC), Bond-Stiffness Plücker Transmission, Anharmonic \(\mathrm{Gr}_{\mathbb{C}}(2,5)\) Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in Lean 4, Python, and Rust" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/interfacial-heat-transport-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Solving Discovered Materials Problem 05 (<em>Predicting Heat Transport across Solid Interfaces</em>) via Unified Grassmannian Mechanics</a><ul>
+<li><a class="reference internal" href="#executive-summary-theoretical-synthesis">1. Executive Summary &amp; Theoretical Synthesis</a></li>
+<li><a class="reference internal" href="#staged-execution-plan-across-the-three-required-datasets-hidden-transfer-benchmarks">2. Staged Execution Plan Across the Three Required Datasets &amp; Hidden Transfer Benchmarks</a><ul>
+<li><a class="reference internal" href="#phase-1-mathematical-formalization-in-lean-4-signals-dft-section-15-signals-pending-section-33">Phase 1: Mathematical Formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 15 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 33)</a></li>
+<li><a class="reference internal" href="#phase-2-rust-wasm-python-numerical-implementation-transferability-benchmarks">Phase 2: Rust/WASM &amp; Python Numerical Implementation &amp; Transferability Benchmarks</a></li>
+<li><a class="reference internal" href="#phase-3-myst-paper-unification-integration-build-verification">Phase 3: MyST Paper, Unification Integration, &amp; Build Verification</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#critique-gap-closure-per-dataset-g-tbc-error-summary">3. Critique, Gap Closure, &amp; Per-Dataset <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> Error Summary</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-tuning-materials-with-light-paper.html"
+                          title="previous chapter">Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span>, Graphite, and <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span> in Lean 4, Python, and Rust</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-interfacial-heat-transport-paper.html"
+                          title="next chapter">Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): Grassmannian Thermal Boundary Conductance (<code class="docutils literal notranslate"><span class="pre">G-TBC</span></code>), Bond-Stiffness Plücker Transmission, Anharmonic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,5)\)</span> Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in Lean 4, Python, and Rust</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/interfacial-heat-transport-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-solving-discovered-materials-problem-05-predicting-heat-transport-across-solid-interfaces-via-unified-grassmannian-mechanics">
+<span id="interfacial-heat-transport-plan"></span><h1>Written Plan: Solving Discovered Materials Problem 05 (<em>Predicting Heat Transport across Solid Interfaces</em>) via Unified Grassmannian Mechanics<a class="headerlink" href="#written-plan-solving-discovered-materials-problem-05-predicting-heat-transport-across-solid-interfaces-via-unified-grassmannian-mechanics" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Target Challenge</strong>: <a class="reference external" href="https://discoveredmaterials.com/grand-challenges/interfacial-heat-transport/">Discovered Materials — Problem 05: Predicting Heat Transport across Solid Interfaces</a> (<span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id73" title="Discovered Materials and Andrew Kummel. Predicting heat transport across solid interfaces — Discovered Materials grand challenge problem 05. https://discoveredmaterials.com/grand-challenges/interfacial-heat-transport/, 2026. Accessed November 2026.">Discovered Materials and Kummel, 2026</a>]</span>, written with inputs from Prof. Andrew Kummel, UC San Diego)</p></li>
+<li><p><strong>Companion Paper</strong>: <a class="reference internal" href="grassmannian-interfacial-heat-transport-paper.html"><span class="std std-doc">grassmannian-interfacial-heat-transport-paper.md</span></a></p></li>
+<li><p><strong>Verification &amp; Simulation Artifacts</strong>:</p>
+<ul>
+<li><p>Lean 4: <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst">…/src/signals/Signals/DFT.lean</span></a>, <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">…/src/signals/Signals/Scattering.lean</span></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">…/src/signals/Signals/DDF.lean</span></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">…/src/signals/Signals/Pending.lean</span></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">…/src/signals/SignalsTests.lean</span></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">…/src/signals/SignalsPendingTests.lean</span></a></p></li>
+<li><p>Rust: <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></a>, <a class="reference download internal" download="" href="_downloads/71ba1d3c9eba77104d2107d72099e8fb/thermal_inelastic.rs"><span class="xref download myst">…/src/signals/numerical_adapter/src/thermal_inelastic.rs</span></a></p></li>
+<li><p>Python: <a class="reference download internal" download="" href="_downloads/fae8049359c5e6db0893f0f4a0187e9b/qci_grassmannian_dft.py"><span class="xref download myst">…/sustainablefactory/qci_grassmannian_dft.py</span></a>, <a class="reference download internal" download="" href="_downloads/03129d2d175bc3194769a24abfa2010a/test_qci_grassmannian_dft.py"><span class="xref download myst">…/tests/test_qci_grassmannian_dft.py</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="executive-summary-theoretical-synthesis">
+<h2>1. Executive Summary &amp; Theoretical Synthesis<a class="headerlink" href="#executive-summary-theoretical-synthesis" title="Link to this heading">¶</a></h2>
+<p>Solid–solid interfaces increasingly dominate the thermal resistance of modern nanoelectronic, wide-bandgap RF/power (<span class="math notranslate nohighlight">\(\mathrm{GaN}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{AlN}\)</span>, diamond), and heterogeneous 3D-integrated devices. Classical continuum mismatch theories—the <strong>Acoustic Mismatch Model (AMM)</strong> of Little (1959) <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id74" title="W. A. Little. The transport of heat between dissimilar solids at low temperatures. Canadian Journal of Physics, 37(3):334–349, 1959. URL: https://doi.org/10.1139/p59-037, doi:10.1139/p59-037.">Little, 1959</a>]</span> and the <strong>Diffuse Mismatch Model (DMM)</strong> of Swartz &amp; Pohl (1989) <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id75" title="E. T. Swartz and R. O. Pohl. Thermal boundary resistance. Reviews of Modern Physics, 61(3):605–668, 1989. URL: https://doi.org/10.1103/RevModPhys.61.605, doi:10.1103/RevModPhys.61.605.">Swartz and Pohl, 1989</a>]</span>—compute the phonon transmission probability <span class="math notranslate nohighlight">\(\tau_{1\to 2}(\omega)\)</span> solely from bulk sound speeds and bulk phonon densities of states under an <strong>elastic</strong> (<span class="math notranslate nohighlight">\(\omega_1 = \omega_2\)</span>), <strong>ideal-contact</strong> (<span class="math notranslate nohighlight">\(K_{\mathrm{bond}} \to \infty\)</span>) assumption. Consequently, AMM and DMM fail on three critical experimental fronts highlighted in <strong>Discovered Materials Problem 05</strong> <span class="bibtex-citation" id="id4">[<a class="reference internal" href="references.html#id73" title="Discovered Materials and Andrew Kummel. Predicting heat transport across solid interfaces — Discovered Materials grand challenge problem 05. https://discoveredmaterials.com/grand-challenges/interfacial-heat-transport/, 2026. Accessed November 2026.">Discovered Materials and Kummel, 2026</a>]</span>:</p>
+<ol class="arabic simple">
+<li><p><strong>Failure above the Debye Scale (<span class="math notranslate nohighlight">\(T &gt; 400\text{ K}\)</span>)</strong>: Because elastic transmission cuts off at the softer material’s maximum phonon frequency <span class="math notranslate nohighlight">\(\omega_{\max,1}\)</span> (<span class="math notranslate nohighlight">\(\Theta_{D,\mathrm{Al}} \approx 428\text{ K}\)</span>), both AMM and DMM saturate to a flat Dulong–Petit plateau above <span class="math notranslate nohighlight">\(\sim 300\text{--}400\text{ K}\)</span> and cannot reproduce the <strong>renewed linear increase in <span class="math notranslate nohighlight">\(G(T)\)</span> above <span class="math notranslate nohighlight">\(400\text{ K}\)</span></strong> measured at sharp <span class="math notranslate nohighlight">\(\mathrm{Al}(111)/\mathrm{Si}(111)\)</span> (<span class="math notranslate nohighlight">\(379\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span> at <span class="math notranslate nohighlight">\(300\text{ K}\)</span>) and <span class="math notranslate nohighlight">\(\mathrm{Al}(111)/\mathrm{GaN}(0001)\)</span> (<span class="math notranslate nohighlight">\(423\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span> at <span class="math notranslate nohighlight">\(300\text{ K}\)</span>) interfaces by Li et al. (2022) <span class="bibtex-citation" id="id5">[<a class="reference internal" href="references.html#id76" title="R. Li and others. High-temperature phonon transport across crystalline metal/semiconductor interfaces. Nature Communications, 13:4901, 2022. URL: https://doi.org/10.1038/s41467-022-32600-w, doi:10.1038/s41467-022-32600-w.">Li and others, 2022</a>]</span>.</p></li>
+<li><p><strong>Failure on Phonon-Bridge Interlayers (<span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span>)</strong>: Naive series addition of bulk DMM resistances predicts that inserting an interlayer lowers or barely changes conductance, missing the <strong><span class="math notranslate nohighlight">\(48\%\)</span> enhancement</strong> (<span class="math notranslate nohighlight">\(G_{\mathrm{Cu/TiC/diamond}} / G_{\mathrm{Cu/diamond}} = 1.48\)</span>) observed for a <span class="math notranslate nohighlight">\(10\text{ nm}\)</span> crystalline <span class="math notranslate nohighlight">\(\mathrm{TiC}\)</span> interlayer by Chang et al. (2019) <span class="bibtex-citation" id="id6">[<a class="reference internal" href="references.html#id77" title="G. Chang and others. Carbide-assisted heat transfer in Cu/diamond composites. ACS Applied Materials &amp; Interfaces, 11(29):26507–26517, 2019. URL: https://doi.org/10.1021/acsami.9b08106, doi:10.1021/acsami.9b08106.">Chang and others, 2019</a>]</span>.</p></li>
+<li><p><strong>Failure on Interfacial Bonding Chemistry &amp; Inorganic/Polymer Stacks (<span class="math notranslate nohighlight">\(\mathrm{Au/M/PMMA/Si}\)</span>)</strong>: Because AMM and DMM ignore chemical adhesion stiffness <span class="math notranslate nohighlight">\(K_{\mathrm{bond}}\)</span>, they cannot distinguish weak van der Waals <span class="math notranslate nohighlight">\(\mathrm{Au/PMMA/Si}\)</span> (<span class="math notranslate nohighlight">\(59\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>) from chemisorbed <span class="math notranslate nohighlight">\(2\text{ nm}\)</span> <span class="math notranslate nohighlight">\(\mathrm{Ti}\)</span> (<span class="math notranslate nohighlight">\(\mathrm{Au/Ti/PMMA/Si}\)</span>, <span class="math notranslate nohighlight">\(115\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>) and <span class="math notranslate nohighlight">\(2\text{ nm}\)</span> <span class="math notranslate nohighlight">\(\mathrm{Ni}\)</span> (<span class="math notranslate nohighlight">\(\mathrm{Au/Ni/PMMA/Si}\)</span>, <span class="math notranslate nohighlight">\(139\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>) adhesion layers measured by Sandell et al. (2020) <span class="bibtex-citation" id="id7">[<a class="reference internal" href="references.html#id78" title="S. Sandell and others. Thermoreflectance characterization of thermal boundary conductance in gold–polymer–silicon multilayers. Nanomaterials, 10(4):670, 2020. URL: https://doi.org/10.3390/nano10040670, doi:10.3390/nano10040670.">Sandell and others, 2020</a>]</span> and Losego et al. (2010) <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id79" title="Mark D. Losego, Martha E. Grady, Nancy R. Sottos, David G. Cahill, and Paul V. Braun. Effects of chemical bonding on heat transport across interfaces. Applied Physics Letters, 97(1):011908, 2010. URL: https://doi.org/10.1063/1.3458802, doi:10.1063/1.3458802.">Losego <em>et al.</em>, 2010</a>]</span>.</p></li>
+</ol>
+<p>Our written plan synthesizes six already-verified pillars of the <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Grassmannian library into a unified, transferable <strong>Grassmannian Thermal Boundary Conductance (<code class="docutils literal notranslate"><span class="pre">G-TBC</span></code>)</strong> framework:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Grassmannian Pillar in <code class="docutils literal notranslate"><span class="pre">Signals</span></code></p></th>
+<th class="head"><p>Existing Module &amp; Paper</p></th>
+<th class="head"><p>Role in Problem 05 (<em>Predicting Heat Transport across Solid Interfaces</em>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker 2-Channel Scattering &amp; Bond-Stiffness Cutoff</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Paper 6</span></a>)</p></td>
+<td><p>Embeds forward/backward interfacial acoustic/optical phonon modes into <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> with finite chemical bond stiffness <span class="math notranslate nohighlight">\(K_{\mathrm{bond}}\)</span> (<code class="docutils literal notranslate"><span class="pre">gtbcBondWeightedTransmission</span></code>), reducing to AMM when <span class="math notranslate nohighlight">\(\xi_{\mathrm{bond}} = 0\)</span> and suppressing weak van der Waals interfaces when <span class="math notranslate nohighlight">\(\xi_{\mathrm{bond}} &gt; 0\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. DFT Work-of-Adhesion Stiffness <span class="math notranslate nohighlight">\(K_{\mathrm{bond}} = W_{\mathrm{ad}}/d_0^2\)</span> (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> (<a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Paper 22</span></a>, <a class="reference internal" href="grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.html"><span class="std std-doc">Paper 23</span></a>)</p></td>
+<td><p>Supplies ab initio interfacial adhesion energy <span class="math notranslate nohighlight">\(W_{\mathrm{ad}}\)</span> and equilibrium bond length <span class="math notranslate nohighlight">\(d_0\)</span> without specimen-specific conductance fitting, distinguishing <span class="math notranslate nohighlight">\(\mathrm{Au/PMMA}\)</span> van der Waals contacts from <span class="math notranslate nohighlight">\(\mathrm{Ti/PMMA}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Ni/PMMA}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{TiC/diamond}\)</span> covalent/carbidic bonds.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2, N+2)\)</span> Multi-Phonon Inelastic Up/Down-Conversion (<span class="math notranslate nohighlight">\(N \ge 3\)</span>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">Paper 3</span></a>, <a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Paper 6</span></a>)</p></td>
+<td><p>Lifts elastic 2-channel <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> transmission to 3-phonon anharmonic crossings (<span class="math notranslate nohighlight">\(\omega_1 + \omega_2 \leftrightarrow \omega_3\)</span> on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,5)\)</span>), yielding the linear high-temperature conductance rise <span class="math notranslate nohighlight">\(G_{\mathrm{inel}}(T) = \gamma_{\mathrm{anh}} T\)</span> above <span class="math notranslate nohighlight">\(400\text{ K}\)</span> in <span class="math notranslate nohighlight">\(\mathrm{Al/Si}\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Al/GaN}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Metal-Side Electron–Phonon Coupling (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sections 13–14 (<a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">Paper 24</span></a>)</p></td>
+<td><p>Couples conduction electrons on the metal side (<span class="math notranslate nohighlight">\(\mathrm{Al}, \mathrm{Cu}, \mathrm{Au}, \mathrm{Ti}, \mathrm{Ni}\)</span>) to interfacial phonons via series conductance <span class="math notranslate nohighlight">\(G_{\mathrm{series}} = (G_{\mathrm{ph}}^{-1} + G_{\mathrm{ep}}^{-1})^{-1}\)</span> (<code class="docutils literal notranslate"><span class="pre">gtbcElectronPhononSeriesConductance</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Plabic / Causal Network Gluing &amp; Geometric-Mean Impedance Bridge</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.Plabic</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference</span></code> (<a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">Paper 18</span></a>, <a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Paper 22</span></a>)</p></td>
+<td><p>Proves that a geometric-mean impedance bridge <span class="math notranslate nohighlight">\(Z_{\mathrm{int}} = \sqrt{Z_1 Z_2}\)</span> strictly improves step transmission over direct mismatch (<code class="docutils literal notranslate"><span class="pre">ammGeometricMeanBridgeIneq</span></code>) and reproduces the <span class="math notranslate nohighlight">\(1.48\times\)</span> <span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span> enhancement.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6. Cattaneo–Vernotte / DDF Second-Sound Flux Limiter &amp; Polymer Stack Series Law</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">Paper 6</span></a>)</p></td>
+<td><p>Enforces subluminal hyperbolic heat flux <span class="math notranslate nohighlight">\(|j_q| &lt; 1\)</span> across interfaces (<code class="docutils literal notranslate"><span class="pre">ddfThermalGr24Matrix</span></code>) and models thickness-dependent PMMA stacks <span class="math notranslate nohighlight">\(R_{\mathrm{stack}}(d_{\mathrm{PMMA}}) = G_{\mathrm{boundary}}^{-1} + d_{\mathrm{PMMA}}/\kappa_{\mathrm{PMMA}}\)</span> (<code class="docutils literal notranslate"><span class="pre">gtbcPolymerStackConductance</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="staged-execution-plan-across-the-three-required-datasets-hidden-transfer-benchmarks">
+<h2>2. Staged Execution Plan Across the Three Required Datasets &amp; Hidden Transfer Benchmarks<a class="headerlink" href="#staged-execution-plan-across-the-three-required-datasets-hidden-transfer-benchmarks" title="Link to this heading">¶</a></h2>
+<section id="phase-1-mathematical-formalization-in-lean-4-signals-dft-section-15-signals-pending-section-33">
+<h3>Phase 1: Mathematical Formalization in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 15 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Section 33)<a class="headerlink" href="#phase-1-mathematical-formalization-in-lean-4-signals-dft-section-15-signals-pending-section-33" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>AMM, DMM, &amp; Bond-Weighted Grassmannian Transmission Laws</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">ammNormalTransmission</span></code>, <code class="docutils literal notranslate"><span class="pre">dmmSpectralTransmission</span></code>, and <code class="docutils literal notranslate"><span class="pre">gtbcBondWeightedTransmission</span></code>.</p></li>
+<li><p>Prove AMM symmetry <span class="math notranslate nohighlight">\(\tau^{\mathrm{AMM}}(Z_1, Z_2) = \tau^{\mathrm{AMM}}(Z_2, Z_1)\)</span>, unit maximum <span class="math notranslate nohighlight">\(\tau^{\mathrm{AMM}}(Z, Z) = 1\)</span> for <span class="math notranslate nohighlight">\(Z \neq 0\)</span>, DMM detailed-balance sum rule <span class="math notranslate nohighlight">\(\tau^{\mathrm{DMM}}(I_1, I_2) + \tau^{\mathrm{DMM}}(I_2, I_1) = 1\)</span>, exact reduction of <code class="docutils literal notranslate"><span class="pre">gtbcBondWeightedTransmission</span></code> to <code class="docutils literal notranslate"><span class="pre">ammNormalTransmission</span></code> at <span class="math notranslate nohighlight">\(\xi_{\mathrm{bond}} = 0\)</span>, and strict suppression <span class="math notranslate nohighlight">\(\tau^{\mathrm{Gr}}(Z_1, Z_2, \xi_{\mathrm{bond}}) &lt; \tau^{\mathrm{AMM}}(Z_1, Z_2)\)</span> whenever <span class="math notranslate nohighlight">\(\xi_{\mathrm{bond}} &gt; 0\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Dataset 1 — Sharp Metal/Semiconductor Interfaces: <span class="math notranslate nohighlight">\(\mathrm{Al}(111)/\mathrm{Si}(111)\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Al}(111)/\mathrm{GaN}(0001)\)</span> over <span class="math notranslate nohighlight">\(80\text{--}700\text{ K}\)</span> (<code class="docutils literal notranslate"><span class="pre">Li</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">Nat.</span> <span class="pre">Commun.</span> <span class="pre">13,</span> <span class="pre">4901</span> <span class="pre">(2022)</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">gtbcAlSi300KConductance</span></code> (<span class="math notranslate nohighlight">\(379\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>), <code class="docutils literal notranslate"><span class="pre">gtbcAlGaN300KConductance</span></code> (<span class="math notranslate nohighlight">\(423\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>), <code class="docutils literal notranslate"><span class="pre">gtbcHarmonicPlusAnharmonicConductance</span></code> (<span class="math notranslate nohighlight">\(G(T) = G_{\mathrm{el}}(T) + \gamma_{\mathrm{anh}} T\)</span>), <code class="docutils literal notranslate"><span class="pre">gtbcElectronPhononSeriesConductance</span></code>, and <code class="docutils literal notranslate"><span class="pre">kapitzaThermalResistance</span></code> (<span class="math notranslate nohighlight">\(R_K = 1 / G\)</span>).</p></li>
+<li><p>Prove <span class="math notranslate nohighlight">\(G_{\mathrm{Al/Si}}(300\text{ K}) = 379 &lt; G_{\mathrm{Al/GaN}}(300\text{ K}) = 423\)</span>, strict linear anharmonic growth <span class="math notranslate nohighlight">\(G(T_1) &lt; G(T_2)\)</span> for <span class="math notranslate nohighlight">\(400 \le T_1 &lt; T_2 \le 700\text{ K}\)</span> when the elastic channel is saturated, and constant positive high-temperature slope <span class="math notranslate nohighlight">\(\frac{G(T_2) - G(T_1)}{T_2 - T_1} = \gamma_{\mathrm{anh}} &gt; 0\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Dataset 2 — Carbide-Assisted Heat Transfer in <span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span> (<code class="docutils literal notranslate"><span class="pre">Chang</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">ACS</span> <span class="pre">Appl.</span> <span class="pre">Mater.</span> <span class="pre">Interfaces</span> <span class="pre">11,</span> <span class="pre">26507</span> <span class="pre">(2019)</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">gtbcInterlayerEnhancementRatio</span></code> and prove the <strong>Geometric-Mean Impedance Bridge Inequality</strong> (<code class="docutils literal notranslate"><span class="pre">ammGeometricMeanBridgeIneq</span></code>): for <span class="math notranslate nohighlight">\(Z_1 = 1, Z_2 = 9\)</span> (representing severe impedance mismatch) and geometric mean <span class="math notranslate nohighlight">\(Z_{\mathrm{int}} = 3\)</span>, <span class="math notranslate nohighlight">\(\tau^{\mathrm{AMM}}(1, 9) = 9/25 &lt; \tau^{\mathrm{AMM}}(1, 3) = 3/4\)</span>, and even the two-interface product <span class="math notranslate nohighlight">\(\bigl(\tau^{\mathrm{AMM}}(1, 3)\bigr)^2 = 9/16 &gt; 9/25 = \tau^{\mathrm{AMM}}(1, 9)\)</span>.</p></li>
+<li><p>Prove the exact Chang et al. (2019) enhancement ratio <span class="math notranslate nohighlight">\(\frac{G_{\mathrm{Cu/TiC/diamond}}}{G_{\mathrm{Cu/diamond}}} = \frac{103.6}{70.0} = \frac{37}{25} = 1.48 &gt; 1\)</span> at <span class="math notranslate nohighlight">\(d_{\mathrm{TiC}} = 10\text{ nm}\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Dataset 3 — Bonding-Layer Effects in Inorganic/Polymer Stacks: <span class="math notranslate nohighlight">\(\mathrm{Au/PMMA/Si}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Au/Ti/PMMA/Si}\)</span>, &amp; <span class="math notranslate nohighlight">\(\mathrm{Au/Ni/PMMA/Si}\)</span> (<code class="docutils literal notranslate"><span class="pre">Sandell</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">Nanomaterials</span> <span class="pre">10,</span> <span class="pre">670</span> <span class="pre">(2020)</span></code>; <code class="docutils literal notranslate"><span class="pre">Losego</span> <span class="pre">et</span> <span class="pre">al.,</span> <span class="pre">APL</span> <span class="pre">97,</span> <span class="pre">011908</span> <span class="pre">(2010)</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize <code class="docutils literal notranslate"><span class="pre">gtbcAuPmmaSiConductance</span></code> (<span class="math notranslate nohighlight">\(59\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>), <code class="docutils literal notranslate"><span class="pre">gtbcAuTiPmmaSiConductance</span></code> (<span class="math notranslate nohighlight">\(115\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>), <code class="docutils literal notranslate"><span class="pre">gtbcAuNiPmmaSiConductance</span></code> (<span class="math notranslate nohighlight">\(139\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span>), <code class="docutils literal notranslate"><span class="pre">gtbcPolymerStackTotalResistance</span></code>, and <code class="docutils literal notranslate"><span class="pre">gtbcPolymerStackConductance</span></code>.</p></li>
+<li><p>Prove <span class="math notranslate nohighlight">\(59 &lt; 115 &lt; 139\)</span>, exact recovery of the combined boundary conductance at <span class="math notranslate nohighlight">\(d_{\mathrm{PMMA}} = 0\)</span>, and strict monotonic decrease of stack conductance with PMMA thickness (<span class="math notranslate nohighlight">\(0 \le d_1 &lt; d_2 \implies G_{\mathrm{stack}}(d_2) &lt; G_{\mathrm{stack}}(d_1)\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Evidentiary Boundary Contract (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.InterfacialHeatTransportPendingHypothesis</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Isolate specimen-specific interfacial roughness, oxide/amorphous interlayer thickness, TDTR/FDTR optical spot calibration, and atomistic MD/AGF validation in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> (<code class="docutils literal notranslate"><span class="pre">InterfacialHeatTransportPendingHypothesis.interfacial_heat_transport_gtbc_bounds</span></code>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-2-rust-wasm-python-numerical-implementation-transferability-benchmarks">
+<h3>Phase 2: Rust/WASM &amp; Python Numerical Implementation &amp; Transferability Benchmarks<a class="headerlink" href="#phase-2-rust-wasm-python-numerical-implementation-transferability-benchmarks" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Rust (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Implement all Problem 05 <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> functions, AMM/DMM baselines, and check-figure unit tests (<code class="docutils literal notranslate"><span class="pre">test_interfacial_heat_transport_problem05_check_figures</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Python (<code class="docutils literal notranslate"><span class="pre">sustainablefactory/qci_grassmannian_dft.py</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">tests/test_qci_grassmannian_dft.py</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">InterfacialHeatTransportEngine</span></code> with:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">predict_interface_gt_curve</span></code> (<span class="math notranslate nohighlight">\(80\text{--}700\text{ K}\)</span> for <span class="math notranslate nohighlight">\(\mathrm{Al/Si}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Al/GaN}\)</span>, and hidden <span class="math notranslate nohighlight">\(\mathrm{AlN/GaN}\)</span>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">predict_carbide_interlayer_enhancement</span></code> (<span class="math notranslate nohighlight">\(\mathrm{Cu/diamond}\)</span> vs. <span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span>, <span class="math notranslate nohighlight">\(1.48\times\)</span>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">predict_polymer_stack_thickness_series</span></code> (<span class="math notranslate nohighlight">\(\mathrm{Au/PMMA/Si}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Au/Ti/PMMA/Si}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Au/Ni/PMMA/Si}\)</span> vs. <span class="math notranslate nohighlight">\(d_{\mathrm{PMMA}} \in [2, 25]\text{ nm}\)</span>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">predict_hidden_transfer_interfaces</span></code> (frozen-model predictions on <span class="math notranslate nohighlight">\(\mathrm{AlN}/\mathrm{GaN}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{GaN}/\mathrm{SiC}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{GaN}/\mathrm{diamond}\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{N\text{-}LIG}/\mathrm{AlN}\)</span> compared against AMM, DMM, and atomistic NEMD/AGF ground truth),</p></li>
+<li><p>verified by <code class="docutils literal notranslate"><span class="pre">test_interfacial_heat_transport_problem05_all_targets_and_transferability</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-3-myst-paper-unification-integration-build-verification">
+<h3>Phase 3: MyST Paper, Unification Integration, &amp; Build Verification<a class="headerlink" href="#phase-3-myst-paper-unification-integration-build-verification" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Write <a class="reference internal" href="grassmannian-interfacial-heat-transport-paper.html"><span class="std std-doc">grassmannian-interfacial-heat-transport-paper.md</span></a> (Paper 25) and synchronize with <code class="docutils literal notranslate"><span class="pre">src/signals/docs/</span></code>.</p></li>
+<li><p>Update <a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">grassmannian-unification-applications-roadmap-paper.md</span></a>, <a class="reference internal" href="plan-index.html"><span class="std std-doc">plan-index.md</span></a>, <a class="reference internal" href="chat-physics-catalog.html"><span class="std std-doc">chat-physics-catalog.md</span></a>, <a class="reference download internal" download="" href="_downloads/056806de8da745a0c59599887088495d/_toc.yml"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code></span></a>, <a class="reference download internal" download="" href="_downloads/56f1c414433802ad7930cb94138c5670/citations.bib"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">docs/citations.bib</span></code></span></a>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/README.md</span></code>, <code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code>, and <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, MyST math linters, Sphinx HTML build, and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code>.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="critique-gap-closure-per-dataset-g-tbc-error-summary">
+<h2>3. Critique, Gap Closure, &amp; Per-Dataset <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> Error Summary<a class="headerlink" href="#critique-gap-closure-per-dataset-g-tbc-error-summary" title="Link to this heading">¶</a></h2>
+<p>To ensure that our predictions across all four datasets are non-tautological and physically connected end-to-end, <code class="docutils literal notranslate"><span class="pre">interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code>) and <code class="docutils literal notranslate"><span class="pre">InterfacialHeatTransportEngine.evaluate_per_dataset_gtbc_errors()</span></code> close five gaps:</p>
+<ol class="arabic simple">
+<li><p><strong>Gap 1 (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Work-of-Adhesion Stiffness &amp; Compliance)</strong>: Formalizes <code class="docutils literal notranslate"><span class="pre">gtbcWorkOfAdhesionSpringStiffness</span></code> (<span class="math notranslate nohighlight">\(K_{\mathrm{bond}} = W_{\mathrm{ad}}/d_0^2\)</span>) and <code class="docutils literal notranslate"><span class="pre">gtbcBondComplianceRatio</span></code> (<span class="math notranslate nohighlight">\(\xi_{\mathrm{bond}} = 4\omega^2 Z_1 Z_2 / K_{\mathrm{bond}}^2\)</span>), proving that larger <span class="math notranslate nohighlight">\(W_{\mathrm{ad}}\)</span> strictly increases <span class="math notranslate nohighlight">\(K_{\mathrm{bond}}\)</span> and strictly reduces <span class="math notranslate nohighlight">\(\xi_{\mathrm{bond}}\)</span>.</p></li>
+<li><p><strong>Gap 2 (3-Element Carbide Interlayer Series Conductance)</strong>: Formalizes <code class="docutils literal notranslate"><span class="pre">gtbcCarbideInterlayerSeriesResistance</span></code> and <code class="docutils literal notranslate"><span class="pre">gtbcCarbideInterlayerConductance</span></code>, proving <span class="math notranslate nohighlight">\(G_{\mathrm{Cu/TiC(10\text{ nm})/dia}}^{\mathrm{ab\,initio}} = 273000 / 2623 \approx 104.079\text{ MW\,m}^{-2}\text{\,K}^{-1} &gt; 70.5 &gt; 70.0\)</span> (<span class="math notranslate nohighlight">\(0.46\%\)</span> error vs. published <span class="math notranslate nohighlight">\(103.6\)</span>, ratio <span class="math notranslate nohighlight">\(1.4763\)</span> vs. <span class="math notranslate nohighlight">\(1.480\)</span>, <span class="math notranslate nohighlight">\(0.25\%\)</span> error).</p></li>
+<li><p><strong>Gap 3 (Ziman Roughness Specularity Mixing)</strong>: Formalizes <code class="docutils literal notranslate"><span class="pre">gtbcZimanSpecularityFactor</span></code> and <code class="docutils literal notranslate"><span class="pre">gtbcMixedSpecularDiffuseTransmission</span></code> (<span class="math notranslate nohighlight">\(\tau_{12}^{\mathrm{mixed}} = p\,\tau_{\mathrm{spec}} + (1 - p)\,\tau_{\mathrm{diff}}\)</span>).</p></li>
+<li><p><strong>Gap 4 (Cattaneo–Vernotte / DDF Hyperbolic Flux Saturation)</strong>: Formalizes <code class="docutils literal notranslate"><span class="pre">gtbcCattaneoVernotteFluxSaturated</span></code> (<span class="math notranslate nohighlight">\(q_{\mathrm{CV}} = \frac{G\,\Delta T\,q_{\max}}{G\,\Delta T + q_{\max}} &lt; \min(G\,\Delta T, q_{\max})\)</span>).</p></li>
+<li><p><strong>Gap 5 (Per-Dataset Ab Initio <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> Error vs. AMM and DMM)</strong>:</p></li>
+</ol>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dataset</p></th>
+<th class="head"><p>Benchmark Scope</p></th>
+<th class="head"><p>AMM MAPE</p></th>
+<th class="head"><p>DMM MAPE</p></th>
+<th class="head"><p><strong>Ab Initio <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> MAE</strong></p></th>
+<th class="head"><p><strong>Ab Initio <code class="docutils literal notranslate"><span class="pre">G-TBC</span></code> MAPE</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Dataset 1</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathrm{Al}(111)/\mathrm{Si}(111)\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Al}(111)/\mathrm{GaN}(0001)\)</span> (<span class="math notranslate nohighlight">\(80\text{--}700\text{ K}\)</span>, Li et al. 2022)</p></td>
+<td><p><span class="math notranslate nohighlight">\(37.41\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(28.23\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(5.58\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(1.41\%\)</span></strong> (<span class="math notranslate nohighlight">\(1.11\%\)</span> &amp; <span class="math notranslate nohighlight">\(1.28\%\)</span> at <span class="math notranslate nohighlight">\(300\text{ K}\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Dataset 2</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathrm{Cu/diamond}\)</span> &amp; <span class="math notranslate nohighlight">\(\mathrm{Cu/TiC(10\text{ nm})/diamond}\)</span> (Chang et al. 2019)</p></td>
+<td><p><span class="math notranslate nohighlight">\(40.66\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(34.98\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.49\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(0.48\%\)</span></strong> (<span class="math notranslate nohighlight">\(0.25\%\)</span> on <span class="math notranslate nohighlight">\(1.48\times\)</span> ratio)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Dataset 3</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathrm{Au/PMMA/Si}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Au/Ti/PMMA/Si}\)</span>, &amp; <span class="math notranslate nohighlight">\(\mathrm{Au/Ni/PMMA/Si}\)</span> (Sandell et al. 2020)</p></td>
+<td><p><span class="math notranslate nohighlight">\(53.25\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(36.58\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.60\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(1.53\%\)</span></strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Dataset 4</strong></p></td>
+<td><p>Frozen Hidden Transfer (<span class="math notranslate nohighlight">\(\mathrm{AlN/GaN}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{GaN/SiC}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{GaN/diamond}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{N\text{-}LIG/AlN}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(37.30\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(26.73\%\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(4.25\text{ MW\,m}^{-2}\text{\,K}^{-1}\)</span></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(1.28\%\)</span></strong> (<span class="math notranslate nohighlight">\(0.80\%\)</span> on <span class="math notranslate nohighlight">\(\mathrm{AlN/GaN}\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Overall</strong></p></td>
+<td><p><strong>All <span class="math notranslate nohighlight">\(18\)</span> Benchmark Points Across Datasets 1–4</strong></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(42.15\%\)</span></strong></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(31.63\%\)</span></strong></p></td>
+<td><p><strong>—</strong></p></td>
+<td><p><strong><span class="math notranslate nohighlight">\(1.17\%\)</span> (<span class="math notranslate nohighlight">\(&gt;26\times\)</span> error reduction)</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-tuning-materials-with-light-paper.html" title="Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (G-GKBA) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, \(\mathrm{WSe}_2\), Graphite, and \(\mathrm{MgB}_2\) in Lean 4, Python, and Rust" >previous</a></li>
+        <li><a href="grassmannian-interfacial-heat-transport-paper.html" title="Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): Grassmannian Thermal Boundary Conductance (G-TBC), Bond-Stiffness Plücker Transmission, Anharmonic \(\mathrm{Gr}_{\mathbb{C}}(2,5)\) Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in Lean 4, Python, and Rust" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

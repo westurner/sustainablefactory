@@ -1,1 +1,0 @@
-../Bell-Correlations-in-Atomic-Momentum.md

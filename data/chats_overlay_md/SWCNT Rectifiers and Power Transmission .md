@@ -1,1 +1,0 @@
-../chats/SWCNT Rectifiers and Power Transmission .md

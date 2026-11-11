@@ -1,0 +1,175 @@
+@prefix iof: <https://spec.industrialontologies.org/ontology/core/Core/> .
+@prefix sf: <https://westurner.github.io/sustainablefactory/process/#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix otel: <https://w3id.org/otel/ontology/> .
+@prefix openinference: <https://w3id.org/openinference/ontology/> .
+
+
+
+sf:SustainableProcessSchema a owl:Ontology ;
+    rdfs:label "Sustainable Factory Process Schema" ;
+    rdfs:comment "A schema for modeling sustainable production processes using IOF-aligned entities and RDF-star for metadata." .
+
+# Classes
+sf:Process a owl:Class ;
+    rdfs:subClassOf iof:PlannedProcess ;
+    rdfs:label "Process" .
+
+sf:MaterialResource a owl:Class ;
+    rdfs:subClassOf iof:MaterialResource ;
+    rdfs:label "Material Resource" .
+
+sf:Product a owl:Class ;
+    rdfs:subClassOf iof:Product ;
+    rdfs:label "Product" .
+
+# Relationships
+sf:participates_in a owl:ObjectProperty ;
+    rdfs:subPropertyOf iof:participates_in_at_some_time ;
+    rdfs:label "participates in" .
+
+sf:is_output_of a owl:ObjectProperty ;
+    rdfs:subPropertyOf iof:is_output_of ;
+    rdfs:label "is output of" .
+
+# Metadata Properties (to be used on triples)
+sf:temperature a owl:DatatypeProperty ;
+    rdfs:label "temperature" ;
+    rdfs:range xsd:decimal .
+
+sf:entryTime a owl:DatatypeProperty ;
+    rdfs:label "entry time" ;
+    rdfs:range xsd:dateTime .
+
+sf:flowRate a owl:DatatypeProperty ;
+    rdfs:label "flow rate" ;
+    rdfs:range xsd:string .
+
+sf:confidence a owl:DatatypeProperty ;
+    rdfs:label "extraction confidence" ;
+    rdfs:range xsd:decimal .
+
+sf:extractionSource a owl:DatatypeProperty ;
+    rdfs:label "extraction source" ;
+    rdfs:range xsd:string .
+
+# Chat Transcript & Observability Classes
+sf:ChatTranscript a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Chat Transcript" ;
+    rdfs:comment "A document or record containing a series of conversational messages exchanged between agents or users." .
+
+sf:ChatMessage a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Chat Message" ;
+    rdfs:comment "An individual communication or utterance within a chat transcript." .
+
+sf:AgentSkill a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Agent Skill" ;
+    rdfs:comment "A reusable action, script, or behavioral instruction set extracted from engineering transcripts." .
+
+# OpenTelemetry Linked Data Mapping
+otel:Trace a owl:Class ;
+    rdfs:subClassOf prov:Bundle ;
+    rdfs:label "OpenTelemetry Trace" ;
+    rdfs:comment "A representation of a complete transaction or execution flow." ;
+    rdfs:isDefinedBy <https://w3id.org/otel/ontology/> .
+
+otel:Span a owl:Class ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "OpenTelemetry Span" ;
+    rdfs:comment "A single continuous segment of work inside a trace execution." ;
+    rdfs:isDefinedBy <https://w3id.org/otel/ontology/> .
+
+# Relationships & Properties for Chats and OTel
+sf:hasMessage a owl:ObjectProperty ;
+    rdfs:domain sf:ChatTranscript ;
+    rdfs:range sf:ChatMessage ;
+    rdfs:label "has message" .
+
+sf:sender a owl:DatatypeProperty ;
+    rdfs:domain sf:ChatMessage ;
+    rdfs:range xsd:string ;
+    rdfs:label "message sender" .
+
+sf:messageContent a owl:DatatypeProperty ;
+    rdfs:domain sf:ChatMessage ;
+    rdfs:range xsd:string ;
+    rdfs:label "message content" .
+
+sf:extractedSkill a owl:ObjectProperty ;
+    rdfs:domain sf:ChatTranscript ;
+    rdfs:range sf:AgentSkill ;
+    rdfs:label "extracted skill" .
+
+otel:traceId a owl:DatatypeProperty ;
+    rdfs:domain otel:Span ;
+    rdfs:range xsd:string ;
+    rdfs:label "trace ID" ;
+    rdfs:isDefinedBy <https://w3id.org/otel/ontology/> .
+
+otel:spanId a owl:DatatypeProperty ;
+    rdfs:domain otel:Span ;
+    rdfs:range xsd:string ;
+    rdfs:label "span ID" ;
+    rdfs:isDefinedBy <https://w3id.org/otel/ontology/> .
+
+otel:parentSpanId a owl:DatatypeProperty ;
+    rdfs:domain otel:Span ;
+    rdfs:range xsd:string ;
+    rdfs:label "parent span ID" ;
+    rdfs:isDefinedBy <https://w3id.org/otel/ontology/> .
+
+otel:hasSpan a owl:ObjectProperty ;
+    rdfs:domain otel:Trace ;
+    rdfs:range otel:Span ;
+    rdfs:label "has span" ;
+    rdfs:isDefinedBy <https://w3id.org/otel/ontology/> .
+
+# OpenInference LLM Tracing Classes
+openinference:LlmSpan a owl:Class ;
+    rdfs:subClassOf otel:Span ;
+    rdfs:label "LLM Span" ;
+    rdfs:comment "A tracing span capturing an invocation of a Large Language Model." ;
+    rdfs:isDefinedBy <https://w3id.org/openinference/ontology/> .
+
+# OpenInference Datatype Properties
+openinference:modelName a owl:DatatypeProperty ;
+    rdfs:domain openinference:LlmSpan ;
+    rdfs:range xsd:string ;
+    rdfs:label "model name" ;
+    rdfs:isDefinedBy <https://w3id.org/openinference/ontology/> .
+
+openinference:promptTokens a owl:DatatypeProperty ;
+    rdfs:domain openinference:LlmSpan ;
+    rdfs:range xsd:integer ;
+    rdfs:label "prompt tokens" ;
+    rdfs:isDefinedBy <https://w3id.org/openinference/ontology/> .
+
+openinference:completionTokens a owl:DatatypeProperty ;
+    rdfs:domain openinference:LlmSpan ;
+    rdfs:range xsd:integer ;
+    rdfs:label "completion tokens" ;
+    rdfs:isDefinedBy <https://w3id.org/openinference/ontology/> .
+
+# OpenInference Object Properties linking to Dialogue (SIOC alignment)
+openinference:inputMessage a owl:ObjectProperty ;
+    rdfs:domain openinference:LlmSpan ;
+    rdfs:range sf:ChatMessage ;
+    rdfs:label "input message" ;
+    rdfs:comment "Links the LLM span to the conversational input message it processed." ;
+    rdfs:isDefinedBy <https://w3id.org/openinference/ontology/> .
+
+openinference:outputMessage a owl:ObjectProperty ;
+    rdfs:domain openinference:LlmSpan ;
+    rdfs:range sf:ChatMessage ;
+    rdfs:label "output message" ;
+    rdfs:comment "Links the LLM span to the conversational output message it generated." ;
+    rdfs:isDefinedBy <https://w3id.org/openinference/ontology/> .
+
+
+

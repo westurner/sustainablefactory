@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>_Harmonic-Loss-and-Circuit-Tracing-Synergy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="../index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="../_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="../_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="../_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="../_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
+  <script src="../_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="../_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">_Harmonic-Loss-and-Circuit-Tracing-Synergy</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#response-1">Response: 1</a></li>
+<li><a class="reference internal" href="#geometric-simplification-of-feature-attribution">1. Geometric Simplification of Feature Attribution</a></li>
+<li><a class="reference internal" href="#cleaner-supernodes-and-monosemanticity">2. Cleaner Supernodes and Monosemanticity</a></li>
+<li><a class="reference internal" href="#high-contrast-causal-interventions">3. High-Contrast Causal Interventions</a><ul>
+<li><a class="reference internal" href="#summary-of-the-synergy">Summary of the Synergy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/chats/_Harmonic-Loss-and-Circuit-Tracing-Synergy.myst.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">_Harmonic-Loss-and-Circuit-Tracing-Synergy</a><ul>
+<li><a class="reference internal" href="#prompt-1">Prompt: 1</a></li>
+<li><a class="reference internal" href="#response-1">Response: 1</a></li>
+<li><a class="reference internal" href="#geometric-simplification-of-feature-attribution">1. Geometric Simplification of Feature Attribution</a></li>
+<li><a class="reference internal" href="#cleaner-supernodes-and-monosemanticity">2. Cleaner Supernodes and Monosemanticity</a></li>
+<li><a class="reference internal" href="#high-contrast-causal-interventions">3. High-Contrast Causal Interventions</a><ul>
+<li><a class="reference internal" href="#summary-of-the-synergy">Summary of the Synergy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/chats/_Harmonic-Loss-and-Circuit-Tracing-Synergy.myst.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="harmonic-loss-and-circuit-tracing-synergy">
+<h1>_Harmonic-Loss-and-Circuit-Tracing-Synergy<a class="headerlink" href="#harmonic-loss-and-circuit-tracing-synergy" title="Link to this heading">¶</a></h1>
+<blockquote>
+<div><p>From: <a class="reference external" href="https://gemini.google.com/app/7b9f95782ac0a61e">https://gemini.google.com/app/7b9f95782ac0a61e</a></p>
+</div></blockquote>
+<span class="target" id="chat-prompt-1"></span><section id="prompt-1">
+<h2>Prompt: 1<a class="headerlink" href="#prompt-1" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>message time: 2026-06-27 08:42:02</p>
+<blockquote>
+<div><p>Circuit Tracer on Gemma-2-2b
+decoderesearch/circuit-tracer: <a class="reference external" href="https://github.com/decoderesearch/circuit-tracer">https://github.com/decoderesearch/circuit-tracer</a></p>
+</div></blockquote>
+<p>ScholarlyArticle: “Dissecting the Black Box: Circuit-Level Analysis of LLM Vulnerability Detection” (2026-05) <a class="reference external" href="https://arxiv.org/abs/2605.29901v1">https://arxiv.org/abs/2605.29901v1</a></p>
+<p>reply</p>
+<ul class="simple">
+<li></li>
+</ul>
+<p>0 points by westurner 2 days ago | parent | next [–]</p>
+<p>Explainable AI: <a class="reference external" href="https://en.wikipedia.org/wiki/Explainable_artificial_intelli">https://en.wikipedia.org/wiki/Explainable_artificial_intelli</a>…
+“Harmonic Loss Trains Interpretable AI Models” (2025) <a class="reference external" href="https://news.ycombinator.com/item?id=42941954">https://news.ycombinator.com/item?id=42941954</a> :</p>
+<blockquote>
+<div><p>Harmonic loss enables improved interpretability and faster convergence, owing to its scale invariance and finite convergence point by design,</p>
+</div></blockquote>
+<p>reply</p>
+<ul class="simple">
+<li></li>
+</ul>
+<p>1 point by westurner 1 day ago | root | parent | next [–]</p>
+<p>Would harmonic loss train a more explainable model for e.g. CircuitTracer to trace</p>
+<p>—</p>
+<span class="target" id="chat-response-1"></span></div></blockquote>
+</section>
+<section id="response-1">
+<h2>Response: 1<a class="headerlink" href="#response-1" title="Link to this heading">¶</a></h2>
+<p>Answering your question requires bridging the geometry of the representation space (altered by <strong>Harmonic Loss</strong>) with the mechanistic graph-traversal logic used by <strong>Circuit-Tracer</strong> on models like Gemma-2-2b.</p>
+<p>The short answer is: <strong>Yes, absolutely.</strong> Training a model with harmonic loss directly optimizes for the structural properties that tools like <code class="docutils literal notranslate"><span class="pre">circuit-tracer</span></code> look for, potentially making circuit discovery cleaner, sharper, and less prone to approximation errors.</p>
+<p>Here is a breakdown of why this synergy exists and how it affects mechanistic interpretability at the circuit level:</p>
+<hr />
+</section>
+<section id="geometric-simplification-of-feature-attribution">
+<span id="chat-heading-3"></span><h2>1. Geometric Simplification of Feature Attribution<a class="headerlink" href="#geometric-simplification-of-feature-attribution" title="Link to this heading">¶</a></h2>
+<p>Tools like <code class="docutils literal notranslate"><span class="pre">circuit-tracer</span></code> (built on top of Sparse Autoencoders [SAEs] or Cross-Layer Transcoders like those in GemmaScope) rely on attributing changes in logit outputs to sparse, non-zero internal features.</p>
+<ul class="simple">
+<li><p><strong>The Cross-Entropy Problem:</strong> Standard cross-entropy pushes logits toward infinity during training, causing representations to drift or sprawl in an unstructured high-dimensional space. To find a “circuit,” tools must calculate path-integrated gradients or activation patching across highly distributed, messy feature spaces.</p></li>
+<li><p><strong>The Harmonic Advantage:</strong> Harmonic loss calculates probabilities based on the <span class="math notranslate nohighlight">\(L_2\)</span> distance between an input embedding vector <span class="math notranslate nohighlight">\(x\)</span> and a learned class weight vector <span class="math notranslate nohighlight">\(w_i\)</span>:
+$<span class="math notranslate nohighlight">\(d_i = \|w_i - x\|_2\)</span>$
+By design, it creates <strong>finite, crystal-like clusters</strong> around fixed class centroids. If the underlying model (e.g., a variant of Gemma-2 trained this way) organizes its internal concepts into tightly bound, non-overlapping geometric centroids, a circuit tracer’s job becomes vastly simpler. Edges in the causal graph represent clean shifts between well-defined geometric clusters rather than traversing a sprawling, continuous manifold.</p></li>
+</ul>
+<hr />
+</section>
+<section id="cleaner-supernodes-and-monosemanticity">
+<span id="chat-heading-4"></span><h2>2. Cleaner Supernodes and Monosemanticity<a class="headerlink" href="#cleaner-supernodes-and-monosemanticity" title="Link to this heading">¶</a></h2>
+<p>When analyzing vulnerability detection (like the <em>Dissecting the Black Box</em> paper on Gemma-2-2b), researchers isolated discrete “Safety Detectors” (like attention heads <code class="docutils literal notranslate"><span class="pre">L5-H2</span></code> and <code class="docutils literal notranslate"><span class="pre">L7-H6</span></code>) and specific Layer 7 MLP neurons.</p>
+<p>In a standard model, these neurons are often polysemantic (firing for multiple unrelated concepts) due to superposition, requiring high-capacity transcoders (e.g., 426K to 2.5M features) to tease them apart.
+Because harmonic loss enforces scale invariance and non-linear separability directly in the objective function, it reduces representation entanglement. For <code class="docutils literal notranslate"><span class="pre">circuit-tracer</span></code>, this means:</p>
+<ul class="simple">
+<li><p><strong>Fewer polysemantic nodes:</strong> Features are more likely to be inherently monosemantic.</p></li>
+<li><p><strong>Closer alignment with Transcoders:</strong> The activation patterns approximate a linear composition of discrete features much more cleanly, reducing the reconstruction error (<span class="math notranslate nohighlight">\(\epsilon\)</span>) of the transcoder nodes in your tracer graph.</p></li>
+</ul>
+<hr />
+</section>
+<section id="high-contrast-causal-interventions">
+<span id="chat-heading-5"></span><h2>3. High-Contrast Causal Interventions<a class="headerlink" href="#high-contrast-causal-interventions" title="Link to this heading">¶</a></h2>
+<p>When you use <code class="docutils literal notranslate"><span class="pre">circuit-tracer</span></code> to run activation patching or steering interventions (like injecting “Safe” vectors into “Vulnerable” code paths), you are shifting activations along a direction vector.</p>
+<p>In a harmonic model, because the decision boundaries are structured around distinct class centers rather than open-ended half-spaces, <strong>ablation and steering experiments become binary and high-contrast</strong>. If you ablate a critical neuron in a harmonic circuit, the representation falls completely out of its tight cluster, resulting in an immediate, clean drop in target logit attribution rather than a gradual, noisy degradation.</p>
+<hr />
+<section id="summary-of-the-synergy">
+<span id="id1"></span><h3>Summary of the Synergy<a class="headerlink" href="#summary-of-the-synergy" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Dimension</p></th>
+<th class="head text-left"><p>Standard Cross-Entropy + <code class="docutils literal notranslate"><span class="pre">circuit-tracer</span></code></p></th>
+<th class="head text-left"><p>Harmonic Loss + <code class="docutils literal notranslate"><span class="pre">circuit-tracer</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Feature Space Structure</strong></p></td>
+<td class="text-left"><p>Infinite drift, complex continuous manifolds</p></td>
+<td class="text-left"><p>Tight, crystal-like clusters around centroids</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Graph Pruning Efficiency</strong></p></td>
+<td class="text-left"><p>Requires low thresholds (<code class="docutils literal notranslate"><span class="pre">--edge_threshold</span> <span class="pre">0.98</span></code>) due to distributed “noise”</p></td>
+<td class="text-left"><p>Sparse by default; dominant pathways carry clear attribution</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Intervention/Steering</strong></p></td>
+<td class="text-left"><p>High variance; requires tuning steering coefficients precisely</p></td>
+<td class="text-left"><p>Sharp, high-contrast shifts between geometric class centers</p></td>
+</tr>
+</tbody>
+</table>
+<p>By training with harmonic loss, you are essentially baking the core philosophy of mechanistic interpretability—that models compute human-understandable, discrete modular features—directly into the loss function itself. This turns circuit tracing from an exercise in “lossy reverse-engineering” into a straightforward read-out of explicit geometric pathways.</p>
+<hr />
+Powered by [AI Exporter](https://saveai.net)
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

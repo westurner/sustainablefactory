@@ -1,0 +1,2612 @@
+//! Planetary orbital mechanics, Mercury perihelion precession, $N$-body sink-flow
+//! dynamics, complex $Gr_{\mathbb{C}}(2, 4)$ orbital twistor matrices, and normed 2D
+//! anisotropic Tensor Gaussian Splatting for $Gr_{\mathbb{C}}(2, 4)$ and Dilatant
+//! Dark Fluid (DDF) fields, with WebAssembly C-ABI exports and WebGL2 GLSL shaders.
+//!
+//! Mirrors the machine-checked Lean 4 theorems in `Signals.DDF` and `Signals.Geometry`.
+
+use crate::double_slit::{
+    Complex64, complex_gr2n_channel_matrix, complex_gr24_channel_matrix, two_row_minor_complex,
+    two_row_minor_complex_slice,
+};
+use crate::{ValidationError, require_finite, require_nonnegative, require_positive};
+use std::f64::consts::PI;
+
+/// Embedded WebGL2 (`#version 300 es`) vertex shader for orbital & tensor splat visualization.
+pub const GLSL_ORBITAL_SPLAT_VERTEX_SHADER: &str =
+    include_str!("shaders/orbital_splat.vert.glsl");
+
+/// Embedded WebGL2 (`#version 300 es`) fragment shader rendering normed Tensor Gaussian
+/// Splats for $Gr_{\mathbb{C}}(2, 4)$ orbital fields, DDF shear-jammed sheaths, and
+/// gravitating bodies/attractors/sinks/sources.
+pub const GLSL_ORBITAL_SPLAT_FRAGMENT_SHADER: &str =
+    include_str!("shaders/orbital_splat.frag.glsl");
+
+/// Astronomical Unit in kilometers ($1\text{ AU} = 149,597,870.7\text{ km}$).
+pub const AU_KM: f64 = 149_597_870.7;
+
+/// Solar DDF acoustic horizon / Schwarzschild radius $r_{H,\odot} = 2 G M_\odot / c^2$ in km.
+pub const SOLAR_HORIZON_RADIUS_KM: f64 = 2.953_250_08;
+
+/// Days per Julian century ($36,525\text{ days}$).
+pub const DAYS_PER_JULIAN_CENTURY: f64 = 36_525.0;
+
+/// Canonical solar-system orbiting bodies used for relativistic / QFT / DDF validation.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum SolarSystemBody {
+    Mercury,
+    Venus,
+    Earth,
+    Mars,
+    Icarus,
+}
+
+/// Keplerian and post-Minkowskian / DDF orbital parameters for a bound planetary orbit,
+/// matching `Signals.DDF.PlanetaryOrbit`.
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PlanetaryOrbitParams {
+    /// Semi-major axis $a > 0$ in Astronomical Units (AU).
+    pub semi_major_axis_au: f64,
+    /// Orbital eccentricity $e \in [0, 1)$.
+    pub eccentricity: f64,
+    /// Sidereal orbital period $T > 0$ in days.
+    pub orbital_period_days: f64,
+    /// Central mass acoustic horizon radius $r_H = 2 G_\phi M / c^2 > 0$ in km.
+    pub central_horizon_radius_km: f64,
+    /// Secular Newtonian $N$-body planetary perturbation rate in arcseconds per Julian century.
+    pub newtonian_nbody_arcsec_per_century: f64,
+}
+
+impl PlanetaryOrbitParams {
+    /// Construct canonical validated parameters for a solar-system body.
+    pub fn from_solar_system_body(body: SolarSystemBody) -> Self {
+        match body {
+            SolarSystemBody::Mercury => Self {
+                semi_major_axis_au: 0.387_098_93,
+                eccentricity: 0.205_630_69,
+                orbital_period_days: 87.9691,
+                central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+                newtonian_nbody_arcsec_per_century: 531.63,
+            },
+            SolarSystemBody::Venus => Self {
+                semi_major_axis_au: 0.723_331_99,
+                eccentricity: 0.006_773_23,
+                orbital_period_days: 224.701,
+                central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+                newtonian_nbody_arcsec_per_century: 0.0,
+            },
+            SolarSystemBody::Earth => Self {
+                semi_major_axis_au: 1.000_000_11,
+                eccentricity: 0.016_710_22,
+                orbital_period_days: 365.256_36,
+                central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+                newtonian_nbody_arcsec_per_century: 0.0,
+            },
+            SolarSystemBody::Mars => Self {
+                semi_major_axis_au: 1.523_662_31,
+                eccentricity: 0.093_412_33,
+                orbital_period_days: 686.980,
+                central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+                newtonian_nbody_arcsec_per_century: 0.0,
+            },
+            SolarSystemBody::Icarus => Self {
+                semi_major_axis_au: 1.0779,
+                eccentricity: 0.8268,
+                orbital_period_days: 408.78,
+                central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+                newtonian_nbody_arcsec_per_century: 0.0,
+            },
+        }
+    }
+
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_positive("semi_major_axis_au", self.semi_major_axis_au)?;
+        require_nonnegative("eccentricity", self.eccentricity)?;
+        if self.eccentricity >= 1.0 {
+            return Err(ValidationError::ResidualTooLarge("eccentricity >= 1"));
+        }
+        require_positive("orbital_period_days", self.orbital_period_days)?;
+        require_positive("central_horizon_radius_km", self.central_horizon_radius_km)?;
+        require_finite(
+            "newtonian_nbody_arcsec_per_century",
+            self.newtonian_nbody_arcsec_per_century,
+        )?;
+        Ok(())
+    }
+
+    /// Semi-latus rectum $p = a(1 - e^2)$ in AU (`PlanetaryOrbit.semiLatusRectum`).
+    #[inline]
+    pub fn semi_latus_rectum_au(&self) -> f64 {
+        self.semi_major_axis_au * (1.0 - self.eccentricity * self.eccentricity)
+    }
+
+    /// Semi-latus rectum $p = a(1 - e^2)$ in km.
+    #[inline]
+    pub fn semi_latus_rectum_km(&self) -> f64 {
+        self.semi_latus_rectum_au() * AU_KM
+    }
+
+    /// Perihelion radius $r_{\min} = a(1 - e)$ in AU (`PlanetaryOrbit.perihelionRadius`).
+    #[inline]
+    pub fn perihelion_radius_au(&self) -> f64 {
+        self.semi_major_axis_au * (1.0 - self.eccentricity)
+    }
+
+    /// Aphelion radius $r_{\max} = a(1 + e)$ in AU (`PlanetaryOrbit.aphelionRadius`).
+    #[inline]
+    pub fn aphelion_radius_au(&self) -> f64 {
+        self.semi_major_axis_au * (1.0 + self.eccentricity)
+    }
+
+    /// Dimensionless precession rate parameter $\eta_{\mathrm{prec}} = \frac{3 r_H}{2 p}$.
+    #[inline]
+    pub fn eta_precession(&self) -> f64 {
+        1.5 * self.central_horizon_radius_km / self.semi_latus_rectum_km()
+    }
+
+    /// Anomalous perihelion precession in radians per orbit:
+    /// $\Delta\varpi = \frac{3\pi r_H}{p} = \frac{6\pi G_\phi M}{c^2 a(1 - e^2)}$,
+    /// matching `Signals.DDF.RiverExterior.perihelionPrecessionRad`.
+    #[inline]
+    pub fn anomalous_precession_rad_per_orbit(&self) -> f64 {
+        3.0 * PI * self.central_horizon_radius_km / self.semi_latus_rectum_km()
+    }
+
+    /// Anomalous perihelion precession in arcseconds per orbit via the $\pi$-free law
+    /// $\Delta\varpi_{\mathrm{arcsec}} = \frac{1,944,000\,r_H}{p}$,
+    /// matching `Signals.DDF.RiverExterior.perihelionPrecessionArcsecPerOrbit_eq`.
+    #[inline]
+    pub fn anomalous_precession_arcsec_per_orbit(&self) -> f64 {
+        1_944_000.0 * self.central_horizon_radius_km / self.semi_latus_rectum_km()
+    }
+
+    /// Number of sidereal revolutions per Julian century ($36,525 / T_{\mathrm{days}}$).
+    #[inline]
+    pub fn orbits_per_julian_century(&self) -> f64 {
+        DAYS_PER_JULIAN_CENTURY / self.orbital_period_days
+    }
+
+    /// Anomalous relativistic / QFT / DDF perihelion advance in arcseconds per Julian century.
+    #[inline]
+    pub fn anomalous_precession_arcsec_per_century(&self) -> f64 {
+        self.anomalous_precession_arcsec_per_orbit() * self.orbits_per_julian_century()
+    }
+
+    /// Total inertial perihelion advance (relativistic + Newtonian $N$-body) in arcseconds per century.
+    #[inline]
+    pub fn total_precession_arcsec_per_century(&self) -> f64 {
+        self.anomalous_precession_arcsec_per_century() + self.newtonian_nbody_arcsec_per_century
+    }
+
+    /// Precessing polar conic radius $r(\varphi; \eta_{\mathrm{prec}}) = \frac{p}{1 + e\cos((1 - \eta_{\mathrm{prec}})\varphi)}$
+    /// in AU, matching `Signals.DDF.PlanetaryOrbit.precessingRadius`.
+    #[inline]
+    pub fn precessing_radius_au(&self, eta_override: Option<f64>, phi: f64) -> f64 {
+        let eta = eta_override.unwrap_or_else(|| self.eta_precession());
+        self.semi_latus_rectum_au() / (1.0 + self.eccentricity * ((1.0 - eta) * phi).cos())
+    }
+
+    /// Cartesian $(x, y)$ position in AU along the precessing polar conic at azimuth $\varphi$.
+    #[inline]
+    pub fn precessing_cartesian_au(&self, eta_override: Option<f64>, phi: f64) -> [f64; 2] {
+        let r = self.precessing_radius_au(eta_override, phi);
+        [r * phi.cos(), r * phi.sin()]
+    }
+
+    /// Canonical $Gr_{\mathbb{C}}(2, 4)$ planetary orbital precession twistor matrix
+    /// $M_{\mathbb{C}}^{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)$, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.gr24PrecessionMatrix`.
+    pub fn gr24_precession_matrix(&self, delta_varpi_override: Option<f64>) -> [[Complex64; 4]; 2] {
+        let dv = delta_varpi_override.unwrap_or_else(|| self.anomalous_precession_rad_per_orbit());
+        let theta = 0.5 * dv;
+        let a = (1.0 + self.eccentricity).max(0.0).sqrt();
+        let b = (1.0 - self.eccentricity).max(0.0).sqrt();
+        let z_aph = Complex64::from_polar(a, theta);
+        let z_per = Complex64::from_polar(b, -theta);
+        complex_gr24_channel_matrix(z_aph, z_per)
+    }
+
+    /// Dynamic $Gr_{\mathbb{C}}(2, 4)$ radiative quadrupole twistor matrix
+    /// $M_{\mathbb{C}}^{\mathrm{GW}}(\mathrm{orb}, \Phi_{\mathrm{orb}}, \Delta\varpi)$, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.gr24QuadrupoleWaveMatrix`.
+    pub fn gr24_quadrupole_wave_matrix(
+        &self,
+        orbital_phase: f64,
+        delta_varpi_override: Option<f64>,
+    ) -> [[Complex64; 4]; 2] {
+        let dv = delta_varpi_override.unwrap_or_else(|| self.anomalous_precession_rad_per_orbit());
+        self.gr24_precession_matrix(Some(2.0 * orbital_phase + dv))
+    }
+
+    /// Peters–Mathews eccentricity polynomial $P_{\mathrm{PM}}(e) = 1 + \frac{73}{24}e^2 + \frac{37}{96}e^4$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.petersMathewsPolynomial`.
+    #[inline]
+    pub fn peters_mathews_polynomial(&self) -> f64 {
+        let e2 = self.eccentricity * self.eccentricity;
+        1.0 + (73.0 / 24.0) * e2 + (37.0 / 96.0) * e2 * e2
+    }
+
+    /// Peters–Mathews 2.5PN eccentricity enhancement factor
+    /// $f_{\mathrm{PM}}(e) = \frac{1 + \frac{73}{24}e^2 + \frac{37}{96}e^4}{(1 - e^2)^{7/2}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.petersMathewsFactor`.
+    #[inline]
+    pub fn peters_mathews_factor(&self) -> f64 {
+        let one_minus_e2 = (1.0 - self.eccentricity * self.eccentricity).max(1e-15);
+        self.peters_mathews_polynomial() / one_minus_e2.sqrt().powi(7)
+    }
+
+    /// Characteristic quadrupole gravitational-wave strain amplitude
+    /// $h_0 = \frac{r_{H,1}\,r_{H,2}}{R\,a}$, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.quadrupoleStrainAmplitudePM` and
+    /// `Signals.DDF.RiverExterior.quadrupoleStrainAmplitude`.
+    #[inline]
+    pub fn quadrupole_strain_amplitude(
+        &self,
+        companion_horizon_radius_km: f64,
+        detector_distance_km: f64,
+    ) -> f64 {
+        let a_km = self.semi_major_axis_au * AU_KM;
+        (self.central_horizon_radius_km * companion_horizon_radius_km)
+            / (detector_distance_km * a_km)
+    }
+
+    /// Far-field plus and cross gravitational-wave strain waveforms $(h_+(t), h_\times(t))$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.gwStrainPlus` and `gwStrainCross`.
+    #[inline]
+    pub fn gw_strain_plus_cross(
+        &self,
+        companion_horizon_radius_km: f64,
+        detector_distance_km: f64,
+        inclination: f64,
+        orbital_phase: f64,
+        delta_varpi_override: Option<f64>,
+    ) -> (f64, f64) {
+        let dv = delta_varpi_override.unwrap_or_else(|| self.anomalous_precession_rad_per_orbit());
+        let h0 = self.quadrupole_strain_amplitude(companion_horizon_radius_km, detector_distance_km);
+        let cos_i = inclination.cos();
+        let f_plus = 0.5 * (1.0 + cos_i * cos_i);
+        let f_cross = cos_i;
+        let phase = 2.0 * orbital_phase + dv;
+        (-h0 * f_plus * phase.cos(), -h0 * f_cross * phase.sin())
+    }
+
+    /// Newtonian 2-body anomalous perihelion precession $\Delta\varpi_{\mathrm{Newton}} = 0$
+    /// in radians per orbit (`Signals.QEDGravity.PlanetaryOrbit.newtonianAnomalousPrecessionRad`).
+    #[inline]
+    pub fn newtonian_anomalous_precession_rad(&self) -> f64 {
+        0.0
+    }
+
+    /// Nordström relativistic spin-0 scalar gravity perihelion precession
+    /// $\Delta\varpi_{\mathrm{scalar}} = -\frac{1}{6}\Delta\varpi_{\mathrm{PM}}$ in radians per orbit
+    /// (`Signals.QEDGravity.PlanetaryOrbit.nordstromScalarPrecessionRad`).
+    #[inline]
+    pub fn nordstrom_scalar_precession_rad(&self) -> f64 {
+        -(1.0 / 6.0) * self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Einstein's General Relativity (1915 / 1916) curved-spacetime geodesic & PPN perihelion
+    /// precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{EGR}}(\beta_{\mathrm{PPN}}, \gamma_{\mathrm{PPN}})
+    /// = \frac{2 - \beta_{\mathrm{PPN}} + 2\gamma_{\mathrm{PPN}}}{3}\,\Delta\varpi_{\mathrm{PM}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.einsteinGeneralRelativityPrecessionRad`
+    /// (with $\beta_{\mathrm{PPN}} = 1, \gamma_{\mathrm{PPN}} = 1$ in Einstein GR).
+    #[inline]
+    pub fn einstein_general_relativity_precession_rad(
+        &self,
+        beta_ppn: f64,
+        gamma_ppn: f64,
+    ) -> f64 {
+        ((2.0 - beta_ppn + 2.0 * gamma_ppn) / 3.0) * self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Special-relativistic spin-1 vector (un-doubled Coulomb/QED) perihelion precession
+    /// $\Delta\varpi_{\mathrm{vector}} = +\frac{1}{6}\Delta\varpi_{\mathrm{PM}}$ in radians per orbit
+    /// (`Signals.QEDGravity.PlanetaryOrbit.spinOneVectorPrecessionRad`).
+    #[inline]
+    pub fn spin_one_vector_precession_rad(&self) -> f64 {
+        (1.0 / 6.0) * self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Witten (2004) / Berkovits–Witten (2004) twistor-string $\mathcal{N}=4$ conformal supergravity
+    /// (Weyl $C_{\mu\nu\rho\sigma}^2$ biharmonic) perihelion precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{Weyl}}(\beta_{\mathrm{scale}}, \gamma_{\mathrm{conf}})
+    /// = \beta_{\mathrm{scale}}\,\Delta\varpi_{\mathrm{PM}} - \pi\,\gamma_{\mathrm{conf}}\,a^2\sqrt{1 - e^2}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.wittenConformalTwistorPrecessionRad`.
+    #[inline]
+    pub fn witten_conformal_twistor_precession_rad(&self, beta_scale: f64, gamma_conf: f64) -> f64 {
+        let one_minus_e2_sqrt = (1.0 - self.eccentricity * self.eccentricity)
+            .max(0.0)
+            .sqrt();
+        beta_scale * self.anomalous_precession_rad_per_orbit()
+            - PI * gamma_conf
+                * self.semi_major_axis_au
+                * self.semi_major_axis_au
+                * one_minus_e2_sqrt
+    }
+
+    /// Fedi (2016) *Superfluid Quantum Gravity* (SQG / Superfluid Quantum Space, HAL `hal-01248015v3`/`v4`)
+    /// perihelion precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{SQG,2016}}(\kappa_{\mathrm{rel}}, \delta_{\mathrm{GPE}})
+    /// = \kappa_{\mathrm{rel}}\,\Delta\varpi_{\mathrm{PM}} + \delta_{\mathrm{GPE}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediSQG2016PrecessionRad`.
+    #[inline]
+    pub fn fedi_sqg_2016_precession_rad(&self, kappa_rel: f64, delta_gpe_rad: f64) -> f64 {
+        kappa_rel * self.anomalous_precession_rad_per_orbit() + delta_gpe_rad
+    }
+
+    /// Fedi (2017) *"Hydrodynamics of the dark superfluid"* (dilatant Lorentz viscosity
+    /// $\eta_{\mathrm{eff}}(v) \propto \gamma(v) - 1$ & Mercury perihelion) precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{dark,2017}}(\lambda_\gamma, \eta_{\mathrm{drag}})
+    /// = \lambda_\gamma\,\Delta\varpi_{\mathrm{PM}} - 2\pi\,\eta_{\mathrm{drag}}\,a\sqrt{1 - e^2}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediDarkSuperfluid2017PrecessionRad`.
+    #[inline]
+    pub fn fedi_dark_superfluid_2017_precession_rad(
+        &self,
+        lambda_gamma: f64,
+        eta_drag_au_inv: f64,
+    ) -> f64 {
+        let one_minus_e2_sqrt = (1.0 - self.eccentricity * self.eccentricity)
+            .max(0.0)
+            .sqrt();
+        lambda_gamma * self.anomalous_precession_rad_per_orbit()
+            - 2.0 * PI * eta_drag_au_inv * self.semi_major_axis_au * one_minus_e2_sqrt
+    }
+
+    /// Cachazo–Skinner (2012) infinity-twistor broken twistor-string perihelion precession
+    /// in radians per orbit (`arXiv:1207.0741`):
+    /// $\Delta\varpi_{\mathrm{CS}}(\pi_I, \gamma_{\mathrm{conf}}, \Lambda_{\mathrm{cc}})
+    /// = \pi_I\,\Delta\varpi_{\mathrm{PM}}
+    /// - (1 - \pi_I)\,\pi\,\gamma_{\mathrm{conf}}\,a^2\sqrt{1 - e^2}
+    /// + \frac{2\pi\,\Lambda_{\mathrm{cc}}\,a^3\sqrt{1 - e^2}}{r_H}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.cachazoSkinnerTwistorPrecessionRad`
+    /// with $r_H = 2 G M / c^2$.
+    #[inline]
+    pub fn cachazo_skinner_twistor_precession_rad(
+        &self,
+        pi_infinity: f64,
+        gamma_conf: f64,
+        lambda_cc_au_inv_sq: f64,
+    ) -> f64 {
+        let one_minus_e2_sqrt = (1.0 - self.eccentricity * self.eccentricity)
+            .max(0.0)
+            .sqrt();
+        let a = self.semi_major_axis_au;
+        let r_h_au = self.central_horizon_radius_km / AU_KM;
+        let gm_over_c2_au = 0.5 * r_h_au;
+        pi_infinity * self.anomalous_precession_rad_per_orbit()
+            - (1.0 - pi_infinity) * PI * gamma_conf * a * a * one_minus_e2_sqrt
+            + (PI * lambda_cc_au_inv_sq * a * a * a * one_minus_e2_sqrt) / gm_over_c2_au
+    }
+
+    /// Partanen & Tulkki (2025) 1-loop post-Minkowskian QFT perihelion precession
+    /// (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.partanenTulkki2025PrecessionRad`.
+    #[inline]
+    pub fn partanen_tulkki_2025_precession_rad(&self) -> f64 {
+        self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Fedi (2026) conservative Dilatant Dark Fluid (DDF, SSRN 7406660) perihelion precession
+    /// (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.fediDDF2026PrecessionRad`.
+    #[inline]
+    pub fn fedi_ddf_2026_precession_rad(&self) -> f64 {
+        self.fedi_dark_superfluid_2017_precession_rad(1.0, 0.0)
+    }
+
+    /// Turner (2026) flat-space $Gr_{\mathbb{C}}(2,4)$ BCJ double-copy 1-loop QFT perihelion
+    /// precession factored through $M_{\mathbb{C}}^{\mathrm{orb}} \in Gr_{\mathbb{C}}(2,4)$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.turnerGr24QEDPrecessionRad`.
+    #[inline]
+    pub fn turner_gr24_qed_precession_rad(&self, delta_varpi_rad: f64) -> f64 {
+        let mat = self.gr24_precession_matrix(Some(delta_varpi_rad));
+        let w_a_sq = two_row_minor_complex(&mat, 0, 1)
+            .mul(two_row_minor_complex(&mat, 2, 3))
+            .norm_sq();
+        let w_b_sq = two_row_minor_complex(&mat, 0, 3)
+            .mul(two_row_minor_complex(&mat, 1, 2))
+            .norm_sq();
+        let r_h_au = self.central_horizon_radius_km / AU_KM;
+        (3.0 * PI * r_h_au) / (self.semi_major_axis_au * (w_a_sq * w_b_sq).max(1e-18))
+    }
+
+    /// Dimensionless 2.5PN Peters–Mathews gravitational-wave luminosity (normalized to $c^5 / G$)
+    /// $P_{\mathrm{GW}}^{\mathrm{PM}} = \frac{32}{5}\left(\frac{r_{H,1}}{2a}\right)^2\left(\frac{r_{H,2}}{2a}\right)^2\left(\frac{r_{H,1} + r_{H,2}}{2a}\right) f_{\mathrm{PM}}(e)$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.petersMathewsLuminosityPM`.
+    #[inline]
+    pub fn peters_mathews_luminosity_normalized(&self, companion_horizon_radius_km: f64) -> f64 {
+        let a_km = (self.semi_major_axis_au * AU_KM).max(1e-12);
+        let u1 = 0.5 * self.central_horizon_radius_km / a_km;
+        let u2 = 0.5 * companion_horizon_radius_km / a_km;
+        (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * self.peters_mathews_factor()
+    }
+
+    /// Newtonian $1/r$ instantaneous gravity gravitational-wave luminosity ($0.0$),
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.newtonianGWLuminosity`.
+    #[inline]
+    pub fn newtonian_gw_luminosity(&self) -> f64 {
+        0.0
+    }
+
+    /// Nordström (1913) spin-0 scalar gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{scalar}}(\kappa_{\mathrm{scalar}}) = \kappa_{\mathrm{scalar}}\,P_{\mathrm{GW}}^{\mathrm{PM}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.nordstromScalarGWLuminosity`.
+    #[inline]
+    pub fn nordstrom_scalar_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_scalar: f64,
+    ) -> f64 {
+        kappa_scalar * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+    }
+
+    /// Einstein's General Relativity (1916 / 1918) & Peters–Mathews (1963) 2.5PN quadrupole
+    /// gravitational-wave luminosity $P_{\mathrm{GW}}^{\mathrm{EGR}}(\kappa_{\mathrm{quad}}) = \kappa_{\mathrm{quad}}\,P_{\mathrm{GW}}^{\mathrm{PM}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.einsteinGeneralRelativityGWLuminosity`.
+    #[inline]
+    pub fn einstein_general_relativity_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_quad: f64,
+    ) -> f64 {
+        kappa_quad * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+    }
+
+    /// Special-relativistic spin-1 vector / un-doubled Larmor gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{vector}}(\kappa_{\mathrm{vec}}, \Delta_{\mathrm{dip}}) = \kappa_{\mathrm{vec}}\,P_{\mathrm{GW}}^{\mathrm{PM}} + \Delta_{\mathrm{dip}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.spinOneVectorGWLuminosity`.
+    #[inline]
+    pub fn spin_one_vector_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_vec: f64,
+        delta_dipole: f64,
+    ) -> f64 {
+        kappa_vec * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            + delta_dipole
+    }
+
+    /// Witten (2004) / Berkovits–Witten (2004) twistor-string conformal supergravity (Weyl $C_{\mu\nu\rho\sigma}^2$)
+    /// gravitational-wave luminosity $P_{\mathrm{GW}}^{\mathrm{Weyl}}(\beta_{\mathrm{scale}}, \delta P_{\mathrm{ghost}})
+    /// = \beta_{\mathrm{scale}}\,P_{\mathrm{GW}}^{\mathrm{PM}} - \delta P_{\mathrm{ghost}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.wittenConformalTwistorGWLuminosity`.
+    #[inline]
+    pub fn witten_conformal_twistor_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        beta_scale: f64,
+        delta_ghost: f64,
+    ) -> f64 {
+        beta_scale * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            - delta_ghost
+    }
+
+    /// Fedi (2016) *Superfluid Quantum Gravity* (`hal-01248015v3`/`v4`) gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{SQG,2016}}(\kappa_{\mathrm{trans}}, \delta P_{\mathrm{GPE}})
+    /// = \kappa_{\mathrm{trans}}\,P_{\mathrm{GW}}^{\mathrm{PM}} + \delta P_{\mathrm{GPE}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediSQG2016GWLuminosity`.
+    #[inline]
+    pub fn fedi_sqg_2016_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_trans: f64,
+        delta_gpe_flux: f64,
+    ) -> f64 {
+        kappa_trans * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            + delta_gpe_flux
+    }
+
+    /// Fedi (2017) *"Hydrodynamics of the dark superfluid"* gravitational-wave & Stokes-drag luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{dark,2017}}(\lambda_\gamma, P_{\mathrm{Stokes}})
+    /// = \lambda_\gamma\,P_{\mathrm{GW}}^{\mathrm{PM}} + P_{\mathrm{Stokes}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediDarkSuperfluid2017GWLuminosity`.
+    #[inline]
+    pub fn fedi_dark_superfluid_2017_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        lambda_gamma: f64,
+        power_stokes: f64,
+    ) -> f64 {
+        lambda_gamma * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            + power_stokes
+    }
+
+    /// Cachazo–Skinner (2012) infinity-twistor broken twistor-string gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{CS}}(\pi_I, \delta P_{\mathrm{ghost}}, \delta P_\Lambda)
+    /// = \pi_I\,P_{\mathrm{GW}}^{\mathrm{PM}} - (1 - \pi_I)\,\delta P_{\mathrm{ghost}} + \delta P_\Lambda$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.cachazoSkinnerTwistorGWLuminosity`.
+    #[inline]
+    pub fn cachazo_skinner_twistor_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        pi_infinity: f64,
+        delta_ghost: f64,
+        delta_lambda_flux: f64,
+    ) -> f64 {
+        pi_infinity * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            - (1.0 - pi_infinity) * delta_ghost
+            + delta_lambda_flux
+    }
+
+    /// Partanen & Tulkki (2025) 2.5PN post-Minkowskian QFT gravitational-wave luminosity
+    /// (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.partanenTulkki2025GWLuminosity`.
+    #[inline]
+    pub fn partanen_tulkki_2025_gw_luminosity(&self, companion_horizon_radius_km: f64) -> f64 {
+        self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+    }
+
+    /// Fedi (2026) conservative Dilatant Dark Fluid (DDF, SSRN 7406660) gravitational-wave
+    /// luminosity (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.fediDDF2026GWLuminosity`.
+    #[inline]
+    pub fn fedi_ddf_2026_gw_luminosity(&self, companion_horizon_radius_km: f64) -> f64 {
+        self.fedi_dark_superfluid_2017_gw_luminosity(companion_horizon_radius_km, 1.0, 0.0)
+    }
+
+    /// Turner (2026) flat-space $Gr_{\mathbb{C}}(2,4)$ BCJ double-copy 2.5PN gravitational-wave
+    /// luminosity factored through $M_{\mathbb{C}}^{\mathrm{GW}} \in Gr_{\mathbb{C}}(2,4)$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.turnerGr24QEDGWLuminosity`.
+    #[inline]
+    pub fn turner_gr24_qed_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        orbital_phase_rad: f64,
+        delta_varpi_rad: f64,
+    ) -> f64 {
+        let mat = self.gr24_quadrupole_wave_matrix(orbital_phase_rad, Some(delta_varpi_rad));
+        let w_a_sq = two_row_minor_complex(&mat, 0, 1)
+            .mul(two_row_minor_complex(&mat, 2, 3))
+            .norm_sq();
+        let w_b_sq = two_row_minor_complex(&mat, 0, 3)
+            .mul(two_row_minor_complex(&mat, 1, 2))
+            .norm_sq();
+        let a_km = (self.semi_major_axis_au * AU_KM).max(1e-12);
+        let u1 = 0.5 * self.central_horizon_radius_km / a_km;
+        let u2 = 0.5 * companion_horizon_radius_km / a_km;
+        let f_pm_gr24 = self.peters_mathews_polynomial()
+            / (w_a_sq * w_b_sq).max(1e-18).sqrt().powi(7);
+        (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * f_pm_gr24
+    }
+
+    /// Canonical $2\times 2$ Fubini–Study affine chart Kähler determinant factor
+    /// $\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) = \|p(I_2 \mid W_{\mathrm{orb}})\|_{\mathbb{C}^6}^2 = 4 - e^2 = 3 + p/a > 3$,
+    /// matching `Signals.DDF.PlanetaryOrbit.gr24AffineChart` and `Signals.DDF.kahlerDetFactor`.
+    #[inline]
+    pub fn gr24_affine_chart_kahler_det_factor(&self, delta_varpi_rad: f64) -> f64 {
+        let theta = 0.5 * delta_varpi_rad;
+        let a = (1.0 + self.eccentricity).max(0.0).sqrt();
+        let b = (1.0 - self.eccentricity).max(0.0).sqrt();
+        let z_aph = Complex64::from_polar(a, theta);
+        let z_per = Complex64::from_polar(b, -theta);
+        1.0 + (z_aph.norm_sq() + z_per.norm_sq()) + z_aph.mul(z_per).norm_sq()
+    }
+
+    /// Model 14a/14b (Gravity): Revised Turner (2026) homogeneous Plücker $\mathcal{Q}_4$ Madelung QHJ,
+    /// Fubini–Study Kähler chart ($\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = p/a$),
+    /// and Dual-Grassmannian `iGPE` perihelion precession (with optional near-horizon Josephson/Bohm
+    /// core shift $\delta_{\mathrm{Jos}}$), matching `Signals.DDF.PlanetaryOrbit.turnerPluckerIGPEPrecessionRad`
+    /// and `Signals.DDF.RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`.
+    #[inline]
+    pub fn turner_plucker_igpe_precession_rad(
+        &self,
+        delta_varpi_rad: f64,
+        delta_jos_rad: f64,
+    ) -> f64 {
+        let kahler_excess =
+            (self.gr24_affine_chart_kahler_det_factor(delta_varpi_rad) - 3.0).max(1e-18);
+        let r_h_au = self.central_horizon_radius_km / AU_KM;
+        (3.0 * PI * r_h_au) / (self.semi_major_axis_au * kahler_excess) + delta_jos_rad
+    }
+
+    /// Model 14a/14b (Gravitational Waves): Revised Turner (2026) homogeneous Plücker $\mathcal{Q}_4$
+    /// Madelung, Fubini–Study Kähler chart, and Dual-Grassmannian `iGPE` 2.5PN quadrupole luminosity
+    /// (with optional super-critical $\mathrm{De}/\mathrm{De}_c > 1$ Deborah shear-fracture Josephson
+    /// ringdown flux $\delta P_{\mathrm{Jos}}$), matching
+    /// `Signals.DDF.PlanetaryOrbit.turnerPluckerIGPEGWLuminosity` and
+    /// `Signals.DDF.RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`.
+    #[inline]
+    pub fn turner_plucker_igpe_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        orbital_phase_rad: f64,
+        delta_varpi_rad: f64,
+        delta_p_jos: f64,
+    ) -> f64 {
+        let kahler_excess = (self
+            .gr24_affine_chart_kahler_det_factor(2.0 * orbital_phase_rad + delta_varpi_rad)
+            - 3.0)
+            .max(1e-18);
+        let a_km = (self.semi_major_axis_au * AU_KM).max(1e-12);
+        let u1 = 0.5 * self.central_horizon_radius_km / a_km;
+        let u2 = 0.5 * companion_horizon_radius_km / a_km;
+        let f_pm_kahler = self.peters_mathews_polynomial() / kahler_excess.sqrt().powi(7);
+        (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * f_pm_kahler + delta_p_jos
+    }
+}
+
+/// Cachazo–Skinner (2012) infinity-twistor 4-point reduced Hodges double-copy numerator kernel
+/// $\mathcal{K}_{\mathrm{CS}}(M_{\mathbb{C}}) = (\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}))^2$
+/// on $Gr_{\mathbb{C}}(2, 4)$, matching `Signals.QEDGravity.cachazoSkinnerHodges4PtKernel`.
+#[inline]
+pub fn cachazo_skinner_hodges_4pt_kernel(mat: &[[Complex64; 4]; 2]) -> Complex64 {
+    let cross = two_row_minor_complex(mat, 0, 2).mul(two_row_minor_complex(mat, 1, 3));
+    cross.mul(cross)
+}
+
+/// Pointwise relative predictive error $\varepsilon_{\mathrm{rel}}(y_{\mathrm{model}}, y_{\mathrm{ref}})
+/// = \frac{|y_{\mathrm{model}} - y_{\mathrm{ref}}|}{|y_{\mathrm{ref}}|}$, matching
+/// `Signals.Huygens.relativePredictiveError`.
+#[inline]
+pub fn relative_predictive_error(model_prediction: f64, reference_value: f64) -> f64 {
+    (model_prediction - reference_value).abs() / reference_value.abs()
+}
+
+/// Summary of the multi-model gravity perihelion precession and relative predictive error
+/// comparison for a bound planetary orbit, matching
+/// `Signals.QEDGravity.PlanetaryOrbit.gravity_models_relative_predictive_error_comparison`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct GravityModelErrorComparison {
+    pub gr_pm_precession_rad: f64,
+    pub gr_pm_relative_error: f64,
+    pub newtonian_relative_error: f64,
+    pub nordstrom_scalar_precession_rad: f64,
+    pub nordstrom_scalar_relative_error: f64,
+    pub einstein_gr_precession_rad: f64,
+    pub einstein_gr_relative_error: f64,
+    pub spin_one_vector_precession_rad: f64,
+    pub spin_one_vector_relative_error: f64,
+    pub witten_scale_free_relative_error: f64,
+    pub witten_biharmonic_precession_rad: f64,
+    pub witten_biharmonic_relative_error: f64,
+    pub fedi_sqg_2016_bernoulli_relative_error: f64,
+    pub fedi_sqg_2016_planetary_precession_rad: f64,
+    pub fedi_sqg_2016_planetary_relative_error: f64,
+    pub fedi_sqg_2016_gpe_core_relative_error: f64,
+    pub fedi_dark_2017_conservative_precession_rad: f64,
+    pub fedi_dark_2017_conservative_relative_error: f64,
+    pub fedi_dark_2017_pioneer_drag_relative_error: f64,
+    pub cachazo_skinner_flat_precession_rad: f64,
+    pub cachazo_skinner_flat_relative_error: f64,
+    pub cachazo_skinner_cosmological_precession_rad: f64,
+    pub cachazo_skinner_cosmological_relative_error: f64,
+    pub cachazo_skinner_unbroken_minus_witten_rad: f64,
+    pub hodges_minus_bcj_double_copy_norm_sq: f64,
+    pub partanen_tulkki_2025_precession_rad: f64,
+    pub partanen_tulkki_2025_relative_error: f64,
+    pub fedi_ddf_2026_precession_rad: f64,
+    pub fedi_ddf_2026_relative_error: f64,
+    pub turner_gr24_qed_precession_rad: f64,
+    pub turner_gr24_qed_relative_error: f64,
+    pub orbital_kahler_det_factor: f64,
+    pub turner_plucker_igpe_precession_rad: f64,
+    pub turner_plucker_igpe_relative_error: f64,
+    pub turner_dual_gr24_igpe_core_relative_error: f64,
+}
+
+impl GravityModelErrorComparison {
+    /// Evaluate all competing gravity models and their relative predictive errors against
+    /// the 1PN Einstein / 1-loop $Gr_{\mathbb{C}}(2,4)$ double-copy benchmark $\Delta\varpi_{\mathrm{GR}}$.
+    pub fn evaluate(
+        orbit: &PlanetaryOrbitParams,
+        gamma_conf: f64,
+        lambda_cc_au_inv_sq: f64,
+    ) -> Self {
+        let dv_gr = orbit.anomalous_precession_rad_per_orbit();
+        let dv_newt = orbit.newtonian_anomalous_precession_rad();
+        let dv_scal = orbit.nordstrom_scalar_precession_rad();
+        let dv_egr = orbit.einstein_general_relativity_precession_rad(1.0, 1.0);
+        let dv_vec = orbit.spin_one_vector_precession_rad();
+        let dv_witten_0 = orbit.witten_conformal_twistor_precession_rad(0.0, 0.0);
+        let dv_witten_gamma = orbit.witten_conformal_twistor_precession_rad(1.0, gamma_conf);
+        let delta_gpe = 1e-12;
+        let eta_drag = 1e-11;
+        let dv_sqg_0 = orbit.fedi_sqg_2016_precession_rad(0.0, 0.0);
+        let dv_sqg_10 = orbit.fedi_sqg_2016_precession_rad(1.0, 0.0);
+        let dv_sqg_gpe = orbit.fedi_sqg_2016_precession_rad(1.0, delta_gpe);
+        let dv_dark_10 = orbit.fedi_dark_superfluid_2017_precession_rad(1.0, 0.0);
+        let dv_dark_drag = orbit.fedi_dark_superfluid_2017_precession_rad(1.0, eta_drag);
+        let dv_cs_flat = orbit.cachazo_skinner_twistor_precession_rad(1.0, gamma_conf, 0.0);
+        let dv_cs_cc =
+            orbit.cachazo_skinner_twistor_precession_rad(1.0, gamma_conf, lambda_cc_au_inv_sq);
+        let dv_cs_unbroken = orbit.cachazo_skinner_twistor_precession_rad(0.0, gamma_conf, 0.0);
+        let dv_witten_unbroken = orbit.witten_conformal_twistor_precession_rad(0.0, gamma_conf);
+        let dv_pt_2025 = orbit.partanen_tulkki_2025_precession_rad();
+        let dv_ddf_2026 = orbit.fedi_ddf_2026_precession_rad();
+        let dv_turner_gr24 = orbit.turner_gr24_qed_precession_rad(dv_gr);
+        let kahler_orb = orbit.gr24_affine_chart_kahler_det_factor(dv_gr);
+        let dv_turner_plucker_0 = orbit.turner_plucker_igpe_precession_rad(dv_gr, 0.0);
+        let dv_turner_plucker_core = orbit.turner_plucker_igpe_precession_rad(dv_gr, delta_gpe);
+
+        let mat = orbit.gr24_precession_matrix(Some(dv_gr));
+        let hodges = cachazo_skinner_hodges_4pt_kernel(&mat);
+        let w_a = two_row_minor_complex(&mat, 0, 1).mul(two_row_minor_complex(&mat, 2, 3));
+        let w_b = two_row_minor_complex(&mat, 0, 3).mul(two_row_minor_complex(&mat, 1, 2));
+        let w_sum = w_a.add(w_b);
+        let bcj_sq = w_sum.mul(w_sum);
+
+        Self {
+            gr_pm_precession_rad: dv_gr,
+            gr_pm_relative_error: relative_predictive_error(dv_gr, dv_gr),
+            newtonian_relative_error: relative_predictive_error(dv_newt, dv_gr),
+            nordstrom_scalar_precession_rad: dv_scal,
+            nordstrom_scalar_relative_error: relative_predictive_error(dv_scal, dv_gr),
+            einstein_gr_precession_rad: dv_egr,
+            einstein_gr_relative_error: relative_predictive_error(dv_egr, dv_gr),
+            spin_one_vector_precession_rad: dv_vec,
+            spin_one_vector_relative_error: relative_predictive_error(dv_vec, dv_gr),
+            witten_scale_free_relative_error: relative_predictive_error(dv_witten_0, dv_gr),
+            witten_biharmonic_precession_rad: dv_witten_gamma,
+            witten_biharmonic_relative_error: relative_predictive_error(dv_witten_gamma, dv_gr),
+            fedi_sqg_2016_bernoulli_relative_error: relative_predictive_error(dv_sqg_0, dv_gr),
+            fedi_sqg_2016_planetary_precession_rad: dv_sqg_10,
+            fedi_sqg_2016_planetary_relative_error: relative_predictive_error(dv_sqg_10, dv_gr),
+            fedi_sqg_2016_gpe_core_relative_error: relative_predictive_error(dv_sqg_gpe, dv_gr),
+            fedi_dark_2017_conservative_precession_rad: dv_dark_10,
+            fedi_dark_2017_conservative_relative_error: relative_predictive_error(
+                dv_dark_10, dv_gr,
+            ),
+            fedi_dark_2017_pioneer_drag_relative_error: relative_predictive_error(
+                dv_dark_drag,
+                dv_gr,
+            ),
+            cachazo_skinner_flat_precession_rad: dv_cs_flat,
+            cachazo_skinner_flat_relative_error: relative_predictive_error(dv_cs_flat, dv_gr),
+            cachazo_skinner_cosmological_precession_rad: dv_cs_cc,
+            cachazo_skinner_cosmological_relative_error: relative_predictive_error(dv_cs_cc, dv_gr),
+            cachazo_skinner_unbroken_minus_witten_rad: (dv_cs_unbroken - dv_witten_unbroken).abs(),
+            hodges_minus_bcj_double_copy_norm_sq: hodges.sub(bcj_sq).norm_sq(),
+            partanen_tulkki_2025_precession_rad: dv_pt_2025,
+            partanen_tulkki_2025_relative_error: relative_predictive_error(dv_pt_2025, dv_gr),
+            fedi_ddf_2026_precession_rad: dv_ddf_2026,
+            fedi_ddf_2026_relative_error: relative_predictive_error(dv_ddf_2026, dv_gr),
+            turner_gr24_qed_precession_rad: dv_turner_gr24,
+            turner_gr24_qed_relative_error: relative_predictive_error(dv_turner_gr24, dv_gr),
+            orbital_kahler_det_factor: kahler_orb,
+            turner_plucker_igpe_precession_rad: dv_turner_plucker_0,
+            turner_plucker_igpe_relative_error: relative_predictive_error(
+                dv_turner_plucker_0,
+                dv_gr,
+            ),
+            turner_dual_gr24_igpe_core_relative_error: relative_predictive_error(
+                dv_turner_plucker_core,
+                dv_gr,
+            ),
+        }
+    }
+}
+
+/// Summary of the multi-model gravitational-wave luminosity and relative predictive error
+/// comparison for a binary / planetary orbit, matching
+/// `Signals.QEDGravity.PlanetaryOrbit.gravitational_wave_models_relative_predictive_error_comparison`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct GravitationalWaveModelErrorComparison {
+    pub gr_pm_gw_luminosity: f64,
+    pub gr_pm_relative_error: f64,
+    pub newtonian_relative_error: f64,
+    pub nordstrom_scalar_tt_relative_error: f64,
+    pub nordstrom_scalar_virial_relative_error: f64,
+    pub einstein_gr_gw_luminosity: f64,
+    pub einstein_gr_relative_error: f64,
+    pub spin_one_vector_tt_relative_error: f64,
+    pub spin_one_vector_quadrupole_relative_error: f64,
+    pub witten_scale_free_relative_error: f64,
+    pub witten_ghost_relative_error: f64,
+    pub fedi_sqg_2016_longitudinal_relative_error: f64,
+    pub fedi_sqg_2016_vortex_lattice_gw_luminosity: f64,
+    pub fedi_sqg_2016_vortex_lattice_relative_error: f64,
+    pub fedi_sqg_2016_gpe_dispersion_relative_error: f64,
+    pub fedi_dark_2017_conservative_gw_luminosity: f64,
+    pub fedi_dark_2017_conservative_relative_error: f64,
+    pub fedi_dark_2017_stokes_drag_relative_error: f64,
+    pub cachazo_skinner_flat_gw_luminosity: f64,
+    pub cachazo_skinner_flat_relative_error: f64,
+    pub cachazo_skinner_cosmological_relative_error: f64,
+    pub cachazo_skinner_unbroken_minus_witten: f64,
+    pub partanen_tulkki_2025_gw_luminosity: f64,
+    pub partanen_tulkki_2025_relative_error: f64,
+    pub fedi_ddf_2026_gw_luminosity: f64,
+    pub fedi_ddf_2026_relative_error: f64,
+    pub turner_gr24_qed_gw_luminosity: f64,
+    pub turner_gr24_qed_relative_error: f64,
+    pub turner_plucker_igpe_gw_luminosity: f64,
+    pub turner_plucker_igpe_relative_error: f64,
+    pub turner_dual_gr24_igpe_fracture_relative_error: f64,
+}
+
+impl GravitationalWaveModelErrorComparison {
+    /// Evaluate all competing gravitational-wave luminosity models and their relative
+    /// predictive errors against the 2.5PN Einstein–Peters–Mathews / $Gr_{\mathbb{C}}(2,4)$
+    /// double-copy benchmark $P_{\mathrm{GW}}^{\mathrm{GR}}$.
+    pub fn evaluate(orbit: &PlanetaryOrbitParams, companion_horizon_radius_km: f64) -> Self {
+        let p_gr = orbit.peters_mathews_luminosity_normalized(companion_horizon_radius_km);
+        let delta_ghost = 0.05 * p_gr;
+        let delta_lambda = 0.01 * p_gr;
+        let delta_gpe = 0.02 * p_gr;
+        let power_stokes = 0.03 * p_gr;
+
+        let p_newt = orbit.newtonian_gw_luminosity();
+        let p_scal_0 = orbit.nordstrom_scalar_gw_luminosity(companion_horizon_radius_km, 0.0);
+        let p_scal_16 =
+            orbit.nordstrom_scalar_gw_luminosity(companion_horizon_radius_km, 1.0 / 6.0);
+        let p_egr =
+            orbit.einstein_general_relativity_gw_luminosity(companion_horizon_radius_km, 1.0);
+        let p_vec_0 = orbit.spin_one_vector_gw_luminosity(companion_horizon_radius_km, 0.0, 0.0);
+        let p_vec_14 = orbit.spin_one_vector_gw_luminosity(companion_horizon_radius_km, 0.25, 0.0);
+        let p_weyl_0 =
+            orbit.witten_conformal_twistor_gw_luminosity(companion_horizon_radius_km, 0.0, 0.0);
+        let p_weyl_ghost = orbit.witten_conformal_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            delta_ghost,
+        );
+        let p_sqg_0 = orbit.fedi_sqg_2016_gw_luminosity(companion_horizon_radius_km, 0.0, 0.0);
+        let p_sqg_10 = orbit.fedi_sqg_2016_gw_luminosity(companion_horizon_radius_km, 1.0, 0.0);
+        let p_sqg_gpe =
+            orbit.fedi_sqg_2016_gw_luminosity(companion_horizon_radius_km, 1.0, delta_gpe);
+        let p_dark_10 =
+            orbit.fedi_dark_superfluid_2017_gw_luminosity(companion_horizon_radius_km, 1.0, 0.0);
+        let p_dark_stokes = orbit.fedi_dark_superfluid_2017_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            power_stokes,
+        );
+        let p_cs_flat = orbit.cachazo_skinner_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            delta_ghost,
+            0.0,
+        );
+        let p_cs_cc = orbit.cachazo_skinner_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            delta_ghost,
+            delta_lambda,
+        );
+        let p_cs_unbroken = orbit.cachazo_skinner_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            0.0,
+            delta_ghost,
+            0.0,
+        );
+        let p_weyl_unbroken = orbit.witten_conformal_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            0.0,
+            delta_ghost,
+        );
+        let p_pt_2025 = orbit.partanen_tulkki_2025_gw_luminosity(companion_horizon_radius_km);
+        let p_ddf_2026 = orbit.fedi_ddf_2026_gw_luminosity(companion_horizon_radius_km);
+        let dv_orb = orbit.anomalous_precession_rad_per_orbit();
+        let p_turner_gr24 = orbit.turner_gr24_qed_gw_luminosity(
+            companion_horizon_radius_km,
+            0.35,
+            dv_orb,
+        );
+        let p_turner_plucker_0 = orbit.turner_plucker_igpe_gw_luminosity(
+            companion_horizon_radius_km,
+            0.35,
+            dv_orb,
+            0.0,
+        );
+        let p_turner_plucker_fracture = orbit.turner_plucker_igpe_gw_luminosity(
+            companion_horizon_radius_km,
+            0.35,
+            dv_orb,
+            delta_gpe,
+        );
+
+        Self {
+            gr_pm_gw_luminosity: p_gr,
+            gr_pm_relative_error: relative_predictive_error(p_gr, p_gr),
+            newtonian_relative_error: relative_predictive_error(p_newt, p_gr),
+            nordstrom_scalar_tt_relative_error: relative_predictive_error(p_scal_0, p_gr),
+            nordstrom_scalar_virial_relative_error: relative_predictive_error(p_scal_16, p_gr),
+            einstein_gr_gw_luminosity: p_egr,
+            einstein_gr_relative_error: relative_predictive_error(p_egr, p_gr),
+            spin_one_vector_tt_relative_error: relative_predictive_error(p_vec_0, p_gr),
+            spin_one_vector_quadrupole_relative_error: relative_predictive_error(p_vec_14, p_gr),
+            witten_scale_free_relative_error: relative_predictive_error(p_weyl_0, p_gr),
+            witten_ghost_relative_error: relative_predictive_error(p_weyl_ghost, p_gr),
+            fedi_sqg_2016_longitudinal_relative_error: relative_predictive_error(p_sqg_0, p_gr),
+            fedi_sqg_2016_vortex_lattice_gw_luminosity: p_sqg_10,
+            fedi_sqg_2016_vortex_lattice_relative_error: relative_predictive_error(p_sqg_10, p_gr),
+            fedi_sqg_2016_gpe_dispersion_relative_error: relative_predictive_error(p_sqg_gpe, p_gr),
+            fedi_dark_2017_conservative_gw_luminosity: p_dark_10,
+            fedi_dark_2017_conservative_relative_error: relative_predictive_error(p_dark_10, p_gr),
+            fedi_dark_2017_stokes_drag_relative_error: relative_predictive_error(
+                p_dark_stokes,
+                p_gr,
+            ),
+            cachazo_skinner_flat_gw_luminosity: p_cs_flat,
+            cachazo_skinner_flat_relative_error: relative_predictive_error(p_cs_flat, p_gr),
+            cachazo_skinner_cosmological_relative_error: relative_predictive_error(p_cs_cc, p_gr),
+            cachazo_skinner_unbroken_minus_witten: (p_cs_unbroken - p_weyl_unbroken).abs(),
+            partanen_tulkki_2025_gw_luminosity: p_pt_2025,
+            partanen_tulkki_2025_relative_error: relative_predictive_error(p_pt_2025, p_gr),
+            fedi_ddf_2026_gw_luminosity: p_ddf_2026,
+            fedi_ddf_2026_relative_error: relative_predictive_error(p_ddf_2026, p_gr),
+            turner_gr24_qed_gw_luminosity: p_turner_gr24,
+            turner_gr24_qed_relative_error: relative_predictive_error(p_turner_gr24, p_gr),
+            turner_plucker_igpe_gw_luminosity: p_turner_plucker_0,
+            turner_plucker_igpe_relative_error: relative_predictive_error(
+                p_turner_plucker_0,
+                p_gr,
+            ),
+            turner_dual_gr24_igpe_fracture_relative_error: relative_predictive_error(
+                p_turner_plucker_fracture,
+                p_gr,
+            ),
+        }
+    }
+}
+
+/// Summary of the $Gr_{\mathbb{C}}(2, 4)$ orbital invariants for a planetary orbit,
+/// matching `Signals.DDF.PlanetaryOrbit.gr24PrecessionMatrix_orbital_identities`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Gr24OrbitalInvariants {
+    pub madelung_aphelion_ratio: f64,
+    pub madelung_perihelion_ratio: f64,
+    pub madelung_eccentricity: f64,
+    pub madelung_semi_latus_ratio: f64,
+    pub crossing_minor_norm_sq: f64,
+    pub bcj_jacobi_residual_norm_sq: f64,
+}
+
+impl Gr24OrbitalInvariants {
+    pub fn evaluate(orbit: &PlanetaryOrbitParams, delta_varpi_override: Option<f64>) -> Self {
+        let mat = orbit.gr24_precession_matrix(delta_varpi_override);
+        let n_s = two_row_minor_complex(&mat, 0, 1).mul(two_row_minor_complex(&mat, 2, 3));
+        let n_t_pos = two_row_minor_complex(&mat, 0, 2).mul(two_row_minor_complex(&mat, 1, 3));
+        let n_u = two_row_minor_complex(&mat, 0, 3).mul(two_row_minor_complex(&mat, 1, 2));
+        let bcj_jacobi = n_s.sub(n_t_pos).add(n_u);
+
+        let w_a_sq = n_s.norm_sq();
+        let w_b_sq = n_u.norm_sq();
+        Self {
+            madelung_aphelion_ratio: w_a_sq,
+            madelung_perihelion_ratio: w_b_sq,
+            madelung_eccentricity: 0.5 * (w_a_sq - w_b_sq),
+            madelung_semi_latus_ratio: w_a_sq * w_b_sq,
+            crossing_minor_norm_sq: n_t_pos.norm_sq(),
+            bcj_jacobi_residual_norm_sq: bcj_jacobi.norm_sq(),
+        }
+    }
+}
+
+/// Symplectic Velocity-Verlet state for a planet orbiting in the 1-loop QFT / DDF
+/// effective potential $V_{\mathrm{eff}}(r) = -\frac{\mu}{r}\bigl(1 + \frac{3 h^2}{c^2 r^2}\bigr)$.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct RelativisticOrbitState {
+    pub position: [f64; 2],
+    pub velocity: [f64; 2],
+    pub gm_central: f64,
+    pub c_speed: f64,
+}
+
+impl RelativisticOrbitState {
+    /// Specific angular momentum $h = x v_y - y v_x$.
+    #[inline]
+    pub fn specific_angular_momentum(&self) -> f64 {
+        self.position[0] * self.velocity[1] - self.position[1] * self.velocity[0]
+    }
+
+    /// Radial distance $r = \sqrt{x^2 + y^2}$.
+    #[inline]
+    pub fn radius(&self) -> f64 {
+        (self.position[0] * self.position[0] + self.position[1] * self.position[1]).sqrt()
+    }
+
+    /// Specific conservative mechanical energy
+    /// $\mathcal{E} = \frac{1}{2}|\mathbf{v}|^2 - \frac{\mu}{r}\bigl(1 + \frac{3 h^2}{c^2 r^2}\bigr)$.
+    pub fn specific_mechanical_energy(&self) -> f64 {
+        let v_sq = self.velocity[0] * self.velocity[0] + self.velocity[1] * self.velocity[1];
+        let r = self.radius().max(1e-12);
+        let h = self.specific_angular_momentum();
+        let rel_corr = 1.0 + (3.0 * h * h) / (self.c_speed * self.c_speed * r * r);
+        0.5 * v_sq - (self.gm_central / r) * rel_corr
+    }
+
+    /// Conservative radial acceleration
+    /// $\mathbf{a}(\mathbf{r}) = -\frac{\mu}{r^3}\bigl(1 + \frac{9 h^2}{c^2 r^2}\bigr)\mathbf{r}$
+    /// (with fixed specific angular momentum $h$).
+    pub fn acceleration(&self, pos: [f64; 2], h: f64) -> [f64; 2] {
+        let r_sq = (pos[0] * pos[0] + pos[1] * pos[1]).max(1e-18);
+        let r = r_sq.sqrt();
+        let r_cubed = r_sq * r;
+        let factor =
+            -(self.gm_central / r_cubed) * (1.0 + (9.0 * h * h) / (self.c_speed * self.c_speed * r_sq));
+        [factor * pos[0], factor * pos[1]]
+    }
+
+    /// Advance one time step `dt` using the symplectic Velocity-Verlet integrator.
+    pub fn step_velocity_verlet(&mut self, dt: f64) {
+        let h = self.specific_angular_momentum();
+        let a0 = self.acceleration(self.position, h);
+        let half_vx = self.velocity[0] + 0.5 * dt * a0[0];
+        let half_vy = self.velocity[1] + 0.5 * dt * a0[1];
+        let next_pos = [
+            self.position[0] + dt * half_vx,
+            self.position[1] + dt * half_vy,
+        ];
+        let a1 = self.acceleration(next_pos, h);
+        self.position = next_pos;
+        self.velocity = [half_vx + 0.5 * dt * a1[0], half_vy + 0.5 * dt * a1[1]];
+    }
+}
+
+/// Evaluate the $N$-body superfluid Bernoulli sink potential
+/// $\Phi_\phi^{(N)} = -\sum_{j=0}^{N-1} \frac{G_\phi M_j}{r_j}$ via the $Gr_{\mathbb{C}}(2, N+2)$
+/// Madelung channel sum (`Signals.DDF.nBodyBernoulliPotential_eq_neg_gr2N_madelung_sum`).
+pub fn nbody_bernoulli_potential_gr2n(
+    g_phi: f64,
+    masses: &[f64],
+    distances: &[f64],
+    phases: &[f64],
+) -> (f64, f64) {
+    let n = masses.len().min(distances.len()).min(phases.len());
+    let mut direct_potential = 0.0;
+    let mut z_vec = Vec::with_capacity(n);
+    for j in 0..n {
+        let w_j = (g_phi * masses[j] / distances[j]).max(0.0);
+        direct_potential -= w_j;
+        z_vec.push(Complex64::from_polar(w_j.sqrt(), phases[j]));
+    }
+    let m_c = complex_gr2n_channel_matrix(&z_vec);
+    let mut gr2n_madelung_sum = 0.0;
+    for j in 0..n {
+        let minor = two_row_minor_complex_slice(&m_c, 0, j + 2);
+        gr2n_madelung_sum += minor.norm_sq();
+    }
+    (direct_potential, -gr2n_madelung_sum)
+}
+
+// ============================================================================
+// Normed 2D Anisotropic Tensor Gaussian Splatting (Gr_C(2,4), DDF, & Sinks)
+// ============================================================================
+
+/// Physical/geometric role of a normed 2D Tensor Gaussian Splat primitive.
+#[repr(i32)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum SplatRole {
+    /// 0: Gravitating body / attractor / superfluid sink ($\Phi_\phi < 0$) or source.
+    BodySinkSource = 0,
+    /// 1: Complex $Gr_{\mathbb{C}}(2, 4)$ orbital field splat ($\sigma_1 = \sigma_0\sqrt{1+e}$, $\sigma_2 = \sigma_0\sqrt{1-e}$).
+    Gr24OrbitalField = 1,
+    /// 2: DDF shear-jammed moving-sheath splat ($\sigma_1 = \sigma_0 / \gamma_\varphi(v)$, $\sigma_2 = \sigma_0$).
+    DdfMovingSheathField = 2,
+    /// 3: Gravitomagnetic / Kerr–Lense–Thirring vortex swirl splat.
+    VortexSwirlField = 3,
+}
+
+/// Normed 2D anisotropic Tensor Gaussian Splat primitive, matching
+/// `Signals.DDF.NormedTensorGaussianSplat2D`.
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct NormedTensorGaussianSplat2D {
+    pub center_x: f64,
+    pub center_y: f64,
+    pub weight: f64,
+    pub sigma1: f64,
+    pub sigma2: f64,
+    pub orientation_angle: f64,
+    pub role: SplatRole,
+}
+
+impl NormedTensorGaussianSplat2D {
+    /// Construct a body / attractor / sink / source splat.
+    pub fn body_sink_source(
+        center_x: f64,
+        center_y: f64,
+        weight: f64,
+        sigma1: f64,
+        sigma2: f64,
+        orientation_angle: f64,
+    ) -> Self {
+        Self {
+            center_x,
+            center_y,
+            weight: weight.max(0.0),
+            sigma1: sigma1.max(1e-9),
+            sigma2: sigma2.max(1e-9),
+            orientation_angle,
+            role: SplatRole::BodySinkSource,
+        }
+    }
+
+    /// Construct a complex $Gr_{\mathbb{C}}(2, 4)$ planetary orbital field splat with
+    /// $\sigma_1 = \sigma_0 \sqrt{1 + e} = \sigma_0 |w_A^{\mathbb{C}}|$ and
+    /// $\sigma_2 = \sigma_0 \sqrt{1 - e} = \sigma_0 |w_B^{\mathbb{C}}|$, matching
+    /// `Signals.DDF.PlanetaryOrbit.gr24TensorSplat`.
+    pub fn from_gr24_orbit(
+        orbit: &PlanetaryOrbitParams,
+        center_x: f64,
+        center_y: f64,
+        weight: f64,
+        sigma0: f64,
+        varpi_angle: f64,
+    ) -> Self {
+        let e = orbit.eccentricity.clamp(0.0, 0.999_999);
+        let s0 = sigma0.max(1e-9);
+        Self {
+            center_x,
+            center_y,
+            weight: weight.max(0.0),
+            sigma1: s0 * (1.0 + e).sqrt(),
+            sigma2: s0 * (1.0 - e).sqrt(),
+            orientation_angle: varpi_angle,
+            role: SplatRole::Gr24OrbitalField,
+        }
+    }
+
+    /// Construct a DDF moving-sheath tensor splat with longitudinal Lorentz/jamming
+    /// contraction $\sigma_1 = \sigma_0 \sqrt{1 - \beta^2} = \sigma_0 \gamma_\varphi(v)^{-1}$
+    /// and transverse width $\sigma_2 = \sigma_0$, matching
+    /// `Signals.DDF.MovingSheath.ddfTensorSplat`.
+    pub fn from_ddf_moving_sheath(
+        center_x: f64,
+        center_y: f64,
+        weight: f64,
+        sigma0: f64,
+        beta: f64,
+        velocity_angle: f64,
+    ) -> Self {
+        let clamped_beta = beta.clamp(0.0, 0.999_999);
+        let visibility = (1.0 - clamped_beta * clamped_beta).max(1e-12).sqrt();
+        let s0 = sigma0.max(1e-9);
+        Self {
+            center_x,
+            center_y,
+            weight: weight.max(0.0),
+            sigma1: s0 * visibility,
+            sigma2: s0,
+            orientation_angle: velocity_angle,
+            role: SplatRole::DdfMovingSheathField,
+        }
+    }
+
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_finite("center_x", self.center_x)?;
+        require_finite("center_y", self.center_y)?;
+        require_nonnegative("weight", self.weight)?;
+        require_positive("sigma1", self.sigma1)?;
+        require_positive("sigma2", self.sigma2)?;
+        require_finite("orientation_angle", self.orientation_angle)?;
+        Ok(())
+    }
+
+    /// Covariance determinant $\det \Sigma = \sigma_1^2 \sigma_2^2$ (`NormedTensorGaussianSplat2D.covDet`).
+    #[inline]
+    pub fn cov_det(&self) -> f64 {
+        (self.sigma1 * self.sigma1) * (self.sigma2 * self.sigma2)
+    }
+
+    /// Covariance trace $\operatorname{Tr} \Sigma = \sigma_1^2 + \sigma_2^2$ (`NormedTensorGaussianSplat2D.covTrace`).
+    #[inline]
+    pub fn cov_trace(&self) -> f64 {
+        self.sigma1 * self.sigma1 + self.sigma2 * self.sigma2
+    }
+
+    /// Exact 2D $L^1(\mathbb{R}^2)$ normalization factor $\mathcal{N}(\Sigma) = \frac{1}{2\pi \sigma_1 \sigma_2}$
+    /// (`NormedTensorGaussianSplat2D.normFactor`).
+    #[inline]
+    pub fn norm_factor(&self) -> f64 {
+        1.0 / (2.0 * PI * self.sigma1 * self.sigma2)
+    }
+
+    /// Symmetric $2 \times 2$ covariance matrix $\Sigma = R(\theta)\operatorname{diag}(\sigma_1^2, \sigma_2^2)R(\theta)^T$.
+    pub fn covariance_matrix_2x2(&self) -> [[f64; 2]; 2] {
+        let c = self.orientation_angle.cos();
+        let s = self.orientation_angle.sin();
+        let l1 = self.sigma1 * self.sigma1;
+        let l2 = self.sigma2 * self.sigma2;
+        let s_xx = l1 * c * c + l2 * s * s;
+        let s_xy = (l1 - l2) * c * s;
+        let s_yy = l1 * s * s + l2 * c * c;
+        [[s_xx, s_xy], [s_xy, s_yy]]
+    }
+
+    /// Symmetric $2 \times 2$ precision matrix (inverse covariance)
+    /// $\Sigma^{-1} = R(\theta)\operatorname{diag}(\sigma_1^{-2}, \sigma_2^{-2})R(\theta)^T = -\nabla\nabla \ln G(x, y)$.
+    pub fn precision_matrix_2x2(&self) -> [[f64; 2]; 2] {
+        let c = self.orientation_angle.cos();
+        let s = self.orientation_angle.sin();
+        let p1 = 1.0 / (self.sigma1 * self.sigma1);
+        let p2 = 1.0 / (self.sigma2 * self.sigma2);
+        let p_xx = p1 * c * c + p2 * s * s;
+        let p_xy = (p1 - p2) * c * s;
+        let p_yy = p1 * s * s + p2 * c * c;
+        [[p_xx, p_xy], [p_xy, p_yy]]
+    }
+
+    /// Rotated Mahalanobis distance squared $Q_\Sigma(x, y) = (u_1/\sigma_1)^2 + (u_2/\sigma_2)^2$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.mahalanobisSq`.
+    #[inline]
+    pub fn mahalanobis_sq(&self, x: f64, y: f64) -> f64 {
+        let dx = x - self.center_x;
+        let dy = y - self.center_y;
+        let c = self.orientation_angle.cos();
+        let s = self.orientation_angle.sin();
+        let u1 = dx * c + dy * s;
+        let u2 = -dx * s + dy * c;
+        let q1 = u1 / self.sigma1;
+        let q2 = u2 / self.sigma2;
+        q1 * q1 + q2 * q2
+    }
+
+    /// Evaluate the $L^1$-normed 2D Gaussian splat at $(x, y)$, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.eval`.
+    #[inline]
+    pub fn eval(&self, x: f64, y: f64) -> f64 {
+        self.weight * self.norm_factor() * (-0.5 * self.mahalanobis_sq(x, y)).exp()
+    }
+
+    /// Evaluate the complex $Gr_{\mathbb{C}}(2, 4)$ twistor wavepacket
+    /// $\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x, y)}\,(w_A^{\mathbb{C}}(M_{\mathbb{C}}) + w_B^{\mathbb{C}}(M_{\mathbb{C}}))$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.complexTwistorWavepacket`.
+    pub fn complex_twistor_wavepacket(
+        &self,
+        m_c: &[[Complex64; 4]; 2],
+        x: f64,
+        y: f64,
+    ) -> Complex64 {
+        let g = self.eval(x, y).max(0.0).sqrt();
+        let w_a = two_row_minor_complex(m_c, 0, 1).mul(two_row_minor_complex(m_c, 2, 3));
+        let w_b = two_row_minor_complex(m_c, 0, 3).mul(two_row_minor_complex(m_c, 1, 2));
+        let sum = w_a.add(w_b);
+        Complex64::new(g * sum.re, g * sum.im)
+    }
+
+    /// Evaluate the Madelung intensity $I_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = |\Psi_{\mathrm{splat}}|^2$
+    /// of a complex $Gr_{\mathbb{C}}(2, 4)$ twistor Gaussian splat, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.complexTwistorIntensity`.
+    pub fn complex_twistor_intensity(
+        &self,
+        m_c: &[[Complex64; 4]; 2],
+        x: f64,
+        y: f64,
+    ) -> f64 {
+        self.complex_twistor_wavepacket(m_c, x, y).norm_sq()
+    }
+
+    /// Repulsive core Bohm quantum potential
+    /// $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}(\sigma_1^{-2} + \sigma_2^{-2}) = \frac{\hbar^2 \operatorname{Tr}\Sigma}{4m \det\Sigma}$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.coreBohmPotential`.
+    #[inline]
+    pub fn core_bohm_potential(&self, m_boson: f64, hbar: f64) -> f64 {
+        let s1_sq = self.sigma1 * self.sigma1;
+        let s2_sq = self.sigma2 * self.sigma2;
+        ((hbar * hbar) / (4.0 * m_boson)) * (1.0 / s1_sq + 1.0 / s2_sq)
+    }
+
+    /// Principal longitudinal component $\Pi_{11}(x, y) = \frac{\hbar^2}{4m^2 \sigma_1^2} G(x, y)$
+    /// of the Madelung quantum pressure tensor, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressurePrincipal1`.
+    #[inline]
+    pub fn quantum_pressure_principal1(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        let pref = (hbar * hbar) / (4.0 * m_boson * m_boson * self.sigma1 * self.sigma1);
+        pref * self.eval(x, y)
+    }
+
+    /// Principal transverse component $\Pi_{22}(x, y) = \frac{\hbar^2}{4m^2 \sigma_2^2} G(x, y)$
+    /// of the Madelung quantum pressure tensor, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressurePrincipal2`.
+    #[inline]
+    pub fn quantum_pressure_principal2(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        let pref = (hbar * hbar) / (4.0 * m_boson * m_boson * self.sigma2 * self.sigma2);
+        pref * self.eval(x, y)
+    }
+
+    /// Full $2 \times 2$ Madelung quantum pressure tensor
+    /// $\Pi_{ij}(x, y) = -\frac{\hbar^2}{4m^2} G(x, y) \partial_i \partial_j \ln G(x, y) = \frac{\hbar^2}{4m^2} G(x, y) (\Sigma^{-1})_{ij}$.
+    pub fn quantum_pressure_tensor_2x2(
+        &self,
+        m_boson: f64,
+        hbar: f64,
+        x: f64,
+        y: f64,
+    ) -> [[f64; 2]; 2] {
+        let scale = ((hbar * hbar) / (4.0 * m_boson * m_boson)) * self.eval(x, y);
+        let prec = self.precision_matrix_2x2();
+        [
+            [scale * prec[0][0], scale * prec[0][1]],
+            [scale * prec[1][0], scale * prec[1][1]],
+        ]
+    }
+
+    /// Trace $\operatorname{Tr}\Pi(x, y) = \Pi_{11}(x, y) + \Pi_{22}(x, y) = \frac{1}{m} Q_{\mathrm{core}}(\Sigma) G(x, y)$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressureTrace`.
+    #[inline]
+    pub fn quantum_pressure_trace(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        self.quantum_pressure_principal1(m_boson, hbar, x, y)
+            + self.quantum_pressure_principal2(m_boson, hbar, x, y)
+    }
+
+    /// Determinant $\det\Pi(x, y) = \Pi_{11}(x, y)\Pi_{22}(x, y) = (\frac{\hbar^2}{4m^2})^2 \frac{G(x, y)^2}{\det\Sigma}$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressureDet`.
+    #[inline]
+    pub fn quantum_pressure_det(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        self.quantum_pressure_principal1(m_boson, hbar, x, y)
+            * self.quantum_pressure_principal2(m_boson, hbar, x, y)
+    }
+
+    /// Exact $L^1$-conserving anisotropic thermal evolution over elapsed time `dt >= 0`
+    /// with principal diffusivities `alpha1 >= 0` and `alpha2 >= 0`:
+    /// $\sigma_i(t + \Delta t) = \sqrt{\sigma_i(t)^2 + 2\alpha_i \Delta t}$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal`.
+    pub fn evolve_thermal(&self, alpha1: f64, alpha2: f64, dt: f64) -> Self {
+        let a1 = alpha1.max(0.0);
+        let a2 = alpha2.max(0.0);
+        let step_dt = dt.max(0.0);
+        Self {
+            center_x: self.center_x,
+            center_y: self.center_y,
+            weight: self.weight,
+            sigma1: (self.sigma1 * self.sigma1 + 2.0 * a1 * step_dt).sqrt(),
+            sigma2: (self.sigma2 * self.sigma2 + 2.0 * a2 * step_dt).sqrt(),
+            orientation_angle: self.orientation_angle,
+            role: self.role,
+        }
+    }
+
+    /// Principal aspect ratio $\max(\sigma_1, \sigma_2) / \min(\sigma_1, \sigma_2) \ge 1$.
+    #[inline]
+    pub fn aspect_ratio(&self) -> f64 {
+        let hi = self.sigma1.max(self.sigma2);
+        let lo = self.sigma1.min(self.sigma2).max(1e-12);
+        hi / lo
+    }
+
+    /// Adaptive $L^1$-conserving two-child Gaussian splat splitting along the major
+    /// principal axis when `self.aspect_ratio() > max_aspect_ratio`.
+    /// Preserves total $L^1$ weight ($w_+ + w_- = w$), center of mass
+    /// ($\frac{1}{2}(\mathbf{c}_+ + \mathbf{c}_-) = \mathbf{c}$), and total second-moment
+    /// variance along the major axis ($\tilde{\sigma}_{\mathrm{maj}}^2 + \delta^2 = \sigma_{\mathrm{maj}}^2$
+    /// with $\tilde{\sigma}_{\mathrm{maj}} = \sigma_{\mathrm{maj}} / 2$ and $\delta = \frac{\sqrt{3}}{2}\sigma_{\mathrm{maj}}$).
+    pub fn split_if_anisotropic(&self, max_aspect_ratio: f64) -> Vec<Self> {
+        if self.aspect_ratio() <= max_aspect_ratio.max(1.0) {
+            return vec![*self];
+        }
+        let half_w = 0.5 * self.weight;
+        let sqrt3_half = 0.5 * 3.0_f64.sqrt();
+        let c = self.orientation_angle.cos();
+        let s = self.orientation_angle.sin();
+        if self.sigma1 >= self.sigma2 {
+            let delta = sqrt3_half * self.sigma1;
+            let new_sigma1 = 0.5 * self.sigma1;
+            let dx = delta * c;
+            let dy = delta * s;
+            vec![
+                Self {
+                    center_x: self.center_x - dx,
+                    center_y: self.center_y - dy,
+                    weight: half_w,
+                    sigma1: new_sigma1,
+                    sigma2: self.sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+                Self {
+                    center_x: self.center_x + dx,
+                    center_y: self.center_y + dy,
+                    weight: half_w,
+                    sigma1: new_sigma1,
+                    sigma2: self.sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+            ]
+        } else {
+            let delta = sqrt3_half * self.sigma2;
+            let new_sigma2 = 0.5 * self.sigma2;
+            let dx = -delta * s;
+            let dy = delta * c;
+            vec![
+                Self {
+                    center_x: self.center_x - dx,
+                    center_y: self.center_y - dy,
+                    weight: half_w,
+                    sigma1: self.sigma1,
+                    sigma2: new_sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+                Self {
+                    center_x: self.center_x + dx,
+                    center_y: self.center_y + dy,
+                    weight: half_w,
+                    sigma1: self.sigma1,
+                    sigma2: new_sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+            ]
+        }
+    }
+
+    /// Pack into the two `vec4` (`[f32; 4]`) uniform slots expected by `orbital_splat.frag.glsl`.
+    pub fn to_glsl_uniform_pair(&self) -> ([f32; 4], [f32; 4]) {
+        (
+            [
+                self.center_x as f32,
+                self.center_y as f32,
+                self.weight as f32,
+                (self.role as i32) as f32,
+            ],
+            [
+                self.sigma1 as f32,
+                self.sigma2 as f32,
+                self.orientation_angle as f32,
+                self.norm_factor() as f32,
+            ],
+        )
+    }
+}
+
+/// Normed 3D anisotropic Tensor Gaussian Splat primitive in $\mathbb{R}^3$, matching
+/// `Signals.DDF.NormedTensorGaussianSplat3D`.
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct NormedTensorGaussianSplat3D {
+    pub center_x: f64,
+    pub center_y: f64,
+    pub center_z: f64,
+    pub weight: f64,
+    pub sigma1: f64,
+    pub sigma2: f64,
+    pub sigma3: f64,
+    pub orientation_angle: f64,
+    pub pitch_angle: f64,
+    pub role: SplatRole,
+}
+
+impl NormedTensorGaussianSplat3D {
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_finite("center_x", self.center_x)?;
+        require_finite("center_y", self.center_y)?;
+        require_finite("center_z", self.center_z)?;
+        require_nonnegative("weight", self.weight)?;
+        require_positive("sigma1", self.sigma1)?;
+        require_positive("sigma2", self.sigma2)?;
+        require_positive("sigma3", self.sigma3)?;
+        require_finite("orientation_angle", self.orientation_angle)?;
+        require_finite("pitch_angle", self.pitch_angle)?;
+        Ok(())
+    }
+
+    /// 3D covariance determinant $\det\Sigma_{\mathrm{3D}} = \sigma_1^2 \sigma_2^2 \sigma_3^2$
+    /// (`NormedTensorGaussianSplat3D.covDet`).
+    #[inline]
+    pub fn cov_det(&self) -> f64 {
+        (self.sigma1 * self.sigma1) * (self.sigma2 * self.sigma2) * (self.sigma3 * self.sigma3)
+    }
+
+    /// 3D covariance trace $\operatorname{Tr}\Sigma_{\mathrm{3D}} = \sigma_1^2 + \sigma_2^2 + \sigma_3^2$
+    /// (`NormedTensorGaussianSplat3D.covTrace`).
+    #[inline]
+    pub fn cov_trace(&self) -> f64 {
+        self.sigma1 * self.sigma1 + self.sigma2 * self.sigma2 + self.sigma3 * self.sigma3
+    }
+
+    /// Exact 3D $L^1(\mathbb{R}^3)$ normalization factor
+    /// $\mathcal{N}_{\mathrm{3D}}(\Sigma_{\mathrm{3D}}) = \frac{1}{(2\pi)^{3/2}\sigma_1\sigma_2\sigma_3}$
+    /// (`NormedTensorGaussianSplat3D.normFactor`).
+    #[inline]
+    pub fn norm_factor(&self) -> f64 {
+        1.0 / (2.0 * PI * (2.0 * PI).sqrt() * self.sigma1 * self.sigma2 * self.sigma3)
+    }
+
+    /// 3D repulsive core Bohm quantum potential
+    /// $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{\hbar^2}{4m}(\sigma_1^{-2} + \sigma_2^{-2} + \sigma_3^{-2})$
+    /// (`NormedTensorGaussianSplat3D.coreBohmPotential`).
+    #[inline]
+    pub fn core_bohm_potential(&self, m_boson: f64, hbar: f64) -> f64 {
+        let s1_sq = self.sigma1 * self.sigma1;
+        let s2_sq = self.sigma2 * self.sigma2;
+        let s3_sq = self.sigma3 * self.sigma3;
+        ((hbar * hbar) / (4.0 * m_boson)) * (1.0 / s1_sq + 1.0 / s2_sq + 1.0 / s3_sq)
+    }
+
+    /// 3D aspect ratio $\max(\sigma_1, \sigma_2, \sigma_3) / \min(\sigma_1, \sigma_2, \sigma_3) \ge 1$.
+    #[inline]
+    pub fn aspect_ratio(&self) -> f64 {
+        let hi = self.sigma1.max(self.sigma2).max(self.sigma3);
+        let lo = self.sigma1.min(self.sigma2).min(self.sigma3).max(1e-12);
+        hi / lo
+    }
+
+    /// Adaptive $L^1(\mathbb{R}^3)$-conserving two-child 3D Gaussian splat splitting along
+    /// the major principal axis $\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi)$
+    /// when `self.aspect_ratio() > max_aspect_ratio`, matching
+    /// `NormedTensorGaussianSplat3D.splitMajorPlus` and `splitMajorMinus` in `Signals.DDF`.
+    pub fn split_if_anisotropic(&self, max_aspect_ratio: f64) -> Vec<Self> {
+        if self.aspect_ratio() <= max_aspect_ratio.max(1.0) {
+            return vec![*self];
+        }
+        let half_w = 0.5 * self.weight;
+        let sqrt3_half = 0.5 * 3.0_f64.sqrt();
+        let delta = sqrt3_half * self.sigma1;
+        let new_sigma1 = 0.5 * self.sigma1;
+        let cp = self.pitch_angle.cos();
+        let sp = self.pitch_angle.sin();
+        let ct = self.orientation_angle.cos();
+        let st = self.orientation_angle.sin();
+        let dx = delta * cp * ct;
+        let dy = delta * cp * st;
+        let dz = delta * sp;
+        vec![
+            Self {
+                center_x: self.center_x - dx,
+                center_y: self.center_y - dy,
+                center_z: self.center_z - dz,
+                weight: half_w,
+                sigma1: new_sigma1,
+                sigma2: self.sigma2,
+                sigma3: self.sigma3,
+                orientation_angle: self.orientation_angle,
+                pitch_angle: self.pitch_angle,
+                role: self.role,
+            },
+            Self {
+                center_x: self.center_x + dx,
+                center_y: self.center_y + dy,
+                center_z: self.center_z + dz,
+                weight: half_w,
+                sigma1: new_sigma1,
+                sigma2: self.sigma2,
+                sigma3: self.sigma3,
+                orientation_angle: self.orientation_angle,
+                pitch_angle: self.pitch_angle,
+                role: self.role,
+            },
+        ]
+    }
+
+    /// Orthographic 3D-to-2D marginal projection onto the $(x, y)$ plane, matching
+    /// `NormedTensorGaussianSplat3D.projectOrthographic2D`.
+    #[inline]
+    pub fn project_orthographic_2d(&self) -> NormedTensorGaussianSplat2D {
+        NormedTensorGaussianSplat2D {
+            center_x: self.center_x,
+            center_y: self.center_y,
+            weight: self.weight,
+            sigma1: self.sigma1,
+            sigma2: self.sigma2,
+            orientation_angle: self.orientation_angle,
+            role: self.role,
+        }
+    }
+
+    /// Holographic / EWA perspective affine 3D-to-2D projection with scale $s = f / z_c$,
+    /// matching `NormedTensorGaussianSplat3D.projectPerspective2D`.
+    #[inline]
+    pub fn project_perspective_2d(&self, focal_scale: f64) -> NormedTensorGaussianSplat2D {
+        let s = focal_scale / self.center_z.max(1e-9);
+        NormedTensorGaussianSplat2D {
+            center_x: s * self.center_x,
+            center_y: s * self.center_y,
+            weight: self.weight,
+            sigma1: s * self.sigma1,
+            sigma2: s * self.sigma2,
+            orientation_angle: self.orientation_angle,
+            role: self.role,
+        }
+    }
+
+    /// Holographic lateral-to-normal depth anisotropy
+    /// $\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1)$,
+    /// matching `NormedTensorGaussianSplat3D.holographicDepthAnisotropy`.
+    #[inline]
+    pub fn holographic_depth_anisotropy(&self) -> f64 {
+        let lat = self.sigma1 * self.sigma1 + self.sigma2 * self.sigma2;
+        let norm = self.sigma3 * self.sigma3;
+        (lat - norm) / (lat + norm)
+    }
+
+    /// Holographic $Gr_{\mathbb{C}}(2,4)$ Plücker channel invariants for the 3rd principal
+    /// variance $\sigma_3^2$: returns $(\delta_{\mathrm{depth}}, |w_A^{\mathbb{C}}|^2, |w_B^{\mathbb{C}}|^2, |w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = (\sigma_1^2 + \sigma_2^2)/\sigma_3^2)$.
+    pub fn holographic_gr24_depth_invariants(&self, theta_z: f64) -> (f64, f64, f64, f64) {
+        let delta_d = self.holographic_depth_anisotropy();
+        let a = (1.0 + delta_d).max(0.0).sqrt();
+        let b = (1.0 - delta_d).max(0.0).sqrt();
+        let z1 = Complex64::from_polar(a, theta_z);
+        let z2 = Complex64::from_polar(b, -theta_z);
+        let m = complex_gr24_channel_matrix(z1, z2);
+        let wa_sq = two_row_minor_complex(&m, 0, 1)
+            .mul(two_row_minor_complex(&m, 2, 3))
+            .norm_sq();
+        let wb_sq = two_row_minor_complex(&m, 0, 3)
+            .mul(two_row_minor_complex(&m, 1, 2))
+            .norm_sq();
+        (delta_d, wa_sq, wb_sq, wa_sq / wb_sq)
+    }
+
+    /// Direct higher-rank $Gr_{\mathbb{C}}(3, 6)$ $3 \times 3$ Plücker minor invariants
+    /// (`Signals.DDF.NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities`):
+    /// returns $(|\Delta_{045}^{\mathbb{C}}|^2, |\Delta_{315}^{\mathbb{C}}|^2, |\Delta_{342}^{\mathbb{C}}|^2, |\Delta_{015}^{\mathbb{C}}|^2, |\Delta_{042}^{\mathbb{C}}|^2, |\Delta_{312}^{\mathbb{C}}|^2, |\Delta_{012}^{\mathbb{C}}|^2)$.
+    pub fn gr36_volumetric_invariants(&self, phi1: f64, phi2: f64, phi3: f64) -> [f64; 7] {
+        let a1 = Complex64::from_polar(self.sigma1, phi1);
+        let a2 = Complex64::from_polar(self.sigma2, phi2);
+        let a3 = Complex64::from_polar(self.sigma3, phi3);
+        let d045 = a1.norm_sq();
+        let d315 = a2.norm_sq();
+        let d342 = a3.norm_sq();
+        let d015 = a1.mul(a2).norm_sq();
+        let d042 = a1.mul(a3).norm_sq();
+        let d312 = a2.mul(a3).norm_sq();
+        let d012 = a1.mul(a2).mul(a3).norm_sq();
+        [d045, d315, d342, d015, d042, d312, d012]
+    }
+
+    /// Holographic perspective $Gr_{\mathbb{C}}(3, 6)$ $3 \times 3$ Plücker minor invariants
+    /// (`Signals.DDF.NormedTensorGaussianSplat3D.gr36PerspectiveTwistorMatrix`):
+    /// scales the lateral widths by $s = f / z_c$ while retaining $\sigma_3$.
+    pub fn gr36_perspective_invariants(
+        &self,
+        focal_scale: f64,
+        phi1: f64,
+        phi2: f64,
+        phi3: f64,
+    ) -> [f64; 7] {
+        let s = focal_scale / self.center_z;
+        let persp3d = Self {
+            center_x: s * self.center_x,
+            center_y: s * self.center_y,
+            center_z: self.center_z,
+            weight: self.weight,
+            sigma1: s * self.sigma1,
+            sigma2: s * self.sigma2,
+            sigma3: self.sigma3,
+            orientation_angle: self.orientation_angle,
+            pitch_angle: self.pitch_angle,
+            role: self.role,
+        };
+        persp3d.gr36_volumetric_invariants(phi1, phi2, phi3)
+    }
+
+    /// Construct a 3D transverse-traceless (TT) gravitational-wave splat (**Without DDF**),
+    /// matching `Signals.DDF.NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D`.
+    #[inline]
+    pub fn from_tt_gravitational_wave(
+        center_x: f64,
+        center_y: f64,
+        center_z: f64,
+        weight: f64,
+        sigma0: f64,
+        sigma_z0: f64,
+        h_plus: f64,
+        orientation_angle: f64,
+        pitch_angle: f64,
+    ) -> Self {
+        Self {
+            center_x,
+            center_y,
+            center_z,
+            weight,
+            sigma1: sigma0 * (0.5 * h_plus).exp(),
+            sigma2: sigma0 * (-0.5 * h_plus).exp(),
+            sigma3: sigma_z0,
+            orientation_angle,
+            pitch_angle,
+            role: SplatRole::Gr24OrbitalField,
+        }
+    }
+
+    /// Construct a 3D DDF shear-jammed gravitational-wave splat (**With DDF**),
+    /// matching `Signals.DDF.MovingSheath.ddfGravitationalWaveSplat3D`.
+    #[inline]
+    pub fn from_ddf_gravitational_wave(
+        center_x: f64,
+        center_y: f64,
+        center_z: f64,
+        weight: f64,
+        sigma0: f64,
+        sigma_z0: f64,
+        h_plus: f64,
+        beta: f64,
+        orientation_angle: f64,
+        pitch_angle: f64,
+    ) -> Self {
+        let vis = (1.0 - beta * beta).max(1e-12).sqrt();
+        Self {
+            center_x,
+            center_y,
+            center_z,
+            weight,
+            sigma1: sigma0 * (0.5 * h_plus).exp(),
+            sigma2: sigma0 * (-0.5 * h_plus).exp(),
+            sigma3: sigma_z0 * vis,
+            orientation_angle,
+            pitch_angle,
+            role: SplatRole::DdfMovingSheathField,
+        }
+    }
+
+    /// Construct a 3D $Gr_{\mathbb{C}}(3, 6)$ planetary orbit splat, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.gr36TensorSplat3D`.
+    #[inline]
+    pub fn from_gr36_orbit(
+        orbit: &PlanetaryOrbitParams,
+        center_x: f64,
+        center_y: f64,
+        center_z: f64,
+        weight: f64,
+        sigma0: f64,
+        sigma_z0: f64,
+        varpi_angle: f64,
+        inclination_angle: f64,
+    ) -> Self {
+        Self {
+            center_x,
+            center_y,
+            center_z,
+            weight,
+            sigma1: sigma0 * (1.0 + orbit.eccentricity).max(1e-12).sqrt(),
+            sigma2: sigma0 * (1.0 - orbit.eccentricity).max(1e-12).sqrt(),
+            sigma3: sigma_z0,
+            orientation_angle: varpi_angle,
+            pitch_angle: inclination_angle,
+            role: SplatRole::Gr24OrbitalField,
+        }
+    }
+}
+
+/// Evaluate GPE superfluid vortex radial condensate density $\rho_{\mathrm{vortex}}(r) = \rho_0\frac{r^2}{r^2 + \xi^2}$
+/// and acoustic density-gradient scattering potential $V_{\mathrm{scat}}(r) = \frac{2\rho_0\xi^2 r}{(r^2 + \xi^2)^2}$,
+/// matching `Signals.DDF.gpeVortexDensityProfile` and `gpeVortexScatteringPotential`.
+#[inline]
+pub fn gpe_vortex_density_and_scattering_potential(rho0: f64, xi: f64, r: f64) -> (f64, f64) {
+    let r2 = r * r;
+    let xi2 = xi * xi;
+    let denom = r2 + xi2;
+    let rho = rho0 * (r2 / denom);
+    let v_scat = (2.0 * rho0 * xi2 * r) / (denom * denom);
+    (rho, v_scat)
+}
+
+/// Evaluate Newtonian acoustic damping $\Gamma_{\mathrm{Newton}} = \alpha k^2$ and
+/// strain-thickened DDF Kelvin-wave tail damping $\Gamma_{\mathrm{DDF}} = \alpha k^2(1 + \gamma_{\mathrm{dil}} k^2)$,
+/// matching `Signals.DDF.newtonianAcousticDampingRate` and `dilatantKelvinTailDampingRate`.
+#[inline]
+pub fn dilatant_kelvin_tail_damping(alpha: f64, gamma_dil: f64, k: f64) -> (f64, f64) {
+    let k2 = k * k;
+    let g_newton = alpha * k2;
+    let g_ddf = g_newton * (1.0 + gamma_dil * k2);
+    (g_newton, g_ddf)
+}
+
+/// Evaluate 1D Schur-complement conditioned spatial variance $\Sigma_{xx} - \nu \Sigma_{tt}^{-1} \Sigma_{xt}^2$
+/// for unstrained ($\nu = \mu_0$) vs. dilatant ($\nu = \mu_0(1 + \sigma^2)$) 4D spacetime tensor splats,
+/// matching `Signals.DDF.schurConditionedSpatialVariance1D` and `dilatantViscosityModifier`.
+#[inline]
+pub fn schur_conditioned_spatial_variance_1d(
+    sigma_xx: f64,
+    sigma_xt: f64,
+    inv_sigma_tt: f64,
+    mu0: f64,
+    strain: f64,
+) -> (f64, f64) {
+    let xt2 = sigma_xt * sigma_xt;
+    let unstrained = sigma_xx - mu0 * inv_sigma_tt * xt2;
+    let nu_ddf = mu0 * (1.0 + strain * strain);
+    let dilatant = sigma_xx - nu_ddf * inv_sigma_tt * xt2;
+    (unstrained, dilatant)
+}
+
+/// Canonical $Gr_{\mathbb{C}}(3, 6)$ Schur–Plücker $3 \times 3$ minor invariants
+/// (`Signals.DDF.gr36SchurShearMatrix` and `gr36_simultaneous_conservation_holographic_projection_and_schur_identities`):
+/// returns $(|\Delta_{045}^{\mathbb{C}}|^2 = 1+\tau,\; |\Delta_{315}^{\mathbb{C}}|^2 = 1-\tau,\; |\Delta_{015}^{\mathbb{C}}|^2 = 1-\tau^2 = \det J,\; |\Delta_{342}^{\mathbb{C}}|^2 = \frac{(1-\tau^2)^2}{1+\tau^2} = \det\Sigma_{\mathrm{3D}},\; |\Delta_{012}^{\mathbb{C}}|^2)$.
+#[inline]
+pub fn gr36_schur_shear_invariants(
+    turbulence: f64,
+    phi1: f64,
+    phi2: f64,
+    phi3: f64,
+) -> [f64; 5] {
+    let r1 = (1.0 + turbulence).max(0.0).sqrt();
+    let r2 = (1.0 - turbulence).max(0.0).sqrt();
+    let r3 = (1.0 - turbulence * turbulence) / (1.0 + turbulence * turbulence).sqrt();
+    let a1 = Complex64::from_polar(r1, phi1);
+    let a2 = Complex64::from_polar(r2, phi2);
+    let a3 = Complex64::from_polar(r3, phi3);
+    [
+        a1.norm_sq(),
+        a2.norm_sq(),
+        a1.mul(a2).norm_sq(),
+        a3.norm_sq(),
+        a1.mul(a2).mul(a3).norm_sq(),
+    ]
+}
+
+/// Evaluate the 3-element Debye–Wolf counter-polarization longitudinal focal intensity,
+/// hyperbolic metasurface phase $\Phi(r; f, \lambda_0)$, and thin-film ENZ-lignin
+/// boundary intensity enhancement (`Signals.DDF.vectorial_longitudinal_polarization_metasurface_and_enz_identities`).
+#[inline]
+pub fn debye_wolf_enz_longitudinal_summary(
+    e0: f64,
+    theta: f64,
+    r: f64,
+    f: f64,
+    lambda0: f64,
+    eps_air: f64,
+    eps_enz: f64,
+) -> (f64, f64, f64, f64) {
+    let ez_pair = 2.0 * e0 * theta.sin();
+    let iz_focus = ez_pair * ez_pair;
+    let phi_meta = -(2.0 * PI / lambda0) * ((r * r + f * f).sqrt() - f);
+    let enz_enhancement = (eps_air / eps_enz).powi(2);
+    (ez_pair, iz_focus, phi_meta, enz_enhancement)
+}
+
+/// Inversion-free 3D Schur-complement volume $\det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2}$
+/// and $Gr_{\mathbb{C}}(2,4)$ Plücker channel product $1 - \tau^2$, matching
+/// `Signals.DDF.schurComplement3DVolume` and `schur_plucker_inversion_free_and_twistor_vane_identities`.
+#[inline]
+pub fn schur_plucker_inversion_free_volume(turbulence: f64, theta: f64) -> (f64, f64) {
+    let a = (1.0 + turbulence).max(0.0).sqrt();
+    let b = (1.0 - turbulence).max(0.0).sqrt();
+    let z1 = Complex64::from_polar(a, theta);
+    let z2 = Complex64::from_polar(b, -theta);
+    let m = complex_gr24_channel_matrix(z1, z2);
+    let wa_sq = two_row_minor_complex(&m, 0, 1)
+        .mul(two_row_minor_complex(&m, 2, 3))
+        .norm_sq();
+    let wb_sq = two_row_minor_complex(&m, 0, 3)
+        .mul(two_row_minor_complex(&m, 1, 2))
+        .norm_sq();
+    let plucker_prod = wa_sq * wb_sq;
+    let schur_vol = (plucker_prod * plucker_prod) / (1.0 + turbulence * turbulence);
+    (plucker_prod, schur_vol)
+}
+
+/// A multi-layer orbital and field visualization scene combining gravitating
+/// bodies/attractors/sinks/sources, $Gr_{\mathbb{C}}(2, 4)$ orbital field splats,
+/// and DDF moving-sheath splats.
+#[derive(Clone, Debug, PartialEq)]
+pub struct OrbitalSplatScene {
+    pub splats: Vec<NormedTensorGaussianSplat2D>,
+}
+
+impl OrbitalSplatScene {
+    /// Build a canonical inner-solar-system scene with the Sun central sink,
+    /// Mercury/Venus/Earth attractors, $Gr_{\mathbb{C}}(2, 4)$ orbital field splats,
+    /// and DDF shear-jammed moving-sheath splats.
+    pub fn canonical_solar_system_scene() -> Self {
+        let mercury = PlanetaryOrbitParams::from_solar_system_body(SolarSystemBody::Mercury);
+        let venus = PlanetaryOrbitParams::from_solar_system_body(SolarSystemBody::Venus);
+        let earth = PlanetaryOrbitParams::from_solar_system_body(SolarSystemBody::Earth);
+
+        let merc_pos = mercury.precessing_cartesian_au(None, 0.0);
+        let venus_pos = venus.precessing_cartesian_au(None, 0.5 * PI);
+        let earth_pos = earth.precessing_cartesian_au(None, PI);
+
+        let splats = vec![
+            // 1. Central Solar Sink (Attractor)
+            NormedTensorGaussianSplat2D::body_sink_source(0.0, 0.0, 10.0, 0.08, 0.08, 0.0),
+            // 2. Mercury Body Sink + Gr_C(2,4) Orbital Field Splat + DDF Moving-Sheath Splat
+            NormedTensorGaussianSplat2D::body_sink_source(
+                merc_pos[0],
+                merc_pos[1],
+                1.0,
+                0.03,
+                0.03,
+                0.0,
+            ),
+            NormedTensorGaussianSplat2D::from_gr24_orbit(&mercury, 0.0, 0.0, 2.0, 0.25, 0.0),
+            NormedTensorGaussianSplat2D::from_ddf_moving_sheath(
+                merc_pos[0],
+                merc_pos[1],
+                1.5,
+                0.06,
+                0.6,
+                0.5 * PI,
+            ),
+            // 3. Venus Body Sink + Gr_C(2,4) Orbital Field Splat
+            NormedTensorGaussianSplat2D::body_sink_source(
+                venus_pos[0],
+                venus_pos[1],
+                1.2,
+                0.035,
+                0.035,
+                0.0,
+            ),
+            NormedTensorGaussianSplat2D::from_gr24_orbit(
+                &venus,
+                0.0,
+                0.0,
+                2.0,
+                0.45,
+                0.25 * PI,
+            ),
+            // 4. Earth Body Sink + Gr_C(2,4) Orbital Field Splat
+            NormedTensorGaussianSplat2D::body_sink_source(
+                earth_pos[0],
+                earth_pos[1],
+                1.5,
+                0.04,
+                0.04,
+                0.0,
+            ),
+            NormedTensorGaussianSplat2D::from_gr24_orbit(&earth, 0.0, 0.0, 2.5, 0.65, 0.0),
+        ];
+        Self { splats }
+    }
+
+    /// Conserved total $L^1(\mathbb{R}^2)$ mass/energy weight $\sum_i w_i$ across all splats.
+    pub fn total_normed_weight(&self) -> f64 {
+        self.splats.iter().map(|s| s.weight).sum()
+    }
+
+    /// Evaluate the summed field of all splats matching `role` at $(x, y)$.
+    pub fn evaluate_field_by_role(&self, role: SplatRole, x: f64, y: f64) -> f64 {
+        self.splats
+            .iter()
+            .filter(|s| s.role == role)
+            .map(|s| s.eval(x, y))
+            .sum()
+    }
+
+    /// Evaluate the total summed field across all splat layers at $(x, y)$.
+    pub fn evaluate_total_field(&self, x: f64, y: f64) -> f64 {
+        self.splats.iter().map(|s| s.eval(x, y)).sum()
+    }
+
+    /// Adaptively remesh all splats in the scene whose aspect ratio exceeds
+    /// `max_aspect_ratio`, preserving total $L^1$ weight, center of mass, and
+    /// second-moment variance along elongated Anosov or OPA-squeezed axes.
+    pub fn adaptive_remesh(&self, max_aspect_ratio: f64) -> Self {
+        let remeshed = self
+            .splats
+            .iter()
+            .flat_map(|s| s.split_if_anisotropic(max_aspect_ratio))
+            .collect();
+        Self { splats: remeshed }
+    }
+}
+
+// ============================================================================
+// C-ABI WebAssembly (`wasm32-unknown-unknown`) & Native FFI Exports
+// ============================================================================
+
+/// Compute anomalous perihelion precession in arcseconds per Julian century.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_orbital_precession_arcsec_per_century(
+    semi_major_axis_au: f64,
+    eccentricity: f64,
+    orbital_period_days: f64,
+    central_horizon_radius_km: f64,
+) -> f64 {
+    let params = PlanetaryOrbitParams {
+        semi_major_axis_au,
+        eccentricity,
+        orbital_period_days,
+        central_horizon_radius_km,
+        newtonian_nbody_arcsec_per_century: 0.0,
+    };
+    if params.validate().is_err() {
+        return f64::NAN;
+    }
+    params.anomalous_precession_arcsec_per_century()
+}
+
+/// Evaluate the precessing polar conic radius $r(\varphi; \eta_{\mathrm{prec}})$ in AU.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_orbital_precessing_radius(
+    semi_major_axis_au: f64,
+    eccentricity: f64,
+    eta_precession: f64,
+    phi: f64,
+) -> f64 {
+    let params = PlanetaryOrbitParams {
+        semi_major_axis_au,
+        eccentricity,
+        orbital_period_days: 1.0,
+        central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+        newtonian_nbody_arcsec_per_century: 0.0,
+    };
+    if params.validate().is_err() {
+        return f64::NAN;
+    }
+    params.precessing_radius_au(Some(eta_precession), phi)
+}
+
+/// Evaluate a normed 2D anisotropic Tensor Gaussian Splat at $(x, y)$.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_normed_tensor_splat_eval(
+    center_x: f64,
+    center_y: f64,
+    weight: f64,
+    sigma1: f64,
+    sigma2: f64,
+    orientation_angle: f64,
+    x: f64,
+    y: f64,
+) -> f64 {
+    let splat = NormedTensorGaussianSplat2D::body_sink_source(
+        center_x,
+        center_y,
+        weight,
+        sigma1,
+        sigma2,
+        orientation_angle,
+    );
+    if splat.validate().is_err() {
+        return f64::NAN;
+    }
+    splat.eval(x, y)
+}
+
+/// Evaluate a DDF moving-sheath normed Tensor Gaussian Splat ($\sigma_1 = \sigma_0 / \gamma_\varphi(v)$) at $(x, y)$.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_ddf_sheath_splat_eval(
+    center_x: f64,
+    center_y: f64,
+    weight: f64,
+    sigma0: f64,
+    beta: f64,
+    velocity_angle: f64,
+    x: f64,
+    y: f64,
+) -> f64 {
+    let splat = NormedTensorGaussianSplat2D::from_ddf_moving_sheath(
+        center_x,
+        center_y,
+        weight,
+        sigma0,
+        beta,
+        velocity_angle,
+    );
+    splat.eval(x, y)
+}
+
+/// Evaluate a $Gr_{\mathbb{C}}(2, 4)$ planetary orbital field normed Tensor Gaussian Splat at $(x, y)$.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_gr24_orbital_splat_eval(
+    center_x: f64,
+    center_y: f64,
+    weight: f64,
+    sigma0: f64,
+    eccentricity: f64,
+    varpi_angle: f64,
+    x: f64,
+    y: f64,
+) -> f64 {
+    let orbit = PlanetaryOrbitParams {
+        semi_major_axis_au: 1.0,
+        eccentricity: eccentricity.clamp(0.0, 0.999_999),
+        orbital_period_days: 365.25,
+        central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+        newtonian_nbody_arcsec_per_century: 0.0,
+    };
+    let splat = NormedTensorGaussianSplat2D::from_gr24_orbit(
+        &orbit,
+        center_x,
+        center_y,
+        weight,
+        sigma0,
+        varpi_angle,
+    );
+    splat.eval(x, y)
+}
+
+/// Return pointer to the embedded WebGL2 orbital splat vertex shader source.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_glsl_orbital_splat_vertex_shader_ptr() -> *const u8 {
+    GLSL_ORBITAL_SPLAT_VERTEX_SHADER.as_ptr()
+}
+
+/// Return byte length of the embedded WebGL2 orbital splat vertex shader source.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_glsl_orbital_splat_vertex_shader_len() -> usize {
+    GLSL_ORBITAL_SPLAT_VERTEX_SHADER.len()
+}
+
+/// Return pointer to the embedded WebGL2 orbital splat fragment shader source.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_glsl_orbital_splat_fragment_shader_ptr() -> *const u8 {
+    GLSL_ORBITAL_SPLAT_FRAGMENT_SHADER.as_ptr()
+}
+
+/// Return byte length of the embedded WebGL2 orbital splat fragment shader source.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_glsl_orbital_splat_fragment_shader_len() -> usize {
+    GLSL_ORBITAL_SPLAT_FRAGMENT_SHADER.len()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rstest::rstest;
+
+    #[rstest]
+    #[case(SolarSystemBody::Mercury, 42.98, 0.02)]
+    #[case(SolarSystemBody::Venus, 8.62, 0.03)]
+    #[case(SolarSystemBody::Earth, 3.84, 0.02)]
+    #[case(SolarSystemBody::Mars, 1.35, 0.02)]
+    #[case(SolarSystemBody::Icarus, 10.05, 0.05)]
+    fn parametric_solar_system_perihelion_precession_matches_ephemeris(
+        #[case] body: SolarSystemBody,
+        #[case] expected_arcsec_per_cy: f64,
+        #[case] tolerance: f64,
+    ) {
+        let orbit = PlanetaryOrbitParams::from_solar_system_body(body);
+        orbit.validate().unwrap();
+
+        let predicted = orbit.anomalous_precession_arcsec_per_century();
+        assert!(
+            (predicted - expected_arcsec_per_cy).abs() <= tolerance,
+            "{body:?}: predicted {predicted:.4}''/cy vs expected {expected_arcsec_per_cy:.4}''/cy"
+        );
+
+        // Verify harmonic mean 1/r_min + 1/r_max = 2/p and turning points
+        let r_min = orbit.perihelion_radius_au();
+        let r_max = orbit.aphelion_radius_au();
+        let p = orbit.semi_latus_rectum_au();
+        assert!(((1.0 / r_min + 1.0 / r_max) - (2.0 / p)).abs() < 1e-12);
+        let eta = 1e-3;
+        assert!((orbit.precessing_radius_au(Some(eta), 0.0) - r_min).abs() < 1e-12);
+        assert!(
+            (orbit.precessing_radius_au(Some(eta), PI / (1.0 - eta)) - r_max).abs() < 1e-12
+        );
+
+        // Verify Gr_C(2,4) orbital precession matrix invariants
+        let inv = Gr24OrbitalInvariants::evaluate(&orbit, None);
+        assert!(
+            (inv.madelung_aphelion_ratio - (r_max / orbit.semi_major_axis_au)).abs() < 1e-12
+        );
+        assert!(
+            (inv.madelung_perihelion_ratio - (r_min / orbit.semi_major_axis_au)).abs() < 1e-12
+        );
+        assert!((inv.madelung_eccentricity - orbit.eccentricity).abs() < 1e-12);
+        assert!((inv.madelung_semi_latus_ratio - (p / orbit.semi_major_axis_au)).abs() < 1e-12);
+        assert!(inv.bcj_jacobi_residual_norm_sq < 1e-24);
+    }
+
+    #[rstest]
+    #[case(0.0, 1.0, 1.0)]
+    #[case(0.6, 0.8, 1.25)]
+    #[case(0.8, 0.6, 1.0 / 0.6)]
+    fn parametric_ddf_and_gr24_normed_tensor_splat_invariants(
+        #[case] beta_or_e: f64,
+        #[case] expected_vis: f64,
+        #[case] expected_jamming: f64,
+    ) {
+        let sigma0 = 2.0;
+        let weight = 5.0;
+        let ddf_splat = NormedTensorGaussianSplat2D::from_ddf_moving_sheath(
+            1.0, -0.5, weight, sigma0, beta_or_e, 0.35,
+        );
+        ddf_splat.validate().unwrap();
+        assert!((ddf_splat.cov_det() - sigma0.powi(4) * expected_vis * expected_vis).abs() < 1e-12);
+        let expected_norm = expected_jamming / (2.0 * PI * sigma0 * sigma0);
+        assert!((ddf_splat.norm_factor() - expected_norm).abs() < 1e-12);
+        assert!((ddf_splat.eval(1.0, -0.5) - weight * expected_norm).abs() < 1e-12);
+        assert!(ddf_splat.eval(1.4, 0.2) <= ddf_splat.eval(1.0, -0.5));
+
+        let orbit = PlanetaryOrbitParams {
+            semi_major_axis_au: 2.0,
+            eccentricity: beta_or_e,
+            orbital_period_days: 365.25,
+            central_horizon_radius_km: SOLAR_HORIZON_RADIUS_KM,
+            newtonian_nbody_arcsec_per_century: 0.0,
+        };
+        let gr24_splat =
+            NormedTensorGaussianSplat2D::from_gr24_orbit(&orbit, 0.0, 0.0, weight, sigma0, 0.7);
+        assert!((gr24_splat.cov_trace() - 2.0 * sigma0 * sigma0).abs() < 1e-12);
+        assert!(
+            (gr24_splat.cov_det()
+                - sigma0.powi(4) * (orbit.semi_latus_rectum_au() / orbit.semi_major_axis_au))
+                .abs()
+                < 1e-12
+        );
+
+        // Verify core Bohm quantum potential Q_core = (hbar^2 / (4 m sigma0^2)) * (gamma_phi^2 + 1)
+        let q_core = ddf_splat.core_bohm_potential(1.0, 1.0);
+        let expected_q = (1.0 / (4.0 * 1.0 * sigma0 * sigma0))
+            * (expected_jamming * expected_jamming + 1.0);
+        assert!((q_core - expected_q).abs() < 1e-12);
+
+        // Verify complex Gr_C(2,4) twistor splat intensity matches G(x,y) * |Delta_02^C Delta_13^C|^2
+        let m_c = orbit.gr24_precession_matrix(Some(0.42));
+        let crossing =
+            two_row_minor_complex(&m_c, 0, 2).mul(two_row_minor_complex(&m_c, 1, 3));
+        let i_tw = gr24_splat.complex_twistor_intensity(&m_c, 0.25, -0.15);
+        assert!((i_tw - gr24_splat.eval(0.25, -0.15) * crossing.norm_sq()).abs() < 1e-12);
+        // Dark-fringe twistor configuration (z1 = 1, z2 = -1 => w_A + w_B = 0) gives zero splat intensity
+        let m_dark = complex_gr24_channel_matrix(
+            Complex64::new(1.0, 0.0),
+            Complex64::new(-1.0, 0.0),
+        );
+        assert!(gr24_splat.complex_twistor_intensity(&m_dark, 0.0, 0.0).abs() < 1e-12);
+
+        // Verify precision matrix Sigma * Sigma^{-1} = I_2 and Madelung Quantum Pressure Tensor identities
+        let cov = ddf_splat.covariance_matrix_2x2();
+        let prec = ddf_splat.precision_matrix_2x2();
+        let prod_00 = cov[0][0] * prec[0][0] + cov[0][1] * prec[1][0];
+        let prod_01 = cov[0][0] * prec[0][1] + cov[0][1] * prec[1][1];
+        let prod_11 = cov[1][0] * prec[0][1] + cov[1][1] * prec[1][1];
+        assert!((prod_00 - 1.0).abs() < 1e-12);
+        assert!(prod_01.abs() < 1e-12);
+        assert!((prod_11 - 1.0).abs() < 1e-12);
+
+        let qp_tr = ddf_splat.quantum_pressure_trace(1.0, 1.0, 0.3, -0.2);
+        let qp_det = ddf_splat.quantum_pressure_det(1.0, 1.0, 0.3, -0.2);
+        let g_xy = ddf_splat.eval(0.3, -0.2);
+        assert!((qp_tr - q_core * g_xy).abs() < 1e-12);
+        let expected_qp_det = (0.25_f64).powi(2) * (g_xy * g_xy / ddf_splat.cov_det());
+        assert!((qp_det - expected_qp_det).abs() < 1e-12);
+        let pi_11 = ddf_splat.quantum_pressure_principal1(1.0, 1.0, 0.3, -0.2);
+        let pi_22 = ddf_splat.quantum_pressure_principal2(1.0, 1.0, 0.3, -0.2);
+        assert!((pi_11 - expected_jamming * expected_jamming * pi_22).abs() < 1e-12);
+    }
+
+    #[test]
+    fn symplectic_verlet_and_nbody_gr2n_potential_preserve_invariants() {
+        let (direct_pot, gr2n_pot) = nbody_bernoulli_potential_gr2n(
+            2.0,
+            &[10.0, 3.0, 1.5],
+            &[1.0, 2.0, 3.0],
+            &[0.1, 0.7, -0.4],
+        );
+        assert!((direct_pot - gr2n_pot).abs() < 1e-12);
+
+        let mut state = RelativisticOrbitState {
+            position: [0.3075, 0.0],
+            velocity: [0.0, 1.60],
+            gm_central: 1.0,
+            c_speed: 100.0,
+        };
+        let h0 = state.specific_angular_momentum();
+        let e0 = state.specific_mechanical_energy();
+        for _ in 0..200 {
+            state.step_velocity_verlet(1e-4);
+        }
+        let h1 = state.specific_angular_momentum();
+        let e1 = state.specific_mechanical_energy();
+        assert!((h1 - h0).abs() < 1e-9);
+        assert!((e1 - e0).abs() < 1e-6);
+
+        // Verify adaptive splat splitting preserves L^1 weight, center of mass, and major-axis variance
+        let elongated = NormedTensorGaussianSplat2D {
+            center_x: 1.0,
+            center_y: -2.0,
+            weight: 4.0,
+            sigma1: 8.0,
+            sigma2: 1.0,
+            orientation_angle: 0.4,
+            role: SplatRole::Gr24OrbitalField,
+        };
+        assert!((elongated.aspect_ratio() - 8.0).abs() < 1e-12);
+        let children = elongated.split_if_anisotropic(3.0);
+        assert_eq!(children.len(), 2);
+        let w_sum = children[0].weight + children[1].weight;
+        assert!((w_sum - elongated.weight).abs() < 1e-12);
+        let cx_mean = 0.5 * (children[0].center_x + children[1].center_x);
+        let cy_mean = 0.5 * (children[0].center_y + children[1].center_y);
+        assert!((cx_mean - elongated.center_x).abs() < 1e-12);
+        assert!((cy_mean - elongated.center_y).abs() < 1e-12);
+        let dx = children[1].center_x - elongated.center_x;
+        let dy = children[1].center_y - elongated.center_y;
+        let delta_sq = dx * dx + dy * dy;
+        let total_major_var = children[0].sigma1 * children[0].sigma1 + delta_sq;
+        assert!((total_major_var - elongated.sigma1 * elongated.sigma1).abs() < 1e-11);
+
+        // Verify 3D splat splitting, holographic Gr_C(2,4) affine projection, and Schur-Plucker volume
+        let splat3d = NormedTensorGaussianSplat3D {
+            center_x: 1.0,
+            center_y: -2.0,
+            center_z: 4.0,
+            weight: 6.0,
+            sigma1: 8.0,
+            sigma2: 2.0,
+            sigma3: 1.0,
+            orientation_angle: 0.3,
+            pitch_angle: 0.5,
+            role: SplatRole::Gr24OrbitalField,
+        };
+        splat3d.validate().unwrap();
+        let children3d = splat3d.split_if_anisotropic(3.0);
+        assert_eq!(children3d.len(), 2);
+        assert!(((children3d[0].weight + children3d[1].weight) - splat3d.weight).abs() < 1e-12);
+        let dx3 = children3d[1].center_x - splat3d.center_x;
+        let dy3 = children3d[1].center_y - splat3d.center_y;
+        let dz3 = children3d[1].center_z - splat3d.center_z;
+        let total_var3 = children3d[0].sigma1 * children3d[0].sigma1 + dx3 * dx3 + dy3 * dy3 + dz3 * dz3;
+        assert!((total_var3 - splat3d.sigma1 * splat3d.sigma1).abs() < 1e-11);
+        assert!((children3d[0].cov_det() - 0.25 * splat3d.cov_det()).abs() < 1e-10);
+
+        let ortho2d = splat3d.project_orthographic_2d();
+        let persp2d = splat3d.project_perspective_2d(2.0);
+        assert!((persp2d.cov_det() - (2.0_f64 / 4.0).powi(4) * ortho2d.cov_det()).abs() < 1e-12);
+        assert!(
+            (persp2d.core_bohm_potential(1.0, 1.0)
+                - (4.0_f64 / 2.0).powi(2) * ortho2d.core_bohm_potential(1.0, 1.0))
+            .abs()
+                < 1e-12
+        );
+        let (delta_d, _, _, depth_ratio) = splat3d.holographic_gr24_depth_invariants(0.4);
+        assert!(delta_d > -1.0 && delta_d < 1.0);
+        let expected_depth_ratio = (splat3d.sigma1.powi(2) + splat3d.sigma2.powi(2)) / splat3d.sigma3.powi(2);
+        assert!((depth_ratio - expected_depth_ratio).abs() < 1e-11);
+
+        let (pl_vort, schur_vort) = schur_plucker_inversion_free_volume(0.0, 0.25);
+        let (pl_str, schur_str) = schur_plucker_inversion_free_volume(0.6, 0.25);
+        assert!((pl_vort - 1.0).abs() < 1e-12 && (schur_vort - 1.0).abs() < 1e-12);
+        assert!((pl_str - 0.64).abs() < 1e-12);
+        assert!(schur_str < schur_vort);
+
+        // Verify Gr_C(3,6) direct 3D volumetric invariants & Debye-Wolf / ENZ boundary laws
+        let gr36 = splat3d.gr36_volumetric_invariants(0.2, -0.5, 1.1);
+        assert!((gr36[0] - splat3d.sigma1.powi(2)).abs() < 1e-11);
+        assert!((gr36[1] - splat3d.sigma2.powi(2)).abs() < 1e-11);
+        assert!((gr36[2] - splat3d.sigma3.powi(2)).abs() < 1e-11);
+        assert!((gr36[3] - ortho2d.cov_det()).abs() < 1e-10);
+        assert!((gr36[6] - splat3d.cov_det()).abs() < 1e-9);
+        let bohm3d_from_gr36 = 0.25 * ((gr36[5] + gr36[4] + gr36[3]) / gr36[6]);
+        assert!((bohm3d_from_gr36 - splat3d.core_bohm_potential(1.0, 1.0)).abs() < 1e-12);
+
+        // Verify extended Gr_C(3,6) simultaneous splitting conservation, perspective projection, and Schur-Plucker laws
+        let gr36_minus = children3d[0].gr36_volumetric_invariants(0.2, -0.5, 1.1);
+        let gr36_plus = children3d[1].gr36_volumetric_invariants(0.2, -0.5, 1.1);
+        assert!((gr36_plus[0] - gr36_minus[0]).abs() < 1e-12);
+        assert!((gr36_plus[0] - 0.25 * gr36[0]).abs() < 1e-11);
+        assert!((dx3 * dx3 + dy3 * dy3 + dz3 * dz3 + gr36_plus[0] - gr36[0]).abs() < 1e-11);
+        assert!((gr36_plus[1] - gr36[1]).abs() < 1e-12);
+        assert!((gr36_plus[2] - gr36[2]).abs() < 1e-12);
+        assert!((gr36_plus[5] - gr36[5]).abs() < 1e-12);
+        assert!((gr36_plus[3] - 0.25 * gr36[3]).abs() < 1e-10);
+        assert!((gr36_plus[6] - 0.25 * gr36[6]).abs() < 1e-9);
+
+        let gr36_persp = splat3d.gr36_perspective_invariants(2.0, 0.2, -0.5, 1.1);
+        assert!((gr36_persp[3] - persp2d.cov_det()).abs() < 1e-11);
+        assert!((gr36_persp[6] - gr36_persp[3] * gr36[2]).abs() < 1e-10);
+        let anis_persp = (gr36_persp[0] - gr36_persp[1]) / (gr36_persp[0] + gr36_persp[1]);
+        let anis_3d = (gr36[0] - gr36[1]) / (gr36[0] + gr36[1]);
+        assert!((anis_persp - anis_3d).abs() < 1e-12);
+        let z_sq_rec = 4.0 * ((gr36[0] + gr36[1]) / (gr36_persp[0] + gr36_persp[1]));
+        assert!((z_sq_rec - splat3d.center_z.powi(2)).abs() < 1e-11);
+
+        let gr36_schur = gr36_schur_shear_invariants(0.6, 0.2, -0.5, 1.1);
+        assert!((gr36_schur[0] - 1.6).abs() < 1e-12);
+        assert!((gr36_schur[1] - 0.4).abs() < 1e-12);
+        assert!((gr36_schur[2] - pl_str).abs() < 1e-12);
+        assert!((gr36_schur[3] - schur_str).abs() < 1e-12);
+
+        let (ez_pair, iz_focus, phi_meta, enz_100) =
+            debye_wolf_enz_longitudinal_summary(2.0, PI / 2.0, 3.0, 4.0, 1.0, 1.0, 0.1);
+        assert!((ez_pair - 4.0).abs() < 1e-12);
+        assert!((iz_focus - 16.0).abs() < 1e-12);
+        assert!((phi_meta - (-2.0 * PI)).abs() < 1e-12);
+        assert!((enz_100 - 100.0).abs() < 1e-11);
+        let (_, _, _, enz_400) =
+            debye_wolf_enz_longitudinal_summary(2.0, PI / 2.0, 3.0, 4.0, 1.0, 1.0, 0.05);
+        assert!((enz_400 - 400.0).abs() < 1e-10);
+    }
+
+    #[test]
+    fn insta_snapshot_solar_system_precession_and_splat_scene() {
+        let bodies = [
+            SolarSystemBody::Mercury,
+            SolarSystemBody::Venus,
+            SolarSystemBody::Earth,
+            SolarSystemBody::Mars,
+            SolarSystemBody::Icarus,
+        ];
+        let summary: Vec<String> = bodies
+            .into_iter()
+            .map(|b| {
+                let p = PlanetaryOrbitParams::from_solar_system_body(b);
+                let inv = Gr24OrbitalInvariants::evaluate(&p, None);
+                format!(
+                    "{b:?}: p={:.6} AU, Gr24(p/a)={:.6}, rel={:.2}''/cy, tot={:.2}''/cy",
+                    p.semi_latus_rectum_au(),
+                    inv.madelung_semi_latus_ratio,
+                    p.anomalous_precession_arcsec_per_century(),
+                    p.total_precession_arcsec_per_century(),
+                )
+            })
+            .collect();
+
+        let scene = OrbitalSplatScene::canonical_solar_system_scene();
+        let scene_summary = format!(
+            "splats={}, total_weight={:.2}, origin_sink={:.4}, origin_gr24={:.4}, merc_ddf={:.4}",
+            scene.splats.len(),
+            scene.total_normed_weight(),
+            scene.evaluate_field_by_role(SplatRole::BodySinkSource, 0.0, 0.0),
+            scene.evaluate_field_by_role(SplatRole::Gr24OrbitalField, 0.0, 0.0),
+            scene.evaluate_field_by_role(
+                SplatRole::DdfMovingSheathField,
+                PlanetaryOrbitParams::from_solar_system_body(SolarSystemBody::Mercury)
+                    .perihelion_radius_au(),
+                0.0
+            ),
+        );
+
+        insta::assert_debug_snapshot!(
+            "solar_system_precession_and_normed_splat_scene",
+            (summary, scene_summary)
+        );
+    }
+
+    #[test]
+    fn gravitational_waves_without_and_with_ddf_and_splat3d_invariants() {
+        let mercury = PlanetaryOrbitParams::from_solar_system_body(SolarSystemBody::Mercury);
+        let phi_orb = 0.65;
+        let dv = mercury.anomalous_precession_rad_per_orbit();
+        let m_gw = mercury.gr24_quadrupole_wave_matrix(phi_orb, Some(dv));
+        let w_a_sq = two_row_minor_complex(&m_gw, 0, 1)
+            .mul(two_row_minor_complex(&m_gw, 2, 3))
+            .norm_sq();
+        let w_b_sq = two_row_minor_complex(&m_gw, 0, 3)
+            .mul(two_row_minor_complex(&m_gw, 1, 2))
+            .norm_sq();
+        let cross_sq = two_row_minor_complex(&m_gw, 0, 2)
+            .mul(two_row_minor_complex(&m_gw, 1, 3))
+            .norm_sq();
+        let p_over_a = mercury.semi_latus_rectum_au() / mercury.semi_major_axis_au;
+        assert!((w_a_sq * w_b_sq - p_over_a).abs() < 1e-12);
+        let expected_cross = 2.0 * (1.0 + p_over_a.sqrt() * (2.0 * phi_orb + dv).cos());
+        assert!((cross_sq - expected_cross).abs() < 1e-12);
+
+        // Peters-Mathews factor squared matches P_PM(e)^2 / (|w_A|^2 |w_B|^2)^7
+        let pm_poly = mercury.peters_mathews_polynomial();
+        let pm_fac = mercury.peters_mathews_factor();
+        assert!(pm_poly >= 1.0 && pm_fac > 0.0);
+        assert!((pm_fac * pm_fac - (pm_poly * pm_poly) / (w_a_sq * w_b_sq).powi(7)).abs() < 1e-11);
+
+        // Plus/cross polarizations face-on (iota = 0) vs edge-on (iota = pi/2)
+        let h0 = mercury.quadrupole_strain_amplitude(1e-9, AU_KM);
+        assert!(h0 > 0.0);
+        let (hp_face, hx_face) = mercury.gw_strain_plus_cross(1e-9, AU_KM, 0.0, phi_orb, Some(dv));
+        assert!(((hp_face * hp_face + hx_face * hx_face) - h0 * h0).abs() < 1e-36);
+        let (_, hx_edge) = mercury.gw_strain_plus_cross(1e-9, AU_KM, 0.5 * PI, phi_orb, Some(dv));
+        assert!(hx_edge.abs() < 1e-30);
+
+        // 3D NormedTensorGaussianSplat3D TT vs DDF gravitational wave splat & 3D-to-2D projection
+        let sigma0 = 2.0;
+        let sigma_z0 = 3.0;
+        let weight = 5.0;
+        let h_plus = 0.25;
+        let beta = 0.6; // gamma_phi = 1.25
+        let tt3d = NormedTensorGaussianSplat3D::from_tt_gravitational_wave(
+            0.0, 0.0, 1.0, weight, sigma0, sigma_z0, h_plus, 0.3, 0.2,
+        );
+        let ddf3d = NormedTensorGaussianSplat3D::from_ddf_gravitational_wave(
+            0.0, 0.0, 1.0, weight, sigma0, sigma_z0, h_plus, beta, 0.3, 0.2,
+        );
+        let orb3d = NormedTensorGaussianSplat3D::from_gr36_orbit(
+            &mercury, 0.0, 0.0, 1.0, weight, sigma0, sigma_z0, 0.3, 0.2,
+        );
+        assert!((tt3d.cov_det() - sigma0.powi(4) * sigma_z0.powi(2)).abs() < 1e-11);
+        assert!(
+            (ddf3d.cov_det() - sigma0.powi(4) * sigma_z0.powi(2) * (1.0 - beta * beta)).abs()
+                < 1e-11
+        );
+        assert!(ddf3d.cov_det() < tt3d.cov_det());
+        assert!((tt3d.project_orthographic_2d().cov_det() - sigma0.powi(4)).abs() < 1e-11);
+        assert!(
+            (ddf3d.project_orthographic_2d().cov_det()
+                - tt3d.project_orthographic_2d().cov_det())
+            .abs()
+                < 1e-12
+        );
+        assert!((orb3d.cov_det() - sigma0.powi(4) * sigma_z0.powi(2) * p_over_a).abs() < 1e-11);
+        let bohm_diff = ddf3d.core_bohm_potential(1.0, 1.0) - tt3d.core_bohm_potential(1.0, 1.0);
+        let gamma_sq = 1.0 / (1.0 - beta * beta);
+        let expected_bohm_diff = (1.0 / (4.0 * sigma_z0 * sigma_z0)) * (gamma_sq - 1.0);
+        assert!((bohm_diff - expected_bohm_diff).abs() < 1e-12);
+
+        // GPE vortex scattering, Kelvin-wave tail damping, and 4D Schur conditioning
+        let (rho_0, v_scat_0) = gpe_vortex_density_and_scattering_potential(4.0, 2.0, 0.0);
+        let (rho_xi, v_scat_xi) = gpe_vortex_density_and_scattering_potential(4.0, 2.0, 2.0);
+        assert!(rho_0.abs() < 1e-15 && v_scat_0.abs() < 1e-15);
+        assert!((rho_xi - 2.0).abs() < 1e-12 && v_scat_xi > 0.0);
+        let (g_newton, g_ddf) = dilatant_kelvin_tail_damping(2.0, 0.5, 3.0);
+        assert!(((g_ddf - g_newton) - 2.0 * 0.5 * 3.0_f64.powi(4)).abs() < 1e-12);
+        let (var_unstrained, var_dilatant) =
+            schur_conditioned_spatial_variance_1d(10.0, 1.0, 2.0, 2.0, 0.6);
+        assert!(var_dilatant < var_unstrained && var_unstrained < 10.0);
+    }
+
+    #[rstest]
+    #[case(SolarSystemBody::Mercury)]
+    #[case(SolarSystemBody::Venus)]
+    #[case(SolarSystemBody::Earth)]
+    #[case(SolarSystemBody::Mars)]
+    #[case(SolarSystemBody::Icarus)]
+    fn gravity_models_and_cachazo_skinner_infinity_twistor_comparison(
+        #[case] body: SolarSystemBody,
+    ) {
+        let orbit = PlanetaryOrbitParams::from_solar_system_body(body);
+        let cmp = GravityModelErrorComparison::evaluate(&orbit, 1e-9, 1e-16);
+        assert!(cmp.gr_pm_precession_rad > 0.0);
+        assert!(cmp.gr_pm_relative_error.abs() < 1e-15);
+        assert!((cmp.newtonian_relative_error - 1.0).abs() < 1e-15);
+        assert!(cmp.nordstrom_scalar_precession_rad < 0.0);
+        assert!((cmp.nordstrom_scalar_relative_error - 7.0 / 6.0).abs() < 1e-14);
+        assert!((cmp.einstein_gr_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.einstein_gr_relative_error.abs() < 1e-15);
+        assert!((cmp.spin_one_vector_relative_error - 5.0 / 6.0).abs() < 1e-14);
+        assert!((cmp.witten_scale_free_relative_error - 1.0).abs() < 1e-15);
+        assert!(cmp.witten_biharmonic_relative_error > 0.0);
+        assert!((cmp.fedi_sqg_2016_bernoulli_relative_error - 1.0).abs() < 1e-15);
+        assert!(
+            (cmp.fedi_sqg_2016_planetary_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15
+        );
+        assert!(cmp.fedi_sqg_2016_planetary_relative_error.abs() < 1e-15);
+        assert!(cmp.fedi_sqg_2016_gpe_core_relative_error > 0.0);
+        assert!(
+            (cmp.fedi_dark_2017_conservative_precession_rad - cmp.gr_pm_precession_rad).abs()
+                < 1e-15
+        );
+        assert!(cmp.fedi_dark_2017_conservative_relative_error.abs() < 1e-15);
+        assert!(cmp.fedi_dark_2017_pioneer_drag_relative_error > 0.0);
+        assert!(
+            (cmp.cachazo_skinner_flat_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15
+        );
+        assert!(cmp.cachazo_skinner_flat_relative_error.abs() < 1e-15);
+        assert!(cmp.cachazo_skinner_cosmological_relative_error > 0.0);
+        assert!(cmp.cachazo_skinner_unbroken_minus_witten_rad < 1e-15);
+        assert!(cmp.hodges_minus_bcj_double_copy_norm_sq < 1e-24);
+        assert!(
+            (cmp.partanen_tulkki_2025_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15
+        );
+        assert!(cmp.partanen_tulkki_2025_relative_error.abs() < 1e-15);
+        assert!((cmp.fedi_ddf_2026_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.fedi_ddf_2026_relative_error.abs() < 1e-15);
+        assert!((cmp.turner_gr24_qed_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.turner_gr24_qed_relative_error.abs() < 1e-14);
+        assert!(
+            ((cmp.orbital_kahler_det_factor - 3.0)
+                - (orbit.semi_latus_rectum_au() / orbit.semi_major_axis_au))
+                .abs()
+                < 1e-14
+        );
+        assert!((cmp.turner_plucker_igpe_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.turner_plucker_igpe_relative_error.abs() < 1e-14);
+        assert!(cmp.turner_dual_gr24_igpe_core_relative_error > 0.0);
+
+        let gw_cmp = GravitationalWaveModelErrorComparison::evaluate(&orbit, 1e-6);
+        assert!(gw_cmp.gr_pm_gw_luminosity > 0.0);
+        assert!(gw_cmp.gr_pm_relative_error.abs() < 1e-15);
+        assert!((gw_cmp.newtonian_relative_error - 1.0).abs() < 1e-15);
+        assert!((gw_cmp.nordstrom_scalar_tt_relative_error - 1.0).abs() < 1e-15);
+        assert!((gw_cmp.nordstrom_scalar_virial_relative_error - 5.0 / 6.0).abs() < 1e-14);
+        assert!((gw_cmp.einstein_gr_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30);
+        assert!(gw_cmp.einstein_gr_relative_error.abs() < 1e-15);
+        assert!((gw_cmp.spin_one_vector_tt_relative_error - 1.0).abs() < 1e-15);
+        assert!((gw_cmp.spin_one_vector_quadrupole_relative_error - 0.75).abs() < 1e-14);
+        assert!((gw_cmp.witten_scale_free_relative_error - 1.0).abs() < 1e-15);
+        assert!(gw_cmp.witten_ghost_relative_error > 0.0);
+        assert!((gw_cmp.fedi_sqg_2016_longitudinal_relative_error - 1.0).abs() < 1e-15);
+        assert!(
+            (gw_cmp.fedi_sqg_2016_vortex_lattice_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs()
+                < 1e-30
+        );
+        assert!(gw_cmp.fedi_sqg_2016_vortex_lattice_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.fedi_sqg_2016_gpe_dispersion_relative_error > 0.0);
+        assert!(
+            (gw_cmp.fedi_dark_2017_conservative_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs()
+                < 1e-30
+        );
+        assert!(gw_cmp.fedi_dark_2017_conservative_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.fedi_dark_2017_stokes_drag_relative_error > 0.0);
+        assert!(
+            (gw_cmp.cachazo_skinner_flat_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30
+        );
+        assert!(gw_cmp.cachazo_skinner_flat_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.cachazo_skinner_cosmological_relative_error > 0.0);
+        assert!(gw_cmp.cachazo_skinner_unbroken_minus_witten < 1e-30);
+        assert!(
+            (gw_cmp.partanen_tulkki_2025_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs()
+                < 1e-30
+        );
+        assert!(gw_cmp.partanen_tulkki_2025_relative_error.abs() < 1e-15);
+        assert!((gw_cmp.fedi_ddf_2026_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30);
+        assert!(gw_cmp.fedi_ddf_2026_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.turner_gr24_qed_relative_error.abs() < 1e-13);
+        assert!(gw_cmp.turner_plucker_igpe_relative_error.abs() < 1e-13);
+        assert!(gw_cmp.turner_dual_gr24_igpe_fracture_relative_error > 0.0);
+    }
+}
