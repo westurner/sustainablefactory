@@ -50,16 +50,16 @@ lean-api:
 		stamp=".lake/build/lean-api-inputs.sha256"; \
 		current="$$( { \
 			find Signals -name '*.lean' -type f -print0 | LC_ALL=C sort -z | xargs -0r sha256sum; \
-			sha256sum Signals.lean SignalsApiDocs.lean build_api_docs.py Makefile lakefile.toml lake-manifest.json; \
+			sha256sum Signals.lean SignalsPending.lean SignalsApiDocs.lean build_api_docs.py Makefile lakefile.toml lake-manifest.json; \
 			printf 'DISABLE_EQUATIONS=%s\n' "$(DISABLE_EQUATIONS)"; \
 		} | sha256sum | cut -d' ' -f1)"; \
-		if [ "$${SIGNALS_API_FORCE_REBUILD:-0}" != "1" ] && [ -f "$$stamp" ] && [ "$$(cat "$$stamp")" = "$$current" ] && [ -f .lake/build/doc/Signals.html ] && [ -f .lake/build/bin/signalsApiDocs ]; then \
+		if [ "$${SIGNALS_API_FORCE_REBUILD:-0}" != "1" ] && [ -f "$$stamp" ] && [ "$$(cat "$$stamp")" = "$$current" ] && [ -f .lake/build/doc/Signals.html ] && [ -f .lake/build/doc/Signals/Pending.html ] && [ -f .lake/build/bin/signalsApiDocs ]; then \
 			printf '%s\n' 'Signals API inputs unchanged; reusing cached output'; \
 		else \
 			printf '\n==> Compile Signals\n'; \
 			env TMPDIR="$(LOCAL_TMP)" DISABLE_EQUATIONS=$(DISABLE_EQUATIONS) \
 				GIT_CONFIG_PARAMETERS="$${GIT_CONFIG_PARAMETERS:+$$GIT_CONFIG_PARAMETERS }'url.https://github.com/.insteadOf'='ssh://git@github.com/'" \
-				$(LEAN) $(LAKE_FLAGS) build Signals @doc-gen4/coreDocs signalsApiDocs; \
+				$(LEAN) $(LAKE_FLAGS) build Signals SignalsPending @doc-gen4/coreDocs signalsApiDocs; \
 			printf '\n==> Generate Signals API pages\n'; \
 			env TMPDIR="$(LOCAL_TMP)" DISABLE_EQUATIONS=$(DISABLE_EQUATIONS) \
 				SIGNALS_DOCGEN_PROFILE=$(DOCGEN_PROFILE) \
@@ -77,7 +77,7 @@ blueprint: lean-api
 			find Signals -name '*.lean' -type f -print0 | LC_ALL=C sort -z | xargs -0r sha256sum; \
 			sha256sum Signals.lean SignalsTests.lean SignalsPending.lean SignalsPendingTests.lean build_api_docs.py lakefile.toml lake-manifest.json; \
 		} | sha256sum | cut -d' ' -f1)"; \
-		if [ "$${SIGNALS_API_FORCE_REBUILD:-0}" != "1" ] && [ -f "$$lean_stamp" ] && [ "$$(cat "$$lean_stamp")" = "$$lean_current" ] && [ -f .lake/build/blueprint/library/Signals.tex ]; then \
+		if [ "$${SIGNALS_API_FORCE_REBUILD:-0}" != "1" ] && [ -f "$$lean_stamp" ] && [ "$$(cat "$$lean_stamp")" = "$$lean_current" ] && [ -f .lake/build/blueprint/library/Signals.tex ] && [ -f .lake/build/blueprint/library/SignalsPending.tex ]; then \
 			printf '%s\n' 'LeanArchitect blueprint data unchanged; reusing cached .tex artifacts'; \
 		else \
 			printf '\n==> Compile LeanArchitect blueprint data\n'; \

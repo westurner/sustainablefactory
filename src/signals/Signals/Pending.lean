@@ -8529,4 +8529,124 @@ lemma DDFFractureCommunicationEvidence.ddf_fracture_attenuation_cayley_saturatio
     Signals.DFT.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
       r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss hp_out hp_loss⟩
 
+/-- **Pending Boundary for Section 25.2 (`seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_bounds`)**:
+Preserves the causal non-FTL guard (`not_supported_by_noncausal_mode`) across all seven single- and
+multi-path combinations of exterior photons ($M_1$), fracture-guided modes ($M_2$), and through-wormhole
+Semi-Dirac / soft modes ($M_3$). -/
+@[blueprint "lem:signals-pending-seven-mode-multipath-wormhole-fracture-trimodal-bounds"
+  (title := "Pending boundary for Section 25.2: Seven-mode multi-path taxonomy across photons around, photons through fracture, and Semi-Dirac through wormhole")
+  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
+    remain excluded while all seven elementary and composite multi-path laws hold simultaneously. -/)
+  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.DFT.seven\_mode\_multipath\_wormhole\_fracture\_and\_trimodal\_synthesis\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma DDFFractureCommunicationEvidence.seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (r_dist w_corridor gamma_damp l_path y_cl kappa_ddf q_ddf
+      snr_around snr_fracture p_fail_1 p_fail_2
+      x_around x_fracture s_bit e_around e_fracture e_wormhole : ℝ)
+    (hr : r_dist ≠ 0) (hw : w_corridor ≠ 0)
+    (hsnr1 : 0 < snr_around) (hsnr2 : 0 < snr_fracture)
+    (hp1_pos : 0 < p_fail_1) (hp1_lt : p_fail_1 < 1)
+    (hp2_pos : 0 < p_fail_2) (hp2_lt : p_fail_2 < 1) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      Signals.DFT.fractureGuidedCorridorTransmission gamma_damp l_path /
+          Signals.DFT.exteriorPhotonInverseSquareEfficiency w_corridor r_dist =
+        Signals.DFT.ddfFractureAttenuatedCorridorGain r_dist w_corridor gamma_damp l_path ∧
+      Signals.DFT.exteriorPhotonInverseSquareEfficiency 1 100 <
+        Signals.DFT.fractureGuidedCorridorTransmission (1 / 1000) 10 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 0 0 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 0 0 (-1) = 0 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability x_around 0 s_bit =
+        Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_around s_bit ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 0 x_fracture s_bit =
+        Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_fracture s_bit ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability (1 / 100) 0 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability (1 / 100) 0 (-1) <
+        Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 (-1) ∧
+      Signals.DFT.dualPathCommonModeSubtraction y_cl kappa_ddf q_ddf = kappa_ddf * q_ddf ∧
+      snr_around < Signals.DFT.dualPathMrcCombinedSnr snr_around snr_fracture ∧
+      snr_fracture < Signals.DFT.dualPathMrcCombinedSnr snr_around snr_fracture ∧
+      Signals.DFT.dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_1 ∧
+      Signals.DFT.dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_2 ∧
+      1 - Signals.DFT.dualPathOutageProbability (1 / 10) (1 / 10) = 99 / 100 ∧
+      0 ≤ Signals.DFT.triModalDualKeyedErEprRxProbability x_around x_fracture 1 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability x_around x_fracture 1 ≤ 1 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 1 0 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 1 0 (-1) = 1 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 (-1) = 1 ∧
+      Signals.DFT.triModalWormholeThroatLoad e_around e_fracture e_wormhole = e_wormhole ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.DFT.triModalWormholeThroatLoad 1000 1000 4) 10 ≤ 0 :=
+  ⟨evidence.not_supported_by_noncausal_mode,
+    Signals.DFT.seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities
+      r_dist w_corridor gamma_damp l_path y_cl kappa_ddf q_ddf
+      snr_around snr_fracture p_fail_1 p_fail_2
+      x_around x_fracture s_bit e_around e_fracture e_wormhole
+      hr hw hsnr1 hsnr2 hp1_pos hp1_lt hp2_pos hp2_lt⟩
+
+/-- **Pending Boundary for Section 25.2.1 (`seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_bounds`)**:
+Enforces the `DDFFractureCommunicationEvidence` non-FTL guard alongside AGC dual-key normalization,
+delay-buffered arrival-skew cancellation, correlated common-cause outage bounds, and parasitic
+exterior-to-throat mouth isolation thresholds. -/
+@[blueprint "lem:signals-pending-seven-mode-multipath-agc-skew-correlated-outage-leakage-critique-bounds"
+  (title := "Pending boundary for Section 25.2.1: AGC dual-key normalization, skew buffering, correlated outage, and parasitic mouth leakage")
+  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
+    remain excluded while all Section 25.2.1 multi-path critique gap-closure laws hold simultaneously. -/)
+  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.DFT.seven\_mode\_multipath\_agc\_skew\_correlated\_outage\_and\_leakage\_critique\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma DDFFractureCommunicationEvidence.seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (x_around x_fracture w_around w_fracture
+      l_ext l_frac c_light v_frac y0 y_drift t1 delta_t_skew kappa_ddf q_ddf
+      p_fail rho_corr e_around e_fracture e_wormhole : ℝ)
+    (hw_sum : w_around + w_fracture ≠ 0)
+    (hw1_ne : w_around ≠ 0) (hw2_ne : w_fracture ≠ 0)
+    (hl_pos : 0 < l_ext) (hl_le : l_ext ≤ l_frac)
+    (hv_pos : 0 < v_frac) (hv_le : v_frac ≤ c_light)
+    (hp_pos : 0 < p_fail) (hp_lt : p_fail < 1)
+    (hrho_nonneg : 0 ≤ rho_corr) (hrho_lt : rho_corr < 1) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 1 1 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 1 1 (-1) = 4 / 5 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 w_around w_fracture 1 -
+          Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 w_around w_fracture (-1) = 1 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 0 w_around 0 1 -
+          Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 0 w_around 0 (-1) = 1 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability 0 1 0 w_fracture 1 -
+          Signals.DFT.triModalAgcDualKeyedErEprRxProbability 0 1 0 w_fracture (-1) = 1 ∧
+      0 ≤ Signals.DFT.triModalAgcDualKeyedErEprRxProbability x_around x_fracture w_around w_fracture 1 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability x_around x_fracture w_around w_fracture 1 ≤ 1 ∧
+      0 ≤ Signals.DFT.dualPathPropagationSkew l_ext l_frac c_light v_frac ∧
+      Signals.DFT.dualPathSkewCompensatedClutterResidual y0 y_drift t1 delta_t_skew 0 kappa_ddf q_ddf =
+        kappa_ddf * q_ddf + y_drift * delta_t_skew ∧
+      Signals.DFT.dualPathSkewCompensatedClutterResidual
+          y0 y_drift t1 delta_t_skew delta_t_skew kappa_ddf q_ddf =
+        kappa_ddf * q_ddf ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability p_fail 0 =
+        Signals.DFT.dualPathOutageProbability p_fail p_fail ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability p_fail 1 = p_fail ∧
+      Signals.DFT.dualPathOutageProbability p_fail p_fail ≤
+        Signals.DFT.dualPathCorrelatedOutageProbability p_fail rho_corr ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability p_fail rho_corr < p_fail ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) = 7 / 250 ∧
+      Signals.DFT.triModalParasiticThroatLoad 0 0 e_around e_fracture e_wormhole =
+        Signals.DFT.triModalWormholeThroatLoad e_around e_fracture e_wormhole ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux
+        (Signals.DFT.triModalParasiticThroatLoad (1 / 100) (1 / 100) 1000 1000 4) 10 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux
+        (Signals.DFT.triModalParasiticThroatLoad (1 / 1000) (1 / 1000) 1000 1000 4) 10 ≤ 0 :=
+  ⟨evidence.not_supported_by_noncausal_mode,
+    Signals.DFT.seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities
+      x_around x_fracture w_around w_fracture
+      l_ext l_frac c_light v_frac y0 y_drift t1 delta_t_skew kappa_ddf q_ddf
+      p_fail rho_corr e_around e_fracture e_wormhole
+      hw_sum hw1_ne hw2_ne hl_pos hl_le hv_pos hv_le hp_pos hp_lt hrho_nonneg hrho_lt⟩
+
 end Signals.Pending

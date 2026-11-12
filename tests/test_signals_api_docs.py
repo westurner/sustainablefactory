@@ -182,6 +182,17 @@ def test_sanitize_blueprint_tex_preserves_multiline_matrix_and_cases_ampersands(
     )
     assert build_api_docs.sanitize_blueprint_tex_text(multiline_math) == multiline_math
 
+    # Regression test: subarray environment preserves `&` alignment separators
+    subarray_math = (
+        "\\begin{lemma}[Subarray]\n"
+        "$\\sum_{\\begin{subarray}{c} i & j \\end{subarray}} a_{ij}$ & text.\n"
+        "\\end{lemma}\n"
+    )
+    assert (
+        r"\sum_{\begin{subarray}{c} i & j \end{subarray}} a_{ij}$ \& text."
+        in build_api_docs.sanitize_blueprint_tex_text(subarray_math)
+    )
+
 
 def test_conf_signals_blueprint_hash_tracks_disable_equations(tmp_path: Path, monkeypatch):
     import docs.conf as docs_conf

@@ -313,13 +313,18 @@ against the hypothesis.
    the classical Magnus control. Populate it only after an independent
    observable and a classical control are available; no current fixture is
    physical DDF evidence.
-6. [Complete, formal discrimination & hybrid synthesis] Formalize the quantitative
+6. [Complete, formal discrimination & seven-mode multi-path synthesis] Formalize the quantitative
    discrimination between DDF fracture-based communication (`HDDF`, $p_{23}=0$,
    standalone causal contrast $\Delta y = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$)
    and $\mathrm{ER}=\mathrm{EPR}$ entanglement/wormholes ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 > 0$,
-   unkeyed contrast $0$, Raychaudhuri overload collapse) together with the hybrid
-   fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver (`Signals.DFT` Section 25,
+   unkeyed contrast $0$, Raychaudhuri overload collapse) together with Section 25.1 critique
+   gap-closures and the Section 25.2 seven-mode multi-path taxonomy across photons around ($M_1$),
+   photons/phonons through fracture around ($M_2$), and Semi-Dirac / soft modes through the
+   wormhole ($M_3$) plus their four composite combinations $M_1+M_3$, $M_2+M_3$, $M_1+M_2$, and
+   $M_1+M_2+M_3$ (`Signals.DFT` Sections 25–25.2.1,
    `ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`,
+   `seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities`,
+   `seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities`,
    and [`docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](../../../docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md)).
 
 The bounded Rust JHTDB loop is complete: the reader validates the HDF5

@@ -36,7 +36,7 @@ HOSTED_DOCS = {
 HREF_ATTRIBUTE = re.compile(r'(?P<prefix>\bhref\s*=\s*)(?P<quote>["\'])(?P<url>.*?)(?P=quote)', re.IGNORECASE)
 BEGIN_ENV_TITLE = re.compile(r"^(\\begin\{[^}]+\}\[)(.*)(\]\s*)$")
 ALIGNMENT_ENV_NAMES = (
-    r"(?:[a-zA-Z]*matrix|cases|dcases|rcases|aligned|alignedat|align\*?|array|tabular|split| subarray)"
+    r"(?:[a-zA-Z]*matrix|cases|dcases|rcases|aligned|alignedat|align\*?|array|tabular|split|subarray)"
 )
 ALIGNMENT_SPAN = re.compile(
     rf"\\begin\{{{ALIGNMENT_ENV_NAMES}\}}.*?\\end\{{{ALIGNMENT_ENV_NAMES}\}}"
