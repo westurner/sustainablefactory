@@ -130,10 +130,22 @@ myst_enable_extensions = [
 
 myst_fence_as_directive = ["mermaid"]
 
-mathjax3_config = {
-    "loader": {"load": ["[tex]/stmaryrd"]},
-    "tex": {"packages": {"[+]": ["stmaryrd"]}},
+mathjax4_config = {
+    "tex": {
+        "macros": {
+            "llbracket": r"\mathopen{[\![}",
+            "rrbracket": r"\mathclose{]\!]}",
+        },
+    },
 }
+use_mathjax_cdn = os.environ.get("MATHJAX_CDN", "0") == "1"
+mathjax_path = (
+    "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+    if use_mathjax_cdn
+    else "mathjax/tex-mml-chtml.js"
+)
+if not use_mathjax_cdn:
+    mathjax4_config["output"] = {"fontPath": "_static/mathjax-fonts"}
 
 bibtex_bibfiles = ["citations.bib"]
 bibtex_default_style = "unsrt"
