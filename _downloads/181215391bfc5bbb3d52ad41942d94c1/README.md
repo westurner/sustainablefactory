@@ -1302,7 +1302,7 @@ model, or environmental error.
    propagation at the declared transverse-phonon speed, classical controls,
    conservation accounting, and blinded replication. A weak jump, FTLE ridge,
    acoustic residual, or superluminal result is not a DDF confirmation. See
-   [`DDF_FRACTURE_COMMUNICATION_PLAN.md`](DDF_FRACTURE_COMMUNICATION_PLAN.md).
+   [`docs/DDF_FRACTURE_COMMUNICATION_PLAN.md`](docs/DDF_FRACTURE_COMMUNICATION_PLAN.md).
 29. [Complete, DDF evidence contract] Added
    `DDFFractureCommunicationEvidence` and `DDFCommunicationMode` in
    `Signals.Pending`. The contract requires an independent defect observable,
@@ -2290,7 +2290,7 @@ The paper introduces the Dilatant Dark Fluid (DDF), a unified cosmic medium comp
 
 The DDF model does not itself define a fracture transport law or a
 communication detector. The updated validation boundary is documented in
-[`DDF_FRACTURE_COMMUNICATION_PLAN.md`](DDF_FRACTURE_COMMUNICATION_PLAN.md):
+[`docs/DDF_FRACTURE_COMMUNICATION_PLAN.md`](docs/DDF_FRACTURE_COMMUNICATION_PLAN.md):
 it treats ordinary acoustic/elastic transfer as the null, DDF coupling as a
 conditional extra term tied to an independent defect observable, and any FTL or
 longitudinal-Proca interpretation as outside the present DDF model.

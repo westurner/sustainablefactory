@@ -7370,6 +7370,568 @@ theorem ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_ident
     by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; ring,
     by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; norm_num⟩
 
+/-! ### 25.1 Adversarial Critique & Gap-Closure Fixes: Dilatant Corridor Attenuation, Unconditionally Bounded Cayley Saturation, Horodecki $2/3$ Fidelity Threshold, and Passive Energy Closure (`ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities`)
+
+Addresses four mathematical and physical critiques of Section 25:
+1. **Critique Fix 1 (High-$k$ Dilatant Shear-Thickening Attenuation in Fracture Corridors)**:
+   `ddfFractureCorridorGuidingGain` models lossless geometric guiding $(r/w)^2$, whereas a physical DDF
+   medium has wavenumber-dependent shear-thickening damping $\gamma_{\mathrm{damp}}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0 k^2(1 + \alpha_{\mathrm{sh}}k^2) \ge 0$
+   (`Signals.Pending.dilatantDampingRate`). `ddfFractureAttenuatedCorridorGain` incorporates path attenuation
+   $(1 + \gamma_{\mathrm{damp}} L_{\mathrm{path}})^{-1}$, proving exact lossless recovery at $\gamma_{\mathrm{damp}} = 0$,
+   stronger high-$k$ roll-off ($k = 5$ vs. $k = 1$), and $> 9{,}800\times$ net gain for low-$k$ transverse phonons.
+2. **Critique Fix 2 (Unbounded Key Overflow in `hybridFractureKeyedErEprRxProbability` for $|\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}| > 1$)**:
+   Because $q_{\mathrm{DDF}}$ is a physical strain/pressure observable, an overdriven fracture pulse with
+   $x = \kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} = 3 > 1$ causes the linearized hybrid formula to overflow $[0, 1]$
+   (`hybridFractureKeyedErEprRxProbability 3 1 1 = 2 > 1`). Passing $x \in \mathbb{R}$ through the exact
+   rational Cayley unitary phase map $\sin(2\arctan x) = \frac{2x}{1 + x^2} \in [-1, 1]$
+   (`hybridSaturatedFractureKeyedErEprRxProbability`) guarantees $0 \le P_{\mathrm{RX}}^{\mathrm{sat}}(x, \pm 1) \le 1$
+   for **every** $x \in \mathbb{R}$ unconditionally (by $(1 \pm x)^2 \ge 0$), while preserving $1/2$ at $x = 0$
+   and $100\%$ contrast at $x = 1$.
+3. **Critique Fix 3 (Haar-Averaged 3D Bloch-Sphere Qubit Fidelity Ceiling $2/3$ vs. Equatorial Contrast $1/2$)**:
+   For isotropic 3D qubit states, classical measure-and-prepare over an unentangled DDF fracture waveguide
+   achieves a maximum Haar-averaged fidelity of $2/3$ (Massar & Popescu 1995), whereas a bipartite state with
+   concurrence $\mathcal{C}_{\mathrm{EPR}} \in [0, 1]$ achieves the Horodecki optimal teleportation fidelity
+   `horodeckiAverageTeleportationFidelity` $F_{\mathrm{avg}}(\mathcal{C}_{\mathrm{EPR}}) = \frac{2 + \mathcal{C}_{\mathrm{EPR}}}{3} \in [2/3, 1]$,
+   exceeding $2/3$ if and only if $\mathcal{C}_{\mathrm{EPR}} > 0$ and reaching $1$ at $\mathcal{C}_{\mathrm{EPR}} = 1$.
+4. **Critique Fix 4 (Closed-Loop Passive Energy Ledger — No Free DDF Fracture Energy Extraction)**:
+   `ddfFracturePassivePowerEfficiency` enforces $0 < \frac{P_{\mathrm{out}}}{P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}}} < 1$
+   whenever $P_{\mathrm{out}} > 0$ and fracture nucleation plus viscous dissipation power
+   $P_{\mathrm{fracture}} + P_{\mathrm{diss}} > 0$, matching `DDFFractureCommunicationEvidence.energyClosed`. -/
+
+/-- **Dilatant Shear-Thickening Wave-Packet Damping Rate**:
+$$\gamma_{\mathrm{damp}}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0\,k^2\,(1 + \alpha_{\mathrm{sh}}\,k^2),$$
+matching `Signals.Pending.dilatantDampingRate`. -/
+@[blueprint "def:signals-dft-ddf-fracture-dilatant-damping"
+  (title := "Dilatant shear-thickening wave-packet damping rate eta_0 * k^2 * (1 + alpha_sh * k^2)")
+  (statement := /-- Define $\operatorname{ddfFractureDilatantDamping}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0 k^2 (1 + \alpha_{\mathrm{sh}} k^2)$. -/)]
+def ddfFractureDilatantDamping (eta_base alpha_shear k_wave : ℝ) : ℝ :=
+  eta_base * k_wave ^ 2 * (1 + alpha_shear * k_wave ^ 2)
+
+/-- **Critique Fix 1: Attenuated DDF Fracture-Corridor Guiding Gain**:
+$$\mathcal{G}_{\mathrm{corridor}}^{\mathrm{atten}}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}, \gamma_{\mathrm{damp}}, L_{\mathrm{path}}) =
+\frac{(r_{\mathrm{dist}} / w_{\mathrm{corridor}})^2}{1 + \gamma_{\mathrm{damp}}\,L_{\mathrm{path}}}.$$ -/
+@[blueprint "def:signals-dft-ddf-fracture-attenuated-corridor-gain"
+  (title := "Critique Fix 1: Attenuated DDF fracture-corridor guiding gain (r/w)^2 / (1 + gamma_damp * L_path)")
+  (statement := /-- Define $\operatorname{ddfFractureAttenuatedCorridorGain}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}, \gamma_{\mathrm{damp}}, L_{\mathrm{path}}) = (r_{\mathrm{dist}} / w_{\mathrm{corridor}})^2 / (1 + \gamma_{\mathrm{damp}} L_{\mathrm{path}})$. -/)]
+noncomputable def ddfFractureAttenuatedCorridorGain
+    (r_dist w_corridor gamma_damp l_path : ℝ) : ℝ :=
+  (r_dist / w_corridor) ^ 2 / (1 + gamma_damp * l_path)
+
+/-- **Critique Fix 2: Unconditionally Bounded Cayley-Saturated Hybrid Fracture-Keyed $\mathrm{ER}=\mathrm{EPR}$ Receiver Probability**:
+$$P_{\mathrm{RX}}^{\mathrm{sat}}(x, s_{\mathrm{bit}}) = \frac{1}{2}\left(1 + \frac{2x}{1 + x^2}\,s_{\mathrm{bit}}\right), \qquad x = \kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}} \in \mathbb{R}.$$ -/
+@[blueprint "def:signals-dft-hybrid-saturated-fracture-keyed-er-epr-rx-probability"
+  (title := "Critique Fix 2: Unconditionally bounded Cayley-saturated hybrid fracture-keyed ER=EPR receiver probability")
+  (statement := /-- Define $\operatorname{hybridSaturatedFractureKeyedErEprRxProbability}(x, s_{\mathrm{bit}}) = (1 + (2x / (1 + x^2)) s_{\mathrm{bit}}) / 2$. -/)]
+noncomputable def hybridSaturatedFractureKeyedErEprRxProbability (x_drive s_bit : ℝ) : ℝ :=
+  (1 + (2 * x_drive / (1 + x_drive ^ 2)) * s_bit) / 2
+
+/-- **Critique Fix 3: Horodecki–Massar–Popescu Haar-Averaged 3D Qubit Teleportation Fidelity**:
+$$F_{\mathrm{avg}}^{\mathrm{Horodecki}}(\mathcal{C}_{\mathrm{EPR}}) = \frac{2 + \mathcal{C}_{\mathrm{EPR}}}{3}.$$ -/
+@[blueprint "def:signals-dft-horodecki-average-teleportation-fidelity"
+  (title := "Critique Fix 3: Horodecki Haar-averaged 3D qubit teleportation fidelity (2 + C_EPR) / 3")
+  (statement := /-- Define $\operatorname{horodeckiAverageTeleportationFidelity}(\mathcal{C}_{\mathrm{EPR}}) = (2 + \mathcal{C}_{\mathrm{EPR}}) / 3$. -/)]
+noncomputable def horodeckiAverageTeleportationFidelity (c_epr : ℝ) : ℝ :=
+  (2 + c_epr) / 3
+
+/-- **Critique Fix 4: Passive Energy-Closed DDF Fracture Channel Power Efficiency**:
+$$\eta_{\mathrm{frac}}^{\mathrm{passive}}(P_{\mathrm{out}}, P_{\mathrm{fracture}}, P_{\mathrm{diss}}) =
+\frac{P_{\mathrm{out}}}{P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}}}.$$ -/
+@[blueprint "def:signals-dft-ddf-fracture-passive-power-efficiency"
+  (title := "Critique Fix 4: Passive energy-closed DDF fracture channel power efficiency")
+  (statement := /-- Define $\operatorname{ddfFracturePassivePowerEfficiency}(P_{\mathrm{out}}, P_{\mathrm{fracture}}, P_{\mathrm{diss}}) = P_{\mathrm{out}} / (P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}})$. -/)]
+noncomputable def ddfFracturePassivePowerEfficiency (p_out p_fracture p_diss : ℝ) : ℝ :=
+  p_out / (p_out + p_fracture + p_diss)
+
+/-- **Master Critique Gap-Closure Theorem for Section 25.1 (`ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities`)**:
+Simultaneously establishes:
+1. **Attenuated Fracture-Corridor Gain & High-$k$ Dilatant Roll-Off**:
+   - `ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path = ddfFractureCorridorGuidingGain r_dist w_corridor`,
+   - `ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 5) 10 < ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10`,
+   - `(9800 : ℝ) < ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10`,
+2. **Unconditionally Bounded Cayley-Saturated Hybrid Receiver Probability ($\forall x \in \mathbb{R}$)**:
+   - Raw overflow diagnosis: `(1 : ℝ) < hybridFractureKeyedErEprRxProbability 3 1 1`,
+   - Exact unconditional bounds for all $x \in \mathbb{R}$:
+     `0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1`,
+   - No-signaling at $x = 0$, $100\%$ contrast at $x = 1$, and bounded $4/5 \le 1$ response at overdriven $x = 3$,
+3. **Horodecki $2/3$ Classical Measure-and-Prepare Ceiling vs. $\mathcal{C}_{\mathrm{EPR}} > 0$ Quantum Teleportation**:
+   - `horodeckiAverageTeleportationFidelity 0 = 2 / 3`,
+   - `((2 / 3 : ℝ) < horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr)`,
+   - `horodeckiAverageTeleportationFidelity 1 = 1`,
+4. **Strict Passive Energy Closure (`0 < η < 1`)**:
+   - `0 < ddfFracturePassivePowerEfficiency p_out p_fracture p_diss ∧ ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1`. -/
+@[blueprint "thm:signals-dft-ddf-fracture-attenuation-cayley-horodecki-passivity-critique"
+  (title := "Critique gap-closure theorem for Section 25.1: Dilatant corridor attenuation, Cayley saturation, Horodecki 2/3 fidelity, and passive energy closure")
+  (statement := /-- Certifies high-$k$ dilatant corridor attenuation vs. $>9{,}800\times$ low-$k$ guiding gain,
+    unconditional $[0,1]$ probability bounds for all $x\in\mathbb{R}$ via the Cayley map $2x/(1+x^2)$,
+    the Horodecki $2/3$ classical measure-and-prepare ceiling vs. $\mathcal{C}_{\mathrm{EPR}}>0$ quantum
+    advantage, and strict passive energy closure $0 < \eta_{\mathrm{frac}}^{\mathrm{passive}} < 1$. -/)
+  (proof := /-- Use $(1 + x)^2 \ge 0$ and $(1 - x)^2 \ge 0$ over $1 + x^2 > 0$ for the unconditional Cayley
+    bounds, linear arithmetic for the Horodecki $2/3$ equivalence and passive power bound, and \texttt{norm\_num}. -/)]
+theorem ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
+    (r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss : ℝ)
+    (hp_out : 0 < p_out) (hp_loss : 0 < p_fracture + p_diss) :
+    ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path =
+        ddfFractureCorridorGuidingGain r_dist w_corridor ∧
+      ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 5) 10 <
+        ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (9800 : ℝ) <
+        ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (1 : ℝ) < hybridFractureKeyedErEprRxProbability 3 1 1 ∧
+      0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 0 s_bit = 1 / 2 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 1 1 -
+          hybridSaturatedFractureKeyedErEprRxProbability 1 (-1) = 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 3 1 = 4 / 5 ∧
+      horodeckiAverageTeleportationFidelity 0 = 2 / 3 ∧
+      ((2 / 3 : ℝ) < horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr) ∧
+      horodeckiAverageTeleportationFidelity 1 = 1 ∧
+      0 < ddfFracturePassivePowerEfficiency p_out p_fracture p_diss ∧
+      ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1 := by
+  have h_denom_x : 0 < 1 + x_drive ^ 2 := by positivity
+  have h_cayley_low : 0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 := by
+    unfold hybridSaturatedFractureKeyedErEprRxProbability
+    have h_eq : (1 + 2 * x_drive / (1 + x_drive ^ 2) * 1) / 2 =
+        (1 + x_drive) ^ 2 / (2 * (1 + x_drive ^ 2)) := by
+      field_simp [ne_of_gt h_denom_x]
+      ring
+    rw [h_eq]
+    positivity
+  have h_cayley_high : hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 := by
+    unfold hybridSaturatedFractureKeyedErEprRxProbability
+    have h_diff : 1 - (1 + 2 * x_drive / (1 + x_drive ^ 2) * 1) / 2 =
+        (1 - x_drive) ^ 2 / (2 * (1 + x_drive ^ 2)) := by
+      field_simp [ne_of_gt h_denom_x]
+      ring
+    have h_nonneg : 0 ≤ (1 - x_drive) ^ 2 / (2 * (1 + x_drive ^ 2)) := by positivity
+    linarith
+  have h_tot_pos : 0 < p_out + p_fracture + p_diss := by linarith
+  have h_eff_pos : 0 < ddfFracturePassivePowerEfficiency p_out p_fracture p_diss := by
+    unfold ddfFracturePassivePowerEfficiency
+    exact div_pos hp_out h_tot_pos
+  have h_eff_lt_one : ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1 := by
+    unfold ddfFracturePassivePowerEfficiency
+    rw [div_lt_one h_tot_pos]
+    linarith
+  refine ⟨
+    by unfold ddfFractureAttenuatedCorridorGain ddfFractureCorridorGuidingGain; simp,
+    by unfold ddfFractureAttenuatedCorridorGain ddfFractureDilatantDamping; norm_num,
+    by unfold ddfFractureAttenuatedCorridorGain ddfFractureDilatantDamping; norm_num,
+    by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; norm_num,
+    h_cayley_low,
+    h_cayley_high,
+    by unfold hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold horodeckiAverageTeleportationFidelity; norm_num,
+    by unfold horodeckiAverageTeleportationFidelity; constructor <;> intro h <;> linarith,
+    by unfold horodeckiAverageTeleportationFidelity; norm_num,
+    h_eff_pos,
+    h_eff_lt_one⟩
+
+/-! ### 25.2 Seven-Mode Multi-Path Communication Taxonomy: Photons Around ($M_1$), Photons/Phonons Through Fracture Around ($M_2$), and Semi-Dirac / Soft Modes Through the Wormhole ($M_3$), Plus Their Four Composite Combinations (`seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities`)
+
+Formalizes the complete $2^3 - 1 = 7$-mode communication taxonomy formed by the three elementary spatial/topological channels:
+- **Method 1 ($M_1$: Photons Around the Wormhole)**: Exterior Stratum 1 $\mathrm{Gr}_{>0}(2,4)$ optical channel bypassing the throat ($E_{\mathrm{throat}} = 0, p_{23} = 0$), subject to unguided 3D inverse-square spreading $\eta_{\mathrm{around}}(r_0, r) = (r_0 / r)^2$ (`exteriorPhotonInverseSquareEfficiency`) unless `CNC`-repeater or `TRUE`-array assisted.
+- **Method 2 ($M_2$: Photons / Polaritons / Transverse Phonons Through a DDF Fracture Around the Wormhole)**: Exterior contiguous phase-slip corridor ($\mathrm{De} > 1$, $E_{\mathrm{throat}} = 0, p_{23} = 0$) with attenuated corridor transmission $\eta_{\mathrm{frac}}(\gamma_{\mathrm{damp}}, L) = (1 + \gamma_{\mathrm{damp}} L)^{-1}$ (`fractureGuidedCorridorTransmission`), whose exact ratio over $M_1$ equals `ddfFractureAttenuatedCorridorGain`.
+- **Method 3 ($M_3$: Semi-Dirac Fermions — or `TRUE`/Metamaterial-Funneled Soft Photons — Through the Wormhole)**: Non-local bipartite $\mathrm{ER}=\mathrm{EPR}$ throat transit ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 > 0$, unit Klein tunneling `semiDiracKleinTunnelingY = 1` along $\hat{y}$ at $k_x = 0$ with zero rest-mass throat jamming and zero Bethe diffraction floor), which has zero unkeyed standalone signaling contrast (`erEprTransceiverDifferentialContrast 0 = 0`) when operated alone.
+
+And their four composite multi-path combinations:
+- **Method 4 ($M_1 + M_3$: Photons Around + Through Wormhole)**: Standard Gao–Jafferis–Wall exterior-photon-keyed $\mathrm{ER}=\mathrm{EPR}$ bridge (`triModalDualKeyedErEprRxProbability x_around 0 s_bit`), unlocking $F_{\mathrm{avg}}(1) = 1 > 2/3$ across free space without needing a contiguous fracture sheet.
+- **Method 5 ($M_2 + M_3$: Photons Through Fracture + Through Wormhole)**: Fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ bridge (`triModalDualKeyedErEprRxProbability 0 x_frac s_bit`), delivering $+40\text{ dB}$-guided GJW keys through opaque/solid-state media while keeping high key power outside the fragile throat.
+- **Method 6 ($M_1 + M_2$: Photons Around + Photons Through Fracture)**: Entanglement-free dual-path exterior diversity combining real-time co-propagating `H0`/Magnus common-mode clutter subtraction (`dualPathCommonModeSubtraction`) with additive Maximal-Ratio Combining SNR (`dualPathMrcCombinedSnr`) and multiplicative outage reduction (`dualPathOutageProbability`).
+- **Method 7 ($M_1 + M_2 + M_3$: Photons Around + Photons Through Fracture + Through Wormhole)**: Tri-modal fault-tolerant quantum-classical transceiver combining $M_1$ pre-arming & common-mode calibration, $M_1 \parallel M_2$ dual-diversity Cayley-saturated GJW keying (`triModalDualKeyedErEprRxProbability`, surviving single-channel blackout with $p_{\mathrm{outage}} = p_1 p_2 < \min(p_1, p_2)$), and $M_3$ Semi-Dirac wormhole quantum state transfer with zero exterior-channel Raychaudhuri throat load (`triModalWormholeThroatLoad`). -/
+
+/-- **Method 1 ($M_1$): Unguided Exterior Photon Inverse-Square Coupling Around the Wormhole**:
+$$\eta_{\mathrm{around}}(r_0, r_{\mathrm{dist}}) = \left(\frac{r_0}{r_{\mathrm{dist}}}\right)^2.$$ -/
+@[blueprint "def:signals-dft-exterior-photon-inverse-square-efficiency"
+  (title := "Method 1: Unguided exterior photon inverse-square efficiency (r_0 / r_dist)^2 around the wormhole")
+  (statement := /-- Define $\operatorname{exteriorPhotonInverseSquareEfficiency}(r_0, r_{\mathrm{dist}}) = (r_0 / r_{\mathrm{dist}})^2$. -/)]
+noncomputable def exteriorPhotonInverseSquareEfficiency (r_ref r_dist : ℝ) : ℝ :=
+  (r_ref / r_dist) ^ 2
+
+/-- **Method 2 ($M_2$): Fracture-Corridor Attenuated Transmission Around the Wormhole**:
+$$\eta_{\mathrm{frac}}(\gamma_{\mathrm{damp}}, L_{\mathrm{path}}) = \frac{1}{1 + \gamma_{\mathrm{damp}}\,L_{\mathrm{path}}}.$$ -/
+@[blueprint "def:signals-dft-fracture-guided-corridor-transmission"
+  (title := "Method 2: Fracture-corridor attenuated transmission 1 / (1 + gamma_damp * L_path) around the wormhole")
+  (statement := /-- Define $\operatorname{fractureGuidedCorridorTransmission}(\gamma_{\mathrm{damp}}, L_{\mathrm{path}}) = 1 / (1 + \gamma_{\mathrm{damp}} L_{\mathrm{path}})$. -/)]
+noncomputable def fractureGuidedCorridorTransmission (gamma_damp l_path : ℝ) : ℝ :=
+  1 / (1 + gamma_damp * l_path)
+
+/-- **Method 6 ($M_1 + M_2$): Dual-Path Co-Propagating `H0` / Magnus Common-Mode Clutter Subtraction**:
+$$\Delta y_{M_2 - M_1}(y_{\mathrm{cl}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) =
+\operatorname{ddfFractureTotalChannelSignal}(y_{\mathrm{cl}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) - y_{\mathrm{cl}} =
+\kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}}.$$ -/
+@[blueprint "def:signals-dft-dual-path-common-mode-subtraction"
+  (title := "Method 6 (M1 + M2): Dual-path co-propagating H0/Magnus common-mode clutter subtraction")
+  (statement := /-- Define $\operatorname{dualPathCommonModeSubtraction}(y_{\mathrm{cl}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) = \operatorname{ddfFractureTotalChannelSignal}(y_{\mathrm{cl}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) - y_{\mathrm{cl}}$. -/)]
+def dualPathCommonModeSubtraction (y_classical kappa_ddf q_ddf : ℝ) : ℝ :=
+  ddfFractureTotalChannelSignal y_classical kappa_ddf q_ddf - y_classical
+
+/-- **Method 6 ($M_1 + M_2$): Dual-Path Maximal-Ratio Combining (`MRC`) Classical SNR**:
+$$\mathrm{SNR}_{M_1 + M_2}(\mathrm{SNR}_{\mathrm{around}}, \mathrm{SNR}_{\mathrm{frac}}) =
+\mathrm{SNR}_{\mathrm{around}} + \mathrm{SNR}_{\mathrm{frac}}.$$ -/
+@[blueprint "def:signals-dft-dual-path-mrc-combined-snr"
+  (title := "Method 6 (M1 + M2): Dual-path Maximal-Ratio Combining (MRC) classical SNR")
+  (statement := /-- Define $\operatorname{dualPathMrcCombinedSnr}(\mathrm{SNR}_{\mathrm{around}}, \mathrm{SNR}_{\mathrm{frac}}) = \mathrm{SNR}_{\mathrm{around}} + \mathrm{SNR}_{\mathrm{frac}}$. -/)]
+def dualPathMrcCombinedSnr (snr_around snr_fracture : ℝ) : ℝ :=
+  snr_around + snr_fracture
+
+/-- **Methods 6 & 7 ($M_1 + M_2$ and $M_1 + M_2 + M_3$): Independent Dual-Path Classical Outage Probability**:
+$$P_{\mathrm{outage}}^{\mathrm{dual}}(p_{\mathrm{fail,around}}, p_{\mathrm{fail,frac}}) =
+p_{\mathrm{fail,around}} \cdot p_{\mathrm{fail,frac}}.$$ -/
+@[blueprint "def:signals-dft-dual-path-outage-probability"
+  (title := "Methods 6 & 7: Independent dual-path classical outage probability p_fail_around * p_fail_frac")
+  (statement := /-- Define $\operatorname{dualPathOutageProbability}(p_1, p_2) = p_1 \cdot p_2$. -/)]
+def dualPathOutageProbability (p_fail_around p_fail_fracture : ℝ) : ℝ :=
+  p_fail_around * p_fail_fracture
+
+/-- **Methods 4, 5, & 7 ($M_1+M_3$, $M_2+M_3$, and $M_1+M_2+M_3$): Unified Dual-Keyed Cayley-Saturated $\mathrm{ER}=\mathrm{EPR}$ Receiver Probability**:
+$$P_{\mathrm{RX}}^{\mathrm{tri}}(x_{\mathrm{around}}, x_{\mathrm{frac}}, s_{\mathrm{bit}}) =
+\operatorname{hybridSaturatedFractureKeyedErEprRxProbability}(x_{\mathrm{around}} + x_{\mathrm{frac}}, s_{\mathrm{bit}}).$$
+Specializes seamlessly to Method 3 alone ($x_{\mathrm{around}} = x_{\mathrm{frac}} = 0 \implies 1/2$),
+Method 4 ($x_{\mathrm{frac}} = 0$), Method 5 ($x_{\mathrm{around}} = 0$), and full Tri-Modal Method 7. -/
+@[blueprint "def:signals-dft-trimodal-dual-keyed-er-epr-rx-probability"
+  (title := "Methods 4, 5, & 7: Unified dual-keyed Cayley-saturated ER=EPR receiver probability")
+  (statement := /-- Define $\operatorname{triModalDualKeyedErEprRxProbability}(x_{\mathrm{around}}, x_{\mathrm{frac}}, s_{\mathrm{bit}}) = \operatorname{hybridSaturatedFractureKeyedErEprRxProbability}(x_{\mathrm{around}} + x_{\mathrm{frac}}, s_{\mathrm{bit}})$. -/)]
+noncomputable def triModalDualKeyedErEprRxProbability
+    (x_around x_fracture s_bit : ℝ) : ℝ :=
+  hybridSaturatedFractureKeyedErEprRxProbability (x_around + x_fracture) s_bit
+
+/-- **Method 7 ($M_1 + M_2 + M_3$): Wormhole Throat Energy Load Isolation**:
+Exterior pulses carried around the wormhole on $M_1$ ($E_{\mathrm{around}}$) and $M_2$ ($E_{\mathrm{frac}}$)
+contribute zero stress-energy inside the throat, leaving only the soft through-wormhole Semi-Dirac / photonic
+burst $E_{\mathrm{wormhole}}$:
+$$E_{\mathrm{throat}}^{\mathrm{tri}}(E_{\mathrm{around}}, E_{\mathrm{frac}}, E_{\mathrm{wormhole}}) =
+0 \cdot E_{\mathrm{around}} + 0 \cdot E_{\mathrm{frac}} + E_{\mathrm{wormhole}}.$$ -/
+@[blueprint "def:signals-dft-trimodal-wormhole-throat-load"
+  (title := "Method 7: Tri-modal wormhole throat energy load isolation")
+  (statement := /-- Define $\operatorname{triModalWormholeThroatLoad}(E_{\mathrm{around}}, E_{\mathrm{frac}}, E_{\mathrm{wormhole}}) = 0 \cdot E_{\mathrm{around}} + 0 \cdot E_{\mathrm{frac}} + E_{\mathrm{wormhole}}$. -/)]
+def triModalWormholeThroatLoad (e_around e_fracture e_wormhole : ℝ) : ℝ :=
+  0 * e_around + 0 * e_fracture + e_wormhole
+
+/-- **Master Theorem for Section 25.2 (`seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities`)**:
+Simultaneously certifies all three elementary channels ($M_1, M_2, M_3$) and all four composite
+combinations ($M_1+M_3, M_2+M_3, M_1+M_2, M_1+M_2+M_3$):
+1. **Elementary Channel Comparison ($M_1$ vs. $M_2$ vs. $M_3$)**:
+   - Exact ratio identity: `fractureGuidedCorridorTransmission gamma_damp l_path / exteriorPhotonInverseSquareEfficiency w_corridor r_dist = ddfFractureAttenuatedCorridorGain r_dist w_corridor gamma_damp l_path` (for $r_{\mathrm{dist}}, w_{\mathrm{corridor}} \neq 0$),
+   - At $r/w = 100$: `exteriorPhotonInverseSquareEfficiency 1 100 = 1 / 10000 < fractureGuidedCorridorTransmission (1 / 1000) 10 = 100 / 101`,
+   - Through-wormhole Semi-Dirac ($M_3$) vs. unshaped sub-wavelength 3D photon through throat:
+     `subwavelengthPhotonApertureEfficiency 1 10 = 1 / 10001 < semiDiracKleinTunnelingY = 1`, while unkeyed $M_3$ alone has zero signaling contrast (`triModalDualKeyedErEprRxProbability 0 0 1 - triModalDualKeyedErEprRxProbability 0 0 (-1) = 0`),
+2. **Method 4 ($M_1 + M_3$: Photons Around + Through Wormhole) & Method 5 ($M_2 + M_3$: Photons Through Fracture + Through Wormhole)**:
+   - Exact specialization of `triModalDualKeyedErEprRxProbability` at $x_{\mathrm{frac}} = 0$ (Method 4) and $x_{\mathrm{around}} = 0$ (Method 5),
+   - At $r/w = 100$ with unit TX key drive, attenuated $M_1$ key ($x_{\mathrm{around}} = 1/100$) yields lower single-shot contrast than fracture-guided $M_2$ key ($x_{\mathrm{frac}} = 1$):
+     `triModalDualKeyedErEprRxProbability (1 / 100) 0 1 - triModalDualKeyedErEprRxProbability (1 / 100) 0 (-1) < triModalDualKeyedErEprRxProbability 0 1 1 - triModalDualKeyedErEprRxProbability 0 1 (-1)`,
+3. **Method 6 ($M_1 + M_2$: Photons Around + Photons Through Fracture)**:
+   - Exact real-time `H0`/Magnus clutter cancellation: `dualPathCommonModeSubtraction y_cl kappa_ddf q_ddf = kappa_ddf * q_ddf`,
+   - Strict `MRC` SNR gain: `snr_around < dualPathMrcCombinedSnr snr_around snr_fracture ∧ snr_fracture < dualPathMrcCombinedSnr snr_around snr_fracture`,
+   - Strict outage probability reduction: `dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_1 ∧ dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_2` and `1 - dualPathOutageProbability (1 / 10) (1 / 10) = 99 / 100`,
+4. **Method 7 ($M_1 + M_2 + M_3$: Tri-Modal Synthesis)**:
+   - Unconditional $[0, 1]$ probability bounds for all $x_{\mathrm{around}}, x_{\mathrm{fracture}} \in \mathbb{R}$:
+     `0 ≤ triModalDualKeyedErEprRxProbability x_around x_fracture 1 ∧ triModalDualKeyedErEprRxProbability x_around x_fracture 1 ≤ 1`,
+   - Fault-tolerant single-path blackout survival: both `(x_around = 1, x_fracture = 0)` and `(x_around = 0, x_fracture = 1)` achieve $100\%$ differential contrast (`= 1`) and Horodecki quantum fidelity `horodeckiAverageTeleportationFidelity 1 = 1 > 2 / 3`,
+   - Zero exterior-channel Raychaudhuri throat overload: `triModalWormholeThroatLoad e_around e_fracture e_wormhole = e_wormhole` and `wormholeNetNullDefocusingFlux (triModalWormholeThroatLoad 1000 1000 4) 10 ≤ 0`. -/
+@[blueprint "thm:signals-dft-seven-mode-multipath-wormhole-fracture-trimodal-identities"
+  (title := "Master theorem for Section 25.2: Seven-mode multi-path communication taxonomy across photons around, photons through fracture, and Semi-Dirac through wormhole")
+  (statement := /-- Certifies the three elementary channels ($M_1, M_2, M_3$) and four composite
+    multi-path topologies ($M_1+M_3$, $M_2+M_3$, $M_1+M_2$, and $M_1+M_2+M_3$), including the exact
+    corridor-to-inverse-square gain ratio, real-time common-mode clutter subtraction, additive MRC SNR,
+    multiplicative outage reduction, unconditional $[0,1]$ dual-keyed Cayley bounds, blackout survival,
+    and zero exterior-channel Raychaudhuri throat load. -/)
+  (proof := /-- Combine field simplification for $r_{\mathrm{dist}}, w_{\mathrm{corridor}} \neq 0$,
+    linear and nonlinear arithmetic for MRC SNR and outage products on $(0,1)$, the Section 25.1
+    unconditional Cayley bounds applied to $x_{\mathrm{around}} + x_{\mathrm{fracture}}$, and \texttt{norm\_num}. -/)]
+theorem seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities
+    (r_dist w_corridor gamma_damp l_path y_cl kappa_ddf q_ddf
+      snr_around snr_fracture p_fail_1 p_fail_2
+      x_around x_fracture s_bit e_around e_fracture e_wormhole : ℝ)
+    (hr : r_dist ≠ 0) (hw : w_corridor ≠ 0)
+    (hsnr1 : 0 < snr_around) (hsnr2 : 0 < snr_fracture)
+    (hp1_pos : 0 < p_fail_1) (hp1_lt : p_fail_1 < 1)
+    (hp2_pos : 0 < p_fail_2) (hp2_lt : p_fail_2 < 1) :
+    fractureGuidedCorridorTransmission gamma_damp l_path /
+        exteriorPhotonInverseSquareEfficiency w_corridor r_dist =
+      ddfFractureAttenuatedCorridorGain r_dist w_corridor gamma_damp l_path ∧
+      exteriorPhotonInverseSquareEfficiency 1 100 <
+        fractureGuidedCorridorTransmission (1 / 1000) 10 ∧
+      subwavelengthPhotonApertureEfficiency 1 10 < semiDiracKleinTunnelingY ∧
+      triModalDualKeyedErEprRxProbability 0 0 1 -
+          triModalDualKeyedErEprRxProbability 0 0 (-1) = 0 ∧
+      triModalDualKeyedErEprRxProbability x_around 0 s_bit =
+        hybridSaturatedFractureKeyedErEprRxProbability x_around s_bit ∧
+      triModalDualKeyedErEprRxProbability 0 x_fracture s_bit =
+        hybridSaturatedFractureKeyedErEprRxProbability x_fracture s_bit ∧
+      triModalDualKeyedErEprRxProbability (1 / 100) 0 1 -
+          triModalDualKeyedErEprRxProbability (1 / 100) 0 (-1) <
+        triModalDualKeyedErEprRxProbability 0 1 1 -
+          triModalDualKeyedErEprRxProbability 0 1 (-1) ∧
+      dualPathCommonModeSubtraction y_cl kappa_ddf q_ddf = kappa_ddf * q_ddf ∧
+      snr_around < dualPathMrcCombinedSnr snr_around snr_fracture ∧
+      snr_fracture < dualPathMrcCombinedSnr snr_around snr_fracture ∧
+      dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_1 ∧
+      dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_2 ∧
+      1 - dualPathOutageProbability (1 / 10) (1 / 10) = 99 / 100 ∧
+      0 ≤ triModalDualKeyedErEprRxProbability x_around x_fracture 1 ∧
+      triModalDualKeyedErEprRxProbability x_around x_fracture 1 ≤ 1 ∧
+      triModalDualKeyedErEprRxProbability 1 0 1 -
+          triModalDualKeyedErEprRxProbability 1 0 (-1) = 1 ∧
+      triModalDualKeyedErEprRxProbability 0 1 1 -
+          triModalDualKeyedErEprRxProbability 0 1 (-1) = 1 ∧
+      triModalWormholeThroatLoad e_around e_fracture e_wormhole = e_wormhole ∧
+      wormholeNetNullDefocusingFlux (triModalWormholeThroatLoad 1000 1000 4) 10 ≤ 0 := by
+  have h_ratio :
+      fractureGuidedCorridorTransmission gamma_damp l_path /
+          exteriorPhotonInverseSquareEfficiency w_corridor r_dist =
+        ddfFractureAttenuatedCorridorGain r_dist w_corridor gamma_damp l_path := by
+    unfold fractureGuidedCorridorTransmission exteriorPhotonInverseSquareEfficiency
+      ddfFractureAttenuatedCorridorGain
+    field_simp [hr, hw]
+  have h_cayley :=
+    ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
+      100 1 10 (x_around + x_fracture) 1 1 1 1 1 (by norm_num) (by norm_num)
+  have h_out1 : dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_1 := by
+    unfold dualPathOutageProbability
+    nlinarith
+  have h_out2 : dualPathOutageProbability p_fail_1 p_fail_2 < p_fail_2 := by
+    unfold dualPathOutageProbability
+    nlinarith
+  refine ⟨
+    h_ratio,
+    by unfold exteriorPhotonInverseSquareEfficiency fractureGuidedCorridorTransmission; norm_num,
+    by unfold subwavelengthPhotonApertureEfficiency semiDiracKleinTunnelingY; norm_num,
+    by unfold triModalDualKeyedErEprRxProbability hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold triModalDualKeyedErEprRxProbability; simp,
+    by unfold triModalDualKeyedErEprRxProbability; simp,
+    by unfold triModalDualKeyedErEprRxProbability hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold dualPathCommonModeSubtraction ddfFractureTotalChannelSignal; ring,
+    by unfold dualPathMrcCombinedSnr; linarith,
+    by unfold dualPathMrcCombinedSnr; linarith,
+    h_out1,
+    h_out2,
+    by unfold dualPathOutageProbability; norm_num,
+    by unfold triModalDualKeyedErEprRxProbability; exact h_cayley.2.2.2.2.1,
+    by unfold triModalDualKeyedErEprRxProbability; exact h_cayley.2.2.2.2.2.1,
+    by unfold triModalDualKeyedErEprRxProbability hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold triModalDualKeyedErEprRxProbability hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold triModalWormholeThroatLoad; ring,
+    by unfold triModalWormholeThroatLoad wormholeNetNullDefocusingFlux; norm_num⟩
+
+/-! #### 25.2.1 Adversarial Critique & Gap-Closure Fixes for Multi-Path Over-Rotation, Arrival-Time Skew, Correlated Outages, and Parasitic Throat Leakage (`seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities`)
+
+Addresses four mathematical and physical critiques of the Section 25.2 seven-mode taxonomy:
+1. **Critique Fix 1 (Simultaneous Dual-Key Cayley Over-Rotation vs. AGC Convex Weighting)**:
+   In `triModalDualKeyedErEprRxProbability`, naively summing two simultaneously healthy unit keys
+   ($x_{\mathrm{around}} = 1, x_{\mathrm{frac}} = 1 \implies x_{\mathrm{sum}} = 2$) over-rotates the
+   Cayley unitary phase $\frac{2x}{1+x^2}$ past $\theta = \pi/4$, dropping differential contrast from
+   $1$ down to $4/5 = 80\%$. `triModalAgcDualKeyedErEprRxProbability` normalizes by active channel
+   weights $\bar{x} = \frac{w_1 x_1 + w_2 x_2}{w_1 + w_2}$ ($w_1 + w_2 > 0$), preserving unconditional
+   $[0, 1]$ probability bounds $\forall x_1, x_2 \in \mathbb{R}$, restoring **exact $100\%$ contrast (`= 1`)**
+   when both channels deliver unit keys ($x_1 = x_2 = 1$), and still surviving single-channel blackout
+   ($(w_1 > 0, w_2 = 0)$ or $(w_1 = 0, w_2 > 0)$).
+2. **Critique Fix 2 (Differential Arrival-Time Skew $\Delta t_{\mathrm{skew}} \ge 0$ Under Drifting Clutter)**:
+   Because exterior photons ($M_1$, speed $c$, path $L_{\mathrm{ext}}$) arrive no later than fracture-guided
+   modes ($M_2$, speed $v_{\mathrm{frac}} \le c$, path $L_{\mathrm{frac}} \ge L_{\mathrm{ext}}$),
+   `0 ≤ dualPathPropagationSkew`. Under linearly drifting ambient clutter $y_{\mathrm{cl}}(t) = y_0 + \dot{y}_{\mathrm{drift}} t$,
+   unbuffered subtraction ($\tau_{\mathrm{buf}} = 0$) leaves skew bias $\dot{y}_{\mathrm{drift}} \Delta t_{\mathrm{skew}}$,
+   whereas `CROW`/FIFO delay-matched buffering ($\tau_{\mathrm{buf}} = \Delta t_{\mathrm{skew}}$) cancels
+   $\dot{y}_{\mathrm{drift}}$ identically (`dualPathSkewCompensatedClutterResidual`).
+3. **Critique Fix 3 (Common-Cause Correlated Outage $\rho_{\mathrm{corr}} \in [0, 1]$ vs. Independent $p^2$)**:
+   `dualPathCorrelatedOutageProbability p rho_corr = p^2 + rho_corr * p * (1 - p)` reduces to
+   `dualPathOutageProbability p p` at $\rho_{\mathrm{corr}} = 0$, loses diversity ($= p$) at
+   $\rho_{\mathrm{corr}} = 1$, and strictly beats single-path outage ($p^2 \le P_{\mathrm{outage}}^{\mathrm{corr}} < p$)
+   for all $0 \le \rho_{\mathrm{corr}} < 1$ and $0 < p < 1$.
+4. **Critique Fix 4 (Finite Exterior-to-Throat Parasitic Mouth Crosstalk $\epsilon_1, \epsilon_2 \ge 0$)**:
+   `triModalParasiticThroatLoad` replaces the literal `0 * e_around + 0 * e_fracture` idealization with
+   finite evanescent mouth leakage $\epsilon_1 E_{\mathrm{around}} + \epsilon_2 E_{\mathrm{frac}} + E_{\mathrm{wormhole}}$,
+   demonstrating Raychaudhuri throat collapse at poor $-20\text{ dB}$ isolation ($\epsilon = 10^{-2} \implies 24 > 10$)
+   and non-collapse safety at $-30\text{ dB}$ Semi-Dirac WKB/spatial isolation ($\epsilon = 10^{-3} \implies 6 \le 10$). -/
+
+/-- **Critique Fix 1: AGC-Normalized Dual-Keyed Cayley-Saturated $\mathrm{ER}=\mathrm{EPR}$ Receiver Probability**:
+$$P_{\mathrm{RX}}^{\mathrm{AGC}}(x_1, x_2, w_1, w_2, s_{\mathrm{bit}}) =
+\operatorname{hybridSaturatedFractureKeyedErEprRxProbability}\!\left(\frac{w_1 x_1 + w_2 x_2}{w_1 + w_2},\, s_{\mathrm{bit}}\right).$$ -/
+@[blueprint "def:signals-dft-trimodal-agc-dual-keyed-er-epr-rx-probability"
+  (title := "Critique Fix 1: AGC-normalized dual-keyed Cayley-saturated ER=EPR receiver probability")
+  (statement := /-- Define $\operatorname{triModalAgcDualKeyedErEprRxProbability}(x_1, x_2, w_1, w_2, s_{\mathrm{bit}}) = \operatorname{hybridSaturatedFractureKeyedErEprRxProbability}((w_1 x_1 + w_2 x_2)/(w_1 + w_2), s_{\mathrm{bit}})$. -/)]
+noncomputable def triModalAgcDualKeyedErEprRxProbability
+    (x_around x_fracture w_around w_fracture s_bit : ℝ) : ℝ :=
+  hybridSaturatedFractureKeyedErEprRxProbability
+    ((w_around * x_around + w_fracture * x_fracture) / (w_around + w_fracture)) s_bit
+
+/-- **Critique Fix 2a: Dual-Path Differential Arrival-Time Skew**:
+$$\Delta t_{\mathrm{skew}}(L_{\mathrm{ext}}, L_{\mathrm{frac}}, c_{\mathrm{light}}, v_{\mathrm{frac}}) =
+\frac{L_{\mathrm{frac}}}{v_{\mathrm{frac}}} - \frac{L_{\mathrm{ext}}}{c_{\mathrm{light}}}.$$ -/
+@[blueprint "def:signals-dft-dual-path-propagation-skew"
+  (title := "Critique Fix 2a: Dual-path differential arrival-time skew L_frac / v_frac - L_ext / c")
+  (statement := /-- Define $\operatorname{dualPathPropagationSkew}(L_{\mathrm{ext}}, L_{\mathrm{frac}}, c, v_{\mathrm{frac}}) = L_{\mathrm{frac}} / v_{\mathrm{frac}} - L_{\mathrm{ext}} / c$. -/)]
+noncomputable def dualPathPropagationSkew
+    (l_ext l_frac c_light v_frac : ℝ) : ℝ :=
+  l_frac / v_frac - l_ext / c_light
+
+/-- **Critique Fix 2b: Delay-Buffered Dual-Path Clutter Subtraction Under Linear Drift**:
+For $y_{\mathrm{cl}}(t) = y_0 + \dot{y}_{\mathrm{drift}}\,t$, $M_2$ arrives at $t_2 = t_1 + \Delta t_{\mathrm{skew}}$
+while $M_1$ is delayed in a receiver buffer by $\tau_{\mathrm{buf}}$, yielding:
+$$\Delta y_{\mathrm{skew}}(y_0, \dot{y}_{\mathrm{drift}}, t_1, \Delta t_{\mathrm{skew}}, \tau_{\mathrm{buf}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) =
+\bigl(y_0 + \dot{y}_{\mathrm{drift}}(t_1 + \Delta t_{\mathrm{skew}}) + \kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}\bigr) -
+\bigl(y_0 + \dot{y}_{\mathrm{drift}}(t_1 + \tau_{\mathrm{buf}})\bigr).$$ -/
+@[blueprint "def:signals-dft-dual-path-skew-compensated-clutter-residual"
+  (title := "Critique Fix 2b: Delay-buffered dual-path clutter subtraction residual under linear drift")
+  (statement := /-- Define $\operatorname{dualPathSkewCompensatedClutterResidual}(y_0, \dot{y}, t_1, \Delta t_{\mathrm{skew}}, \tau_{\mathrm{buf}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}})$ as the difference between $M_2$ at $t_1 + \Delta t_{\mathrm{skew}}$ and buffered $M_1$ at $t_1 + \tau_{\mathrm{buf}}$. -/)]
+def dualPathSkewCompensatedClutterResidual
+    (y0 y_drift t1 delta_t_skew tau_buf kappa_ddf q_ddf : ℝ) : ℝ :=
+  (y0 + y_drift * (t1 + delta_t_skew) + kappa_ddf * q_ddf) -
+    (y0 + y_drift * (t1 + tau_buf))
+
+/-- **Critique Fix 3: Common-Cause Correlated Dual-Path Outage Probability**:
+$$P_{\mathrm{outage}}^{\mathrm{corr}}(p, \rho_{\mathrm{corr}}) = p^2 + \rho_{\mathrm{corr}}\,p\,(1 - p).$$ -/
+@[blueprint "def:signals-dft-dual-path-correlated-outage-probability"
+  (title := "Critique Fix 3: Common-cause correlated dual-path outage probability p^2 + rho_corr * p * (1 - p)")
+  (statement := /-- Define $\operatorname{dualPathCorrelatedOutageProbability}(p, \rho_{\mathrm{corr}}) = p^2 + \rho_{\mathrm{corr}} p (1 - p)$. -/)]
+def dualPathCorrelatedOutageProbability (p_fail rho_corr : ℝ) : ℝ :=
+  p_fail ^ 2 + rho_corr * p_fail * (1 - p_fail)
+
+/-- **Critique Fix 4: Parasitic Exterior-to-Throat Mouth Crosstalk Energy Load**:
+$$E_{\mathrm{throat}}^{\mathrm{leak}}(\epsilon_1, \epsilon_2, E_{\mathrm{around}}, E_{\mathrm{frac}}, E_{\mathrm{wormhole}}) =
+\epsilon_1\,E_{\mathrm{around}} + \epsilon_2\,E_{\mathrm{frac}} + E_{\mathrm{wormhole}}.$$ -/
+@[blueprint "def:signals-dft-trimodal-parasitic-throat-load"
+  (title := "Critique Fix 4: Parasitic exterior-to-throat mouth crosstalk energy load")
+  (statement := /-- Define $\operatorname{triModalParasiticThroatLoad}(\epsilon_1, \epsilon_2, E_1, E_2, E_3) = \epsilon_1 E_1 + \epsilon_2 E_2 + E_3$. -/)]
+def triModalParasiticThroatLoad
+    (eps_around eps_fracture e_around e_fracture e_wormhole : ℝ) : ℝ :=
+  eps_around * e_around + eps_fracture * e_fracture + e_wormhole
+
+/-- **Master Critique Gap-Closure Theorem for Section 25.2.1 (`seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities`)**:
+Simultaneously establishes:
+1. **AGC Dual-Key Normalization Eliminates Simultaneous Unit-Key Over-Rotation**:
+   - Raw unnormalized sum over-rotates ($4/5 < 1$):
+     `triModalDualKeyedErEprRxProbability 1 1 1 - triModalDualKeyedErEprRxProbability 1 1 (-1) = 4 / 5`,
+   - AGC convex combiner achieves exact $100\%$ contrast (`= 1`) when both channels are active ($x_1 = x_2 = 1$, $w_1 + w_2 \neq 0$) and under single-channel blackout, while remaining unconditionally in $[0, 1]$ $\forall x_1, x_2 \in \mathbb{R}$,
+2. **Non-Negative Arrival-Time Skew & Exact Delay-Buffer Clutter Cancellation**:
+   - `0 ≤ dualPathPropagationSkew l_ext l_frac c_light v_frac` for $0 < L_{\mathrm{ext}} \le L_{\mathrm{frac}}$ and $0 < v_{\mathrm{frac}} \le c_{\mathrm{light}}$,
+   - Unbuffered residual ($\tau_{\mathrm{buf}} = 0$) retains drift error $\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} + \dot{y}_{\mathrm{drift}}\Delta t_{\mathrm{skew}}$, whereas matched buffering ($\tau_{\mathrm{buf}} = \Delta t_{\mathrm{skew}}$) recovers $\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}$ identically,
+3. **Correlated Common-Cause Outage Bounds**:
+   - `dualPathCorrelatedOutageProbability p 0 = dualPathOutageProbability p p`,
+   - `dualPathCorrelatedOutageProbability p 1 = p`,
+   - `dualPathOutageProbability p p ≤ dualPathCorrelatedOutageProbability p rho_corr ∧ dualPathCorrelatedOutageProbability p rho_corr < p` for $0 < p < 1$ and $0 \le \rho_{\mathrm{corr}} < 1$, with check figure `dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) = 7 / 250`,
+4. **Parasitic Mouth Crosstalk Threshold (Collapse at $\epsilon = 10^{-2}$ vs. Safe Isolation at $\epsilon = 10^{-3}$)**:
+   - `triModalParasiticThroatLoad 0 0 e_around e_fracture e_wormhole = triModalWormholeThroatLoad e_around e_fracture e_wormhole`,
+   - `0 < wormholeNetNullDefocusingFlux (triModalParasiticThroatLoad (1 / 100) (1 / 100) 1000 1000 4) 10`,
+   - `wormholeNetNullDefocusingFlux (triModalParasiticThroatLoad (1 / 1000) (1 / 1000) 1000 1000 4) 10 ≤ 0`. -/
+@[blueprint "thm:signals-dft-seven-mode-multipath-agc-skew-correlated-outage-leakage-critique"
+  (title := "Critique gap-closure theorem for Section 25.2.1: AGC dual-key normalization, arrival-time skew buffering, correlated common-cause outage, and parasitic mouth crosstalk")
+  (statement := /-- Certifies that AGC dual-key normalization eliminates the $4/5 < 1$ Cayley over-rotation
+    under simultaneous unit keys while preserving unconditional $[0,1]$ bounds and blackout survival,
+    delay-matched buffering cancels $\dot{y}_{\mathrm{drift}} \Delta t_{\mathrm{skew}}$ clutter bias,
+    correlated outage satisfies $p^2 \le P_{\mathrm{outage}}^{\mathrm{corr}}(p,\rho) < p$ for $\rho \in [0,1)$,
+    and $-30\text{ dB}$ mouth isolation prevents parasitic Raychaudhuri throat collapse. -/)
+  (proof := /-- Combine field simplification for $w_1 + w_2 \neq 0$, quotient monotonicity for arrival
+    skew, polynomial and nonlinear arithmetic for correlated outage on $(0,1)\times[0,1)$, the Section 25.1
+    Cayley bounds, and \texttt{norm\_num}. -/)]
+theorem seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities
+    (x_around x_fracture w_around w_fracture
+      l_ext l_frac c_light v_frac y0 y_drift t1 delta_t_skew kappa_ddf q_ddf
+      p_fail rho_corr e_around e_fracture e_wormhole : ℝ)
+    (hw_sum : w_around + w_fracture ≠ 0)
+    (hw1_ne : w_around ≠ 0) (hw2_ne : w_fracture ≠ 0)
+    (hl_pos : 0 < l_ext) (hl_le : l_ext ≤ l_frac)
+    (hv_pos : 0 < v_frac) (hv_le : v_frac ≤ c_light)
+    (hp_pos : 0 < p_fail) (hp_lt : p_fail < 1)
+    (hrho_nonneg : 0 ≤ rho_corr) (hrho_lt : rho_corr < 1) :
+    triModalDualKeyedErEprRxProbability 1 1 1 -
+        triModalDualKeyedErEprRxProbability 1 1 (-1) = 4 / 5 ∧
+      triModalAgcDualKeyedErEprRxProbability 1 1 w_around w_fracture 1 -
+          triModalAgcDualKeyedErEprRxProbability 1 1 w_around w_fracture (-1) = 1 ∧
+      triModalAgcDualKeyedErEprRxProbability 1 0 w_around 0 1 -
+          triModalAgcDualKeyedErEprRxProbability 1 0 w_around 0 (-1) = 1 ∧
+      triModalAgcDualKeyedErEprRxProbability 0 1 0 w_fracture 1 -
+          triModalAgcDualKeyedErEprRxProbability 0 1 0 w_fracture (-1) = 1 ∧
+      0 ≤ triModalAgcDualKeyedErEprRxProbability x_around x_fracture w_around w_fracture 1 ∧
+      triModalAgcDualKeyedErEprRxProbability x_around x_fracture w_around w_fracture 1 ≤ 1 ∧
+      0 ≤ dualPathPropagationSkew l_ext l_frac c_light v_frac ∧
+      dualPathSkewCompensatedClutterResidual y0 y_drift t1 delta_t_skew 0 kappa_ddf q_ddf =
+        kappa_ddf * q_ddf + y_drift * delta_t_skew ∧
+      dualPathSkewCompensatedClutterResidual y0 y_drift t1 delta_t_skew delta_t_skew kappa_ddf q_ddf =
+        kappa_ddf * q_ddf ∧
+      dualPathCorrelatedOutageProbability p_fail 0 = dualPathOutageProbability p_fail p_fail ∧
+      dualPathCorrelatedOutageProbability p_fail 1 = p_fail ∧
+      dualPathOutageProbability p_fail p_fail ≤
+        dualPathCorrelatedOutageProbability p_fail rho_corr ∧
+      dualPathCorrelatedOutageProbability p_fail rho_corr < p_fail ∧
+      dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) = 7 / 250 ∧
+      triModalParasiticThroatLoad 0 0 e_around e_fracture e_wormhole =
+        triModalWormholeThroatLoad e_around e_fracture e_wormhole ∧
+      0 < wormholeNetNullDefocusingFlux
+        (triModalParasiticThroatLoad (1 / 100) (1 / 100) 1000 1000 4) 10 ∧
+      wormholeNetNullDefocusingFlux
+        (triModalParasiticThroatLoad (1 / 1000) (1 / 1000) 1000 1000 4) 10 ≤ 0 := by
+  have h_agc_both :
+      (w_around * 1 + w_fracture * 1) / (w_around + w_fracture) = 1 := by
+    have h_num : w_around * 1 + w_fracture * 1 = w_around + w_fracture := by ring
+    rw [h_num, div_self hw_sum]
+  have h_agc_w1 : (w_around * 1 + 0 * 0) / (w_around + 0) = 1 := by
+    field_simp [hw1_ne]; ring
+  have h_agc_w2 : (0 * 0 + w_fracture * 1) / (0 + w_fracture) = 1 := by
+    field_simp [hw2_ne]; ring
+  have h_cayley_agc :=
+    ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
+      100 1 10 ((w_around * x_around + w_fracture * x_fracture) / (w_around + w_fracture))
+      1 1 1 1 1 (by norm_num) (by norm_num)
+  have h_skew_nonneg : 0 ≤ dualPathPropagationSkew l_ext l_frac c_light v_frac := by
+    unfold dualPathPropagationSkew
+    have hc_pos : 0 < c_light := lt_of_lt_of_le hv_pos hv_le
+    have h_step1 : l_ext / c_light ≤ l_ext / v_frac :=
+      div_le_div_of_nonneg_left (le_of_lt hl_pos) hv_pos hv_le
+    have h_step2 : l_ext / v_frac ≤ l_frac / v_frac :=
+      div_le_div_of_nonneg_right hl_le (le_of_lt hv_pos)
+    linarith
+  have h_corr_low :
+      dualPathOutageProbability p_fail p_fail ≤
+        dualPathCorrelatedOutageProbability p_fail rho_corr := by
+    unfold dualPathOutageProbability dualPathCorrelatedOutageProbability
+    have h_term : 0 ≤ rho_corr * p_fail * (1 - p_fail) := by
+      have hp1 : 0 ≤ 1 - p_fail := by linarith
+      positivity
+    linarith
+  have h_corr_high : dualPathCorrelatedOutageProbability p_fail rho_corr < p_fail := by
+    unfold dualPathCorrelatedOutageProbability
+    have h_gap :
+        p_fail - (p_fail ^ 2 + rho_corr * p_fail * (1 - p_fail)) =
+          (1 - rho_corr) * p_fail * (1 - p_fail) := by ring
+    have h_pos : 0 < (1 - rho_corr) * p_fail * (1 - p_fail) := by
+      have hr1 : 0 < 1 - rho_corr := by linarith
+      have hp1 : 0 < 1 - p_fail := by linarith
+      positivity
+    linarith
+  refine ⟨
+    by unfold triModalDualKeyedErEprRxProbability hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by
+      unfold triModalAgcDualKeyedErEprRxProbability
+      rw [h_agc_both]
+      unfold hybridSaturatedFractureKeyedErEprRxProbability
+      norm_num,
+    by
+      unfold triModalAgcDualKeyedErEprRxProbability
+      rw [h_agc_w1]
+      unfold hybridSaturatedFractureKeyedErEprRxProbability
+      norm_num,
+    by
+      unfold triModalAgcDualKeyedErEprRxProbability
+      rw [h_agc_w2]
+      unfold hybridSaturatedFractureKeyedErEprRxProbability
+      norm_num,
+    by unfold triModalAgcDualKeyedErEprRxProbability; exact h_cayley_agc.2.2.2.2.1,
+    by unfold triModalAgcDualKeyedErEprRxProbability; exact h_cayley_agc.2.2.2.2.2.1,
+    h_skew_nonneg,
+    by unfold dualPathSkewCompensatedClutterResidual; ring,
+    by unfold dualPathSkewCompensatedClutterResidual; ring,
+    by unfold dualPathCorrelatedOutageProbability dualPathOutageProbability; ring,
+    by unfold dualPathCorrelatedOutageProbability; ring,
+    h_corr_low,
+    h_corr_high,
+    by unfold dualPathCorrelatedOutageProbability; norm_num,
+    by unfold triModalParasiticThroatLoad triModalWormholeThroatLoad; ring,
+    by unfold triModalParasiticThroatLoad wormholeNetNullDefocusingFlux; norm_num,
+    by unfold triModalParasiticThroatLoad wormholeNetNullDefocusingFlux; norm_num⟩
+
 end
 
 end Signals.DFT

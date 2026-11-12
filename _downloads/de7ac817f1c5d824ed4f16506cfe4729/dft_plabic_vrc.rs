@@ -2016,6 +2016,145 @@ pub fn hybrid_fracture_keyed_er_epr_rx_probability(
     er_epr_exact_unitary_rx_probability(kappa_ddf * q_ddf, s_bit)
 }
 
+/// Dilatant shear-thickening wave-packet damping rate `eta_base * k^2 * (1 + alpha_shear * k^2)`,
+/// matching `Signals.DFT.ddfFractureDilatantDamping` and `Signals.Pending.dilatantDampingRate`.
+pub fn ddf_fracture_dilatant_damping(eta_base: f64, alpha_shear: f64, k_wave: f64) -> f64 {
+    eta_base * k_wave.powi(2) * (1.0 + alpha_shear * k_wave.powi(2))
+}
+
+/// Critique Fix 1: Attenuated DDF fracture-corridor guiding gain
+/// `(r_dist / w_corridor)^2 / (1 + gamma_damp * l_path)`,
+/// matching `Signals.DFT.ddfFractureAttenuatedCorridorGain`.
+pub fn ddf_fracture_attenuated_corridor_gain(
+    r_dist: f64,
+    w_corridor: f64,
+    gamma_damp: f64,
+    l_path: f64,
+) -> f64 {
+    (r_dist / w_corridor).powi(2) / (1.0 + gamma_damp * l_path)
+}
+
+/// Critique Fix 2: Unconditionally bounded Cayley-saturated hybrid fracture-keyed ER=EPR
+/// receiver probability `(1 + (2 * x / (1 + x^2)) * s_bit) / 2`,
+/// matching `Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability`.
+pub fn hybrid_saturated_fracture_keyed_er_epr_rx_probability(x_drive: f64, s_bit: f64) -> f64 {
+    (1.0 + (2.0 * x_drive / (1.0 + x_drive.powi(2))) * s_bit) / 2.0
+}
+
+/// Critique Fix 3: Horodecki Haar-averaged 3D qubit teleportation fidelity `(2 + c_epr) / 3`,
+/// matching `Signals.DFT.horodeckiAverageTeleportationFidelity`.
+pub fn horodecki_average_teleportation_fidelity(c_epr: f64) -> f64 {
+    (2.0 + c_epr) / 3.0
+}
+
+/// Critique Fix 4: Passive energy-closed DDF fracture channel power efficiency
+/// `p_out / (p_out + p_fracture + p_diss)`,
+/// matching `Signals.DFT.ddfFracturePassivePowerEfficiency`.
+pub fn ddf_fracture_passive_power_efficiency(p_out: f64, p_fracture: f64, p_diss: f64) -> f64 {
+    p_out / (p_out + p_fracture + p_diss)
+}
+
+/// Method 1 (`M1`): Unguided exterior photon inverse-square efficiency `(r_ref / r_dist)^2`
+/// around the wormhole, matching `Signals.DFT.exteriorPhotonInverseSquareEfficiency`.
+pub fn exterior_photon_inverse_square_efficiency(r_ref: f64, r_dist: f64) -> f64 {
+    (r_ref / r_dist).powi(2)
+}
+
+/// Method 2 (`M2`): Fracture-corridor attenuated transmission `1 / (1 + gamma_damp * l_path)`
+/// around the wormhole, matching `Signals.DFT.fractureGuidedCorridorTransmission`.
+pub fn fracture_guided_corridor_transmission(gamma_damp: f64, l_path: f64) -> f64 {
+    1.0 / (1.0 + gamma_damp * l_path)
+}
+
+/// Method 6 (`M1 + M2`): Dual-path co-propagating `H0`/Magnus common-mode clutter subtraction,
+/// matching `Signals.DFT.dualPathCommonModeSubtraction`.
+pub fn dual_path_common_mode_subtraction(y_classical: f64, kappa_ddf: f64, q_ddf: f64) -> f64 {
+    ddf_fracture_total_channel_signal(y_classical, kappa_ddf, q_ddf) - y_classical
+}
+
+/// Method 6 (`M1 + M2`): Dual-path Maximal-Ratio Combining (MRC) classical SNR,
+/// matching `Signals.DFT.dualPathMrcCombinedSnr`.
+pub fn dual_path_mrc_combined_snr(snr_around: f64, snr_fracture: f64) -> f64 {
+    snr_around + snr_fracture
+}
+
+/// Methods 6 & 7 (`M1 + M2` and `M1 + M2 + M3`): Independent dual-path classical outage
+/// probability `p_fail_around * p_fail_fracture`, matching `Signals.DFT.dualPathOutageProbability`.
+pub fn dual_path_outage_probability(p_fail_around: f64, p_fail_fracture: f64) -> f64 {
+    p_fail_around * p_fail_fracture
+}
+
+/// Methods 4, 5, & 7 (`M1+M3`, `M2+M3`, and `M1+M2+M3`): Unified dual-keyed Cayley-saturated
+/// ER=EPR receiver probability, matching `Signals.DFT.triModalDualKeyedErEprRxProbability`.
+pub fn trimodal_dual_keyed_er_epr_rx_probability(
+    x_around: f64,
+    x_fracture: f64,
+    s_bit: f64,
+) -> f64 {
+    hybrid_saturated_fracture_keyed_er_epr_rx_probability(x_around + x_fracture, s_bit)
+}
+
+/// Method 7 (`M1 + M2 + M3`): Wormhole throat energy load isolation,
+/// matching `Signals.DFT.triModalWormholeThroatLoad`.
+pub fn trimodal_wormhole_throat_load(e_around: f64, e_fracture: f64, e_wormhole: f64) -> f64 {
+    0.0 * e_around + 0.0 * e_fracture + e_wormhole
+}
+
+/// Section 25.2.1 Critique Fix 1: AGC-normalized dual-keyed Cayley-saturated ER=EPR receiver
+/// probability, matching `Signals.DFT.triModalAgcDualKeyedErEprRxProbability`.
+pub fn trimodal_agc_dual_keyed_er_epr_rx_probability(
+    x_around: f64,
+    x_fracture: f64,
+    w_around: f64,
+    w_fracture: f64,
+    s_bit: f64,
+) -> f64 {
+    hybrid_saturated_fracture_keyed_er_epr_rx_probability(
+        (w_around * x_around + w_fracture * x_fracture) / (w_around + w_fracture),
+        s_bit,
+    )
+}
+
+/// Section 25.2.1 Critique Fix 2a: Dual-path differential arrival-time skew
+/// `l_frac / v_frac - l_ext / c_light`, matching `Signals.DFT.dualPathPropagationSkew`.
+pub fn dual_path_propagation_skew(l_ext: f64, l_frac: f64, c_light: f64, v_frac: f64) -> f64 {
+    l_frac / v_frac - l_ext / c_light
+}
+
+/// Section 25.2.1 Critique Fix 2b: Delay-buffered dual-path clutter subtraction residual under
+/// linear drift, matching `Signals.DFT.dualPathSkewCompensatedClutterResidual`.
+pub fn dual_path_skew_compensated_clutter_residual(
+    y0: f64,
+    y_drift: f64,
+    t1: f64,
+    delta_t_skew: f64,
+    tau_buf: f64,
+    kappa_ddf: f64,
+    q_ddf: f64,
+) -> f64 {
+    (y0 + y_drift * (t1 + delta_t_skew) + kappa_ddf * q_ddf) - (y0 + y_drift * (t1 + tau_buf))
+}
+
+/// Section 25.2.1 Critique Fix 3: Common-cause correlated dual-path outage probability
+/// `p_fail^2 + rho_corr * p_fail * (1 - p_fail)`,
+/// matching `Signals.DFT.dualPathCorrelatedOutageProbability`.
+pub fn dual_path_correlated_outage_probability(p_fail: f64, rho_corr: f64) -> f64 {
+    p_fail.powi(2) + rho_corr * p_fail * (1.0 - p_fail)
+}
+
+/// Section 25.2.1 Critique Fix 4: Parasitic exterior-to-throat mouth crosstalk energy load
+/// `eps_around * e_around + eps_fracture * e_fracture + e_wormhole`,
+/// matching `Signals.DFT.triModalParasiticThroatLoad`.
+pub fn trimodal_parasitic_throat_load(
+    eps_around: f64,
+    eps_fracture: f64,
+    e_around: f64,
+    e_fracture: f64,
+    e_wormhole: f64,
+) -> f64 {
+    eps_around * e_around + eps_fracture * e_fracture + e_wormhole
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2955,6 +3094,97 @@ mod tests {
                 - 1.0)
                 .abs()
                 < 1e-15
+        );
+
+        // 22. Section 25.1: Critique Gap-Closure Fixes (Dilatant Corridor Attenuation,
+        // Unconditional Cayley Saturation, Horodecki 2/3 Qubit Fidelity, & Passive Energy Closure)
+        let g_k1 = ddf_fracture_attenuated_corridor_gain(
+            100.0,
+            1.0,
+            ddf_fracture_dilatant_damping(1e-3, 1.0, 1.0),
+            10.0,
+        );
+        let g_k5 = ddf_fracture_attenuated_corridor_gain(
+            100.0,
+            1.0,
+            ddf_fracture_dilatant_damping(1e-3, 1.0, 5.0),
+            10.0,
+        );
+        assert!(g_k5 < g_k1 && g_k1 > 9800.0);
+        assert!(hybrid_fracture_keyed_er_epr_rx_probability(3.0, 1.0, 1.0) > 1.0);
+        let p_sat_over = hybrid_saturated_fracture_keyed_er_epr_rx_probability(3.0, 1.0);
+        assert!((p_sat_over - 0.8).abs() < 1e-15 && (0.0..=1.0).contains(&p_sat_over));
+        assert!(
+            (hybrid_saturated_fracture_keyed_er_epr_rx_probability(1.0, 1.0)
+                - hybrid_saturated_fracture_keyed_er_epr_rx_probability(1.0, -1.0)
+                - 1.0)
+                .abs()
+                < 1e-15
+        );
+        assert!((horodecki_average_teleportation_fidelity(0.0) - 2.0 / 3.0).abs() < 1e-15);
+        assert!((horodecki_average_teleportation_fidelity(1.0) - 1.0).abs() < 1e-15);
+        let eta_passive = ddf_fracture_passive_power_efficiency(1.0, 2.0, 3.0);
+        assert!(eta_passive > 0.0 && eta_passive < 1.0);
+
+        // 23. Section 25.2: Seven-Mode Multi-Path Taxonomy (M1 Around, M2 Fracture Around,
+        // M3 Semi-Dirac Through Wormhole, & Composite Combinations M1+M3, M2+M3, M1+M2, M1+M2+M3)
+        let eta_m1 = exterior_photon_inverse_square_efficiency(1.0, 100.0);
+        let eta_m2 = fracture_guided_corridor_transmission(
+            ddf_fracture_dilatant_damping(1e-3, 1.0, 1.0),
+            10.0,
+        );
+        assert!((eta_m2 / eta_m1 - g_k1).abs() < 1e-10 && eta_m1 < eta_m2);
+        assert!(
+            (dual_path_common_mode_subtraction(42.5, 0.75, -1.0) - (-0.75)).abs() < 1e-15
+        );
+        assert!((dual_path_mrc_combined_snr(10.0, 100.0) - 110.0).abs() < 1e-15);
+        assert!((1.0 - dual_path_outage_probability(0.1, 0.1) - 0.99).abs() < 1e-15);
+        let c_m4 = trimodal_dual_keyed_er_epr_rx_probability(0.01, 0.0, 1.0)
+            - trimodal_dual_keyed_er_epr_rx_probability(0.01, 0.0, -1.0);
+        let c_m5 = trimodal_dual_keyed_er_epr_rx_probability(0.0, 1.0, 1.0)
+            - trimodal_dual_keyed_er_epr_rx_probability(0.0, 1.0, -1.0);
+        assert!(c_m4 < c_m5 && (c_m5 - 1.0).abs() < 1e-15);
+        let p_tri = trimodal_dual_keyed_er_epr_rx_probability(0.5, 0.5, 1.0);
+        assert!((p_tri - 1.0).abs() < 1e-15 && (0.0..=1.0).contains(&p_tri));
+        assert!(
+            wormhole_net_null_defocusing_flux(trimodal_wormhole_throat_load(1000.0, 1000.0, 4.0), 10.0)
+                <= 0.0
+        );
+
+        // 24. Section 25.2.1: Multi-Path Critique Gap-Closures (AGC Dual-Key Normalization,
+        // Arrival-Time Skew Buffering, Common-Cause Correlated Outage, & Parasitic Mouth Leakage)
+        let c_raw_over = trimodal_dual_keyed_er_epr_rx_probability(1.0, 1.0, 1.0)
+            - trimodal_dual_keyed_er_epr_rx_probability(1.0, 1.0, -1.0);
+        let c_agc_both = trimodal_agc_dual_keyed_er_epr_rx_probability(1.0, 1.0, 10.0, 100.0, 1.0)
+            - trimodal_agc_dual_keyed_er_epr_rx_probability(1.0, 1.0, 10.0, 100.0, -1.0);
+        let c_agc_m1_only = trimodal_agc_dual_keyed_er_epr_rx_probability(1.0, 0.0, 10.0, 0.0, 1.0)
+            - trimodal_agc_dual_keyed_er_epr_rx_probability(1.0, 0.0, 10.0, 0.0, -1.0);
+        assert!((c_raw_over - 0.8).abs() < 1e-15 && (c_agc_both - 1.0).abs() < 1e-15);
+        assert!((c_agc_m1_only - 1.0).abs() < 1e-15);
+
+        let dt_skew = dual_path_propagation_skew(10.0, 12.0, 1.0, 0.5);
+        assert!(dt_skew >= 0.0 && (dt_skew - 14.0).abs() < 1e-15);
+        let res_unbuf =
+            dual_path_skew_compensated_clutter_residual(5.0, 0.2, 3.0, dt_skew, 0.0, 0.75, -1.0);
+        let res_buf = dual_path_skew_compensated_clutter_residual(
+            5.0, 0.2, 3.0, dt_skew, dt_skew, 0.75, -1.0,
+        );
+        assert!((res_unbuf - (-0.75 + 0.2 * dt_skew)).abs() < 1e-15);
+        assert!((res_buf - (-0.75)).abs() < 1e-15);
+
+        let p_corr = dual_path_correlated_outage_probability(0.1, 0.2);
+        assert!((p_corr - 0.028).abs() < 1e-15 && 0.01 < p_corr && p_corr < 0.1);
+        assert!(
+            wormhole_net_null_defocusing_flux(
+                trimodal_parasitic_throat_load(1e-2, 1e-2, 1000.0, 1000.0, 4.0),
+                10.0,
+            ) > 0.0
+        );
+        assert!(
+            wormhole_net_null_defocusing_flux(
+                trimodal_parasitic_throat_load(1e-3, 1e-3, 1000.0, 1000.0, 4.0),
+                10.0,
+            ) <= 0.0
         );
     }
 }

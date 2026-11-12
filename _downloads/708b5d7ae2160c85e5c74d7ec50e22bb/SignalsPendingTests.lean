@@ -6871,4 +6871,114 @@ example (y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit : ℝ)
     toyDDFFractureEvidence
     y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit S00 S10 S11 S01
 
+example (eta_base alpha_shear k_wave r_dist w_corridor l_path x_drive s_bit c_epr : ℝ) :
+    Signals.DFT.ddfFractureDilatantDamping eta_base alpha_shear k_wave =
+        Signals.Pending.dilatantDampingRate eta_base alpha_shear k_wave ∧
+      Signals.DFT.ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path =
+        Signals.DFT.ddfFractureCorridorGuidingGain r_dist w_corridor ∧
+      Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 5) 10 <
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (9800 : ℝ) <
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (1 : ℝ) < Signals.DFT.hybridFractureKeyedErEprRxProbability 3 1 1 ∧
+      0 ≤ Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 1 1 -
+          Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 1 (-1) = 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 3 1 = 4 / 5 ∧
+      Signals.DFT.horodeckiAverageTeleportationFidelity 0 = 2 / 3 ∧
+      ((2 / 3 : ℝ) < Signals.DFT.horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr) ∧
+      Signals.DFT.horodeckiAverageTeleportationFidelity 1 = 1 ∧
+      0 < Signals.DFT.ddfFracturePassivePowerEfficiency 1 2 3 ∧
+      Signals.DFT.ddfFracturePassivePowerEfficiency 1 2 3 < 1 :=
+  SignalsPending.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds
+    toyDDFFractureEvidence
+    eta_base alpha_shear k_wave r_dist w_corridor l_path x_drive s_bit c_epr 1 2 3
+    (by norm_num) (by norm_num)
+
+example (gamma_damp l_path y_cl kappa_ddf q_ddf x_around x_fracture s_bit e_around e_fracture e_wormhole : ℝ) :
+    (toyDDFFractureEvidence.propagationMode ≠ Signals.Pending.DDFCommunicationMode.transversePhonon →
+        ¬toyDDFFractureEvidence.supportsDDFHypothesis) ∧
+      Signals.DFT.fractureGuidedCorridorTransmission gamma_damp l_path /
+          Signals.DFT.exteriorPhotonInverseSquareEfficiency 1 100 =
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1 gamma_damp l_path ∧
+      Signals.DFT.exteriorPhotonInverseSquareEfficiency 1 100 <
+        Signals.DFT.fractureGuidedCorridorTransmission (1 / 1000) 10 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 0 0 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 0 0 (-1) = 0 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability x_around 0 s_bit =
+        Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_around s_bit ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 0 x_fracture s_bit =
+        Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_fracture s_bit ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability (1 / 100) 0 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability (1 / 100) 0 (-1) <
+        Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 (-1) ∧
+      Signals.DFT.dualPathCommonModeSubtraction y_cl kappa_ddf q_ddf = kappa_ddf * q_ddf ∧
+      (10 : ℝ) < Signals.DFT.dualPathMrcCombinedSnr 10 100 ∧
+      (100 : ℝ) < Signals.DFT.dualPathMrcCombinedSnr 10 100 ∧
+      Signals.DFT.dualPathOutageProbability (1 / 10) (1 / 5) < 1 / 10 ∧
+      Signals.DFT.dualPathOutageProbability (1 / 10) (1 / 5) < 1 / 5 ∧
+      1 - Signals.DFT.dualPathOutageProbability (1 / 10) (1 / 10) = 99 / 100 ∧
+      0 ≤ Signals.DFT.triModalDualKeyedErEprRxProbability x_around x_fracture 1 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability x_around x_fracture 1 ≤ 1 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 1 0 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 1 0 (-1) = 1 ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 0 1 (-1) = 1 ∧
+      Signals.DFT.triModalWormholeThroatLoad e_around e_fracture e_wormhole = e_wormhole ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.DFT.triModalWormholeThroatLoad 1000 1000 4) 10 ≤ 0 :=
+  SignalsPending.seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_bounds
+    toyDDFFractureEvidence
+    100 1 gamma_damp l_path y_cl kappa_ddf q_ddf 10 100 (1 / 10) (1 / 5)
+    x_around x_fracture s_bit e_around e_fracture e_wormhole
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+example (x_around x_fracture y0 y_drift t1 delta_t_skew kappa_ddf q_ddf e_around e_fracture e_wormhole : ℝ) :
+    (toyDDFFractureEvidence.propagationMode ≠ Signals.Pending.DDFCommunicationMode.transversePhonon →
+        ¬toyDDFFractureEvidence.supportsDDFHypothesis) ∧
+      Signals.DFT.triModalDualKeyedErEprRxProbability 1 1 1 -
+          Signals.DFT.triModalDualKeyedErEprRxProbability 1 1 (-1) = 4 / 5 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 1 -
+          Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 (-1) = 1 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 0 10 0 1 -
+          Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 0 10 0 (-1) = 1 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability 0 1 0 100 1 -
+          Signals.DFT.triModalAgcDualKeyedErEprRxProbability 0 1 0 100 (-1) = 1 ∧
+      0 ≤ Signals.DFT.triModalAgcDualKeyedErEprRxProbability x_around x_fracture 10 100 1 ∧
+      Signals.DFT.triModalAgcDualKeyedErEprRxProbability x_around x_fracture 10 100 1 ≤ 1 ∧
+      0 ≤ Signals.DFT.dualPathPropagationSkew 10 12 1 (1 / 2) ∧
+      Signals.DFT.dualPathSkewCompensatedClutterResidual y0 y_drift t1 delta_t_skew 0 kappa_ddf q_ddf =
+        kappa_ddf * q_ddf + y_drift * delta_t_skew ∧
+      Signals.DFT.dualPathSkewCompensatedClutterResidual
+          y0 y_drift t1 delta_t_skew delta_t_skew kappa_ddf q_ddf =
+        kappa_ddf * q_ddf ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) 0 =
+        Signals.DFT.dualPathOutageProbability (1 / 10) (1 / 10) ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) 1 = 1 / 10 ∧
+      Signals.DFT.dualPathOutageProbability (1 / 10) (1 / 10) ≤
+        Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) < 1 / 10 ∧
+      Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) = 7 / 250 ∧
+      Signals.DFT.triModalParasiticThroatLoad 0 0 e_around e_fracture e_wormhole =
+        Signals.DFT.triModalWormholeThroatLoad e_around e_fracture e_wormhole ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux
+        (Signals.DFT.triModalParasiticThroatLoad (1 / 100) (1 / 100) 1000 1000 4) 10 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux
+        (Signals.DFT.triModalParasiticThroatLoad (1 / 1000) (1 / 1000) 1000 1000 4) 10 ≤ 0 :=
+  SignalsPending.seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_bounds
+    toyDDFFractureEvidence
+    x_around x_fracture 10 100 10 12 1 (1 / 2) y0 y_drift t1 delta_t_skew kappa_ddf q_ddf
+    (1 / 10) (1 / 5) e_around e_fracture e_wormhole
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsPendingTests

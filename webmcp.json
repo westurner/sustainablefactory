@@ -199901,10 +199901,52 @@
           },
           {
             "ids": [
-              "machine-checked-lean-4-formalization-signals-dft-section-25-and-signals-pending"
+              "adversarial-review-mathematical-critique-and-formal-gap-closure-fixes-signals-dft-section-25-1"
+            ],
+            "level": 3,
+            "title": "3.2 Adversarial Review, Mathematical Critique, and Formal Gap-Closure Fixes (Signals.DFT Section 25.1)"
+          },
+          {
+            "ids": [
+              "complete-seven-mode-multi-path-taxonomy-three-elementary-channels-m-1-m-2-m-3-and-four-composite-architectures-signals-dft-section-25-2"
+            ],
+            "level": 3,
+            "title": "3.3 Complete Seven-Mode Multi-Path Taxonomy: Three Elementary Channels (M_1, M_2, M_3) and Four Composite Architectures (Signals.DFT Section 25.2)"
+          },
+          {
+            "ids": [
+              "the-three-elementary-base-channels-m-1-m-2-m-3"
+            ],
+            "level": 4,
+            "title": "3.3.1 The Three Elementary Base Channels (M_1, M_2, M_3)"
+          },
+          {
+            "ids": [
+              "why-all-four-composite-multi-path-combinations-are-distinct-and-useful"
+            ],
+            "level": 4,
+            "title": "3.3.2 Why All Four Composite Multi-Path Combinations Are Distinct and Useful"
+          },
+          {
+            "ids": [
+              "master-comparison-table-across-all-seven-elementary-and-composite-methods"
+            ],
+            "level": 4,
+            "title": "3.3.3 Master Comparison Table Across All Seven Elementary and Composite Methods"
+          },
+          {
+            "ids": [
+              "adversarial-review-critique-gap-closures-of-the-seven-mode-multi-path-taxonomy-signals-dft-section-25-2-1"
+            ],
+            "level": 4,
+            "title": "3.3.4 Adversarial Review & Critique Gap-Closures of the Seven-Mode Multi-Path Taxonomy (Signals.DFT Section 25.2.1)"
+          },
+          {
+            "ids": [
+              "machine-checked-lean-4-formalization-signals-dft-sections-2525-2-1-and-signals-pending"
             ],
             "level": 2,
-            "title": "4. Machine-Checked Lean 4 Formalization (Signals.DFT Section 25 and Signals.Pending)"
+            "title": "4. Machine-Checked Lean 4 Formalization (Signals.DFT Sections 25\u201325.2.1 and Signals.Pending)"
           },
           {
             "ids": [
@@ -205555,6 +205597,13 @@
             ],
             "level": 3,
             "title": "2.10 Semi-Dirac Fermions (Mass in Only One Direction, Paper 29) and \\mathrm{SU}(4) / Witten Twistor String / CHY / DDF / Turner / AdS\u2013CFT Grand Unification (Paper 30) (Signals.DFT Secs. 19\u201320, dft_plabic_vrc.rs, SemiDiracAndSU4WittenUnificationEngine)"
+          },
+          {
+            "ids": [
+              "mathrm-er-mathrm-epr-wormhole-transit-paper-45-grassmannianddf-thermo-electro-magnetics-vs-lordshulman-paper-46-ddf-fracture-based-communication-vs-mathrm-er-mathrm-epr-wormholes-paper-47-signals-dft-secs-2325-2-dft-plabic-vrc-rs"
+            ],
+            "level": 3,
+            "title": "2.11 \\mathrm{ER}=\\mathrm{EPR} Wormhole Transit (Paper 45), Grassmannian\u2013DDF Thermo-Electro-Magnetics vs. Lord\u2013Shulman (Paper 46), & DDF Fracture-Based Communication vs. \\mathrm{ER}=\\mathrm{EPR} Wormholes (Paper 47) (Signals.DFT Secs. 23\u201325.2, dft_plabic_vrc.rs)"
           },
           {
             "ids": [
