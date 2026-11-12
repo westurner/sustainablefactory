@@ -130,6 +130,11 @@ myst_enable_extensions = [
 
 myst_fence_as_directive = ["mermaid"]
 
+mathjax3_config = {
+    "loader": {"load": ["[tex]/stmaryrd"]},
+    "tex": {"packages": {"[+]": ["stmaryrd"]}},
+}
+
 bibtex_bibfiles = ["citations.bib"]
 bibtex_default_style = "unsrt"
 bibtex_reference_style = "author_year"
