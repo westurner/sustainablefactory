@@ -130,9 +130,13 @@ myst_enable_extensions = [
 
 myst_fence_as_directive = ["mermaid"]
 
-mathjax3_config = {
-    "loader": {"load": ["[tex]/stmaryrd"]},
-    "tex": {"packages": {"[+]": ["stmaryrd"]}},
+mathjax4_config = {
+    "tex": {
+        "macros": {
+            "llbracket": r"\mathopen{[\![}",
+            "rrbracket": r"\mathclose{]\!]}",
+        },
+    },
 }
 
 bibtex_bibfiles = ["citations.bib"]
