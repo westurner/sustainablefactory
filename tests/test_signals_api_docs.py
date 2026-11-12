@@ -149,3 +149,60 @@ def test_cache_manifest_roundtrip(tmp_path: Path, monkeypatch):
     assert loaded is not None
     assert loaded["global_hash"] == "global123"
     assert loaded["module_hashes"] == {"Signals.DFT": "abc", "Signals.DDF": "def"}
+
+
+def test_sanitize_blueprint_tex_preserves_multiline_matrix_and_cases_ampersands():
+    raw_tex = (
+        "\\begin{theorem}[Slavnov & Cases Test]\n"
+        "Cost is $500 for A & B with:\n"
+        "\\[\n"
+        "M = \\begin{pmatrix}\n"
+        "  K(v_0, u_0) & K(v_0, u_1) \\\\\n"
+        "  K(v_1, u_0) & K(v_1, u_1)\n"
+        "\\end{pmatrix}, \\qquad\n"
+        "f(x) = \\begin{cases} 1 & x > 0 \\\\ 0 & x \\le 0 \\end{cases} \\text{ & done.}\n"
+        "\\]\n"
+        "\\end{theorem}\n"
+    )
+    sanitized = build_api_docs.sanitize_blueprint_tex_text(raw_tex)
+    assert r"Cost is \$500 for A \& B with:" in sanitized
+    assert "  K(v_0, u_0) & K(v_0, u_1) \\\\" in sanitized
+    assert "  K(v_1, u_0) & K(v_1, u_1)" in sanitized
+    assert r"\begin{cases} 1 & x > 0 \\ 0 & x \le 0 \end{cases}" in sanitized
+    assert r"\text{ \& done.}" in sanitized
+    # Idempotence check
+    assert build_api_docs.sanitize_blueprint_tex_text(sanitized) == sanitized
+
+    # Regression test: multi-line inline math after `$2\times 5$` must NOT escape `$2`
+    multiline_math = (
+        "\\begin{definition}[Triple-slit]\n"
+        "Define the $2\\times 5$ matrix $M =\n"
+        "M_0 \\in \\mathbb{C}^{2\\times 5}$.\n"
+        "\\end{definition}\n"
+    )
+    assert build_api_docs.sanitize_blueprint_tex_text(multiline_math) == multiline_math
+
+
+def test_conf_signals_blueprint_hash_tracks_disable_equations(tmp_path: Path, monkeypatch):
+    import docs.conf as docs_conf
+
+    sig_dir = tmp_path / "signals"
+    (sig_dir / "Signals").mkdir(parents=True)
+    (sig_dir / "blueprint" / "src").mkdir(parents=True)
+    (sig_dir / "Signals" / "Core.lean").write_text("def x := 1\n", encoding="utf-8")
+    (sig_dir / "Signals.lean").write_text("import Signals.Core\n", encoding="utf-8")
+    (sig_dir / "blueprint" / "src" / "web.tex").write_text("hello\n", encoding="utf-8")
+    (sig_dir / "blueprint" / "src" / "plastex.paux").write_text("ignored\n", encoding="utf-8")
+    for fname in ("Makefile", "build_api_docs.py", "lakefile.toml", "lake-manifest.json", "requirements-blueprint.txt"):
+        (sig_dir / fname).write_text(fname, encoding="utf-8")
+
+    monkeypatch.setenv("DISABLE_EQUATIONS", "1")
+    h1 = docs_conf._compute_signals_blueprint_input_hash(sig_dir)
+    # Changing .paux does not invalidate hash
+    (sig_dir / "blueprint" / "src" / "plastex.paux").write_text("changed\n", encoding="utf-8")
+    assert docs_conf._compute_signals_blueprint_input_hash(sig_dir) == h1
+
+    # Changing DISABLE_EQUATIONS invalidates hash
+    monkeypatch.setenv("DISABLE_EQUATIONS", "0")
+    h0 = docs_conf._compute_signals_blueprint_input_hash(sig_dir)
+    assert h0 != h1

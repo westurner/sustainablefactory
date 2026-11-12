@@ -6,6 +6,7 @@ DOCGEN_PROFILE ?= 0
 DOCGEN_DEBUG ?= 0
 DISABLE_EQUATIONS ?= 1
 PYTHON ?= python3
+LOCAL_TMP ?= $(abspath ../../.tmp)
 PROFILE_RUN = $(PYTHON) -c 'import resource, subprocess, sys, time; start = time.perf_counter(); result = subprocess.run(sys.argv[2:]); usage = resource.getrusage(resource.RUSAGE_CHILDREN); print(f"[profile] wall={time.perf_counter() - start:.3f}s user={usage.ru_utime:.3f}s sys={usage.ru_stime:.3f}s maxrss={usage.ru_maxrss}KiB", file=sys.stderr); sys.exit(result.returncode)' --
 
 define run-profiled
@@ -44,10 +45,11 @@ lean-build:
 
 lean-api:
 	@set -eu; \
-		mkdir -p .lake/build; \
+		mkdir -p .lake/build "$(LOCAL_TMP)"; \
+		export TMPDIR="$(LOCAL_TMP)"; \
 		stamp=".lake/build/lean-api-inputs.sha256"; \
 		current="$$( { \
-			find Signals -name '*.lean' -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum; \
+			find Signals -name '*.lean' -type f -print0 | LC_ALL=C sort -z | xargs -0r sha256sum; \
 			sha256sum Signals.lean SignalsApiDocs.lean build_api_docs.py Makefile lakefile.toml lake-manifest.json; \
 			printf 'DISABLE_EQUATIONS=%s\n' "$(DISABLE_EQUATIONS)"; \
 		} | sha256sum | cut -d' ' -f1)"; \
@@ -55,24 +57,25 @@ lean-api:
 			printf '%s\n' 'Signals API inputs unchanged; reusing cached output'; \
 		else \
 			printf '\n==> Compile Signals\n'; \
-			env DISABLE_EQUATIONS=$(DISABLE_EQUATIONS) \
+			env TMPDIR="$(LOCAL_TMP)" DISABLE_EQUATIONS=$(DISABLE_EQUATIONS) \
 				GIT_CONFIG_PARAMETERS="$${GIT_CONFIG_PARAMETERS:+$$GIT_CONFIG_PARAMETERS }'url.https://github.com/.insteadOf'='ssh://git@github.com/'" \
 				$(LEAN) $(LAKE_FLAGS) build Signals @doc-gen4/coreDocs signalsApiDocs; \
 			printf '\n==> Generate Signals API pages\n'; \
-			env DISABLE_EQUATIONS=$(DISABLE_EQUATIONS) \
+			env TMPDIR="$(LOCAL_TMP)" DISABLE_EQUATIONS=$(DISABLE_EQUATIONS) \
 				SIGNALS_DOCGEN_PROFILE=$(DOCGEN_PROFILE) \
 				SIGNALS_DOCGEN_DEBUG=$(DOCGEN_DEBUG) \
-				$(LEAN) $(LAKE_FLAGS) env python3 build_api_docs.py; \
+				$(LEAN) $(LAKE_FLAGS) env $(PYTHON) build_api_docs.py; \
 			printf '%s\n' "$$current" > "$$stamp"; \
 		fi
 
 blueprint: lean-api
 	@set -eu; \
-		mkdir -p .lake/build; \
+		mkdir -p .lake/build blueprint/web "$(LOCAL_TMP)"; \
+		export TMPDIR="$(LOCAL_TMP)"; \
 		lean_stamp=".lake/build/blueprint-lean-inputs.sha256"; \
 		lean_current="$$( { \
-			find Signals -name '*.lean' -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum; \
-			sha256sum Signals.lean SignalsTests.lean SignalsPending.lean SignalsPendingTests.lean lakefile.toml lake-manifest.json; \
+			find Signals -name '*.lean' -type f -print0 | LC_ALL=C sort -z | xargs -0r sha256sum; \
+			sha256sum Signals.lean SignalsTests.lean SignalsPending.lean SignalsPendingTests.lean build_api_docs.py lakefile.toml lake-manifest.json; \
 		} | sha256sum | cut -d' ' -f1)"; \
 		if [ "$${SIGNALS_API_FORCE_REBUILD:-0}" != "1" ] && [ -f "$$lean_stamp" ] && [ "$$(cat "$$lean_stamp")" = "$$lean_current" ] && [ -f .lake/build/blueprint/library/Signals.tex ]; then \
 			printf '%s\n' 'LeanArchitect blueprint data unchanged; reusing cached .tex artifacts'; \
@@ -89,15 +92,15 @@ blueprint: lean-api
 			$(PYTHON) build_api_docs.py --sanitize-blueprint-tex; \
 			printf '%s\n' "$$lean_current" > "$$lean_stamp"; \
 		fi; \
-		$(PYTHON) build_api_docs.py --sanitize-blueprint-tex; \
 		stamp=".lake/build/blueprint-web.sha256"; \
 		current="$$( { \
-			find blueprint/src .lake/build/blueprint -type f ! -name '*.paux' -print0 | LC_ALL=C sort -z | xargs -0 sha256sum; \
+			find blueprint/src .lake/build/blueprint -type f ! -name '*.paux' -print0 | LC_ALL=C sort -z | xargs -0r sha256sum; \
 			sha256sum Makefile build_api_docs.py requirements-blueprint.txt; \
 		} | sha256sum | cut -d' ' -f1)"; \
 		if [ "$${SIGNALS_API_FORCE_REBUILD:-0}" != "1" ] && [ -f "$$stamp" ] && [ "$$(cat "$$stamp")" = "$$current" ] && [ -f blueprint/web/index.html ]; then \
 			printf '%s\n' 'Blueprint HTML unchanged; reusing generated output'; \
 		else \
+			$(PYTHON) build_api_docs.py --sanitize-blueprint-tex; \
 			printf '%s\n' '==> Render blueprint HTML'; \
 			rm -f blueprint/web/sect0002.html; \
 			if [ "$(PROFILE)" = "1" ]; then \
@@ -108,6 +111,10 @@ blueprint: lean-api
 					exit 1; \
 				fi; \
 			fi; \
+			current="$$( { \
+				find blueprint/src .lake/build/blueprint -type f ! -name '*.paux' -print0 | LC_ALL=C sort -z | xargs -0r sha256sum; \
+				sha256sum Makefile build_api_docs.py requirements-blueprint.txt; \
+			} | sha256sum | cut -d' ' -f1)"; \
 			printf '%s\n' "$$current" > "$$stamp"; \
 		fi; \
 		ln -sfnT ../../.lake/build/doc blueprint/web/signals-api

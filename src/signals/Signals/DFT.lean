@@ -7370,6 +7370,165 @@ theorem ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_ident
     by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; ring,
     by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; norm_num⟩
 
+/-! ### 25.1 Adversarial Critique & Gap-Closure Fixes: Dilatant Corridor Attenuation, Unconditionally Bounded Cayley Saturation, Horodecki $2/3$ Fidelity Threshold, and Passive Energy Closure (`ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities`)
+
+Addresses four mathematical and physical critiques of Section 25:
+1. **Critique Fix 1 (High-$k$ Dilatant Shear-Thickening Attenuation in Fracture Corridors)**:
+   `ddfFractureCorridorGuidingGain` models lossless geometric guiding $(r/w)^2$, whereas a physical DDF
+   medium has wavenumber-dependent shear-thickening damping $\gamma_{\mathrm{damp}}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0 k^2(1 + \alpha_{\mathrm{sh}}k^2) \ge 0$
+   (`Signals.Pending.dilatantDampingRate`). `ddfFractureAttenuatedCorridorGain` incorporates path attenuation
+   $(1 + \gamma_{\mathrm{damp}} L_{\mathrm{path}})^{-1}$, proving exact lossless recovery at $\gamma_{\mathrm{damp}} = 0$,
+   stronger high-$k$ roll-off ($k = 5$ vs. $k = 1$), and $> 9{,}800\times$ net gain for low-$k$ transverse phonons.
+2. **Critique Fix 2 (Unbounded Key Overflow in `hybridFractureKeyedErEprRxProbability` for $|\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}| > 1$)**:
+   Because $q_{\mathrm{DDF}}$ is a physical strain/pressure observable, an overdriven fracture pulse with
+   $x = \kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} = 3 > 1$ causes the linearized hybrid formula to overflow $[0, 1]$
+   (`hybridFractureKeyedErEprRxProbability 3 1 1 = 2 > 1`). Passing $x \in \mathbb{R}$ through the exact
+   rational Cayley unitary phase map $\sin(2\arctan x) = \frac{2x}{1 + x^2} \in [-1, 1]$
+   (`hybridSaturatedFractureKeyedErEprRxProbability`) guarantees $0 \le P_{\mathrm{RX}}^{\mathrm{sat}}(x, \pm 1) \le 1$
+   for **every** $x \in \mathbb{R}$ unconditionally (by $(1 \pm x)^2 \ge 0$), while preserving $1/2$ at $x = 0$
+   and $100\%$ contrast at $x = 1$.
+3. **Critique Fix 3 (Haar-Averaged 3D Bloch-Sphere Qubit Fidelity Ceiling $2/3$ vs. Equatorial Contrast $1/2$)**:
+   For isotropic 3D qubit states, classical measure-and-prepare over an unentangled DDF fracture waveguide
+   achieves a maximum Haar-averaged fidelity of $2/3$ (Massar & Popescu 1995), whereas a bipartite state with
+   concurrence $\mathcal{C}_{\mathrm{EPR}} \in [0, 1]$ achieves the Horodecki optimal teleportation fidelity
+   `horodeckiAverageTeleportationFidelity` $F_{\mathrm{avg}}(\mathcal{C}_{\mathrm{EPR}}) = \frac{2 + \mathcal{C}_{\mathrm{EPR}}}{3} \in [2/3, 1]$,
+   exceeding $2/3$ if and only if $\mathcal{C}_{\mathrm{EPR}} > 0$ and reaching $1$ at $\mathcal{C}_{\mathrm{EPR}} = 1$.
+4. **Critique Fix 4 (Closed-Loop Passive Energy Ledger — No Free DDF Fracture Energy Extraction)**:
+   `ddfFracturePassivePowerEfficiency` enforces $0 < \frac{P_{\mathrm{out}}}{P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}}} < 1$
+   whenever $P_{\mathrm{out}} > 0$ and fracture nucleation plus viscous dissipation power
+   $P_{\mathrm{fracture}} + P_{\mathrm{diss}} > 0$, matching `DDFFractureCommunicationEvidence.energyClosed`. -/
+
+/-- **Dilatant Shear-Thickening Wave-Packet Damping Rate**:
+$$\gamma_{\mathrm{damp}}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0\,k^2\,(1 + \alpha_{\mathrm{sh}}\,k^2),$$
+matching `Signals.Pending.dilatantDampingRate`. -/
+@[blueprint "def:signals-dft-ddf-fracture-dilatant-damping"
+  (title := "Dilatant shear-thickening wave-packet damping rate eta_0 * k^2 * (1 + alpha_sh * k^2)")
+  (statement := /-- Define $\operatorname{ddfFractureDilatantDamping}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0 k^2 (1 + \alpha_{\mathrm{sh}} k^2)$. -/)]
+def ddfFractureDilatantDamping (eta_base alpha_shear k_wave : ℝ) : ℝ :=
+  eta_base * k_wave ^ 2 * (1 + alpha_shear * k_wave ^ 2)
+
+/-- **Critique Fix 1: Attenuated DDF Fracture-Corridor Guiding Gain**:
+$$\mathcal{G}_{\mathrm{corridor}}^{\mathrm{atten}}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}, \gamma_{\mathrm{damp}}, L_{\mathrm{path}}) =
+\frac{(r_{\mathrm{dist}} / w_{\mathrm{corridor}})^2}{1 + \gamma_{\mathrm{damp}}\,L_{\mathrm{path}}}.$$ -/
+@[blueprint "def:signals-dft-ddf-fracture-attenuated-corridor-gain"
+  (title := "Critique Fix 1: Attenuated DDF fracture-corridor guiding gain (r/w)^2 / (1 + gamma_damp * L_path)")
+  (statement := /-- Define $\operatorname{ddfFractureAttenuatedCorridorGain}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}, \gamma_{\mathrm{damp}}, L_{\mathrm{path}}) = (r_{\mathrm{dist}} / w_{\mathrm{corridor}})^2 / (1 + \gamma_{\mathrm{damp}} L_{\mathrm{path}})$. -/)]
+noncomputable def ddfFractureAttenuatedCorridorGain
+    (r_dist w_corridor gamma_damp l_path : ℝ) : ℝ :=
+  (r_dist / w_corridor) ^ 2 / (1 + gamma_damp * l_path)
+
+/-- **Critique Fix 2: Unconditionally Bounded Cayley-Saturated Hybrid Fracture-Keyed $\mathrm{ER}=\mathrm{EPR}$ Receiver Probability**:
+$$P_{\mathrm{RX}}^{\mathrm{sat}}(x, s_{\mathrm{bit}}) = \frac{1}{2}\left(1 + \frac{2x}{1 + x^2}\,s_{\mathrm{bit}}\right), \qquad x = \kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}} \in \mathbb{R}.$$ -/
+@[blueprint "def:signals-dft-hybrid-saturated-fracture-keyed-er-epr-rx-probability"
+  (title := "Critique Fix 2: Unconditionally bounded Cayley-saturated hybrid fracture-keyed ER=EPR receiver probability")
+  (statement := /-- Define $\operatorname{hybridSaturatedFractureKeyedErEprRxProbability}(x, s_{\mathrm{bit}}) = (1 + (2x / (1 + x^2)) s_{\mathrm{bit}}) / 2$. -/)]
+noncomputable def hybridSaturatedFractureKeyedErEprRxProbability (x_drive s_bit : ℝ) : ℝ :=
+  (1 + (2 * x_drive / (1 + x_drive ^ 2)) * s_bit) / 2
+
+/-- **Critique Fix 3: Horodecki–Massar–Popescu Haar-Averaged 3D Qubit Teleportation Fidelity**:
+$$F_{\mathrm{avg}}^{\mathrm{Horodecki}}(\mathcal{C}_{\mathrm{EPR}}) = \frac{2 + \mathcal{C}_{\mathrm{EPR}}}{3}.$$ -/
+@[blueprint "def:signals-dft-horodecki-average-teleportation-fidelity"
+  (title := "Critique Fix 3: Horodecki Haar-averaged 3D qubit teleportation fidelity (2 + C_EPR) / 3")
+  (statement := /-- Define $\operatorname{horodeckiAverageTeleportationFidelity}(\mathcal{C}_{\mathrm{EPR}}) = (2 + \mathcal{C}_{\mathrm{EPR}}) / 3$. -/)]
+noncomputable def horodeckiAverageTeleportationFidelity (c_epr : ℝ) : ℝ :=
+  (2 + c_epr) / 3
+
+/-- **Critique Fix 4: Passive Energy-Closed DDF Fracture Channel Power Efficiency**:
+$$\eta_{\mathrm{frac}}^{\mathrm{passive}}(P_{\mathrm{out}}, P_{\mathrm{fracture}}, P_{\mathrm{diss}}) =
+\frac{P_{\mathrm{out}}}{P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}}}.$$ -/
+@[blueprint "def:signals-dft-ddf-fracture-passive-power-efficiency"
+  (title := "Critique Fix 4: Passive energy-closed DDF fracture channel power efficiency")
+  (statement := /-- Define $\operatorname{ddfFracturePassivePowerEfficiency}(P_{\mathrm{out}}, P_{\mathrm{fracture}}, P_{\mathrm{diss}}) = P_{\mathrm{out}} / (P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}})$. -/)]
+noncomputable def ddfFracturePassivePowerEfficiency (p_out p_fracture p_diss : ℝ) : ℝ :=
+  p_out / (p_out + p_fracture + p_diss)
+
+/-- **Master Critique Gap-Closure Theorem for Section 25.1 (`ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities`)**:
+Simultaneously establishes:
+1. **Attenuated Fracture-Corridor Gain & High-$k$ Dilatant Roll-Off**:
+   - `ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path = ddfFractureCorridorGuidingGain r_dist w_corridor`,
+   - `ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 5) 10 < ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10`,
+   - `(9800 : ℝ) < ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10`,
+2. **Unconditionally Bounded Cayley-Saturated Hybrid Receiver Probability ($\forall x \in \mathbb{R}$)**:
+   - Raw overflow diagnosis: `(1 : ℝ) < hybridFractureKeyedErEprRxProbability 3 1 1`,
+   - Exact unconditional bounds for all $x \in \mathbb{R}$:
+     `0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1`,
+   - No-signaling at $x = 0$, $100\%$ contrast at $x = 1$, and bounded $4/5 \le 1$ response at overdriven $x = 3$,
+3. **Horodecki $2/3$ Classical Measure-and-Prepare Ceiling vs. $\mathcal{C}_{\mathrm{EPR}} > 0$ Quantum Teleportation**:
+   - `horodeckiAverageTeleportationFidelity 0 = 2 / 3`,
+   - `((2 / 3 : ℝ) < horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr)`,
+   - `horodeckiAverageTeleportationFidelity 1 = 1`,
+4. **Strict Passive Energy Closure (`0 < η < 1`)**:
+   - `0 < ddfFracturePassivePowerEfficiency p_out p_fracture p_diss ∧ ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1`. -/
+@[blueprint "thm:signals-dft-ddf-fracture-attenuation-cayley-horodecki-passivity-critique"
+  (title := "Critique gap-closure theorem for Section 25.1: Dilatant corridor attenuation, Cayley saturation, Horodecki 2/3 fidelity, and passive energy closure")
+  (statement := /-- Certifies high-$k$ dilatant corridor attenuation vs. $>9{,}800\times$ low-$k$ guiding gain,
+    unconditional $[0,1]$ probability bounds for all $x\in\mathbb{R}$ via the Cayley map $2x/(1+x^2)$,
+    the Horodecki $2/3$ classical measure-and-prepare ceiling vs. $\mathcal{C}_{\mathrm{EPR}}>0$ quantum
+    advantage, and strict passive energy closure $0 < \eta_{\mathrm{frac}}^{\mathrm{passive}} < 1$. -/)
+  (proof := /-- Use $(1 + x)^2 \ge 0$ and $(1 - x)^2 \ge 0$ over $1 + x^2 > 0$ for the unconditional Cayley
+    bounds, linear arithmetic for the Horodecki $2/3$ equivalence and passive power bound, and \texttt{norm\_num}. -/)]
+theorem ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
+    (r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss : ℝ)
+    (hp_out : 0 < p_out) (hp_loss : 0 < p_fracture + p_diss) :
+    ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path =
+        ddfFractureCorridorGuidingGain r_dist w_corridor ∧
+      ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 5) 10 <
+        ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (9800 : ℝ) <
+        ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (1 : ℝ) < hybridFractureKeyedErEprRxProbability 3 1 1 ∧
+      0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 0 s_bit = 1 / 2 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 1 1 -
+          hybridSaturatedFractureKeyedErEprRxProbability 1 (-1) = 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 3 1 = 4 / 5 ∧
+      horodeckiAverageTeleportationFidelity 0 = 2 / 3 ∧
+      ((2 / 3 : ℝ) < horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr) ∧
+      horodeckiAverageTeleportationFidelity 1 = 1 ∧
+      0 < ddfFracturePassivePowerEfficiency p_out p_fracture p_diss ∧
+      ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1 := by
+  have h_denom_x : 0 < 1 + x_drive ^ 2 := by positivity
+  have h_cayley_low : 0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 := by
+    unfold hybridSaturatedFractureKeyedErEprRxProbability
+    have h_eq : (1 + 2 * x_drive / (1 + x_drive ^ 2) * 1) / 2 =
+        (1 + x_drive) ^ 2 / (2 * (1 + x_drive ^ 2)) := by
+      field_simp [ne_of_gt h_denom_x]
+      ring
+    rw [h_eq]
+    positivity
+  have h_cayley_high : hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 := by
+    unfold hybridSaturatedFractureKeyedErEprRxProbability
+    have h_diff : 1 - (1 + 2 * x_drive / (1 + x_drive ^ 2) * 1) / 2 =
+        (1 - x_drive) ^ 2 / (2 * (1 + x_drive ^ 2)) := by
+      field_simp [ne_of_gt h_denom_x]
+      ring
+    have h_nonneg : 0 ≤ (1 - x_drive) ^ 2 / (2 * (1 + x_drive ^ 2)) := by positivity
+    linarith
+  have h_tot_pos : 0 < p_out + p_fracture + p_diss := by linarith
+  have h_eff_pos : 0 < ddfFracturePassivePowerEfficiency p_out p_fracture p_diss := by
+    unfold ddfFracturePassivePowerEfficiency
+    exact div_pos hp_out h_tot_pos
+  have h_eff_lt_one : ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1 := by
+    unfold ddfFracturePassivePowerEfficiency
+    rw [div_lt_one h_tot_pos]
+    linarith
+  refine ⟨
+    by unfold ddfFractureAttenuatedCorridorGain ddfFractureCorridorGuidingGain; simp,
+    by unfold ddfFractureAttenuatedCorridorGain ddfFractureDilatantDamping; norm_num,
+    by unfold ddfFractureAttenuatedCorridorGain ddfFractureDilatantDamping; norm_num,
+    by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; norm_num,
+    h_cayley_low,
+    h_cayley_high,
+    by unfold hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold hybridSaturatedFractureKeyedErEprRxProbability; norm_num,
+    by unfold horodeckiAverageTeleportationFidelity; norm_num,
+    by unfold horodeckiAverageTeleportationFidelity; constructor <;> intro h <;> linarith,
+    by unfold horodeckiAverageTeleportationFidelity; norm_num,
+    h_eff_pos,
+    h_eff_lt_one⟩
+
 end
 
 end Signals.DFT

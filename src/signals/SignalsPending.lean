@@ -1903,4 +1903,36 @@ theorem ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bound
   evidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds
     y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit S00 S10 S11 S01
 
+/-- Re-exports the Section 25.1 critique gap-closure boundary theorem for dilatant corridor attenuation, Cayley saturation, Horodecki 2/3 fidelity, and passive energy closure. -/
+theorem ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (eta_base alpha_shear k_wave r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss : ℝ)
+    (hp_out : 0 < p_out) (hp_loss : 0 < p_fracture + p_diss) :
+    Signals.DFT.ddfFractureDilatantDamping eta_base alpha_shear k_wave =
+        dilatantDampingRate eta_base alpha_shear k_wave ∧
+      Signals.DFT.ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path =
+        Signals.DFT.ddfFractureCorridorGuidingGain r_dist w_corridor ∧
+      Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 5) 10 <
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (9800 : ℝ) <
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (1 : ℝ) < Signals.DFT.hybridFractureKeyedErEprRxProbability 3 1 1 ∧
+      0 ≤ Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 1 1 -
+          Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 1 (-1) = 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 3 1 = 4 / 5 ∧
+      Signals.DFT.horodeckiAverageTeleportationFidelity 0 = 2 / 3 ∧
+      ((2 / 3 : ℝ) < Signals.DFT.horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr) ∧
+      Signals.DFT.horodeckiAverageTeleportationFidelity 1 = 1 ∧
+      0 < Signals.DFT.ddfFracturePassivePowerEfficiency p_out p_fracture p_diss ∧
+      Signals.DFT.ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1 :=
+  evidence.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds
+    eta_base alpha_shear k_wave r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss
+    hp_out hp_loss
+
 end SignalsPending

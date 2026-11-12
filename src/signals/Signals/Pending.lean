@@ -8484,4 +8484,49 @@ lemma DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_worm
     Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities
       y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit S00 S10 S11 S01⟩
 
+/-- **Pending Boundary for Section 25.1 (`ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds`)**:
+Bridges `Signals.Pending.dilatantDampingRate` directly to `Signals.DFT.ddfFractureDilatantDamping`
+and certifies the four Section 25.1 critique gap-closure laws: high-$k$ dilatant corridor attenuation
+vs. $>9{,}800\times$ low-$k$ guiding gain, unconditional $[0, 1]$ Cayley saturation of the hybrid
+receiver probability, the Horodecki $2/3$ classical measure-and-prepare ceiling vs. $\mathcal{C}_{\mathrm{EPR}} > 0$
+quantum advantage, and strict passive energy closure $0 < \eta_{\mathrm{frac}}^{\mathrm{passive}} < 1$. -/
+@[blueprint "lem:signals-pending-ddf-fracture-attenuation-cayley-horodecki-passivity-critique-bounds"
+  (title := "Pending boundary for Section 25.1: Dilatant corridor attenuation, Cayley saturation, Horodecki 2/3 fidelity, and passive energy closure")
+  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract,
+    \texttt{ddfFractureDilatantDamping} agrees identically with \texttt{dilatantDampingRate}
+    and all Section 25.1 critique gap-closure identities hold simultaneously. -/)
+  (proof := /-- Unfold \texttt{ddfFractureDilatantDamping} and \texttt{dilatantDampingRate} for
+    definitional equality and apply \texttt{Signals.DFT.ddf\_fracture\_attenuation\_cayley\_saturation\_horodecki\_and\_passivity\_critique\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma DDFFractureCommunicationEvidence.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds
+    (_evidence : DDFFractureCommunicationEvidence)
+    (eta_base alpha_shear k_wave r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss : ℝ)
+    (hp_out : 0 < p_out) (hp_loss : 0 < p_fracture + p_diss) :
+    Signals.DFT.ddfFractureDilatantDamping eta_base alpha_shear k_wave =
+        dilatantDampingRate eta_base alpha_shear k_wave ∧
+      Signals.DFT.ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path =
+        Signals.DFT.ddfFractureCorridorGuidingGain r_dist w_corridor ∧
+      Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 5) 10 <
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (9800 : ℝ) <
+        Signals.DFT.ddfFractureAttenuatedCorridorGain 100 1
+          (Signals.DFT.ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (1 : ℝ) < Signals.DFT.hybridFractureKeyedErEprRxProbability 3 1 1 ∧
+      0 ≤ Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 1 1 -
+          Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 1 (-1) = 1 ∧
+      Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability 3 1 = 4 / 5 ∧
+      Signals.DFT.horodeckiAverageTeleportationFidelity 0 = 2 / 3 ∧
+      ((2 / 3 : ℝ) < Signals.DFT.horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr) ∧
+      Signals.DFT.horodeckiAverageTeleportationFidelity 1 = 1 ∧
+      0 < Signals.DFT.ddfFracturePassivePowerEfficiency p_out p_fracture p_diss ∧
+      Signals.DFT.ddfFracturePassivePowerEfficiency p_out p_fracture p_diss < 1 :=
+  ⟨rfl,
+    Signals.DFT.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
+      r_dist w_corridor l_path x_drive s_bit c_epr p_out p_fracture p_diss hp_out hp_loss⟩
+
 end Signals.Pending

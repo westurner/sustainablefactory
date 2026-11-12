@@ -35,11 +35,18 @@ HOSTED_DOCS = {
 }
 HREF_ATTRIBUTE = re.compile(r'(?P<prefix>\bhref\s*=\s*)(?P<quote>["\'])(?P<url>.*?)(?P=quote)', re.IGNORECASE)
 BEGIN_ENV_TITLE = re.compile(r"^(\\begin\{[^}]+\}\[)(.*)(\]\s*)$")
-MATRIX_SPAN = re.compile(r"\\begin\{[a-zA-Z]*matrix\}.*?\\end\{[a-zA-Z]*matrix\}")
+ALIGNMENT_ENV_NAMES = (
+    r"(?:[a-zA-Z]*matrix|cases|dcases|rcases|aligned|alignedat|align\*?|array|tabular|split| subarray)"
+)
+ALIGNMENT_SPAN = re.compile(
+    rf"\\begin\{{{ALIGNMENT_ENV_NAMES}\}}.*?\\end\{{{ALIGNMENT_ENV_NAMES}\}}"
+)
+ALIGNMENT_BEGIN = re.compile(rf"\\begin\{{{ALIGNMENT_ENV_NAMES}\}}")
+ALIGNMENT_END = re.compile(rf"\\end\{{{ALIGNMENT_ENV_NAMES}\}}")
 UNESCAPED_PERCENT = re.compile(r"(?<!\\)%")
 UNESCAPED_AMPERSAND = re.compile(r"(?<!\\)&")
 UNESCAPED_DOLLAR = re.compile(r"(?<!\\)\$")
-CURRENCY_DOLLAR = re.compile(r"(?<!\\)\$(?=\d)")
+CURRENCY_DOLLAR = re.compile(r"(?<!\\)\$(?=\d[\d,.]*(?:[kKmMbB]\b|\s|/|\)|\]|,|\.|;|:|$))")
 DOCGEN_PROFILE = os.environ.get("SIGNALS_DOCGEN_PROFILE") == "1"
 DOCGEN_DEBUG = os.environ.get("SIGNALS_DOCGEN_DEBUG") == "1"
 FORCE_REBUILD = os.environ.get("SIGNALS_API_FORCE_REBUILD") == "1"
@@ -115,27 +122,72 @@ def rewrite_html_links(doc_dir: pathlib.Path, architect_source_base: str) -> Non
 
 
 def sanitize_blueprint_tex_text(text: str) -> str:
-    """Escape raw %, &, and currency $ inside generated LeanArchitect .tex artifacts."""
+    """Escape raw %, &, and currency $ inside generated LeanArchitect .tex artifacts.
+
+    Preserves column-alignment `&` inside single-line and multi-line LaTeX alignment
+    environments (`*matrix`, `cases`, `aligned`, `align`, `array`, `tabular`, `split`).
+    """
     lines = text.splitlines(keepends=True)
+    non_comment_text = "".join(line for line in lines if not line.lstrip().startswith("%"))
+    has_odd_total_dollars = len(UNESCAPED_DOLLAR.findall(non_comment_text)) % 2 == 1
     out: list[str] = []
+    align_depth = 0
     for idx, line in enumerate(lines):
         if line.lstrip().startswith("%"):
             out.append(line)
             continue
         fixed = UNESCAPED_PERCENT.sub(r"\%", line)
-        if idx == 0 and len(UNESCAPED_DOLLAR.findall(fixed)) % 2 == 1:
+        if has_odd_total_dollars and len(UNESCAPED_DOLLAR.findall(fixed)) % 2 == 1:
             fixed = CURRENCY_DOLLAR.sub(r"\$", fixed)
-        if "\\begin{" in fixed and "matrix}" in fixed:
-            parts: list[str] = []
-            last = 0
-            for match in MATRIX_SPAN.finditer(fixed):
-                parts.append(UNESCAPED_AMPERSAND.sub(r"\&", fixed[last:match.start()]))
-                parts.append(match.group(0))
-                last = match.end()
-            parts.append(UNESCAPED_AMPERSAND.sub(r"\&", fixed[last:]))
-            fixed = "".join(parts)
+
+        if align_depth > 0:
+            # Currently inside a multi-line alignment environment: preserve `&` up to matching `\end{...}`
+            end_match = ALIGNMENT_END.search(fixed)
+            if end_match and len(ALIGNMENT_END.findall(fixed)) > len(ALIGNMENT_BEGIN.findall(fixed)):
+                # Escape `&` only after the closing alignment environment if depth returns to 0
+                new_depth = align_depth + len(ALIGNMENT_BEGIN.findall(fixed)) - len(ALIGNMENT_END.findall(fixed))
+                if new_depth <= 0:
+                    last_end = list(ALIGNMENT_END.finditer(fixed))[-1].end()
+                    fixed = fixed[:last_end] + UNESCAPED_AMPERSAND.sub(r"\&", fixed[last_end:])
+                    align_depth = 0
+                else:
+                    align_depth = new_depth
+            else:
+                align_depth = max(
+                    0,
+                    align_depth + len(ALIGNMENT_BEGIN.findall(fixed)) - len(ALIGNMENT_END.findall(fixed)),
+                )
+        elif ALIGNMENT_BEGIN.search(fixed):
+            if ALIGNMENT_SPAN.search(fixed):
+                parts: list[str] = []
+                last = 0
+                for match in ALIGNMENT_SPAN.finditer(fixed):
+                    parts.append(UNESCAPED_AMPERSAND.sub(r"\&", fixed[last:match.start()]))
+                    parts.append(match.group(0))
+                    last = match.end()
+                tail = fixed[last:]
+                unclosed_begin = ALIGNMENT_BEGIN.search(tail)
+                if unclosed_begin:
+                    parts.append(UNESCAPED_AMPERSAND.sub(r"\&", tail[:unclosed_begin.start()]))
+                    parts.append(tail[unclosed_begin.start():])
+                    align_depth = len(ALIGNMENT_BEGIN.findall(tail)) - len(ALIGNMENT_END.findall(tail))
+                else:
+                    parts.append(UNESCAPED_AMPERSAND.sub(r"\&", tail))
+                fixed = "".join(parts)
+            else:
+                first_begin = ALIGNMENT_BEGIN.search(fixed)
+                assert first_begin is not None
+                fixed = (
+                    UNESCAPED_AMPERSAND.sub(r"\&", fixed[:first_begin.start()])
+                    + fixed[first_begin.start():]
+                )
+                align_depth = max(
+                    0,
+                    len(ALIGNMENT_BEGIN.findall(fixed)) - len(ALIGNMENT_END.findall(fixed)),
+                )
         else:
             fixed = UNESCAPED_AMPERSAND.sub(r"\&", fixed)
+
         if idx == 0:
             m = BEGIN_ENV_TITLE.match(fixed)
             if m:
@@ -184,6 +236,9 @@ def compute_module_hashes(sources: list[pathlib.Path]) -> dict[str, str]:
 def compute_global_hash(architect_source_base: str) -> str:
     digest = hashlib.sha256()
     digest.update(pathlib.Path(__file__).read_bytes())
+    lakefile = SIGNALS_ROOT / "lakefile.toml"
+    if lakefile.is_file():
+        digest.update(lakefile.read_bytes())
     digest.update((SIGNALS_ROOT / "lake-manifest.json").read_bytes())
     digest.update(architect_source_base.encode("utf-8"))
     digest.update(os.environ.get("DISABLE_EQUATIONS", "1").encode("utf-8"))
@@ -286,13 +341,25 @@ def main(argv: list[str] | None = None) -> None:
     architect_source_base = (
         f"{github_web_url(architect['url'])}/blob/{architect['rev']}/"
     )
-    source_base = subprocess.check_output(
-        ["git", "remote", "get-url", "origin"], cwd=PROJECT_ROOT, text=True
-    ).strip()
-    commit = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT, text=True
-    ).strip()
-    source_base = f"{github_web_url(source_base)}/blob/{commit}/src/signals/"
+    try:
+        remote_url = subprocess.check_output(
+            ["git", "remote", "get-url", "origin"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        remote_url = "https://github.com/westurner/sustainablefactory"
+    try:
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        commit = "main"
+    source_base = f"{github_web_url(remote_url)}/blob/{commit}/src/signals/"
 
     sources = source_modules()
     global_hash = compute_global_hash(architect_source_base)

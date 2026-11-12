@@ -2016,6 +2016,44 @@ pub fn hybrid_fracture_keyed_er_epr_rx_probability(
     er_epr_exact_unitary_rx_probability(kappa_ddf * q_ddf, s_bit)
 }
 
+/// Dilatant shear-thickening wave-packet damping rate `eta_base * k^2 * (1 + alpha_shear * k^2)`,
+/// matching `Signals.DFT.ddfFractureDilatantDamping` and `Signals.Pending.dilatantDampingRate`.
+pub fn ddf_fracture_dilatant_damping(eta_base: f64, alpha_shear: f64, k_wave: f64) -> f64 {
+    eta_base * k_wave.powi(2) * (1.0 + alpha_shear * k_wave.powi(2))
+}
+
+/// Critique Fix 1: Attenuated DDF fracture-corridor guiding gain
+/// `(r_dist / w_corridor)^2 / (1 + gamma_damp * l_path)`,
+/// matching `Signals.DFT.ddfFractureAttenuatedCorridorGain`.
+pub fn ddf_fracture_attenuated_corridor_gain(
+    r_dist: f64,
+    w_corridor: f64,
+    gamma_damp: f64,
+    l_path: f64,
+) -> f64 {
+    (r_dist / w_corridor).powi(2) / (1.0 + gamma_damp * l_path)
+}
+
+/// Critique Fix 2: Unconditionally bounded Cayley-saturated hybrid fracture-keyed ER=EPR
+/// receiver probability `(1 + (2 * x / (1 + x^2)) * s_bit) / 2`,
+/// matching `Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability`.
+pub fn hybrid_saturated_fracture_keyed_er_epr_rx_probability(x_drive: f64, s_bit: f64) -> f64 {
+    (1.0 + (2.0 * x_drive / (1.0 + x_drive.powi(2))) * s_bit) / 2.0
+}
+
+/// Critique Fix 3: Horodecki Haar-averaged 3D qubit teleportation fidelity `(2 + c_epr) / 3`,
+/// matching `Signals.DFT.horodeckiAverageTeleportationFidelity`.
+pub fn horodecki_average_teleportation_fidelity(c_epr: f64) -> f64 {
+    (2.0 + c_epr) / 3.0
+}
+
+/// Critique Fix 4: Passive energy-closed DDF fracture channel power efficiency
+/// `p_out / (p_out + p_fracture + p_diss)`,
+/// matching `Signals.DFT.ddfFracturePassivePowerEfficiency`.
+pub fn ddf_fracture_passive_power_efficiency(p_out: f64, p_fracture: f64, p_diss: f64) -> f64 {
+    p_out / (p_out + p_fracture + p_diss)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2956,5 +2994,35 @@ mod tests {
                 .abs()
                 < 1e-15
         );
+
+        // 22. Section 25.1: Critique Gap-Closure Fixes (Dilatant Corridor Attenuation,
+        // Unconditional Cayley Saturation, Horodecki 2/3 Qubit Fidelity, & Passive Energy Closure)
+        let g_k1 = ddf_fracture_attenuated_corridor_gain(
+            100.0,
+            1.0,
+            ddf_fracture_dilatant_damping(1e-3, 1.0, 1.0),
+            10.0,
+        );
+        let g_k5 = ddf_fracture_attenuated_corridor_gain(
+            100.0,
+            1.0,
+            ddf_fracture_dilatant_damping(1e-3, 1.0, 5.0),
+            10.0,
+        );
+        assert!(g_k5 < g_k1 && g_k1 > 9800.0);
+        assert!(hybrid_fracture_keyed_er_epr_rx_probability(3.0, 1.0, 1.0) > 1.0);
+        let p_sat_over = hybrid_saturated_fracture_keyed_er_epr_rx_probability(3.0, 1.0);
+        assert!((p_sat_over - 0.8).abs() < 1e-15 && (0.0..=1.0).contains(&p_sat_over));
+        assert!(
+            (hybrid_saturated_fracture_keyed_er_epr_rx_probability(1.0, 1.0)
+                - hybrid_saturated_fracture_keyed_er_epr_rx_probability(1.0, -1.0)
+                - 1.0)
+                .abs()
+                < 1e-15
+        );
+        assert!((horodecki_average_teleportation_fidelity(0.0) - 2.0 / 3.0).abs() < 1e-15);
+        assert!((horodecki_average_teleportation_fidelity(1.0) - 1.0).abs() < 1e-15);
+        let eta_passive = ddf_fracture_passive_power_efficiency(1.0, 2.0, 3.0);
+        assert!(eta_passive > 0.0 && eta_passive < 1.0);
     }
 }

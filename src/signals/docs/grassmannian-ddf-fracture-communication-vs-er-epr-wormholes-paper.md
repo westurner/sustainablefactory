@@ -10,8 +10,8 @@ description: "An arXiv-ready MyST Markdown formal verification and theoretical p
 - **Subjects:**
   - Quantum Physics (`quant-ph`); General Relativity and Quantum Cosmology (`gr-qc`); High Energy Physics - Theory (`hep-th`); Fluid Dynamics (`physics.flu-dyn`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, {download}`src/signals/Signals/DFT.lean, lines 7104–7375 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/DDF.lean, lines 478–510 and 9000–9250 <../src/signals/Signals/DDF.lean>`, {download}`src/signals/Signals/Pending.lean, lines 2475–2560, 3130–3215, and 8420–8487 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 1855–1906 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8275–8324 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 1085–1160 and 6825–6874 <../src/signals/SignalsPendingTests.lean>`)
-  - `signals-numerical-adapter` Rust/WASM Crate ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–2020 and 2835–2960 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`)
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, {download}`src/signals/Signals/DFT.lean, lines 7104–7534 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/DDF.lean, lines 478–510 and 9000–9250 <../src/signals/Signals/DDF.lean>`, {download}`src/signals/Signals/Pending.lean, lines 2475–2560, 3130–3215, and 8420–8532 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 1855–1938 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8275–8349 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 1085–1160 and 6825–6903 <../src/signals/SignalsPendingTests.lean>`)
+  - `signals-numerical-adapter` Rust/WASM Crate ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–2065 and 2835–3028 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`)
   - Validation Plan: {download}`src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md <../src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md>`
   - Canonical `src/signals/docs/` Mirror: {download}`src/signals/docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md <../src/signals/docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md>`
 - **Companion Papers:**
@@ -231,11 +231,22 @@ Instead of treating DDF fracture waveguides and $\mathrm{ER}=\mathrm{EPR}$ wormh
    - **When the causal fracture key arrives** ($\kappa_{\mathrm{DDF}} = 1, q_{\mathrm{DDF}} = 1$ at $t \ge L_{\mathrm{path}}/c_{\mathrm{emergent}}$):
      `hybridFractureKeyedErEprRxProbability 1 1 1 - hybridFractureKeyedErEprRxProbability 1 1 (-1) = 1` ($100\%$ differential receiver contrast and unit quantum fidelity $F_{\mathrm{quantum}}(1/4, 1) = 1$).
 
+### 3.2 Adversarial Review, Mathematical Critique, and Formal Gap-Closure Fixes (`Signals.DFT` Section 25.1)
+
+To ensure complete mathematical rigor, we subjected Section 25 to a **four-point adversarial review** and formalized exact gap-closure theorems in `ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities` ({download}`src/signals/Signals/DFT.lean, lines 7375–7534 <../src/signals/Signals/DFT.lean>`) and `DDFFractureCommunicationEvidence.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds` ({download}`src/signals/Signals/Pending.lean, lines 8485–8532 <../src/signals/Signals/Pending.lean>`):
+
+| # | Adversarial Critique / Potential Vulnerability | Mathematical & Physical Diagnosis | Formal Gap-Closure Fix in `Signals.DFT` Section 25.1 |
+| :-: | :--- | :--- | :--- |
+| **1** | **Lossless Geometric Guiding Gain Neglects High-$k$ Dilatant Shear-Thickening Damping** | `ddfFractureCorridorGuidingGain` models lossless $(r/w)^2$ confinement, whereas `Signals.Pending.dilatantDampingRate` defines wavenumber-dependent shear-thickening damping $\gamma_{\mathrm{damp}}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0 k^2(1 + \alpha_{\mathrm{sh}}k^2) \ge 0$ along the corridor. | **Fixed (`ddfFractureDilatantDamping`, `ddfFractureAttenuatedCorridorGain`)**: Proves exact definitional agreement with `dilatantDampingRate`, stronger high-$k$ roll-off ($k = 5$ vs. $k = 1$), and $> 9{,}800\times$ net gain at $r/w = 100$ for low-$k$ transverse phonons ($k = 1, \eta_0 = 10^{-3}, \alpha_{\mathrm{sh}} = 1, L = 10$). |
+| **2** | **Unbounded Key Overflow in `hybridFractureKeyedErEprRxProbability` for $\|\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}\| > 1$** | Because $q_{\mathrm{DDF}}$ is a physical strain/pressure observable, an overdriven fracture pulse ($x = \kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} = 3 > 1$) causes the linear hybrid formula to exceed $[0, 1]$ (`hybridFractureKeyedErEprRxProbability 3 1 1 = 2 > 1`). | **Fixed (`hybridSaturatedFractureKeyedErEprRxProbability`)**: Passes $x \in \mathbb{R}$ through the exact rational Cayley unitary phase map $\sin(2\arctan x) = \frac{2x}{1 + x^2}$, proving $0 \le P_{\mathrm{RX}}^{\mathrm{sat}}(x, 1) \le 1$ **unconditionally for every $x \in \mathbb{R}$** (via $\frac{(1\pm x)^2}{2(1+x^2)} \ge 0$), with $P_{\mathrm{RX}}^{\mathrm{sat}}(0, s) = 1/2$, $100\%$ contrast at $x = 1$, and $P_{\mathrm{RX}}^{\mathrm{sat}}(3, 1) = 4/5 \le 1$. |
+| **3** | **Equatorial Contrast ($1/2$) vs. Haar-Averaged 3D Bloch-Sphere Qubit Fidelity Ceiling ($2/3$)** | While `ddfFractureVsWormholeQuantumFidelity` captures equatorial BPSK contrast ($1/2$ at $p_{23}=0$), classical measure-and-prepare over a DDF fracture waveguide achieves up to $2/3$ Haar-averaged fidelity on isotropic 3D qubit states ([Massar & Popescu 1995](#ddffrac-massar1995); [Horodecki et al. 1999](#ddffrac-horodecki1999)). | **Fixed (`horodeckiAverageTeleportationFidelity`)**: Formalizes $F_{\mathrm{avg}}^{\mathrm{Horodecki}}(\mathcal{C}_{\mathrm{EPR}}) = \frac{2 + \mathcal{C}_{\mathrm{EPR}}}{3}$, proving $F_{\mathrm{avg}}(0) = 2/3$ (classical fracture ceiling), $2/3 < F_{\mathrm{avg}}(\mathcal{C}_{\mathrm{EPR}}) \iff 0 < \mathcal{C}_{\mathrm{EPR}}$ (exact entanglement witness), and $F_{\mathrm{avg}}(1) = 1$ (Bell $\mathrm{ER}=\mathrm{EPR}$ bridge). |
+| **4** | **Preventing "Free Vacuum Fracture Energy Extraction" Claims** | Without an explicit power balance, a $10{,}000\times$ geometric guiding gain could be misinterpreted as over-unity energy extraction from the DDF substrate, violating `DDFFractureCommunicationEvidence.energyClosed`. | **Fixed (`ddfFracturePassivePowerEfficiency`)**: Formalizes $\eta_{\mathrm{frac}}^{\mathrm{passive}} = \frac{P_{\mathrm{out}}}{P_{\mathrm{out}} + P_{\mathrm{fracture}} + P_{\mathrm{diss}}}$ and proves strict passivity $0 < \eta_{\mathrm{frac}}^{\mathrm{passive}} < 1$ whenever $P_{\mathrm{out}} > 0$ and fracture nucleation plus dissipation power $P_{\mathrm{fracture}} + P_{\mathrm{diss}} > 0$. |
+
 ---
 
-## 4. Machine-Checked Lean 4 Formalization (`Signals.DFT` Section 25 and `Signals.Pending`)
+## 4. Machine-Checked Lean 4 Formalization (`Signals.DFT` Sections 25 & 25.1 and `Signals.Pending`)
 
-The following self-contained Lean 4 verification block ({download}`src/signals/Signals/DFT.lean, lines 7104–7375 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/Pending.lean, lines 8420–8487 <../src/signals/Signals/Pending.lean>`, and {download}`src/signals/SignalsTests.lean, lines 8275–8324 <../src/signals/SignalsTests.lean>`) typechecks directly against `Signals` and `SignalsPending`:
+The following self-contained Lean 4 verification block ({download}`src/signals/Signals/DFT.lean, lines 7104–7534 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/Pending.lean, lines 8420–8532 <../src/signals/Signals/Pending.lean>`, and {download}`src/signals/SignalsTests.lean, lines 8275–8349 <../src/signals/SignalsTests.lean>`) typechecks directly against `Signals` and `SignalsPending`:
 
 ```lean
 import Signals
@@ -298,7 +309,31 @@ example (y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit : ℝ)
   ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities
     y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit S00 S10 S11 S01
 
--- 2. Pending Contract Boundary: Non-causal modes are rejected while causal transverse phonons are supported
+-- 2. Section 25.1 Critique Gap-Closure Fixes: Dilatant Attenuation, Unconditional Cayley Saturation,
+--    Horodecki 2/3 Qubit Fidelity Threshold, & Strict Passive Energy Closure
+example (r_dist w_corridor l_path x_drive s_bit c_epr : ℝ) :
+    ddfFractureAttenuatedCorridorGain r_dist w_corridor 0 l_path =
+        ddfFractureCorridorGuidingGain r_dist w_corridor ∧
+      ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 5) 10 <
+        ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (9800 : ℝ) <
+        ddfFractureAttenuatedCorridorGain 100 1 (ddfFractureDilatantDamping (1 / 1000) 1 1) 10 ∧
+      (1 : ℝ) < hybridFractureKeyedErEprRxProbability 3 1 1 ∧
+      0 ≤ hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability x_drive 1 ≤ 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 0 s_bit = 1 / 2 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 1 1 -
+          hybridSaturatedFractureKeyedErEprRxProbability 1 (-1) = 1 ∧
+      hybridSaturatedFractureKeyedErEprRxProbability 3 1 = 4 / 5 ∧
+      horodeckiAverageTeleportationFidelity 0 = 2 / 3 ∧
+      ((2 / 3 : ℝ) < horodeckiAverageTeleportationFidelity c_epr ↔ 0 < c_epr) ∧
+      horodeckiAverageTeleportationFidelity 1 = 1 ∧
+      0 < ddfFracturePassivePowerEfficiency 1 2 3 ∧
+      ddfFracturePassivePowerEfficiency 1 2 3 < 1 :=
+  ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities
+    r_dist w_corridor l_path x_drive s_bit c_epr 1 2 3 (by norm_num) (by norm_num)
+
+-- 3. Pending Contract Boundary: Non-causal modes are rejected while causal transverse phonons are supported
 example (evidence : DDFFractureCommunicationEvidence)
     (h_mode : evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon) :
     ¬evidence.supportsDDFHypothesis :=
@@ -311,7 +346,7 @@ end ArxivDdfFractureVsErEprVerification
 
 ## 5. Rust Implementation and Unit Test Verification (`dft_plabic_vrc.rs`)
 
-In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–2020 and 2835–2960 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, we implement the numerical evaluators and unit tests matching `Signals.DFT` Section 25:
+In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–2065 and 2835–3028 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, we implement the numerical evaluators and unit tests matching `Signals.DFT` Sections 25 and 25.1:
 - `ddf_fracture_total_channel_signal(y_classical: f64, kappa_ddf: f64, q_ddf: f64) -> f64`
 - `ddf_fracture_magnus_subtracted_residual(y_meas: f64, y_acoustic: f64, rho_f: f64, u_inflow: f64, gamma_circ: f64) -> f64`
 - `ddf_fracture_deborah_ratio(tau_relax: f64, shear_rate: f64) -> f64`
@@ -321,6 +356,11 @@ In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–
 - `ddf_fracture_vs_wormhole_quantum_fidelity(p23_norm_sq: f64, sin_2theta: f64) -> f64`
 - `ddf_fracture_overload_excess_shear(tau_drive: f64, tau_crit: f64) -> f64`
 - `hybrid_fracture_keyed_er_epr_rx_probability(kappa_ddf: f64, q_ddf: f64, s_bit: f64) -> f64`
+- `ddf_fracture_dilatant_damping(eta_base: f64, alpha_shear: f64, k_wave: f64) -> f64`
+- `ddf_fracture_attenuated_corridor_gain(r_dist: f64, w_corridor: f64, gamma_damp: f64, l_path: f64) -> f64`
+- `hybrid_saturated_fracture_keyed_er_epr_rx_probability(x_drive: f64, s_bit: f64) -> f64`
+- `horodecki_average_teleportation_fidelity(c_epr: f64) -> f64`
+- `ddf_fracture_passive_power_efficiency(p_out: f64, p_fracture: f64, p_diss: f64) -> f64`
 
 Reproducible build and test commands:
 
@@ -339,9 +379,9 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 | :--- | :--- | :---: | :---: | :--- | :--- |
 | **1. Classical acoustic/elastic baseline (`H0`) & Kutta–Joukowski Magnus lift subtraction ($L' = \rho U \Gamma$)** | {download}`src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md, lines 60–150 <../src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md>` | `verified classical control` | High | `Signals.Pending.MagnusEffectControl`, `Signals.DFT.ddfFractureMagnusSubtractedResidual` | Fit classical transfer and Magnus lift on cylinder PIV (`Zenodo 20 Hz Re=413`) and AE (`Zenodo 10565566`) datasets before inspecting residuals |
 | **2. Deborah shear-fracture threshold ($\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1 \iff \hbar^2\omega^2 < 0$) & $2\pi n$ plaquette phase-slip holonomy** | {download}`IQ-Sampling-for-Signal-Phase.md, lines 15230–15568 <../data/chats/IQ-Sampling-for-Signal-Phase.md>`; {download}`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 470–495 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`; {download}`_Neutrons-and-Black-Holes-and-Fracture.md, lines 1175–1215 <../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md>` | `scholarly theory` / `calibration-required` | High (for mathematical GPE/viscoelastic algebra) | `Signals.DDF.grassmannian_bogoliubov_proca_and_deborah_fracture_identities`, `plaquette_phase_slip_syndrome`, `Signals.DFT.ddfFractureDeborahRatio` | Calibrate $\tau_{\mathrm{relax}}$ and $\sigma_{\mathrm{crit}}$ on `polyCBD` / superfluid-vortex (`Zenodo 20068724`) and fiber-optic strain (`Zenodo 20780049`) benchmarks |
-| **3. Four-way discrimination between DDF fracture waveguides ($p_{23}=0$) and $\mathrm{ER}=\mathrm{EPR}$ wormhole bridges ($\mathcal{C}_{\mathrm{EPR}}^2 = 4\|p_{23}\|^2 > 0$)** | {download}`_Neutrons-and-Black-Holes-and-Fracture.md, lines 861–954 <../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md>`; {download}`Superfluid-Gravity-and-Negative-Energy.md, lines 243–305 <../data/chats/Superfluid-Gravity-and-Negative-Energy.md>`; [Maldacena & Susskind (2013)](#ddffrac-maldacena2013); [Gao, Jafferis & Wall (2017)](#ddffrac-gjw2017) | `scholarly theory` (machine-checked in Lean 4 & Rust) | High | `Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`, `DDFFractureCommunicationEvidence` | Blinded two-channel experiment comparing unentangled acoustic/phonon waveguides against entangled quantum teleportation circuits |
-| **4. Hybrid fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver (`hybridFractureKeyedErEprRxProbability`)** | {download}`_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md, lines 1689–1785 <../data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md>`; [Gao, Jafferis & Wall (2017)](#ddffrac-gjw2017); [Jafferis et al. (2022)](#ddffrac-jafferis2022) | `calibration-required` (protocol algebra verified; hardware realization in `Signals.Pending`) | Medium–High | `Signals.DFT.hybridFractureKeyedErEprRxProbability`, `Signals.Pending.DDFFractureCommunicationEvidence` | Requires synchronized arrival-time calibration ($t_{\mathrm{arr}} \ge L_{\mathrm{path}}/c_{\mathrm{emergent}}$) and closed energy ledger (`energyClosed`) |
-| **5. Faster-than-light (FTL) fracture signaling or uncalibrated longitudinal Proca vacuum fracture beams** | {download}`src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md, lines 38–55 and 220–245 <../src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md>` | `unsupported` (explicitly rejected by `not_supported_by_noncausal_mode`) | Excluded | `Signals.Pending.DDFFractureCommunicationEvidence.not_supported_by_noncausal_mode`, `Signals.DFT.erEprNoSignalingMarginalA` | Strictly excluded: any superluminal (`ddfFractureCausalTransitMargin < 0`) or uncalibrated longitudinal mode rejects `HDDF` |
+| **3. Four-way discrimination between DDF fracture waveguides ($p_{23}=0$) and $\mathrm{ER}=\mathrm{EPR}$ wormhole bridges ($\mathcal{C}_{\mathrm{EPR}}^2 = 4\|p_{23}\|^2 > 0$) + Horodecki $2/3$ fidelity threshold** | {download}`_Neutrons-and-Black-Holes-and-Fracture.md, lines 861–954 <../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md>`; {download}`Superfluid-Gravity-and-Negative-Energy.md, lines 243–305 <../data/chats/Superfluid-Gravity-and-Negative-Energy.md>`; [Maldacena & Susskind (2013)](#ddffrac-maldacena2013); [Massar & Popescu (1995)](#ddffrac-massar1995); [Horodecki et al. (1999)](#ddffrac-horodecki1999) | `scholarly theory` (machine-checked in Lean 4 & Rust) | High | `Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`, `horodeckiAverageTeleportationFidelity` | Blinded two-channel experiment comparing unentangled acoustic/phonon waveguides against entangled quantum teleportation circuits |
+| **4. Hybrid Cayley-saturated fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver & dilatant corridor attenuation** | {download}`_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md, lines 1689–1785 <../data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md>`; [Gao, Jafferis & Wall (2017)](#ddffrac-gjw2017); [Jafferis et al. (2022)](#ddffrac-jafferis2022) | `calibration-required` (protocol algebra verified; hardware realization in `Signals.Pending`) | Medium–High | `Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability`, `ddfFractureAttenuatedCorridorGain`, `ddfFracturePassivePowerEfficiency` | Requires synchronized arrival-time calibration ($t_{\mathrm{arr}} \ge L_{\mathrm{path}}/c_{\mathrm{emergent}}$) and closed energy ledger (`energyClosed`) |
+| **5. Faster-than-light (FTL) fracture signaling, over-unity fracture energy extraction, or uncalibrated longitudinal Proca vacuum fracture beams** | {download}`src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md, lines 38–55 and 220–245 <../src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md>` | `unsupported` (explicitly rejected by `not_supported_by_noncausal_mode` & `ddfFracturePassivePowerEfficiency < 1`) | Excluded | `Signals.Pending.DDFFractureCommunicationEvidence.not_supported_by_noncausal_mode`, `Signals.DFT.erEprNoSignalingMarginalA` | Strictly excluded: any superluminal (`ddfFractureCausalTransitMargin < 0`) or uncalibrated longitudinal mode rejects `HDDF` |
 
 ---
 
@@ -359,6 +399,10 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
   <a id="ddffrac-costello2018"></a> **Costello, K., & Gaiotto, D. (2018).** *Twisted Holography.* `arXiv:1812.09257`.
 - (ddffrac-wootters1998)=
   <a id="ddffrac-wootters1998"></a> **Wootters, W. K. (1998).** *Entanglement of Formation of an Arbitrary State of Two Qubits.* Physical Review Letters, 80(10), 2245–2248. DOI: `10.1103/PhysRevLett.80.2245`.
+- (ddffrac-massar1995)=
+  <a id="ddffrac-massar1995"></a> **Massar, S., & Popescu, S. (1995).** *Optimal Extraction of Information from Finite Quantum Ensembles.* Physical Review Letters, 74(8), 1259–1263. DOI: `10.1103/PhysRevLett.74.1259`.
+- (ddffrac-horodecki1999)=
+  <a id="ddffrac-horodecki1999"></a> **Horodecki, M., Horodecki, P., & Horodecki, R. (1999).** *General teleportation channel, singlet fraction, and quasidistillation.* Physical Review A, 60(3), 1888–1898. `arXiv:quant-ph/9807091`. DOI: `10.1103/PhysRevA.60.1888`.
 - (ddffrac-reiner1964)=
   <a id="ddffrac-reiner1964"></a> **Reiner, M. (1964).** *The Deborah Number.* Physics Today, 17(1), 62. DOI: `10.1063/1.3051379`.
 - (ddffrac-haller2015)=

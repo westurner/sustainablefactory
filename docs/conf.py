@@ -227,6 +227,8 @@ def _compute_signals_blueprint_input_hash(signals_dir: Path) -> str:
             digest.update(b"\0")
             digest.update(path.read_bytes())
             digest.update(b"\0")
+    disable_eq = os.environ.get("DISABLE_EQUATIONS", "1")
+    digest.update(f"DISABLE_EQUATIONS={disable_eq}\0".encode("utf-8"))
     return digest.hexdigest()
 
 
@@ -242,6 +244,7 @@ def _build_signals_blueprint(app):
     stamp_path = build_dir / "sphinx-blueprint-inputs.sha256"
     web_index = signals_dir / "blueprint" / "web" / "index.html"
     api_index = build_dir / "doc" / "Signals.html"
+    linked_api_index = signals_dir / "blueprint" / "web" / "signals-api" / "Signals.html"
 
     current_hash = _compute_signals_blueprint_input_hash(signals_dir)
     if (
@@ -250,6 +253,7 @@ def _build_signals_blueprint(app):
         and stamp_path.read_text(encoding="utf-8").strip() == current_hash
         and web_index.is_file()
         and api_index.is_file()
+        and linked_api_index.is_file()
     ):
         return
 
@@ -285,6 +289,8 @@ def _copy_signals_blueprint(app, exception):
 
     repo_root = Path(__file__).resolve().parents[1]
     source = repo_root / "src" / "signals" / "blueprint" / "web"
+    if not source.is_dir():
+        return
     destination = Path(app.outdir) / "signals-blueprint"
     if destination.exists():
         shutil.rmtree(destination)
