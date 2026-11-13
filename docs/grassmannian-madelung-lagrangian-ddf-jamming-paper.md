@@ -105,7 +105,7 @@ Sections 2–4 below show how `Signals.DDF` and `madelung_lagrangian.rs` close b
 
 ### 2.1 Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density
 
-For a continuous bosonic superfluid condensate $\psi(\mathbf{x}, t) \in \mathbb{C}$ of boson mass $m_\phi > 0$ in an external potential $V_{\mathrm{ext}}$ with contact self-interaction coupling $g_\phi$, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is ([Madelung 1927](#mad-madelung1927); [Gross 1961](#mad-gross1961); [Pitaevskii 1961](#mad-pitaevskii1961)):
+For a continuous bosonic superfluid condensate $\psi(\mathbf{x}, t) \in \mathbb{C}$ of boson mass $m_\phi > 0$ in an external potential $V_{\mathrm{ext}}$ with contact self-interaction coupling $g_\phi$, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is ({cite:p}`mad-madelung1927`; {cite:p}`mad-gross1961`; {cite:p}`mad-pitaevskii1961`):
 
 $$
 \mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
@@ -184,7 +184,7 @@ A natural critique of the real hydrodynamic Lagrangian density $\mathcal{L}_{\ma
 
 ### 3.1 Variational Derivation of Longitudinal Sheath Compression $\Lambda_\parallel(v) = \gamma_\varphi(v)$
 
-In Marco Fedi's Dilatant Dark Fluid framework ([Fedi 2026](#mad-fedi2026); [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L49-L185)), the continuous $\phi$-superfluid coexists with a heavier dispersed dilatant phase ($\varphi$) of saturated jamming density $\varrho_{\max}^\varphi > 0$ and minimum compressibility $j_{\min}^\varphi > 0$, supporting transverse phonons at the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ (`DDFSubstrate.c`).
+In Marco Fedi's Dilatant Dark Fluid framework ({cite:p}`fedi2026ddf`; [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L49-L185)), the continuous $\phi$-superfluid coexists with a heavier dispersed dilatant phase ($\varphi$) of saturated jamming density $\varrho_{\max}^\varphi > 0$ and minimum compressibility $j_{\min}^\varphi > 0$, supporting transverse phonons at the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ (`DDFSubstrate.c`).
 
 When a massive vortex-core defect of rest mass $m > 0$ translates at subluminal velocity $v < c$ ($\beta = v/c \in [0, 1)$, $\beta^2 = v^2/c^2 < 1$) through the $\varphi$-substrate, the comoving acoustic wave operator acquires the anisotropic convective factor $1 - v^2/c^2 = 1 - \beta^2 > 0$ along the motion axis. Balancing longitudinal elastic compression of the sheath scale $\Lambda_\parallel > 0$ against the dilatant log-strain restoring potential defines the sheath-compression variational functional:
 
@@ -520,15 +520,15 @@ end ArxivMadelungLagrangianDdfJammingVerification
 
 (mad-chat-splat2026)=
 <a id="mad-chat-splat2026"></a>
-7. Provenance Chat Log (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence (Gross–Pitaevskii Equation, Madelung Transformation, Continuity & Quantum Pressure Euler Equations, and SQG/DDF Horizon Regularization)*. ({download}`data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 89-195 <../data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md>`).
+7. Turner, Wesley and Google Gemini (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence (Gross–Pitaevskii Equation, Madelung Transformation, Continuity & Quantum Pressure Euler Equations, and SQG/DDF Horizon Regularization)*. ({download}`data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 89-195 <../data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md>`).
 
 (mad-chat-gw2026)=
 <a id="mad-chat-gw2026"></a>
-8. Provenance Chat Log (2026). *Review Pop III GW Remnants (Dilatant Dark Fluid Strain-Thickened Bogoliubov Dispersion $g(k) = g_0(1 + \gamma k^2)$)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 621-660 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
+8. Turner, Wesley and Google Gemini (2026). *Review Pop III GW Remnants (Dilatant Dark Fluid Strain-Thickened Bogoliubov Dispersion $g(k) = g_0(1 + \gamma k^2)$)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 621-660 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
 
 (mad-chat-gravity2026)=
 <a id="mad-chat-gravity2026"></a>
-9. Provenance Chat Log (2026). *Gravity Models: Dilatant Fluid vs. GR (Lorentz Jamming Factor and Acoustic Horizon Physics)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 70-185 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
+9. Turner, Wesley and Google Gemini (2026). *Gravity Models: Dilatant Fluid vs. GR (Lorentz Jamming Factor and Acoustic Horizon Physics)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 70-185 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
 
 ---
 
@@ -570,7 +570,7 @@ end ArxivMadelungLagrangianDdfJammingVerification
 }
 
 @misc{chat_grassmannian_splat_gpe_madelung_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Grassmannian Splat Mechanics and Vortex Space Emergence: Gross-Pitaevskii Equation and Madelung Hydrodynamics},
   year         = {2026},
   howpublished = {AI chat log},
@@ -579,7 +579,7 @@ end ArxivMadelungLagrangianDdfJammingVerification
 }
 
 @misc{chat_pop_iii_gw_dilatant_bogoliubov_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Review Pop III GW Remnants: Dilatant Dark Fluid Bogoliubov Dispersion},
   year         = {2026},
   howpublished = {AI chat log},

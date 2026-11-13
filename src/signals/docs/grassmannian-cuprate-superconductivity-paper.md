@@ -269,7 +269,7 @@ pytest -q tests/test_qci_grassmannian_dft.py -k "problem01"
 ## 4. Evidentiary Boundaries (`Signals.Pending.CuprateSuperconductivityPendingHypothesis`)
 
 In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS.md)), `CuprateSuperconductivityPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6490-L6645) separates the machine-checked algebraic and constitutive theorems of `G-CSC` from unverified extrapolations:
-- While `G-CSC` quantitatively reproduces the 12 benchmark targets across known copper-oxide families (`LSCO`, `Tl2201`, `Bi2212`, `YBCO`, `Hg1201`) from their three-orbital Emery parameters $(t_{pd}, \Delta_{\mathrm{CT}}, U_d, U_p, |t'/t|)$, any claim of ambient-pressure room-temperature superconductivity in unmeasured synthetic heterostructures or carbon/vitrimer metasurfaces ([Provenance Chat Log: N-LIG Carbon Metasurface & HTS Band Structure (2026)](#cuprate-chat-nlig2026), line 2970; [Provenance Chat Log: Bauxite-Residue YBCO Fusion Tape Architecture (2026)](#cuprate-chat-ybco2026), line 3286) remains in `Signals.Pending` until validated by four-probe zero-resistance, Meissner flux expulsion, and phase-sensitive Josephson measurements.
+- While `G-CSC` quantitatively reproduces the 12 benchmark targets across known copper-oxide families (`LSCO`, `Tl2201`, `Bi2212`, `YBCO`, `Hg1201`) from their three-orbital Emery parameters $(t_{pd}, \Delta_{\mathrm{CT}}, U_d, U_p, |t'/t|)$, any claim of ambient-pressure room-temperature superconductivity in unmeasured synthetic heterostructures or carbon/vitrimer metasurfaces ([Turner, Wesley and Google Gemini: N-LIG Carbon Metasurface & HTS Band Structure (2026)](#cuprate-chat-nlig2026), line 2970; [Turner, Wesley and Google Gemini: Bauxite-Residue YBCO Fusion Tape Architecture (2026)](#cuprate-chat-ybco2026), line 3286) remains in `Signals.Pending` until validated by four-probe zero-resistance, Meissner flux expulsion, and phase-sensitive Josephson measurements.
 
 ---
 
@@ -318,10 +318,10 @@ In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS
 14. Dean, M. P. M. et al. (2013). *Persistence of Magnetic Excitations in $\mathrm{La_{2-x}Sr_xCuO_4}$ from the Undoped Insulator to the Heavily Overdoped Non-Superconducting Metal*. Nature Materials **12**, 1019–1023. [DOI: 10.1038/nmat3723](https://doi.org/10.1038/nmat3723).
 
 <a id="cuprate-chat-nlig2026"></a>
-15. Provenance Chat Log (2026). *Airy Beams and Communications and Illumination (N-LIG Carbon Metasurface & HTS Cuprate Band-Structure Analogy)*. ({download}`data/chats/_Airy-Beams-and-Communications-and-Illumination.md, lines 2965-2975 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`).
+15. Turner, Wesley and Google Gemini (2026). *Airy Beams and Communications and Illumination (N-LIG Carbon Metasurface & HTS Cuprate Band-Structure Analogy)*. ({download}`data/chats/_Airy-Beams-and-Communications-and-Illumination.md, lines 2965-2975 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`).
 
 <a id="cuprate-chat-ybco2026"></a>
-16. Provenance Chat Log (2026). *Carbon Cables: Method vs. Application (Bauxite-Residue Al-Sc / TiC / YBCO High-Field Superconducting Tape Architecture)*. ({download}`data/chats/_Carbon Cables_ Method vs. Application .md, lines 3285-3335 <../data/chats/_Carbon Cables_ Method vs. Application .md>`).
+16. Turner, Wesley and Google Gemini (2026). *Carbon Cables: Method vs. Application (Bauxite-Residue Al-Sc / TiC / YBCO High-Field Superconducting Tape Architecture)*. ({download}`data/chats/_Carbon Cables_ Method vs. Application .md, lines 3285-3335 <../data/chats/_Carbon Cables_ Method vs. Application .md>`).
 
 ---
 

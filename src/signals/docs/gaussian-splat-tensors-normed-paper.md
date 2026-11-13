@@ -538,8 +538,8 @@ end NormedTensorGaussianSplatPaperVerification
 - <a id="kerbl2023"></a> Kerbl, B., Kopanas, G., Leimkühler, T., & Drettakis, G. (2023). 3D Gaussian Splatting for Real-Time Radiance Field Rendering. *ACM Transactions on Graphics (SIGGRAPH 2023)*, 42(4), 139:1–139:14. DOI: `10.1145/3592433`.
 - <a id="zwicker2001"></a> Zwicker, M., Pfister, H., van Baar, J., & Gross, M. (2001). EWA Volume Splatting. *Proceedings of IEEE Visualization 2001*, 29–36. DOI: `10.1109/VISUAL.2001.964490`.
 - <a id="fedi2026"></a> Fedi, M. (2026). Dilatant Dark Fluid: Quantum-Hydrodynamic Lorentz Jamming and Acoustic Horizon Mechanics. *SSRN Electronic Journal*, SSRN 7406660.
-- <a id="splat-chat2026"></a> Provenance Chat Log (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence*. Local corpus: [data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 658–1435](../data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L658-L1435).
-- <a id="lbgpc-chat2026"></a> Provenance Chat Log (2026). *LBGPC Fluid Datacenter Energy Savings*. Local corpus: [docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md, lines 2218–2518](chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2518).
+- <a id="splat-chat2026"></a> Turner, Wesley and Google Gemini (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence*. Local corpus: [data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 658–1435](../data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L658-L1435).
+- <a id="lbgpc-chat2026"></a> Turner, Wesley and Google Gemini (2026). *LBGPC Fluid Datacenter Energy Savings*. Local corpus: [docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md, lines 2218–2518](chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2518).
 
 ```bibtex
 @article{kerbl2023_3dgs,
@@ -563,7 +563,7 @@ end NormedTensorGaussianSplatPaperVerification
 }
 
 @misc{chat_grassmannian_splat_mechanics_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Grassmannian Splat Mechanics and Vortex Space Emergence},
   year         = {2026},
   howpublished = {AI chat log},
@@ -571,7 +571,7 @@ end NormedTensorGaussianSplatPaperVerification
 }
 
 @misc{chat_lbgpc_fluid_datacenter_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {LBGPC Fluid Datacenter Energy Savings},
   year         = {2026},
   howpublished = {AI chat log},

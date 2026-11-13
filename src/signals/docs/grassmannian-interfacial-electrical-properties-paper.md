@@ -266,7 +266,7 @@ pytest -q tests/test_qci_grassmannian_dft.py -k "problem02"
 ## 4. Evidentiary Boundaries (`Signals.Pending.InterfacialElectricalPropertiesPendingHypothesis`)
 
 In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS.md)), `InterfacialElectricalPropertiesPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6720-L6865) separates the machine-checked algebraic and constitutive theorems of `G-IEP` from chamber-specific experimental calibrations:
-- Real semiconductor oxidation furnaces, rapid thermal annealing (`RTA`) chambers, and atomic-layer deposition (`ALD`) reactors exhibit tool-to-tool variations in trace $\mathrm{H_2O}$ / $\mathrm{H}$ partial pressures, ramp/cooling thermal gradients, and wet-clean surface microroughness ([Provenance Chat Log: Sub-10 nm FET Gate Oxide & Dangling-Bond Isolation (2026)](#giep-chat-fet2026), line 34; [Provenance Chat Log: 2 nm Logic EOT & High-k Gate Dielectrics (2026)](#giep-chat-eot2026), line 1526; [Provenance Chat Log: GAAFET Sub-2 nm Wafer Surface Topology (2026)](#giep-chat-gaafet2026), line 558).
+- Real semiconductor oxidation furnaces, rapid thermal annealing (`RTA`) chambers, and atomic-layer deposition (`ALD`) reactors exhibit tool-to-tool variations in trace $\mathrm{H_2O}$ / $\mathrm{H}$ partial pressures, ramp/cooling thermal gradients, and wet-clean surface microroughness ([Turner, Wesley and Google Gemini: Sub-10 nm FET Gate Oxide & Dangling-Bond Isolation (2026)](#giep-chat-fet2026), line 34; [Turner, Wesley and Google Gemini: 2 nm Logic EOT & High-k Gate Dielectrics (2026)](#giep-chat-eot2026), line 1526; [Turner, Wesley and Google Gemini: GAAFET Sub-2 nm Wafer Surface Topology (2026)](#giep-chat-gaafet2026), line 558).
 
 ---
 
@@ -297,13 +297,13 @@ In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS
 8. Rabie, M. A., Haddara, Y. M., and Carette, J. (2005). *Analytical Model for Thermal Oxidation of $\mathrm{SiGe}$ Alloys*. Journal of Applied Physics **98**(7), 074904. [DOI: 10.1063/1.2060927](https://doi.org/10.1063/1.2060927).
 
 <a id="giep-chat-fet2026"></a>
-9. Provenance Chat Log (2026). *FET Gate Length Limits on Lignin Vitrimer (Dangling Bonds, Oxygen Vacancies, High-k $\mathrm{HfO_2}$ Isolation, & Subthreshold Swing)*. ({download}`data/chats/_FET-Gate-Length-Limits-on-Lignin-Vitrimer.md, lines 30-40 <../data/chats/_FET-Gate-Length-Limits-on-Lignin-Vitrimer.md>`).
+9. Turner, Wesley and Google Gemini (2026). *FET Gate Length Limits on Lignin Vitrimer (Dangling Bonds, Oxygen Vacancies, High-k $\mathrm{HfO_2}$ Isolation, & Subthreshold Swing)*. ({download}`data/chats/_FET-Gate-Length-Limits-on-Lignin-Vitrimer.md, lines 30-40 <../data/chats/_FET-Gate-Length-Limits-on-Lignin-Vitrimer.md>`).
 
 <a id="giep-chat-eot2026"></a>
-10. Provenance Chat Log (2026). *CNT Bandgap Creation with Lignin Vitrimer (2 nm Node $< 1\text{ nm}$ Equivalent Oxide Thickness & High-k $\mathrm{HfO_2}$ ALD)*. ({download}`data/chats/CNT Bandgap Creation with Lignin Vitrimer .md, lines 1525-1550 <../data/chats/CNT Bandgap Creation with Lignin Vitrimer .md>`).
+10. Turner, Wesley and Google Gemini (2026). *CNT Bandgap Creation with Lignin Vitrimer (2 nm Node $< 1\text{ nm}$ Equivalent Oxide Thickness & High-k $\mathrm{HfO_2}$ ALD)*. ({download}`data/chats/CNT Bandgap Creation with Lignin Vitrimer .md, lines 1525-1550 <../data/chats/CNT Bandgap Creation with Lignin Vitrimer .md>`).
 
 <a id="giep-chat-gaafet2026"></a>
-11. Provenance Chat Log (2026). *IQ Sampling for Signal Phase (Sub-2 nm GAAFET Wafer Surface Topology Metrology)*. ({download}`data/chats/IQ-Sampling-for-Signal-Phase.md, lines 555-565 <../data/chats/IQ-Sampling-for-Signal-Phase.md>`).
+11. Turner, Wesley and Google Gemini (2026). *IQ Sampling for Signal Phase (Sub-2 nm GAAFET Wafer Surface Topology Metrology)*. ({download}`data/chats/IQ-Sampling-for-Signal-Phase.md, lines 555-565 <../data/chats/IQ-Sampling-for-Signal-Phase.md>`).
 
 ---
 

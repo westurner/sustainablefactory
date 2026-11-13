@@ -451,8 +451,8 @@ end SU4WittenTwistorStringCHYUnificationVerification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026grassmannian_su4_witten_chy,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_su4_witten_chy,
+  author  = {Turner, Wesley},
   title   = {{$\mathrm{SU}(4)$} Symmetry, {W}itten's Twistor String Theory, Lower {G}rassmannians in {$\mathrm{Gr}_{\mathbb{R}}$} and {$\mathrm{Gr}_{\mathbb{C}}$}, Relative Merits of {C}achazo ({CSW} / {BCFW} / {H}odges / {CHY}) vs. {DDF} vs. {T}urner Models, and Grand Unification with the Holographic Principle and {AdS/CFT} in {L}ean 4, {R}ust, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

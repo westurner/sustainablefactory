@@ -505,7 +505,7 @@ end QciNextConceptModelingPaper39Verification
 }
 
 @misc{chat_a2q_nlig_blig_steering,
-  author       = {Turner, Wes and {Gemini}},
+  author       = {Turner, Wesley and {Gemini}},
   title        = {Read our A2Q and quantum review chats about N-LIG and B-LIG; hardware implementation of LLMs with steering layers},
   year         = {2026},
   howpublished = {AI chat log},
@@ -513,7 +513,7 @@ end QciNextConceptModelingPaper39Verification
 }
 
 @misc{chat_llms_fourier_quantum_logic,
-  author       = {Turner, Wes and {Gemini}},
+  author       = {Turner, Wesley and {Gemini}},
   title        = {LLMs, Fourier, and Quantum Logic},
   year         = {2026},
   howpublished = {AI chat log},

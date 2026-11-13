@@ -225,30 +225,9 @@ end SemiDiracApplication4AndPhaseLasingVerification
 
 ## References
 
-(sd32-shao2024)=
-<a id="sd32-shao2024"></a>
-1. **Shao, Y., et al. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057 (`arXiv:2311.03735`). `https://doi.org/10.1103/PhysRevX.14.041057`
-
-(sd32-zhou2021)=
-<a id="sd32-zhou2021"></a>
-2. **Zhou, H., Xie, T., Taniguchi, T., Watanabe, K., & Young, A. F. (2021).** *Superconductivity in rhombohedral trilayer graphene.* Nature, 598, 434–438. `https://doi.org/10.1038/s41586-021-03926-0`
-
-(sd32-han2025)=
-<a id="sd32-han2025"></a>
-3. **Han, T., et al. (2025).** *Signatures of chiral superconductivity in rhombohedral graphene.* Nature, 643, 654–661. `https://doi.org/10.1038/s41586-025-09169-7`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026semi_dirac_qudit_phase_lasing_kicad,
-  author  = {Turner, Wes},
-  title   = {Etch-Free 1{D} Semi-{D}irac Topological {M}ajorana ({MZM}), {$\mathbb{Z}_6$} Parafermion, {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} {P}l{\"u}cker, and Phase-Steered Helical {N-LIG} {OAM} Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-{RIE} {$D_{\mathrm{it}}$} Suppression, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"han2025chiral_sc", "sd32-shao2024", "zhou2021rtg_sc"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

@@ -184,8 +184,8 @@ end SemiDiracSolitonBusPaper33Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026semi_dirac_soliton_bus_qram,
-  author  = {Turner, Wes},
+@unpublished{turner2026semi_dirac_soliton_bus_qram,
+  author  = {Turner, Wesley},
   title   = {Revised Semi-{D}irac and Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} / {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} Soliton Bus Architecture: Dispersionless {$y$}-Channeling, {$C_8$} Star-Via Ancilla Hubs, Slow-Light {N-LIG} {CROW} Delay Lines, Tiered 128-to-64-Bit {RDMA} {LUT-CORDIC} {QRAM}, {$\mathrm{CO}_2$}-Carbonate {$\chi^{(3)}$} {CNOT} Gates, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

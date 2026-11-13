@@ -72,7 +72,7 @@ category ([fracture-toughness comparison](https://github.com/westurner/sustainab
 
 Crossref/IEEE metadata confirms a June 2026 conference publication titled
 "Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave
-Electronic Systems" ([Xu et al. 2026](#xu2026)). That supports the existence
+Electronic Systems" {cite:p}`xu2026`. That supports the existence
 of a relevant substrate study, not the additional details inserted into the
 chat. The full paper was not retrievable from IEEE in this review, so its exact
 polymer formulation, test fixtures, frequency span, uncertainty, and measured

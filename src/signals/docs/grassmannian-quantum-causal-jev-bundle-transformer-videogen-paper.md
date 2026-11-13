@@ -630,8 +630,8 @@ end QuantumCausalJevBundleTransformerVideogenPaperVerification
 ### BibTeX Entries
 
 ```bibtex
-@article{turner2026grassmannian_quantum_causal_jev_bundle_videogen,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_quantum_causal_jev_bundle_videogen,
+  author  = {Turner, Wesley},
   title   = {Quantum Causal {G}rassmannian {T}ransformers, {JEV} vs. {$\operatorname{do}$}-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
@@ -677,7 +677,7 @@ end QuantumCausalJevBundleTransformerVideogenPaperVerification
   doi     = {10.48550/arXiv.2512.19428}
 }
 
-@misc{kanenorman2026grassmann,
+@article{kanenorman2026grassmann,
   author       = {Norman, Kane},
   title        = {Reproduction of {A}ttention {I}s {N}ot {W}hat {Y}ou {N}eed},
   year         = {2026},
@@ -686,7 +686,7 @@ end QuantumCausalJevBundleTransformerVideogenPaperVerification
 }
 
 @misc{chat_llms_fourier_quantum_logic,
-  author       = {Turner, Wes and {Google Gemini}},
+  author       = {Turner, Wesley and {Google Gemini}},
   title        = {{LLMs}, {F}ourier, and Quantum Logic},
   year         = {2026},
   howpublished = {AI chat log},

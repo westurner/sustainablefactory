@@ -584,11 +584,11 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 
 (hubble-chat2026)=
 <a id="hubble-chat2026"></a>
-10. Provenance Chat Log (2026). *Hubble Sensor Design: Dual $4096 \times 2048$ CCDs, 50-Pixel Gap, $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$ vs. $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)$, FITS Liberator Linearity, and Rust 8-Connected Cosmic-Ray Analysis*. Local corpus: {download}`data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 1–950 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`.
+10. Turner, Wesley and Google Gemini (2026). *Hubble Sensor Design: Dual $4096 \times 2048$ CCDs, 50-Pixel Gap, $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$ vs. $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)$, FITS Liberator Linearity, and Rust 8-Connected Cosmic-Ray Analysis*. Local corpus: {download}`data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 1–950 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`.
 
 (lvp-medical-chat2026)=
 <a id="lvp-medical-chat2026"></a>
-11. Provenance Chat Log (2026). *IQ Sampling for Signal Phase: LVP Medical Imaging Arrays (Direct Conversion X-Ray), Proca Waves for Topological Medical Scans, and Ångström Resolution Limits*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 5891–6140](chats/IQ-Sampling-for-Signal-Phase.myst.md#L5891-L6140).
+11. Turner, Wesley and Google Gemini (2026). *IQ Sampling for Signal Phase: LVP Medical Imaging Arrays (Direct Conversion X-Ray), Proca Waves for Topological Medical Scans, and Ångström Resolution Limits*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 5891–6140](chats/IQ-Sampling-for-Signal-Phase.myst.md#L5891-L6140).
 
 (williamson2024layer)=
 <a id="williamson2024layer"></a>
@@ -608,7 +608,7 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 
 (layer-coding-chat2026)=
 <a id="layer-coding-chat2026"></a>
-16. Provenance Chat Logs (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: {download}`data/chats/Gemini-_08.md, lines 835–1165 <../data/chats/Gemini-_08.md>`, {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 3537–3705 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`, and {download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`.
+16. Turner, Wesley and Google Geminis (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: {download}`data/chats/Gemini-_08.md, lines 835–1165 <../data/chats/Gemini-_08.md>`, {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 3537–3705 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`, and {download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`.
 
 ```bibtex
 @misc{chat_hubble_sensor_design_2026,

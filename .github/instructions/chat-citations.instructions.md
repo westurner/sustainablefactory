@@ -34,7 +34,7 @@ Recommended fields:
 Example:
 ```bibtex
 @misc{chat_algae_nitrogen,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Algae: A Natural Nitrogen Fertilizer},
   year         = {2026},
   howpublished = {AI chat log},

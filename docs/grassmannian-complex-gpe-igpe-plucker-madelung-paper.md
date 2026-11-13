@@ -27,7 +27,7 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
 
 In our earlier formalizations of Madelung quantum hydrodynamics ([grassmannian-madelung-lagrangian-ddf-jamming-paper.md](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)) and Inverse Gross–Pitaevskii (`iGPE`) potential unwinding ([grassmannian-hawking-radiation-decoding-paper.md](grassmannian-hawking-radiation-decoding-paper.md)), the Gross–Pitaevskii Lagrangian density $\mathcal{L}_{\mathrm{GP}}$ and Quantum Hamilton–Jacobi (QHJ) equation were formulated on 4D spacetime $\mathbb{R}^{1,3}$, while the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ entered through boundary Plücker channel matrices $M_{\mathbb{C}}(z_1, z_2)$ encoding reduced sheath velocity $\beta = v/c$, orbital eccentricity $e$, or $\text{AdS}_5$ black-brane emblackening.
 
-In this paper—motivated by and auditing the research derivation in [Gemini: Grassmannian Gross–Pitaevskii Equation Formulation (2026)](#cgpe-chat-gpe2026) ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1-1458 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`)—we lift the Gross–Pitaevskii equation, the coupled interactive/inverse `iGPE`, and the Madelung transformation **directly onto the Kähler manifold $Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ without the positive Grassmannian ($Gr^+(2,4)$) restriction**, and machine-check the resulting theorems in Lean 4 (`Signals.DDF` and `Signals.Pending`) and Rust/WebAssembly (`madelung_lagrangian.rs`):
+In this paper—motivated by and auditing the research derivation in {cite:p}`chat_grassmannian_gpe_2026` ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1-1458 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`)—we lift the Gross–Pitaevskii equation, the coupled interactive/inverse `iGPE`, and the Madelung transformation **directly onto the Kähler manifold $Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ without the positive Grassmannian ($Gr^+(2,4)$) restriction**, and machine-check the resulting theorems in Lean 4 (`Signals.DDF` and `Signals.Pending`) and Rust/WebAssembly (`madelung_lagrangian.rs`):
 
 1. **Homogeneous Plücker 6-Vector Geometry on $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$, Hodge-Dual Involution, & Corrected Hermitian Tangent Projector $\mathcal{H}^{I\bar{J}}$ (`plucker_hodge_klein_quadric_and_projector_identities`)**:
    Every $2 \times 4$ complex twistor matrix $Z \in \mathbb{C}^{2 \times 4}$ maps to a 6-component Plücker vector $p(Z) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}) \in \mathbb{C}^6$ (`twistorToPluckerVec`) satisfying the Klein quadric constraint $\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}^I = 2(p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12}) = 0$ (`OnKleinQuadric`), where $\tilde{p} = (p_{23}, -p_{13}, p_{12}, p_{03}, -p_{02}, p_{01})$ is the Hodge dual (`pluckerHodgeDual`). We prove that $\tilde{\tilde{p}} = p$ and $\|\tilde{p}\|^2 = \|p\|^2$, and we resolve a subtle complex-conjugation bug in the raw chat SymPy script (lines 1108, 1219–1232): over $\mathbb{C}^6$, the Hermitian normal to the holomorphic quadric $\mathcal{C}(p) = 0$ is the **conjugate** Hodge dual $n_I(p) = \overline{\tilde{p}_I}$ (`pluckerConjHodgeNormal`), for which $\langle p, \overline{\tilde{p}}\rangle = \overline{\mathcal{C}(p)} = 0$ and the intrinsic contravariant Plücker metric operator $\mathcal{H}(p, \bar{p})\,v = \|p\|^2 v - \langle p, v\rangle p - \langle \overline{\tilde{p}}, v\rangle \overline{\tilde{p}}$ (`pluckerContravariantMetricApply`) annihilates both radial Euler scaling ($\mathcal{H}\,p = 0$) and quadric normal variations ($\mathcal{H}\,\overline{\tilde{p}} = 0$) identically.
@@ -49,7 +49,7 @@ In this paper—motivated by and auditing the research derivation in [Gemini: Gr
 
 ## 1. Architectural Synthesis: How Intrinsic Complex Grassmannian GPE/iGPE Extends Existing `Signals` Models
 
-A central question when reviewing [Gemini: Grassmannian Gross–Pitaevskii Equation Formulation (2026)](#cgpe-chat-gpe2026) is: **what was already implemented in `Signals`, and what new mathematical capabilities does the intrinsic $Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ formulation provide?**
+A central question when reviewing {cite:p}`chat_grassmannian_gpe_2026` is: **what was already implemented in `Signals`, and what new mathematical capabilities does the intrinsic $Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ formulation provide?**
 
 ```{mermaid}
 flowchart TB
@@ -88,7 +88,7 @@ With this extension, `Signals` provides machine-checked definitions and theorems
 
 ### 2.1 Plücker Embedding, Hodge Duality, and the Klein Quadric $\mathcal{Q}_4$
 
-In homogeneous twistor coordinates ([Penrose 1967](#cgpe-penrose1967); [Penrose 1976](#cgpe-penrose1976); [Arkani-Hamed and Trnka 2014](#cgpe-arkani2014)), a 2-plane in $\mathbb{C}^4$ represented by a $2 \times 4$ matrix $Z \in \mathbb{C}^{2 \times 4}$ maps via `twistorToPluckerVec` to the 6-component Plücker vector $p(Z) = (p_0, p_1, p_2, p_3, p_4, p_5) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}) \in \mathbb{C}^6$ ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 14-35 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`).
+In homogeneous twistor coordinates ({cite:p}`penrose1967twistor`; {cite:p}`penrose1976nonlinear`; {cite:p}`arkani2014amplituhedron`), a 2-plane in $\mathbb{C}^4$ represented by a $2 \times 4$ matrix $Z \in \mathbb{C}^{2 \times 4}$ maps via `twistorToPluckerVec` to the 6-component Plücker vector $p(Z) = (p_0, p_1, p_2, p_3, p_4, p_5) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}) \in \mathbb{C}^6$ ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 14-35 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`).
 
 Defining the **Hodge-dual Plücker 6-vector** (`pluckerHodgeDual`, lines 1110, 1249–1256):
 
@@ -104,7 +104,7 @@ $$
 
 ### 2.2 Mathematical Audit & Correction of the Chat's SymPy Contravariant Metric Projector
 
-In Section 1 and Section 4 of [Gemini: Grassmannian Gross–Pitaevskii Equation Formulation (2026)](#cgpe-chat-gpe2026) ({download}`lines 1106-1114 and 1200-1236 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`), the chat defines $\tilde{p} = \eta p$ without complex conjugation and writes the contravariant metric projector on $\mathbb{C}^6$ as:
+In Section 1 and Section 4 of {cite:p}`chat_grassmannian_gpe_2026` ({download}`lines 1106-1114 and 1200-1236 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`), the chat defines $\tilde{p} = \eta p$ without complex conjugation and writes the contravariant metric projector on $\mathbb{C}^6$ as:
 
 $$
 \mathcal{H}_{\mathrm{raw}}^{I\bar{J}} = \|p\|^2\left(\delta^{IJ} - \frac{p^I\bar{p}^J}{\|p\|^2} - \frac{\tilde{p}^I\bar{\tilde{p}}^J}{\|p\|^2}\right).
@@ -459,7 +459,7 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 7. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660. [DOI: 10.2139/ssrn.7406660](https://doi.org/10.2139/ssrn.7406660).
 
 <a id="cgpe-chat-gpe2026"></a>
-8. Provenance Chat Log (2026). *Grassmannian Gross–Pitaevskii Equation Formulation*. ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1-1458 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`).
+8. Turner, Wesley and Google Gemini (2026). *Grassmannian Gross–Pitaevskii Equation Formulation*. ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1-1458 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`).
 
 ---
 
@@ -500,7 +500,7 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 }
 
 @misc{chat_grassmannian_gpe_2026,
-  author       = {Turner, Wes and {Gemini}},
+  author       = {Turner, Wesley and {Gemini}},
   title        = {Grassmannian {Gross--Pitaevskii} Equation Formulation},
   year         = {2026},
   howpublished = {AI research chat log},

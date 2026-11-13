@@ -242,8 +242,8 @@ end SemiDiracApplication4AndPhaseLasingVerification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026semi_dirac_qudit_phase_lasing_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026semi_dirac_qudit_phase_lasing_kicad,
+  author  = {Turner, Wesley},
   title   = {Etch-Free 1{D} Semi-{D}irac Topological {M}ajorana ({MZM}), {$\mathbb{Z}_6$} Parafermion, {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} {P}l{\"u}cker, and Phase-Steered Helical {N-LIG} {OAM} Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-{RIE} {$D_{\mathrm{it}}$} Suppression, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

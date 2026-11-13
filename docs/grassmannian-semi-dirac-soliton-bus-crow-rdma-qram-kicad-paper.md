@@ -167,30 +167,9 @@ end SemiDiracSolitonBusPaper33Verification
 
 ## References
 
-(sb33-kivshar1993)=
-<a id="sb33-kivshar1993"></a>
-1. **Kivshar, Y. S., & Quiroga-Teixeiro, M. L. (1993).** *Influence of cross-phase modulation on soliton switching in nonlinear optical fibers.* Optics Letters, 18(12), 980–982. `https://doi.org/10.1364/OL.18.000980`
-
-(sb33-shao2024)=
-<a id="sb33-shao2024"></a>
-2. **Shao, Y., et al. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057 (`arXiv:2311.03735`). `https://doi.org/10.1103/PhysRevX.14.041057`
-
-(sb33-dean2025)=
-<a id="sb33-dean2025"></a>
-3. **Dean, et al. (2025).** *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance.* Nature (`arXiv:2509.26425`). `https://doi.org/10.1038/s41586-025-09959-z`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026semi_dirac_soliton_bus_qram,
-  author  = {Turner, Wes},
-  title   = {Revised Semi-{D}irac and Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} / {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} Soliton Bus Architecture: Dispersionless {$y$}-Channeling, {$C_8$} Star-Via Ancilla Hubs, Slow-Light {N-LIG} {CROW} Delay Lines, Tiered 128-to-64-Bit {RDMA} {LUT-CORDIC} {QRAM}, {$\mathrm{CO}_2$}-Carbonate {$\chi^{(3)}$} {CNOT} Gates, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"kivshar1993solitonSwitching", "pol-dean2025", "sb33-shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

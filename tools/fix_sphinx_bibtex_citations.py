@@ -165,6 +165,7 @@ def fix_text(
         if not group_links:
             continue
         keys: list[str] = []
+        candidate_starts: list[int] = []
         all_eligible = True
         previous_end = 0
         for body_link in group_links:
@@ -178,10 +179,11 @@ def fix_text(
                 all_eligible = False
                 break
             keys.append(eligible_link[1])
-            grouped_links.add(absolute_start)
+            candidate_starts.append(absolute_start)
             previous_end = body_link.end()
         if not all_eligible or body[previous_end:].strip(" \t\r\n,"):
             continue
+        grouped_links.update(candidate_starts)
         replacements.append(
             (group.start(), group.end(), f"{{cite:{role}}}`{','.join(keys)}`")
         )

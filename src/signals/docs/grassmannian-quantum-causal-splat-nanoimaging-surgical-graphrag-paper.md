@@ -617,8 +617,8 @@ Following the repository's research evidence boundaries (`AGENTS.md`), we mainta
 ### BibTeX Entries
 
 ```bibtex
-@article{turner2026beyond6400x_jeffrey_splat_graphrag,
-  author  = {Turner, Wes},
+@unpublished{turner2026beyond6400x_jeffrey_splat_graphrag,
+  author  = {Turner, Wesley},
   title   = {Beyond 6,400x Volumetric Efficiency: {J}effrey's Kinematic Engine, Normed Tensor {G}aussian Splat Nanoimaging \& Surgical Navigation, and Quantum Causal Semantic {GraphRAG} in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

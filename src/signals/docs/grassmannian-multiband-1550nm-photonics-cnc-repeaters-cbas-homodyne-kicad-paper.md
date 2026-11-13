@@ -186,8 +186,8 @@ end IntegratedMultiBandPhotonicsPaper34Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026multiband_1550nm_cnc_cbas_photonics,
-  author  = {Turner, Wes},
+@unpublished{turner2026multiband_1550nm_cnc_cbas_photonics,
+  author  = {Turner, Wesley},
   title   = {Integrated Multi-Band Classical and Quantum Photonics (405--1550 nm \& 400--800 {GHz}): Periodic Cellulose Nanocrystal ({CNC}) {$\chi^{(2)}$} Signal Boosters in {N-LIG} Waveguides, Adiabatic Scarf-Joint {$c$-BAs} Plasmonic-Slot Homodyne Detectors, 590 nm {$n$}-Adamantane {NV} {P}urcell Dowsing, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

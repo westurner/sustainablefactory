@@ -515,8 +515,8 @@ end MadnessTequilaPlabicVRCVerification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026madness_tequila_plabic_vrc,
-  author  = {Turner, Wes},
+@unpublished{turner2026madness_tequila_plabic_vrc,
+  author  = {Turner, Wesley},
   title   = {Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations ({VRC}), and Unrestricted {G}rassmannian Quantum Chemistry ({QCI-GXC}) in {MADNESS} Multiwavelet {MRA-PNO} and {T}equila for Computational Advantage},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

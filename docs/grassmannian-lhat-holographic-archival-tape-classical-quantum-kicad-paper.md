@@ -120,26 +120,9 @@ end LhatHolographicArchivalTapePaper37Verification
 
 ## References
 
-(lhat37-reddy1996)=
-<a id="lhat37-reddy1996"></a>
-1. **Reddy, B. S., & Chatterji, B. N. (1996).** *An FFT-based technique for translation, rotation, and scale-invariant image registration.* IEEE Transactions on Image Processing, 5(8), 1266–1271. `https://doi.org/10.1109/83.506761`
-
-(lhat37-montarnal2011)=
-<a id="lhat37-montarnal2011"></a>
-2. **Montarnal, D., Capelot, M., Tournilhac, F., & Leibler, L. (2011).** *Silica-like malleable materials from permanent organic networks.* Science, 334(6058), 965–968. `https://doi.org/10.1126/science.1212648`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026lhat_holographic_archival_tape,
-  author  = {Turner, Wes},
-  title   = {Lignolux Holographic Archival Tape ({LHAT}, 12 $\mu$m $\times$ 10 km, 720 {TB} Raw / 480 {TB} Usable vs.\ 18 {TB} {LTO-9}): 3,000$\times$ {OAM}-{B}ragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar $64\times 64$ {FFT} Tracking, 182 fs {VACNT} {K}apitza Quench, and 635 nm {QFT-RK} Selective Rewritability in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"lhat37-montarnal2011", "lhat37-reddy1996"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

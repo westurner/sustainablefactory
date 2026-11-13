@@ -49,6 +49,14 @@ def test_convert_verified_parenthetical_citation_group_and_leave_heading_link():
     assert any(item["status"] == "not-author-year-link" for item in findings)
 
 
+def test_convert_author_year_link_inside_mixed_parenthetical_group():
+    source = "([Author et al. 2020](#paper), [Methods](#methods))\n"
+
+    corrected, _ = fix_text(source, {"paper", "methods"}, {"paper"}, {})
+
+    assert corrected == "({cite:p}`paper`, [Methods](#methods))\n"
+
+
 def test_require_alias_and_bibtex_entry_before_rewriting():
     source = "[Wan et al. 2018](#wan2018)\n[Missing et al. 2020](#missing2020)\n"
 

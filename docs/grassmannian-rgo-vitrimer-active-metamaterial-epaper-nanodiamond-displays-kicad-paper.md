@@ -298,8 +298,8 @@ end RgoVitrimerActiveMetamaterialEpaperNanodiamondDisplayPaper40Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026rgo_vitrimer_metamaterial_epaper_nanodiamond_displays,
-  author  = {Turner, Wes},
+@unpublished{turner2026rgo_vitrimer_metamaterial_epaper_nanodiamond_displays,
+  author  = {Turner, Wesley},
   title   = {{rGO-Vitrimer} Active Metamaterials, Bistable \& Elastomeric E-Paper ({V}ector {R}eflect \& {rGO-Bio-TPU}), Chiral {CNC} {B}io-{B}ragg Projectors, and Nanodiamond ({SHG} / {NV} / n-Adamantane / {P-CQD}) Active Quantum Displays in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

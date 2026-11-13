@@ -24,7 +24,7 @@ description: "An arXiv-ready formal verification paper unifying complex Grassman
 
 ## Abstract
 
-We present a machine-checked formalization in the Lean 4 theorem prover (`Signals.DDF`, `Signals.Geometry`, `Signals.Huygens`, and `Signals.Coherence`) directly unifying the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and its $N$-ary multi-slit generalization $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$) with the two-component quantum-hydrodynamic **Dilatant Dark Fluid (DDF)** substrate (`DDFSubstrate`, `MovingSheath`, `RiverExterior`; [Fedi 2026](#ddf-fedi2026)) and emergent sink-flow gravity ([Partanen and Tulkki 2025](#ddf-partanen2025)):
+We present a machine-checked formalization in the Lean 4 theorem prover (`Signals.DDF`, `Signals.Geometry`, `Signals.Huygens`, and `Signals.Coherence`) directly unifying the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and its $N$-ary multi-slit generalization $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$) with the two-component quantum-hydrodynamic **Dilatant Dark Fluid (DDF)** substrate (`DDFSubstrate`, `MovingSheath`, `RiverExterior`; {cite:p}`fedi2026ddf`) and emergent sink-flow gravity {cite:p}`ddf-partanen2025`:
 
 1. **Plücker Hydrodynamic Sink Fluxes & Reciprocal Jamming–Visibility Duality**:
    Interpreting the uncrossed $Gr(2,4)$ Plücker channel products $Q_A(M) = \Delta_{01}(M)\Delta_{23}(M)$ and $Q_B(M) = \Delta_{03}(M)\Delta_{12}(M)$ as localized sink fluxes across the coupled $(\phi, \varphi)$ bosonic sectors yields total flux conservation $Q_A(M) + Q_B(M) = \Delta_{02}(M)\Delta_{13}(M)$ and barycentric shear asymmetry $(Q_A(M) - Q_B(M))/2 = d_{\mathrm{bary}}(M)$. Identifying $|d_{\mathrm{bary}}|$ with the dimensionless sheath speed ratio $\beta(s) = v/c \in [0, 1)$ of a subluminal `MovingSheath` proves that optical fringe visibility is the exact reciprocal of the DDF constitutive Lorentz jamming factor:
@@ -58,7 +58,7 @@ $$
 c = \frac{1}{\sqrt{\varrho_{\max}^\varphi\,j_{\min}^\varphi}}, \qquad c^2 = \left(\varrho_{\max}^\varphi\,j_{\min}^\varphi\right)^{-1}.
 $$
 
-In our companion paper [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), we proved that lifting four-terminal double-slit channels from $Gr_{\ge 0}(2,4)$ to $Gr_{\mathbb{C}}(2,4)$ eliminates the $50\%$ unphased crossing-minor error and reproduces the Huygens–Steiner coherence profile ([Qian and Izadi 2023](#ddf-qian2023)). Here, we formalize the complete algebraic and geometric unification between $Gr_{\mathbb{C}}(2,4)$, $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$), and DDF (`MovingSheath`, `DDFSubstrate`, `RiverExterior`), as synthesized in [Provenance Chat Log (2026)](#ddf-chat-plucker-sinks):
+In our companion paper [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), we proved that lifting four-terminal double-slit channels from $Gr_{\ge 0}(2,4)$ to $Gr_{\mathbb{C}}(2,4)$ eliminates the $50\%$ unphased crossing-minor error and reproduces the Huygens–Steiner coherence profile {cite:p}`ddf-qian2023`. Here, we formalize the complete algebraic and geometric unification between $Gr_{\mathbb{C}}(2,4)$, $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$), and DDF (`MovingSheath`, `DDFSubstrate`, `RiverExterior`), as synthesized in {cite:p}`chat_plucker_sinks_ddf_2026`:
 
 | Physical / Geometric Layer | $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(2, N+2)$ Representation | DDF & Hydrodynamic Sink Interpretation | Machine-Checked Lean 4 Theorems |
 |---|---|---|---|
@@ -345,7 +345,7 @@ popd
 5. Sorkin, R. D. (1994). *Quantum Mechanics as Quantum Measure Theory*. Modern Physics Letters A 9(33), 3119–3127. [DOI: 10.1142/S021773239400294X](https://doi.org/10.1142/S021773239400294X); [arXiv:gr-qc/9401003](https://arxiv.org/abs/gr-qc/9401003).
 
 <a id="ddf-chat-plucker-sinks"></a>
-6. Provenance Chat Log (2026). *Plücker Channel Weights, Hydrodynamic Sinks, Anosov Flows, and Dilatant Dark Fluid*. ({download}`data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228 <../data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md>`).
+6. Turner, Wesley and Google Gemini (2026). *Plücker Channel Weights, Hydrodynamic Sinks, Anosov Flows, and Dilatant Dark Fluid*. ({download}`data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228 <../data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md>`).
 
 ---
 
@@ -385,7 +385,7 @@ popd
 }
 
 @misc{chat_plucker_sinks_ddf_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Pl{\"u}cker Channel Weights, Hydrodynamic Sinks, {A}nosov Flows, and {D}ilatant {D}ark {F}luid},
   year         = {2026},
   howpublished = {AI chat log},

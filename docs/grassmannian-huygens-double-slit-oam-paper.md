@@ -28,12 +28,12 @@ description: "An arXiv-ready formal verification paper uniting Qian–Izadi Huyg
 We present a machine-checked formalization in the Lean 4 theorem prover (`Signals.Geometry`, `Signals.Coherence`, `Signals.Huygens`, `Signals.DDF`, and `Signals.OAM`) comparing predicted interferometric intensities and relative predictive errors across five mathematical formulations of double-slit superposition—both for planar wavefronts and for vortex beams carrying Orbital Angular Momentum (OAM):
 
 1. **Fraunhofer Far-Field Reference ($I_{\mathrm{F}}$ and $I_{\mathrm{F,OAM}}$)**,
-2. **Huygens–Steiner Parallel-Axis Barycentric Coherence ($I_{\mathrm{HS}}$ and $I_{\mathrm{HS,OAM}}$)** ([Qian and Izadi 2023](#qian-izadi2023)),
+2. **Huygens–Steiner Parallel-Axis Barycentric Coherence ($I_{\mathrm{HS}}$ and $I_{\mathrm{HS,OAM}}$)** {cite:p}`qian-izadi2023`,
 3. **Real Positive $Gr_{\ge 0}(2,4)$ and Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channel Models ($I_{Gr(2,4)}$, $I_{Gr(2,4)}^{\mathrm{unphased}}$, and $I_{Gr_{\mathbb{C}}(2,4)}^{\times}$)**,
 4. **De Broglie–Bohm / Madelung Pilot-Wave Hydrodynamics ($I_{\mathrm{PW}}$)**, and
 5. **Wigner Phase-Space Quasi-Probability Marginals ($I_{\mathrm{Wigner}}$ and $I_{\mathrm{Wigner,OAM}}$)**.
 
-Building on the $N$-dimensional polarization–entanglement complementarity relation $P_N^2 + K_N^2 = 1$ and the Huygens–Steiner parallel-axis theorem $I_O = I_M + m_{\mathrm{tot}} d_{\mathrm{bary}}^2$ of [Qian and Izadi (2023)](#qian-izadi2023), we prove the universal **Pythagorean Plücker–Steiner Identity** on $Gr(2,4)$:
+Building on the $N$-dimensional polarization–entanglement complementarity relation $P_N^2 + K_N^2 = 1$ and the Huygens–Steiner parallel-axis theorem $I_O = I_M + m_{\mathrm{tot}} d_{\mathrm{bary}}^2$ of {cite:p}`qian-izadi2023`, we prove the universal **Pythagorean Plücker–Steiner Identity** on $Gr(2,4)$:
 
 $$
 d_{\mathrm{bary}}(M)^2 + \Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M) = \left(\frac{\Delta_{02}(M)\Delta_{13}(M)}{2}\right)^2.
@@ -45,7 +45,7 @@ We prove that while an unphased crossing-minor proxy restricted to the real posi
 
 ## 1. Introduction & Epistemic Verification Boundary
 
-Evaluating multi-aperture wave superposition across classical optics, positive geometry ([Postnikov 2006](#postnikov2006); [Arkani-Hamed and Trnka 2014](#arkani-hamed-trnka2014); [Arkani-Hamed et al. 2017](#arkani-hamed-bai-lam2017)), quantum coherence theory ([Qian and Izadi 2023](#qian-izadi2023)), Bohmian hydrodynamics, and Wigner phase-space tomography raises a precise quantitative question: **what is the exact pointwise and dark-fringe relative predictive error between these formulations, and what geometric data are required for a Grassmannian minor evaluator to match coherent interferometry without ad-hoc fitting?**
+Evaluating multi-aperture wave superposition across classical optics, positive geometry ({cite:p}`postnikov2006`; {cite:p}`arkani2014amplituhedron`; {cite:p}`arkani-hamed-bai-lam2017`), quantum coherence theory {cite:p}`qian-izadi2023`, Bohmian hydrodynamics, and Wigner phase-space tomography raises a precise quantitative question: **what is the exact pointwise and dark-fringe relative predictive error between these formulations, and what geometric data are required for a Grassmannian minor evaluator to match coherent interferometry without ad-hoc fitting?**
 
 *(Note: The companion application of the same verified $2 \times n$ Grassmannian Plücker kernel `Signals.Geometry.twoRowMinor_pluecker` to Baxter's $QQ$-system, $TQ$ Wronskians, and the Quantum Inverse Scattering Method is presented in the companion paper [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md).)*
 
@@ -84,7 +84,7 @@ example (x y : ℝ) :
 
 ### 2.1 Arbitrary-$N$ Coherence Spectra and the Huygens–Steiner Parallel-Axis Theorem
 
-In [Qian and Izadi (2023)](#qian-izadi2023) ({download}`PhysRevResearch.5.033110.pdf, pp. 1-6 <../data/papers/PhysRevResearch.5.033110.pdf>`), an $N$-dimensional optical field with normalized coherence-matrix eigenvalues $m_i \ge 0$ ($\sum_{i=1}^N m_i = 1$, formalized as `Signals.Coherence.CoherenceSpectrum`) has squared degree of polarization $P_N^2$ and squared Schmidt-weight entanglement/coherence $K_N^2$:
+In {cite:p}`qian-izadi2023` ({download}`PhysRevResearch.5.033110.pdf, pp. 1-6 <../data/papers/PhysRevResearch.5.033110.pdf>`), an $N$-dimensional optical field with normalized coherence-matrix eigenvalues $m_i \ge 0$ ($\sum_{i=1}^N m_i = 1$, formalized as `Signals.Coherence.CoherenceSpectrum`) has squared degree of polarization $P_N^2$ and squared Schmidt-weight entanglement/coherence $K_N^2$:
 
 $$
 P_N^2 = \frac{N}{N-1}\sum_{i=1}^N m_i^2 - \frac{1}{N-1}, \qquad
@@ -160,7 +160,7 @@ gives $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = z_1 + z_2 = (\sqrt{1+d
 | Double-Slit Formulation | Lean Definitions & Theorems | Intensity Law $I(x,y)$ | Relative Predictive Error vs. Fraunhofer ($I_{\mathrm{F}}$) |
 |---|---|---|---|
 | **1. Fraunhofer Reference** | `fraunhoferRectangularDoubleSlit`, `fraunhoferRectangularDoubleSlit_onAxis`, `fraunhoferRectangularDoubleSlit_dark_fringe` | $I_{\mathrm{F}}(x,y) = 4 I_0 E_{\mathrm{slit}}(x,y) \cos^2\!\left(\frac{\pi d x}{\lambda L}\right)$ | $0$ (reference baseline; vanishes at half-period dark fringes $x_{\mathrm{dark}} = \frac{\lambda L}{2d}$) |
-| **2. Huygens–Steiner Parallel-Axis Coherence** ([Qian & Izadi 2023](#qian-izadi2023)) | `huygensSteinerDoubleSlit`, `HuygensSteinerMapping`, `CoherenceComplementarity`, `huygensSteiner_onAxis_relative_error`, `huygensSteiner_relative_error_eq_offset_sq_div`, `huygensSteiner_relative_error_from_coherenceComplementarity` | $I_{\mathrm{HS}}(x,y;\mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + \mathcal{V}\cos\frac{2\pi d x}{\lambda L}\bigr)$, where $d_{\mathrm{bary}}^2 = I_O - I_M = P_N^2$ and $d_{\mathrm{bary}}^2 + \mathcal{V}^2 = 1$ | **Coherent ($d_{\mathrm{bary}}=0, \mathcal{V}=1$)**: $0$ everywhere<br>**On-axis**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1-\mathcal{V}}{2} = \frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})} = \frac{P_N^2}{2(1+K_N)}$<br>**Dark fringe**: $\varepsilon_{\mathrm{peak}}(x_{\mathrm{dark}},0) = \frac{1-\mathcal{V}}{2}\operatorname{sinc}^2\!\left(\frac{\pi a}{2d}\right)$ |
+| **2. Huygens–Steiner Parallel-Axis Coherence** {cite:p}`qian-izadi2023` | `huygensSteinerDoubleSlit`, `HuygensSteinerMapping`, `CoherenceComplementarity`, `huygensSteiner_onAxis_relative_error`, `huygensSteiner_relative_error_eq_offset_sq_div`, `huygensSteiner_relative_error_from_coherenceComplementarity` | $I_{\mathrm{HS}}(x,y;\mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + \mathcal{V}\cos\frac{2\pi d x}{\lambda L}\bigr)$, where $d_{\mathrm{bary}}^2 = I_O - I_M = P_N^2$ and $d_{\mathrm{bary}}^2 + \mathcal{V}^2 = 1$ | **Coherent ($d_{\mathrm{bary}}=0, \mathcal{V}=1$)**: $0$ everywhere<br>**On-axis**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1-\mathcal{V}}{2} = \frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})} = \frac{P_N^2}{2(1+K_N)}$<br>**Dark fringe**: $\varepsilon_{\mathrm{peak}}(x_{\mathrm{dark}},0) = \frac{1-\mathcal{V}}{2}\operatorname{sinc}^2\!\left(\frac{\pi a}{2d}\right)$ |
 | **3. $Gr(2,4)$ & $Gr_{\mathbb{C}}(2,4)$ Plücker Channel Models** | `gr24PluckerDoubleSlit`, `gr24UnphasedDoubleSlit`, `gr24_plucker_pythagorean_identity`, `complexGr24CrossingDoubleSlit`, `complexGr24_crossing_intensity_eq_superposition`, `complexGr24CrossingDoubleSlit_zero_error`, `complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner` | **Real $Gr_{\ge 0}(2,4)$**: $I_{Gr(2,4)} = I_0 E_{\mathrm{slit}}\bigl(\Delta_{02}\Delta_{13} + 2\sqrt{w_A w_B}\cos\frac{2\pi d x}{\lambda L}\bigr)$<br>**Complex $Gr_{\mathbb{C}}(2,4)$ ($\mathbb{C}^4$ twistors)**: $I_{Gr_{\mathbb{C}}(2,4)}^{\times} = I_0 E_{\mathrm{slit}}\bigl\|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr\|^2 = I_0 E_{\mathrm{slit}}\|\mathcal{A}_1 + \mathcal{A}_2\|^2$ | **Real unphased proxy ($\Delta_{02}\Delta_{13}=2 \in Gr_{\ge 0}$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1}{2}$ ($50\%$), dark fringe $100\%$<br>**Complex $Gr_{\mathbb{C}}(2,4)$ ($d_{\mathrm{bary}}=0$)**: **$0$ everywhere** (eliminates $50\%$ error)<br>**Complex $Gr_{\mathbb{C}}(2,4)$ ($d_{\mathrm{bary}} \in [-1,1]$)**: **$0$ vs. $I_{\mathrm{HS}}(x,y;\sqrt{1-d_{\mathrm{bary}}^2})$**, and $\frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})}$ vs. $I_{\mathrm{F}}(0,0)$ |
 | **4. Pilot-Wave Theory (De Broglie–Bohm)** | `pilotWaveDoubleSlit`, `pilotWaveDoubleSlit_equilibrium_eq_fraunhofer`, `pilotWave_onAxis_relative_error` | $I_{\mathrm{PW}}(x,y;\delta_{\mathrm{neq}}) = I_{\mathrm{F}}(x,y) + \delta_{\mathrm{neq}}$ (equivariant guidance $\mathbf{v} = \frac{\hbar}{m}\nabla S$ + Bohm potential $Q$) | **Quantum equilibrium ($\delta_{\mathrm{neq}}=0$)**: $0$ everywhere<br>**Non-equilibrium ($\delta_{\mathrm{neq}} \neq 0$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{\|\delta_{\mathrm{neq}}\|}{4 I_0}$ |
 | **5. Wigner Phase-Space Marginal** | `wignerDoubleSlit`, `wignerDoubleSlit_eq_huygensSteiner`, `wignerDoubleSlit_pure_eq_fraunhofer`, `wigner_onAxis_relative_error` | $I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + e^{-\gamma_{\mathrm{dec}}}\cos\frac{2\pi d x}{\lambda L}\bigr)$ | **Pure state ($\gamma_{\mathrm{dec}}=0$)**: $0$ everywhere<br>**Decohered ($\gamma_{\mathrm{dec}} > 0$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - e^{-\gamma_{\mathrm{dec}}}}{2}$ (exact duality $\mathcal{V} = e^{-\gamma_{\mathrm{dec}}}$) |
@@ -252,7 +252,7 @@ example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) (z0 z
 
 *(For the complete treatment of the $Gr_{\mathbb{C}}(2,4)$ and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ unification with `DDFSubstrate` and `MovingSheath`, see the companion paper [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.md).)*
 
-In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in [Provenance Chat Log: Plücker Channel Weights, Fluid Sinks, and DDF (2026)](#chat-plucker-sinks-ddf) (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models ([Partanen and Tulkki 2025](#partanen-tulkki2025)) and the Dilatant Dark Fluid (DDF) substrate ([Fedi 2026](#fedi2026)):
+In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in {cite:p}`chat_plucker_sinks_ddf_2026` (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models {cite:p}`partanen2025gravity` and the Dilatant Dark Fluid (DDF) substrate {cite:p}`fedi2026ddf`:
 
 | Component | Grassmannian & Coherence Formulation | Emergent Fluid / Sink-Flow Limit | Fedi's Dilatant Dark Fluid (`Signals.DDF`) | Lean 4 Verification & Critique Nodes |
 |---|---|---|---|---|
@@ -277,7 +277,7 @@ Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath
    $$
 
 3. **Quadratic Power-Law Sandwich & Exact Parameter Inversion (`ddf_relative_error_power_law_and_inversion`, `MovingSheath.inverse_recovery_from_relative_error`)**:
-   Answering the power-law and inverse-recovery question in [Provenance Chat Log (2026), lines 226–228](#chat-plucker-sinks-ddf), for every $d_{\mathrm{bary}} \in [-1, 1]$ the on-axis relative error $\varepsilon = (1 - \mathcal{V})/2$ satisfies:
+   Answering the power-law and inverse-recovery question in [Turner, Wesley and Google Gemini (2026), lines 226–228](#chat-plucker-sinks-ddf), for every $d_{\mathrm{bary}} \in [-1, 1]$ the on-axis relative error $\varepsilon = (1 - \mathcal{V})/2$ satisfies:
 
    $$
    \frac{d_{\mathrm{bary}}^2}{4} \le \varepsilon \le \frac{d_{\mathrm{bary}}^2}{2}, \qquad \mathcal{V} = 1 - 2\varepsilon, \qquad \gamma_\varphi = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon).
@@ -433,7 +433,7 @@ end DoubleSlitPaperVerification
 ## 6. Conclusion & Reproducibility
 
 By formalizing five-model double-slit and OAM superposition (`Signals.Geometry`, `Signals.Coherence`, `Signals.Huygens`, `Signals.DDF`, `Signals.OAM`, `Signals.SolitonBus`) in Lean 4 and implementing all $N$-slit ($N > 0$) models in Rust, WebAssembly (`wasm32-unknown-unknown`), and WebGL2 GLSL (`src/signals/numerical_adapter/`), we have demonstrated that:
-1. The 3-term Plücker identity on $Gr(2,4)$ induces the universal Pythagorean Plücker–Steiner identity $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = (\Delta_{02}\Delta_{13}/2)^2$, directly connecting Grassmannian boundary channel weights and hydrodynamic sink fluxes to the barycentric parallel-axis coherence theorem of [Qian and Izadi (2023)](#qian-izadi2023).
+1. The 3-term Plücker identity on $Gr(2,4)$ induces the universal Pythagorean Plücker–Steiner identity $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = (\Delta_{02}\Delta_{13}/2)^2$, directly connecting Grassmannian boundary channel weights and hydrodynamic sink fluxes to the barycentric parallel-axis coherence theorem of {cite:p}`qian-izadi2023`.
 2. Lifting from the real positive Grassmannian $Gr_{\ge 0}(2,4)$ to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ (carrying $\mathbb{C}^4$ twistor phases) eliminates the $50\%$ unphased crossing-minor error completely and matches the partially coherent Huygens–Steiner profile $I_{\mathrm{HS}}(x,y;\sqrt{1 - d_{\mathrm{bary}}^2})$ (and its helical OAM generalization) identically across the entire screen for all $d_{\mathrm{bary}} \in [-1, 1]$.
 3. Identifying $|d_{\mathrm{bary}}|$ with the reduced DDF shear speed $\beta = v/c$ yields the exact reciprocal duality $\mathcal{V} = \gamma_\varphi(v)^{-1}$, the tight quadratic error bounds $d_{\mathrm{bary}}^2 / 4 \le \varepsilon \le d_{\mathrm{bary}}^2 / 2$, the exact inversion $d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon)$, and symplectic Anosov hyperbolic invariance of all $2 \times 2$ Plücker minors.
 
@@ -473,10 +473,10 @@ popd
 6. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660.
 
 <a id="chat-grassmannian-huygens"></a>
-7. Provenance Chat Log (2026). *Grassmannian Huygens Principle and Amplituhedron*. ({download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 9-520 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`).
+7. Turner, Wesley and Google Gemini (2026). *Grassmannian Huygens Principle and Amplituhedron*. ({download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 9-520 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`).
 
 <a id="chat-plucker-sinks-ddf"></a>
-8. Provenance Chat Log (2026). *Plücker Channel Weights, Hydrodynamic Sinks, Anosov Flows, and Dilatant Dark Fluid*. ({download}`data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228 <../data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md>`).
+8. Turner, Wesley and Google Gemini (2026). *Plücker Channel Weights, Hydrodynamic Sinks, Anosov Flows, and Dilatant Dark Fluid*. ({download}`data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228 <../data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md>`).
 
 ---
 
@@ -508,7 +508,7 @@ popd
 }
 
 @misc{chat_grassmannian_huygens_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Grassmannian {H}uygens Principle and {A}mplituhedron},
   year         = {2026},
   howpublished = {AI chat log},
@@ -517,7 +517,7 @@ popd
 }
 
 @misc{chat_plucker_sinks_ddf_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Pl{\"u}cker Channel Weights, Hydrodynamic Sinks, {A}nosov Flows, and {D}ilatant {D}ark {F}luid},
   year         = {2026},
   howpublished = {AI chat log},

@@ -34,10 +34,10 @@ description: "An arXiv-ready MyST Markdown formal verification and metamaterials
 
 ## Abstract
 
-Across nanophotonics, plasma electrodynamics, terrestrial geophysics, and laser-driven fusion, **Epsilon-Near-Zero (ENZ)** ($\operatorname{Re}(\varepsilon) \to 0$) and **Hyperbolic Metamaterials (HMMs)** ($\operatorname{Re}(\varepsilon_\parallel)\cdot\operatorname{Re}(\varepsilon_\perp) < 0$) provide the physical mechanism that converts transverse electromagnetic waves into intense, sub-diffraction **longitudinal electric fields ($E_z$)** ([Podolskiy & Narimanov 2005](#podolskiy2005); [Poddubny et al. 2013](#poddubny2013); [Liberal & Engheta 2017](#liberal2017)). In this paper, we synthesize and formally verify in **Lean 4** (`Signals.DDF`, with LeanArchitect `@[blueprint]` annotations) and **Rust/WASM** (`polariton_spp.rs`) our corpus-wide research on ENZ and hyperbolic metamaterials across [data/chats/IQ-Sampling-for-Signal-Phase.md](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15706-L16280), [data/chats/Argon-Plasma-Wave-Energy.md](../data/chats/Argon-Plasma-Wave-Energy.md#L1-L1325), [data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md](../data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md#L228-L398), and [data/chats/_Quantum Processor and Soliton Discussions  .md](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L1073-L1200):
+Across nanophotonics, plasma electrodynamics, terrestrial geophysics, and laser-driven fusion, **Epsilon-Near-Zero (ENZ)** ($\operatorname{Re}(\varepsilon) \to 0$) and **Hyperbolic Metamaterials (HMMs)** ($\operatorname{Re}(\varepsilon_\parallel)\cdot\operatorname{Re}(\varepsilon_\perp) < 0$) provide the physical mechanism that converts transverse electromagnetic waves into intense, sub-diffraction **longitudinal electric fields ($E_z$)** ({cite:p}`podolskiy2005`; {cite:p}`poddubny2013_hmm`; {cite:p}`liberal2017_zri`). In this paper, we synthesize and formally verify in **Lean 4** (`Signals.DDF`, with LeanArchitect `@[blueprint]` annotations) and **Rust/WASM** (`polariton_spp.rs`) our corpus-wide research on ENZ and hyperbolic metamaterials across [data/chats/IQ-Sampling-for-Signal-Phase.md](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15706-L16280), [data/chats/Argon-Plasma-Wave-Energy.md](../data/chats/Argon-Plasma-Wave-Energy.md#L1-L1325), [data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md](../data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md#L228-L398), and [data/chats/_Quantum Processor and Soliton Discussions  .md](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L1073-L1200):
 
 1. **Effective Medium Theory (EMT) & The Three Operating Regimes of `rGO-polyCBD-SS-Lignin` (`rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities`)**:
-   For a sub-wavelength nanolaminate combining 2D reduced Graphene Oxide nanosheets ($\varepsilon_m = -|\varepsilon_m| < 0$) with low-loss hemp-derived `polyCBD-SS-Lignin` ($\varepsilon_d > 0$, [Xu et al. 2026](#xu2026); [Davis et al. 2026](#davis2026)) at volume fill fraction $f$, we prove:
+   For a sub-wavelength nanolaminate combining 2D reduced Graphene Oxide nanosheets ($\varepsilon_m = -|\varepsilon_m| < 0$) with low-loss hemp-derived `polyCBD-SS-Lignin` ($\varepsilon_d > 0$, {cite:p}`xu2026`; {cite:p}`davis2026`) at volume fill fraction $f$, we prove:
    - Exact partition of unity $f_{\mathrm{ENZ}} + f_{\perp,\mathrm{pole}} = 1$ with $0 < f_{\mathrm{ENZ}} = \frac{\varepsilon_d}{\varepsilon_d + |\varepsilon_m|} < \frac{1}{2} < f_{\perp,\mathrm{pole}} = \frac{|\varepsilon_m|}{\varepsilon_d + |\varepsilon_m|} < 1$ (for $\varepsilon_d < |\varepsilon_m|$),
    - **Regime 1 (ENZ Horizon at $f = f_{\mathrm{ENZ}}$)**: $\varepsilon_\parallel(f_{\mathrm{ENZ}}) = 0$ and $\varepsilon_\perp(f_{\mathrm{ENZ}}) = \frac{|\varepsilon_m|\varepsilon_d(\varepsilon_d + |\varepsilon_m|)}{|\varepsilon_m|^2 - \varepsilon_d^2} > 0$, driving $50\times\text{–}400\times$ longitudinal $E_z$ boundary amplification,
    - **Regime 2 (Type-II Hyperbolic Lens for $f_{\mathrm{ENZ}} < f < f_{\perp,\mathrm{pole}}$)**: $\varepsilon_\parallel(f) < 0$ and $\varepsilon_\perp(f) > 0$ ($\varepsilon_\parallel\varepsilon_\perp < 0$), supporting unbounded high-$k$ axial wavevectors $k_z^2(k_x) = \varepsilon_\perp(\omega_c^2 + k_x^2/|\varepsilon_\parallel|) > \varepsilon_\perp\omega_c^2$ and exact transverse momentum cancellation $k_{x,1} + (-k_{x,1}) = 0$ for non-collinear $400 \to 800\text{ GHz}$ Sum-Frequency Generation (SFG),
@@ -258,8 +258,8 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
 - <a id="denisov1957"></a> Denisov, N. G. (1957). On a Singularity of the Field of an Electromagnetic Wave Propagating in an Inhomogeneous Plasma. *Soviet Physics JETP*, 4, 544–553.
 - <a id="xu2026"></a> Xu, Y., Liu, X., Davis, B., Sotzing, G., & Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. *IEEE MTT-S Radio Frequency Systems and Applications Symposium*. DOI: `10.1109/imsrfsa70221.2026.11624319`. https://ieeexplore.ieee.org/abstract/document/11624319
 - <a id="davis2026"></a> Davis, B., Sotzing, G., & Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. *Chem Circularity* (2026). https://doi.org/10.1016/j.checir.2026.100018
-- <a id="iq-enz-chat2026"></a> Provenance Chat Log (2026). *IQ Sampling for Signal Phase (Argon Plasma Proca Modes, Earth ENZ/HMM Layers, and `rGO-polyCBD-SS-Lignin` 400-to-800 GHz Hyperbolic SFG Lens)*. Local corpus: [data/chats/IQ-Sampling-for-Signal-Phase.md, lines 15706–16280](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15706-L16280).
-- <a id="argon-tnsa-chat2026"></a> Provenance Chat Log (2026). *Argon Plasma Wave Energy (Ion-Acoustic Wave Speeds, ENZ + `polyCBD` TNSA $p\text{-}^{11}\text{B}$ Fusion Gain, $s\text{CO}_2$ Brayton Loop, and 10 Hz Supercapacitor Bus)*. Local corpus: [data/chats/Argon-Plasma-Wave-Energy.md, lines 1–1325](../data/chats/Argon-Plasma-Wave-Energy.md#L1-L1325).
+- <a id="iq-enz-chat2026"></a> Turner, Wesley and Google Gemini (2026). *IQ Sampling for Signal Phase (Argon Plasma Proca Modes, Earth ENZ/HMM Layers, and `rGO-polyCBD-SS-Lignin` 400-to-800 GHz Hyperbolic SFG Lens)*. Local corpus: [data/chats/IQ-Sampling-for-Signal-Phase.md, lines 15706–16280](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15706-L16280).
+- <a id="argon-tnsa-chat2026"></a> Turner, Wesley and Google Gemini (2026). *Argon Plasma Wave Energy (Ion-Acoustic Wave Speeds, ENZ + `polyCBD` TNSA $p\text{-}^{11}\text{B}$ Fusion Gain, $s\text{CO}_2$ Brayton Loop, and 10 Hz Supercapacitor Bus)*. Local corpus: [data/chats/Argon-Plasma-Wave-Energy.md, lines 1–1325](../data/chats/Argon-Plasma-Wave-Energy.md#L1-L1325).
 
 ```bibtex
 @article{poddubny2013_hmm,
@@ -287,7 +287,7 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
 }
 
 @misc{chat_iq_enz_hyperbolic_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {IQ Sampling for Signal Phase: rGO-polyCBD-SS-Lignin ENZ and Hyperbolic Metamaterials},
   year         = {2026},
   howpublished = {AI chat log},
@@ -296,7 +296,7 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
 }
 
 @misc{chat_argon_plasma_wave_energy_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Argon Plasma Wave Energy: Ion-Acoustic Speeds, ENZ-polyCBD TNSA p-11B Fusion, and sCO2 Recovery},
   year         = {2026},
   howpublished = {AI chat log},

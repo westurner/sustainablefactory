@@ -365,8 +365,8 @@ end PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextilePaper42Verification
 ## 6. BibTeX Citations & Schema.org Metadata (JSON-LD)
 
 ```bibtex
-@article{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
+  author  = {Turner, Wesley},
   title   = {Plasma-{F}luffed {C}hitosan--{A}lginate--{M}agnesium {H}emostatic {G}auze \& {VEGF} {W}ound {S}prays, {S}prout-{Z}ero {B}iodegradable {D}iapers, {A}ero-{F}leece {T}hermal {L}iners, {CAM} {S}truvite {G}eotextiles, and {G}raphene-{S}usceptor {FJH} {Q}uartzite {A}rgon {P}lasma {T}ubes in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

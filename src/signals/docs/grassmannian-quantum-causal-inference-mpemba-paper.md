@@ -735,7 +735,7 @@ end QuantumCausalInferenceMpembaPaperVerification
 
 (mpemba-chat2026)=
 <a id="mpemba-chat2026"></a>
-17. Provenance Chat Logs (2026). *Mpemba Effect: Landau vs. Quantum Resource Theory, Constructor Theory, Counterfactual Semantics in Quantum Causal Models, and Entropy Siphoning*. Local corpus: {download}`data/chats/_Mpemba Effect_ Landau vs. Quantum .md, lines 1–555 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>` and {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 4470–4700 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`.
+17. Turner, Wesley and Google Geminis (2026). *Mpemba Effect: Landau vs. Quantum Resource Theory, Constructor Theory, Counterfactual Semantics in Quantum Causal Models, and Entropy Siphoning*. Local corpus: {download}`data/chats/_Mpemba Effect_ Landau vs. Quantum .md, lines 1–555 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>` and {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 4470–4700 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`.
 
 ```bibtex
 @article{holtzman2022landau,

@@ -367,8 +367,8 @@ end SemiDiracFermionsPaperVerification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026grassmannian_semi_dirac,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_semi_dirac,
+  author  = {Turner, Wesley},
   title   = {Semi-{D}irac Fermions (Mass in Only One Direction) With and Without Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}$} and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: {$\mathrm{ZrSiS}$} {$B^{2/3}$} {L}andau Scaling, {D}irac-Cone Merging on {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} and {$\mathrm{Gr}_{\mathbb{C}}(2,6)$}, Directional Sheath Jamming, Anisotropic Tensor Splats, and Quantum/Photonic Applications in {L}ean 4, {R}ust, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

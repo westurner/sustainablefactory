@@ -999,7 +999,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 
 ```bibtex
 @misc{chat_airy_beams_er_epr_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Airy Beams and Communications and Illumination: Microscopic Black Holes and ER=EPR},
   year         = {2026},
   howpublished = {AI chat log},
@@ -1007,7 +1007,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 }
 
 @misc{chat_grassmannian_gpe_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Grassmannian Gross-Pitaevskii Equation Formulation on Gr\_C(2,4)},
   year         = {2026},
   howpublished = {AI chat log},
@@ -1015,7 +1015,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 }
 
 @misc{chat_dft_complex_plabic_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Density Functional Theory and Complex Grassmannian Off-Shell Plabic Graphs},
   year         = {2026},
   howpublished = {AI chat log},
@@ -1023,7 +1023,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 }
 
 @misc{chat_superfluid_gravity_negative_energy_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Superfluid Gravity and Negative Energy Density (Weak Energy Condition in DDF)},
   year         = {2026},
   howpublished = {AI chat log},

@@ -292,11 +292,11 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
 - <a id="leith1962"></a> Leith, E. N., & Upatnieks, J. (1962). Reconstructed Wavefronts and Communication Theory. *Journal of the Optical Society of America*, 52(10), 1123–1130. DOI: `10.1364/JOSA.52.001123`.
 - <a id="zwicker2001"></a> Zwicker, M., Pfister, H., van Baar, J., & Gross, M. (2001). EWA Volume Splatting. *Proceedings of IEEE Visualization 2001*, 29–36. DOI: `10.1109/VISUAL.2001.964490`.
 - <a id="kerbl2023"></a> Kerbl, B., Kopanas, G., Leimkühler, T., & Drettakis, G. (2023). 3D Gaussian Splatting for Real-Time Radiance Field Rendering. *ACM Transactions on Graphics (SIGGRAPH 2023)*, 42(4), 139:1–139:14. DOI: `10.1145/3592433`.
-- <a id="iq-chat2026"></a> Provenance Chat Log (2026). *IQ Sampling for Signal Phase (Prompts 93–94 & 101–102: Volumetric Holographic Lithography, Self-Calibrating Grassmannians, and Orthogonal Multi-Flash Synthesis)*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 9073–9300 & 10793–10860](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9073-L9300).
-- <a id="bell-chat2026"></a> Provenance Chat Log (2026). *Bell Correlations in Atomic Momentum (Response 10, Step 4: Measuring FTLE Ridges with Off-Axis Digital Holography)*. Local corpus: [docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md, lines 980–1025](../../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L980-L1025).
-- <a id="cnt-chat2026"></a> Provenance Chat Log (2026). *CNT Bandgap Creation with Lignin Vitrimer (Convergence Optics: Bessel Beams + Holography + Pulse Shaping)*. Local corpus: [docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651–1655 & 5320](../../../docs/chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.md#L5320).
-- <a id="rgo-chat2026"></a> Provenance Chat Log (2026). *rGO-Vitrimer Applications and Properties (Computer-Generated Holography Multi-Head SLM)*. Local corpus: [docs/chats/_rGO-Vitrimer Applications and Properties .myst.md, lines 1362–1370](../../../docs/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.myst.md#L1362).
-- <a id="speckle-chat2026"></a> Provenance Chat Log (2026). *Speckle, Metamaterials, and Fast Sensing (Temporal Speckle Reduction and Time-Division Multiplexed Holography)*. Local corpus: [docs/chats/Speckle, Metamaterials, and Fast Sensing .myst.md, lines 803–825 & 2435](../../../docs/chats/Speckle,%20Metamaterials,%20and%20Fast%20Sensing%20.myst.md#L803-L825).
+- <a id="iq-chat2026"></a> Turner, Wesley and Google Gemini (2026). *IQ Sampling for Signal Phase (Prompts 93–94 & 101–102: Volumetric Holographic Lithography, Self-Calibrating Grassmannians, and Orthogonal Multi-Flash Synthesis)*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 9073–9300 & 10793–10860](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9073-L9300).
+- <a id="bell-chat2026"></a> Turner, Wesley and Google Gemini (2026). *Bell Correlations in Atomic Momentum (Response 10, Step 4: Measuring FTLE Ridges with Off-Axis Digital Holography)*. Local corpus: [docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md, lines 980–1025](../../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L980-L1025).
+- <a id="cnt-chat2026"></a> Turner, Wesley and Google Gemini (2026). *CNT Bandgap Creation with Lignin Vitrimer (Convergence Optics: Bessel Beams + Holography + Pulse Shaping)*. Local corpus: [docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651–1655 & 5320](../../../docs/chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.md#L5320).
+- <a id="rgo-chat2026"></a> Turner, Wesley and Google Gemini (2026). *rGO-Vitrimer Applications and Properties (Computer-Generated Holography Multi-Head SLM)*. Local corpus: [docs/chats/_rGO-Vitrimer Applications and Properties .myst.md, lines 1362–1370](../../../docs/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.myst.md#L1362).
+- <a id="speckle-chat2026"></a> Turner, Wesley and Google Gemini (2026). *Speckle, Metamaterials, and Fast Sensing (Temporal Speckle Reduction and Time-Division Multiplexed Holography)*. Local corpus: [docs/chats/Speckle, Metamaterials, and Fast Sensing .myst.md, lines 803–825 & 2435](../../../docs/chats/Speckle,%20Metamaterials,%20and%20Fast%20Sensing%20.myst.md#L803-L825).
 
 ```bibtex
 @article{gabor1948_holography,
@@ -324,7 +324,7 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
 }
 
 @misc{chat_iq_sampling_holography_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {IQ Sampling for Signal Phase: Volumetric Holography and Self-Calibrating Grassmannians},
   year         = {2026},
   howpublished = {AI chat log},
@@ -333,7 +333,7 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
 }
 
 @misc{chat_bell_offaxis_holography_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Bell Correlations in Atomic Momentum: Off-Axis Digital Holography of FTLE Ridges},
   year         = {2026},
   howpublished = {AI chat log},
@@ -342,7 +342,7 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
 }
 
 @misc{chat_cnt_convergence_optics_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {CNT Bandgap Creation with Lignin Vitrimer: Convergence Optics and Holography},
   year         = {2026},
   howpublished = {AI chat log},

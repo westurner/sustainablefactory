@@ -291,9 +291,9 @@ end RiscVHolographicNanolithographyKicadPaperVerification
 - <a id="xu2026"></a> Xu, Y., Liu, X., Davis, B., Sotzing, G., & Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. *IEEE MTT-S Radio Frequency Systems and Applications Symposium*. DOI: `10.1109/imsrfsa70221.2026.11624319`.
 - <a id="davis2026"></a> Davis, B., Sotzing, G., & Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. *Chem Circularity* (2026).
 - <a id="denisov1957"></a> Denisov, N. G. (1957). On a Singularity of the Field of an Electromagnetic Wave Propagating in an Inhomogeneous Plasma. *Soviet Physics JETP*, 4, 544–553.
-- <a id="chat_iq_kicad_2026"></a> Provenance Chat Log (2026). *IQ Sampling for Signal Phase (`kicad-volumetric`, Metric Interference DRC, IOF/PROV-O CBOM, and 3-Zone $400\to 800\text{ GHz}$ Hyperbolic SFG Lens)*. Local corpus: [data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839–10250, 11962–12125, 15706–17335](../../../data/chats/IQ-Sampling-for-Signal-Phase.md#L9839-L10250).
-- <a id="chat_sted_lignin_2026"></a> Provenance Chat Log (2026). *Laser Engraving Circuits on Lignin and Other Materials (KiCad Negative Plot & $405\text{ nm} / 532\text{ nm}$ STED-Style Helical Doughnut Nanolithography)*. Local corpus: [data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143–195, 854–952](../../../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md#L854-L952).
-- <a id="chat_green_bragg_2026"></a> Provenance Chat Log (2026). *Green $532\text{ nm}$ Laser Compression Shock (LCS) Bragg Reflectors & Lignin-Vitrimer Photonics*. Local corpus: [data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316–535, 1395–1550](../../../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md#L316-L535).
+- <a id="chat_iq_kicad_2026"></a> Turner, Wesley and Google Gemini (2026). *IQ Sampling for Signal Phase (`kicad-volumetric`, Metric Interference DRC, IOF/PROV-O CBOM, and 3-Zone $400\to 800\text{ GHz}$ Hyperbolic SFG Lens)*. Local corpus: [data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839–10250, 11962–12125, 15706–17335](../../../data/chats/IQ-Sampling-for-Signal-Phase.md#L9839-L10250).
+- <a id="chat_sted_lignin_2026"></a> Turner, Wesley and Google Gemini (2026). *Laser Engraving Circuits on Lignin and Other Materials (KiCad Negative Plot & $405\text{ nm} / 532\text{ nm}$ STED-Style Helical Doughnut Nanolithography)*. Local corpus: [data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143–195, 854–952](../../../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md#L854-L952).
+- <a id="chat_green_bragg_2026"></a> Turner, Wesley and Google Gemini (2026). *Green $532\text{ nm}$ Laser Compression Shock (LCS) Bragg Reflectors & Lignin-Vitrimer Photonics*. Local corpus: [data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316–535, 1395–1550](../../../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md#L316-L535).
 
 ```bibtex
 @article{zaruba2019cost,
@@ -309,7 +309,7 @@ end RiscVHolographicNanolithographyKicadPaperVerification
 }
 
 @misc{chat_iq_kicad_volumetric_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {IQ Sampling for Signal Phase: kicad-volumetric, Metric Interference DRC, and 400->800 GHz Hyperbolic SFG Lens},
   year         = {2026},
   howpublished = {AI chat log},
@@ -318,7 +318,7 @@ end RiscVHolographicNanolithographyKicadPaperVerification
 }
 
 @misc{chat_laser_engraving_lignin_405_532_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Laser Engraving Circuits on Lignin: KiCad Workflows and 405nm/532nm Helical Doughnut Nanolithography},
   year         = {2026},
   howpublished = {AI chat log},
@@ -327,7 +327,7 @@ end RiscVHolographicNanolithographyKicadPaperVerification
 }
 
 @misc{chat_green_532nm_lcs_bragg_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Green 532nm Laser Compression Shock Bragg Reflectors on Lignin-Vitrimer},
   year         = {2026},
   howpublished = {AI chat log},

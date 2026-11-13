@@ -1442,128 +1442,128 @@ end ArxivCapstoneThirtyPaperUnificationVerification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026grassmannian_unification,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_unification,
+  author  = {Turner, Wesley},
   title   = {Unification, Engineering Applications, and Research Roadmap of Complex {G}rassmannian {$Gr_{\mathbb{C}}(2,4)$}, {$\mathrm{Gr}_{\mathbb{C}}(2,6)$}, and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: Cross-Domain {P}l{\"u}cker Invariants, Photonic--Thermal--Quantum Systems, and Formal Verification in {L}ean 4},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
-@article{turner2026grassmannian_quantum_causal_mpemba,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_quantum_causal_mpemba,
+  author  = {Turner, Wesley},
   title   = {{G}rassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the {M}pemba / Entropy-Siphoning Laws in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
-@article{turner2026grassmannian_complex_gpe_igpe,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_complex_gpe_igpe,
+  author  = {Turner, Wesley},
   title   = {Complex {G}rassmannian {$Gr_{\mathbb{C}}(2,4)$} {F}ubini--{S}tudy {G}ross--{P}itaevskii Equation, Dual-{S}chubert {iGPE}, and Homogeneous {P}l{\"u}cker {M}adelung Hydrodynamics on the {K}lein Quadric {$\mathcal{Q}_4$} in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
-@article{turner2026grassmannian_kohn_sham_dft_vrc,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_kohn_sham_dft_vrc,
+  author  = {Turner, Wesley},
   title   = {Unrestricted Spin-Polarized {G}rassmannian {K}ohn--{S}ham Density Functional Theory, Complex Plabic Vector-Relation Configurations ({VRC}), Quantum Causal Inference ({QCI}), and Soliton / Topological Braiding in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
-@article{turner2026grassmannian_speed_accuracy_barrier,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_speed_accuracy_barrier,
+  author  = {Turner, Wesley},
   title   = {Overcoming the Speed--Accuracy Barrier in Quantum Chemistry via Unrestricted Spin-Polarized {G}rassmannian {K}ohn--{S}ham {DFT} ({QCI-GXC}), Complex Plabic Vector-Relation Configurations ({VRC}), and Polariton / Plasmon / Skyrmion / {MZM} Non-Destructive Readout in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
-@article{turner2026grassmannian_tuning_materials_light,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_tuning_materials_light,
+  author  = {Turner, Wesley},
   title   = {Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear {G}rassmannian Generalized {K}adanoff--{B}aym Ansatz ({G-GKBA}) and Coupled Electron--Exciton--Phonon--{B}ogoliubov Dynamics Across {H}ubbard Chains/Ladders, {$\mathrm{WSe}_2$}, Graphite, and {$\mathrm{MgB}_2$} in {L}ean 4, {P}ython, and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026grassmannian_interfacial_heat_transport,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_interfacial_heat_transport,
+  author  = {Turner, Wesley},
   title   = {Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): {G}rassmannian Thermal Boundary Conductance ({G-TBC}), Bond-Stiffness {P}l{\"u}cker Transmission, Anharmonic {$\mathrm{Gr}_{\mathbb{C}}(2,5)$} Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in {L}ean 4, {P}ython, and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026grassmannian_cuprate_superconductivity,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_cuprate_superconductivity,
+  author  = {Turner, Wesley},
   title   = {A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): {G}rassmannian {Z}hang--{R}ice {P}l{\"u}cker Pairing ({G-CSC}), {$d_{x^2-y^2}$} Dome, Pseudogap {F}ermi Arcs, {P}lanckian Strange Metal, and 12-Target Benchmarks Across {$\mathrm{LSCO}$}, {$\mathrm{Bi2212}$}, {$\mathrm{YBCO}$}, {$\mathrm{Tl2201}$}, and {$\mathrm{Hg1201}$} in {L}ean 4, {P}ython, and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026grassmannian_interfacial_electrical_properties,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_interfacial_electrical_properties,
+  author  = {Turner, Wesley},
   title   = {Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): {G}rassmannian Process-to-Electrical Modeling ({G-IEP}), Plabic 3-Flux {D}eal--{G}rove Kinetics, {M}c{W}eeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar {$\mathrm{Si/SiO_2}$}, Curved {$\mathrm{Si}$} Nanowires, {$\mathrm{SiC/SiO_2}$}, {$\mathrm{HfO_2/SiO_2/Si}$}, and {$\mathrm{Ge/SiGe}$} in {L}ean 4, {P}ython, and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026grassmannian_rhombohedral_graphene,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_rhombohedral_graphene,
+  author  = {Turner, Wesley},
   title   = {Superconductivity, Quantum Anomalous {H}all ({QAHE/FQAH}), Supersolid Vortices, and Topological Quantum Computing in Rhombohedral and Moir{\'e} Multilayer Graphene: {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} and {$\mathrm{Gr}_{\mathbb{C}}(2,10)$} Boundary Sublattice Projection ({G-MGS}) in {L}ean 4, {P}ython, and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026grassmannian_semi_dirac,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_semi_dirac,
+  author  = {Turner, Wesley},
   title   = {Semi-{D}irac Fermions (Mass in Only One Direction) With and Without Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}$} and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: {$\mathrm{ZrSiS}$} {$B^{2/3}$} {L}andau Scaling, {D}irac-Cone Merging on {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} and {$\mathrm{Gr}_{\mathbb{C}}(2,6)$}, Directional Sheath Jamming, Anisotropic Tensor Splats, and Quantum/Photonic Applications in {L}ean 4, {R}ust, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026grassmannian_su4_witten_chy,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_su4_witten_chy,
+  author  = {Turner, Wesley},
   title   = {{$\mathrm{SU}(4)$} Symmetry, {W}itten's Twistor String Theory, Lower {G}rassmannians in {$\mathrm{Gr}_{\mathbb{R}}$} and {$\mathrm{Gr}_{\mathbb{C}}$}, Relative Merits of {C}achazo ({CSW} / {BCFW} / {H}odges / {CHY}) vs. {DDF} vs. {T}urner Models, and Grand Unification with the Holographic Principle and {AdS/CFT} in {L}ean 4, {R}ust, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026omni_carbon_kinetic_batteries_supercapacitors_dft_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026omni_carbon_kinetic_batteries_supercapacitors_dft_kicad,
+  author  = {Turner, Wesley},
   title   = {Lignolux {O}mni-{C}arbon {K}inetic {B}atteries ({Al-LGBPC}, {D}ual-{I}on {I}odine, \& {Na-Ion} {H}ard {C}arbon), {Q-Node} {Q}uinone {P}seudocapacitors, {S}emi-{D}irac {Q}uantum {C}apacitance, {QCI-GXC} {K}ohn--{S}ham {DFT} {P}assivation, and {B}iodegradable / {C}losed-{L}oop {R}ecyclable {E}lectrical {C}omponents in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
 }
 
-@article{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
+  author  = {Turner, Wesley},
   title   = {Plasma-{F}luffed {C}hitosan--{A}lginate--{M}agnesium {H}emostatic {G}auze \& {VEGF} {W}ound {S}prays, {S}prout-{Z}ero {B}iodegradable {D}iapers, {A}ero-{F}leece {T}hermal {L}iners, {CAM} {S}truvite {G}eotextiles, and {G}raphene-{S}usceptor {FJH} {Q}uartzite {A}rgon {P}lasma {T}ubes in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
 }
 
-@article{turner2026madness_tequila_plabic_vrc,
-  author  = {Turner, Wes},
+@unpublished{turner2026madness_tequila_plabic_vrc,
+  author  = {Turner, Wesley},
   title   = {Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations ({VRC}), and Unrestricted {G}rassmannian Quantum Chemistry ({QCI-GXC}) in {MADNESS} Multiwavelet {MRA-PNO} and {T}equila for Computational Advantage},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
 }
 
-@article{turner2026ddf_fracture_vs_er_epr_wormholes,
-  author  = {Turner, Wes},
+@unpublished{turner2026ddf_fracture_vs_er_epr_wormholes,
+  author  = {Turner, Wesley},
   title   = {{DDF} Fracture-Based Communication vs. {$\mathrm{ER}=\mathrm{EPR}$} Entanglement and Wormholes on {$\mathrm{Gr}_{\mathbb{C}}(2,4)$}: Topological Phase-Slip Waveguides, {D}eborah Shear-Fracture Thresholds, {M}agnus Controls, and Hybrid Fracture-Keyed Quantum Bridges in {L}ean 4 and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

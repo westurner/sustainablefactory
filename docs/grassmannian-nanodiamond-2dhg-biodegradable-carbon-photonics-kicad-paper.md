@@ -172,7 +172,7 @@ This equation reveals **three coupled mechanisms** that constitute the **Carbon 
 
 ## 2. Hydrogen-Terminated Nanodiamond 2D Hole Gas (`2DHG`) FETs (`Walker et al., IEEE Access 2026`)
 
-Following **[Walker et al. (*IEEE Access* 14, 17927–17935, 2026)](#nd35-walker2026)** ({download}`Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.md, lines 1-65 <../data/chats/Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.md>`), once the $100:1$ to $500:1$ $\mathrm{H}_2$-plasma selective etch (`h2PlasmaSp2ToSp3EtchSelectivity 500 1 = 500`) strips residual $sp^2$ shells from the laser-shocked $sp^3$ nanodiamond trunk, atomic hydrogen terminates the diamond $(100)/(111)$ facets with polarized $\mathrm{C}^{\delta-} - \mathrm{H}^{\delta+}$ covalent bonds:
+Following **{cite:p}`nd35-walker2026`** ({download}`Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.md, lines 1-65 <../data/chats/Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.md>`), once the $100:1$ to $500:1$ $\mathrm{H}_2$-plasma selective etch (`h2PlasmaSp2ToSp3EtchSelectivity 500 1 = 500`) strips residual $sp^2$ shells from the laser-shocked $sp^3$ nanodiamond trunk, atomic hydrogen terminates the diamond $(100)/(111)$ facets with polarized $\mathrm{C}^{\delta-} - \mathrm{H}^{\delta+}$ covalent bonds:
 
 1. **Negative Electron Affinity (`NEA`) & Surface Transfer Doping**:
    The surface $\text{C–H}$ dipole lowers the vacuum level below the conduction-band minimum ($\chi_{\mathrm{NEA}} \approx -1.3\text{ eV}$). When capped by high-electron-affinity transition-metal oxides ($\mathrm{MoO}_3$, $\mathrm{V}_2\mathrm{O}_5$) or our **monolithic `S-LIG` ($-\mathrm{SO}_3\mathrm{H}$ sulfonated lignin)** p-type acceptor layer, electrons tunnel spontaneously from the diamond valence band into the acceptor states.
@@ -259,29 +259,18 @@ end NanodiamondBiodegradablePhotonicsPaper35Verification
 
 ## References
 
-(nd35-walker2026)=
-<a id="nd35-walker2026"></a>
-1. **Walker, D. E., et al. (2026).** *Hydrogen-Terminated Diamond 2D Hole Gas Field-Effect Transistors for High-Frequency Power and Quantum Electronics.* IEEE Access, 14, 17927–17935. `https://doi.org/10.1109/ACCESS.2026.3659812`
-
-(nd35-kraus2017)=
-<a id="nd35-kraus2017"></a>
-2. **Kraus, D., et al. (2017).** *Formation of diamonds in laser-compressed hydrocarbons at planetary interior conditions.* Nature Astronomy, 1, 606–611. `https://doi.org/10.1038/s41550-017-0219-9`
-
-(nd35-he2022)=
-<a id="nd35-he2022"></a>
-3. **He, Z., et al. (2022).** *Diamond formation in laser-shocked polyethylene terephthalate.* Science Advances, 8(35), eabo0617. `https://doi.org/10.1126/sciadv.abo0617`
-
-(nd35-lin2014)=
-<a id="nd35-lin2014"></a>
-4. **Lin, J., et al. (2014).** *Laser-induced porous graphene films from commercial polymers.* Nature Communications, 5, 5714. `https://doi.org/10.1038/ncomms6714`
+```{bibliography}
+:list: bullet
+:filter: key in {"nd35-he2022", "nd35-kraus2017", "nd35-lin2014", "nd35-walker2026"}
+```
 
 ---
 
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026nanodiamond_2dhg_biodegradable_carbon_photonics,
-  author  = {Turner, Wes},
+@unpublished{turner2026nanodiamond_2dhg_biodegradable_carbon_photonics,
+  author  = {Turner, Wesley},
   title   = {Laser-Induced {$sp^2/sp^3$} Carbon and Nanodiamonds from Lignin, Plastics ({PET}/{PE}), {$\mathrm{CO}_2$}, and Methane Pyrolysis (``Teal Carbon''), {H}-Terminated Nanodiamond {2D} Hole Gas ({2DHG}) {FETs}, and Biodegradable Carbon Semiconductor Alternatives ({P-CQDs} and {Ox-s-CNT} / {VACNT}) to 590 nm {$n$}-Adamantane and Toxic {$c$-BAs} in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

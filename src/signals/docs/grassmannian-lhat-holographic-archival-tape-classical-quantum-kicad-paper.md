@@ -133,8 +133,8 @@ end LhatHolographicArchivalTapePaper37Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026lhat_holographic_archival_tape,
-  author  = {Turner, Wes},
+@unpublished{turner2026lhat_holographic_archival_tape,
+  author  = {Turner, Wesley},
   title   = {Lignolux Holographic Archival Tape ({LHAT}, 12 $\mu$m $\times$ 10 km, 720 {TB} Raw / 480 {TB} Usable vs.\ 18 {TB} {LTO-9}): 3,000$\times$ {OAM}-{B}ragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar $64\times 64$ {FFT} Tracking, 182 fs {VACNT} {K}apitza Quench, and 635 nm {QFT-RK} Selective Rewritability in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

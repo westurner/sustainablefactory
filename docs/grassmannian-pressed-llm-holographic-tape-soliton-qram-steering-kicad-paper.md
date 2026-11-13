@@ -122,30 +122,9 @@ end PressedLlmHolographicTapePaper38Verification
 
 ## References
 
-(pllm38-hu2022)=
-<a id="pllm38-hu2022"></a>
-1. **Hu, E. J., et al. (2022).** *LoRA: Low-Rank Adaptation of Large Language Models.* International Conference on Learning Representations (ICLR 2022). `https://arxiv.org/abs/2106.09685`
-
-(pllm38-ma2024)=
-<a id="pllm38-ma2024"></a>
-2. **Ma, S., et al. (2024).** *The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits.* arXiv:2402.17764. `https://arxiv.org/abs/2402.17764`
-
-(pllm38-shen2017)=
-<a id="pllm38-shen2017"></a>
-3. **Shen, Y., et al. (2017).** *Deep learning with coherent nanophotonic circuits.* Nature Photonics, 11, 441–446. `https://doi.org/10.1038/nphoton.2017.93`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026pressed_llm_lhat_soliton_qram_steering,
-  author  = {Turner, Wes},
-  title   = {Hosting Pressed / Mask-Locked 1-Trillion-Parameter {LLMs} on Lignolux Holographic Archival Tape ({LHAT}) with Passive Optical Matrix-Vector Multiplication ({MVM}), Soliton/{OAM} {QRAM}, and Active {N-LIG}/{B-LIG} {LoRA} Steering Layers in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"pllm38-hu2022", "pllm38-ma2024", "pllm38-shen2017"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

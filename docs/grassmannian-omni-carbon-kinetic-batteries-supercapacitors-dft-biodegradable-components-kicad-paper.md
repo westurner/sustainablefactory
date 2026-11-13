@@ -451,8 +451,8 @@ end OmniCarbonKineticBatteryQNodeSupercapDftStoragePaper41Verification
 ## 6. BibTeX Citations & Schema.org Metadata (JSON-LD)
 
 ```bibtex
-@article{turner2026omni_carbon_kinetic_batteries_supercapacitors_dft_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026omni_carbon_kinetic_batteries_supercapacitors_dft_kicad,
+  author  = {Turner, Wesley},
   title   = {Lignolux {O}mni-{C}arbon {K}inetic {B}atteries ({Al-LGBPC}, {D}ual-{I}on {I}odine, \& {Na-Ion} {H}ard {C}arbon), {Q-Node} {Q}uinone {P}seudocapacitors, {S}emi-{D}irac {Q}uantum {C}apacitance, {QCI-GXC} {K}ohn--{S}ham {DFT} {P}assivation, and {B}iodegradable / {C}losed-{L}oop {R}ecyclable {E}lectrical {C}omponents in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

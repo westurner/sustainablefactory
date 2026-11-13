@@ -139,8 +139,8 @@ end PressedLlmHolographicTapePaper38Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026pressed_llm_lhat_soliton_qram_steering,
-  author  = {Turner, Wes},
+@unpublished{turner2026pressed_llm_lhat_soliton_qram_steering,
+  author  = {Turner, Wesley},
   title   = {Hosting Pressed / Mask-Locked 1-Trillion-Parameter {LLMs} on Lignolux Holographic Archival Tape ({LHAT}) with Passive Optical Matrix-Vector Multiplication ({MVM}), Soliton/{OAM} {QRAM}, and Active {N-LIG}/{B-LIG} {LoRA} Steering Layers in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

@@ -280,8 +280,8 @@ end NanodiamondBiodegradablePhotonicsPaper35Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026nanodiamond_2dhg_biodegradable_carbon_photonics,
-  author  = {Turner, Wes},
+@unpublished{turner2026nanodiamond_2dhg_biodegradable_carbon_photonics,
+  author  = {Turner, Wesley},
   title   = {Laser-Induced {$sp^2/sp^3$} Carbon and Nanodiamonds from Lignin, Plastics ({PET}/{PE}), {$\mathrm{CO}_2$}, and Methane Pyrolysis (``Teal Carbon''), {H}-Terminated Nanodiamond {2D} Hole Gas ({2DHG}) {FETs}, and Biodegradable Carbon Semiconductor Alternatives ({P-CQDs} and {Ox-s-CNT} / {VACNT}) to 590 nm {$n$}-Adamantane and Toxic {$c$-BAs} in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

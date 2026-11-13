@@ -141,7 +141,7 @@ symmetry-broken quantum material: a light pulse above a threshold fluence drives
 an amplitude (Higgs) mode, which parametrically couples to a phase (Goldstone)
 mode and produces a coherent spatiotemporal phason texture. The work compares
 the calculated signatures with measurements in $\mathrm{K}_{0.3}\mathrm{MoO}_3$
-and reports Higgs--Goldstone beating ([Kaplan et al. 2026](#kaplan2026)). This
+and reports Higgs--Goldstone beating {cite:p}`kaplan2026faradaygoldstone`. This
 is a driven nonlinear material response and pattern-formation result, not a
 massive optical mode or a zero-diffraction result.
 
@@ -149,7 +149,7 @@ Kiselev and Pan analyze a time-varying photonic medium with Kerr nonlinearity.
 Their model describes a continuous transition with broken spatial and temporal
 translation symmetry, lattice-like patterns, soft Goldstone-like deformations,
 and massive Higgs-like amplitude oscillations in $2+1$ dimensions
-([Kiselev and Pan 2025](#kiselev2025)). It is a theoretical photonic-time-crystal
+{cite:p}`kiselev2025photonic`. It is a theoretical photonic-time-crystal
 model; symmetry breaking, a Goldstone-like label, or a time-crystalline pattern
 does not establish Proca propagation, a photon mass, or Flat Light.
 
@@ -312,7 +312,7 @@ For M87* the EHT reported a $42\pm3\,\mu\mathrm{as}$ ring; for Sgr A* it
 reported a $51.8\pm2.3\,\mu\mathrm{as}$ ring. The relation from ring diameter
 to shadow diameter and gravitational-radius scale is model/calibration
 dependent, including emission physics, spin, inclination, scattering, and
-variability ([M87* EHT paper](#ehtm872019), [Sgr A* EHT paper](#ehtsgr2022)).
+variability ({cite:p}`ehtm872019`, {cite:p}`ehtsgr2022`).
 Thus EHT is strong evidence for compact-object, lensed near-horizon emission
 consistent with Kerr/GR, while still being a model comparison rather than a
 direct pixel image of the event horizon or a ruler placed at $R_s$.
@@ -325,29 +325,28 @@ The relevant production methods answer different experimental questions:
 
 1. **Radial polarization plus high-NA focusing:** radially polarized input
   fields converge toward the optical axis and can produce a strong focal
-  $E_z$ component ([Hao and Leger 2007](#hao2007), [Sato and Kozawa
-  2009](#sato2009), [Winnerl et al. 2010](#winnerl2010)). This is a vectorial
+  $E_z$ component {cite:p}`hao2007,sato2009,winnerl2010`. This is a vectorial
   focal field, not a free propagating longitudinal photon.
 2. **Azimuthal polarization:** an important negative/control state that changes
   the focal field balance and can emphasize axial magnetic-field components.
   Grating couplers provide a classical generation route for azimuthal and
-  radial states ([Doerr and Buhl 2011](#doerr2011)).
+  radial states {cite:p}`doerr2011`.
 3. **Circular polarization:** can produce an axial component under tight
   focusing, but generally retains transverse fields and aberration sensitivity;
   nonparaxial angular-momentum and Poynting-vector bookkeeping is required
-  ([Prajapati 2021](#prajapati2021), [Biss and Brown 2004](#biss2004)).
+  {cite:p}`prajapati2021,biss2004`.
 4. **Helical/OAM and vector-vortex beams:** q-plates, geometric-phase optics,
   and phase-only SLMs create $e^{i\ell\phi}$ phase structure and spin-orbit
   states. OAM charge is a measurable optical mode property, not a photon mass;
   aberration and modified vector-field distributions remain classical controls
-  ([Biss and Brown 2004](#biss2004), [Vector Bessel beams](#vectorbessel2018)).
+  ({cite:p}`biss2004`, {cite:p}`vectorbessel2018`).
 5. **ENZ, hyperbolic, plasmonic, and evanescent structures:** can produce
   high-$k$ longitudinal near-fields, but loss, skin depth, boundary charge,
   and finite propagation length must be measured.
 6. **Longitudinal-suppression controls:** vector-beam designs that eliminate
   the longitudinal electric component are valuable negative controls against
-  detector, focusing, and scalar-intensity artifacts ([Stafeev and Kotlyar
-  2024a](#stafeev2024a), [Stafeev and Kotlyar 2024b](#stafeev2024b)).
+  detector, focusing, and scalar-intensity artifacts ({cite:p}`stafeev2024a`,
+  {cite:p}`stafeev2024b`).
 
 The chat discussions propose radial vector beams, q-plates, OAM/helical fields,
 and active metamaterial masks ([longitudinal CW chat](../data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md#L96-L173),
@@ -398,7 +397,7 @@ In [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) 
    - Tracking the interferometric phase slope across that $18.08\text{ nm}$ spot via balanced homodyne readout (`Signals.Homodyne`) at amplitude $\mathrm{SNR}_{\mathrm{amp}} = 30$ achieves sub-nanometer centroid localization $\sigma_{\mathrm{loc}} = \frac{135}{224}\text{ nm} \approx 0.603\text{ nm} < 1\text{ nm}$.
    - Coupling the convergent longitudinal wave into a high-effective-index hyperbolic/SPP metamaterial nanolaminate (`rGO-polyCBD-SS-Lignin`) with $M_{\mathrm{harm}}$-harmonic multiphoton thresholding and STED saturation $\zeta_{\mathrm{STED}}$ compresses the physical feature linewidth (`cascadedNanoImagingLinewidthSq`) to **$0.75\text{ nm}$** ($n_{\mathrm{eff}} = 15, M_{\mathrm{harm}} = 2, \zeta_{\mathrm{STED}} = 80$) and **$0.50\text{ nm} = 5\text{ \AA} < 1\text{ nm}$** ($n_{\mathrm{eff}} = 13.5, M_{\mathrm{harm}} = 3, \zeta_{\mathrm{STED}} = 99$).
 2. **Verified Sub-Surface Focusing in Scattering Media via `LIFU`, `AOT`, and `TRUE` Phase Conjugation**:
-   - In turbid biological tissue or opaque polymer/vitrimer precursors, classical **Low-Intensity Focused Ultrasound (`LIFU`)** ($f_{\mathrm{US}} = 1.54\text{ MHz}$, $\lambda_{\mathrm{US}} = 1\text{ mm}$, $\mathrm{MI}^2 = 18/77 < 1.9^2$), **Acousto-Optic Tomography (`AOT`)** sideband tagging ($\omega_{\pm 1} = \omega_0 \pm \omega_{\mathrm{US}}$ read out on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ via $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}$), and **Time-Reversed Ultrasonically Encoded (`TRUE`)** optical focusing ($\eta_{\mathrm{TRUE}}(N_{\mathrm{modes}}) = \frac{\pi}{4}(N_{\mathrm{modes}}-1)+1 > 1$, iterative `DORT` variance compression $\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m$) provide a calibrated, non-ionizing sub-surface focusing benchmark ([Xu, Liu, & Wang 2011](#xu2011true_flat)).
+   - In turbid biological tissue or opaque polymer/vitrimer precursors, classical **Low-Intensity Focused Ultrasound (`LIFU`)** ($f_{\mathrm{US}} = 1.54\text{ MHz}$, $\lambda_{\mathrm{US}} = 1\text{ mm}$, $\mathrm{MI}^2 = 18/77 < 1.9^2$), **Acousto-Optic Tomography (`AOT`)** sideband tagging ($\omega_{\pm 1} = \omega_0 \pm \omega_{\mathrm{US}}$ read out on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ via $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}$), and **Time-Reversed Ultrasonically Encoded (`TRUE`)** optical focusing ($\eta_{\mathrm{TRUE}}(N_{\mathrm{modes}}) = \frac{\pi}{4}(N_{\mathrm{modes}}-1)+1 > 1$, iterative `DORT` variance compression $\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m$) provide a calibrated, non-ionizing sub-surface focusing benchmark {cite:p}`xu2011true`.
 3. **Strict Pending Isolation of `LVPProcaImagingHypothesis`**:
    - High-$Z$ `LVP` direct-conversion X-ray arrays (`LVPDirectConversionImaging`) provide a verified classical $292/45 \approx 6.49\times$ charge-yield improvement and $16\times$ stopping-efficiency gain over silicon (`directConversionChargeYield`), whereas the chat's proposed $0.1\text{–}0.5\text{ \AA}$ whole-body Proca phase-contrast scanner ([IQ-Sampling-for-Signal-Phase.md, lines 5902–6140](../data/chats/IQ-Sampling-for-Signal-Phase.md#L5902-L6140)) remains isolated inside `LVPProcaImagingHypothesis` and `MultiModalSubSurfaceImagingHypothesis` until massless Maxwell controls (`masslessControlResidual ≤ masslessControlTolerance`), phantom MTF/NPS calibration, and acoustic/thermal safety bounds are experimentally satisfied.
 
@@ -411,40 +410,28 @@ In [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) 
 - <a id="popiii_gw_chat2026"></a>**Review: Population III GW Remnants**: ET/CE simulation review, DDF tail proposal, and Schur-conditioning discussion. Source: [`data/chats/Review-Pop-III-GW-Remnants.md`](../data/chats/Review-Pop-III-GW-Remnants.md#L43-L83), [`#L398-L570`](../data/chats/Review-Pop-III-GW-Remnants.md#L398-L570).
 
 ### Scholarly References
-- <a id="ehtm872019"></a>Event Horizon Telescope Collaboration et al., "First M87 Event Horizon Telescope Results. I. The Shadow of the Supermassive Black Hole," *The Astrophysical Journal Letters* 875, L1 (2019), DOI [`10.3847/2041-8213/ab0ec7`](https://doi.org/10.3847/2041-8213/ab0ec7). The reported ring is an emission/lensing observable calibrated against GRMHD and metric models.
-- <a id="ehtsgr2022"></a>Event Horizon Telescope Collaboration et al., "First Sagittarius A* Event Horizon Telescope Results. I. The Shadow of the Supermassive Black Hole in the Center of the Milky Way," *The Astrophysical Journal Letters* 930, L12 (2022), DOI [`10.3847/2041-8213/ac6674`](https://doi.org/10.3847/2041-8213/ac6674). The reported ring and central depression are model-comparison observables, not direct horizon pixels.
-- <a id="kaplan2026"></a>Kaplan, D., Volkov, P. A., Cavalleri, A., and Chandra, P., "Optically induced Faraday-Goldstone waves," *Proceedings of the National Academy of Sciences* 123(35), e2535297123 (2026), DOI [`10.1073/pnas.2535297123`](https://doi.org/10.1073/pnas.2535297123). Experimental/model comparison in a driven quantum material; not evidence of Proca propagation.
-- <a id="kiselev2025"></a>Kiselev, E. I. and Pan, Y., "Symmetry breaking and spatiotemporal pattern formation in photonic time crystals," *Physical Review A* 111, 053509 (2025), DOI [`10.1103/PhysRevA.111.053509`](https://doi.org/10.1103/PhysRevA.111.053509). Theoretical 2+1D time-varying Kerr-medium model; not evidence of a realized photon mass or Flat Light.
-- <a id="krishnendu2026"></a>Krishnendu, N. V., Schmidt, P., and Pratten, G., "Prospects for characterizing Population III remnants with next-generation gravitational-wave observatories," arXiv:2608.05846 (2026), <https://arxiv.org/abs/2608.05846>. Simulation-method reference; reported values require verification against the paper and are not an observed-event result.
-- <a id="hao2007"></a>Hao and Leger, "Experimental measurement of longitudinal component in the vicinity of focused radially polarized beam," *Optics Express* (2007), DOI [`10.1364/OE.15.003550`](https://doi.org/10.1364/OE.15.003550).
-- <a id="doerr2011"></a>Doerr and Buhl, "Circular grating coupler for creating focused azimuthally and radially polarized beams," *Optics Letters* (2011), DOI [`10.1364/OL.36.001209`](https://doi.org/10.1364/OL.36.001209).
-- <a id="biss2004"></a>Biss and Brown, "Primary aberrations in focused radially polarized vortex beams," *Optics Express* (2004), DOI [`10.1364/OPEX.12.000384`](https://doi.org/10.1364/OPEX.12.000384).
-- <a id="prajapati2021"></a>Prajapati, "Study of electric field vector, angular momentum conservation and Poynting vector of nonparaxial beams," *Journal of Optics* (2021), DOI [`10.1088/2040-8986/abe1cc`](https://doi.org/10.1088/2040-8986/abe1cc).
-- <a id="sato2009"></a>Sato and Kozawa, "Spatial Resolution for Fluorescence Depletion Microscopy Using Axial Electric Field Generated by Focused Radially Polarized Beams" (2009), DOI [`10.1364/NTM.2009.NMA3`](https://doi.org/10.1364/NTM.2009.NMA3).
-- <a id="winnerl2010"></a>Winnerl, Hubrich, Peter, Schneider, and Helm, "Longitudinal fields in focused radially polarized terahertz beams" (2010), DOI [`10.1109/ICIMW.2010.5613048`](https://doi.org/10.1109/ICIMW.2010.5613048).
-- <a id="stafeev2024a"></a>Stafeev and Kotlyar, "Tight Focusing of Vector Beams without Longitudinal Component of the Electric Field" (2024), DOI [`10.1109/PIERS62282.2024.10617865`](https://doi.org/10.1109/PIERS62282.2024.10617865).
-- <a id="stafeev2024b"></a>Stafeev and Kotlyar, "Sharp Focusing of Vector Beams Which Do Not Contain Longitudinal Component of the Electric Field" (2024), DOI [`10.3103/S1060992X24700590`](https://doi.org/10.3103/S1060992X24700590).
-- <a id="vectorbessel2018"></a>"Vector Bessel Beams with Modified Field Distribution," *Journal of Laser Micro/Nanoengineering* (2018), DOI [`10.2961/JLMN.2018.03.0013`](https://doi.org/10.2961/JLMN.2018.03.0013).
-- <a id="wan2018"></a>Wan et al., "Laser-reduced graphene: synthesis, properties, and applications," *Advanced Materials Technologies* 3, 1700315 (2018), DOI [`10.1002/admt.201700315`](https://doi.org/10.1002/admt.201700315).
-- <a id="mahmood2020"></a>Mahmood, F. et al., "Laser-Induced Graphene Derived from Kraft Lignin for Flexible Supercapacitors," *ACS Omega* 5(24), 14611--14618 (2020), DOI [`10.1021/acsomega.0c01293`](https://doi.org/10.1021/acsomega.0c01293). Direct-laser-writing lignin/LIG material precedent.
-- <a id="ye2017"></a>Ye, R. et al., "Laser-Induced Graphene Formation on Wood," *Advanced Materials* 29(37), 1702211 (2017), DOI [`10.1002/adma.201702211`](https://doi.org/10.1002/adma.201702211). CO2-laser wood/graphene precedent; not Proca or athermal evidence.
-- <a id="ghavipanjeh2024"></a>Ghavipanjeh, A. and Sadeghzadeh, S., "Simulation and experimental evaluation of laser-induced graphene on the cellulose and lignin substrates," *Scientific Reports* 14, 4475 (2024), DOI [`10.1038/s41598-024-54982-1`](https://doi.org/10.1038/s41598-024-54982-1). Explicitly discusses CO2-laser conversion, gas release, porosity, and defects.
-- <a id="zhang2024"></a>Zhang, H. et al., "Probing laser-induced structural transformation of lignin into few-layer graphene," *Green Chemistry* 26(10), 5921--5932 (2024), DOI [`10.1039/d3gc03603k`](https://doi.org/10.1039/d3gc03603k). Experimental and molecular-dynamics graphitization study.
-- <a id="meng2022"></a>Meng, L. et al., "A green route for lignin-derived graphene electrodes: A disposable platform for electrochemical biosensors," *Biosensors and Bioelectronics* 218, 114742 (2022), DOI [`10.1016/j.bios.2022.114742`](https://doi.org/10.1016/j.bios.2022.114742). Sequential laser-lithography and post-treatment precedent.
-- <a id="yang2024"></a>Yang, S. et al., "Low-Defect Laser-Induced Graphene from Lignin for Smart Triboelectric Touch Sensors," *ACS Applied Nano Materials* (2024), DOI [`10.1021/acsanm.4c05362`](https://doi.org/10.1021/acsanm.4c05362). Low-defect lignin-LIG endpoint precedent.
-- <a id="ye2024"></a>Ye et al., "A review on the laser-induced synthesis of graphene and its applications in sensors," *Journal of Materials Science* 59, 11644-11668 (2024), DOI [`10.1007/s10853-024-09883-z`](https://doi.org/10.1007/s10853-024-09883-z).
-- <a id="cheng2026"></a>Cheng et al., "Maskless photolithography for micro- and nanofabrication," *Moore and More* 3, 7 (2026), DOI [`10.1007/s44275-026-00046-7`](https://doi.org/10.1007/s44275-026-00046-7).
-- <a id="park2024"></a>Park et al., "Laser-based selective material processing for next-generation additive manufacturing," *Advanced Materials* 36, 2307586 (2024), DOI [`10.1002/adma.202307586`](https://doi.org/10.1002/adma.202307586).
-- <a id="you2020"></a>You et al., "Laser fabrication of graphene-based flexible electronics," *Advanced Materials* 32, 1901981 (2020), DOI [`10.1002/adma.201901981`](https://doi.org/10.1002/adma.201901981).
-- <a id="claro2022"></a>Claro et al., "Sustainable carbon sources for green laser-induced graphene: A perspective on fundamental principles, applications, and challenges," *Applied Physics Reviews* 9 (2022), DOI [`10.1063/5.0100785`](https://doi.org/10.1063/5.0100785).
-- <a id="lee2023"></a>Lee et al., "Ultra-thin light-weight laser-induced-graphene (LIG) diffractive optics," *Light: Science & Applications* 12, 146 (2023), DOI [`10.1038/s41377-023-01143-0`](https://doi.org/10.1038/s41377-023-01143-0).
-- <a id="kim2025"></a>Kim and Kim, "Wearable healthcare using laser-induced graphene," *JMST Advances* 7, 177-185 (2025), DOI [`10.1007/s42791-025-00113-4`](https://doi.org/10.1007/s42791-025-00113-4).
-- <a id="lin2021"></a>Lin et al., "Fabricating nanodiamonds from biomass by direct laser writing under ambient conditions," *ACS Sustainable Chemistry & Engineering* 9, 3112-3123 (2021), DOI [`10.1021/acssuschemeng.0c07607`](https://doi.org/10.1021/acssuschemeng.0c07607).
-- <a id="joshi2021"></a>Joshi et al., "Advances in laser-assisted conversion of polymeric and graphitic carbon into nanodiamond films," *Nanotechnology* 32, 432001 (2021), DOI [`10.1088/1361-6528/ac1097`](https://doi.org/10.1088/1361-6528/ac1097).
-- <a id="morais2026"></a>Morais et al., "Investigating planar Proca metamaterials in nonlinear (2+1)-Electrodynamics," arXiv:2607.23013 (2026), [arXiv:2607.23013](https://arxiv.org/abs/2607.23013). Theory/model reference only.
-- <a id="akkanen2022"></a>Akkanen, Fernandez, and Sun, "Optical modification of 2D materials: methods and applications," *Advanced Materials* 34, 2110152 (2022), DOI [`10.1002/adma.202110152`](https://doi.org/10.1002/adma.202110152).
-- <a id="mikki2021"></a>Mikki, "Proca metamaterials, massive electromagnetism, and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021), DOI [`10.1002/andp.202000625`](https://doi.org/10.1002/andp.202000625). Theory/model reference only.
-- <a id="xu2011true_flat"></a>Xu, X., Liu, H., and Wang, L. V., "Time-reversed ultrasonically encoded optical focusing into scattering media," *Nature Photonics* 5(3), 154--157 (2011), DOI [`10.1038/nphoton.2010.306`](https://doi.org/10.1038/nphoton.2010.306). Classical acousto-optic tagging and time-reversal sub-surface focusing benchmark.
+
+```{bibliography}
+:list: bullet
+:filter: key in {"akkanen2022optical", "biss2004", "c2022sustainable", "cheng2026maskless", "doerr2011", "ehtm872019", "ehtsgr2022", "ghavipanjeh2024cellulose", "hao2007", "joshi2021advances", "kaplan2026faradaygoldstone", "kim2025wearable", "kiselev2025photonic", "krishnendu2026", "lee2023ultra", "lin2021fabricating", "mahmood2020kraft", "meng2022greenlignin", "mikki2021proca", "morais2026investigating", "park2024laser", "prajapati2021", "sato2009", "stafeev2024a", "stafeev2024b", "vectorbessel2018", "wan2018laser", "winnerl2010", "xu2011true", "yang2024lowdefect", "ye2017wood", "ye2024review", "you2020laser", "zhang2024fewlayer"}
+```
+
+### Evidence Notes
+
+- {cite:p}`ehtm872019`: The reported ring is an emission/lensing observable calibrated against GRMHD and metric models.
+- {cite:p}`ehtsgr2022`: The reported ring and central depression are model-comparison observables, not direct horizon pixels.
+- {cite:p}`kaplan2026faradaygoldstone`: Experimental/model comparison in a driven quantum material; not evidence of Proca propagation.
+- {cite:p}`kiselev2025photonic`: Theoretical 2+1D time-varying Kerr-medium model; not evidence of a realized photon mass or Flat Light.
+- {cite:p}`krishnendu2026`: Simulation-method reference; reported values require verification against the paper and are not an observed-event result.
+- {cite:p}`mahmood2020kraft`: Direct-laser-writing lignin/LIG material precedent.
+- {cite:p}`ye2017wood`: CO2-laser wood/graphene precedent; not Proca or athermal evidence.
+- {cite:p}`ghavipanjeh2024cellulose`: Explicitly discusses CO2-laser conversion, gas release, porosity, and defects.
+- {cite:p}`zhang2024fewlayer`: Experimental and molecular-dynamics graphitization study.
+- {cite:p}`meng2022greenlignin`: Sequential laser-lithography and post-treatment precedent.
+- {cite:p}`yang2024lowdefect`: Low-defect lignin-LIG endpoint precedent.
+- {cite:p}`morais2026investigating`: Theory/model reference only.
+- {cite:p}`mikki2021proca`: Theory/model reference only.
+- {cite:p}`xu2011true`: Classical acousto-optic tagging and time-reversal sub-surface focusing benchmark.
 
 ## Metadata & Citations
 

@@ -604,7 +604,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 
 ```bibtex
 @misc{chat_neutrons_black_holes_fracture_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Neutrons and Black Holes and Fracture: Brittle Vacuum Fracture Waveguides and FTLE Thresholds},
   year         = {2026},
   howpublished = {AI chat log},
@@ -612,7 +612,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 }
 
 @misc{chat_superfluid_gravity_fracture_waveguide_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Superfluid Gravity and Negative Energy: Vacuum Fracture Waveguides and FTLE},
   year         = {2026},
   howpublished = {AI chat log},
@@ -620,7 +620,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 }
 
 @misc{chat_special_relativity_deborah_fracture_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Special Relativity Geometry vs. Fluid: Deborah Number and Superfluid Vacuum Fracture},
   year         = {2026},
   howpublished = {AI chat log},
@@ -628,7 +628,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 }
 
 @misc{chat_iq_sampling_ddf_sqf_deborah_2026,
-  author       = {{Unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {IQ Sampling for Signal Phase: DDF Shear Jamming, Deborah Number, and Superfluid Quantum Fracture},
   year         = {2026},
   howpublished = {AI chat log},

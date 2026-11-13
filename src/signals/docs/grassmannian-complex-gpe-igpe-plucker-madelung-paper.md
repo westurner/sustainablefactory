@@ -458,7 +458,7 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 7. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660. [DOI: 10.2139/ssrn.7406660](https://doi.org/10.2139/ssrn.7406660).
 
 <a id="cgpe-chat-gpe2026"></a>
-8. Provenance Chat Log (2026). *Grassmannian Gross–Pitaevskii Equation Formulation*. ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1-1458 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`).
+8. Turner, Wesley and Google Gemini (2026). *Grassmannian Gross–Pitaevskii Equation Formulation*. ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 1-1458 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`).
 
 ---
 
@@ -499,7 +499,7 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 }
 
 @misc{chat_grassmannian_gpe_2026,
-  author       = {Turner, Wes and {Gemini}},
+  author       = {Turner, Wesley and {Gemini}},
   title        = {Grassmannian {Gross--Pitaevskii} Equation Formulation},
   year         = {2026},
   howpublished = {AI research chat log},

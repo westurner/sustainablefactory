@@ -146,26 +146,9 @@ end VortexViaShgOpaAqmPaper36Verification
 
 ## References
 
-(vv36-dean2025)=
-<a id="vv36-dean2025"></a>
-1. **Dean, et al. (2025).** *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance.* Nature (`arXiv:2509.26425`). `https://doi.org/10.1038/s41586-025-09959-z`
-
-(vv36-ames2017)=
-<a id="vv36-ames2017"></a>
-2. **Ames, A. D., et al. (2017).** *Control Barrier Function Based Quadratic Programs for Safety Critical Systems.* IEEE Transactions on Automatic Control, 62(8), 3861–3876. `https://doi.org/10.1109/TAC.2016.2638961`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026vortex_vias_shg_opa_aqm,
-  author  = {Turner, Wes},
-  title   = {3D Helical {VortexVia} and 8-Branch {StarVortexVia} Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification ({D}ean et al., {N}ature 2025), and 4-Wire {K}elvin + Control Barrier Function ({CBF}) Active-{Q} Modulators ({AQM}) in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"pol-dean2025", "vv36-ames2017"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

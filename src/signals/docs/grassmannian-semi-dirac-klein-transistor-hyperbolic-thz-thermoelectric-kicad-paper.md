@@ -290,8 +290,8 @@ end SemiDiracApplications1To3Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026semi_dirac_devices_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026semi_dirac_devices_kicad,
+  author  = {Turner, Wesley},
   title   = {Semi-{D}irac Nanoelectronic, Hyperbolic {THz} Plasmonic, and Orthogonal Thermoelectric Devices in 405 nm / 532 nm Carbon Nanolithography and Volumetric {KiCAD}/{GDSII} {EDA}: Ballistic {K}lein Diodes/Transistors, Lithography-Free 400--800 {GHz} {THz} Bolometers, and Cross-Axis {$ZT$} Harvesters in {L}ean 4, {R}ust/{WASM}, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

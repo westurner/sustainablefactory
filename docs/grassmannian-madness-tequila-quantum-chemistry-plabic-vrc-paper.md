@@ -40,7 +40,7 @@ description: "An arXiv-ready MyST Markdown formal verification and computational
 Achieving basis-set-free chemical accuracy ($< 1\text{ kcal/mol}$) across ground-state thermochemistry, open-shell radicals, transition-state activation barriers, and strongly correlated bond-breaking pathways requires overcoming two complementary walls in modern electronic structure software:
 
 1. **The Basis-Set & $O(N_{\mathrm{basis}}^3\text{–}N_{\mathrm{basis}}^4)$ Scaling Wall in Classical Kohn–Sham DFT and Pair Natural Orbital (`PNO`) Methods**:
-   Fixed linear combinations of atomic orbitals (`LCAO`, such as `def2-QZVP` with $N_{\mathrm{AO}} \gg N_{\mathrm{occ}}$) suffer from basis-set incompleteness error (`BSIE`), two-electron repulsion integral (`ERI`) bottlenecks, and cubic $O(N_{\mathrm{basis}}^3)$ Fock diagonalizations. **MADNESS** (*Multiresolution Adaptive Numerical Environment for Scientific Simulation*, [Harrison et al. 2016](#mt-harrison2016); [Kottmann, Bischoff & Valeev 2020](#mt-kottmann2020pno)) eliminates `BSIE` by representing orbitals directly in an adaptive multiwavelet basis of polynomial order $k$ (`(k+1)^3` Legendre scaling coefficients per 3D octree node) and applying the separated Bound-State Helmholtz (`BSHApply`) Green's function $G_{\mathrm{BSH}}(\mu_i) = (-\frac{1}{2}\nabla^2 + \frac{1}{2}\mu_i^2)^{-1}$. Yet our source-level audit of `src/madness` reveals three remaining bottlenecks: (i) iterative post-KAIN `SCF::orthonormalize` loops (`do { Q = Q2(matrix_inner(...)); } while (maxq > 0.01)` in [../src/madness/src/madness/chem/SCF.cc](../src/madness/src/madness/chem/SCF.cc#L2681-L2745)), (ii) real-space multiwavelet truncation violations of the `libxc` open-shell GGA $\sigma$-Gram matrix positivity invariant $\sigma_{\alpha\alpha}\sigma_{\beta\beta} - \sigma_{\alpha\beta}^2 \ge 0$ ({download}`src/madness/src/madness/chem/XC-IMPLEMENTATION-NOTES.md, lines 33-45 <../src/madness/src/madness/chem/XC-IMPLEMENTATION-NOTES.md>`), and (iii) rational first-order MP2 denominator poles $T_{ij}^{ab} = -g_{ij}^{ab}/(\varepsilon_a + \varepsilon_b - \varepsilon_i - \varepsilon_j)$ in `PNO::pno_compress` ([../src/madness/src/madness/chem/PNO.cpp](../src/madness/src/madness/chem/PNO.cpp#L1959-L2020)) when the HOMO–LUMO gap closes at stretched bonds or conical intersections.
+   Fixed linear combinations of atomic orbitals (`LCAO`, such as `def2-QZVP` with $N_{\mathrm{AO}} \gg N_{\mathrm{occ}}$) suffer from basis-set incompleteness error (`BSIE`), two-electron repulsion integral (`ERI`) bottlenecks, and cubic $O(N_{\mathrm{basis}}^3)$ Fock diagonalizations. **MADNESS** (*Multiresolution Adaptive Numerical Environment for Scientific Simulation*, {cite:p}`mt-harrison2016`; {cite:p}`mt-kottmann2020pno`) eliminates `BSIE` by representing orbitals directly in an adaptive multiwavelet basis of polynomial order $k$ (`(k+1)^3` Legendre scaling coefficients per 3D octree node) and applying the separated Bound-State Helmholtz (`BSHApply`) Green's function $G_{\mathrm{BSH}}(\mu_i) = (-\frac{1}{2}\nabla^2 + \frac{1}{2}\mu_i^2)^{-1}$. Yet our source-level audit of `src/madness` reveals three remaining bottlenecks: (i) iterative post-KAIN `SCF::orthonormalize` loops (`do { Q = Q2(matrix_inner(...)); } while (maxq > 0.01)` in [../src/madness/src/madness/chem/SCF.cc](../src/madness/src/madness/chem/SCF.cc#L2681-L2745)), (ii) real-space multiwavelet truncation violations of the `libxc` open-shell GGA $\sigma$-Gram matrix positivity invariant $\sigma_{\alpha\alpha}\sigma_{\beta\beta} - \sigma_{\alpha\beta}^2 \ge 0$ ({download}`src/madness/src/madness/chem/XC-IMPLEMENTATION-NOTES.md, lines 33-45 <../src/madness/src/madness/chem/XC-IMPLEMENTATION-NOTES.md>`), and (iii) rational first-order MP2 denominator poles $T_{ij}^{ab} = -g_{ij}^{ab}/(\varepsilon_a + \varepsilon_b - \varepsilon_i - \varepsilon_j)$ in `PNO::pno_compress` ([../src/madness/src/madness/chem/PNO.cpp](../src/madness/src/madness/chem/PNO.cpp#L1959-L2020)) when the HOMO–LUMO gap closes at stretched bonds or conical intersections.
 2. **The Closed-Shell Lockout, PySCF CASSCF Dependency, and Dense `UpCCGSD` Gate Wall in `Tequila`'s `MADNESS` Interface**:
    **Tequila** ([Kottmann et al. 2021a](#mt-kottmann2021tequila); [Kottmann et al. 2021b](#mt-kottmann2021direct)) pairs MADNESS `pno_integrals` with Hard-Core Boson (`HCB`) Separable Pair Ansatz (`SPA-UpCCD`) and generalized `UpCCGSD` variational quantum circuits in [../src/tequila/src/tequila/quantumchemistry/madness_interface.py](../src/tequila/src/tequila/quantumchemistry/madness_interface.py#L1-L725). However, our code audit identifies three critical limitations: (i) `write_madness_input` hard-blocks all open-shell molecules (`if self.parameters.multiplicity != 1: raise TequilaMadnessException` at [line 587](../src/tequila/src/tequila/quantumchemistry/madness_interface.py#L587-L591)), (ii) `optimize_orbitals` in [../src/tequila/src/tequila/quantumchemistry/orbital_optimizer.py](../src/tequila/src/tequila/quantumchemistry/orbital_optimizer.py#L86-L105) converts `QuantumChemistryMadness` back into a Gaussian-basis `QuantumChemistryPySCF` object to invoke `pyscf.mcscf.CASSCF`, and (iii) closing the correlation gap between disconnected `SPA` pairs and full `UpCCGSD` inflates two-body gate counts from $O(N_{\mathrm{pairs}} R_{\mathrm{PNO}})$ to $\binom{N_{\mathrm{orb}}}{2} = O(N_{\mathrm{orb}}^2)$.
 
@@ -474,78 +474,9 @@ end MadnessTequilaPlabicVRCVerification
 
 ## References
 
-(mt-harrison2016)=
-<a id="mt-harrison2016"></a>
-1. **Harrison, R. J., Beylkin, G., Bischoff, F. A., Calvin, J. A., Fann, G. I., Fosso-Tande, J., Galindo, D., Hammond, J. R., Hartman-Baker, R., Hill, J. C., Jia, J., Kottmann, J. S., Ou, M.-J. Y., Pei, J., Ratcliff, L. E., Reuter, M. G., Richie-Halford, A. C., Romero, N. A., Sekino, H., Shelton, W. A., Sundahl, B. E., Thornton, W. S., Valeev, E. F., Vázquez-Mayagoitia, Á., Vence, N., Yanai, T., & Yokoi, Y. (2016).** *MADNESS: A Multiresolution, Adaptive Numerical Environment for Scientific Simulation.* SIAM Journal on Scientific Computing, 38(5), S123–S142 (`arXiv:1507.01888`).
-
-(mt-kottmann2020pno)=
-<a id="mt-kottmann2020pno"></a>
-2. **Kottmann, J. S., Bischoff, F. A., & Valeev, E. F. (2020).** *Direct determination of optimal pair-natural orbitals in a real-space representation: The second-order Møller–Plesset energy.* The Journal of Chemical Physics, 152(7), 074105 (`arXiv:1911.09988`).
-
-(mt-kottmann2021tequila)=
-<a id="mt-kottmann2021tequila"></a>
-3. **Kottmann, J. S., Alperin-Lea, S., Tamayo-Mendoza, T., Cervera-Lierta, A., Lavigne, C., Yen, T.-C., Verteletskyi, V., Schleich, P., Anand, A., Degroote, M., Chaney, S., Kesibi, M., Curnow, N. G., Solo, B., Tsilimigkounakis, G., Zendejas-Morales, C., Izmaylov, A. F., & Aspuru-Guzik, A. (2021).** *Tequila: A platform for rapid development of quantum algorithms.* Quantum Science and Technology, 6(2), 024009 (`arXiv:2011.03057`).
-
-(mt-kottmann2021direct)=
-<a id="mt-kottmann2021direct"></a>
-4. **Kottmann, J. S., Schleich, P., Tamayo-Mendoza, T., & Aspuru-Guzik, A. (2021).** *Reducing Qubit Requirements while Maintaining Numerical Precision for Molecular Simulations.* The Journal of Physical Chemistry Letters, 12(1), 663–673 (`arXiv:2008.02819`).
-
-(mt-kottmann2022spa)=
-<a id="mt-kottmann2022spa"></a>
-5. **Kottmann, J. S., & Aspuru-Guzik, A. (2022).** *Optimizedino: Molecular Graph-Based Construction of Quantum Circuits for Electronic Structure.* Physical Review A, 105(3), 032449 (`arXiv:2105.03836`).
-
-(mt-postnikov2006)=
-<a id="mt-postnikov2006"></a>
-6. **Postnikov, A. (2006).** *Total Positivity, Grassmannians, and Networks.* (`arXiv:math/0609764`).
-
-(mt-affolter2024vrc)=
-<a id="mt-affolter2024vrc"></a>
-7. **Affolter, N., Glick, M., Pylyavskyy, P., & Ramassamy, S. (2024).** *Vector-Relation Configurations and Plabic Graphs.* Selecta Mathematica, 30, 9 (`arXiv:1908.06959`).
-
-(mt-mcweeny1960)=
-<a id="mt-mcweeny1960"></a>
-8. **McWeeny, R. (1960).** *Some Recent Advances in Density Matrix Theory.* Reviews of Modern Physics, 32(2), 335–369.
-
-(mt-goerigk2017)=
-<a id="mt-goerigk2017"></a>
-9. **Goerigk, L., Hansen, A., Bauer, C., Ehrlich, S., Najibi, A., & Grimme, S. (2017).** *A look at the density functional theory zoo with the advanced GMTKN55 database for general main group thermochemistry, kinetics and noncovalent interactions.* Physical Chemistry Chemical Physics, 19(48), 32184–32215.
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026madness_tequila_plabic_vrc,
-  author  = {Turner, Wes},
-  title   = {Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations ({VRC}), and Unrestricted {G}rassmannian Quantum Chemistry ({QCI-GXC}) in {MADNESS} Multiwavelet {MRA-PNO} and {T}equila for Computational Advantage},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
-}
-
-@article{kottmann2021direct,
-  author  = {Kottmann, Jakob S. and Schleich, Philipp and Tamayo-Mendoza, Teresa and Aspuru-Guzik, Al{\'a}n},
-  title   = {Reducing Qubit Requirements while Maintaining Numerical Precision for Molecular Simulations},
-  journal = {The Journal of Physical Chemistry Letters},
-  volume  = {12},
-  number  = {1},
-  pages   = {663--673},
-  year    = {2021},
-  doi     = {10.1021/acs.jpclett.0c03410},
-  eprint  = {2008.02819}
-}
-
-@article{kottmann2021tequila,
-  author  = {Kottmann, Jakob S. and Alperin-Lea, Sumner and Tamayo-Mendoza, Teresa and others},
-  title   = {Tequila: A platform for rapid development of quantum algorithms},
-  journal = {Quantum Science and Technology},
-  volume  = {6},
-  number  = {2},
-  pages   = {024009},
-  year    = {2021},
-  doi     = {10.1088/2058-9565/abe567},
-  eprint  = {2011.03057}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"affolter2024vrc", "goerigk2017gmtkn55", "mcweeny1960densityMatrix", "mt-harrison2016", "mt-kottmann2020pno", "mt-kottmann2021direct", "mt-kottmann2021tequila", "mt-kottmann2022spa", "postnikov2006"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

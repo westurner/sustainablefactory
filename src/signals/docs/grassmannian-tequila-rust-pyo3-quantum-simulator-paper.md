@@ -409,8 +409,8 @@ end TequilaRustPyO3SimulatorVerification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026tequila_rust_pyo3_simulator,
-  author  = {Turner, Wes},
+@unpublished{turner2026tequila_rust_pyo3_simulator,
+  author  = {Turner, Wesley},
   title   = {A {R}ust/{PyO3} (\texttt{maturin}) Quantum Simulation Backend for {T}equila: Complex {G}rassmannians {$\mathrm{Gr}_{\mathbb{C}}(k, n)$}, Layer-Coded Plabic Vector-Relation Configurations ({VRC}), {M}adelung/{DDF} Hydrodynamics, and Quantum Causal Inference ({QCI}) in {L}ean 4, {R}ust, and {P}ython},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

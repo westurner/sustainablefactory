@@ -48,7 +48,7 @@ Proca propulsion, FRC-density, Argon-ionization, or over-unity MHD claims.
 | [Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum](https://doi.org/10.1103/rbt4-psfd) | Non-equilibrium free-energy monotone $\Delta F = k_B T \ln 2 \cdot D_{\mathrm{KL}}(\rho\Vert\gamma_\beta)$; piecewise-linear Lorenz thermo-majorization ($\rho \succ_{\mathrm{th}} \sigma$); majorization shortcut gap | `Signals.QuantumCausalInference.qrtNonEquilibriumFreeEnergy`, `qrtMajorizationShortcutGap`, `thermo_majorization_dominates` | peer-reviewed PRX theoretical framework (Summer et al. 2026, *Phys. Rev. X* 16, 011050) |
 | [A Semantics for Counterfactuals in Quantum Causal Models](https://arxiv.org/abs/2302.11783) | Abduction–Action–Prediction counterfactual semantics; Choi–Jamiołkowski process subspaces in $\mathrm{Gr}_{\mathbb{C}}(k, d_{\mathrm{in}}d_{\mathrm{out}})$; Quantum Switch Plücker ratios and OCB causal inequality violation ($3/4 < (2+\sqrt{2})/4$) | `Signals.QuantumCausalInference.abducedExogenousState`, `counterfactualStructuralOutcome`, `quantumSwitchCausalAsymmetry`, `ocbQuantumIndefiniteBound` | arXiv theoretical framework (Giarmatzi & Costa 2023; Oreshkov, Costa, & Brukner 2012) |
 | [The thermodynamic meaning of negative entropy](https://doi.org/10.1038/nature10123) | Single-shot conditional Landauer erasure $Q_{\mathrm{erasure}} = k_B T \ln 2 \cdot S(A\mid O)$ with quantum memory $O$; closed-loop Second-Law reset bound $Q_{\mathrm{closed}} \ge k_B T \ln 2$; isotropic Werner threshold $F_* \approx 0.8107$ ($p_* \approx 0.7476$) | `Signals.QuantumCausalInference.delRioConditionalLandauerHeat`, `closedLoopErasureAndMemoryResetHeat`, `wernerConditionalEntropyBitsAtHalf`, `QuantumCausalMpembaSynthesisContract` | peer-reviewed *Nature* theory (del Rio et al. 2011); chat's `-50 to -100 W` Lignolux tape claim is refuted ($-0.750\text{ }\mu\text{W}$ formula evaluation) and gated in `Signals.Pending` |
-| {download}`bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>` | Tautological vector bundle $\mathcal{T} = \{(Z,v) \mid Z \in \mathrm{Gr}(k,n),\, v = Z\alpha \in Z\}$; chordal distance $d_{\mathrm{chord}}(Z_1,Z_2)^2 = k - \|Z_1^\top Z_2\|_F^2 \le k$; hybrid concept + instance attention; orthogonal residual concept filter $\Pi_Z = Z Z^\top$; fiber-preserving RoPE ([Su et al. 2021](#su2021roformer)) | `Signals.QuantumCausalInference.grassmannChordalDistSq`, `bundleConceptSimilarity`, `bundleHybridAttentionScore`, `tautologicalFiberVec`, `tautologicalProjectorVec`, `ropeFiberRotate` | geometric position paper (De Clercq 2026); mathematical bundle morphisms and chordal bounds verified in Lean 4 and Rust |
+| {download}`bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>` | Tautological vector bundle $\mathcal{T} = \{(Z,v) \mid Z \in \mathrm{Gr}(k,n),\, v = Z\alpha \in Z\}$; chordal distance $d_{\mathrm{chord}}(Z_1,Z_2)^2 = k - \|Z_1^\top Z_2\|_F^2 \le k$; hybrid concept + instance attention; orthogonal residual concept filter $\Pi_Z = Z Z^\top$; fiber-preserving RoPE {cite:p}`su2021roformer` | `Signals.QuantumCausalInference.grassmannChordalDistSq`, `bundleConceptSimilarity`, `bundleHybridAttentionScore`, `tautologicalFiberVec`, `tautologicalProjectorVec`, `ropeFiberRotate` | geometric position paper (De Clercq 2026); mathematical bundle morphisms and chordal bounds verified in Lean 4 and Rust |
 | [Attention Is Not What You Need](https://arxiv.org/abs/2512.19428) | Causal Grassmann mixing on $\mathrm{Gr}_{\mathbb{R}}(2, r)$ via $\binom{r}{2}$ Plücker coordinates; multi-scale causal lag windows $\mathcal{W} = \{1,2,4,8,12,16\}$; convex vs. additive gating; shared-anchor multi-lag Plücker bilinear collapse | `Signals.QuantumCausalInference.pluckerPairDimension`, `kanenormanGrassmannBlockParams`, `kanenorman_vs_zhang_gating_difference`, `zhang_multi_lag_plucker_sum_collapses_to_single_wedge` | arXiv preprint (Zhang 2025) & reproduction (`kanenorman/grassmann`); exact $12.61\text{M}$ vs. $13.00\text{M}$ parameter ledger and bilinear collapse proved in Lean 4 |
 
 ## 1. Polarization-entanglement complementarity and Huygens-Steiner mapping
@@ -1410,25 +1410,25 @@ supports the proposed material transformation:
 - Binfield, Galloway, and Watson publish an article explicitly titled
    *Reciprocity failure in continuous-wave holography*. Its subject is
    holographic reciprocity, not a CW laser-processing recipe or carbon-phase
-   synthesis ([Binfield et al. 1993](#binfield1993cwholography)).
+   synthesis {cite:p}`binfield1993cwholography`.
 
 - Huang et al. demonstrate a three-dimensional optical hologram with a
    plasmonic metasurface whose nanorod orientation encodes a phase profile for
    circularly polarized illumination. The result is an optical reconstruction;
-   it is not a carbon-conversion experiment ([Huang et al. 2013](#huang2013holography)).
+   it is not a carbon-conversion experiment {cite:p}`huang2013holography`.
 - Ren et al. demonstrate OAM-conserving, OAM-selective, and OAM-multiplexing
    metasurface holograms at 632 nm, reconstructing distinct optical images.
    This supports phase/OAM multiplexing as a classical optical analogue, not
-   volumetric writing of graphene or diamond ([Ren et al. 2019](#ren2019oam)).
+   volumetric writing of graphene or diamond {cite:p}`ren2019oam`.
 - Hu et al. demonstrate a stacked metasurface and Fabry--Perot colour-filter
    device for full-colour holography and microprint under RGB laser
    illumination. The device is an optical component, not a reactive volumetric
-   precursor ([Hu et al. 2019](#hu2019holography)).
+   precursor {cite:p}`hu2019holography`.
 - Salter and Booth review adaptive optics for laser processing: aberration
    correction, focal-intensity shaping, and parallelization, with particular
    emphasis on ultrafast three-dimensional fabrication. They do not establish
    that a shaped CW field supplies a new reaction pathway or a material
-   transformation threshold ([Salter and Booth 2019](#salter2019adaptive)).
+   transformation threshold {cite:p}`salter2019adaptive`.
 
 Together, these papers justify modeling holography as a calibrated optical
 wavefront or focal-distribution control layer. They do not justify treating a
@@ -1459,19 +1459,19 @@ marked access-limited rather than represented by HTML or thumbnails.
 
 | Article | Evidence contributed | Lean treatment and limit |
 | --- | --- | --- |
-| [Wan et al. 2018](#wan2018lrg) | Review of laser-reduced graphene, direct writing, photoreduction, applications, and unresolved formation mechanisms | `laserReferenceWan2018`; review metadata only, no universal CW watts or Proca evidence |
-| [Ye et al. 2024](#ye2024lig) | Review of laser-induced graphene synthesis and sensor applications | `laserReferenceYe2024`; process parameters remain precursor- and apparatus-specific |
-| [Cheng et al. 2026](#cheng2026maskless) | Attached metadata for maskless photolithography | `laserReferenceCheng2026`; metadata-only because the attached record supplies no DOI or verified full text |
-| [Park et al. 2024](#park2024selective) | Review of laser-material interactions and selective processing for additive manufacturing | `laserReferencePark2024`; intersecting beams do not establish volumetric carbon synthesis |
-| [You et al. 2020](#you2020flexible) | Review of laser fabrication and modification of graphene-based flexible electronics | `laserReferenceYou2020`; no transferable CW power threshold |
-| [C. Claro et al. 2022](#claro2022sustainable) | Review of renewable carbon sources, green LIG mechanisms, polymer incorporation, and implementation challenges | `laserReferenceClaro2022`; supports precursor screening, not a lignin-vitrimer wattage |
-| [Lee et al. 2023](#lee2023ligoptics) | Laser-written LIG diffractive optics with amplitude/phase optical functionality | `laserReferenceLee2023`; optical patterning is not Proca-field evidence or CW in-volume synthesis |
-| [Kim and Kim 2025](#kim2025wearable) | Review of LIG fabrication parameters and wearable sensing applications | `laserReferenceKim2025`; no universal CW process power |
-| [Lin et al. 2021](#lin2021nanodiamond) | Experimental direct laser writing of nanodiamonds from a nanolignin/cellulose nanofibril biomass film in ambient air | `laserReferenceLin2021`; real biomass-to-nanodiamond evidence, but not diamond formation from lignin-vitrimer by CW holography and no verified absolute wattage in the attached metadata |
-| [Joshi et al. 2021](#joshi2021nanodiamond) | Review of UV and nanosecond laser-assisted conversion of polymeric or graphitic carbon into nanodiamond films | `laserReferenceJoshi2021`; pulsed/fluence-oriented evidence, not a CW holographic threshold |
-| [Morais et al. 2026](#morais2026proca) | Theoretical nonlinear planar Proca metamaterial and constitutive model | `laserReferenceMorais2026`; conditional theory, not a laboratory Proca field or process power |
-| [Akkanen et al. 2022](#akkanen2022optical) | Review of local optical modification and patterning of existing 2D materials in ambient conditions | `laserReferenceAkkanen2022`; modification of an existing 2D material is not synthesis inside polymer |
-| [Mikki 2021](#mikki2021proca) | Theoretical Maxwell-Proca equivalence under spatial-dispersion assumptions | `laserReferenceMikki2021`; no material realization or graphene/diamond power threshold |
+| {cite:p}`wan2018laser` | Review of laser-reduced graphene, direct writing, photoreduction, applications, and unresolved formation mechanisms | `laserReferenceWan2018`; review metadata only, no universal CW watts or Proca evidence |
+| {cite:p}`ye2024review` | Review of laser-induced graphene synthesis and sensor applications | `laserReferenceYe2024`; process parameters remain precursor- and apparatus-specific |
+| {cite:p}`cheng2026maskless` | Attached metadata for maskless photolithography | `laserReferenceCheng2026`; metadata-only because the attached record supplies no DOI or verified full text |
+| {cite:p}`park2024laser` | Review of laser-material interactions and selective processing for additive manufacturing | `laserReferencePark2024`; intersecting beams do not establish volumetric carbon synthesis |
+| {cite:p}`you2020laser` | Review of laser fabrication and modification of graphene-based flexible electronics | `laserReferenceYou2020`; no transferable CW power threshold |
+| {cite:p}`c2022sustainable` | Review of renewable carbon sources, green LIG mechanisms, polymer incorporation, and implementation challenges | `laserReferenceClaro2022`; supports precursor screening, not a lignin-vitrimer wattage |
+| {cite:p}`lee2023ultra` | Laser-written LIG diffractive optics with amplitude/phase optical functionality | `laserReferenceLee2023`; optical patterning is not Proca-field evidence or CW in-volume synthesis |
+| {cite:p}`kim2025wearable` | Review of LIG fabrication parameters and wearable sensing applications | `laserReferenceKim2025`; no universal CW process power |
+| {cite:p}`lin2021fabricating` | Experimental direct laser writing of nanodiamonds from a nanolignin/cellulose nanofibril biomass film in ambient air | `laserReferenceLin2021`; real biomass-to-nanodiamond evidence, but not diamond formation from lignin-vitrimer by CW holography and no verified absolute wattage in the attached metadata |
+| {cite:p}`joshi2021advances` | Review of UV and nanosecond laser-assisted conversion of polymeric or graphitic carbon into nanodiamond films | `laserReferenceJoshi2021`; pulsed/fluence-oriented evidence, not a CW holographic threshold |
+| {cite:p}`morais2026investigating` | Theoretical nonlinear planar Proca metamaterial and constitutive model | `laserReferenceMorais2026`; conditional theory, not a laboratory Proca field or process power |
+| {cite:p}`akkanen2022optical` | Review of local optical modification and patterning of existing 2D materials in ambient conditions | `laserReferenceAkkanen2022`; modification of an existing 2D material is not synthesis inside polymer |
+| {cite:p}`mikki2021proca` | Theoretical Maxwell-Proca equivalence under spatial-dispersion assumptions | `laserReferenceMikki2021`; no material realization or graphene/diamond power threshold |
 
 ### Updated power answer
 
@@ -1515,7 +1515,7 @@ the following narrower answer:
    ceiling. The optical-holography, LIG-optics, maskless-fabrication, and
    additive-manufacturing sources do not demonstrate a Proca field or CW
    holographic synthesis of graphene or diamond in polymer or lignin
-   ([Cheng et al.](#cheng2026maskless), [Park et al.](#park2024selective), [Lee et al.](#lee2023ligoptics), [Huang et al. 2013](#huang2013holography), [Hu et al. 2019](#hu2019holography)).
+   ([Cheng et al.](#cheng2026maskless), [Park et al.](#park2024selective), [Lee et al.](#lee2023ligoptics), {cite:p}`huang2013holography`, {cite:p}`hu2019holography`).
 
 ### Lean extraction
 
@@ -1589,14 +1589,14 @@ The paper-derived API is in [Signals/Coherence.lean](../src/signals/Signals/Cohe
 | `SemiDiracOpticalResponse` | CW pump-dependent anisotropic response | Response monotonicity under positive calibrated gain |
 | `SemiDiracOpticalPowerBudget` | Fiber-laser, resonator, metamaterial, process, and loss accounting | Declared outputs plus loss bounded by laser input |
 | `SemiDiracGrapheneProcess` | Calibrated absorbed-power threshold and end-to-end efficiency | Necessary fiber-laser lower bound; no formation claim |
-| `landauFreeEnergy` / `landauDoubleWellBarrierHeight` | Quartic Landau potential $F(\eta)$ and $T < T_c$ activation barrier $\Delta F_{\mathrm{barrier}}(T) = \frac{a_0^2(T-T_c)^2}{4b}$ ([Holtzman and Raz 2022](#holtzman2022landau)) | Single-valley convexity ($T > T_c$) vs. double-well barrier ($T < T_c$) |
+| `landauFreeEnergy` / `landauDoubleWellBarrierHeight` | Quartic Landau potential $F(\eta)$ and $T < T_c$ activation barrier $\Delta F_{\mathrm{barrier}}(T) = \frac{a_0^2(T-T_c)^2}{4b}$ {cite:p}`holtzman2022landau` | Single-valley convexity ($T > T_c$) vs. double-well barrier ($T < T_c$) |
 | `mpembaTwoModeDistance` / `mpembaProjectedSlowOverlap` | Two-eigenmode Markovian relaxation and Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$ projector $P_{\perp v_2}$ | Trajectory crossing $t_{\mathrm{cross}} > 0$ and exact slow-mode annihilation $a_{2,\mathrm{hot}} = 0$ |
-| `qrtNonEquilibriumFreeEnergy` / `ConstructorTask` | QRT non-equilibrium free energy ([Summer et al. 2026](#summer2026resource)) and Constructor Theory task surplus | Majorization shortcut gap and side-information task unlocking |
-| `counterfactualStructuralOutcome` / `quantumSwitchCausalAsymmetry` | Quantum causal counterfactuals ([Giarmatzi and Costa 2023](#giarmatzi2023semantics)) and $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch | Abduction–Action–Prediction difference, Plücker ratio $E_-/E_+$, and OCB bound $3/4 < (2+\sqrt{2})/4$ |
-| `delRioConditionalLandauerHeat` / `wernerConditionalEntropyBitsAtHalf` | Conditional Landauer erasure ([del Rio et al. 2011](#delrio2011negative)) vs. isotropic Werner state and closed-loop reset | Single-shot $Q(1) = -k_B T \ln 2$, Werner $S(A\mid O)(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$ ($F_* \approx 0.8107$), and $Q_{\mathrm{closed}} \ge k_B T \ln 2$ |
+| `qrtNonEquilibriumFreeEnergy` / `ConstructorTask` | QRT non-equilibrium free energy {cite:p}`summer2026resource` and Constructor Theory task surplus | Majorization shortcut gap and side-information task unlocking |
+| `counterfactualStructuralOutcome` / `quantumSwitchCausalAsymmetry` | Quantum causal counterfactuals {cite:p}`giarmatzi2023semantics` and $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch | Abduction–Action–Prediction difference, Plücker ratio $E_-/E_+$, and OCB bound $3/4 < (2+\sqrt{2})/4$ |
+| `delRioConditionalLandauerHeat` / `wernerConditionalEntropyBitsAtHalf` | Conditional Landauer erasure {cite:p}`delRio2011thermodynamicMeaning` vs. isotropic Werner state and closed-loop reset | Single-shot $Q(1) = -k_B T \ln 2$, Werner $S(A\mid O)(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$ ($F_* \approx 0.8107$), and $Q_{\mathrm{closed}} \ge k_B T \ln 2$ |
 | `jevEvidentialExpectedUtility` / `qcdtQuantumCausalExpectedUtility` | Jeffrey Evidential (`JEV`) vs. Pearl $\operatorname{do}$-calculus (`CEV`) vs. Quantum Causal Decision Theory (`QCDT`) & Jevons rebound | Confounding bias $\mathrm{JEV} - \mathrm{CEV} = b_{\mathrm{conf}}(u_1 - u_2)$, Plücker $\pi$-phase alternation $q(\theta)+q(\theta+\pi)=0$, and $E_{\mathrm{total}} > c_0 D_0$ |
-| `pluckerPairDimension` / `zhang_multi_lag_plucker_sum_collapses_to_single_wedge` / `shared_anchor_vs_cross_lag_klein_quadric` | Causal Grassmann flows ([Zhang 2025](#zhang2025grassmann)) and `kanenorman/grassmann` parameter, gating, & Klein quadric rank audit | $\binom{32}{2}=496$, $12{,}607{,}168 + 6\times 256^2 = 13{,}000{,}384$, gating discrepancy, shared-anchor bilinear wedge collapse ($\mathcal{Q}_4 = 0$), and cross-lag rank-4 escape ($\mathcal{Q}_4 = c_1 c_{12} > 0$) |
-| `grassmannChordalDistSq` / `tautologicalProjectorVec` / `ropeCrossFrameInnerProduct` | Tautological Bundle-Transformer ([De Clercq 2026](#declercq2026bundle)), `GrFormer` ([Kang et al. 2025](#kang2025grformer)), & `RoFormer` ([Su et al. 2021](#su2021roformer)) | Chordal bounds $0 \le d_{\mathrm{chord}}^2 \le k$, $\Pi_Z(Z\alpha)=Z\alpha$, $\Pi_Z(v^\perp)=0$, cross-fiber RoPE gauge-mismatch residual $(\sigma_2-1)(\alpha_1\beta_1 - \alpha_2\beta_2)$, and linear-in-volume 3D VideoGen scaling |
+| `pluckerPairDimension` / `zhang_multi_lag_plucker_sum_collapses_to_single_wedge` / `shared_anchor_vs_cross_lag_klein_quadric` | Causal Grassmann flows {cite:p}`zhang2025grassmannFlows` and `kanenorman/grassmann` parameter, gating, & Klein quadric rank audit | $\binom{32}{2}=496$, $12{,}607{,}168 + 6\times 256^2 = 13{,}000{,}384$, gating discrepancy, shared-anchor bilinear wedge collapse ($\mathcal{Q}_4 = 0$), and cross-lag rank-4 escape ($\mathcal{Q}_4 = c_1 c_{12} > 0$) |
+| `grassmannChordalDistSq` / `tautologicalProjectorVec` / `ropeCrossFrameInnerProduct` | Tautological Bundle-Transformer {cite:p}`declercq2026bundleTransformer`, `GrFormer` {cite:p}`kang2025grformer`, & `RoFormer` {cite:p}`su2021roformer` | Chordal bounds $0 \le d_{\mathrm{chord}}^2 \le k$, $\Pi_Z(Z\alpha)=Z\alpha$, $\Pi_Z(v^\perp)=0$, cross-fiber RoPE gauge-mismatch residual $(\sigma_2-1)(\alpha_1\beta_1 - \alpha_2\beta_2)$, and linear-in-volume 3D VideoGen scaling |
 
 Coherence fixtures are compiled in [SignalsTests.lean](../src/signals/SignalsTests.lean).
 The Proca-paper and cavity/Grover records and fixtures are compiled through the
@@ -1817,7 +1817,7 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
    archivePrefix = {arXiv}
 }
 
-@misc{morais2026planar,
+@article{morais2026planar,
   author       = {Morais, Widervan and Strikos, Stamatios and Thibes, Ronaldo and Helayeel-Neto, Jose Abdalla},
   title        = {Investigating planar Proca metamaterials in nonlinear (2+1)-Electrodynamics},
   year         = {2026},
@@ -1850,7 +1850,7 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
   note         = {Supplied PDF: data/papers/On_the_Directivity_of_Radiating_Quantum_Electromagnetic_Systems.pdf}
 }
 
-@misc{mikkiProcaMetamaterials,
+@article{mikkiProcaMetamaterials,
   author       = {Mikki, Said},
   title        = {Proca Metamaterials, Massive Electromagnetism, and Nonlocality},
   note         = {Supplied PDF: data/papers/proca-metamaterials-massive-electromagnetism-and-nonlocality-3u1dghjsii.pdf; publication metadata not supplied}

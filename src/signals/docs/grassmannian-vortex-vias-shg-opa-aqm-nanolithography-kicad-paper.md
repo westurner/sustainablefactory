@@ -159,8 +159,8 @@ end VortexViaShgOpaAqmPaper36Verification
 ### BibTeX Citations
 
 ```bibtex
-@article{turner2026vortex_vias_shg_opa_aqm,
-  author  = {Turner, Wes},
+@unpublished{turner2026vortex_vias_shg_opa_aqm,
+  author  = {Turner, Wesley},
   title   = {3D Helical {VortexVia} and 8-Branch {StarVortexVia} Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification ({D}ean et al., {N}ature 2025), and 4-Wire {K}elvin + Control Barrier Function ({CBF}) Active-{Q} Modulators ({AQM}) in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

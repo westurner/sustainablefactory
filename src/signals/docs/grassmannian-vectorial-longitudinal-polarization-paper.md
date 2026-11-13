@@ -231,7 +231,7 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
 - <a id="campione2015"></a> Campione, S., Brener, I., & Marquier, F. (2015). Theory of Epsilon-Near-Zero Modes in Ultrathin Films. *Physical Review B*, 91(12), 121408(R). DOI: `10.1103/PhysRevB.91.121408`.
 - <a id="liberal2017"></a> Liberal, I., & Engheta, N. (2017). Near-Zero Refractive Index Photonics. *Nature Photonics*, 11(3), 149–158. DOI: `10.1038/nphoton.2017.13`.
 - <a id="reshef2019"></a> Reshef, O., De Leon, I., Alam, M. Z., & Boyd, R. W. (2019). Nonlinear Optical Effects in Epsilon-Near-Zero Media. *Nature Reviews Materials*, 4(8), 535–551. DOI: `10.1038/s41578-019-0120-5`.
-- <a id="vec-chat2026"></a> Provenance Chat Log (2026). *Vectorial Wave Model for Longitudinal Polarization*. Local corpus: [data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md, lines 1–215](../../../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md#L1-L215).
+- <a id="vec-chat2026"></a> Turner, Wesley and Google Gemini (2026). *Vectorial Wave Model for Longitudinal Polarization*. Local corpus: [data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md, lines 1–215](../../../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md#L1-L215).
 
 ```bibtex
 @article{richards1959_debyewolf,
@@ -283,7 +283,7 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
 }
 
 @misc{chat_vectorial_longitudinal_polarization_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Vectorial Wave Model for Longitudinal Polarization},
   year         = {2026},
   howpublished = {AI chat log},

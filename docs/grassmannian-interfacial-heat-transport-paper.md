@@ -205,7 +205,7 @@ with $\kappa_{\mathrm{PMMA}} = 0.20\text{ W\,m}^{-1}\text{\,K}^{-1}$ ($200\text{
 
 ## 4. Frozen-Model Transferability to Hidden Industrially Relevant Interfaces ($\mathrm{AlN}/\mathrm{GaN}$, $\mathrm{GaN}/\mathrm{SiC}$, $\mathrm{GaN}/\mathrm{diamond}$, and $\mathrm{N\text{-}LIG}/\mathrm{AlN}$)
 
-Following the Problem 05 evaluation protocol (*"We then freeze a model that reproduces them and run it on a series of hidden, industrially relevant solid–solid interfaces, $\mathrm{AlN}/\mathrm{GaN}$ for example, comparing its predictions with the acoustic and diffuse mismatch models and with slower atomistic methods as the ground truth"* {cite}`discoveredmaterials2026problem05`), we evaluate the frozen `G-TBC` model (`InterfacialHeatTransportEngine.predict_hidden_transfer_interfaces`) on four wide-bandgap and sustainable-factory interfaces ([Provenance Chat Log: Bell Correlations & Vitrimer-AlN Kapitza Bonding (2026)](#gtbc-chat-aln2026), line 745; [Provenance Chat Log: AlN Plasma Synthesis for AI Accelerators (2026)](#gtbc-chat-metalplant2026), line 54; [Provenance Chat Log: GaN vs. Boron UWBG Thermal Management (2026)](#gtbc-chat-uwbg2026), line 4464):
+Following the Problem 05 evaluation protocol (*"We then freeze a model that reproduces them and run it on a series of hidden, industrially relevant solid–solid interfaces, $\mathrm{AlN}/\mathrm{GaN}$ for example, comparing its predictions with the acoustic and diffuse mismatch models and with slower atomistic methods as the ground truth"* {cite}`discoveredmaterials2026problem05`), we evaluate the frozen `G-TBC` model (`InterfacialHeatTransportEngine.predict_hidden_transfer_interfaces`) on four wide-bandgap and sustainable-factory interfaces ({cite:p}`gtbc-chat-aln2026`, line 745; {cite:p}`gtbc-chat-metalplant2026`, line 54; {cite:p}`chat_carbothermic_developments`, line 4464):
 
 | Hidden / Transfer Solid–Solid Interface | AMM ($300\text{ K}$, $\mathrm{MW\,m^{-2}\,K^{-1}}$) | DMM ($300\text{ K}$, $\mathrm{MW\,m^{-2}\,K^{-1}}$) | **Frozen `G-TBC` ($300\text{ K}$, $\mathrm{MW\,m^{-2}\,K^{-1}}$)** | **Frozen `G-TBC` ($600\text{ K}$, $\mathrm{MW\,m^{-2}\,K^{-1}}$)** | Atomistic NEMD/AGF Ground Truth ($300\text{ K}$) | AMM / DMM Rel. Error | **Frozen `G-TBC` Rel. Error** |
 |---|---|---|---|---|---|---|---|
@@ -402,13 +402,13 @@ In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS
 8. Prasher, R. (2009). *Acoustic Mismatch Model for Thermal Contact Resistance of van der Waals Contacts*. Applied Physics Letters **94**(4), 041905. [DOI: 10.1063/1.3075065](https://doi.org/10.1063/1.3075065).
 
 <a id="gtbc-chat-aln2026"></a>
-9. Provenance Chat Log (2026). *Bell Correlations in Atomic Momentum (Covalent Vitrimer–AlN/Si Kapitza Boundary Resistance Reduction)*. ({download}`data/chats/Bell-Correlations-in-Atomic-Momentum.md, lines 740-752 <../data/chats/Bell-Correlations-in-Atomic-Momentum.md>`).
+9. Turner, Wesley and Google Gemini (2026). *Bell Correlations in Atomic Momentum (Covalent Vitrimer–AlN/Si Kapitza Boundary Resistance Reduction)*. ({download}`data/chats/Bell-Correlations-in-Atomic-Momentum.md, lines 740-752 <../data/chats/Bell-Correlations-in-Atomic-Momentum.md>`).
 
 <a id="gtbc-chat-metalplant2026"></a>
-10. Provenance Chat Log (2026). *Valorizing Waste for Advanced Ceramics: Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture (AlN Heat Sinks for AI & Quantum Compute)*. ({download}`data/chats/_Valorizing Waste for Advanced Ceramics_ Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture .md, lines 50-65 <../data/chats/_Valorizing Waste for Advanced Ceramics_ Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture .md>`).
+10. Turner, Wesley and Google Gemini (2026). *Valorizing Waste for Advanced Ceramics: Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture (AlN Heat Sinks for AI & Quantum Compute)*. ({download}`data/chats/_Valorizing Waste for Advanced Ceramics_ Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture .md, lines 50-65 <../data/chats/_Valorizing Waste for Advanced Ceramics_ Sonic, Plasma, FJH, Inductive Carbothermal Synthesis Architecture .md>`).
 
 <a id="gtbc-chat-uwbg2026"></a>
-11. Provenance Chat Log (2026). *Carbothermic Reduction: 2026 Developments (GaN vs. cBN/BDD Ultra-Wide Bandgap Thermal & Breakdown Comparison)*. ({download}`data/chats/_Carbothermic Reduction_ 2026 Developments  .md, lines 4455-4475 <../data/chats/_Carbothermic Reduction_ 2026 Developments  .md>`).
+11. Turner, Wesley and Google Gemini (2026). *Carbothermic Reduction: 2026 Developments (GaN vs. cBN/BDD Ultra-Wide Bandgap Thermal & Breakdown Comparison)*. ({download}`data/chats/_Carbothermic Reduction_ 2026 Developments  .md, lines 4455-4475 <../data/chats/_Carbothermic Reduction_ 2026 Developments  .md>`).
 
 ---
 

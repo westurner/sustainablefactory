@@ -17,10 +17,10 @@ How are ultrasonic processing and carbothermic reduction integrated in sustainab
 | Ultrasonic frequencies break down pyrolyzed lignin to act as a high-surface-area reductant for bauxite/red mud. | `data/chats/_Lignin Breakdown Frequencies for Carbothermic Reduction .md` | 11, 19 | High |
 | Ultrasonically treated carbon (20 kHz) becomes active sites for cold plasma and carbothermic intermediate convergence. | `data/chats/_Lignin Breakdown Frequencies for Carbothermic Reduction .md` | 89 | High |
 | Ultrasonic energy induces acoustic cavitation to fluidize lignin-chitin agglomerates. | `data/chats/_Resonance Compaction vs. Vibroflotation for Blocks .md` | 126 | Medium |
-| Iron precursors milled under $NH_3$/$N_2$ use ultrasonic assistance to prevent agglomeration and enhance carbon diffusion. | `data/chats/_Carbothermic Reduction_ 2026 Developments  .md` (Supported by: [Joy et al. 2022](#joy2022); [Xing et al. 2013](#xing2013)) | 228-232 | Very High (Peer-Reviewed) |
-| Continuous ultrasonic vibration prevents ultra-fine metal powders from cold-welding during ball milling. | `data/chats/_Ball Milling Metal Under Protective Gas .md` (Supported by: [Wei et al. 2023](#wei2023)) | 152 | Very High (Peer-Reviewed) |
+| Iron precursors milled under $NH_3$/$N_2$ use ultrasonic assistance to prevent agglomeration and enhance carbon diffusion. | `data/chats/_Carbothermic Reduction_ 2026 Developments  .md` (Supported by: {cite:p}`Joy2022`; {cite:p}`Xing2013`) | 228-232 | Very High (Peer-Reviewed) |
+| Continuous ultrasonic vibration prevents ultra-fine metal powders from cold-welding during ball milling. | `data/chats/_Ball Milling Metal Under Protective Gas .md` (Supported by: {cite:p}`Wei2023`) | 152 | Very High (Peer-Reviewed) |
 | Carbothermic reduction off-gas ($CO/CO_2$) can be captured to form a carbon-negative loop. | `data/chats/_Ball Milling Metal Under Protective Gas .md` | 606 | High |
-| Academic literature confirms that milling in nitrogen atmospheres forms metal nitrides and offers a green mechanochemical synthesis approach. | `data/chats/_Ball Milling Metal Under Protective Gas .md` (Ref: [Takacs 2002](#takacs2002); [Xing et al. 2013](#xing2013)) | 37-46 | Very High (Peer-Reviewed) |
+| Academic literature confirms that milling in nitrogen atmospheres forms metal nitrides and offers a green mechanochemical synthesis approach. | `data/chats/_Ball Milling Metal Under Protective Gas .md` (Ref: {cite:p}`Takacs2002`; {cite:p}`Xing2013`) | 37-46 | Very High (Peer-Reviewed) |
 
 ## Conflicts and Uncertainty
 There are no direct conflicts in the reviewed logs. However, the precise interaction between 20 kHz ultrasonic frequencies and cold plasma accelerators remains a theoretical or pilot-scale integration. Scaling this up for continuous processing may reveal efficiency losses not accounted for in these theoretical formulations.
@@ -45,7 +45,7 @@ For zero-waste factories, integrating ultrasonic treatment into the lignin proce
 **BibTeX**
 ```bibtex
 @misc{chat_lignin_breakdown,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Lignin Breakdown Frequencies for Carbothermic Reduction},
   year         = {2026},
   howpublished = {AI chat log},
@@ -53,7 +53,7 @@ For zero-waste factories, integrating ultrasonic treatment into the lignin proce
 }
 
 @misc{chat_ball_milling,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Ball Milling Metal Under Protective Gas},
   year         = {2026},
   howpublished = {AI chat log},
@@ -61,7 +61,7 @@ For zero-waste factories, integrating ultrasonic treatment into the lignin proce
 }
 
 @misc{chat_carbothermic_developments,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Carbothermic Reduction: 2026 Developments},
   year         = {2026},
   howpublished = {AI chat log},
@@ -69,7 +69,7 @@ For zero-waste factories, integrating ultrasonic treatment into the lignin proce
 }
 
 @misc{chat_resonance_compaction,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Resonance Compaction vs. Vibroflotation for Blocks},
   year         = {2026},
   howpublished = {AI chat log},

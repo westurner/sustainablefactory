@@ -79,12 +79,12 @@ flowchart TD
 
 ### 1.1 How $405\text{ nm} / 532\text{ nm}$ Nanolithography Synthesizes Semi-Dirac Carbon Channels
 
-In conventional semiconductor fabrication, realizing a semi-Dirac dispersion requires either bulk crystals such as $\mathrm{ZrSiS}$ ([Shao et al. 2024](#sd31-shao2024)) or external mechanical anvil cells to strain graphene or black phosphorus ([Kim et al. 2015](#sd31-kim2015)). Our dual-wavelength $405\text{ nm} / 532\text{ nm}$ carbon nanolithography stack ({download}`_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854-952 <../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md>`; {download}`gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 520-535 <../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md>`) synthesizes strain-locked semi-Dirac channels monolithically inside `polyCBD-SS-Lignin`:
+In conventional semiconductor fabrication, realizing a semi-Dirac dispersion requires either bulk crystals such as $\mathrm{ZrSiS}$ {cite:p}`sd31-shao2024` or external mechanical anvil cells to strain graphene or black phosphorus {cite:p}`sd31-kim2015`. Our dual-wavelength $405\text{ nm} / 532\text{ nm}$ carbon nanolithography stack ({download}`_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854-952 <../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md>`; {download}`gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 520-535 <../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md>`) synthesizes strain-locked semi-Dirac channels monolithically inside `polyCBD-SS-Lignin`:
 
 1. **Sub-$20\text{ nm}$ Active Channel & Gate Writing (`stedDepletedLinewidthSq`)**:
    The $405\text{ nm}$ radial vector vortex beam ($\mathrm{NA} = 1.4$) co-focused with the $532\text{ nm}$ helical doughnut depletion ring ($\sigma\cdot\ell = +1, \zeta_{532} = 63$) writes $n$-type `N-LIG` (Layer 10) and $p$-type `S-LIG` (Layer 11) splines at feature width $w_{\mathrm{STED}} = \frac{2025}{112}\text{ nm} \approx 18.08\text{ nm} < 20\text{ nm}$.
 2. **In-Situ $532\text{ nm}$ Laser Compression Shock (LCS) Uniaxial Strain Locking (`semiDiracStrainMergingGap`)**:
-   Flashing Layer 14 (`polyCBD` Bragg clamps, $d_{\mathrm{Bragg,532}} = \frac{532}{2 \times 1.59} \approx 167.30\text{ nm}$) on the west and east boundaries of the `N-LIG` / `RTG` channel applies a permanent uniaxial compressive strain $\varepsilon_{xx}^* = \Delta_0 / \beta_{\mathrm{strain}}$, driving the Montambaux merging parameter ([Montambaux et al. 2009](#sd31-montambaux2009)) to zero:
+   Flashing Layer 14 (`polyCBD` Bragg clamps, $d_{\mathrm{Bragg,532}} = \frac{532}{2 \times 1.59} \approx 167.30\text{ nm}$) on the west and east boundaries of the `N-LIG` / `RTG` channel applies a permanent uniaxial compressive strain $\varepsilon_{xx}^* = \Delta_0 / \beta_{\mathrm{strain}}$, driving the Montambaux merging parameter {cite:p}`sd31-montambaux2009` to zero:
 
    $$
    \Delta_m(\Delta_0, \beta_{\mathrm{strain}}, \varepsilon_{xx}^*) = \Delta_0 - \beta_{\mathrm{strain}}\left(\frac{\Delta_0}{\beta_{\mathrm{strain}}}\right) = 0.
@@ -273,30 +273,9 @@ end SemiDiracApplications1To3Verification
 
 ## References
 
-(sd31-montambaux2009)=
-<a id="sd31-montambaux2009"></a>
-1. **Montambaux, G., Piéchon, F., Fuchs, J.-N., & Goerbig, M. O. (2009).** *Merging of Dirac points in a two-dimensional crystal.* Physical Review B, 80(15), 153412. `https://doi.org/10.1103/PhysRevB.80.153412`
-
-(sd31-kim2015)=
-<a id="sd31-kim2015"></a>
-2. **Kim, J., Baik, S. S., Ryu, S. H., Sohn, Y., Park, S., Park, B.-G., Denlinger, J., Yi, Y., Choi, H. J., & Kim, K. S. (2015).** *Observation of tunable band gap and anisotropic Dirac semimetal state in black phosphorus.* Science, 349(6249), 723–726. `https://doi.org/10.1126/science.aaa6486`
-
-(sd31-shao2024)=
-<a id="sd31-shao2024"></a>
-3. **Shao, Y., et al. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057 (`arXiv:2311.03735`). `https://doi.org/10.1103/PhysRevX.14.041057`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026semi_dirac_devices_kicad,
-  author  = {Turner, Wes},
-  title   = {Semi-{D}irac Nanoelectronic, Hyperbolic {THz} Plasmonic, and Orthogonal Thermoelectric Devices in 405 nm / 532 nm Carbon Nanolithography and Volumetric {KiCAD}/{GDSII} {EDA}: Ballistic {K}lein Diodes/Transistors, Lithography-Free 400--800 {GHz} {THz} Bolometers, and Cross-Axis {$ZT$} Harvesters in {L}ean 4, {R}ust/{WASM}, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"sd31-kim2015", "sd31-montambaux2009", "sd31-shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)
