@@ -15,3 +15,6 @@
 [submodule "src/sphinxcontrib-webmcp"]
 	path = src/sphinxcontrib-webmcp
 	url = https://github.com/westurner/sphinxcontrib-webmcp
+[submodule "docs/_static/mathjax"]
+	path = docs/_static/mathjax
+	url = https://github.com/mathjax/MathJax.git

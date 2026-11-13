@@ -5,6 +5,10 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
 
+# Set MATHJAX_CDN=1 to load MathJax from jsDelivr instead of the local bundle.
+MATHJAX_CDN ?= 0
+export MATHJAX_CDN
+
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
