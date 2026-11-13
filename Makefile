@@ -116,6 +116,13 @@ generate_glossary:
 	@echo "generate_glossary  #  Regenerate docs/glossary.md from docs/glossary.yaml"
 	docindex generate-glossary
 
+
+.PHONY: generate_software_citations
+generate_software_citations:
+	@echo "generate_software_citations   #  Regenerate docs/software_citations.bib from repository manifests"
+	python ./tools/generate_software_citations.py
+
+
 .PHONY: export_synonyms
 export_synonyms:
 	@echo "export_synonyms  #  Export synonym lists from glossary.yaml into synonyms.yaml"
