@@ -315,7 +315,7 @@ update_schemadir:
 .PHONY: build
 build:
 	@echo "build  #  Full build pipeline (aggregate data, transform markdown, build docs)"
-	$(MAKE) aggregate_data transform_md_all docs
+	$(MAKE) transform_md_all docs
 
 .PHONY: build_with_search
 build_with_search:

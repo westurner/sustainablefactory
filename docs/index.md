@@ -16,7 +16,6 @@ search
 :caption: Table of Contents:
 :file: _toc.yml
 ```
-- {ref}`tables_and_figures`
 
 ## `sustainablefactory` Software
 This project uses MyST Markdown and JSON to capture and model sustainable process and product information and generates RDF linked data.
