@@ -13,7 +13,6 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7395-L7935), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4839-L4932), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L1909-L1958), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L4815-L4853))
   - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L260-L315))
   - `signals-numerical-adapter` Rust/WASM Variational & Hydrodynamic Engine ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs))
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md](../src/signals/docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md)
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
   2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md)

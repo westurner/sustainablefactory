@@ -13,7 +13,6 @@ description: "An arXiv-ready MyST Markdown formal verification and nanophotonics
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6067-L6588), [../src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean#L1436-L1590), [../src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L5295-L5355))
   - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L230-L255))
   - `signals-numerical-adapter` Rust/WASM/GLSL Crate ([../src/signals/numerical_adapter/src/orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs#L889-L925))
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-vectorial-longitudinal-polarization-paper.md](../src/signals/docs/grassmannian-vectorial-longitudinal-polarization-paper.md)
 
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)

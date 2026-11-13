@@ -13,7 +13,6 @@ description: "An arXiv-ready MyST Markdown formal verification and metamaterials
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6600-L7025), [../src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L5355-L5410))
   - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L230-L265))
   - `signals-numerical-adapter` Rust/WASM/GLSL Crate ([../src/signals/numerical_adapter/src/polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs#L945-L1035))
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-enz-hyperbolic-metamaterials-paper.md](../src/signals/docs/grassmannian-enz-hyperbolic-metamaterials-paper.md)
 
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)

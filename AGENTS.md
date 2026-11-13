@@ -40,7 +40,7 @@ build-time benchmark.
 
 ## Markdown Math and Table Hygiene
 
-For MyST documents under `docs/` and `src/signals/docs/`, prevent delimiter
+For MyST documents under `docs/`, prevent delimiter
 errors at authoring time:
 
 - Use single-dollar delimiters for inline math: `$x^2 + y^2$`.
@@ -80,7 +80,7 @@ python3 tools/fix_markdown_display_math_spacing.py --file docs/example.md \
 
 Review the JSON findings, then rerun the relevant command with `--fix` to apply
 the scoped changes. The table-pipe fixer also accepts files under
-`src/signals/docs/`; pass those paths explicitly. The display-math scanner
+`docs/`; pass those paths explicitly. The display-math scanner
 checks long same-line `$$...$$` candidates (64 TeX characters by default); use
 `--inline-math-min-length` only when intentionally auditing shorter candidates.
 Both fixers verify their changes with a second scan. Do not run `--fix` over an
@@ -96,9 +96,8 @@ output, and there are no `mjx-merror` nodes or console/page errors.
   under `data/chats/` or the transform configuration and regenerate the
   output; do not patch `docs/_build/` or a generated copy alone.
 2. Audit each changed Markdown file with both fixers in report-only mode. For
-  `docs/example.md`, use `--root docs --file docs/example.md`; for
-  `src/signals/docs/example.md`, use `--root src/signals/docs --file
-  src/signals/docs/example.md`. Write reports under `.tmp/`.
+  `docs/example.md`, use `--root docs --file docs/example.md`. Write reports
+  under `.tmp/`.
 3. Review each JSON report and apply `--fix` only to the scoped files. Keep the
   report as a record of what changed; do not lower
   `--inline-math-min-length` unless intentionally investigating shorter

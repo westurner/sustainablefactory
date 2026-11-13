@@ -14,7 +14,6 @@ description: "An arXiv-ready MyST Markdown formal verification and EDA engineeri
   - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L260-L315))
   - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs), [../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs), [../src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs))
   - Cloned Open-Source RISC-V & KiCad EDA Repositories: [`src/core-v-cores`](../src/core-v-cores/README.md), [`src/cheri-cva6`](../src/cheri-cva6/README.md), [`src/cva6-cheri`](../src/cva6-cheri/README.md), [`src/ibex`](../src/ibex/README.md), [`src/kicad-happy`](../src/kicad-happy/README.md)
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md](../src/signals/docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md)
 
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)

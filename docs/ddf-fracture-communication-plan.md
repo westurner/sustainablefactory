@@ -6,7 +6,7 @@ This plan replaces the earlier SQG-centered interpretation with a conditional
 Dilatant Dark Fluid (DDF) hypothesis. It does not promote DDF from a formal
 model to an established physical medium.
 
-The relevant formal boundary is [`Signals/DDF.lean`](Signals/DDF.lean):
+The relevant formal boundary is [`Signals/DDF.lean`](../src/signals/Signals/DDF.lean):
 
 - the continuous `phi` phase carries persistent vortex pressure/enthalpy
   deficits;
@@ -18,15 +18,15 @@ The relevant formal boundary is [`Signals/DDF.lean`](Signals/DDF.lean):
   transmission operator, a detector coupling, or a faster-than-light channel.
 
 The finite trace and acoustic boundaries remain in
-[`Signals/Pending.lean`](../Signals/Pending.lean), and the numerical handoff is
-specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md)
+[`Signals/Pending.lean`](../src/signals/Signals/Pending.lean), and the numerical handoff is
+specified in {download}`RUST_NUMERICAL_ADAPTER_SPEC.md <../src/signals/numerical_adapter/docs/RUST_NUMERICAL_ADAPTER_SPEC.md>`
 (see also the cross-domain synthesis in
-[`docs/grassmannian-unification-applications-roadmap-paper.md`](../../../docs/grassmannian-unification-applications-roadmap-paper.md),
+[`grassmannian-unification-applications-roadmap-paper.md`](grassmannian-unification-applications-roadmap-paper.md),
 the $\mathrm{ER}=\mathrm{EPR}$ unification in
-[`docs/grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md`](../../../docs/grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md),
+[`grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md`](grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md),
 the companion comparison paper
-[`docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](../../../docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md),
-and [`docs/plan-index.md`](../../../docs/plan-index.md)).
+[`grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md),
+and [`plan-index.md`](plan-index.md)).
 
 The Lean Pending boundary now includes `DDFCommunicationMode`,
 `DDFFractureCommunicationEvidence`, and the Section 25–25.1 discrimination and critique
@@ -34,8 +34,8 @@ theorems `DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_
 and `DDFFractureCommunicationEvidence.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds`
 (backed by `Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`
 and `Signals.DFT.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities`
-in [`Signals/DFT.lean`](../Signals/DFT.lean) lines 7104–7534 and Rust evaluators in
-[`numerical_adapter/src/dft_plabic_vrc.rs`](../numerical_adapter/src/dft_plabic_vrc.rs) lines 1940–2065).
+in [`Signals/DFT.lean`](../src/signals/Signals/DFT.lean) lines 7104–7534 and Rust evaluators in
+[`numerical_adapter/src/dft_plabic_vrc.rs`](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs) lines 1940–2065).
 Its support predicate requires an
 independent defect proposition and detectable defect observable, a classical
 residual outside tolerance (after subtracting both calibrated acoustic transfer
@@ -140,7 +140,7 @@ Magnus law.
 
 ## How DDF Fracture-Based Communication Differs From—and Connects With—$\mathrm{ER}=\mathrm{EPR}$ Entanglement and Wormholes on $\mathrm{Gr}_{\mathbb{C}}(2,4)$
 
-In earlier exploratory chats (`data/chats/_Neutrons-and-Black-Holes-and-Fracture.md`, lines 861–954; `data/chats/Superfluid-Gravity-and-Negative-Energy.md`, lines 243–305; `data/chats/Review-Pop-III-GW-Remnants.md`, lines 1515–1650), **superfluid/DDF shear fractures** ($\mathrm{De}/\mathrm{De}_c > 1$) and **$\mathrm{ER}=\mathrm{EPR}$ wormhole bridges** ($p_{23} = \det\Psi \neq 0$) were discussed alongside one another because both involve non-positive sectors of the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$. Our formalization in [`Signals/DFT.lean`](../Signals/DFT.lean) Sections 23–25 (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`) establishes their exact mathematical separation and their hybrid synthesis:
+In earlier exploratory chats (`data/chats/_Neutrons-and-Black-Holes-and-Fracture.md`, lines 861–954; `data/chats/Superfluid-Gravity-and-Negative-Energy.md`, lines 243–305; `data/chats/Review-Pop-III-GW-Remnants.md`, lines 1515–1650), **superfluid/DDF shear fractures** ($\mathrm{De}/\mathrm{De}_c > 1$) and **$\mathrm{ER}=\mathrm{EPR}$ wormhole bridges** ($p_{23} = \det\Psi \neq 0$) were discussed alongside one another because both involve non-positive sectors of the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$. Our formalization in [`Signals/DFT.lean`](../src/signals/Signals/DFT.lean) Sections 23–25 (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`) establishes their exact mathematical separation and their hybrid synthesis:
 
 ### 1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement Bridge
 
@@ -182,7 +182,7 @@ In earlier exploratory chats (`data/chats/_Neutrons-and-Black-Holes-and-Fracture
 ## Dataset Roles
 
 The source-specific attribution and file identities are maintained in
-[`OPEN_FLOW_DATASETS.md`](OPEN_FLOW_DATASETS.md).
+{download}`OPEN_FLOW_DATASETS.md <../src/signals/numerical_adapter/docs/OPEN_FLOW_DATASETS.md>`.
 
 1. **JHTDB channel probe:** solver-produced 3D velocity, pressure, and velocity
    gradients. Use it first for interpolation checks, gradient consistency,
@@ -325,7 +325,7 @@ against the hypothesis.
    `ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`,
    `seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities`,
    `seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities`,
-   and [`docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](../../../docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md)).
+   and [`grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md)).
 
 The bounded Rust JHTDB loop is complete: the reader validates the HDF5
 checksum, root time-index attributes, `(z,y,x,vector)` velocity datasets, and

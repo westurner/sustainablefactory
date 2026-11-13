@@ -66,7 +66,7 @@ Our written plan synthesizes six already-verified pillars of the `Signals` Grass
      - verified by `test_interfacial_heat_transport_problem05_all_targets_and_transferability`.
 
 ### Phase 3: MyST Paper, Unification Integration, & Build Verification
-1. Write [grassmannian-interfacial-heat-transport-paper.md](grassmannian-interfacial-heat-transport-paper.md) (Paper 25) and synchronize with `src/signals/docs/`.
+1. Write [grassmannian-interfacial-heat-transport-paper.md](grassmannian-interfacial-heat-transport-paper.md) (Paper 25) as the canonical paper.
 2. Update [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md), [plan-index.md](plan-index.md), [chat-physics-catalog.md](chat-physics-catalog.md), [`docs/_toc.yml`](_toc.yml), [`docs/citations.bib`](citations.bib), `README.md`, `src/signals/README.md`, `AGENTS.md`, and `src/signals/blueprint/src/content.tex`.
 3. Run `lake build`, `cargo test`, `pytest`, MyST math linters, Sphinx HTML build, and `git diff --check`.
 

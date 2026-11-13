@@ -13,7 +13,6 @@ description: "An arXiv-ready MyST Markdown formal verification and multi-modal i
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean), [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), [../src/signals/Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean), [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean))
   - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex))
   - `signals-numerical-adapter` Rust/WASM Crate ([../src/signals/numerical_adapter/src/multi_array_imaging.rs](../src/signals/numerical_adapter/src/multi_array_imaging.rs))
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](../src/signals/docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)
 
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
