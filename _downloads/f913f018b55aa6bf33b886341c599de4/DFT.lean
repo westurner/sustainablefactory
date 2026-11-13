@@ -7101,7 +7101,7 @@ theorem gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_identitie
 
 Formalizes the mathematical, topological, causal, and thermodynamic distinctions—and the 4-stratum
 $\mathrm{Gr}_{\mathbb{C}}(2,4)$ connection—between:
-1. **DDF Fracture-Based Communication (`HDDF` in `src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md`)**:
+1. **DDF Fracture-Based Communication (`HDDF` in `docs/ddf-fracture-communication-plan.md`)**:
    - A **local, contiguous topological defect / phase-slip / vortex-core waveguide** formed when applied
      shear exceeds the critical Deborah threshold $\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1$
      (`ddfFractureDeborahRatio`, matching $\mathrm{De}/\mathrm{De}_c > 1 \iff \hbar^2\omega^2 < 0$ in
@@ -7139,7 +7139,7 @@ $\mathrm{Gr}_{\mathbb{C}}(2,4)$ connection—between:
 /-- **DDF Fracture Extension Signal Model (`HDDF` vs. `H0`)**:
 $$y_{\mathrm{total}}(y_{\mathrm{classical}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) =
 y_{\mathrm{classical}} + \kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}},$$
-matching `src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md`. Reduces to the classical null `H0`
+matching `docs/ddf-fracture-communication-plan.md`. Reduces to the classical null `H0`
 when $\kappa_{\mathrm{DDF}} = 0$ or $q_{\mathrm{DDF}} = 0$. -/
 @[blueprint "def:signals-dft-ddf-fracture-total-channel-signal"
   (title := "DDF fracture extension channel signal y_classical + kappa_DDF * q_DDF")

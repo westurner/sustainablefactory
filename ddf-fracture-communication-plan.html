@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DDF Fracture-Communication Validation Plan &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Research Brief: Carbothermic Reduction and Ultrasonic Processing" href="research_brief_carbothermic_ultrasonic.html" />
+    <link rel="prev" title="Dispersive Homodyne Coverage and Implementation Plan" href="dispersive-homodyne-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">DDF Fracture-Communication Validation Plan</a><ul>
+<li><a class="reference internal" href="#scope">Scope</a></li>
+<li><a class="reference internal" href="#updated-hypotheses">Updated Hypotheses</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#classical-null-hypothesis">Classical null hypothesis</a></li>
+<li><a class="reference internal" href="#ddf-extension-hypothesis">DDF extension hypothesis</a></li>
+<li><a class="reference internal" href="#separate-discriminator-hypothesis">Separate discriminator hypothesis</a></li>
+<li><a class="reference internal" href="#excluded-substitutions">Excluded substitutions</a></li>
+<li><a class="reference internal" href="#ddf-observables-and-the-magnus-control">DDF observables and the Magnus control</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-ddf-fracture-based-communication-differs-fromand-connects-with-mathrm-er-mathrm-epr-entanglement-and-wormholes-on-mathrm-gr-mathbb-c-2-4">How DDF Fracture-Based Communication Differs From—and Connects With—<span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement and Wormholes on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span></a><ul>
+<li><a class="reference internal" href="#seven-axis-discrimination-table-ddf-fracture-waveguide-vs-mathrm-er-mathrm-epr-entanglement-bridge">1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement Bridge</a></li>
+<li><a class="reference internal" href="#where-both-phenomena-live-on-the-four-stratum-mathrm-gr-mathbb-c-2-4-manifold">2. Where Both Phenomena Live on the Four-Stratum <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Manifold</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-each-analysis-can-establish">What Each Analysis Can Establish</a></li>
+<li><a class="reference internal" href="#dataset-roles">Dataset Roles</a></li>
+<li><a class="reference internal" href="#staged-work-plan">Staged Work Plan</a><ul>
+<li><a class="reference internal" href="#stage-0-preregister-the-claim-boundary">Stage 0: Preregister the claim boundary</a></li>
+<li><a class="reference internal" href="#stage-1-establish-the-classical-channel">Stage 1: Establish the classical channel</a></li>
+<li><a class="reference internal" href="#stage-2-build-the-flow-map-diagnostic">Stage 2: Build the flow-map diagnostic</a></li>
+<li><a class="reference internal" href="#stage-3-test-discontinuity-and-defect-observables">Stage 3: Test discontinuity and defect observables</a></li>
+<li><a class="reference internal" href="#stage-4-test-ddf-mode-and-causality-predictions">Stage 4: Test DDF mode and causality predictions</a></li>
+<li><a class="reference internal" href="#stage-5-information-channel-and-conservation-tests">Stage 5: Information-channel and conservation tests</a></li>
+<li><a class="reference internal" href="#stage-6-independent-replication-and-promotion-decision">Stage 6: Independent replication and promotion decision</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rejection-criteria">Rejection Criteria</a></li>
+<li><a class="reference internal" href="#next-implementation-loops">Next Implementation Loops</a></li>
+<li><a class="reference internal" href="#alternative-independent-observables">Alternative Independent Observables</a><ul>
+<li><a class="reference internal" href="#recommended-ddf-evidence-sequence">Recommended DDF evidence sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="dispersive-homodyne-plan.html" title="Dispersive Homodyne Coverage and Implementation Plan" accesskey="P">previous </a></li>
+              <li><a href="research_brief_carbothermic_ultrasonic.html" title="Research Brief: Carbothermic Reduction and Ultrasonic Processing" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/ddf-fracture-communication-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DDF Fracture-Communication Validation Plan</a><ul>
+<li><a class="reference internal" href="#scope">Scope</a></li>
+<li><a class="reference internal" href="#updated-hypotheses">Updated Hypotheses</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#classical-null-hypothesis">Classical null hypothesis</a></li>
+<li><a class="reference internal" href="#ddf-extension-hypothesis">DDF extension hypothesis</a></li>
+<li><a class="reference internal" href="#separate-discriminator-hypothesis">Separate discriminator hypothesis</a></li>
+<li><a class="reference internal" href="#excluded-substitutions">Excluded substitutions</a></li>
+<li><a class="reference internal" href="#ddf-observables-and-the-magnus-control">DDF observables and the Magnus control</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-ddf-fracture-based-communication-differs-fromand-connects-with-mathrm-er-mathrm-epr-entanglement-and-wormholes-on-mathrm-gr-mathbb-c-2-4">How DDF Fracture-Based Communication Differs From—and Connects With—<span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement and Wormholes on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span></a><ul>
+<li><a class="reference internal" href="#seven-axis-discrimination-table-ddf-fracture-waveguide-vs-mathrm-er-mathrm-epr-entanglement-bridge">1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement Bridge</a></li>
+<li><a class="reference internal" href="#where-both-phenomena-live-on-the-four-stratum-mathrm-gr-mathbb-c-2-4-manifold">2. Where Both Phenomena Live on the Four-Stratum <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Manifold</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-each-analysis-can-establish">What Each Analysis Can Establish</a></li>
+<li><a class="reference internal" href="#dataset-roles">Dataset Roles</a></li>
+<li><a class="reference internal" href="#staged-work-plan">Staged Work Plan</a><ul>
+<li><a class="reference internal" href="#stage-0-preregister-the-claim-boundary">Stage 0: Preregister the claim boundary</a></li>
+<li><a class="reference internal" href="#stage-1-establish-the-classical-channel">Stage 1: Establish the classical channel</a></li>
+<li><a class="reference internal" href="#stage-2-build-the-flow-map-diagnostic">Stage 2: Build the flow-map diagnostic</a></li>
+<li><a class="reference internal" href="#stage-3-test-discontinuity-and-defect-observables">Stage 3: Test discontinuity and defect observables</a></li>
+<li><a class="reference internal" href="#stage-4-test-ddf-mode-and-causality-predictions">Stage 4: Test DDF mode and causality predictions</a></li>
+<li><a class="reference internal" href="#stage-5-information-channel-and-conservation-tests">Stage 5: Information-channel and conservation tests</a></li>
+<li><a class="reference internal" href="#stage-6-independent-replication-and-promotion-decision">Stage 6: Independent replication and promotion decision</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rejection-criteria">Rejection Criteria</a></li>
+<li><a class="reference internal" href="#next-implementation-loops">Next Implementation Loops</a></li>
+<li><a class="reference internal" href="#alternative-independent-observables">Alternative Independent Observables</a><ul>
+<li><a class="reference internal" href="#recommended-ddf-evidence-sequence">Recommended DDF evidence sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="dispersive-homodyne-plan.html"
+                          title="previous chapter">Dispersive Homodyne Coverage and Implementation Plan</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="research_brief_carbothermic_ultrasonic.html"
+                          title="next chapter">Research Brief: Carbothermic Reduction and Ultrasonic Processing</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ddf-fracture-communication-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ddf-fracture-communication-validation-plan">
+<h1>DDF Fracture-Communication Validation Plan<a class="headerlink" href="#ddf-fracture-communication-validation-plan" title="Link to this heading">¶</a></h1>
+<section id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Link to this heading">¶</a></h2>
+<p>This plan replaces the earlier SQG-centered interpretation with a conditional
+Dilatant Dark Fluid (DDF) hypothesis. It does not promote DDF from a formal
+model to an established physical medium.</p>
+<p>The relevant formal boundary is <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals/DDF.lean</span></code></span></a>:</p>
+<ul class="simple">
+<li><p>the continuous <code class="docutils literal notranslate"><span class="pre">phi</span></code> phase carries persistent vortex pressure/enthalpy
+deficits;</p></li>
+<li><p>the dispersed <code class="docutils literal notranslate"><span class="pre">varphi</span></code> phase supplies a saturated transverse-phonon speed
+<code class="docutils literal notranslate"><span class="pre">c</span></code>;</p></li>
+<li><p>the DDF active-radiation discriminator sets <code class="docutils literal notranslate"><span class="pre">eta_act^gamma</span> <span class="pre">=</span> <span class="pre">0</span></code> rather than
+importing the GR value <code class="docutils literal notranslate"><span class="pre">1</span></code>;</p></li>
+<li><p>the current module does not define a fracture evolution law, an interface
+transmission operator, a detector coupling, or a faster-than-light channel.</p></li>
+</ul>
+<p>The finite trace and acoustic boundaries remain in
+<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals/Pending.lean</span></code></span></a>, and the numerical handoff is
+specified in <a class="reference download internal" download="" href="_downloads/d0c1e439f38fea1e1cbfd1a3dd699c1e/RUST_NUMERICAL_ADAPTER_SPEC.md"><code class="xref download docutils literal notranslate"><span class="pre">RUST_NUMERICAL_ADAPTER_SPEC.md</span></code></a>
+(see also the cross-domain synthesis in
+<a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">grassmannian-unification-applications-roadmap-paper.md</span></code></span></a>,
+the <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> unification in
+<a class="reference internal" href="grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md</span></code></span></a>,
+the companion comparison paper
+<a class="reference internal" href="grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md</span></code></span></a>,
+and <a class="reference internal" href="plan-index.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">plan-index.md</span></code></span></a>).</p>
+<p>The Lean Pending boundary now includes <code class="docutils literal notranslate"><span class="pre">DDFCommunicationMode</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code>, and the Section 25–25.1 discrimination and critique
+theorems <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds</span></code>
+and <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds</span></code>
+(backed by <code class="docutils literal notranslate"><span class="pre">Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Signals.DFT.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities</span></code>
+in <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals/DFT.lean</span></code></span></a> lines 7104–7534 and Rust evaluators in
+<a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">numerical_adapter/src/dft_plabic_vrc.rs</span></code></span></a> lines 1940–2065).
+Its support predicate requires an
+independent defect proposition and detectable defect observable, a classical
+residual outside tolerance (after subtracting both calibrated acoustic transfer
+and Kutta–Joukowski Magnus lift), nonzero coupling, a causal transverse-phonon mode,
+replication, held-out agreement, and an energy-closure premise. This is a
+typed contract over supplied premises, not a measurement or DDF existence
+theorem.</p>
+</section>
+<section id="updated-hypotheses">
+<h2>Updated Hypotheses<a class="headerlink" href="#updated-hypotheses" title="Link to this heading">¶</a></h2>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">¶</a></h3>
+<p>The revised model is:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">H0</span></code>: ordinary calibrated acoustic, elastic, optical, detector, and environmental effects explain the signal (<code class="docutils literal notranslate"><span class="pre">ddfFractureTotalChannelSignal</span> <span class="pre">y_cl</span> <span class="pre">0</span> <span class="pre">q_ddf</span> <span class="pre">=</span> <span class="pre">y_cl</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HDDF</span></code>: an additional reproducible term exists, tied to an independently measured DDF defect, pressure/enthalpy deficit, phase winding (<code class="docutils literal notranslate"><span class="pre">plaquette_phase_slip_syndrome</span></code>), or transverse-mode signature (<code class="docutils literal notranslate"><span class="pre">ddfFractureTotalChannelSignal</span> <span class="pre">y_cl</span> <span class="pre">kappa_ddf</span> <span class="pre">q_ddf</span></code>).</p></li>
+<li><p>DDF propagation remains causal at the declared transverse-phonon speed (<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">≤</span> <span class="pre">ddfFractureCausalTransitMargin</span></code>). FTL, SQG-current, or uncalibrated longitudinal-Proca results reject this DDF model rather than confirm it (<code class="docutils literal notranslate"><span class="pre">not_supported_by_noncausal_mode</span></code>).</p></li>
+<li><p>The active-radiation null test is separate and cannot establish fracture communication.</p></li>
+<li><p><strong>Crucial Boundary vs. <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement/Wormholes</strong>: DDF fracture-based communication is a <strong>local, contiguous topological-defect waveguide</strong> that operates at <strong>zero quantum entanglement</strong> (<span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 = 0\)</span>, <span class="math notranslate nohighlight">\(A_{\mathrm{ER}} = 0\)</span>) and provides <strong>non-zero standalone classical bit contrast</strong> (<span class="math notranslate nohighlight">\(\Delta y_{\mathrm{fracture}} = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} &gt; 0\)</span>), whereas an <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> wormhole throat requires <span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 &gt; 0\)</span>, has <strong>zero standalone unkeyed signaling contrast</strong> (<code class="docutils literal notranslate"><span class="pre">erEprTransceiverDifferentialContrast</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">0</span></code>), and collapses under high-energy overload (<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">wormholeNetNullDefocusingFlux</span></code>). In a hybrid architecture (<code class="docutils literal notranslate"><span class="pre">hybridFractureKeyedErEprRxProbability</span></code>), the causal DDF fracture channel can serve as the classical Gao–Jafferis–Wall (GJW) feed-forward key that unlocks a parallel <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> quantum bridge.</p></li>
+</ul>
+<p>This plan covers classical calibration, PIV/JHTDB flow maps, weak trace/jump controls, mode and arrival-time analysis, blinded waveform transmission, conservation accounting, replication, explicit rejection criteria, and the formal discrimination between DDF fracture waveguides and <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> entanglement bridges.</p>
+</section>
+<section id="classical-null-hypothesis">
+<h3>Classical null hypothesis<a class="headerlink" href="#classical-null-hypothesis" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">H0</span></code> states that every observed signal is explained by the ordinary calibrated
+source, medium, instrument, and environment:</p>
+<div class="math notranslate nohighlight">
+\[
+y(t) = y_{\mathrm{classical}}(t; \theta) + \epsilon(t).
+\]</div>
+<p>The classical model must include acoustic/elastic transfer, optical or
+radio-link response, detector response, clock synchronization, environmental
+backgrounds, missing-data handling, and an input/output energy ledger.</p>
+</section>
+<section id="ddf-extension-hypothesis">
+<h3>DDF extension hypothesis<a class="headerlink" href="#ddf-extension-hypothesis" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">HDDF</span></code> states that a persistent DDF vortex or a fracture-like discontinuity in
+the DDF substrate contributes an additional, reproducible perturbation to the
+ordinary channel:</p>
+<div class="math notranslate nohighlight">
+\[
+y(t) = y_{\mathrm{classical}}(t; \theta)
+      + \kappa_{\mathrm{DDF}} q_{\mathrm{DDF}}(t; \psi)
+      + \epsilon(t),
+\]</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">q_DDF</span></code> is not a free residual. It must be tied to independently measured
+or solver-supplied defect geometry, pressure/enthalpy deficit, transverse-mode
+content, and propagation path. The coupling <code class="docutils literal notranslate"><span class="pre">kappa_DDF</span></code>, phase, attenuation,
+and uncertainty must be estimated before the model is compared with <code class="docutils literal notranslate"><span class="pre">H0</span></code>.</p>
+<p>The first DDF-compatible prediction is <strong>ordinary causal propagation at the
+emergent transverse-phonon speed <code class="docutils literal notranslate"><span class="pre">c</span></code></strong>, not FTL communication. A result that
+requires superluminal information transport, a longitudinal massive photon, or
+an SQG current is outside this DDF model and rejects the present hypothesis
+rather than confirming it.</p>
+</section>
+<section id="separate-discriminator-hypothesis">
+<h3>Separate discriminator hypothesis<a class="headerlink" href="#separate-discriminator-hypothesis" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">HDDF-active-null</span></code> is the crossed-radiation test already represented by the DDF
+model: freely propagating, non-co-propagating radiation has no active
+DDF-gravitational sourcing (<code class="docutils literal notranslate"><span class="pre">eta_act^gamma</span> <span class="pre">=</span> <span class="pre">0</span></code>). This is a separate
+measurement. It must not be used as evidence for a fracture channel, and a null
+beam-deflection result does not establish substrate fracture or communication.</p>
+</section>
+<section id="excluded-substitutions">
+<h3>Excluded substitutions<a class="headerlink" href="#excluded-substitutions" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>SQG current terms are not silently relabeled as DDF.</p></li>
+<li><p>Proca longitudinal-mode claims require a separate frequency, polarization,
+mass, coupling, and power/loss contract.</p></li>
+<li><p>A nonzero weak trace jump, FTLE ridge, or acoustic residual is not a DDF
+defect diagnosis.</p></li>
+<li><p>A fitted residual is not <code class="docutils literal notranslate"><span class="pre">q_DDF</span></code> until a mechanism-specific observable is
+specified.</p></li>
+</ul>
+</section>
+<section id="ddf-observables-and-the-magnus-control">
+<h3>DDF observables and the Magnus control<a class="headerlink" href="#ddf-observables-and-the-magnus-control" title="Link to this heading">¶</a></h3>
+<p>The current DDF formalization and paper summary expose candidate observables:
+quantized circulation, Bernoulli pressure/enthalpy deficit, radial river
+inflow, swirl velocity, the emergent transverse-phonon speed, and the separate
+active-radiation null. The local workspace does not contain the cited SSRN PDF,
+so these are treated as model/API observables until the appendix source is
+available for page-level verification.</p>
+<p>The inflow Magnus effect is a classical control, not a DDF observable. With a
+declared circulation sign convention, the first control law is the
+Kutta-Joukowski relation per unit span:</p>
+<div class="math notranslate nohighlight">
+\[
+L'_{\mathrm{classical}} = \rho U \Gamma.
+\]</div>
+<p>An observed lift or transverse drift explained by this relation belongs to
+<code class="docutils literal notranslate"><span class="pre">H0</span></code> (<code class="docutils literal notranslate"><span class="pre">ddfFractureMagnusSubtractedResidual</span> <span class="pre">(y_ac</span> <span class="pre">+</span> <span class="pre">rho_f</span> <span class="pre">*</span> <span class="pre">u_in</span> <span class="pre">*</span> <span class="pre">gamma_c)</span> <span class="pre">y_ac</span> <span class="pre">rho_f</span> <span class="pre">u_in</span> <span class="pre">gamma_c</span> <span class="pre">=</span> <span class="pre">0</span></code>).
+A DDF candidate requires a nonzero residual after this control
+(<code class="docutils literal notranslate"><span class="pre">ddfFractureMagnusSubtractedResidual</span> <span class="pre">(y_ac</span> <span class="pre">+</span> <span class="pre">rho_f</span> <span class="pre">*</span> <span class="pre">u_in</span> <span class="pre">*</span> <span class="pre">gamma_c</span> <span class="pre">+</span> <span class="pre">kappa_ddf</span> <span class="pre">*</span> <span class="pre">q_ddf)</span> <span class="pre">y_ac</span> <span class="pre">rho_f</span> <span class="pre">u_in</span> <span class="pre">gamma_c</span> <span class="pre">=</span> <span class="pre">kappa_ddf</span> <span class="pre">*</span> <span class="pre">q_ddf</span></code>),
+an independent circulation/pressure/defect measurement, causal transverse-mode propagation,
+and replication. It is invalid to relabel ordinary Magnus lift as DDF
+coupling, and the current DDF paper formalization does not itself claim a
+Magnus law.</p>
+</section>
+</section>
+<section id="how-ddf-fracture-based-communication-differs-fromand-connects-with-mathrm-er-mathrm-epr-entanglement-and-wormholes-on-mathrm-gr-mathbb-c-2-4">
+<h2>How DDF Fracture-Based Communication Differs From—and Connects With—<span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement and Wormholes on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span><a class="headerlink" href="#how-ddf-fracture-based-communication-differs-fromand-connects-with-mathrm-er-mathrm-epr-entanglement-and-wormholes-on-mathrm-gr-mathbb-c-2-4" title="Link to this heading">¶</a></h2>
+<p>In earlier exploratory chats (<code class="docutils literal notranslate"><span class="pre">data/chats/_Neutrons-and-Black-Holes-and-Fracture.md</span></code>, lines 861–954; <code class="docutils literal notranslate"><span class="pre">data/chats/Superfluid-Gravity-and-Negative-Energy.md</span></code>, lines 243–305; <code class="docutils literal notranslate"><span class="pre">data/chats/Review-Pop-III-GW-Remnants.md</span></code>, lines 1515–1650), <strong>superfluid/DDF shear fractures</strong> (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1\)</span>) and <strong><span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> wormhole bridges</strong> (<span class="math notranslate nohighlight">\(p_{23} = \det\Psi \neq 0\)</span>) were discussed alongside one another because both involve non-positive sectors of the Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})\)</span>. Our formalization in <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Signals/DFT.lean</span></code></span></a> Sections 23–25 (<code class="docutils literal notranslate"><span class="pre">ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities</span></code>) establishes their exact mathematical separation and their hybrid synthesis:</p>
+<section id="seven-axis-discrimination-table-ddf-fracture-waveguide-vs-mathrm-er-mathrm-epr-entanglement-bridge">
+<h3>1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement Bridge<a class="headerlink" href="#seven-axis-discrimination-table-ddf-fracture-waveguide-vs-mathrm-er-mathrm-epr-entanglement-bridge" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Discrimination Axis</p></th>
+<th class="head"><p>DDF Fracture-Based Communication (<code class="docutils literal notranslate"><span class="pre">HDDF</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Entanglement / Wormhole Bridge (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sec. 23)</p></th>
+<th class="head"><p>Hybrid Fracture-Keyed <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Transceiver (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sec. 25)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Physical &amp; Topological Mechanism</strong></p></td>
+<td><p><strong>Local, contiguous 1D/2D defect waveguide</strong>: a vortex core or shear-fracture interface (<span class="math notranslate nohighlight">\(\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} &gt; 1\)</span>, FTLE <span class="math notranslate nohighlight">\(\sigma &gt; \sigma_{\mathrm{crit}}\)</span>, plaquette holonomy <span class="math notranslate nohighlight">\(2\pi n\)</span>) spanning the medium between <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.</p></td>
+<td><p><strong>Non-local bipartite conifold bridge</strong>: a deformed twistor conifold throat <span class="math notranslate nohighlight">\(\det Z_{2\times 2} = p_{23} = g_s N_c \neq 0\)</span> on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> connecting entangled mouths <span class="math notranslate nohighlight">\(A, B\)</span> without a contiguous mechanical crack in 3D space.</p></td>
+<td><p><strong>Dual-channel architecture</strong>: an <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> entangled bridge (<span class="math notranslate nohighlight">\(p_{23} \neq 0\)</span>) paired with a parallel causal DDF fracture/phonon waveguide carrying the classical GJW key.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Plücker Entanglement Concurrence <span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2\)</span></strong></p></td>
+<td><p><strong>Not required</strong> (<span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 = 0\)</span>, <span class="math notranslate nohighlight">\(p_{23} = 0\)</span>, <span class="math notranslate nohighlight">\(A_{\mathrm{ER}} = 0\)</span>): works for completely unentangled product states (<code class="docutils literal notranslate"><span class="pre">erEprPluckerConcurrenceSq</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">0</span></code>).</p></td>
+<td><p><strong>Strictly required</strong> (<span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 &gt; 0 \implies A_{\mathrm{ER}} = 16\ell_P^2 S_{\max}|p_{23}|^2 &gt; 0\)</span>); vanishes if <span class="math notranslate nohighlight">\(p_{23} = 0\)</span>.</p></td>
+<td><p><strong>Required on quantum arm</strong> (<span class="math notranslate nohighlight">\(|p_{23}|^2 = 1/4 \implies \mathcal{C}_{\mathrm{EPR}}^2 = 1\)</span>), while key arm is classical (<span class="math notranslate nohighlight">\(p_{23} = 0\)</span>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Unassisted Standalone Bit Contrast (<span class="math notranslate nohighlight">\(\Delta P\)</span>)</strong></p></td>
+<td><p><strong>Non-zero</strong> (<span class="math notranslate nohighlight">\(\Delta y_{\mathrm{fracture}} = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} &gt; 0\)</span>, <code class="docutils literal notranslate"><span class="pre">ddfFractureStandaloneBitContrast</span></code>) after causal transit <span class="math notranslate nohighlight">\(t_{\mathrm{arr}} \ge L_{\mathrm{path}}/c_{\mathrm{emergent}}\)</span>.</p></td>
+<td><p><strong>Identically zero</strong> when unkeyed (<span class="math notranslate nohighlight">\(g_{\mathrm{GJW}} = 0 \implies \Delta P_{\mathrm{RX}} = 0\)</span>, <code class="docutils literal notranslate"><span class="pre">erEprTransceiverDifferentialContrast</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">erEprNoSignalingMarginalA</span></code>).</p></td>
+<td><p><strong>Zero before key arrival</strong> (<span class="math notranslate nohighlight">\(1/2\)</span> coin flip at <span class="math notranslate nohighlight">\(\kappa_{\mathrm{DDF}} = 0\)</span>); <strong><span class="math notranslate nohighlight">\(100\%\)</span> contrast</strong> (<span class="math notranslate nohighlight">\(\Delta P_{\mathrm{RX}}^{\mathrm{hybrid}} = 1\)</span>) once causal fracture key <span class="math notranslate nohighlight">\(\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} = 1\)</span> arrives.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Quantum State Transfer Fidelity Ceiling</strong></p></td>
+<td><p><strong>Classical limit</strong> (<span class="math notranslate nohighlight">\(F_{\mathrm{eq}}(0, \sin 2\theta) = 1/2\)</span> equatorial; <span class="math notranslate nohighlight">\(F_{\mathrm{avg}}^{\mathrm{Horodecki}}(0) = 2/3\)</span> Haar-averaged 3D Bloch sphere, <code class="docutils literal notranslate"><span class="pre">horodeckiAverageTeleportationFidelity</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">/</span> <span class="pre">3</span></code>).</p></td>
+<td><p><strong>Unit quantum teleportation fidelity</strong> (<span class="math notranslate nohighlight">\(F_{\mathrm{eq}}(1/4, 1) = 1\)</span> and <span class="math notranslate nohighlight">\(F_{\mathrm{avg}}^{\mathrm{Horodecki}}(1) = 1 &gt; 2/3\)</span>) when unlocked by <span class="math notranslate nohighlight">\(2\theta_{\mathrm{GJW}} = \pi/2\)</span>.</p></td>
+<td><p><strong>Unit quantum fidelity</strong> (<span class="math notranslate nohighlight">\(F_{\mathrm{avg}}^{\mathrm{Horodecki}}(1) = 1\)</span>) with <span class="math notranslate nohighlight">\(&gt; 9{,}800\times\)</span> dilatant-attenuated corridor key gain (<code class="docutils literal notranslate"><span class="pre">ddfFractureAttenuatedCorridorGain</span></code>) and unconditionally bounded Cayley receiver probability <span class="math notranslate nohighlight">\(P_{\mathrm{RX}}^{\mathrm{sat}} \in [0, 1]\)</span> (<code class="docutils literal notranslate"><span class="pre">hybridSaturatedFractureKeyedErEprRxProbability</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. High-Power Overload Behavior</strong></p></td>
+<td><p><strong>Widens / sustains fracture</strong>: driving shear <span class="math notranslate nohighlight">\(\tau_{\mathrm{drive}} &gt; \tau_{\mathrm{crit}}\)</span> increases excess fracture shear (<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">ddfFractureOverloadExcessShear</span> <span class="pre">15</span> <span class="pre">10</span></code>).</p></td>
+<td><p><strong>Collapses wormhole throat</strong>: driving energy <span class="math notranslate nohighlight">\(E_{\mathrm{transit}} &gt; \mathcal{B}_{\mathrm{Bohm}}\)</span> yields positive Raychaudhuri focusing flux (<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">wormholeNetNullDefocusingFlux</span> <span class="pre">15</span> <span class="pre">10</span></code>), pinching off the throat.</p></td>
+<td><p>Soft quantum symbols (<span class="math notranslate nohighlight">\(N_{\mathrm{sym}}E_{\mathrm{sym}} \le \mathcal{B}_{\mathrm{Bohm}}\)</span>) transit the throat while high-power classical key pulses travel safely along the separate fracture corridor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6. Dominant Loss &amp; Failure Mode</strong></p></td>
+<td><p>Dilatant high-<span class="math notranslate nohighlight">\(k\)</span> viscosity <span class="math notranslate nohighlight">\(\eta(k) = \eta_0(1+\alpha k^2) \ge \eta_0\)</span> (<code class="docutils literal notranslate"><span class="pre">dilatantViscosity_ge_baseline</span></code>), damping <span class="math notranslate nohighlight">\(\gamma_{\mathrm{damp}}(k) \ge 0\)</span>, or crack healing when <span class="math notranslate nohighlight">\(\mathrm{De} &lt; 1\)</span>.</p></td>
+<td><p>3D Bethe sub-wavelength diffraction (<span class="math notranslate nohighlight">\(\eta_{\mathrm{Bethe}} = 1/10{,}001\)</span> unless Semi-Dirac/<code class="docutils literal notranslate"><span class="pre">TRUE</span></code>/QISM matched), DDF rest-mass throat jamming <span class="math notranslate nohighlight">\(\gamma_\varphi^4\)</span>, and decoherence of <span class="math notranslate nohighlight">\(p_{23}\)</span>.</p></td>
+<td><p>Protected by directional Semi-Dirac mode isolation (<span class="math notranslate nohighlight">\(\mathcal{R}_{\mathrm{iso}}(10) = 101\)</span>) + 1-pass McWeeny / distance-3 Plücker QEC (<span class="math notranslate nohighlight">\(p_L = 2.98\times 10^{-4}\)</span>).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>7. Owning <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Verification Contract</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code>, <code class="docutils literal notranslate"><span class="pre">DDFVortexObservable</span></code>, <code class="docutils literal notranslate"><span class="pre">MagnusEffectControl</span></code>, <code class="docutils literal notranslate"><span class="pre">WeakTraceJumpContract</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">semi_dirac_er_epr_wormhole_transceiver_identities</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="where-both-phenomena-live-on-the-four-stratum-mathrm-gr-mathbb-c-2-4-manifold">
+<h3>2. Where Both Phenomena Live on the Four-Stratum <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Manifold<a class="headerlink" href="#where-both-phenomena-live-on-the-four-stratum-mathrm-gr-mathbb-c-2-4-manifold" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Stratum 1 — Positive Grassmannian Interior <span class="math notranslate nohighlight">\(\mathrm{Gr}_{&gt;0}(2,4)\)</span> (<span class="math notranslate nohighlight">\(\mathcal{I}_{\mathrm{lc}} = 1 - \beta^2 &gt; 0\)</span>, Causal Propagation)</strong>:
+Houses both the causal transverse-phonon signal <code class="docutils literal notranslate"><span class="pre">DDFCommunicationMode.transversePhonon</span></code> propagating along a DDF fracture boundary (<span class="math notranslate nohighlight">\(v_g \le c_{\mathrm{emergent}} \le c\)</span>, <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">≤</span> <span class="pre">ddfFractureCausalTransitMargin</span></code>) and the causal classical GJW feed-forward key channel required to unlock an <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> bridge.</p></li>
+<li><p><strong>Stratum 2 — Positive Boundary <span class="math notranslate nohighlight">\(\partial\mathrm{Gr}_{\ge 0}(2,4)\)</span> (<span class="math notranslate nohighlight">\(\mathcal{I}_{\mathrm{lc}} = 0\)</span>, Horizon / Cherenkov Locus)</strong>:
+Represents the acoustic event horizon <span class="math notranslate nohighlight">\(r = r_H\)</span> (<span class="math notranslate nohighlight">\(|v_\phi| = c\)</span>) in <code class="docutils literal notranslate"><span class="pre">RiverExterior</span></code> and the dielectric Cherenkov threshold <span class="math notranslate nohighlight">\(v_{\mathrm{sweep}} = c_{\mathrm{med}}\)</span> in <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 24.</p></li>
+<li><p><strong>Stratum 3 — Spacelike / Tachyonic Shear-Fracture Sector in <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \setminus \mathrm{Gr}_{\ge 0}(2,4)\)</span> (<span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1 \iff \hbar^2\omega^2 &lt; 0\)</span>)</strong>:
+By <code class="docutils literal notranslate"><span class="pre">grassmannian_bogoliubov_proca_and_deborah_fracture_identities</span></code>, exceeding the critical Deborah ratio <span class="math notranslate nohighlight">\(\mathrm{De}/\mathrm{De}_c &gt; 1\)</span> softens the Bogoliubov dispersion to <span class="math notranslate nohighlight">\(\hbar^2\omega^2 &lt; 0\)</span>. In a DDF medium, this <strong>nucleates the topological vortex/fracture sheet</strong> (<code class="docutils literal notranslate"><span class="pre">DDFVortexObservable</span></code>); in an <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> geometry, it describes the spacelike bridge interior (<span class="math notranslate nohighlight">\(r &lt; r_H\)</span>) and throat pinch-off instability. Crucially, <strong>neither permits superluminal boundary signaling</strong> (<code class="docutils literal notranslate"><span class="pre">not_supported_by_noncausal_mode</span></code> and <code class="docutils literal notranslate"><span class="pre">erEprNoSignalingMarginalA</span></code>).</p></li>
+<li><p><strong>Stratum 4 — Off-Shell / Complex Boundary-Jump Sector in <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \setminus \mathrm{Gr}_{\ge 0}(2,4)\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Im}\mathcal{S} \neq 0\)</span>)</strong>:
+Across a DDF fracture, the spatial discontinuity is governed by the weak trace and flux jump <code class="docutils literal notranslate"><span class="pre">WeakTraceJumpContract</span></code> and quantized <span class="math notranslate nohighlight">\(2\pi n\)</span> plaquette phase slip (<code class="docutils literal notranslate"><span class="pre">plaquette_phase_slip_syndrome</span></code>). Across a traversable <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> throat, <span class="math notranslate nohighlight">\(\operatorname{Im}\mathcal{S} \neq 0\)</span> generates the negative Bohmian null stress cushion <span class="math notranslate nohighlight">\(\Sigma_{uu}^{\mathrm{Bohm}} = R_\rho - G_{\operatorname{Im}\mathcal{S}} &lt; 0\)</span> (<code class="docutils literal notranslate"><span class="pre">offShellBohmStressTensorUu</span></code>) and Dual-Schubert Josephson current <span class="math notranslate nohighlight">\(J_{\mathrm{Josephson}}\)</span> that prevent Raychaudhuri collapse.</p></li>
+</ol>
+</section>
+</section>
+<section id="what-each-analysis-can-establish">
+<h2>What Each Analysis Can Establish<a class="headerlink" href="#what-each-analysis-can-establish" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Analysis</p></th>
+<th class="head"><p>Positive result can establish</p></th>
+<th class="head"><p>It cannot establish by itself</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Calibrated acoustic/elastic transfer</p></td>
+<td><p>Ordinary channel response and residuals</p></td>
+<td><p>DDF, fracture, or a new carrier</p></td>
+</tr>
+<tr class="row-odd"><td><p>PIV/LDV velocity and pressure data</p></td>
+<td><p>Measured flow field, masks, gradients, and uncertainty</p></td>
+<td><p>A DDF substrate or pressure deficit</p></td>
+</tr>
+<tr class="row-even"><td><p>JHTDB velocity/pressure/gradient query</p></td>
+<td><p>Solver-produced flow and interpolation sensitivity</p></td>
+<td><p>Experimental validation or a full-domain flow map</p></td>
+</tr>
+<tr class="row-odd"><td><p>Particle advection and FTLE/LCS</p></td>
+<td><p>Finite transport structures and flow-map deformation</p></td>
+<td><p>Fractures, causal interfaces, or DDF coupling</p></td>
+</tr>
+<tr class="row-even"><td><p>Weak trace/jump residual</p></td>
+<td><p>Consistency with a declared interface law</p></td>
+<td><p>Crack evolution or physical fracture</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spectral/polarization mode analysis</p></td>
+<td><p>Classical mode content and residual coupling</p></td>
+<td><p>A massive longitudinal mode without a matched control</p></td>
+</tr>
+<tr class="row-even"><td><p>Crossed-beam deflection</p></td>
+<td><p>Test of active radiation sourcing</p></td>
+<td><p>Communication through a fracture</p></td>
+</tr>
+<tr class="row-odd"><td><p>Energy/momentum accounting</p></td>
+<td><p>Whether the measured result closes classically</p></td>
+<td><p>DDF energy extraction</p></td>
+</tr>
+<tr class="row-even"><td><p>Blinded encoded waveform test</p></td>
+<td><p>Reproducible channel information transfer</p></td>
+<td><p>FTL or DDF without causal and mechanism controls</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dataset-roles">
+<h2>Dataset Roles<a class="headerlink" href="#dataset-roles" title="Link to this heading">¶</a></h2>
+<p>The source-specific attribution and file identities are maintained in
+<a class="reference download internal" download="" href="_downloads/7614b223686fbc4ea652e21767bf8f11/OPEN_FLOW_DATASETS.md"><code class="xref download docutils literal notranslate"><span class="pre">OPEN_FLOW_DATASETS.md</span></code></a>.</p>
+<ol class="arabic simple">
+<li><p><strong>JHTDB channel probe:</strong> solver-produced 3D velocity, pressure, and velocity
+gradients. Use it first for interpolation checks, gradient consistency,
+particle-advection prototypes, and a bounded FTLE pipeline. The testing token
+is limited to at most 4096 spatial points per request; the current probe is
+not a full-domain validation.</p></li>
+<li><p><strong>Zenodo cylinder PIV:</strong> measured 2D <code class="docutils literal notranslate"><span class="pre">u/v/x/y</span></code> at 20 Hz and Re=413. Use it
+for the first measured flow-map/FTLE adapter, missing-mask propagation, and
+measured-versus-solver comparison. It has no pressure, density, or 3D
+velocity.</p></li>
+<li><p><strong>RSPID:</strong> synthetic particle images with known flow families and validation
+files. Use it as a positive-control suite for PIV reconstruction, image
+noise, displacement, out-of-plane effects, and missing vectors. It is not
+physical evidence.</p></li>
+<li><p><strong>MorphoDunes:</strong> compact measured <code class="docutils literal notranslate"><span class="pre">uPIV/vPIV</span></code> spatial fields with NaNs and
+bed-coordinate data. Use it for measured spatial statistics and missing-mask
+controls unless an external run record supplies a valid time axis.</p></li>
+<li><p><strong>PDEBench Sod6:</strong> solver-produced parser/provenance fixture only. Its zero
+<code class="docutils literal notranslate"><span class="pre">Vx</span></code> field and coordinate discrepancy do not support a resolved FTLE field.</p></li>
+</ol>
+</section>
+<section id="staged-work-plan">
+<h2>Staged Work Plan<a class="headerlink" href="#staged-work-plan" title="Link to this heading">¶</a></h2>
+<section id="stage-0-preregister-the-claim-boundary">
+<h3>Stage 0: Preregister the claim boundary<a class="headerlink" href="#stage-0-preregister-the-claim-boundary" title="Link to this heading">¶</a></h3>
+<p>Record the source, detector, channel geometry, clocks, units, calibration,
+control conditions, primary endpoint, exclusion rules, and stopping rule before
+looking at the proposed residual. Define <code class="docutils literal notranslate"><span class="pre">H0</span></code>, <code class="docutils literal notranslate"><span class="pre">HDDF</span></code>, and the classical
+positive/negative controls separately.</p>
+</section>
+<section id="stage-1-establish-the-classical-channel">
+<h3>Stage 1: Establish the classical channel<a class="headerlink" href="#stage-1-establish-the-classical-channel" title="Link to this heading">¶</a></h3>
+<p>Measure or ingest synchronized source and receiver traces. Fit the ordinary
+acoustic/elastic/optical model, including transfer functions, attenuation,
+reflection, detector noise, environmental drift, and missing-value masks. Require
+held-out prediction and repeatability before inspecting DDF residuals.</p>
+</section>
+<section id="stage-2-build-the-flow-map-diagnostic">
+<h3>Stage 2: Build the flow-map diagnostic<a class="headerlink" href="#stage-2-build-the-flow-map-diagnostic" title="Link to this heading">¶</a></h3>
+<p>Use the JHTDB probe to validate the array and gradient path. Then ingest a
+bounded cylinder-PIV time sequence. Record spatial interpolation, temporal
+interpolation, trajectory integrator, seed spacing, time window, deformation
+estimator, and convergence/sensitivity results. Treat FTLE ridges as transport
+features only.</p>
+</section>
+<section id="stage-3-test-discontinuity-and-defect-observables">
+<h3>Stage 3: Test discontinuity and defect observables<a class="headerlink" href="#stage-3-test-discontinuity-and-defect-observables" title="Link to this heading">¶</a></h3>
+<p>Specify the interface normal, one-sided traces, flux pairing, and jump law.
+Compare the trace/jump residual with positive and negative classical controls.
+For a DDF interpretation, add an independent defect observable: vortex
+circulation, pressure/enthalpy deficit, phase winding, or a calibrated
+transverse-mode signature. Do not infer this observable from the communication
+residual itself.</p>
+<p>Before interpreting inflow-induced transverse force, fit the classical Magnus
+control with density, inflow speed, signed circulation, lift-per-span, and
+calibrated uncertainty. The <code class="docutils literal notranslate"><span class="pre">MagnusEffectControl</span></code> record in
+<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> preserves this law and its residual separately from
+<code class="docutils literal notranslate"><span class="pre">DDFVortexObservable</span></code>.</p>
+</section>
+<section id="stage-4-test-ddf-mode-and-causality-predictions">
+<h3>Stage 4: Test DDF mode and causality predictions<a class="headerlink" href="#stage-4-test-ddf-mode-and-causality-predictions" title="Link to this heading">¶</a></h3>
+<p>Measure polarization/mode content, arrival time, dispersion, attenuation, and
+path-length scaling. The DDF-compatible prediction is a causal transverse
+mode with speed bounded by the declared emergent <code class="docutils literal notranslate"><span class="pre">c</span></code>; the control model predicts
+ordinary acoustic/elastic or electromagnetic propagation. Any FTL claim is a
+failure of the present DDF model, not a confirmation.</p>
+<p>Run the crossed-radiation active-source test as a separate preregistered
+experiment. A null result supports only the active-radiation discriminator and
+must not be folded into the fracture-channel likelihood without a declared
+coupling model.</p>
+</section>
+<section id="stage-5-information-channel-and-conservation-tests">
+<h3>Stage 5: Information-channel and conservation tests<a class="headerlink" href="#stage-5-information-channel-and-conservation-tests" title="Link to this heading">¶</a></h3>
+<p>Transmit blinded, independently generated symbols. Compare receiver decoding
+against a conventional channel with the same clocks, bandwidth, exposure,
+shielding, and detector path. Report bit error rate, latency, mutual
+information, false-positive rate, and run-to-run stability. Close mass,
+momentum, and energy accounting, including pump, actuator, detector, and
+auxiliary power.</p>
+</section>
+<section id="stage-6-independent-replication-and-promotion-decision">
+<h3>Stage 6: Independent replication and promotion decision<a class="headerlink" href="#stage-6-independent-replication-and-promotion-decision" title="Link to this heading">¶</a></h3>
+<p>Repeat with a new artifact or laboratory setup, a negative control, a classical
+positive control, and a held-out waveform. Promote only a conditional DDF
+interface if the extra term remains after classical calibration, tracks the
+independent defect observable, has the predicted mode/speed/attenuation law,
+replicates, and closes conservation. Otherwise classify the result as classical,
+anomaly candidate, inconclusive, or rejected.</p>
+</section>
+</section>
+<section id="rejection-criteria">
+<h2>Rejection Criteria<a class="headerlink" href="#rejection-criteria" title="Link to this heading">¶</a></h2>
+<p>Reject the current <code class="docutils literal notranslate"><span class="pre">HDDF</span></code> hypothesis when any necessary condition fails:</p>
+<ul class="simple">
+<li><p>the apparent signal is predicted by the calibrated classical model;</p></li>
+<li><p>the effect disappears under a blinded or negative control;</p></li>
+<li><p>no independent defect observable correlates with the effect;</p></li>
+<li><p>the inferred propagation requires superluminal information or an unsupported
+longitudinal massive mode;</p></li>
+<li><p>the fitted coupling changes with detector, interpolation, mask, or clock
+settings rather than physical source parameters;</p></li>
+<li><p>the energy or momentum ledger does not close;</p></li>
+<li><p>the result fails an independent replication or held-out waveform test;</p></li>
+<li><p>an unentangled fracture/phonon residual (<span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 = 0\)</span>) is
+claimed as evidence of an <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> wormhole bridge without independent Bell/tomography
+certification of <span class="math notranslate nohighlight">\(|p_{23}| &gt; 0\)</span>, or an unkeyed <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> state (<span class="math notranslate nohighlight">\(g_{\mathrm{GJW}} = 0\)</span>)
+is claimed to transmit standalone information (<code class="docutils literal notranslate"><span class="pre">erEprNoSignalingMarginalA</span></code>).</p></li>
+</ul>
+<p>A failure of one dataset to contain a time axis, pressure, density, or 3D field
+is <strong>inconclusive</strong>, not evidence against DDF. A failure of the complete
+pre-registered test after those fields and controls are present is evidence
+against the hypothesis.</p>
+</section>
+<section id="next-implementation-loops">
+<h2>Next Implementation Loops<a class="headerlink" href="#next-implementation-loops" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>[Complete] Add a MATLAB reader for the measured cylinder PIV artifact with <code class="docutils literal notranslate"><span class="pre">u/v/x/y</span></code>,
+20 Hz metadata, NaN/mask preservation, MD5/SHA-256 verification, and a
+bounded time-window selector.</p></li>
+<li><p>[Complete] Add one RSPID validation subset reader for paired images, generator
+parameters, validation fields, and reconstruction-error summaries.</p></li>
+<li><p>[Complete, bounded diagnostic] Convert the bounded JHTDB NPZ probe to the
+common <code class="docutils literal notranslate"><span class="pre">VectorFieldDataset</span></code> JSON contract and add bounded RK2 particle
+advection, out-of-domain coverage, and velocity-gradient consistency checks.
+This remains a solver-produced diagnostic and is not experimental evidence.</p></li>
+<li><p>[Complete, contract boundary] Add a flow-map/FTLE result contract with interpolation, seed, window, and
+convergence metadata; keep it separate from fracture evidence.</p></li>
+<li><p>[Complete, contract boundary] Add the DDF-specific defect/mode contract and
+the classical Magnus control. Populate it only after an independent
+observable and a classical control are available; no current fixture is
+physical DDF evidence.</p></li>
+<li><p>[Complete, formal discrimination &amp; seven-mode multi-path synthesis] Formalize the quantitative
+discrimination between DDF fracture-based communication (<code class="docutils literal notranslate"><span class="pre">HDDF</span></code>, <span class="math notranslate nohighlight">\(p_{23}=0\)</span>,
+standalone causal contrast <span class="math notranslate nohighlight">\(\Delta y = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} &gt; 0\)</span>)
+and <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> entanglement/wormholes (<span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 &gt; 0\)</span>,
+unkeyed contrast <span class="math notranslate nohighlight">\(0\)</span>, Raychaudhuri overload collapse) together with Section 25.1 critique
+gap-closures and the Section 25.2 seven-mode multi-path taxonomy across photons around (<span class="math notranslate nohighlight">\(M_1\)</span>),
+photons/phonons through fracture around (<span class="math notranslate nohighlight">\(M_2\)</span>), and Semi-Dirac / soft modes through the
+wormhole (<span class="math notranslate nohighlight">\(M_3\)</span>) plus their four composite combinations <span class="math notranslate nohighlight">\(M_1+M_3\)</span>, <span class="math notranslate nohighlight">\(M_2+M_3\)</span>, <span class="math notranslate nohighlight">\(M_1+M_2\)</span>, and
+<span class="math notranslate nohighlight">\(M_1+M_2+M_3\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sections 25–25.2.1,
+<code class="docutils literal notranslate"><span class="pre">ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities</span></code>,
+<code class="docutils literal notranslate"><span class="pre">seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities</span></code>,
+<code class="docutils literal notranslate"><span class="pre">seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities</span></code>,
+and <a class="reference internal" href="grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md</span></code></span></a>).</p></li>
+</ol>
+<p>The bounded Rust JHTDB loop is complete: the reader validates the HDF5
+checksum, root time-index attributes, <code class="docutils literal notranslate"><span class="pre">(z,y,x,vector)</span></code> velocity datasets, and
+coordinate axes; the CLI performs 3D RK2 flow-map integration, centered
+deformation gradients, Cauchy-Green FTLE, and <code class="docutils literal notranslate"><span class="pre">N</span></code> versus <code class="docutils literal notranslate"><span class="pre">2N</span></code> temporal-substep
+sensitivity. HDF5 time indices are not treated as physical seconds without an
+explicit <code class="docutils literal notranslate"><span class="pre">--physical-time-step</span></code> calibration. The tested 16 x 8 x 16 x 2
+cutout uses the JHTDB channel metadata interval <code class="docutils literal notranslate"><span class="pre">25.9935</span> <span class="pre">/</span> <span class="pre">3999</span></code> and retains
+845 of 1,176 interior FTLE cells (71.85%); its result is intentionally
+<code class="docutils literal notranslate"><span class="pre">incomplete</span></code>, and the refinement estimate is a temporal sensitivity diagnostic,
+not a proof of continuum convergence.</p>
+<p>The next numerical loop is a larger or more temporally resolved cutout with
+independent spatial and source-time convergence checks. Physical DDF evidence
+remains a separate, unpopulated boundary.</p>
+</section>
+<section id="alternative-independent-observables">
+<h2>Alternative Independent Observables<a class="headerlink" href="#alternative-independent-observables" title="Link to this heading">¶</a></h2>
+<p>The current DDF contract needs an observable measured independently of the
+proposed communication residual. These alternatives are ordered by how directly
+they can satisfy that requirement, not by whether they support DDF:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Alternative</p></th>
+<th class="head"><p>Independent observable</p></th>
+<th class="head"><p>Classical controls</p></th>
+<th class="head"><p>Access and attribution</p></th>
+<th class="head"><p>DDF boundary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Open acoustic-emission fracture data</p></td>
+<td><p>Sensor waveforms, onset times, source location, frequency content, and load-linked event rate</p></td>
+<td><p>Load/displacement curve, sensor calibration, arrival-time triangulation, known Mode I/II specimens, and blind negative controls</p></td>
+<td><p>Zenodo 10565566, <code class="docutils literal notranslate"><span class="pre">10.5281/zenodo.10565566</span></code>, open; waveform data for microscopic fracturing in tight reservoir rocks</p></td>
+<td><p>Ordinary elastic fracture/acoustic emission only; not a DDF defect or carrier</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hydraulic-fracture interaction data</p></td>
+<td><p>Crack geometry and interaction with discontinuities under controlled injection/loading</p></td>
+<td><p>Pump pressure/flow, boundary conditions, imaging, and injected-volume/energy accounting</p></td>
+<td><p>Zenodo 6811452, <code class="docutils literal notranslate"><span class="pre">10.5281/zenodo.6811452</span></code>, open; inspect files and license before acquisition</p></td>
+<td><p>Mechanical fracture control; residuals remain classical without a separate DDF observable</p></td>
+</tr>
+<tr class="row-even"><td><p>AE plus time-frequency shale data</p></td>
+<td><p>Event timing and time-frequency features tied to bedding-dependent tensile failure</p></td>
+<td><p>Stress path, specimen geometry, sensor response, and held-out failure mode</p></td>
+<td><p>Zenodo 18501172, <code class="docutils literal notranslate"><span class="pre">10.5281/zenodo.18501172</span></code>, open; seven files reported by the record</p></td>
+<td><p>Mode/arrival control, not evidence of transverse-phonon propagation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Distributed fiber-optic fracture monitoring</p></td>
+<td><p>Spatially resolved strain during fracture propagation and caging</p></td>
+<td><p>Fiber gauge calibration, mechanical load, boundary conditions, and independent crack imaging</p></td>
+<td><p>Zenodo 20780049, <code class="docutils literal notranslate"><span class="pre">10.5281/zenodo.20780049</span></code>, open; 22 files reported by the record</p></td>
+<td><p>Strong strain-defect candidate, but ordinary elastic strain is the null</p></td>
+</tr>
+<tr class="row-even"><td><p>Superfluid-vortex analog</p></td>
+<td><p>Processed vortex shedding, circulation/wake observables, force response, and selected wavefunction snapshots</p></td>
+<td><p>Gross-Pitaevskii parameter recovery, obstacle geometry, grid/time-step convergence, and classical-fluid benchmark</p></td>
+<td><p>Kwon and Shin, Zenodo 20068724, <code class="docutils literal notranslate"><span class="pre">10.5281/zenodo.20068724</span></code>, CC BY 4.0; 18.7 MB processed archive, raw time-dependent wavefunctions excluded</p></td>
+<td><p>Analog/model control only; cannot confirm a terrestrial DDF medium</p></td>
+</tr>
+</tbody>
+</table>
+<section id="recommended-ddf-evidence-sequence">
+<h3>Recommended DDF evidence sequence<a class="headerlink" href="#recommended-ddf-evidence-sequence" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Start with an open AE or fiber-optic record to build an independent defect
+observable and calibrate event timing, strain, energy release, and ordinary
+elastic propagation.</p></li>
+<li><p>Pair it with controlled force/pressure or hydraulic-fracture data to estimate
+classical coupling and reject load, pump, boundary, and sensor explanations.</p></li>
+<li><p>Use the superfluid-vortex archive only as a model/API control for circulation,
+pressure-deficit, mode, and wake extraction. It is not a physical DDF test.</p></li>
+<li><p>Populate <code class="docutils literal notranslate"><span class="pre">DDFVortexObservable</span></code> only when the observable is acquired through a
+channel independent of the communication residual and its calibration data
+are retained. Populate <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code> only after a
+held-out waveform, replication, causal mode/arrival test, and energy closure.</p></li>
+</ol>
+<p>The restricted fatigue-crack-growth record <code class="docutils literal notranslate"><span class="pre">10.5281/zenodo.20610375</span></code> links
+crack growth, acoustic emission, and fractography, but it is not currently an
+open acquisition target. The open alternatives above are the reproducible first
+choices.</p>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="dispersive-homodyne-plan.html" title="Dispersive Homodyne Coverage and Implementation Plan" >previous</a></li>
+        <li><a href="research_brief_carbothermic_ultrasonic.html" title="Research Brief: Carbothermic Reduction and Ultrasonic Processing" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

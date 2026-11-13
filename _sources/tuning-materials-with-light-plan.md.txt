@@ -56,6 +56,6 @@ Our written plan synthesizes six already-verified pillars of the `Signals` Grass
    - Implement `TuningMaterialsWithLightEngine` with `simulate_hubbard_chain_and_ladder`, `simulate_wse2_exciton_dynamics`, `simulate_graphite_electron_lattice_flow`, `simulate_mgb2_driven_superconductivity`, and `run_all_four_targets_benchmark`, verified by `test_tuning_materials_with_light_problem04_all_four_targets`.
 
 ### Phase 3: MyST Paper, Unification Integration, & Build Verification
-1. Write [grassmannian-tuning-materials-with-light-paper.md](grassmannian-tuning-materials-with-light-paper.md) and synchronize with `src/signals/docs/`.
+1. Write [grassmannian-tuning-materials-with-light-paper.md](grassmannian-tuning-materials-with-light-paper.md) as the canonical paper.
 2. Update [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md), `docs/_toc.yml`, `docs/citations.bib`, `README.md`, `src/signals/README.md`, `AGENTS.md`, and `src/signals/blueprint/src/content.tex`.
 3. Run `lake build`, `cargo test`, `pytest`, markdown math linters, Sphinx HTML build, and `git diff --check`.

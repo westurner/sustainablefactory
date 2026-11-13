@@ -71,7 +71,7 @@ In strict compliance with the Problem 01 submission rules (*"Submissions must cl
 2. Implement `CuprateSuperconductivityEngine` in [../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) and `test_cuprate_superconductivity_problem01_all_twelve_targets_and_families` in [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py).
 
 ### Phase 3: MyST Paper 26, Capstone Unification, & Build Verification
-1. Write [grassmannian-cuprate-superconductivity-paper.md](grassmannian-cuprate-superconductivity-paper.md) (Paper 26) and mirror to `src/signals/docs/`.
+1. Write [grassmannian-cuprate-superconductivity-paper.md](grassmannian-cuprate-superconductivity-paper.md) (Paper 26) as the canonical paper.
 2. Update [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md), [plan-index.md](plan-index.md), [chat-physics-catalog.md](chat-physics-catalog.md), [`docs/_toc.yml`](_toc.yml), [`docs/citations.bib`](citations.bib), `README.md`, `src/signals/README.md`, `AGENTS.md`, and `src/signals/blueprint/src/content.tex`.
 3. Run `lake build`, `cargo test`, `pytest`, MyST math linters, and `git diff --check`.
 

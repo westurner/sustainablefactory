@@ -147,7 +147,7 @@ mathjax_path = (
 if not use_mathjax_cdn:
     mathjax4_config["output"] = {"fontPath": "_static/mathjax-fonts"}
 
-bibtex_bibfiles = ["citations.bib"]
+bibtex_bibfiles = ["citations.bib", "software_citations.bib"]
 bibtex_default_style = "unsrt"
 bibtex_reference_style = "author_year"
 

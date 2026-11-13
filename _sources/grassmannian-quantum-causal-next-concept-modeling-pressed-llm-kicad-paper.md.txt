@@ -14,7 +14,6 @@ description: "An arXiv-ready MyST Markdown formal verification, causal inference
   - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/quantum_causal_inference.rs](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L1525-L1715), [../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs#L1500-L1950))
   - Generated KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`), Volumetric (`.kicad_vol`), Calma GDSII v6.0 (`.gds`), and IOF/EMMO/PROV-O (`_CBOM.yaml-ld`) Hardware Files:
     - [QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_mod](../src/signals/kicad/semi_dirac/QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_mod), [QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_sch](../src/signals/kicad/semi_dirac/QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_sch), [QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_pcb](../src/signals/kicad/semi_dirac/QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_pcb), [QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_vol](../src/signals/kicad/semi_dirac/QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.kicad_vol), [QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.gds](../src/signals/kicad/semi_dirac/QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering.gds), [QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering_CBOM.yaml-ld)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md`
 - **Companion Papers:**
   - [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation (`Paper 20`)](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
   - [Beyond $6{,}400\times$ Volumetric Efficiency: Jeffrey's Kinematic Engine, Normed Tensor Gaussian Splat Nanoimaging & Surgical Navigation, and Quantum Causal Semantic GraphRAG (`Paper 21`)](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md)
@@ -135,7 +134,7 @@ Despite `NCM`'s dramatic empirical gains over autoregressive and diffusion model
 2. **Bottleneck 2 — Teacher-Forcing Exposure Confounding via the Encoder Latent $z = E_\phi(x)$**:
    During uncorrupted teacher forcing, both the conditioning state $\hat{z}^{(k-1)}$ and the target codes $r_k$ are deterministic functions of the ground-truth encoder latent $z = E_\phi(x)$, creating a classical **backdoor confounding fork** $\hat{z}^{(k-1)} \leftarrow z \to r_k$. At inference time, $z$ is unobserved, so conditioning observationally on $\hat{z}^{(k-1)}$ conflates the causal forward effect $\hat{z}^{(k-1)} \to r_k$ with the backdoor trek through $z$. `arXiv:2610.14162` (`Section 3.4`) mitigates this heuristically via uniform code corruption, but lacks a formal causal theory of how corruption rate $p_{\mathrm{corr},k}$ eliminates backdoor confounding bias or how to adapt corruption to the model's own interventional error distribution.
 3. **Bottleneck 3 — Quadratic Intra-Block Attention Scaling ($\sum_{k=1}^K \ell_k^2 d_{\mathrm{head}}$)**:
-   Although early coarse levels have $\ell_k \ll L$, the finest levels approach $\ell_K = L$. Standard self-attention inside each block still scales as $\ell_k^2 d_{\mathrm{head}}$, lifts vectors into an unstructured $\ell_k \times \ell_k$ matrix without Grassmannian subspace invariants ({cite}`kumbong2026ncm`; [Zhang 2025](#ncm-zhang2025)), and conflates invariant concept subspaces $Z_i \in \mathrm{Gr}(k, n)$ with contextual token instances $v_i \in Z_i$ ([De Clercq 2026](#ncm-declercq2026)).
+   Although early coarse levels have $\ell_k \ll L$, the finest levels approach $\ell_K = L$. Standard self-attention inside each block still scales as $\ell_k^2 d_{\mathrm{head}}$, lifts vectors into an unstructured $\ell_k \times \ell_k$ matrix without Grassmannian subspace invariants ({cite}`kumbong2026ncm`; {cite:p}`zhang2025grassmannFlows`), and conflates invariant concept subspaces $Z_i \in \mathrm{Gr}(k, n)$ with contextual token instances $v_i \in Z_i$ {cite:p}`ncm-declercq2026`.
 4. **Bottleneck 4 — Electronic HBM Weight-Fetch & $M_{\mathrm{cand}} \cdot K$ Sequential MBR Overhead**:
    When scaling `NCM` from $100\text{M}\text{--}725\text{M}$ parameters (`Section 4.5`) to a **1-Trillion-Parameter ($10^{12}$) foundation model**, each of the $K$ level evaluations on an electronic GPU cluster must still stream $1\text{--}2\text{ TB}$ of model weights from `HBM3e` to SRAM at $1\text{--}5\text{ pJ/bit}$, and running $M_{\mathrm{cand}}$-candidate Minimum Bayes Risk (`MBR`) decoding multiplies the number of generator calls from $K$ to $M_{\mathrm{cand}} \cdot K$ ($8 \to 128$ NFE on XSum; $11 \to 132$ NFE on WMT14).
 
@@ -145,7 +144,7 @@ Despite `NCM`'s dramatic empirical gains over autoregressive and diffusion model
 
 ### 2.1 Telescoping Residual Conservation and Nested Tautological Flag Bundles
 
-In [Paper 20](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md), we proved that De Clercq's ([2026](#ncm-declercq2026)) **tautological vector bundle** $\mathcal{T}(\mathrm{Gr}(k, n)) = \{(Z, v) \mid Z \in \mathrm{Gr}(k, n),\, v = Z\alpha \in Z\}$ separates each token into an invariant causal concept subspace $Z$ and a contextual fiber vector $v \in Z$, and noted that multi-scale concept hierarchies generalize $\mathrm{Gr}(k, n)$ to the **Flag manifold**:
+In [Paper 20](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md), we proved that De Clercq's {cite:p}`ncm-declercq2026` **tautological vector bundle** $\mathcal{T}(\mathrm{Gr}(k, n)) = \{(Z, v) \mid Z \in \mathrm{Gr}(k, n),\, v = Z\alpha \in Z\}$ separates each token into an invariant causal concept subspace $Z$ and a contextual fiber vector $v \in Z$, and noted that multi-scale concept hierarchies generalize $\mathrm{Gr}(k, n)$ to the **Flag manifold**:
 
 $$
 \mathrm{Fl}(\ell_1, \ell_2, \dots, \ell_K; L) = \bigl\{(V_1 \subset V_2 \subset \cdots \subset V_K \subseteq \mathbb{R}^{L \times d}) \;\big|\; \dim V_k = \ell_k\bigr\}.
@@ -169,7 +168,7 @@ $$
 
 ### 2.2 Isomorphism Between `NCM` Hierarchy Probes (`Appendix C`) and Pearl's 3-Rung Causal Ladder
 
-Remarkably, the three qualitative hierarchy experiments conducted by Kumbong et al. in `Appendix C` (`appendix/story_continuation.tex`, `story_composition.tex`, `story_perturbation.tex`) correspond one-to-one with **Pearl's 3-Rung Causal Hierarchy** ([Pearl 2009](#ncm-pearl2009)) and **Giarmatzi–Costa Quantum Counterfactual Semantics** ([Giarmatzi & Costa 2023, `arXiv:2302.11783`](#ncm-giarmatzi2023), {download}`_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>`):
+Remarkably, the three qualitative hierarchy experiments conducted by Kumbong et al. in `Appendix C` (`appendix/story_continuation.tex`, `story_composition.tex`, `story_perturbation.tex`) correspond one-to-one with **Pearl's 3-Rung Causal Hierarchy** {cite:p}`pearl2009causality` and **Giarmatzi–Costa Quantum Counterfactual Semantics** ([Giarmatzi & Costa 2023, `arXiv:2302.11783`](#ncm-giarmatzi2023), {download}`_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>`):
 
 | Pearl / Giarmatzi–Costa Causal Rung | Mathematical Operation in `Signals.QuantumCausalInference` | Corresponding `NCM` Hierarchy Operation (`arXiv:2610.14162`) | Semantic / Geometric Meaning in Tautological Flag Bundle |
 | :--- | :--- | :--- | :--- |
@@ -449,8 +448,8 @@ end QciNextConceptModelingPaper39Verification
 | Claim / Component | Primary Source & Exact Citation | Evidence Status |
 | :--- | :--- | :--- |
 | **Next-Concept Modeling (`NCM`) multiscale residual VQ-VAE, block-diagonal parallel level generation, conditioning corruption, ELBO, and benchmark speedups ($10\text{--}31\times$)** | [Kumbong et al. 2026 (`arXiv:2610.14162`)](#ncm-kumbong2026), Sections 3–4 & Appendices A, C, D, E | **Peer-reviewed / Preprint Benchmark + Machine-Checked Algebra** (`Signals.QuantumCausalInference`, Section 15) |
-| **Tautological Fiber Bundle (`Bundle-Transformer`) & Causal Grassmann Flows** | [De Clercq 2026](#ncm-declercq2026) ({download}`data/papers/bundle_transformer.pdf, pp. 1-7 <../data/papers/bundle_transformer.pdf>`); [Zhang 2025 (`arXiv:2512.19428`)](#ncm-zhang2025) | **Machine-Checked Geometry** (`Signals.QuantumCausalInference`, Sections 9–10 & 15) |
-| **Quantum Causal Counterfactuals, Pearl $\operatorname{do}$-Calculus, & Jeffrey's Kinematic Engine** | [Pearl 2009](#ncm-pearl2009); [Jeffrey 1965](#ncm-jeffrey1965); [Giarmatzi & Costa 2023 (`arXiv:2302.11783`)](#ncm-giarmatzi2023); {download}`data/chats/_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>` | **Machine-Checked Causal Algebra** (`Signals.QuantumCausalInference`, Sections 1, 2, 11, 14, 15) |
+| **Tautological Fiber Bundle (`Bundle-Transformer`) & Causal Grassmann Flows** | {cite:p}`ncm-declercq2026` ({download}`data/papers/bundle_transformer.pdf, pp. 1-7 <../data/papers/bundle_transformer.pdf>`); [Zhang 2025 (`arXiv:2512.19428`)](#ncm-zhang2025) | **Machine-Checked Geometry** (`Signals.QuantumCausalInference`, Sections 9–10 & 15) |
+| **Quantum Causal Counterfactuals, Pearl $\operatorname{do}$-Calculus, & Jeffrey's Kinematic Engine** | {cite:p}`pearl2009causality`; {cite:p}`jeffrey1965logicOfDecision`; [Giarmatzi & Costa 2023 (`arXiv:2302.11783`)](#ncm-giarmatzi2023); {download}`data/chats/_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>` | **Machine-Checked Causal Algebra** (`Signals.QuantumCausalInference`, Sections 1, 2, 11, 14, 15) |
 | **Active `N-LIG`/`B-LIG` Steering Layers ($A'_i = A_i + \alpha \vec{v}_s$) & Pressed `LHAT` Holographic Weight Tape** | {download}`data/chats/_Read our A2Q and quantum review chats about N-LIG and B-LIG...md, lines 105-285 <../data/chats/_Read our A2Q and quantum review chats about N-LIG and B-LIG.__Read our chats on hardware implementation of LLMs with _steering_ layers__Design a USB A+C thumb drive given same. .md>`; {download}`data/chats/_Scaling Sustainable Semiconductors_ R2R Processing and Bio-Solvents .md, lines 338-496 <../data/chats/_Scaling Sustainable Semiconductors_ R2R Processing and Bio-Solvents .md>` | **Verified Mathematical & EDA Model (`Signals.SolitonBus`, `cannon_mask_cad.rs`) + Pending Physical Calibration (`Signals.Pending`)** |
 | **QFT Holographic Associative Memory, Log-Polar OAM Unwrapping ($\Phi_{\mathrm{cart}} = (\ell/a)y$), & $100\text{ ps}$ `VACNT` Kapitza Quench** | {download}`data/chats/_LLMs, Fourier, and Quantum Logic .md, lines 28-695 <../data/chats/_LLMs, Fourier, and Quantum Logic .md>`; [data/chats/_Quantum Processor and Soliton Discussions  .md, lines 5668–5728](chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.md) | **Verified Algebraic & Thermal Bound (`Signals.SolitonBus`) + Pending Hardware Gate (`Signals.Pending`)** |
 
@@ -505,7 +504,7 @@ end QciNextConceptModelingPaper39Verification
 }
 
 @misc{chat_a2q_nlig_blig_steering,
-  author       = {Turner, Wes and {Gemini}},
+  author       = {Turner, Wesley and {Gemini}},
   title        = {Read our A2Q and quantum review chats about N-LIG and B-LIG; hardware implementation of LLMs with steering layers},
   year         = {2026},
   howpublished = {AI chat log},
@@ -513,7 +512,7 @@ end QciNextConceptModelingPaper39Verification
 }
 
 @misc{chat_llms_fourier_quantum_logic,
-  author       = {Turner, Wes and {Gemini}},
+  author       = {Turner, Wesley and {Gemini}},
   title        = {LLMs, Fourier, and Quantum Logic},
   year         = {2026},
   howpublished = {AI chat log},

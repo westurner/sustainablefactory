@@ -1,0 +1,74 @@
+{
+  "name": "Sustainable Factory",
+  //"image": "quay.io/fedora/fedora-toolbox:43",
+  "build": {
+    "dockerfile": "../Dockerfile.e2e",
+    "context": "../"
+  },
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "runArgs": [
+    "--userns=keep-id",
+		"--security-opt=label=disable",
+		"--log-level=debug",
+    "--net=host"
+  ],
+  // Bind-mount the host user's rootless Podman socket (least-privilege; requires
+  // --userns=keep-id so the UID is identical inside and outside the container).
+  // Prerequisite on host: systemctl --user enable --now podman.socket
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
+      "target": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock"
+    },
+    {
+      "type": "volume",
+      "source": "sustainablefactory-${localWorkspaceFolderBasename}-signals-lake",
+      "target": "${containerWorkspaceFolder}/src/signals/.lake"
+    }
+  //   {
+  //     "type": "bind",
+  //     "source": "/usr/sbin/distrobox-host-exec",
+  //     "target": "/usr/local/sbin/distrobox-host-exec"
+  //   }
+  ],
+  "forwardPorts": [3000, 8000],
+  //"postCreateCommand": "sudo dnf install -y python3-pip zsh ripgrep zeromq-devel nodejs-npm python3-pytest-mock python3-pytest-cov python3-pytest-xdist python3-hypothesis python3-hypothesis+pytest make bash-completion && pip install -e . && pip install -e src/schematool && pip install -e src/transform_md",
+  "postCreateCommand": "python3 -m venv ~/.venv && ~/.venv/bin/pip install -e . && ~/.venv/bin/pip install -e src/schematool && ~/.venv/bin/pip install -e src/transform_md && sudo chown -R appuser:appuser src/signals/.lake && make signals_build && cd e2e && npm install",
+  //"postCreateCommand": "sh -c 'npm install && npm run build --workspace=sustainablefactory'"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-docker",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "tamasfe.even-better-toml",
+        "executablebookproject.myst-highlight",
+        "cospaia.turtle",
+        "redhat.vscode-xml",
+        "stardog-union.stardog-sparql-grammar",
+        "arkaitz.markdown-mermaid",
+        "charliermarsh.ruff",
+        "leanprover.lean4",
+        "chrisjsewell.myst-lsp",
+        "ExecutableBookProject.myst-highlight",
+        "github.vscode-github-actions"
+      ],
+	"settings": {
+		"python.defaultInterpreterPath": "/home/appuser/.venv/bin/python3"
+	}
+   }
+  },
+  "remoteEnv": {
+    "PATH": "/home/appuser/.venv/bin:/home/appuser/.local/bin:${containerEnv:PATH}",
+    "DOCKER_HOST": "unix://${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
+    "MEILISEARCH_HOST": "host.docker.internal",
+    "MEILI_MASTER_KEY": "dev-key"
+  },
+  "remoteUser": "appuser" // Or "root" or a specific user if created in Dockerfile
+
+
+
+}

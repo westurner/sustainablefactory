@@ -13,7 +13,6 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L180-L235), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L1360-L1855), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L60-L88), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L5660-L5745), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L4850-L5070))
   - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex))
   - `signals-numerical-adapter` Rust/WASM Crate ([../src/signals/numerical_adapter/src/polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs#L460-L545))
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-hawking-radiation-decoding-paper.md](../src/signals/docs/grassmannian-hawking-radiation-decoding-paper.md)
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
   2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md)
@@ -101,7 +100,7 @@ flowchart TD
 
 ### 2.1 Quadrant I (Without DDF, Without Splats): Semiclassical Hawking Temperature, Photon Sphere, S301 Kerr Hierarchy, and $Gr_{\mathbb{C}}(2,4)$ Lapse
 
-In standard General Relativity (`Signals.HawkingRadiation` in [../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean#L50-L280)), a spherically symmetric mass $M > 0$ has Schwarzschild radius $r_S = \frac{2GM}{c^2}$ (`schwarzschildRadius`), photon-sphere radius $r_{\mathrm{ph}} = \frac{3GM}{c^2} = \frac{3}{2}r_S$ (`photonSphereRadius`, with ray-optics vs. wave-diffraction criterion `photonSphereRayOpticsResolved`: $\lambda \le 2r_{\mathrm{ph}} = 3r_S$; [Airy Beams & Microscopic Black Holes, lines 780–805](#hawk-chat-airy2026)), horizon area $A_S = 4\pi r_S^2$ (`schwarzschildHorizonArea`), and surface gravity $\kappa_S = \frac{c^2}{2r_S}$ (`schwarzschildSurfaceGravity`). By [Hawking (1975)](#hawk-hawking1975) and [Bekenstein (1973)](#hawk-bekenstein1973), quantum field fluctuations across the null horizon emit a thermal Bose/Fermi spectrum at temperature (`hawkingTemperature`):
+In standard General Relativity (`Signals.HawkingRadiation` in [../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean#L50-L280)), a spherically symmetric mass $M > 0$ has Schwarzschild radius $r_S = \frac{2GM}{c^2}$ (`schwarzschildRadius`), photon-sphere radius $r_{\mathrm{ph}} = \frac{3GM}{c^2} = \frac{3}{2}r_S$ (`photonSphereRadius`, with ray-optics vs. wave-diffraction criterion `photonSphereRayOpticsResolved`: $\lambda \le 2r_{\mathrm{ph}} = 3r_S$; [Airy Beams & Microscopic Black Holes, lines 780–805](#hawk-chat-airy2026)), horizon area $A_S = 4\pi r_S^2$ (`schwarzschildHorizonArea`), and surface gravity $\kappa_S = \frac{c^2}{2r_S}$ (`schwarzschildSurfaceGravity`). By {cite:p}`hawking1975particle` and {cite:p}`holo-bekenstein1973`, quantum field fluctuations across the null horizon emit a thermal Bose/Fermi spectrum at temperature (`hawkingTemperature`):
 
 $$
 T_H = \frac{\hbar\,\kappa_S}{2\pi\,k_B\,c} = \frac{\hbar\,c^3}{8\pi\,G\,M\,k_B} > 0, \qquad
@@ -116,7 +115,7 @@ $$
 
 ### 2.2 Quadrant III (With DDF, Without Splats): Acoustic Hawking Temperature, Gordon Metric, S301 Pericenter Wake, & Hydrodynamic `iGPE` Potential Unwinding
 
-In the Dilatant Dark Fluid (`Signals.HawkingRadiation` in [../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean#L430-L550) and `RiverExterior` in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean)), the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ is set by the saturated jamming density $\varrho_{\max}^\varphi$ and minimum compressibility $j_{\min}^\varphi$ of the dispersed $\varphi$-phase ([Fedi 2026](#hawk-fedi2026); [Unruh 1981](#hawk-unruh1981)). Substituting $r_H = \frac{2 G_\phi M}{c^2}$ and $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ into `RiverExterior.hawkingTemperature` proves:
+In the Dilatant Dark Fluid (`Signals.HawkingRadiation` in [../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean#L430-L550) and `RiverExterior` in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean)), the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ is set by the saturated jamming density $\varrho_{\max}^\varphi$ and minimum compressibility $j_{\min}^\varphi$ of the dispersed $\varphi$-phase ({cite:p}`fedi2026ddf`; {cite:p}`hawk-unruh1981`). Substituting $r_H = \frac{2 G_\phi M}{c^2}$ and $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ into `RiverExterior.hawkingTemperature` proves:
 
 $$
 T_H^{\mathrm{DDF}} = \frac{\hbar\,\kappa_H}{2\pi\,k_B\,c} = \frac{\hbar\,c}{4\pi\,k_B\,r_H}, \qquad
@@ -154,7 +153,7 @@ Theorem `RiverExterior.hawking_radiation_ddf_and_splat_fracture_identities` and 
 
 ### 2.3 Quadrant IV (With DDF, With Splats): 2D & 3D $90^\circ$ Topological Snap, Transformation-Toughening Isotropic Swell, Vieta $3 \times 3$ Cubic Roots, & WGSL Quaternion Instance Matrix
 
-In the WGSL/Three.js quantum-fracture shader proposed in [Superfluid Quantum Gravity and Hawking Radiation, lines 710–1405 and 1645–1855](#hawk-chat-sqg2026), when the local shear-stretch ratio of an anisotropic Gaussian splat (`NormedTensorGaussianSplat2D` or `NormedTensorGaussianSplat3D`) breaches the critical fracture threshold, the splat undergoes four verified algebraic laws proved in `RiverExterior.hawking_radiation_ddf_and_splat_fracture_identities` ([../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean#L747-L988)):
+In the WGSL/Three.js quantum-fracture shader proposed in {cite:p}`hawk-chat-sqg2026`, when the local shear-stretch ratio of an anisotropic Gaussian splat (`NormedTensorGaussianSplat2D` or `NormedTensorGaussianSplat3D`) breaches the critical fracture threshold, the splat undergoes four verified algebraic laws proved in `RiverExterior.hawking_radiation_ddf_and_splat_fracture_identities` ([../src/signals/Signals/HawkingRadiation.lean](../src/signals/Signals/HawkingRadiation.lean#L747-L988)):
 
 1. **2D & 3D $90^\circ$ Orthogonal Eigenvector Snap (`rotateOrthogonal90`, `snapOrthogonalXZ`, & `rightHandedEigenvectorSwapMatrix`)**:
    Swapping $(\sigma_1, \sigma_2) \mapsto (\sigma_2, \sigma_1)$ in 2D (`rotateOrthogonal90`) or $(\sigma_1, \sigma_2, \sigma_3) \mapsto (\sigma_3, \sigma_2, \sigma_1)$ in 3D (`snapOrthogonalXZ`) preserves $\det\Sigma, \operatorname{Tr}\Sigma$, and $Q_{\mathrm{core}}$, while negating the swapped column (`rightHandedEigenvectorSwapMatrix`, $(v_0, v_1, v_2) \mapsto (v_2, v_1, -v_0)$) preserves right-handed orientation $\det(R \cdot S_{\mathrm{RH}}) = +\det R$ (whereas omitting the negation in `unnegatedEigenvectorSwapMatrix` flips the sign $\det(R \cdot S_{\mathrm{unneg}}) = -\det R$, turning the splat inside-out).
@@ -469,23 +468,23 @@ end ArxivHawkingRadiationDecodingPaperVerification
 
 (hawk-chat-sqg2026)=
 <a id="hawk-chat-sqg2026"></a>
-11. Provenance Chat Log (2026). *Superfluid Quantum Gravity and Hawking Radiation (Quantum Fracture States, Transformation Toughening, 90° Splat Snap, iGPE Unwinding, iQFT Phase Unscrambling, and Amplituhedron-Constrained CP/ALS Decoding)*. ({download}`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md, lines 46-2890 <../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md>`).
+11. Turner, Wesley and Google Gemini (2026). *Superfluid Quantum Gravity and Hawking Radiation (Quantum Fracture States, Transformation Toughening, 90° Splat Snap, iGPE Unwinding, iQFT Phase Unscrambling, and Amplituhedron-Constrained CP/ALS Decoding)*. ({download}`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md, lines 46-2890 <../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md>`).
 
 (hawk-chat-popiii2026)=
 <a id="hawk-chat-popiii2026"></a>
-12. Provenance Chat Log (2026). *Review Pop III GW Remnants (GPE Vortex Secondary Scattering, Kelvin-Wave Damping, and 4D Schur-Complement Temporal Slice Conditioning)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 400-855 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
+12. Turner, Wesley and Google Gemini (2026). *Review Pop III GW Remnants (GPE Vortex Secondary Scattering, Kelvin-Wave Damping, and 4D Schur-Complement Temporal Slice Conditioning)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 400-855 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
 
 (hawk-chat-fluid2026)=
 <a id="hawk-chat-fluid2026"></a>
-13. Provenance Chat Log (2026). *Gravity Models: Dilatant Fluid vs. GR (Analog Gravity Acoustic Black Holes, Soft Hair, and Fluid/Gravity Duality)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 85-555 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
+13. Turner, Wesley and Google Gemini (2026). *Gravity Models: Dilatant Fluid vs. GR (Analog Gravity Acoustic Black Holes, Soft Hair, and Fluid/Gravity Duality)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 85-555 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
 
 (hawk-chat-penrose2026)=
 <a id="hawk-chat-penrose2026"></a>
-14. Provenance Chat Log (2026). *Special Relativity: Geometry vs. Fluid (Gordon Acoustic Metric, Quartic $|\psi|^4$ Self-Interaction Pressure, Spinor $i^4 = 1$ Periodicity, and Penrose Pauli Spinor Spacetime Matrix $X^{AA'}$)*. ({download}`data/chats/_Special-Relativity-Geometry-vs.-Fluid.md, lines 790-945 <../data/chats/_Special-Relativity-Geometry-vs.-Fluid.md>`).
+14. Turner, Wesley and Google Gemini (2026). *Special Relativity: Geometry vs. Fluid (Gordon Acoustic Metric, Quartic $|\psi|^4$ Self-Interaction Pressure, Spinor $i^4 = 1$ Periodicity, and Penrose Pauli Spinor Spacetime Matrix $X^{AA'}$)*. ({download}`data/chats/_Special-Relativity-Geometry-vs.-Fluid.md, lines 790-945 <../data/chats/_Special-Relativity-Geometry-vs.-Fluid.md>`).
 
 (hawk-chat-airy2026)=
 <a id="hawk-chat-airy2026"></a>
-15. Provenance Chat Log (2026). *Airy Beams and Communications and Illumination (Microscopic Black Hole Photon-Sphere Ray-Optics vs. Wave-Diffraction Criterion and Holographic Broadcast)*. ({download}`data/chats/_Airy-Beams-and-Communications-and-Illumination.md, lines 780-815 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`).
+15. Turner, Wesley and Google Gemini (2026). *Airy Beams and Communications and Illumination (Microscopic Black Hole Photon-Sphere Ray-Optics vs. Wave-Diffraction Criterion and Holographic Broadcast)*. ({download}`data/chats/_Airy-Beams-and-Communications-and-Illumination.md, lines 780-815 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`).
 
 ---
 
@@ -542,7 +541,7 @@ end ArxivHawkingRadiationDecodingPaperVerification
 }
 
 @misc{chat_sqg_hawking_radiation_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Superfluid Quantum Gravity and Hawking Radiation: Quantum Fracture States, iGPE, iQFT, and Amplituhedron CP/ALS Decoding},
   year         = {2026},
   howpublished = {AI chat log},
@@ -551,7 +550,7 @@ end ArxivHawkingRadiationDecodingPaperVerification
 }
 
 @misc{chat_pop_iii_gw_remnants_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Review Pop III GW Remnants: GPE Vortex Scattering and 4D Schur-Complement Temporal Conditioning},
   year         = {2026},
   howpublished = {AI chat log},
@@ -560,7 +559,7 @@ end ArxivHawkingRadiationDecodingPaperVerification
 }
 
 @misc{chat_special_relativity_gordon_penrose_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Special Relativity: Geometry vs. Fluid (Gordon Acoustic Metric, Quartic Self-Interaction, and Penrose Pauli Spinors)},
   year         = {2026},
   howpublished = {AI chat log},
@@ -569,7 +568,7 @@ end ArxivHawkingRadiationDecodingPaperVerification
 }
 
 @misc{chat_airy_beams_photon_sphere_2026,
-  author       = {{unknown}},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Airy Beams and Communications and Illumination (Microscopic Black Hole Photon-Sphere Diffraction and Holographic Broadcast)},
   year         = {2026},
   howpublished = {AI chat log},

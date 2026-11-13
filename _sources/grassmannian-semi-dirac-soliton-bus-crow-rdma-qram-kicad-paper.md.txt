@@ -14,7 +14,6 @@ description: "An arXiv-ready MyST Markdown formal verification and quantum-photo
   - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs#L1200-L1760), [../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs))
   - Generated KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`), Volumetric (`.kicad_vol`), Calma GDSII v6.0 (`.gds`), and IOF/EMMO/PROV-O (`_CBOM.yaml-ld`) Hardware Files:
     - [SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_mod](../src/signals/kicad/semi_dirac/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_mod), [SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_sch](../src/signals/kicad/semi_dirac/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_sch), [SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_pcb](../src/signals/kicad/semi_dirac/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_pcb), [SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_vol](../src/signals/kicad/semi_dirac/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.kicad_vol), [SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.gds](../src/signals/kicad/semi_dirac/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM.gds), [SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM_CBOM.yaml-ld)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md`
 - **Companion Papers:**
   - [Soliton Bus Model & Quantum Error-Coding Plan](soliton-bus.md)
   - [Integrated Multi-Band Classical and Quantum Photonics ($405\text{–}1550\text{ nm}$ & $400\text{–}800\text{ GHz}$): Periodic Cellulose Nanocrystal (CNC) $\chi^{(2)}$ Signal Boosters in `N-LIG` Waveguides, Adiabatic Scarf-Joint $c\text{-BAs}$ Plasmonic-Slot Homodyne Detectors, $590\text{ nm}$ $n$-Adamantane NV Purcell Dowsing, and Volumetric KiCAD/GDSII Synthesis](grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md)
@@ -167,30 +166,9 @@ end SemiDiracSolitonBusPaper33Verification
 
 ## References
 
-(sb33-kivshar1993)=
-<a id="sb33-kivshar1993"></a>
-1. **Kivshar, Y. S., & Quiroga-Teixeiro, M. L. (1993).** *Influence of cross-phase modulation on soliton switching in nonlinear optical fibers.* Optics Letters, 18(12), 980–982. `https://doi.org/10.1364/OL.18.000980`
-
-(sb33-shao2024)=
-<a id="sb33-shao2024"></a>
-2. **Shao, Y., et al. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057 (`arXiv:2311.03735`). `https://doi.org/10.1103/PhysRevX.14.041057`
-
-(sb33-dean2025)=
-<a id="sb33-dean2025"></a>
-3. **Dean, et al. (2025).** *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance.* Nature (`arXiv:2509.26425`). `https://doi.org/10.1038/s41586-025-09959-z`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026semi_dirac_soliton_bus_qram,
-  author  = {Turner, Wes},
-  title   = {Revised Semi-{D}irac and Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} / {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} Soliton Bus Architecture: Dispersionless {$y$}-Channeling, {$C_8$} Star-Via Ancilla Hubs, Slow-Light {N-LIG} {CROW} Delay Lines, Tiered 128-to-64-Bit {RDMA} {LUT-CORDIC} {QRAM}, {$\mathrm{CO}_2$}-Carbonate {$\chi^{(3)}$} {CNOT} Gates, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"kivshar1993solitonSwitching", "pol-dean2025", "sb33-shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

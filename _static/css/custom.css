@@ -93,7 +93,6 @@ div.sidebar ul ul li.current {
 
 div.sidebar ul ul li:hover {
     border-left: 4px solid #aaa !important;
-    padding-left: 2px;
 }
 
 div.sidebar ul ul li.current:hover {
@@ -347,6 +346,15 @@ table.docutils caption::after {
 
 
 
+div.citation {
+  padding-bottom: 1em;
+}
+
+div.citation p {
+  display: list-item;
+}
+
+
 @media print {
     .affix,
     #sidebar-wrapper.affix-bottom,
@@ -371,3 +379,5 @@ table.docutils caption::after {
         opacity: 0.5;
     }
 }
+
+

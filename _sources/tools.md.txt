@@ -1,6 +1,45 @@
 
 # Tools
-Tools used in the sustainablefactory project
+Tools used to develop, build, and document the sustainablefactory project.
+
+## Software Inventory and Citations
+
+The software bibliography is generated from repository installation manifests
+by [`tools/generate_software_citations.py`](../tools/generate_software_citations.py).
+It currently contains 838 package and tool records: 216 Python distributions,
+322 Rust crates and tools, 167 Ubuntu packages, 105 npm packages, 8 Lean
+packages or toolchains, 15 unique VS Code extensions, 3 runtimes, and 2 browser
+installations. Cite an entry with its generated key, for example
+{cite}`software-python-sphinx` or {cite}`software-node-playwright`.
+
+The generator scans 37 `pyproject.toml` files, 27 `requirements*.txt` files,
+127 `Cargo.toml` files, 25 `package.json` files, 4 `lakefile.toml` files,
+Makefiles, `.devcontainer/devcontainer.json`, and `Dockerfile.e2e`. The recursive
+scan intentionally includes vendored, example, and test projects. A declaration
+in one of those manifests does not mean that package is installed in the main
+development container. `requirements-dev.txt` also references
+`requirements-meilisearch.txt`, which is not present in this checkout, so its
+contents cannot be included.
+
+The default container setup is defined by [`.devcontainer/devcontainer.json`](../.devcontainer/devcontainer.json)
+and [`Dockerfile.e2e`](../Dockerfile.e2e): Ubuntu 24.04 system packages, a
+Python virtual environment, Node.js 22.x and npm, the Lean toolchain installed
+with elan, PyMuPDF 1.28.2 in `/opt/pdf-tools`, npm dependencies for the root and
+`e2e/` projects, and Playwright-managed Chromium and Firefox. The devcontainer
+post-create step also installs the root project and `src/schematool` and
+`src/transform_md` as editable Python packages, builds Signals with Lake, and
+installs the listed VS Code extensions. Other Makefile targets install
+additional, task-specific tools and dependencies; they are not all part of
+container creation.
+
+Each BibTeX note records the declaration source and version constraint. These
+are manifest declarations, not resolved versions or proof that a dependency is
+present in a particular environment. The catalog does not resolve transitive
+dependencies from lockfiles, package registries, or system package indexes;
+Ubuntu package entries identify the Noble repository, not a pinned package
+revision. Local packages without a declared homepage intentionally have no
+registry URL. Re-run the generator after changing manifests to refresh the
+catalog.
 
 ## Sphinx
 - Commands:
@@ -8,7 +47,7 @@ Tools used in the sustainablefactory project
 
 ## Lean
 - Features:
-  - type verification, theorem modeling, thereom proving
+  - type verification, theorem modeling, theorem proving
   - machine-checkable proofs
 - Commands:
   - `lean`
@@ -57,7 +96,7 @@ Tools used in the sustainablefactory project
 
 ## Lake
 - Features
-  - package manager for Lean modules 
+  - package manager for Lean modules
 - Commands
   - `lake`
 

@@ -66,6 +66,6 @@ Recent experimental breakthroughs (2021–2025) across crystalline **rhombohedra
 2. Implement `RhombohedralGrapheneSuperconductivityEngine` in [../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) and `test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes` in [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py).
 
 ### Phase 3: MyST Paper 28, Capstone Unification, & Build Verification
-1. Write [grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md) (Paper 28) and mirror to `src/signals/docs/`.
+1. Write [grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md) (Paper 28) as the canonical paper.
 2. Update [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md), [plan-index.md](plan-index.md), [chat-physics-catalog.md](chat-physics-catalog.md), [`docs/_toc.yml`](_toc.yml), [`docs/citations.bib`](citations.bib), `README.md`, `src/signals/README.md`, `AGENTS.md`, and `src/signals/blueprint/src/content.tex`.
 3. Run `lake build`, `cargo test`, `pytest`, MyST math fixers, `make -C docs html`, and verify in browser.

@@ -1032,101 +1032,30 @@ classical controls, and replication criteria above are satisfied.
 
 ### Dataset References
 
-<a id="polyanskiy2024"></a> M. N. Polyanskiy, "Refractiveindex.info database of
-optical constants," *Scientific Data* 11, 94 (2024),
-<https://doi.org/10.1038/s41597-023-02898-2>.
-
-<a id="gwosc"></a> Gravitational Wave Open Science Center, "Data Sets,"
-<https://gwosc.org/data/>.
-
-<a id="chimecatalog"></a> CHIME/FRB Collaboration, "Catalog 1," public data
-record `CISTI.CANFAR/21.0007`,
-<https://www.canfar.net/storage/list/AstroDataCitationDOI/CISTI.CANFAR/21.0007/data>.
-
-<a id="wdmmzi"></a> Zenodo, "Simulation Data and Analysis Scripts for an
-Eight-Channel WDM Demultiplexer Based on Cascaded Mach-Zehnder Interferometers
-in Silicon Photonics," DOI `10.5281/zenodo.22819801`.
-
-<a id="ligfigshare"></a> Figshare, "Impact of visible laser on graphene
-formation via laser-induced graphene on polyethersulfone membranes," DOI
-`10.6084/m9.figshare.33483753`.
+```{bibliography}
+:list: bullet
+:filter: key in {"akkanen2022optical", "c2022sustainable", "cheng2026maskless", "chimecatalog", "ghavipanjeh2024cellulose", "gwosc", "joshi2021advances", "kim2025wearable", "lee2023ultra", "ligfigshare", "lin2021fabricating", "mahmood2020kraft", "meng2022greenlignin", "mikki2021proca", "morais2026investigating", "park2024laser", "polyanskiy2024", "wan2018laser", "wdmmzi", "ye2017wood", "ye2024review", "you2020laser", "zhang2024fewlayer"}
+```
 
 ### Scholarly References
 
-<a id="ehtm872019"></a> Event Horizon Telescope Collaboration et al., "First
-M87 Event Horizon Telescope Results. I. The Shadow of the Supermassive Black
-Hole," *The Astrophysical Journal Letters* 875, L1 (2019),
-<https://doi.org/10.3847/2041-8213/ab0ec7>. Ring and shadow observables are
-calibrated against metric and radiative-transfer models.
+```{bibliography}
+:list: bullet
+:filter: key in {"akkanen2022optical", "c2022sustainable", "cheng2026maskless", "ehtm872019", "ehtsgr2022", "ghavipanjeh2024cellulose", "joshi2021advances", "kim2025wearable", "lee2023ultra", "lin2021fabricating", "mahmood2020kraft", "meng2022greenlignin", "mikki2021proca", "morais2026investigating", "park2024laser", "wan2018laser", "ye2017wood", "ye2024review", "you2020laser", "zhang2024fewlayer"}
+```
 
-<a id="ehtsgr2022"></a> Event Horizon Telescope Collaboration et al., "First
-Sagittarius A* Event Horizon Telescope Results. I. The Shadow of the Supermassive
-Black Hole in the Center of the Milky Way," *The Astrophysical Journal Letters*
-930, L12 (2022), <https://doi.org/10.3847/2041-8213/ac6674>. Ring and central-
-depression observables are not direct horizon-radius pixels.
+### Evidence Notes
 
-<a id="wan2018"></a> Wan, Z., Streed, E. W., Lobino, M., Wang, S., Sang, R.
-T., Cole, I. S., Thiel, D. V., and Li, Q., "Laser-reduced graphene: synthesis,
-properties, and applications," *Advanced Materials Technologies* 3, 1700315
-(2018), <https://doi.org/10.1002/admt.201700315>.
-
-<a id="ye2024"></a> Ye, X., Yang, Z., Zheng, X., Qiang, H., Wei, M., Li, Y.,
-Chen, M., and Luo, N., "A review on the laser-induced synthesis of graphene and
-its applications in sensors," *Journal of Materials Science* 59, 11644-11668
-(2024), <https://doi.org/10.1007/s10853-024-09883-z>.
-
-<a id="cheng2026"></a> Cheng, Z. et al., "Maskless photolithography for
-micro- and nanofabrication," *Moore and More* 3, 7 (2026),
-<https://doi.org/10.1007/s44275-026-00046-7>.
-
-<a id="park2024"></a> Park, H. et al., "Laser-based selective material
-processing for next-generation additive manufacturing," *Advanced Materials*
-36, 2307586 (2024), <https://doi.org/10.1002/adma.202307586>.
-
-<a id="you2020"></a> You, R. et al., "Laser fabrication of graphene-based
-flexible electronics," *Advanced Materials* 32, 1901981 (2020),
-<https://doi.org/10.1002/adma.201901981>.
-
-<a id="claro2022"></a> Claro, P. I. C. et al., "Sustainable carbon sources for
-green laser-induced graphene: A perspective on fundamental principles,
-applications, and challenges," *Applied Physics Reviews* 9 (2022),
-<https://doi.org/10.1063/5.0100785>.
-
-<a id="lee2023"></a> Lee, Y. et al., "Ultra-thin light-weight laser-induced-
-graphene (LIG) diffractive optics," *Light: Science & Applications* 12, 146
-(2023), <https://doi.org/10.1038/s41377-023-01143-0>.
-
-<a id="kim2025"></a> Kim, H. and Kim, Y.-J., "Wearable healthcare using
-laser-induced graphene," *JMST Advances* 7, 177-185 (2025),
-<https://doi.org/10.1007/s42791-025-00113-4>.
-
-<a id="lin2021"></a> Lin, Y. et al., "Fabricating nanodiamonds from biomass by
-direct laser writing under ambient conditions," *ACS Sustainable Chemistry &
-Engineering* 9, 3112-3123 (2021),
-<https://doi.org/10.1021/acssuschemeng.0c07607>.
-
-<a id="joshi2021"></a> Joshi, P. et al., "Advances in laser-assisted conversion
-of polymeric and graphitic carbon into nanodiamond films," *Nanotechnology* 32,
-432001 (2021), <https://doi.org/10.1088/1361-6528/ac1097>.
-
-<a id="morais2026"></a> Morais, W. de D. et al., "Investigating planar Proca
-metamaterials in nonlinear (2+1)-Electrodynamics," arXiv:2607.23013 (2026),
-<https://arxiv.org/abs/2607.23013>. Theory/model reference only.
-
-<a id="akkanen2022"></a> Akkanen, S.-T. M., Fernandez, H. A., and Sun, Z.,
-"Optical modification of 2D materials: methods and applications," *Advanced
-Materials* 34, 2110152 (2022),
-<https://doi.org/10.1002/adma.202110152>.
-
-<a id="mikki2021"></a> Mikki, S., "Proca metamaterials, massive electromagnetism,
-and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
-<https://doi.org/10.1002/andp.202000625>. Theory/model reference only.
+- {cite:p}`ehtm872019`: Ring and shadow observables are calibrated against metric and radiative-transfer models.
+- {cite:p}`ehtsgr2022`: Ring and central- depression observables are not direct horizon-radius pixels.
+- {cite:p}`morais2026investigating`: Theory/model reference only.
+- {cite:p}`mikki2021proca`: Theory/model reference only.
 
 ### Chat-derived BibTeX
 
 ```bibtex
 @misc{chat_iq_sampling_flatlight_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {IQ-Sampling-for-Signal-Phase: Proca, Flat Light, and N-LIG Waveguides},
   year         = {2026},
   howpublished = {AI chat export},
@@ -1134,7 +1063,7 @@ and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
 }
 
 @misc{chat_pyramid_waveguides_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Pyramid Star Shafts, Waveguides and Resonance},
   year         = {2026},
   howpublished = {AI chat export},
@@ -1142,7 +1071,7 @@ and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
 }
 
 @misc{chat_lig_defects_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Preventing LIG Defects on Lignin},
   year         = {2026},
   howpublished = {AI chat export},
@@ -1150,7 +1079,7 @@ and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
 }
 
 @misc{chat_rgo_vitrimer_holography_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {rGO-Vitrimer Applications and Properties: Gerchberg-Saxton and Holography},
   year         = {2026},
   howpublished = {AI chat export},
@@ -1158,7 +1087,7 @@ and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
 }
 
 @misc{chat_lignin_holography_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Laser Engraving Circuits on Lignin: Holographic Beam Shaping},
   year         = {2026},
   howpublished = {AI chat export},
@@ -1166,14 +1095,14 @@ and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
 }
 
 @misc{chat_helical_nanolasers_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Extreme Dielectric Nanolasers, Longitudinal Fields, and OAM Coupling},
   year         = {2026},
   howpublished = {AI chat export},
   note         = {Source: data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json, lines 53-88}
 }
 
-@misc{eht_m87_sgr_bridge,
+@article{eht_m87_sgr_bridge,
   author       = {{Event Horizon Telescope Collaboration}},
   title        = {EHT ring and shadow observables for M87* and Sagittarius A*},
   year         = {2022},

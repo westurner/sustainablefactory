@@ -59,7 +59,7 @@ How do **inelastic photon scattering** (relativistic **Inverse Compton Scatterin
 
 ## 1. Relativistic Inverse Compton Scattering & $Gr_{\mathbb{C}}(2,4)$ Plücker Channels
 
-In relativistic astrophysics, laser-plasma Compton light sources ([Provenance Chat Log: CNT Bandgap & Laser Compton Scattering (2026)](#thermal-chat-cnt2026), lines 390–398), and DDF moving-sheath electrodynamics, **Inverse Compton Scattering (ICS)** occurs when a relativistic charged particle or shear-jammed condensate parcel moving at speed $v = \beta c$ ($\beta \in [0, 1)$, Lorentz/jamming factor $\gamma_\varphi(v) = (1 - \beta^2)^{-1/2}$) collides with a low-energy photon of frequency $\omega_0$.
+In relativistic astrophysics, laser-plasma Compton light sources ([Turner, Wesley and Google Gemini: CNT Bandgap & Laser Compton Scattering (2026)](#thermal-chat-cnt2026), lines 390–398), and DDF moving-sheath electrodynamics, **Inverse Compton Scattering (ICS)** occurs when a relativistic charged particle or shear-jammed condensate parcel moving at speed $v = \beta c$ ($\beta \in [0, 1)$, Lorentz/jamming factor $\gamma_\varphi(v) = (1 - \beta^2)^{-1/2}$) collides with a low-energy photon of frequency $\omega_0$.
 
 ### 1.1 The $Gr_{\mathbb{C}}(2,4)$ Plücker Ratio as the Exact Relativistic Doppler Upshift
 
@@ -107,7 +107,7 @@ with exact recovery of the $Gr_{\mathbb{C}}(2,4)$ Thomson ratio at $\epsilon_{\m
 
 ## 2. Stokes & Anti-Stokes Raman Scattering, $Gr_{\mathbb{C}}(2,4)$ Channel Inversion, and Raman Thermometry
 
-Across our materials and sensing workflows—including inline Raman quality assurance for boron-doped CNS/lignin-vitrimer busbars ([Provenance Chat Log: Aluminum & Inline Raman QA (2026)](#thermal-chat-raman2026), lines 1490–1589), carbon-nanotube radial-breathing and $I_D/I_G$ strain metrology ([Provenance Chat Log: CNT Bandgap & Laser Compton Scattering (2026)](#thermal-chat-cnt2026), lines 8453–8463), and Distributed Fiber Optic Sensing (DFOS) temperature profiling ([Provenance Chat Log: Fiber Optic Raman Thermometry (2026)](#thermal-chat-fiber2026), lines 95–228)—**Raman scattering** couples an optical pump $\omega_L > 0$ to an internal vibrational phonon or Bogoliubov mode $\Omega_v \in [0, \omega_L)$:
+Across our materials and sensing workflows—including inline Raman quality assurance for boron-doped CNS/lignin-vitrimer busbars ({cite:p}`thermal-chat-raman2026`, lines 1490–1589), carbon-nanotube radial-breathing and $I_D/I_G$ strain metrology ({cite:p}`thermal-chat-cnt2026`, lines 8453–8463), and Distributed Fiber Optic Sensing (DFOS) temperature profiling ({cite:p}`thermal-chat-fiber2026`, lines 95–228)—**Raman scattering** couples an optical pump $\omega_L > 0$ to an internal vibrational phonon or Bogoliubov mode $\Omega_v \in [0, \omega_L)$:
 
 - **Stokes Channel ($B$, phonon creation)**: $\omega_S = \omega_L - \Omega_v = \omega_L(1 - \delta_R)$,
 - **Anti-Stokes Channel ($A$, phonon absorption)**: $\omega_{AS} = \omega_L + \Omega_v = \omega_L(1 + \delta_R)$,
@@ -199,7 +199,7 @@ A central methodological requirement of the `Signals` formalization is to make t
 
 ### 4.1 Comparative Review of Heat Conduction & Thermal Wave Paradigms
 
-The classical **Heat Problem**—first debated between Fourier, Lagrange, and Biot ([Provenance Chat Log: Singular Basins & Fourier's Heat Memoir (2026)](#thermal-chat-fourier2026), line 179) and made acute by special relativity and cryogenic superfluids—asks how thermal energy propagates without violating relativistic causality ($v_{\mathrm{signal}} \le c$) while accurately capturing both diffusive dissipation and wave-like "second sound":
+The classical **Heat Problem**—first debated between Fourier, Lagrange, and Biot ({cite:p}`thermal-chat-fourier2026`, line 179) and made acute by special relativity and cryogenic superfluids—asks how thermal energy propagates without violating relativistic causality ($v_{\mathrm{signal}} \le c$) while accurately capturing both diffusive dissipation and wave-like "second sound":
 
 | Thermal Transport Method | Governing Constitutive & PDE Equations | Wave / Front Propagation Speed | Key Strengths & Physical Regime | Fundamental Limitations |
 |---|---|---|---|---|
@@ -381,16 +381,16 @@ popd
 5. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660.
 
 <a id="thermal-chat-raman2026"></a>
-6. Provenance Chat Log (2026). *Aluminum Production: Electrolytic vs. Plasma (Inline Raman Spectroscopy QA)*. ({download}`data/chats/_Aluminum Production_ Electrolytic vs. Plasma  .md, lines 1415-1845 <../data/chats/_Aluminum Production_ Electrolytic vs. Plasma  .md>`).
+6. Turner, Wesley and Google Gemini (2026). *Aluminum Production: Electrolytic vs. Plasma (Inline Raman Spectroscopy QA)*. ({download}`data/chats/_Aluminum Production_ Electrolytic vs. Plasma  .md, lines 1415-1845 <../data/chats/_Aluminum Production_ Electrolytic vs. Plasma  .md>`).
 
 <a id="thermal-chat-cnt2026"></a>
-7. Provenance Chat Log (2026). *CNT Bandgap Creation with Lignin Vitrimer (Laser Compton Scattering & Raman G-Band Strain)*. ({download}`data/chats/CNT Bandgap Creation with Lignin Vitrimer .md, lines 390-398 and 8453-8463 <../data/chats/CNT Bandgap Creation with Lignin Vitrimer .md>`).
+7. Turner, Wesley and Google Gemini (2026). *CNT Bandgap Creation with Lignin Vitrimer (Laser Compton Scattering & Raman G-Band Strain)*. ({download}`data/chats/CNT Bandgap Creation with Lignin Vitrimer .md, lines 390-398 and 8453-8463 <../data/chats/CNT Bandgap Creation with Lignin Vitrimer .md>`).
 
 <a id="thermal-chat-fiber2026"></a>
-8. Provenance Chat Log (2026). *Fiber Optics For Acoustic Monitoring (Raman Distributed Temperature Sensing)*. ({download}`data/chats/_Fiber Optics For Acoustic Monitoring .md, lines 95-228 <../data/chats/_Fiber Optics For Acoustic Monitoring .md>`).
+8. Turner, Wesley and Google Gemini (2026). *Fiber Optics For Acoustic Monitoring (Raman Distributed Temperature Sensing)*. ({download}`data/chats/_Fiber Optics For Acoustic Monitoring .md, lines 95-228 <../data/chats/_Fiber Optics For Acoustic Monitoring .md>`).
 
 <a id="thermal-chat-fourier2026"></a>
-9. Provenance Chat Log (2026). *Review of Singular Basins in Multiscale Systems (Fourier's Propagation of Heat Memoir)*. ({download}`data/chats/Review-of-Singular-Basins-in-Multiscale-Systems.md, lines 179-185 <../data/chats/Review-of-Singular-Basins-in-Multiscale-Systems.md>`).
+9. Turner, Wesley and Google Gemini (2026). *Review of Singular Basins in Multiscale Systems (Fourier's Propagation of Heat Memoir)*. ({download}`data/chats/Review-of-Singular-Basins-in-Multiscale-Systems.md, lines 179-185 <../data/chats/Review-of-Singular-Basins-in-Multiscale-Systems.md>`).
 
 ---
 

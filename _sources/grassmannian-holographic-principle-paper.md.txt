@@ -28,7 +28,7 @@ description: "An arXiv-ready formal verification and numerical simulation paper 
 
 ## Abstract
 
-First proposed by **Gerard 't Hooft (1993)** ([`gr-qc/9310026`](#holo-thooft1993)) and given its string-theoretic and relativistic light-sheet formulation by **Leonard Susskind (1995)** ([`hep-th/9409089`](#holo-susskind1995)), the **Holographic Principle** asserts that the complete physical description of a $(3+1)$-dimensional bulk spacetime region is encoded on a $2$-dimensional boundary screen with at most one degree of freedom per four Planck areas ($S_{\mathrm{BH}} = k_B A_H / (4\ell_P^2)$; [Bekenstein 1973](#holo-bekenstein1973); [Hawking 1975](#holo-hawking1975); [Bousso 2002](#holo-bousso2002)). In this paper, we formalize the exact mathematical bridge connecting 't Hooft's and Susskind's Holographic Principle to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** and the **Dilatant Dark Fluid (DDF)** Painlevé–Gullstrand river geometry (`RiverExterior` in `Signals.DDF`), both **without splats** (splat-free continuum boundary laws and Plücker lapse invariants) and **with Planck-pixelated Normed 2D Tensor Gaussian Splats**:
+First proposed by **Gerard 't Hooft (1993)** ([`gr-qc/9310026`](#holo-thooft1993)) and given its string-theoretic and relativistic light-sheet formulation by **Leonard Susskind (1995)** ([`hep-th/9409089`](#holo-susskind1995)), the **Holographic Principle** asserts that the complete physical description of a $(3+1)$-dimensional bulk spacetime region is encoded on a $2$-dimensional boundary screen with at most one degree of freedom per four Planck areas ($S_{\mathrm{BH}} = k_B A_H / (4\ell_P^2)$; {cite:p}`holo-bekenstein1973`; {cite:p}`hawking1975particle`; {cite:p}`bousso2002holographic`). In this paper, we formalize the exact mathematical bridge connecting 't Hooft's and Susskind's Holographic Principle to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** and the **Dilatant Dark Fluid (DDF)** Painlevé–Gullstrand river geometry (`RiverExterior` in `Signals.DDF`), both **without splats** (splat-free continuum boundary laws and Plücker lapse invariants) and **with Planck-pixelated Normed 2D Tensor Gaussian Splats**:
 
 1. **DDF Acoustic Horizon Screen Area $A_H$, 't Hooft–Susskind–Bekenstein–Hawking Entropy $S_{\mathrm{BH}}$, & Gauss–Smarr 2D-to-3D Bulk Mass Recovery (`RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities`)**:
    In a DDF `RiverExterior` flow where the radial superfluid inflow $v_\phi(r) = -\sqrt{2 G_\phi M / r}$ reaches the transverse phonon speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ at the acoustic event horizon $r_H = \frac{2 G_\phi M}{c^2}$ (`RiverExterior.horizon_velocity_matches_c`), the 2D horizon screen area $A_H = 4\pi r_H^2$, surface gravity $\kappa_H = \frac{c^2}{2 r_H}$, and Bekenstein–Hawking entropy $S_{\mathrm{BH}} = \frac{k_B A_H}{4\ell_P^2}$ satisfy:
@@ -50,7 +50,7 @@ First proposed by **Gerard 't Hooft (1993)** ([`gr-qc/9310026`](#holo-thooft1993
    Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m\,\ell_P^2} > 0,
    $$
 
-   replacing the classical $r \to 0$ curvature singularity with a finite repulsive Madelung quantum pressure barrier ([Provenance Chat Log: Fracture Phases & Holographic Regularization in DDF (2026)](#holo-chat-fracture2026), lines 1090–1115).
+   replacing the classical $r \to 0$ curvature singularity with a finite repulsive Madelung quantum pressure barrier ({cite:p}`chat_pop_iii_gw_remnants_2026`, lines 1090–1115).
 4. **Anti-Amplituhedron Destructive Cancellation in $Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)$ & Grover 4-State Holographic Code Carving**:
    We prove that `antiAmplituhedronGr24Matrix A` realizes an exact destructive phase-cancellation node ($\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$) outside the positive Grassmannian $Gr_{\ge 0}(2,4)$, while a single Grover reflection (`groverSuccessAmplitude (1/2) = 1`) deterministically carves a target state out of a 4-dimensional twistor subspace.
 
@@ -60,19 +60,19 @@ First proposed by **Gerard 't Hooft (1993)** ([`gr-qc/9310026`](#holo-thooft1993
 
 ### 1.1 Historical & Mathematical Foundations: From Bekenstein–Hawking to 't Hooft (1993) and Susskind (1995)
 
-In 1973–1975, Jacob Bekenstein ([Bekenstein 1973](#holo-bekenstein1973)) and Stephen Hawking ([Hawking 1975](#holo-hawking1975)) discovered that the thermodynamic entropy of a black hole scales not with its 3D volume $V \propto r_H^3$, but with the 2D surface area $A_H = 4\pi r_H^2$ of its event horizon:
+In 1973–1975, Jacob Bekenstein {cite:p}`holo-bekenstein1973` and Stephen Hawking {cite:p}`hawking1975particle` discovered that the thermodynamic entropy of a black hole scales not with its 3D volume $V \propto r_H^3$, but with the 2D surface area $A_H = 4\pi r_H^2$ of its event horizon:
 
 $$
 S_{\mathrm{BH}} = \frac{k_B\,c^3\,A_H}{4 G\hbar} = \frac{k_B\,A_H}{4\,\ell_P^2}, \qquad \ell_P = \sqrt{\frac{G\hbar}{c^3}}.
 $$
 
-Building on this area law, **Gerard 't Hooft (1993)** (*Dimensional Reduction in Quantum Gravity*, [`gr-qc/9310026`](#holo-thooft1993)) proposed that at the Planck scale, quantum gravity in $3+1$ dimensions reduces to a $(2+1)$-dimensional theory of Boolean/cellular degrees of freedom living on a 2D boundary surface, with information density bounded by $\frac{1}{4\ell_P^2}$ nats per unit area. In 1995, **Leonard Susskind** (*The World as a Hologram*, *J. Math. Phys.* 36, 6377, [`hep-th/9409089`](#holo-susskind1995)) elevated 't Hooft's dimensional reduction into the **Holographic Principle**, demonstrating via relativistic light-front / light-sheet focusing (later generalized covariantly by [Bousso 2002](#holo-bousso2002)) that any bulk configuration exceeding $S_{\mathrm{BH}}$ inside an enclosing area $A_H$ must collapse into a horizon of area at least $A_H$.
+Building on this area law, **Gerard 't Hooft (1993)** (*Dimensional Reduction in Quantum Gravity*, [`gr-qc/9310026`](#holo-thooft1993)) proposed that at the Planck scale, quantum gravity in $3+1$ dimensions reduces to a $(2+1)$-dimensional theory of Boolean/cellular degrees of freedom living on a 2D boundary surface, with information density bounded by $\frac{1}{4\ell_P^2}$ nats per unit area. In 1995, **Leonard Susskind** (*The World as a Hologram*, *J. Math. Phys.* 36, 6377, [`hep-th/9409089`](#holo-susskind1995)) elevated 't Hooft's dimensional reduction into the **Holographic Principle**, demonstrating via relativistic light-front / light-sheet focusing (later generalized covariantly by {cite:p}`bousso2002holographic`) that any bulk configuration exceeding $S_{\mathrm{BH}}$ inside an enclosing area $A_H$ must collapse into a horizon of area at least $A_H$.
 
-In 1997, Juan Maldacena ([Maldacena 1998](#holo-maldacena1998)) realized the Holographic Principle in string theory via the **AdS/CFT correspondence** (formalized with the Gubser–Klebanov–Polyakov–Witten mass–dimension dictionary $\Delta_\pm = d/2 \pm \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$, the Kovtun–Son–Starinets viscosity bound $\eta/s = \hbar/(4\pi k_B)$, planar $\mathcal{N}=4$ SYM integrability [Beisert et al. 2012, `arXiv:1012.3982`](#holo-beisert2012), and $\mathfrak{psl}(2|2)_c$ secret symmetries [de Leeuw et al. 2012, `arXiv:1204.2366`](#holo-deleeuw2012) in our companion paper [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and DDF Mechanics](grassmannian-ads-cft-ddf-paper.md)), and [Ryu and Takayanagi (2006)](#holo-ryu2006) showed that boundary entanglement entropy equals the minimal bulk surface area $S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}$.
+In 1997, Juan Maldacena {cite:p}`maldacena1998large` realized the Holographic Principle in string theory via the **AdS/CFT correspondence** (formalized with the Gubser–Klebanov–Polyakov–Witten mass–dimension dictionary $\Delta_\pm = d/2 \pm \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$, the Kovtun–Son–Starinets viscosity bound $\eta/s = \hbar/(4\pi k_B)$, planar $\mathcal{N}=4$ SYM integrability [Beisert et al. 2012, `arXiv:1012.3982`](#holo-beisert2012), and $\mathfrak{psl}(2|2)_c$ secret symmetries [de Leeuw et al. 2012, `arXiv:1204.2366`](#holo-deleeuw2012) in our companion paper [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and DDF Mechanics](grassmannian-ads-cft-ddf-paper.md)), and {cite:p}`ryu2006holographic` showed that boundary entanglement entropy equals the minimal bulk surface area $S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}$.
 
 ### 1.2 How Does the Holographic Principle Connect to $Gr_{\mathbb{C}}(2,4)$ and the Dilatant Dark Fluid (DDF)?
 
-As analyzed in our corpus ([Provenance Chat Log: Gravity Models — Dilatant Fluid vs. GR & Fluid/Gravity Duality (2026)](#holo-chat-fluidgravity2026), lines 135–385), standard AdS/CFT requires a negative cosmological constant ($\text{AdS}_5$) and does not directly compute solar-system ephemerides such as Mercury's $42.98''/\text{century}$ perihelion precession. Conversely, our unified **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ + Dilatant Dark Fluid (DDF)** framework ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean)) operates directly in $(3+1)$-dimensional Painlevé–Gullstrand river geometry (`RiverExterior`) while preserving an exact 2D-to-3D holographic correspondence:
+As analyzed in our corpus ({cite:p}`holo-chat-fluidgravity2026`, lines 135–385), standard AdS/CFT requires a negative cosmological constant ($\text{AdS}_5$) and does not directly compute solar-system ephemerides such as Mercury's $42.98''/\text{century}$ perihelion precession. Conversely, our unified **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ + Dilatant Dark Fluid (DDF)** framework ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean)) operates directly in $(3+1)$-dimensional Painlevé–Gullstrand river geometry (`RiverExterior`) while preserving an exact 2D-to-3D holographic correspondence:
 
 | Holographic Concept | 't Hooft (1993) / Susskind (1995) / AdS–CFT Formulation | Unified $Gr_{\mathbb{C}}(2,4)$ & DDF Formulation (`Signals.DDF`) | Machine-Checked Lean 4 Declarations |
 |---|---|---|---|
@@ -123,7 +123,7 @@ When the 2D holographic horizon screen of area $A_H = 4\pi r_H^2$ is discretized
    Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m_\phi\,\ell_P^2} > 0,
    $$
 
-   providing a concrete quantum-hydrodynamic UV regularization of the interior core ([Provenance Chat Log: Fracture Phases & Singularity Resolution (2026)](#holo-chat-fracture2026), lines 1070–1115).
+   providing a concrete quantum-hydrodynamic UV regularization of the interior core ({cite:p}`chat_pop_iii_gw_remnants_2026`, lines 1070–1115).
 
 ---
 
@@ -233,10 +233,10 @@ popd
 8. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660.
 
 <a id="holo-chat-fluidgravity2026"></a>
-9. Provenance Chat Log (2026). *Gravity Models: Dilatant Fluid vs. GR (AdS/CFT Fluid/Gravity Duality, Event Horizon Shadow, and Soft Hair)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 135-510 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
+9. Turner, Wesley and Google Gemini (2026). *Gravity Models: Dilatant Fluid vs. GR (AdS/CFT Fluid/Gravity Duality, Event Horizon Shadow, and Soft Hair)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 135-510 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
 
 <a id="holo-chat-fracture2026"></a>
-10. Provenance Chat Log (2026). *Review Pop III GW Remnants (Dilatant Superfluid Fracture Phases & Singularity Regularization)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 1070-1135 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
+10. Turner, Wesley and Google Gemini (2026). *Review Pop III GW Remnants (Dilatant Superfluid Fracture Phases & Singularity Regularization)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 1070-1135 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
 
 <a id="holo-beisert2012"></a>
 11. Beisert, N., Ahn, C., Alday, L. F., Bajnok, Z., Drummond, J. M., et al. (2012). *Review of AdS/CFT Integrability: An Overview*. Letters in Mathematical Physics 99(1–3), 3–32. [DOI: 10.1007/s11005-011-0529-2](https://doi.org/10.1007/s11005-011-0529-2); [arXiv:1012.3982](https://arxiv.org/abs/1012.3982).

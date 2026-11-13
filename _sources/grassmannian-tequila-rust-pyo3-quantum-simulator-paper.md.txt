@@ -22,7 +22,6 @@ description: "An arXiv-ready MyST Markdown formal verification and systems engin
   - `Signals` Lean 4 Formal Verification Library (`leanprover/lean4:v4.35.0-rc3`):
     - [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L5210-L5455) (Section 22 & Section 22.1: `tequilaFullHilbertDim`, `tequilaGrassmannPluckerSectorDim`, `tequilaHilbertToPluckerCompressionRatio`, `tequilaShiftRuleTwoTermGradient`, `tequilaVqeBellModelEnergy`, `tequilaDenseStatevectorBytes`, `tequilaSparsePluckerHcbSupportDim`, `tequilaSparsePluckerHcbBytes`, `tequilaHermitianButterflyPairOps`, `tequilaNaivePauliStringOps`, `tequila_rust_pyo3_grassmannian_vrc_qci_simulator_identities`, `tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities`)
     - [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L7865-L7915), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L1460-L1505), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7935-L8010), & [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L6445-L6485)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md`
 - **Companion Papers:**
   - [Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations (`VRC`), and Unrestricted Grassmannian Quantum Chemistry (`QCI-GXC`) in `MADNESS` Multiwavelet `MRA-PNO` and `Tequila` for Computational Advantage](grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md)
   - [Complex Grassmannian Plabic Vector-Relation Configurations (`VRC`), Quantum Causal Inference Kohn–Sham Density Functional Theory (`QCI-GXC`), Riemannian Cayley Optimization, and Topological Multi-Qudit Compilers in Lean 4, SymPy, and Rust](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
@@ -34,7 +33,7 @@ description: "An arXiv-ready MyST Markdown formal verification and systems engin
 
 ## Abstract
 
-In variational quantum eigensolvers (`VQE`), Hard-Core Boson (`HCB`) Separable Pair Ansätze (`SPA-UpCCD`), and `MADNESS` multiwavelet Pair Natural Orbital (`MRA-PNO`) workflows in **Tequila** ([Kottmann et al. 2021a](#tsim-kottmann2021tequila); [Kottmann et al. 2021b](#tsim-kottmann2021direct)), simulation performance and physical expressiveness are governed by the underlying `BackendCircuit` and `BackendExpectationValue` engine ([../src/tequila/src/tequila/simulators/simulator_base.py](../src/tequila/src/tequila/simulators/simulator_base.py#L1-L1200)). Existing Tequila backends either:
+In variational quantum eigensolvers (`VQE`), Hard-Core Boson (`HCB`) Separable Pair Ansätze (`SPA-UpCCD`), and `MADNESS` multiwavelet Pair Natural Orbital (`MRA-PNO`) workflows in **Tequila** ({cite:p}`tsim-kottmann2021tequila`; {cite:p}`tsim-kottmann2021direct`), simulation performance and physical expressiveness are governed by the underlying `BackendCircuit` and `BackendExpectationValue` engine ([../src/tequila/src/tequila/simulators/simulator_base.py](../src/tequila/src/tequila/simulators/simulator_base.py#L1-L1200)). Existing Tequila backends either:
 1. Allocate unconstrained $2^{n_{\mathrm{orb}}}$ dense statevectors in C++/Python (`qulacs`, `qiskit`, `cirq`) without exploiting the **Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(n_{\mathrm{occ}}, n_{\mathrm{orb}})$** Plücker subspace geometry of particle-number-conserving electronic and `HCB` circuits;
 2. Lack native support for **Homogeneous Complex Plabic Vector-Relation Configurations (`VRC`)** $(V, K)$ with $V K^\top = 0$, **Madelung / Dilatant Dark Fluid (`DDF`) / Turner Plücker $\mathcal{Q}_4$** quantum-pressure diagnostics, and **McWeeny cubic idempotency purification** ($\rho \leftarrow 3\rho^2 - 2\rho^3$) under hardware noise; or
 3. Lack native **Quantum Causal Inference (`QCI`)** primitives—including **Pearl $\operatorname{do}(q = b)$ causal interventions**, **Quantum Jeffrey Plücker probability kinematics** (`quantumJeffreyPluckerKinematicUpdate`), and **Diaconis–Zabell log-odds updates** (`diaconisZabellLogOddsUpdate`)—for mid-circuit soft syndrome evidence and deconfounded expectation evaluation.
@@ -388,34 +387,9 @@ end TequilaRustPyO3SimulatorVerification
 
 ## References
 
-(tsim-kottmann2021tequila)=
-<a id="tsim-kottmann2021tequila"></a>
-1. **Kottmann, J. S., Alperin-Lea, S., Tamayo-Mendoza, T., et al. (2021).** *Tequila: A platform for rapid development of quantum algorithms.* Quantum Science and Technology, 6(2), 024009 (`arXiv:2011.03057`).
-
-(tsim-kottmann2021direct)=
-<a id="tsim-kottmann2021direct"></a>
-2. **Kottmann, J. S., Schleich, P., Tamayo-Mendoza, T., & Aspuru-Guzik, A. (2021).** *Reducing Qubit Requirements while Maintaining Numerical Precision for Molecular Simulations.* The Journal of Physical Chemistry Letters, 12(1), 663–673 (`arXiv:2008.02819`).
-
-(tsim-affolter2024vrc)=
-<a id="tsim-affolter2024vrc"></a>
-3. **Affolter, N., Glick, M., Pylyavskyy, P., & Ramassamy, S. (2024).** *Vector-Relation Configurations and Plabic Graphs.* Selecta Mathematica, 30, 9 (`arXiv:1908.06959`).
-
-(tsim-mcweeny1960)=
-<a id="tsim-mcweeny1960"></a>
-4. **McWeeny, R. (1960).** *Some Recent Advances in Density Matrix Theory.* Reviews of Modern Physics, 32(2), 335–369.
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026tequila_rust_pyo3_simulator,
-  author  = {Turner, Wes},
-  title   = {A {R}ust/{PyO3} (\texttt{maturin}) Quantum Simulation Backend for {T}equila: Complex {G}rassmannians {$\mathrm{Gr}_{\mathbb{C}}(k, n)$}, Layer-Coded Plabic Vector-Relation Configurations ({VRC}), {M}adelung/{DDF} Hydrodynamics, and Quantum Causal Inference ({QCI}) in {L}ean 4, {R}ust, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/PyO3, and Python}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"affolter2024vrc", "mcweeny1960densityMatrix", "tsim-kottmann2021direct", "tsim-kottmann2021tequila"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

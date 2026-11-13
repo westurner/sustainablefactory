@@ -13,7 +13,6 @@ description: "An arXiv-ready MyST Markdown formal verification and condensed-mat
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L4304-L4506), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L7162-L7238), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L898-L962), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7400-L7426), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L6048-L6095))
   - `signals-numerical-adapter` Rust/WASM Crate ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L1432-L1570))
   - Python Reference Implementation & Pytest Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L4271-L4405), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L990-L1060))
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-semi-dirac-fermions-ddf-paper.md`
 - **Companion Papers:**
   - [Grassmannian Multilayer Graphene Superconductivity, Quantum Anomalous Hall ($C = \pm 5$), Fractional Chern Insulators (`FQAH`), Supersolid Quantum Vortices, and Symbiotic Topological Quantum Computing (`G-MGS`)](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md)
   - [Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
@@ -29,7 +28,7 @@ description: "An arXiv-ready MyST Markdown formal verification and condensed-mat
 
 ## Abstract
 
-**Semi-Dirac fermions** are exotic two-dimensional relativistic-nonrelativistic hybrid quasiparticles that behave as **massive Schrödinger particles along one spatial axis ($x$)** ($E \propto \frac{\hbar^2 k_x^2}{2 m_x^*}$ with effective mass $m_x^* > 0$) while simultaneously propagating as **massless ultra-relativistic Dirac particles along the orthogonal axis ($y$)** ($E \propto \hbar v_y |k_y|$ with zero rest mass $m_y^* = 0$) ([Dietl, Piéchon & Montambaux 2008](#sd-dietl2008); [Banerjee, Singh, Pardo & Pickett 2009](#sd-banerjee2009); [Montambaux, Piéchon, Fuchs & Goerbig 2009](#sd-montambaux2009)). Following their landmark magneto-optical observation at the nodal-line crossings of $\mathrm{ZrSiS}$ by **Shao et al. (2024)** (*Physical Review X* 14, 041057, [`arXiv:2311.03735`](#sd-shao2024))—verified via the signature **$B^{2/3}$ Landau-level scaling** $E_n(B) \propto [(n + 1/2)B]^{2/3}$—a foundational question arises across condensed-matter physics, complex projective geometry, and quantum hydrodynamics:
+**Semi-Dirac fermions** are exotic two-dimensional relativistic-nonrelativistic hybrid quasiparticles that behave as **massive Schrödinger particles along one spatial axis ($x$)** ($E \propto \frac{\hbar^2 k_x^2}{2 m_x^*}$ with effective mass $m_x^* > 0$) while simultaneously propagating as **massless ultra-relativistic Dirac particles along the orthogonal axis ($y$)** ($E \propto \hbar v_y |k_y|$ with zero rest mass $m_y^* = 0$) ({cite:p}`sd-dietl2008`; {cite:p}`sd-banerjee2009`; {cite:p}`sd-montambaux2009`). Following their landmark magneto-optical observation at the nodal-line crossings of $\mathrm{ZrSiS}$ by **Shao et al. (2024)** (*Physical Review X* 14, 041057, [`arXiv:2311.03735`](#sd-shao2024))—verified via the signature **$B^{2/3}$ Landau-level scaling** $E_n(B) \propto [(n + 1/2)B]^{2/3}$—a foundational question arises across condensed-matter physics, complex projective geometry, and quantum hydrodynamics:
 
 > *How are semi-Dirac fermions formulated **with and without the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}$** ($\mathrm{Gr}_{\mathbb{C}}(1,2)$, $\mathrm{Gr}_{\mathbb{C}}(2,4)$, and $\mathrm{Gr}_{\mathbb{C}}(2,6)$) and **with and without the Dilatant Dark Fluid (DDF)** (`Signals.DDF`), why does a quasiparticle acquire mass in only one direction from a hydrodynamic perspective, and what engineering and quantum-computing applications follow?*
 
@@ -74,11 +73,11 @@ In two spatial dimensions $(k_x, k_y)$, electronic and photonic quasiparticles f
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1. Non-Relativistic Schrödinger** | 2DEG ($\mathrm{GaAs}$, $\mathrm{Si}$ inversion layer) | Massive quadratic: $\frac{\hbar^2 k_x^2}{2 m^*}$ | Massive quadratic: $\frac{\hbar^2 k_y^2}{2 m^*}$ | Constant: $E^0$ | Linear: $\hbar\omega_c(n + \frac{1}{2}) \propto B^1$ | $0$ |
 | **2. Isotropic Relativistic Dirac** | Monolayer Graphene ($N=1$) | Massless linear: $\hbar v_F \|k_x\|$ | Massless linear: $\hbar v_F \|k_y\|$ | Linear: $E^1$ | Square-root: $v_F\sqrt{2\hbar e B n} \propto B^{1/2}$ | $\pm\pi$ |
-| **3. Semi-Dirac Hybrid (`Signals.DFT` Sec. 19)** | **$\mathrm{ZrSiS}$ nodal-line crossing** ([Shao et al. 2024](#sd-shao2024)), $\mathrm{TiO}_2/\mathrm{VO}_2$, strained graphene / black phosphorus | **Massive quadratic**: $\frac{\hbar^2 k_x^2}{2 m_x^*}$ ($m_x^* > 0$) | **Massless linear**: $\hbar v_y \|k_y\|$ ($m_y^* = 0$) | **Square-root**: $E^{1/2}$ | **Two-thirds power**: $\propto [(n + \frac{1}{2})B]^{2/3}$ | $0$ ($\pi + (-\pi)$) |
+| **3. Semi-Dirac Hybrid (`Signals.DFT` Sec. 19)** | **$\mathrm{ZrSiS}$ nodal-line crossing** {cite:p}`sd-shao2024`, $\mathrm{TiO}_2/\mathrm{VO}_2$, strained graphene / black phosphorus | **Massive quadratic**: $\frac{\hbar^2 k_x^2}{2 m_x^*}$ ($m_x^* > 0$) | **Massless linear**: $\hbar v_y \|k_y\|$ ($m_y^* = 0$) | **Square-root**: $E^{1/2}$ | **Two-thirds power**: $\propto [(n + \frac{1}{2})B]^{2/3}$ | $0$ ($\pi + (-\pi)$) |
 
 ### 1.2 Universal Montambaux–Banerjee–Shao Merging Hamiltonian
 
-When two 2D Dirac cones of opposite chirality ($\Phi_B = +\pi$ and $\Phi_B = -\pi$) approach each other along the $k_x$-axis under uniaxial strain, pressure, interlayer sliding, or nodal-line crossing in $\mathrm{ZrSiS}$ ([Montambaux et al. 2009](#sd-montambaux2009); [Shao et al. 2024](#sd-shao2024)), the low-energy $2\times 2$ effective Bloch Hamiltonian is governed by the merging parameter $\Delta_m \in \mathbb{R}$:
+When two 2D Dirac cones of opposite chirality ($\Phi_B = +\pi$ and $\Phi_B = -\pi$) approach each other along the $k_x$-axis under uniaxial strain, pressure, interlayer sliding, or nodal-line crossing in $\mathrm{ZrSiS}$ ({cite:p}`sd-montambaux2009`; {cite:p}`sd-shao2024`), the low-energy $2\times 2$ effective Bloch Hamiltonian is governed by the merging parameter $\Delta_m \in \mathbb{R}$:
 
 $$
 \mathcal{H}_{\mathrm{SD}}(k_x, k_y; \Delta_m) = \left(\frac{\hbar^2 k_x^2}{2 m_x^*} + \Delta_m\right)\sigma_x + \hbar v_y k_y\,\sigma_y,
@@ -116,7 +115,7 @@ $$
 \mathcal{H}_{\mathrm{SD}}^2\,\psi_n(\tilde{x}) = \left[\frac{\hbar^4}{4 (m_x^*)^2}\frac{d^4}{d\tilde{x}^4} + e^2 v_y^2 B^2 \tilde{x}^2\right]\psi_n(\tilde{x}) = E_n(B)^2\,\psi_n(\tilde{x}).
 $$
 
-Rescaling $\tilde{x} = \ell_{\mathrm{SD}}\,\xi$ with characteristic semi-Dirac magnetic length $\ell_{\mathrm{SD}} = \bigl(\frac{\hbar^2}{2 m_x^* e v_y B}\bigr)^{1/3} \propto B^{-1/3}$ factors all parameter dependence out of the differential operator, yielding the exact **$\mathbf{B^{2/3}}$ quantization law** ([Montambaux et al. 2009](#sd-montambaux2009); [Shao et al. 2024](#sd-shao2024)):
+Rescaling $\tilde{x} = \ell_{\mathrm{SD}}\,\xi$ with characteristic semi-Dirac magnetic length $\ell_{\mathrm{SD}} = \bigl(\frac{\hbar^2}{2 m_x^* e v_y B}\bigr)^{1/3} \propto B^{-1/3}$ factors all parameter dependence out of the differential operator, yielding the exact **$\mathbf{B^{2/3}}$ quantization law** ({cite:p}`sd-montambaux2009`; {cite:p}`sd-shao2024`):
 
 $$
 E_n(B) = \pm\,\alpha_{\mathrm{WKB}}\left(\frac{\hbar^2 e^2 v_y^2}{m_x^*}\right)^{1/3}\left[\left(n + \frac{1}{2}\right) B\right]^{2/3} \iff E_n(B)^3 = C_{\mathrm{LL}}^3\,\frac{v_y^2\,\bigl((n + 1/2) B\bigr)^2}{m_x^*},
@@ -272,9 +271,9 @@ To ensure that our semi-Dirac formalization is non-tautological and quantitative
 
    proving that a pristine, unpatterned 2D semi-Dirac crystal acts as an **intrinsic in-plane hyperbolic metasurface**.
 4. **Gap 4 — Non-Tautological $\mathrm{ZrSiS}$ $B^{2/3}$ Magneto-Optical Benchmark vs. Isotropic Dirac ($B^{1/2}$) and Schrödinger ($B^1$) Baselines**:
-   In the high-field magneto-optical spectroscopy of $\mathrm{ZrSiS}$ by [Shao et al. (2024)](#sd-shao2024), scaling the magnetic field by a factor of $B / B_0 = 8$ (e.g., from $2\text{ T}$ to $16\text{ T}$) scales the inter-Landau-level transition energy by $R_{\mathrm{exp}} \approx 3.98$:
+   In the high-field magneto-optical spectroscopy of $\mathrm{ZrSiS}$ by {cite:p}`sd-shao2024`, scaling the magnetic field by a factor of $B / B_0 = 8$ (e.g., from $2\text{ T}$ to $16\text{ T}$) scales the inter-Landau-level transition energy by $R_{\mathrm{exp}} \approx 3.98$:
 
-   | Model | Field-Scaling Law $E_n(8 B_0) / E_n(B_0)$ | Predicted Ratio at $B/B_0 = 8$ | Experimental $\mathrm{ZrSiS}$ Ratio ([Shao et al. 2024](#sd-shao2024)) | Relative Error $\varepsilon_{\mathrm{rel}}$ (`gtbcRelativeError`) |
+   | Model | Field-Scaling Law $E_n(8 B_0) / E_n(B_0)$ | Predicted Ratio at $B/B_0 = 8$ | Experimental $\mathrm{ZrSiS}$ Ratio {cite:p}`sd-shao2024` | Relative Error $\varepsilon_{\mathrm{rel}}$ (`gtbcRelativeError`) |
    | :--- | :---: | :---: | :---: | :---: |
    | **Semi-Dirac (`Signals.DFT` Sec. 19)** | $8^{2/3}$ | **$4.000$** | $3.980$ | **$0.50\% < 1\%$** |
    | **Isotropic Relativistic Dirac Baseline** | $8^{1/2}$ | $2.828$ | $3.980$ | $28.94\%$ ($57.6\times$ worse) |
@@ -338,54 +337,9 @@ end SemiDiracFermionsPaperVerification
 
 ## References
 
-(sd-dietl2008)=
-<a id="sd-dietl2008"></a>
-1. **Dietl, P., Piéchon, F., & Montambaux, G. (2008).** *New Magnetic Field Dependence of Landau Levels in a Graphenelike Structure.* Physical Review Letters, 100(23), 236405. `https://doi.org/10.1103/PhysRevLett.100.236405`
-
-(sd-banerjee2009)=
-<a id="sd-banerjee2009"></a>
-2. **Banerjee, S., Singh, R. R. P., Pardo, V., & Pickett, W. E. (2009).** *Tight-Binding Modeling and Low-Energy Behavior of the Semi-Dirac Point.* Physical Review Letters, 103(1), 016402. `https://doi.org/10.1103/PhysRevLett.103.016402`
-
-(sd-montambaux2009)=
-<a id="sd-montambaux2009"></a>
-3. **Montambaux, G., Piéchon, F., Fuchs, J.-N., & Goerbig, M. O. (2009).** *Merging of Dirac points in a two-dimensional crystal.* Physical Review B, 80(15), 153412. `https://doi.org/10.1103/PhysRevB.80.153412`
-
-(sd-kim2015)=
-<a id="sd-kim2015"></a>
-4. **Kim, J., Baik, S. S., Ryu, S. H., Sohn, Y., Park, S., Park, B.-G., Denlinger, J., Yi, Y., Choi, H. J., & Kim, K. S. (2015).** *Observation of tunable band gap and anisotropic Dirac semimetal state in black phosphorus.* Science, 349(6249), 723–726. `https://doi.org/10.1126/science.aaa6486`
-
-(sd-shao2024)=
-<a id="sd-shao2024"></a>
-5. **Shao, Y., Moon, S., Rudenko, A. N., Wang, J., Herzog-Arbeitman, J., Ozerov, M., Graf, D., Son, Y., Queiroz, R., Lee, S. H., Mao, Z., Katsnelson, M. I., Bernevig, B. A., Smirnov, D., Millis, A. J., & Basov, D. N. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057 (`arXiv:2311.03735`). `https://doi.org/10.1103/PhysRevX.14.041057`
-
-(sd-fedi2026)=
-<a id="sd-fedi2026"></a>
-6. **Fedi, M. (2026).** *Gravity and Special Relativity in a Dilatant Dark Fluid.* SSRN 7406660.
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026grassmannian_semi_dirac,
-  author  = {Turner, Wes},
-  title   = {Semi-{D}irac Fermions (Mass in Only One Direction) With and Without Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}$} and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: {$\mathrm{ZrSiS}$} {$B^{2/3}$} {L}andau Scaling, {D}irac-Cone Merging on {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} and {$\mathrm{Gr}_{\mathbb{C}}(2,6)$}, Directional Sheath Jamming, Anisotropic Tensor Splats, and Quantum/Photonic Applications in {L}ean 4, {R}ust, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
-}
-
-@article{shao2024semidirac,
-  author  = {Shao, Yinming and Moon, Seongphill and Rudenko, Alexander N. and Wang, Jie and Herzog-Arbeitman, Jonah and Ozerov, Mykhaylo and Graf, David and Son, Y. and Queiroz, Raquel and Lee, Seng Huat and Mao, Zhiqiang and Katsnelson, Mikhail I. and Bernevig, B. Andrei and Smirnov, Dmitry and Millis, Andrew J. and Basov, D. N.},
-  title   = {Semi-{D}irac Fermions in a Topological Metal},
-  journal = {Physical Review X},
-  volume  = {14},
-  number  = {4},
-  pages   = {041057},
-  year    = {2024},
-  doi     = {10.1103/PhysRevX.14.041057},
-  eprint  = {2311.03735}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"sd-banerjee2009", "sd-dietl2008", "sd-fedi2026", "sd-kim2015", "sd-montambaux2009", "sd-shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

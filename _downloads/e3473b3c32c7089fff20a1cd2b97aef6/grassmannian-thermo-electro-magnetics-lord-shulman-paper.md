@@ -565,15 +565,15 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 
 (gddftem-chat-nernst)=
 <a id="gddftem-chat-nernst"></a>
-15. Provenance Chat Log (2026). *Quantum Computing Hardware Architectures Review (N-LIG Nernst Entropy Siphoning & 110 mW Cryo Thermal Throttle)*. ([data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 468-1231](chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.md)).
+15. Turner, Wesley and Google Gemini (2026). *Quantum Computing Hardware Architectures Review (N-LIG Nernst Entropy Siphoning & 110 mW Cryo Thermal Throttle)*. ([data/chats/_Quantum Computing Hardware Architectures Review  .md, lines 468-1231](chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.myst.md)).
 
 (gddftem-chat-cryoseal)=
 <a id="gddftem-chat-cryoseal"></a>
-16. Provenance Chat Log (2026). *Aluminum Production: Electrolytic vs. Plasma (Lignolux Cryo-Seal Joule-Thomson & Piezo-Sphere Breach Protocol)*. ([data/chats/_Aluminum Production_ Electrolytic vs. Plasma  .md, lines 5947-6199](chats/_Aluminum%20Production_%20Electrolytic%20vs.%20Plasma%20%20.myst.md)).
+16. Turner, Wesley and Google Gemini (2026). *Aluminum Production: Electrolytic vs. Plasma (Lignolux Cryo-Seal Joule-Thomson & Piezo-Sphere Breach Protocol)*. ([data/chats/_Aluminum Production_ Electrolytic vs. Plasma  .md, lines 5947-6199](chats/_Aluminum%20Production_%20Electrolytic%20vs.%20Plasma%20%20.myst.md)).
 
 (gddftem-chat-antenna)=
 <a id="gddftem-chat-antenna"></a>
-17. Provenance Chat Log (2026). *Airy Beams and Communications and Illumination (Dielectric Broadband Directional Antenna Lignin-Vitrimer FTL Polarization Sweep & rGO-Vitrimer Active Mask)*. ({download}`data/chats/_Airy-Beams-and-Communications-and-Illumination.md, lines 2631-2735 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`).
+17. Turner, Wesley and Google Gemini (2026). *Airy Beams and Communications and Illumination (Dielectric Broadband Directional Antenna Lignin-Vitrimer FTL Polarization Sweep & rGO-Vitrimer Active Mask)*. ({download}`data/chats/_Airy-Beams-and-Communications-and-Illumination.md, lines 2631-2735 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`).
 
 (gddftem-schroedter2026)=
 <a id="gddftem-schroedter2026"></a>
@@ -623,8 +623,8 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
   doi     = {10.1126/science.aav3548}
 }
 
-@article{turner2026grassmannian_gddf_tem_lord_shulman,
-  author  = {Turner, Wes},
+@unpublished{turner2026grassmannian_gddf_tem_lord_shulman,
+  author  = {Turner, Wesley},
   title   = {{G}rassmannian--{DDF} Thermo-Electro-Magnetics ({G-DDF-TEM}) as a Complete Alternative to {L}ord--{S}hulman: Four-Sector {$\mathrm{Gr}_{\mathbb{C}}(2,4)$} Causality, {O}nsager Reciprocity, {G-TBC} Interfacial Coupling, and Cuprate ({G-CSC}) / Multilayer Graphene ({G-MGS}) Superconducting Dynamics in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

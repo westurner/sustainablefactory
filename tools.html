@@ -49,7 +49,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-nbgfm6tf9BAiN0hXX1SQj/BFzAc2B/ivlTOh//dwJ91U/AvoGnpi65Xc+vDl7IFr"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
   
   <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
@@ -102,6 +102,7 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">Tools</a><ul>
+<li><a class="reference internal" href="#software-inventory-and-citations">Software Inventory and Citations</a></li>
 <li><a class="reference internal" href="#sphinx">Sphinx</a></li>
 <li><a class="reference internal" href="#lean">Lean</a><ul>
 <li><a class="reference internal" href="#lean-libraries">Lean Libraries</a><ul>
@@ -174,6 +175,7 @@
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Tools</a><ul>
+<li><a class="reference internal" href="#software-inventory-and-citations">Software Inventory and Citations</a></li>
 <li><a class="reference internal" href="#sphinx">Sphinx</a></li>
 <li><a class="reference internal" href="#lean">Lean</a><ul>
 <li><a class="reference internal" href="#lean-libraries">Lean Libraries</a><ul>
@@ -248,7 +250,43 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="tools">
 <h1>Tools<a class="headerlink" href="#tools" title="Link to this heading">¶</a></h1>
-<p>Tools used in the sustainablefactory project</p>
+<p>Tools used to develop, build, and document the sustainablefactory project.</p>
+<section id="software-inventory-and-citations">
+<h2>Software Inventory and Citations<a class="headerlink" href="#software-inventory-and-citations" title="Link to this heading">¶</a></h2>
+<p>The software bibliography is generated from repository installation manifests
+by <a class="reference download internal" download="" href="_downloads/1379c1feaa8ed664874b9a5dbd8b5bea/generate_software_citations.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">tools/generate_software_citations.py</span></code></span></a>.
+It currently contains 838 package and tool records: 216 Python distributions,
+322 Rust crates and tools, 167 Ubuntu packages, 105 npm packages, 8 Lean
+packages or toolchains, 15 unique VS Code extensions, 3 runtimes, and 2 browser
+installations. Cite an entry with its generated key, for example
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id507" title="Sphinx. Python distribution. Makefile local project install, local project metadata, manifest declaration in pyproject.toml, src/cheri-cva6/docs/requirements.txt, src/cheri-cva6/vendor/riscv/riscv-config/docs/requirements.txt, src/cheri-cva6/verif/docs/VerifPlans/requirements.txt, src/cva6-cheri/docs/requirements.txt, src/cva6-cheri/vendor/riscv/riscv-config/docs/requirements.txt, src/cva6-cheri/verif/docs/VerifPlans/requirements.txt, src/docindex/src/docindex-sphinx/pyproject.toml, src/dsport/Makefile, src/dsport/requirements.txt, src/dsport/src/MyST-Parser/pyproject.toml, src/dsport/src/jinja2/pyproject.toml, src/dsport/src/markdown-it-py/pyproject.toml, src/dsport/src/sphinx/pyproject.toml, src/ibex/doc/requirements.txt, src/ibex/nix/pythonEnv/pyproject.toml, src/ibex/vendor/google_riscv-dv/requirements.txt, src/madness/doc/requirements.txt, src/oxigraph/python/pyproject.toml, src/sphinxcontrib-webmcp/pyproject.toml, src/wrd-sphinx-theme/pyproject.toml, src/wrd-sphinx-theme/requirements_dev.txt, src/wrd_sphinx_theme/pyproject.toml, src/wrd_sphinx_theme/requirements_dev.txt; declared constraints: &lt;8.0.0,&gt;=7.2.6, ==3.0.4, ==7.2.6, &gt;=1.8.1, &gt;=3.1.2, &gt;=7.0, &gt;=7.0,&lt;10.0, &gt;=8, &gt;=8,&lt;10, &gt;=9.1.0, Makefile install, unversioned,  =8.2. URL: https://www.sphinx-doc.org/."><em>sphinx</em>, n.d.</a>]</span> or <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id1036" title="Playwright. Node.js package. dependencies declaration, devDependencies declaration in e2e/package.json, src/particlewavefluid/src/subwaysim2/package.json, src/wrd-sphinx-theme/e2e/package.json, src/wrd_sphinx_theme/e2e/package.json; declared constraints: ^1.60.0, ^1.62.1. URL: https://www.npmjs.com/package/playwright."><em>playwright</em>, n.d.</a>]</span>.</p>
+<p>The generator scans 37 <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files, 27 <code class="docutils literal notranslate"><span class="pre">requirements*.txt</span></code> files,
+127 <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> files, 25 <code class="docutils literal notranslate"><span class="pre">package.json</span></code> files, 4 <code class="docutils literal notranslate"><span class="pre">lakefile.toml</span></code> files,
+Makefiles, <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">Dockerfile.e2e</span></code>. The recursive
+scan intentionally includes vendored, example, and test projects. A declaration
+in one of those manifests does not mean that package is installed in the main
+development container. <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code> also references
+<code class="docutils literal notranslate"><span class="pre">requirements-meilisearch.txt</span></code>, which is not present in this checkout, so its
+contents cannot be included.</p>
+<p>The default container setup is defined by <a class="reference download internal" download="" href="_downloads/9b7c8499c460a1596861b93347e01359/devcontainer.json"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code></span></a>
+and <a class="reference download internal" download="" href="_downloads/4ef6443eceeb43f7c0f32cfea9ab7e09/Dockerfile.e2e"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">Dockerfile.e2e</span></code></span></a>: Ubuntu 24.04 system packages, a
+Python virtual environment, Node.js 22.x and npm, the Lean toolchain installed
+with elan, PyMuPDF 1.28.2 in <code class="docutils literal notranslate"><span class="pre">/opt/pdf-tools</span></code>, npm dependencies for the root and
+<code class="docutils literal notranslate"><span class="pre">e2e/</span></code> projects, and Playwright-managed Chromium and Firefox. The devcontainer
+post-create step also installs the root project and <code class="docutils literal notranslate"><span class="pre">src/schematool</span></code> and
+<code class="docutils literal notranslate"><span class="pre">src/transform_md</span></code> as editable Python packages, builds Signals with Lake, and
+installs the listed VS Code extensions. Other Makefile targets install
+additional, task-specific tools and dependencies; they are not all part of
+container creation.</p>
+<p>Each BibTeX note records the declaration source and version constraint. These
+are manifest declarations, not resolved versions or proof that a dependency is
+present in a particular environment. The catalog does not resolve transitive
+dependencies from lockfiles, package registries, or system package indexes;
+Ubuntu package entries identify the Noble repository, not a pinned package
+revision. Local packages without a declared homepage intentionally have no
+registry URL. Re-run the generator after changing manifests to refresh the
+catalog.</p>
+</section>
 <section id="sphinx">
 <h2>Sphinx<a class="headerlink" href="#sphinx" title="Link to this heading">¶</a></h2>
 <ul class="simple">
@@ -264,7 +302,7 @@
 <ul class="simple">
 <li><p>Features:</p>
 <ul>
-<li><p>type verification, theorem modeling, thereom proving</p></li>
+<li><p>type verification, theorem modeling, theorem proving</p></li>
 <li><p>machine-checkable proofs</p></li>
 </ul>
 </li>

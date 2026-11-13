@@ -425,11 +425,7 @@ end DiscoveredMaterialsProblem04TuningMaterialsWithLightVerification
 
 ## References
 
-- **Discovered Materials & da Jornada, F. H. (2026)**. *Problem 04: Tuning Materials with Light — Compute what a laser pulse does to a real material, with electrons and lattice vibrations treated together, in a computationally tractable way over long time scales*. {cite}`discoveredmaterials2026problem04`.
-- **Schroedter, F., Bonitz, M., & Joost, J.-P. (2026)**. *Electronic correlations in Hubbard chains and ladders*. `arXiv:2606.10773` {cite}`schroedter2026hubbard`.
-- **Madéo, J., Man, M. K. L., Sahoo, C., et al. (2020)**. *Directly visualizing the momentum-forbidden dark excitons and their dynamics in atomically thin semiconductors*. *Science*, 370(6521), 1199–1204 {cite}`madeo2020directly`.
-- **René de Cotret, L. P., Pöhls, J.-H., Stern, M. J., Otto, M. R., Sutton, M., & Siwick, B. J. (2019)**. *Time- and momentum-resolved phonon population dynamics with ultrafast electron diffuse scattering*. *Physical Review B*, 100(21), 214115 {cite}`renedecotret2019time`.
-- **Katsumi, K., et al. (2025)**. *Equilibrium pairing and driven superconducting response in $\mathrm{MgB}_2$*. *Physical Review Letters*, 135(3), 036902 {cite}`katsumi2025mgb2`.
-- **Kadanoff, L. P., & Baym, G. (1962)**. *Quantum Statistical Mechanics: Green's Function Methods in Equilibrium and Nonequilibrium Problems*. W. A. Benjamin {cite}`kadanoff1962quantum`.
-- **Lipavský, P., Špička, V., & Velický, B. (1986)**. *Generalized Kadanoff–Baym ansatz for deriving quantum transport equations*. *Physical Review B*, 34(10), 6933–6942 {cite}`lipavsky1986generalized`.
-- **Schlünzen, N., Joost, J.-P., & Bonitz, M. (2020)**. *Achieving the Scaling Limit of Nonequilibrium Green Functions Simulations: The G1–G2 Scheme*. *Physical Review Letters*, 124(7), 076601 {cite}`joost2020g1g2`.
+```{bibliography}
+:list: bullet
+:filter: key in {"discoveredmaterials2026problem04", "joost2020g1g2", "kadanoff1962quantum", "katsumi2025mgb2", "lipavsky1986generalized", "madeo2020directly", "renedecotret2019time", "schroedter2026hubbard"}
+```

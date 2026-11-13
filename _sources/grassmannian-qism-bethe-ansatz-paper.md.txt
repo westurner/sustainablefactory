@@ -39,7 +39,7 @@ The Quantum Inverse Scattering Method (QISM) and Algebraic Bethe Ansatz (ABA) so
 
 ## 1. Introduction & Architecture Overview
 
-Introduced by Takhtajan, Faddeev, and Sklyanin ([Takhtajan and Faddeev 1979](#qism-takhtajan1979); [Sklyanin 1992](#qism-sklyanin1992); [Korepin et al. 1993](#qism-korepin1993); [Faddeev 1996](#qism-faddeev1996)), the Quantum Inverse Scattering Method (QISM) reformulates Hans Bethe's coordinate ansatz into an algebraic framework governed by the Yangian $Y(\mathfrak{gl}_n)$. Just as the Grassmannian $Gr(k,n)$ bypasses exponential Feynman-diagram expansion in $4\text{D}$ scattering amplitudes ([Arkani-Hamed and Trnka 2014](#qism-arkani2014)), Grassmannian geometry bypasses the $2^N$ Hilbert-space bottleneck of QISM:
+Introduced by Takhtajan, Faddeev, and Sklyanin ({cite:p}`takhtajan1979qism`; {cite:p}`sklyanin1992qism`; {cite:p}`korepin1993qism`; {cite:p}`qism-faddeev1996`), the Quantum Inverse Scattering Method (QISM) reformulates Hans Bethe's coordinate ansatz into an algebraic framework governed by the Yangian $Y(\mathfrak{gl}_n)$. Just as the Grassmannian $Gr(k,n)$ bypasses exponential Feynman-diagram expansion in $4\text{D}$ scattering amplitudes {cite:p}`arkani2014amplituhedron`, Grassmannian geometry bypasses the $2^N$ Hilbert-space bottleneck of QISM:
 
 | QISM / Bethe Ansatz Object | Conventional Hilbert-Space Formulation | Grassmannian Formulation (`Signals.QISM` & `Signals.Geometry`) | Complexity Reduction |
 |---|---|---|---|
@@ -144,7 +144,7 @@ A $2 \times 2$ auxiliary Lax or monodromy matrix $T(u) = \begin{pmatrix} A & B \
 
 ## 4. Baxter $Q$-Polynomials in $Gr(2,4)$, the $QQ$-System, and MTV Nondegeneracy
 
-In the Mukhin–Tarasov–Varchenko Grassmannian correspondence ([Mukhin et al. 2009](#qism-mtv2009)), a Bethe eigenstate is encoded by a 2-plane $W = \operatorname{span}\{Q_+(u), Q_-(u)\}$ of Baxter functions. Sampling $(Q_+, Q_-)$ at four spectral rapidities $(u_0, u_1, u_2, u_3)$ constructs the $2 \times 4$ Grassmannian matrix (`baxterGrassmannianMatrix` in [QISM.lean](../src/signals/Signals/QISM.lean#L322-L545)):
+In the Mukhin–Tarasov–Varchenko Grassmannian correspondence {cite:p}`mukhin2009schubert`, a Bethe eigenstate is encoded by a 2-plane $W = \operatorname{span}\{Q_+(u), Q_-(u)\}$ of Baxter functions. Sampling $(Q_+, Q_-)$ at four spectral rapidities $(u_0, u_1, u_2, u_3)$ constructs the $2 \times 4$ Grassmannian matrix (`baxterGrassmannianMatrix` in [QISM.lean](../src/signals/Signals/QISM.lean#L322-L545)):
 
 $$
 M_Q(u_0, u_1, u_2, u_3) =

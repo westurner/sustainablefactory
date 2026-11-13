@@ -14,7 +14,6 @@ description: "An arXiv-ready MyST Markdown formal verification and optical archi
   - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs#L1200-L1850))
   - Generated KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`), Volumetric (`.kicad_vol`), Calma GDSII v6.0 (`.gds`), and IOF/EMMO/PROV-O (`_CBOM.yaml-ld`) Hardware Files:
     - [LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_mod](../src/signals/kicad/semi_dirac/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_mod), [LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_sch](../src/signals/kicad/semi_dirac/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_sch), [LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_pcb](../src/signals/kicad/semi_dirac/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_pcb), [LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_vol](../src/signals/kicad/semi_dirac/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.kicad_vol), [LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.gds](../src/signals/kicad/semi_dirac/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive.gds), [LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive_CBOM.yaml-ld)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md`
 - **Companion Papers:**
   - [Hosting Pressed / Mask-Locked 1-Trillion-Parameter LLMs on Lignolux Holographic Archival Tape (`LHAT`) with Soliton/OAM QRAM and Active `N-LIG`/`B-LIG` Steering Layers](grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper.md)
   - [Laser-Induced $sp^2/sp^3$ Carbon and Nanodiamonds from Lignin, Plastics (`PET`/`PE`), $\mathrm{CO}_2$, and Methane Pyrolysis ("Teal Carbon"), H-Terminated Nanodiamond 2D Hole Gas (`2DHG`) FETs, and Biodegradable Carbon Semiconductor Alternatives](grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.md)
@@ -120,26 +119,9 @@ end LhatHolographicArchivalTapePaper37Verification
 
 ## References
 
-(lhat37-reddy1996)=
-<a id="lhat37-reddy1996"></a>
-1. **Reddy, B. S., & Chatterji, B. N. (1996).** *An FFT-based technique for translation, rotation, and scale-invariant image registration.* IEEE Transactions on Image Processing, 5(8), 1266–1271. `https://doi.org/10.1109/83.506761`
-
-(lhat37-montarnal2011)=
-<a id="lhat37-montarnal2011"></a>
-2. **Montarnal, D., Capelot, M., Tournilhac, F., & Leibler, L. (2011).** *Silica-like malleable materials from permanent organic networks.* Science, 334(6058), 965–968. `https://doi.org/10.1126/science.1212648`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026lhat_holographic_archival_tape,
-  author  = {Turner, Wes},
-  title   = {Lignolux Holographic Archival Tape ({LHAT}, 12 $\mu$m $\times$ 10 km, 720 {TB} Raw / 480 {TB} Usable vs.\ 18 {TB} {LTO-9}): 3,000$\times$ {OAM}-{B}ragg-Polarization Volumetric Multiplexing, Zero-Iteration Log-Polar $64\times 64$ {FFT} Tracking, 182 fs {VACNT} {K}apitza Quench, and 635 nm {QFT-RK} Selective Rewritability in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"lhat37-montarnal2011", "lhat37-reddy1996"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

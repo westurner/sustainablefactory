@@ -28,7 +28,7 @@ description: "An arXiv-ready formal verification and numerical simulation paper 
 ## Abstract
 
 Since **Juan Maldacena's (1998)** discovery of the **AdS/CFT correspondence** ([`hep-th/9711200`](#adscft-maldacena1998)) and its field-operator formulation by **Gubser, Klebanov, and Polyakov (1998)** ([`hep-th/9802109`](#adscft-gkp1998)) and **Witten (1998)** ([`hep-th/9802150`](#adscft-witten1998)), two major developments have transformed exact gauge–string duality:
-1. **Planar AdS/CFT Integrability** ([Minahan & Zarembo 2003](#adscft-minahan2003); [Beisert et al. 2012, *Review of AdS/CFT Integrability: An Overview*, `arXiv:1012.3982`](#adscft-beisert2012)), which solves the spectral and scattering problems of planar $\mathcal{N}=4$ Super Yang–Mills (SYM) and free Type IIB superstrings on $\text{AdS}_5 \times S^5$ across all values of the 't Hooft coupling $\lambda = g_{\mathrm{YM}}^2 N_c = 4\pi^2 T_{\mathrm{str}}^2$ via the centrally extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ $S$-matrix, Baxter $TQ$/Hirota $Y$-systems, and Grassmannian scattering integrals; and
+1. **Planar AdS/CFT Integrability** ({cite:p}`adscft-minahan2003`; [Beisert et al. 2012, *Review of AdS/CFT Integrability: An Overview*, `arXiv:1012.3982`](#adscft-beisert2012)), which solves the spectral and scattering problems of planar $\mathcal{N}=4$ Super Yang–Mills (SYM) and free Type IIB superstrings on $\text{AdS}_5 \times S^5$ across all values of the 't Hooft coupling $\lambda = g_{\mathrm{YM}}^2 N_c = 4\pi^2 T_{\mathrm{str}}^2$ via the centrally extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ $S$-matrix, Baxter $TQ$/Hirota $Y$-systems, and Grassmannian scattering integrals; and
 2. **Secret (Bonus) Symmetries in AdS/CFT** ([Matsumoto, Moriyama & Torrielli 2007, `arXiv:0708.1285`](#adscft-matsumoto2007); [Beisert & Schwab 2011, `arXiv:1103.0646`](#adscft-beisert2011); [Berkovits & Mikhailov 2011, `arXiv:1103.1228`](#adscft-berkovits2011); [de Leeuw, Matsumoto, Moriyama, Regelskis & Torrielli 2012, *Secret Symmetries in AdS/CFT*, `arXiv:1204.2366`](#adscft-deleeuw2012)), which reveal an *indented Yangian* hypercharge generator $\widehat{\mathbb{B}} = B_0\operatorname{diag}(1,1,-1,-1)$ present at level $1$ (and odd levels) with non-vanishing supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0 \neq 0$, despite the absence of its level-$0$ partner $\mathbb{B}$ due to $\text{fermion} \otimes \text{fermion} \leftrightarrow \text{boson} \otimes \text{boson}$ scattering.
 
 In this paper, we formalize AdS/CFT, planar integrability, and secret symmetries in **Lean 4** (`Signals.Scattering` and `Signals.DDF`) and **Rust/WASM** (`polariton_spp.rs`), and unify them with our **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** and **Dilatant Dark Fluid (DDF)** mechanics both **without splats** (splat-free continuum Plücker and hydrodynamic laws) and **with Normed 2D Tensor Gaussian Splats**:
@@ -76,7 +76,7 @@ $$
 
 ### 1.2 The Gubser–Klebanov–Polyakov–Witten (GKPW) Mass–Dimension Dictionary & Breitenlohner–Freedman Bound
 
-By [Gubser, Klebanov, and Polyakov (1998)](#adscft-gkp1998) and [Witten (1998)](#adscft-witten1998), the bulk string partition function with boundary field values $\phi|_{\partial\text{AdS}_{d+1}} = J$ equals the generating functional of connected correlation functions in $\text{CFT}_d$:
+By {cite:p}`adscft-gkp1998` and {cite:p}`adscft-witten1998`, the bulk string partition function with boundary field values $\phi|_{\partial\text{AdS}_{d+1}} = J$ equals the generating functional of connected correlation functions in $\text{CFT}_d$:
 
 $$
 Z_{\mathrm{string}}\bigl[\phi\big|_{\partial\text{AdS}_{d+1}} = J\bigr] = \left\langle \exp\!\left(\int_{\partial\text{AdS}_{d+1}} d^d x\,J(x)\,\mathcal{O}(x)\right) \right\rangle_{\text{CFT}_d}.
@@ -89,7 +89,7 @@ $$
 m^2 R_{\mathrm{AdS}}^2 \ge m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -\frac{d^2}{4}
 $$
 
-([Breitenlohner & Freedman 1982](#adscft-bf1982)). Theorem `ads_cft_integrability_and_secret_symmetry_identities` machine-checks the Vieta and boundary identities:
+{cite:p}`adscft-bf1982`. Theorem `ads_cft_integrability_and_secret_symmetry_identities` machine-checks the Vieta and boundary identities:
 - $\Delta_+ + \Delta_- = d$ (shadow dimension pairing),
 - $\Delta_+\,\Delta_- = -m^2 R_{\mathrm{AdS}}^2$,
 - $\Delta_+(\Delta_+ - d) = m^2 R_{\mathrm{AdS}}^2$,
@@ -98,13 +98,13 @@ $$
 
 ### 1.3 Fluid/Gravity Duality (KSS Bound) & Ryu–Takayanagi Entanglement Entropy
 
-At finite temperature, a planar black brane in $\text{AdS}_5$ is dual to a strongly coupled thermal $\mathcal{N}=4$ SYM plasma ([Provenance Chat Log: Fluid/Gravity Duality (2026)](#adscft-chat-fluidgravity2026), lines 136–325). Absorbing low-frequency gravitons on the bulk horizon yields the **Kovtun–Son–Starinets (KSS) universal lower bound** ([Kovtun, Son & Starinets 2005](#adscft-kss2005), `kssShearViscosityEntropyBound`):
+At finite temperature, a planar black brane in $\text{AdS}_5$ is dual to a strongly coupled thermal $\mathcal{N}=4$ SYM plasma ({cite:p}`adscft-chat-fluidgravity2026`, lines 136–325). Absorbing low-frequency gravitons on the bulk horizon yields the **Kovtun–Son–Starinets (KSS) universal lower bound** ({cite:p}`adscft-kss2005`, `kssShearViscosityEntropyBound`):
 
 $$
 \left(\frac{\eta_{\mathrm{shear}}}{s_{\mathrm{ent}}}\right)_{\mathrm{KSS}} = \frac{\hbar}{4\pi k_B} > 0.
 $$
 
-Similarly, in $\text{AdS}_3/\text{CFT}_2$, the **Brown–Henneaux central charge** ([Brown & Henneaux 1986](#adscft-brown1986), `brownHenneauxCentralCharge`) $c_{\mathrm{BH}} = \frac{3 R_{\mathrm{AdS}}}{2 G_N^{(3)}}$ and the **Ryu–Takayanagi minimal geodesic formula** ([Ryu & Takayanagi 2006](#adscft-ryu2006), `ryuTakayanagiEntanglementEntropyAdS3`) satisfy:
+Similarly, in $\text{AdS}_3/\text{CFT}_2$, the **Brown–Henneaux central charge** ({cite:p}`adscft-brown1986`, `brownHenneauxCentralCharge`) $c_{\mathrm{BH}} = \frac{3 R_{\mathrm{AdS}}}{2 G_N^{(3)}}$ and the **Ryu–Takayanagi minimal geodesic formula** ({cite:p}`ryu2006holographic`, `ryuTakayanagiEntanglementEntropyAdS3`) satisfy:
 
 $$
 S_{\mathrm{EE}}(\ell, \epsilon_{\mathrm{UV}}) = \frac{L_{\mathrm{geod}}(\ell, \epsilon_{\mathrm{UV}})}{4 G_N^{(3)}} = \frac{R_{\mathrm{AdS}}}{2 G_N^{(3)}}\ln\!\left(\frac{\ell}{\epsilon_{\mathrm{UV}}}\right) = \frac{c_{\mathrm{BH}}}{3}\ln\!\left(\frac{\ell}{\epsilon_{\mathrm{UV}}}\right).
@@ -116,7 +116,7 @@ $$
 
 As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)** (*Review of AdS/CFT Integrability: An Overview*, *Lett. Math. Phys.* 99, 3–32, [`arXiv:1012.3982`](#adscft-beisert2012)), planar ($N_c \to \infty$) $\mathcal{N}=4$ SYM and free ($g_{\mathrm{str}} = 0$) Type IIB strings on $\text{AdS}_5 \times S^5$ form an **exact quantum integrable system** bridging weak coupling ($\lambda \ll 1$, perturbative Feynman diagrams) and strong coupling ($\lambda \gg 1$, semiclassical worldsheet sigma model):
 
-1. **Spin-Chain Mapping & One-Loop Bethe Ansatz** ([Minahan & Zarembo 2003](#adscft-minahan2003); `arXiv:1012.3982` Sec. I.1):
+1. **Spin-Chain Mapping & One-Loop Bethe Ansatz** ({cite:p}`adscft-minahan2003`; `arXiv:1012.3982` Sec. I.1):
    Single-trace gauge-invariant operators $\mathcal{O} = \operatorname{Tr}(Z Z \Phi Z \cdots)$ of length $L$ with $M$ impurity magnons map to states of an integrable $\mathfrak{psu}(2,2|4)$ spin chain. At one loop in the $\mathfrak{su}(2)$ sector, the Bethe rapidities $u_k$ satisfy:
 
    $$
@@ -137,7 +137,7 @@ As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)**
    \delta D_{\mathrm{Konishi}}(\lambda) = \frac{3\lambda}{4\pi^2} - \frac{3\lambda^2}{16\pi^4} + \frac{21\lambda^3}{256\pi^6} - \frac{\bigl(78 - 18\zeta(3) + 45\zeta(5)\bigr)\lambda^4}{2048\pi^8} + \mathcal{O}(\lambda^5).
    $$
 
-3. **All-Loop $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ Bound-State Magnon Dispersion Relation** ([Beisert 2005](#adscft-beisert2005); [Dorey 2006](#adscft-dorey2006); `arXiv:1012.3982` Sec. III.2):
+3. **All-Loop $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ Bound-State Magnon Dispersion Relation** ({cite:p}`adscft-beisert2005`; {cite:p}`adscft-dorey2006`; `arXiv:1012.3982` Sec. III.2):
    Representation theory of the centrally extended $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ residual symmetry algebra above the BMN vacuum $\operatorname{Tr}(Z^J)$ fixes the exact all-loop dispersion relation for an $M$-magnon bound state (`adsMagnonDispersionSq`, `adsMagnonDispersion`):
 
    $$
@@ -155,7 +155,7 @@ As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)**
 
 ## 3. Secret Symmetries in AdS/CFT: Centrally Extended $\mathfrak{psl}(2|2)_c$, Braided Coproducts, and Indented Yangians (`arXiv:1204.2366`)
 
-In **de Leeuw, Matsumoto, Moriyama, Regelskis, and Torrielli (2012)** (*Secret Symmetries in AdS/CFT*, *Physica Scripta* 86, 028502, [`arXiv:1204.2366`](#adscft-deleeuw2012)), the authors review the remarkable discovery ([Matsumoto, Moriyama & Torrielli 2007](#adscft-matsumoto2007)) that the AdS/CFT integrable system possesses a **secret (bonus) quantum-group symmetry** $\widehat{\mathbb{B}}$ at Yangian level $1$ (and odd levels) that has **no level-$0$ partner**:
+In **de Leeuw, Matsumoto, Moriyama, Regelskis, and Torrielli (2012)** (*Secret Symmetries in AdS/CFT*, *Physica Scripta* 86, 028502, [`arXiv:1204.2366`](#adscft-deleeuw2012)), the authors review the remarkable discovery {cite:p}`adscft-matsumoto2007` that the AdS/CFT integrable system possesses a **secret (bonus) quantum-group symmetry** $\widehat{\mathbb{B}}$ at Yangian level $1$ (and odd levels) that has **no level-$0$ partner**:
 
 ### 3.1 Level-0 Centrally Extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ and Braided Central Charges
 
@@ -223,9 +223,9 @@ Across the five sectors reviewed in [de Leeuw et al. (2012, `arXiv:1204.2366`)](
      $$
 
 2. **Open-String Boundary $K$-Matrices** (Sec. 3.2): Twisted secret charges $\widetilde{\mathbb{Q}}_{\alpha,\pm 1}^2, \widetilde{\mathbb{G}}_{2,\pm 1}^\alpha$ for $Y=0$ maximal giant gravitons ($D3$-branes) and horizontal/vertical $D5$-branes.
-3. **Planar $n$-Point Scattering Amplitudes & Grassmannian Integral** (Sec. 3.3; [Beisert & Schwab 2011](#adscft-beisert2011)): The bonus level-$1$ generator $\widehat{\mathfrak{B}}$ leaves the Grassmannian integral formula ([Arkani-Hamed et al. 2010](#adscft-arkani2010)) invariant and satisfies the length-changing anomaly equation $\widehat{\mathfrak{B}}\mathcal{A}_n + \widehat{\mathfrak{B}}^+\mathcal{A}_{n-1} = 0$.
-4. **Pure-Spinor Worldsheet Sigma Model** (Sec. 3.4; [Berkovits & Mikhailov 2011](#adscft-berkovits2011)): Lifting $T(z) \in PSU(2,2|4)$ to $SU(2,2|4)$ and supertracing with the hypercharge matrix $s = \operatorname{diag}(\mathbb{1}_4, -\mathbb{1}_4)$ generates BRST-closed nonlocal bonus charges $\operatorname{STr}(s\log T(z))$ at **odd levels only**.
-5. **Quantum-Deformed Hubbard Affine Algebra $\widehat{Q} = U_q(\widehat{\mathfrak{sl}}(2|2))_c$** (Sec. 3.5; [de Leeuw, Regelskis & Torrielli 2011](#adscft-deleeuw2011)): With symmetric Cartan matrix (`qDeformedHubbardCartanDA` in `Signals.Scattering`):
+3. **Planar $n$-Point Scattering Amplitudes & Grassmannian Integral** (Sec. 3.3; {cite:p}`adscft-beisert2011`): The bonus level-$1$ generator $\widehat{\mathfrak{B}}$ leaves the Grassmannian integral formula {cite:p}`adscft-arkani2010` invariant and satisfies the length-changing anomaly equation $\widehat{\mathfrak{B}}\mathcal{A}_n + \widehat{\mathfrak{B}}^+\mathcal{A}_{n-1} = 0$.
+4. **Pure-Spinor Worldsheet Sigma Model** (Sec. 3.4; {cite:p}`adscft-berkovits2011`): Lifting $T(z) \in PSU(2,2|4)$ to $SU(2,2|4)$ and supertracing with the hypercharge matrix $s = \operatorname{diag}(\mathbb{1}_4, -\mathbb{1}_4)$ generates BRST-closed nonlocal bonus charges $\operatorname{STr}(s\log T(z))$ at **odd levels only**.
+5. **Quantum-Deformed Hubbard Affine Algebra $\widehat{Q} = U_q(\widehat{\mathfrak{sl}}(2|2))_c$** (Sec. 3.5; {cite:p}`adscft-deleeuw2011`): With symmetric Cartan matrix (`qDeformedHubbardCartanDA` in `Signals.Scattering`):
 
    $$
    DA = \begin{pmatrix} 2 & -1 & 0 & -1 \\ -1 & 0 & 1 & 0 \\ 0 & 1 & -2 & 1 \\ -1 & 0 & 1 & 0 \end{pmatrix}, \qquad \operatorname{Tr}(DA) = 0, \qquad \det(DA) = 0,
@@ -296,7 +296,7 @@ $$
 \bigl|w_A^{\mathbb{C}}(M_{\mathrm{DDF}}(r))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{DDF}}(r))\bigr|^2 = 1 - \frac{r_H}{r}.
 $$
 
-At the same time, our formalization maintains a strict physical boundary between $\text{AdS}_5/\text{CFT}_4$ and $(3+1)$-dimensional $Gr_{\mathbb{C}}(2,4)$/DDF mechanics ([Provenance Chat Log: Dilatant Fluid vs. GR & AdS/CFT (2026)](#adscft-chat-fluidgravity2026), lines 299–325):
+At the same time, our formalization maintains a strict physical boundary between $\text{AdS}_5/\text{CFT}_4$ and $(3+1)$-dimensional $Gr_{\mathbb{C}}(2,4)$/DDF mechanics ({cite:p}`adscft-chat-fluidgravity2026`, lines 299–325):
 
 | Physical Observable / Regime | $\text{AdS}_5/\text{CFT}_4$ & Planar Integrability (`Signals.Scattering`) | Unified $Gr_{\mathbb{C}}(2,4)$ & DDF Mechanics (`Signals.DDF`) | Machine-Checked Lean 4 Theorem |
 |---|---|---|---|
@@ -456,8 +456,8 @@ end ArxivGrassmannianAdsCftDdfVerification
 
 ### Scholarly References
 
-<a id="adscft-maldacena1998"></a>
-1. Maldacena, J. M. (1998). *The Large N Limit of Superconformal Field Theories and Supergravity*. Advances in Theoretical and Mathematical Physics 2, 231–252; International Journal of Theoretical Physics 38, 1113–1133 (1999). [DOI: 10.4310/ATMP.1998.v2.n2.a1](https://doi.org/10.4310/ATMP.1998.v2.n2.a1); [arXiv:hep-th/9711200](https://arxiv.org/abs/hep-th/9711200).
+(adscft-maldacena1998)=
+1\. Maldacena, J. M. (1998). *The Large N Limit of Superconformal Field Theories and Supergravity*. Advances in Theoretical and Mathematical Physics 2, 231–252; International Journal of Theoretical Physics 38, 1113–1133 (1999). [DOI: 10.4310/ATMP.1998.v2.n2.a1](https://doi.org/10.4310/ATMP.1998.v2.n2.a1); [arXiv:hep-th/9711200](https://arxiv.org/abs/hep-th/9711200).
 
 <a id="adscft-gkp1998"></a>
 2. Gubser, S. S., Klebanov, I. R., and Polyakov, A. M. (1998). *Gauge Theory Correlators from Non-Critical String Theory*. Physics Letters B 428(1–2), 105–114. [DOI: 10.1016/S0370-2693(98)00377-3](https://doi.org/10.1016/S0370-2693(98)00377-3); [arXiv:hep-th/9802109](https://arxiv.org/abs/hep-th/9802109).
@@ -508,10 +508,10 @@ end ArxivGrassmannianAdsCftDdfVerification
 17. de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., and Torrielli, A. (2012). *Secret Symmetries in AdS/CFT*. Physica Scripta 86(2), 028502. [DOI: 10.1088/0031-8949/86/02/028502](https://doi.org/10.1088/0031-8949/86/02/028502); [arXiv:1204.2366](https://arxiv.org/abs/1204.2366).
 
 <a id="adscft-chat-fluidgravity2026"></a>
-18. Provenance Chat Log (2026). *Gravity Models: Dilatant Fluid vs. GR (AdS/CFT Fluid/Gravity Duality, KSS Viscosity Bound, and Mercury Ephemerides)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 136-325 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
+18. Turner, Wesley and Google Gemini (2026). *Gravity Models: Dilatant Fluid vs. GR (AdS/CFT Fluid/Gravity Duality, KSS Viscosity Bound, and Mercury Ephemerides)*. ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 136-325 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`).
 
 <a id="adscft-chat-bell2026"></a>
-19. Provenance Chat Log (2026). *Bell Correlations in Atomic Momentum (Massive Twistors in Gr(2,4), Positive Grassmannians Gr^+(k,n), and Yangian Symmetry Y(psu(2,2|4)))*. ({download}`data/chats/Bell-Correlations-in-Atomic-Momentum.md, lines 410-445 <../data/chats/Bell-Correlations-in-Atomic-Momentum.md>`).
+19. Turner, Wesley and Google Gemini (2026). *Bell Correlations in Atomic Momentum (Massive Twistors in Gr(2,4), Positive Grassmannians Gr^+(k,n), and Yangian Symmetry Y(psu(2,2|4)))*. ({download}`data/chats/Bell-Correlations-in-Atomic-Momentum.md, lines 410-445 <../data/chats/Bell-Correlations-in-Atomic-Momentum.md>`).
 
 ---
 
@@ -556,7 +556,7 @@ end ArxivGrassmannianAdsCftDdfVerification
 }
 
 @misc{chat_gravity_models_adscft_2026,
-  author       = {Unknown},
+  author       = {Turner, Wesley and Google Gemini},
   title        = {Gravity Models: Dilatant Fluid vs. GR},
   year         = {2026},
   howpublished = {AI chat log},

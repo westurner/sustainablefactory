@@ -14,7 +14,6 @@ description: "An arXiv-ready MyST Markdown formal verification and 3D photonic/e
   - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` + SHG-OPA Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs#L1200-L1850), [../src/signals/numerical_adapter/src/polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs#L125-L215))
   - Generated KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`), Volumetric (`.kicad_vol`), Calma GDSII v6.0 (`.gds`), and IOF/EMMO/PROV-O (`_CBOM.yaml-ld`) Hardware Files:
     - [VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_mod](../src/signals/kicad/semi_dirac/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_mod), [VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_sch](../src/signals/kicad/semi_dirac/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_sch), [VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_pcb](../src/signals/kicad/semi_dirac/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_pcb), [VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_vol](../src/signals/kicad/semi_dirac/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.kicad_vol), [VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.gds](../src/signals/kicad/semi_dirac/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect.gds), [VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect_CBOM.yaml-ld)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper.md`
 - **Companion Papers:**
   - [Laser-Induced $sp^2/sp^3$ Carbon and Nanodiamonds from Lignin, Plastics (`PET`/`PE`), $\mathrm{CO}_2$, and Methane Pyrolysis ("Teal Carbon"), H-Terminated Nanodiamond 2D Hole Gas (`2DHG`) FETs, and Biodegradable Carbon Semiconductor Alternatives (`P-CQDs` and `Ox-s-CNT` / `VACNT`)](grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.md)
   - [Integrated Multi-Band Classical and Quantum Photonics ($405\text{–}1550\text{ nm}$ & $400\text{–}800\text{ GHz}$)](grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md)
@@ -146,26 +145,9 @@ end VortexViaShgOpaAqmPaper36Verification
 
 ## References
 
-(vv36-dean2025)=
-<a id="vv36-dean2025"></a>
-1. **Dean, et al. (2025).** *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance.* Nature (`arXiv:2509.26425`). `https://doi.org/10.1038/s41586-025-09959-z`
-
-(vv36-ames2017)=
-<a id="vv36-ames2017"></a>
-2. **Ames, A. D., et al. (2017).** *Control Barrier Function Based Quadratic Programs for Safety Critical Systems.* IEEE Transactions on Automatic Control, 62(8), 3861–3876. `https://doi.org/10.1109/TAC.2016.2638961`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026vortex_vias_shg_opa_aqm,
-  author  = {Turner, Wes},
-  title   = {3D Helical {VortexVia} and 8-Branch {StarVortexVia} Inter-Layer Interconnects, Low-Power Second-Harmonic Resonant Optical Amplification ({D}ean et al., {N}ature 2025), and 4-Wire {K}elvin + Control Barrier Function ({CBF}) Active-{Q} Modulators ({AQM}) in {L}ean 4, {R}ust/{WASM}, {P}ython, and {KiCAD} v8},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"pol-dean2025", "vv36-ames2017"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

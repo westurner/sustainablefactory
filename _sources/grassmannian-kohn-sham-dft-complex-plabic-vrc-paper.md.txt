@@ -311,12 +311,7 @@ In [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L425-L570) 
 
 ## References
 
-- <a id="dft-chat-2026"></a>**Google Search & Gemini (2026)**. *Density Functional Theory, Quantum Causal Inference Grassmannian Exchange-Correlation (QCI-GXC), Complex Plabic Graphs, SymPy Symbolic Compilers, Riemannian Optimization, and Topological Qudit Hardware*. {download}`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md, lines 1-3254 <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`.
-- <a id="dft-hohenberg1964"></a>**Hohenberg, P., & Kohn, W. (1964)**. Inhomogeneous Electron Gas. *Physical Review*, 136(3B), B864–B871.
-- <a id="dft-kohn1965"></a>**Kohn, W., & Sham, L. J. (1965)**. Self-Consistent Equations Including Exchange and Correlation Effects. *Physical Review*, 140(4A), A1133–A1138.
-- <a id="dft-mcweeny1960"></a>**McWeeny, R. (1960)**. Some Recent Advances in Density Matrix Theory. *Reviews of Modern Physics*, 32(2), 335–369.
-- <a id="dft-edelstein1998"></a>**Edelman, A., Arias, T. A., & Smith, S. T. (1998)**. The Geometry of Algorithms with Orthogonality Constraints. *SIAM Journal on Matrix Analysis and Applications*, 20(2), 303–353.
-- <a id="dft-postnikov2006"></a>**Postnikov, A. (2006)**. Total Positivity, Grassmannians, and Networks. `arXiv:math/0609764`.
-- <a id="dft-lam2016"></a>**Lam, T. (2016)**. *Totally Nonnegative Grassmannian and Grassmann Polytopes*. Current Developments in Mathematics, 2014(1), 51–152.
-- <a id="dft-affolter2024"></a>**Affolter, N., Glick, M., Pylyavskyy, P., & Ramassamy, S. (2024)**. Vector-Relation Configurations and Plabic Graphs. *Selecta Mathematica*, 30, 9.
-- <a id="dft-mermin1990"></a>**Mermin, N. D. (1990)**. Extreme Quantum Entanglement in a Superposition of Macroscopically Distinct States. *Physical Review Letters*, 65(15), 1838–1840.
+```{bibliography}
+:list: bullet
+:filter: key in {"affolter2024vrc", "dft-mermin1990", "edelman1998orthogonality", "hohenberg1964inhomogeneous", "kitaev2001unpaired", "kohn1965selfConsistent", "lam2016totally", "mcweeny1960densityMatrix", "ornelas2024nonlocal", "postnikov2006", "reiserer2013nondestructive", "sab-chat-2026", "skyrme1962unified"}
+```

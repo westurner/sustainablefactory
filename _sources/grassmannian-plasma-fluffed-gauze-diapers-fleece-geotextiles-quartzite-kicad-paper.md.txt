@@ -15,7 +15,6 @@ description: "An arXiv-ready MyST Markdown formal verification and bio-foundry e
   - Python / SymPy Verification Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L5155-L5385), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L1705-L1865))
   - Generated KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`), Volumetric (`.kicad_vol`), Calma GDSII v6.0 (`.gds`), and IOF/EMMO/PROV-O (`_CBOM.yaml-ld`) Hardware Files:
     - [PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_mod](../src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_mod), [PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_sch](../src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_sch), [PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_pcb](../src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_pcb), [PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_vol](../src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.kicad_vol), [PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.gds](../src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.gds), [PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile_CBOM.yaml-ld)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md`
 - **Companion Papers:**
   - [Lignolux Omni-Carbon Kinetic Batteries (`Al-LGBPC`, Dual-Ion `Iodine`, & `Na-Ion` Hard Carbon), `Q-Node` Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, `QCI-GXC` Kohn–Sham DFT Passivation, and Biodegradable / Closed-Loop Recyclable Electrical Components](grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md)
   - [`rGO-Vitrimer` Active Metamaterials, Bistable & Elastomeric E-Paper (`Vector Reflect` & `rGO-Bio-TPU`), Chiral `CNC` `Bio-Bragg` Projectors, and Nanodiamond (`SHG` / `NV` / `n-Adamantane` / `P-CQD`) Active Quantum Displays](grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md)
@@ -365,8 +364,8 @@ end PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextilePaper42Verification
 ## 6. BibTeX Citations & Schema.org Metadata (JSON-LD)
 
 ```bibtex
-@article{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
-  author  = {Turner, Wes},
+@unpublished{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
+  author  = {Turner, Wesley},
   title   = {Plasma-{F}luffed {C}hitosan--{A}lginate--{M}agnesium {H}emostatic {G}auze \& {VEGF} {W}ound {S}prays, {S}prout-{Z}ero {B}iodegradable {D}iapers, {A}ero-{F}leece {T}hermal {L}iners, {CAM} {S}truvite {G}eotextiles, and {G}raphene-{S}usceptor {FJH} {Q}uartzite {A}rgon {P}lasma {T}ubes in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},

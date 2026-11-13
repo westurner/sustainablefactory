@@ -15,6 +15,8 @@
       "chat-physics-catalog",
       "cli_reference",
       "cuprate-superconductivity-plan",
+      "ddf-fracture-communication-plan",
+      "dispersive-homodyne-plan",
       "dispersive-homodyne-plan",
       "flat-light-nanolithography-scholarly",
       "flat-light-proca-nlig-validation-plan",
@@ -93,6 +95,374 @@
     "root": "index"
   },
   "pages": [
+    {
+      "children": [],
+      "docname": "README",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "signals"
+            ],
+            "level": 1,
+            "title": "Signals"
+          },
+          {
+            "ids": [
+              "research-workflow"
+            ],
+            "level": 2,
+            "title": "Research Workflow"
+          },
+          {
+            "ids": [
+              "current-scope"
+            ],
+            "level": 2,
+            "title": "Current Scope"
+          },
+          {
+            "ids": [
+              "huygens-twistor-translation-and-plabic-routing"
+            ],
+            "level": 2,
+            "title": "Huygens, Twistor Translation, and Plabic Routing"
+          },
+          {
+            "ids": [
+              "cw-application-review"
+            ],
+            "level": 2,
+            "title": "CW Application Review"
+          },
+          {
+            "ids": [
+              "build"
+            ],
+            "level": 2,
+            "title": "Build"
+          },
+          {
+            "ids": [
+              "blueprint"
+            ],
+            "level": 2,
+            "title": "Blueprint"
+          },
+          {
+            "ids": [
+              "development-plan"
+            ],
+            "level": 2,
+            "title": "Development Plan"
+          },
+          {
+            "ids": [
+              "phase-1-stabilize-the-base-api"
+            ],
+            "level": 3,
+            "title": "Phase 1: Stabilize the base API"
+          },
+          {
+            "ids": [
+              "phase-2-formalize-standard-signal-and-field-models"
+            ],
+            "level": 3,
+            "title": "Phase 2: Formalize standard signal and field models"
+          },
+          {
+            "ids": [
+              "phase-3-add-geometry-and-fabrication-abstractions"
+            ],
+            "level": 3,
+            "title": "Phase 3: Add geometry and fabrication abstractions"
+          },
+          {
+            "ids": [
+              "phase-4-atmospheric-scavenging-and-panel-models"
+            ],
+            "level": 3,
+            "title": "Phase 4: Atmospheric scavenging and panel models"
+          },
+          {
+            "ids": [
+              "agent-loop-record"
+            ],
+            "level": 3,
+            "title": "Agent Loop Record"
+          },
+          {
+            "ids": [
+              "open-flow-dataset-research"
+            ],
+            "level": 3,
+            "title": "Open Flow Dataset Research"
+          },
+          {
+            "ids": [
+              "further-questions"
+            ],
+            "level": 3,
+            "title": "Further Questions"
+          },
+          {
+            "ids": [
+              "scholarly-basis"
+            ],
+            "level": 3,
+            "title": "Scholarly Basis"
+          },
+          {
+            "ids": [
+              "pending-physical-formalisms"
+            ],
+            "level": 3,
+            "title": "Pending Physical Formalisms"
+          },
+          {
+            "ids": [
+              "pending-contract-implications-and-validation"
+            ],
+            "level": 3,
+            "title": "Pending Contract Implications and Validation"
+          },
+          {
+            "ids": [
+              "pending-contract-promotion-checklist"
+            ],
+            "level": 4,
+            "title": "Pending-contract promotion checklist"
+          },
+          {
+            "ids": [
+              "scholarly-references"
+            ],
+            "level": 3,
+            "title": "Scholarly References"
+          },
+          {
+            "ids": [
+              "scattering-metrology-plan"
+            ],
+            "level": 3,
+            "title": "Scattering Metrology Plan"
+          },
+          {
+            "ids": [
+              "amplituhedron-formalization-plan"
+            ],
+            "level": 3,
+            "title": "Amplituhedron Formalization Plan"
+          },
+          {
+            "ids": [
+              "phase-5-lightslinger-and-resonator-models"
+            ],
+            "level": 3,
+            "title": "Phase 5: LightSlinger and resonator models"
+          },
+          {
+            "ids": [
+              "phase-6-nondestructive-measurement-and-reversible-operations"
+            ],
+            "level": 3,
+            "title": "Phase 6: Nondestructive measurement and reversible operations"
+          },
+          {
+            "ids": [
+              "phase-7-upstream-contributions"
+            ],
+            "level": 3,
+            "title": "Phase 7: Upstream contributions"
+          },
+          {
+            "ids": [
+              "research-boundaries"
+            ],
+            "level": 2,
+            "title": "Research Boundaries"
+          },
+          {
+            "ids": [
+              "radio-basics-crystal-am-and-fm-with-lean-signals"
+            ],
+            "level": 2,
+            "title": "Radio Basics: Crystal, AM, and FM with Lean Signals"
+          },
+          {
+            "ids": [
+              "introduction-to-radio-reception"
+            ],
+            "level": 3,
+            "title": "Introduction to Radio Reception"
+          },
+          {
+            "ids": [
+              "crystal-radio-the-simplest-radio-receiver"
+            ],
+            "level": 3,
+            "title": "Crystal Radio: The Simplest Radio Receiver"
+          },
+          {
+            "ids": [
+              "crystal-detector-model"
+            ],
+            "level": 4,
+            "title": "Crystal Detector Model"
+          },
+          {
+            "ids": [
+              "lc-tuning-circuit"
+            ],
+            "level": 4,
+            "title": "LC Tuning Circuit"
+          },
+          {
+            "ids": [
+              "am-amplitude-modulation"
+            ],
+            "level": 3,
+            "title": "AM (Amplitude Modulation)"
+          },
+          {
+            "ids": [
+              "am-signal-structure"
+            ],
+            "level": 4,
+            "title": "AM Signal Structure"
+          },
+          {
+            "ids": [
+              "am-bandwidth-and-sidebands"
+            ],
+            "level": 4,
+            "title": "AM Bandwidth and Sidebands"
+          },
+          {
+            "ids": [
+              "am-demodulation"
+            ],
+            "level": 4,
+            "title": "AM Demodulation"
+          },
+          {
+            "ids": [
+              "fm-frequency-modulation"
+            ],
+            "level": 3,
+            "title": "FM (Frequency Modulation)"
+          },
+          {
+            "ids": [
+              "fm-signal-structure"
+            ],
+            "level": 4,
+            "title": "FM Signal Structure"
+          },
+          {
+            "ids": [
+              "carsons-bandwidth-rule"
+            ],
+            "level": 4,
+            "title": "Carson\u2019s Bandwidth Rule"
+          },
+          {
+            "ids": [
+              "narrowband-vs-wideband-fm"
+            ],
+            "level": 4,
+            "title": "Narrowband vs. Wideband FM"
+          },
+          {
+            "ids": [
+              "radio-receiver-model"
+            ],
+            "level": 3,
+            "title": "Radio Receiver Model"
+          },
+          {
+            "ids": [
+              "example-am-radio-station"
+            ],
+            "level": 3,
+            "title": "Example: AM Radio Station"
+          },
+          {
+            "ids": [
+              "example-fm-radio-station"
+            ],
+            "level": 3,
+            "title": "Example: FM Radio Station"
+          },
+          {
+            "ids": [
+              "impedance-and-power-conversion"
+            ],
+            "level": 3,
+            "title": "Impedance and Power Conversion"
+          },
+          {
+            "ids": [
+              "narrowband-approximation"
+            ],
+            "level": 3,
+            "title": "Narrowband Approximation"
+          },
+          {
+            "ids": [
+              "key-insights-and-design-principles"
+            ],
+            "level": 3,
+            "title": "Key Insights and Design Principles"
+          },
+          {
+            "ids": [
+              "verification-examples"
+            ],
+            "level": 3,
+            "title": "Verification Examples"
+          },
+          {
+            "ids": [
+              "further-reading"
+            ],
+            "level": 3,
+            "title": "Further Reading"
+          },
+          {
+            "ids": [
+              "dilatant-dark-fluid-ddf-formalization-plan"
+            ],
+            "level": 2,
+            "title": "Dilatant Dark Fluid (DDF) Formalization Plan"
+          },
+          {
+            "ids": [
+              "citation"
+            ],
+            "level": 3,
+            "title": "Citation"
+          },
+          {
+            "ids": [
+              "theoretical-summary"
+            ],
+            "level": 3,
+            "title": "Theoretical Summary"
+          },
+          {
+            "ids": [
+              "implementation-roadmap-for-signals"
+            ],
+            "level": 3,
+            "title": "Implementation Roadmap for Signals"
+          }
+        ]
+      },
+      "source": "README.md",
+      "title": "Signals",
+      "url": "README.html"
+    },
     {
       "children": [],
       "docname": "anti-fire-cannon-review",
@@ -198248,6 +198618,199 @@
     },
     {
       "children": [],
+      "docname": "ddf-fracture-communication-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "ddf-fracture-communication-validation-plan"
+            ],
+            "level": 1,
+            "title": "DDF Fracture-Communication Validation Plan"
+          },
+          {
+            "ids": [
+              "scope"
+            ],
+            "level": 2,
+            "title": "Scope"
+          },
+          {
+            "ids": [
+              "updated-hypotheses"
+            ],
+            "level": 2,
+            "title": "Updated Hypotheses"
+          },
+          {
+            "ids": [
+              "summary"
+            ],
+            "level": 3,
+            "title": "Summary"
+          },
+          {
+            "ids": [
+              "classical-null-hypothesis"
+            ],
+            "level": 3,
+            "title": "Classical null hypothesis"
+          },
+          {
+            "ids": [
+              "ddf-extension-hypothesis"
+            ],
+            "level": 3,
+            "title": "DDF extension hypothesis"
+          },
+          {
+            "ids": [
+              "separate-discriminator-hypothesis"
+            ],
+            "level": 3,
+            "title": "Separate discriminator hypothesis"
+          },
+          {
+            "ids": [
+              "excluded-substitutions"
+            ],
+            "level": 3,
+            "title": "Excluded substitutions"
+          },
+          {
+            "ids": [
+              "ddf-observables-and-the-magnus-control"
+            ],
+            "level": 3,
+            "title": "DDF observables and the Magnus control"
+          },
+          {
+            "ids": [
+              "how-ddf-fracture-based-communication-differs-fromand-connects-with-mathrm-er-mathrm-epr-entanglement-and-wormholes-on-mathrm-gr-mathbb-c-2-4"
+            ],
+            "level": 2,
+            "title": "How DDF Fracture-Based Communication Differs From\u2014and Connects With\u2014\\mathrm{ER}=\\mathrm{EPR} Entanglement and Wormholes on \\mathrm{Gr}_{\\mathbb{C}}(2,4)"
+          },
+          {
+            "ids": [
+              "seven-axis-discrimination-table-ddf-fracture-waveguide-vs-mathrm-er-mathrm-epr-entanglement-bridge"
+            ],
+            "level": 3,
+            "title": "1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. \\mathrm{ER}=\\mathrm{EPR} Entanglement Bridge"
+          },
+          {
+            "ids": [
+              "where-both-phenomena-live-on-the-four-stratum-mathrm-gr-mathbb-c-2-4-manifold"
+            ],
+            "level": 3,
+            "title": "2. Where Both Phenomena Live on the Four-Stratum \\mathrm{Gr}_{\\mathbb{C}}(2,4) Manifold"
+          },
+          {
+            "ids": [
+              "what-each-analysis-can-establish"
+            ],
+            "level": 2,
+            "title": "What Each Analysis Can Establish"
+          },
+          {
+            "ids": [
+              "dataset-roles"
+            ],
+            "level": 2,
+            "title": "Dataset Roles"
+          },
+          {
+            "ids": [
+              "staged-work-plan"
+            ],
+            "level": 2,
+            "title": "Staged Work Plan"
+          },
+          {
+            "ids": [
+              "stage-0-preregister-the-claim-boundary"
+            ],
+            "level": 3,
+            "title": "Stage 0: Preregister the claim boundary"
+          },
+          {
+            "ids": [
+              "stage-1-establish-the-classical-channel"
+            ],
+            "level": 3,
+            "title": "Stage 1: Establish the classical channel"
+          },
+          {
+            "ids": [
+              "stage-2-build-the-flow-map-diagnostic"
+            ],
+            "level": 3,
+            "title": "Stage 2: Build the flow-map diagnostic"
+          },
+          {
+            "ids": [
+              "stage-3-test-discontinuity-and-defect-observables"
+            ],
+            "level": 3,
+            "title": "Stage 3: Test discontinuity and defect observables"
+          },
+          {
+            "ids": [
+              "stage-4-test-ddf-mode-and-causality-predictions"
+            ],
+            "level": 3,
+            "title": "Stage 4: Test DDF mode and causality predictions"
+          },
+          {
+            "ids": [
+              "stage-5-information-channel-and-conservation-tests"
+            ],
+            "level": 3,
+            "title": "Stage 5: Information-channel and conservation tests"
+          },
+          {
+            "ids": [
+              "stage-6-independent-replication-and-promotion-decision"
+            ],
+            "level": 3,
+            "title": "Stage 6: Independent replication and promotion decision"
+          },
+          {
+            "ids": [
+              "rejection-criteria"
+            ],
+            "level": 2,
+            "title": "Rejection Criteria"
+          },
+          {
+            "ids": [
+              "next-implementation-loops"
+            ],
+            "level": 2,
+            "title": "Next Implementation Loops"
+          },
+          {
+            "ids": [
+              "alternative-independent-observables"
+            ],
+            "level": 2,
+            "title": "Alternative Independent Observables"
+          },
+          {
+            "ids": [
+              "recommended-ddf-evidence-sequence"
+            ],
+            "level": 3,
+            "title": "Recommended DDF evidence sequence"
+          }
+        ]
+      },
+      "source": "ddf-fracture-communication-plan.md",
+      "title": "DDF Fracture-Communication Validation Plan",
+      "url": "ddf-fracture-communication-plan.html"
+    },
+    {
+      "children": [],
       "docname": "dispersive-homodyne-plan",
       "doctree": {
         "headings": [
@@ -198747,6 +199310,13 @@
           },
           {
             "ids": [
+              "evidence-notes"
+            ],
+            "level": 3,
+            "title": "Evidence Notes"
+          },
+          {
+            "ids": [
               "metadata-citations"
             ],
             "level": 2,
@@ -199070,6 +199640,13 @@
             ],
             "level": 3,
             "title": "Scholarly References"
+          },
+          {
+            "ids": [
+              "evidence-notes"
+            ],
+            "level": 3,
+            "title": "Evidence Notes"
           },
           {
             "ids": [
@@ -200481,10 +201058,10 @@
           },
           {
             "ids": [
-              "how-gr-mathbb-c-2-4-qed-gauge-double-copy-scattering-partanen-and-tulkki-2025-differs-from-wittens-2004-twistor-string-theory-gravity"
+              "how-gr-mathbb-c-2-4-qed-gauge-double-copy-scattering-ddf-partanen2025-2-differs-from-wittens-2004-twistor-string-theory-gravity"
             ],
             "level": 3,
-            "title": "1.2 How Gr_{\\mathbb{C}}(2,4) QED/Gauge Double-Copy Scattering (Partanen and Tulkki 2025) Differs from Witten\u2019s 2004 Twistor String Theory Gravity"
+            "title": "1.2 How Gr_{\\mathbb{C}}(2,4) QED/Gauge Double-Copy Scattering ddf-partanen2025-2 Differs from Witten\u2019s 2004 Twistor String Theory Gravity"
           },
           {
             "ids": [
@@ -201536,13 +202113,6 @@
           },
           {
             "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
-          },
-          {
-            "ids": [
               "schema-org-metadata-json-ld"
             ],
             "level": 3,
@@ -201861,13 +202431,6 @@
           },
           {
             "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
-          },
-          {
-            "ids": [
               "schema-org-metadata-json-ld"
             ],
             "level": 3,
@@ -201954,13 +202517,6 @@
             ],
             "level": 2,
             "title": "References"
-          },
-          {
-            "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
           },
           {
             "ids": [
@@ -202640,10 +203196,10 @@
           },
           {
             "ids": [
-              "free-electron-spp-amplification-zhang-et-al-2022-driven-by-terahertz-ev-graphene-circuits"
+              "free-electron-spp-amplification-zhang2022spp-driven-by-terahertz-ev-graphene-circuits"
             ],
             "level": 3,
-            "title": "5.2 Free-Electron SPP Amplification (Zhang et al. 2022) Driven by Terahertz-eV Graphene Circuits"
+            "title": "5.2 Free-Electron SPP Amplification zhang2022spp Driven by Terahertz-eV Graphene Circuits"
           },
           {
             "ids": [
@@ -202661,10 +203217,10 @@
           },
           {
             "ids": [
-              "how-optical-amplification-works-low-power-second-harmonic-chi-2-resonance-dean-et-al-2025-10-1038-s41586-025-09959-z-vs-free-electron-spp-pumping-zhang-et-al-2022-and-rare-earth-inversion"
+              "how-optical-amplification-works-low-power-second-harmonic-chi-2-resonance-pol-dean2025-10-1038-s41586-025-09959-z-vs-free-electron-spp-pumping-zhang2022spp-and-rare-earth-inversion"
             ],
             "level": 2,
-            "title": "7. How Optical Amplification Works: Low-Power Second-Harmonic (\\chi^{(2)}) Resonance (Dean et al. 2025, 10.1038/s41586-025-09959-z) vs. Free-Electron SPP Pumping (Zhang et al. 2022) and Rare-Earth Inversion"
+            "title": "7. How Optical Amplification Works: Low-Power Second-Harmonic (\\chi^{(2)}) Resonance (pol-dean2025, 10.1038/s41586-025-09959-z) vs. Free-Electron SPP Pumping zhang2022spp and Rare-Earth Inversion"
           },
           {
             "ids": [
@@ -202775,13 +203331,6 @@
             ],
             "level": 2,
             "title": "References"
-          },
-          {
-            "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
           },
           {
             "ids": [
@@ -202997,10 +203546,10 @@
           },
           {
             "ids": [
-              "what-is-mathematically-and-physically-true-single-shot-conditional-landauer-erasure-del-rio-et-al-2011"
+              "what-is-mathematically-and-physically-true-single-shot-conditional-landauer-erasure-delrio2011thermodynamicmeaning"
             ],
             "level": 3,
-            "title": "4.1 What Is Mathematically and Physically True: Single-Shot Conditional Landauer Erasure (del Rio et al. 2011)"
+            "title": "4.1 What Is Mathematically and Physically True: Single-Shot Conditional Landauer Erasure delRio2011thermodynamicMeaning"
           },
           {
             "ids": [
@@ -204096,13 +204645,6 @@
           },
           {
             "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
-          },
-          {
-            "ids": [
               "schema-org-metadata-json-ld"
             ],
             "level": 3,
@@ -204227,13 +204769,6 @@
           },
           {
             "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
-          },
-          {
-            "ids": [
               "schema-org-metadata-json-ld"
             ],
             "level": 3,
@@ -204320,13 +204855,6 @@
             ],
             "level": 2,
             "title": "References"
-          },
-          {
-            "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
           },
           {
             "ids": [
@@ -204430,13 +204958,6 @@
             ],
             "level": 2,
             "title": "References"
-          },
-          {
-            "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
           },
           {
             "ids": [
@@ -204631,6 +205152,20 @@
             ],
             "level": 2,
             "title": "References"
+          },
+          {
+            "ids": [
+              "chat-provenance"
+            ],
+            "level": 3,
+            "title": "Chat Provenance"
+          },
+          {
+            "ids": [
+              "scholarly-references"
+            ],
+            "level": 3,
+            "title": "Scholarly References"
           }
         ]
       },
@@ -204882,13 +205417,6 @@
           },
           {
             "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
-          },
-          {
-            "ids": [
               "schema-org-metadata-json-ld"
             ],
             "level": 3,
@@ -205031,13 +205559,6 @@
             ],
             "level": 2,
             "title": "References"
-          },
-          {
-            "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
           },
           {
             "ids": [
@@ -205841,13 +206362,6 @@
           },
           {
             "ids": [
-              "bibtex-citations"
-            ],
-            "level": 3,
-            "title": "BibTeX Citations"
-          },
-          {
-            "ids": [
               "schema-org-metadata-json-ld"
             ],
             "level": 3,
@@ -206308,6 +206822,8 @@
         "chat-physics-catalog",
         "cli_reference",
         "cuprate-superconductivity-plan",
+        "ddf-fracture-communication-plan",
+        "dispersive-homodyne-plan",
         "dispersive-homodyne-plan",
         "flat-light-nanolithography-scholarly",
         "flat-light-proca-nlig-validation-plan",
@@ -207009,14 +207525,14 @@
           },
           {
             "ids": [
-              "id1"
+              "id2"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id2"
+              "id3"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207030,14 +207546,14 @@
           },
           {
             "ids": [
-              "id3"
+              "id4"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id4"
+              "id5"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207051,14 +207567,14 @@
           },
           {
             "ids": [
-              "id5"
+              "id6"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id6"
+              "id7"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207072,14 +207588,14 @@
           },
           {
             "ids": [
-              "id7"
+              "id8"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id8"
+              "id9"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207093,14 +207609,14 @@
           },
           {
             "ids": [
-              "id9"
+              "id10"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id10"
+              "id11"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207114,14 +207630,14 @@
           },
           {
             "ids": [
-              "id11"
+              "id12"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id12"
+              "id13"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207135,14 +207651,14 @@
           },
           {
             "ids": [
-              "id13"
+              "id14"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id14"
+              "id15"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207156,14 +207672,14 @@
           },
           {
             "ids": [
-              "id15"
+              "id16"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id16"
+              "id17"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207177,14 +207693,14 @@
           },
           {
             "ids": [
-              "id17"
+              "id18"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id18"
+              "id19"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207198,14 +207714,14 @@
           },
           {
             "ids": [
-              "id19"
+              "id20"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id20"
+              "id21"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207219,14 +207735,14 @@
           },
           {
             "ids": [
-              "id21"
+              "id22"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id22"
+              "id23"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207254,7 +207770,7 @@
           },
           {
             "ids": [
-              "id23"
+              "id24"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207268,7 +207784,7 @@
           },
           {
             "ids": [
-              "id24"
+              "id25"
             ],
             "level": 3,
             "title": "Models extracted"
@@ -207282,7 +207798,7 @@
           },
           {
             "ids": [
-              "id25"
+              "id26"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207296,21 +207812,21 @@
           },
           {
             "ids": [
-              "id26"
+              "id27"
             ],
             "level": 3,
             "title": "Models extracted"
           },
           {
             "ids": [
-              "id27"
+              "id28"
             ],
             "level": 3,
             "title": "Relevance to 100 OAM states"
           },
           {
             "ids": [
-              "id28"
+              "id29"
             ],
             "level": 3,
             "title": "Lean boundary"
@@ -207324,7 +207840,7 @@
           },
           {
             "ids": [
-              "id29"
+              "id30"
             ],
             "level": 3,
             "title": "Models extracted"
@@ -207394,7 +207910,7 @@
           },
           {
             "ids": [
-              "id30"
+              "id51"
             ],
             "level": 3,
             "title": "Lean extraction"
@@ -612792,6 +613308,13 @@
             ],
             "level": 1,
             "title": "Tools"
+          },
+          {
+            "ids": [
+              "software-inventory-and-citations"
+            ],
+            "level": 2,
+            "title": "Software Inventory and Citations"
           },
           {
             "ids": [

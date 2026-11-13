@@ -14,7 +14,6 @@ description: "An arXiv-ready MyST Markdown formal verification and quantum-hardw
   - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs#L1200-L1690), [../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs))
   - Generated KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`), Volumetric (`.kicad_vol`), Calma GDSII v6.0 (`.gds`), and IOF/EMMO/PROV-O (`_CBOM.yaml-ld`) Hardware Files for Application 4:
     - [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_mod](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_mod), [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_sch](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_sch), [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_pcb](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_pcb), [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_vol](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.kicad_vol), [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.gds](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.gds), [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus_CBOM.yaml-ld)
-  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-semi-dirac-topological-qudit-waveguides-phase-lasing-kicad-paper.md`
 - **Companion Papers:**
   - [Semi-Dirac Fermions (Mass in Only One Direction) With and Without Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}$ and Dilatant Dark Fluid (DDF) Mechanics: $\mathrm{ZrSiS}$ $B^{2/3}$ Landau Scaling, Dirac-Cone Merging on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and $\mathrm{Gr}_{\mathbb{C}}(2,6)$, Directional Sheath Jamming, Anisotropic Tensor Splats, and Quantum/Photonic Applications](grassmannian-semi-dirac-fermions-ddf-paper.md)
   - [Semi-Dirac Nanoelectronic, Hyperbolic THz Plasmonic, and Orthogonal Thermoelectric Devices in $405\text{ nm} / 532\text{ nm}$ Carbon Nanolithography and Volumetric KiCAD/GDSII EDA: Ballistic Klein Diodes/Transistors, Lithography-Free $400\text{–}800\text{ GHz}$ THz Bolometers, and Cross-Axis $ZT$ Harvesters](grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper.md)
@@ -225,30 +224,9 @@ end SemiDiracApplication4AndPhaseLasingVerification
 
 ## References
 
-(sd32-shao2024)=
-<a id="sd32-shao2024"></a>
-1. **Shao, Y., et al. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057 (`arXiv:2311.03735`). `https://doi.org/10.1103/PhysRevX.14.041057`
-
-(sd32-zhou2021)=
-<a id="sd32-zhou2021"></a>
-2. **Zhou, H., Xie, T., Taniguchi, T., Watanabe, K., & Young, A. F. (2021).** *Superconductivity in rhombohedral trilayer graphene.* Nature, 598, 434–438. `https://doi.org/10.1038/s41586-021-03926-0`
-
-(sd32-han2025)=
-<a id="sd32-han2025"></a>
-3. **Han, T., et al. (2025).** *Signatures of chiral superconductivity in rhombohedral graphene.* Nature, 643, 654–661. `https://doi.org/10.1038/s41586-025-09169-7`
-
----
-
-### BibTeX Citations
-
-```bibtex
-@article{turner2026semi_dirac_qudit_phase_lasing_kicad,
-  author  = {Turner, Wes},
-  title   = {Etch-Free 1{D} Semi-{D}irac Topological {M}ajorana ({MZM}), {$\mathbb{Z}_6$} Parafermion, {$\mathrm{Gr}_{\mathbb{C}}(2,6)$} {P}l{\"u}cker, and Phase-Steered Helical {N-LIG} {OAM} Carbon Qudit Waveguides: Varying Phase During Lasing, Zero-{RIE} {$D_{\mathrm{it}}$} Suppression, and Volumetric {KiCAD}/{GDSII} Synthesis in {L}ean 4, {R}ust/{WASM}, and {P}ython},
-  journal = {Sustainable Factory Research Archive},
-  year    = {2026},
-  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
-}
+```{bibliography}
+:list: bullet
+:filter: key in {"han2025chiral_sc", "sd32-shao2024", "zhou2021rtg_sc"}
 ```
 
 ### Schema.org Metadata (JSON-LD)
