@@ -116,19 +116,19 @@ result, not Proca or Flat Light evidence.
 The local scholarly overview describes a CW master oscillator, an N-LIG
 cellulose waveguide, a high-effective-mass non-diffracting state, an rGO mask,
 and phase-slip resist cleavage as **pending speculative mechanisms**
-([existing Flat Light overview](flat-light-nanolithography-scholarly.md#L9-L30)).
+([existing Flat Light overview](https://github.com/westurner/sustainablefactory/blob/main/docs/flat-light-nanolithography-scholarly.md#L9-L30)).
 The primary chat provenance includes a request to use longitudinally polarized
 Proca waves and explicitly discusses an effective mass and a third polarization
-state ([IQ-Sampling chat](../data/chats/IQ-Sampling-for-Signal-Phase.json#L104-L120)),
+state ([IQ-Sampling chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.json#L104-L120)),
 as well as N-LIG waveguides and nanolithographic use
-([IQ-Sampling chat](../data/chats/IQ-Sampling-for-Signal-Phase.json#L170-L190)).
+([IQ-Sampling chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.json#L170-L190)).
 The same export contains the Flat Light/effective-mass framing
-([IQ-Sampling chat](../data/chats/IQ-Sampling-for-Signal-Phase.json#L240-L260)).
+([IQ-Sampling chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.json#L240-L260)).
 
 The waveguide discussion in the corpus treats resonant structures as coupled
 oscillators and proposes dielectric waveguide behavior
-([waveguide chat](../data/chats/_Pyramid%20Star%20Shafts_%20Waveguides%20and%20Resonance%20.json#L27-L31),
-[waveguide chat](../data/chats/_Pyramid%20Star%20Shafts_%20Waveguides%20and%20Resonance%20.json#L76-L88)).
+([waveguide chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Pyramid%20Star%20Shafts_%20Waveguides%20and%20Resonance%20.json#L27-L31),
+[waveguide chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Pyramid%20Star%20Shafts_%20Waveguides%20and%20Resonance%20.json#L76-L88)).
 Those lines are provenance for the hypothesis, not evidence that the proposed
 structures or mechanisms exist.
 
@@ -139,7 +139,7 @@ continuity/sink regime, a low-Mach effective-incompressible projection, or a
 shear-jammed constitutive regime. The latter two are approximation/model
 branches, not a theorem that physical space is globally incompressible and
 compressible simultaneously. Use `MadelungEulerKortewegBridge` and `NSDDFBridge`
-for residual-based comparisons ([Pending.lean](../src/signals/Signals/Pending.lean#L2833-L3000)).
+for residual-based comparisons ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2833-L3000)).
 
 EHT should be compared at the observable level: complex visibilities, emission
 ring diameter, central brightness depression, variability, polarization, and
@@ -148,11 +148,11 @@ conversion to an inferred shadow diameter or angular gravitational radius uses
 calibrated metric and radiative-transfer models. It is not a direct measurement
 of a Schwarzschild radius or a proof that a DDF acoustic horizon exists. The
 finite `EHTShadowRingObservation` record keeps those scales separate
-([Pending.lean](../src/signals/Signals/Pending.lean#L3009-L3075)).
+([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L3009-L3075)).
 
 The material chat correctly identifies lignin-derived LIG as sensitive to
 precursor heterogeneity, laser fluence, ablation, oxidation, and defects
-([LIG defect-control chat](../data/chats/_Preventing-LIG-Defects-on-Lignin.json#L11-L27)).
+([LIG defect-control chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Preventing-LIG-Defects-on-Lignin.json#L11-L27)).
 Those variables become controlled factors in this plan rather than assumed
 properties of N-LIG.
 
@@ -184,15 +184,15 @@ The CW hypothesis should therefore be preregistered as a distinct experiment:
   chemistry, or zero-diffraction propagation.
 
 The active chat's CW block is provenance for the proposed observation schema,
-not external evidence ([CW Lean block](../data/chats/IQ-Sampling-for-Signal-Phase.md#L7394-L7482),
-[CW narrative](../data/chats/IQ-Sampling-for-Signal-Phase.md#L7484-L7491)).
+not external evidence ([CW Lean block](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L7394-L7482),
+[CW narrative](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L7484-L7491)).
 
 The Navier--Stokes/FTLE/SQG summary adds a useful diagnostics layer: calibrated
 acoustic crackle, phase-slip core observations, I/Q/homodyne quadratures, and
-Madelung/Euler--Korteweg residuals ([fracture/crackle](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L741-L748),
-[phase slips](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L746-L748),
-[homodyne/IQ](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L751-L756),
-[QHD equations](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L543)).
+Madelung/Euler--Korteweg residuals ([fracture/crackle](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L741-L748),
+[phase slips](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L746-L748),
+[homodyne/IQ](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L751-L756),
+[QHD equations](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L543)).
 The summary's equivalences remain hypotheses: solid fracture is not fluid
 cavitation, I/Q does not establish squeezing without shot-noise and detector
 calibration, and a Madelung residual does not establish SQG or a gravitational
@@ -204,16 +204,16 @@ The finite implementation boundary is:
 
 - `AcousticCrackleObservation`: calibrated I/Q length, classical residual,
   bispectrum/trispectrum metadata, noise floor, detector controls, and
-  replication ([Pending.lean](../src/signals/Signals/Pending.lean#L1747-L1790));
+  replication ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1747-L1790));
 - `PhaseSlipCoreObservation`: winding, phase jump, zero-density core,
   phase/density calibration, and control-core tolerance
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L1792-L1835));
+  ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1792-L1835));
 - `EulerKortewegResidualObservation`: density floor, Bohm coefficient law,
   continuity/momentum/irrotational residuals, and calibration
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L2665-L2725));
+  ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2665-L2725));
 - `HomodyneQuadratureVarianceObservation`: measured and calibrated variance,
   shot-noise reference, detector noise, local-oscillator phase, and mode match
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L2726-L2765)).
+  ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2726-L2765)).
 
 The ultrasonic-power discussion should be split into two regimes. Existing
 `Signals.Acoustics.UltrasonicTransfer` models ordinary passive acoustic power
@@ -223,10 +223,10 @@ absorbed, and loss powers must sum to incident acoustic power, with cavitation,
 fracture, thermal, detector, and replication controls. The chat's claims that a
 phase-locked fracture state can transmit large power harmlessly through tissue
 are speculative and are not promoted by this plan
-([fracture-state power proposal](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1992-L2032),
-[ultrasonic cavitation processing](../data/chats/IQ-Sampling-for-Signal-Phase.md#L3837-L3844)).
+([fracture-state power proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1992-L2032),
+[ultrasonic cavitation processing](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L3837-L3844)).
 Use `FractureMediatedUltrasonicTransfer` as the finite candidate boundary
-([Pending.lean](../src/signals/Signals/Pending.lean#L1728-L1785)).
+([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1728-L1785)).
 
 Piezoelectric UPT has experimental baselines: a spherical acoustic source to a
 loaded piezoelectric receiver and guided Lamb-wave transfer in plates
@@ -247,10 +247,10 @@ detection claim.
 
 The current Lean boundary is deliberately weaker than the proposal. `ProcaChannel`
 and `ProcaControlField` carry a longitudinal mode, coupling, power, and
-frequency as supplied model data ([Pending.lean](../src/signals/Signals/Pending.lean#L1345-L1400)).
+frequency as supplied model data ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1345-L1400)).
 `FlatLightLithography` records positive effective mass and idealized zero blur,
 while `PhaseSlipCleavage` records a supplied rate law
-([Pending.lean](../src/signals/Signals/Pending.lean#L2414-L2449)). These are
+([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2414-L2449)). These are
 contracts to be tested, not existence theorems. The measured boundary now also
 contains `NLIGProcessObservation` for batch/process characterization and
 `FlatLightPropagationObservation` for aperture-matched PSF/MTF and second-
@@ -258,7 +258,7 @@ moment broadening. Their readiness predicates require artifact provenance,
 independent calibration, classical/negative controls, replication, and an
 uncertainty bound; they do not promote a material result or bounded beam
 propagation result to Proca evidence
-([Pending.lean](../src/signals/Signals/Pending.lean#L2461-L2543)).
+([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2461-L2543)).
 
 ## Accepted Mechanics and Pending Contracts
 
@@ -266,26 +266,26 @@ The library already separates accepted mechanics from speculative extensions:
 
 - `Signals.Maxwell.System` derives charge continuity from Gauss, Faraday, and
   Ampere-Maxwell equations; an added SQG current is a separate source term,
-  not free energy ([Maxwell.lean](../src/signals/Signals/Maxwell.lean#L20-L95),
-  [Pending.lean](../src/signals/Signals/Pending.lean#L953-L1020)).
+  not free energy ([Maxwell.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Maxwell.lean#L20-L95),
+  [Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L953-L1020)).
 - `Signals.MHD.MHDPowerAccounting` requires output plus losses to equal control
   plus motive input and proves ordinary efficiency is at most one when total
-  input is positive ([MHD.lean](../src/signals/Signals/MHD.lean#L167-L246)).
+  input is positive ([MHD.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean#L167-L246)).
 - `Signals.Pending.ArgonMHDPlant` identifies motive input with classical Argon
   kinetic power, while `ProcaMHDHypothesis` keeps optical control power separate
-  from motive power ([MHD.lean](../src/signals/Signals/MHD.lean#L250-L300),
-  [Pending.lean](../src/signals/Signals/Pending.lean#L1403-L1460)).
+  from motive power ([MHD.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean#L250-L300),
+  [Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1403-L1460)).
 - `Signals.Pending.ActiveOpticalAmplifier` and the OPA record include pump power,
   dissipation, and signal output; gain above one is active amplification, not
-  passive energy creation ([ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L25-L88)).
+  passive energy creation ([ActiveOptics.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ActiveOptics.lean#L25-L88)).
 - `EnergyLedger` and `SpacetimeExtractionClaim` make a claimed excess over
   control plus fuel require an explicitly positive additional source; they do
-  not prove that a spacetime source exists ([Pending.lean](../src/signals/Signals/Pending.lean#L2271-L2305)).
+  not prove that a spacetime source exists ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2271-L2305)).
 - `HelicalBeamApparatus` records classical q-plate/SLM/vector-vortex
   bookkeeping, OAM charge, polarization purity, longitudinal near-field
   fraction, alignment, and source/mode calibration. Its beam-power bound and
   calibration predicates do not assert Proca propagation
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L1820-L1875)).
+  ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1820-L1875)).
 
 The literature supports the same division. Poynting-theorem energy balance is
 the classical accounting boundary; parametric and second-harmonic amplifiers
@@ -474,8 +474,8 @@ processing script.
 | [RefractiveIndex.INFO](https://refractiveindex.info/about) and [raw silica YAML](https://refractiveindex.info/database/data/main/SiO2/nk/Malitson.yml) | Database CC0; cite Polyanskiy, *Sci. Data* 11, 94 (2024), DOI `10.1038/s41597-023-02898-2`; acquired local SHA-256 `6b0e570b582a96f68c3f43400f942284afde1a579e95001cac6ffa3049b0e0bd` | Complex optical constants, dispersion, group index, and baseline material fits for classical Maxwell/FDTD/FEM models | Does not provide N-LIG constants; measured N-LIG ellipsometry/THz data are still required |
 | [GWOSC public datasets](https://gwosc.org/data/) | Public releases are listed with CC BY 4.0 data terms and acknowledgement requirements; acquired event-catalog metadata local SHA-256 `b2e3db64abb2c86be05a6a86e4cee740b048ca56a9d62fd5d553b34e0d59f12d` | Open strain/time-series and auxiliary data for timing, calibration, cross-correlation, and propagation null methodology | Gravitational-wave data are not a direct optical Proca test |
 | [CHIME/FRB Catalog 1 archive](https://www.canfar.net/storage/list/AstroDataCitationDOI/CISTI.CANFAR/21.0007/data) and [Baseband Catalog 1](https://doi.org/10.11570/23.0029) | Public archival records; follow each archive's current access and citation terms | Burst arrival times, frequencies, dispersion measures, polarization, and high-time-resolution morphology for an independent frequency-dependent propagation constraint | Plasma dispersion, source structure, and calibration are degenerate with a photon-mass delay; a bound is not a detection |
-| [JHTDB channel cutout](https://doi.org/10.7281/T10K26QW) | ODC-By; project-verified HDF5/XMF artifacts and checksums in [OPEN_FLOW_DATASETS.md](../src/signals/OPEN_FLOW_DATASETS.md#L32-L70) | Reusable provenance, interpolation, convergence, and numerical-flow-map controls for the project pipeline | Solver-produced fluid data, not optical or Proca evidence |
-| [Zenodo cylinder PIV](https://doi.org/10.5281/zenodo.20765567) and [RSPID](https://doi.org/10.5281/zenodo.7832205) | CC BY 4.0; project readers and checksums documented in [OPEN_FLOW_DATASETS.md](../src/signals/OPEN_FLOW_DATASETS.md#L70-L115) | Missing-mask, reproducibility, and flow-map software controls | Measured/synthetic fluid controls, not waveguide evidence |
+| [JHTDB channel cutout](https://doi.org/10.7281/T10K26QW) | ODC-By; project-verified HDF5/XMF artifacts and checksums in [OPEN_FLOW_DATASETS.md](https://github.com/westurner/sustainablefactory/blob/main/src/signals/OPEN_FLOW_DATASETS.md#L32-L70) | Reusable provenance, interpolation, convergence, and numerical-flow-map controls for the project pipeline | Solver-produced fluid data, not optical or Proca evidence |
+| [Zenodo cylinder PIV](https://doi.org/10.5281/zenodo.20765567) and [RSPID](https://doi.org/10.5281/zenodo.7832205) | CC BY 4.0; project readers and checksums documented in [OPEN_FLOW_DATASETS.md](https://github.com/westurner/sustainablefactory/blob/main/src/signals/OPEN_FLOW_DATASETS.md#L70-L115) | Missing-mask, reproducibility, and flow-map software controls | Measured/synthetic fluid controls, not waveguide evidence |
 
 ### Acquisition policy
 
@@ -718,11 +718,11 @@ and failure modes {cite:p}`joshi2021advances`.
 
 The chat corpus discusses holographic spatial-light-modulator splitting into
 eight or more spots, Gerchberg-Saxton/weighted Gerchberg-Saxton phase retrieval,
-and an rGO-vitrimer phase modulator ([rGO-vitrimer holography chat](../data/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.json#L528-L583)).
+and an rGO-vitrimer phase modulator ([rGO-vitrimer holography chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.json#L528-L583)).
 Related laser-engraving and metamaterial conversations describe computer-
 generated holography, beam arrays, and phase-mask pre-distortion
-([laser-engraving holography chat](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials%20(1).json#L475-L537),
-[metamaterial holography chat](../data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675)).
+([laser-engraving holography chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials%20(1).json#L475-L537),
+[metamaterial holography chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675)).
 These records establish proposal provenance only.
 
 Use at least four mutually non-coplanar or independently phase-addressable
@@ -962,39 +962,39 @@ classical controls, and replication criteria above are satisfied.
 
 ### Local hypothesis provenance
 
-- [IQ-Sampling-for-Signal-Phase.json](../data/chats/IQ-Sampling-for-Signal-Phase.json#L104-L120),
+- [IQ-Sampling-for-Signal-Phase.json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.json#L104-L120),
   lines 104-120: longitudinal Proca and effective-mass proposal.
-- [IQ-Sampling-for-Signal-Phase.json](../data/chats/IQ-Sampling-for-Signal-Phase.json#L170-L190),
+- [IQ-Sampling-for-Signal-Phase.json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.json#L170-L190),
   lines 170-190: N-LIG waveguide/nanolithography proposal.
-- [IQ-Sampling-for-Signal-Phase.json](../data/chats/IQ-Sampling-for-Signal-Phase.json#L240-L260),
+- [IQ-Sampling-for-Signal-Phase.json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.json#L240-L260),
   lines 240-260: Flat Light/effective-mass framing.
-- [_Pyramid Star Shafts_ Waveguides and Resonance .json](../data/chats/_Pyramid%20Star%20Shafts_%20Waveguides%20and%20Resonance%20.json#L27-L31),
+- [_Pyramid Star Shafts_ Waveguides and Resonance .json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Pyramid%20Star%20Shafts_%20Waveguides%20and%20Resonance%20.json#L27-L31),
   lines 27-31: coupled-oscillator and waveguide conjecture.
-- [_Preventing-LIG-Defects-on-Lignin.json](../data/chats/_Preventing-LIG-Defects-on-Lignin.json#L11-L27),
+- [_Preventing-LIG-Defects-on-Lignin.json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Preventing-LIG-Defects-on-Lignin.json#L11-L27),
   lines 11-27: LIG-on-lignin defect and processing variables.
-- [Pending.lean](../src/signals/Signals/Pending.lean#L1345-L1400),
+- [Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1345-L1400),
   lines 1345-1400: supplied-data Proca channel and coupling contract.
-- [Pending.lean](../src/signals/Signals/Pending.lean#L2414-L2449),
+- [Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2414-L2449),
   lines 2414-2449: pending Flat Light and phase-slip contracts.
-- [Pending.lean helical apparatus contracts](../src/signals/Signals/Pending.lean#L1820-L1875),
+- [Pending.lean helical apparatus contracts](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1820-L1875),
   lines 1820-1875: classical OAM/helical-beam apparatus fields, power,
   polarization, alignment, and calibration boundaries.
-- [Extreme dielectric nanolaser chat](../data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json#L53-L88),
+- [Extreme dielectric nanolaser chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json#L53-L88),
   lines 53-88: tight-confinement $E_z$, OAM, and evanescent-coupling proposals;
   these require classical vector-field controls.
-- [Convergent holography chat](../data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.json#L142-L173),
+- [Convergent holography chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.json#L142-L173),
   lines 142-173: proposed q-plate, radial-vector, and metamaterial validation
   architecture; this is hypothesis provenance, not validation.
-- [_rGO-Vitrimer Applications and Properties .json](../data/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.json#L528-L583),
+- [_rGO-Vitrimer Applications and Properties .json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.json#L528-L583),
   lines 528-583: multi-spot holographic SLM, Gerchberg-Saxton, and rGO-vitrimer
   phase-modulator discussion.
-- [_Laser-Engraving-circuits-on-Lignin-and-other-materials (1).json](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials%20(1).json#L475-L537),
+- [_Laser-Engraving-circuits-on-Lignin-and-other-materials (1).json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials%20(1).json#L475-L537),
   lines 475-537: computer-generated holography, beam arrays, and phase-map
   discussion.
-- [_Ball Milling Metal Under Protective Gas .json](../data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675),
+- [_Ball Milling Metal Under Protective Gas .json](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675),
   lines 620-675: rGO-vitrimer/metamaterial holography and Gerchberg-Saxton
   discussion.
-- [Navier--Stokes, FTLE, and SQG chat](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L756),
+- [Navier--Stokes, FTLE, and SQG chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L756),
   lines 520-756: Madelung/Euler--Korteweg, fracture/crackle, phase-slip, and
   homodyne/IQ proposals; these are diagnostic hypotheses, not SQG evidence.
 
@@ -1026,7 +1026,7 @@ classical controls, and replication criteria above are satisfied.
   <https://www.canfar.net/storage/list/AstroDataCitationDOI/CISTI.CANFAR/21.0007/data>;
   Baseband Catalog 1 DOI `10.11570/23.0029`.
 - JHTDB, cylinder PIV, and RSPID provenance already recorded in
-  [`OPEN_FLOW_DATASETS.md`](../src/signals/OPEN_FLOW_DATASETS.md).
+  [`OPEN_FLOW_DATASETS.md`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/OPEN_FLOW_DATASETS.md).
 
 ## References
 

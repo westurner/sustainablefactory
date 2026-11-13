@@ -568,7 +568,7 @@ flowchart TB
 ```
 
 1. **Yang $R$-Matrix Unitary Scattering & Exact Inverse Parameter Recovery Overcome the Sub-Wavelength Barrier (`yangTransmissionProb`, `reconstruct_yang_parameters`)**:
-   In `Signals.Scattering` ([Scattering.lean](../src/signals/Signals/Scattering.lean#L430-L515)), two-body / barrier scattering governed by Yang's rational $R$-matrix $R(u-v;\eta) = (u-v)I_4 + \eta P$ has unitary transmission and reflection probabilities (`yang_scattering_probability_conservation`):
+   In `Signals.Scattering` ([Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L430-L515)), two-body / barrier scattering governed by Yang's rational $R$-matrix $R(u-v;\eta) = (u-v)I_4 + \eta P$ has unitary transmission and reflection probabilities (`yang_scattering_probability_conservation`):
 
    $$
    T_{\mathrm{prob}}(u,v;\eta) = \frac{(u-v)^2}{(u-v)^2 + \eta^2}, \qquad
@@ -616,7 +616,7 @@ Why does `slavnovDet2_pauli_exclusion` ($\det M(v_0, v_1; u, u) = 0$) hold ident
 
 2. **Algebraic Origin of Slavnov's Determinant (`slavnovDet2_eq_det`) and Pauli Exclusion (`slavnovDet2_pauli_exclusion`)**:
    - Evaluating the $M$-packet transceiver overlap $S_M(\mathbf{v}; \mathbf{u}) = \langle\Omega|C(v_{M-1})\cdots C(v_0)B(u_0)\cdots B(u_{M-1})|\Omega\rangle$ directly via the Yang–Baxter $RTT$ commutation relations ($[C(v), B(u)] = \frac{\eta}{v-u}(A(v)D(u) - A(u)D(v))$) generates $(M!)^2$ intermediate operator terms ($1{,}625{,}702{,}400$ terms for $M=8$).
-   - **Nikita Slavnov (1989)** proved that when $\{u_k\}$ satisfy the Bethe Ansatz Equations, this entire $(M!)^2$-term sum collapses into a single $M\times M$ determinant—i.e., a maximal **Plücker coordinate** $\Delta_{0,\dots,M-1}(M(\mathbf{v};\mathbf{u}))$ on the Sato Grassmannian (`slavnovDet2` and `slavnovKernelMatrix2` in [QISM.lean](../src/signals/Signals/QISM.lean#L547-L639)):
+   - **Nikita Slavnov (1989)** proved that when $\{u_k\}$ satisfy the Bethe Ansatz Equations, this entire $(M!)^2$-term sum collapses into a single $M\times M$ determinant—i.e., a maximal **Plücker coordinate** $\Delta_{0,\dots,M-1}(M(\mathbf{v};\mathbf{u}))$ on the Sato Grassmannian (`slavnovDet2` and `slavnovKernelMatrix2` in [QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean#L547-L639)):
 
      $$
      M(\mathbf{v}; \mathbf{u})_{jk} = K(v_j, u_k), \qquad

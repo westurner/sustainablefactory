@@ -92,7 +92,7 @@ K_N^2 = \frac{N}{N-1}\left(1 - \sum_{i=1}^N m_i^2\right), \qquad
 P_N^2 + K_N^2 = 1.
 $$
 
-Mapping the eigenvalues $m_i$ to point masses at the vertices of a regular simplex with unit total mass ($m_{\mathrm{tot}} = 1$) identifies the squared polarization $P_N^2$ with the mechanical moment-of-inertia shift under the **Huygens–Steiner parallel-axis theorem** (`Signals.Coherence.HuygensSteinerMapping` in [src/signals/Signals/Coherence.lean](../src/signals/Signals/Coherence.lean#L194-L242)):
+Mapping the eigenvalues $m_i$ to point masses at the vertices of a regular simplex with unit total mass ($m_{\mathrm{tot}} = 1$) identifies the squared polarization $P_N^2$ with the mechanical moment-of-inertia shift under the **Huygens–Steiner parallel-axis theorem** (`Signals.Coherence.HuygensSteinerMapping` in [src/signals/Signals/Coherence.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean#L194-L242)):
 
 $$
 I_O = I_M + m_{\mathrm{tot}} d_{\mathrm{bary}}^2 \quad \Longrightarrow \quad
@@ -100,7 +100,7 @@ P_N^2 = I_O - I_M = d_{\mathrm{bary}}^2, \qquad
 K_N^2 = 1 - d_{\mathrm{bary}}^2 = \mathcal{V}^2.
 $$
 
-For a binary ($N = 2$) two-slit spectrum with normalized slit intensities $m_0 + m_1 = 1$, `CoherenceSpectrum.binary_polarization_and_entanglement` ([Coherence.lean](../src/signals/Signals/Coherence.lean#L244-L273)) proves:
+For a binary ($N = 2$) two-slit spectrum with normalized slit intensities $m_0 + m_1 = 1$, `CoherenceSpectrum.binary_polarization_and_entanglement` ([Coherence.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean#L244-L273)) proves:
 
 $$
 P_2^2 = (m_0 - m_1)^2 = d_{\mathrm{bary}}^2, \qquad
@@ -111,19 +111,19 @@ $$
 
 In a four-terminal $2 \times 4$ Grassmannian matrix $M \in \mathbb{R}^{2 \times 4}$ with columns $(0 = \text{Source}, 1 = \text{Slit } A, 2 = \text{Slit } B, 3 = \text{Detector})$, the two uncrossed boundary channel products are $w_A(M) = \Delta_{01}(M)\Delta_{23}(M)$ and $w_B(M) = \Delta_{03}(M)\Delta_{12}(M)$, and their sum equals the crossing minor product $w_\times(M) = \Delta_{02}(M)\Delta_{13}(M)$ by the 3-term Plücker relation (`gr24_channel_sum_eq_crossing`).
 
-Defining the **Plücker barycentric parallel-axis shift** (`gr24BarycentricShift` in [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean#L969-L980)):
+Defining the **Plücker barycentric parallel-axis shift** (`gr24BarycentricShift` in [src/signals/Signals/Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L969-L980)):
 
 $$
 d_{\mathrm{bary}}(M) = \frac{\Delta_{01}(M)\Delta_{23}(M) - \Delta_{03}(M)\Delta_{12}(M)}{2} = \frac{w_A(M) - w_B(M)}{2},
 $$
 
-we prove the universal **Pythagorean Plücker–Steiner Identity** (`gr24_plucker_pythagorean_identity` in [Geometry.lean](../src/signals/Signals/Geometry.lean#L982-L1005)):
+we prove the universal **Pythagorean Plücker–Steiner Identity** (`gr24_plucker_pythagorean_identity` in [Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L982-L1005)):
 
 $$
 d_{\mathrm{bary}}(M)^2 + \underbrace{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}_{\mathcal{V}_{Gr(2,4)}(M)^2} = \left(\frac{\Delta_{02}(M)\Delta_{13}(M)}{2}\right)^2.
 $$
 
-When the crossing Plücker product is normalized to $\Delta_{02}(M)\Delta_{13}(M) = 2$ (`gr24_barycentric_complementarity` in [src/signals/Signals/Huygens.lean](../src/signals/Signals/Huygens.lean#L1437-L1458)), this recovers the exact Qian–Izadi complementarity circle $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = 1$.
+When the crossing Plücker product is normalized to $\Delta_{02}(M)\Delta_{13}(M) = 2$ (`gr24_barycentric_complementarity` in [src/signals/Signals/Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L1437-L1458)), this recovers the exact Qian–Izadi complementarity circle $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = 1$.
 
 ---
 
@@ -133,7 +133,7 @@ When the crossing Plücker product is normalized to $\Delta_{02}(M)\Delta_{13}(M
 
 In the strictly positive real Grassmannian $Gr_{\ge 0}(2,4)$, all ordered minors are nonnegative real numbers ($\Delta_{ab} \ge 0$), so $w_A \ge 0$ and $w_B \ge 0$. Consequently, the unphased crossing product $\Delta_{02}\Delta_{13} = w_A + w_B$ computes the *incoherent* sum $2 I_0 E_{\mathrm{slit}}(x,y)$ rather than the coherent Fraunhofer peak $4 I_0$, incurring a mandatory $50\%$ ($1/2$) on-axis relative predictive error (`gr24UnphasedDoubleSlit_onAxis_relative_error_half`) and $100\%$ error at dark fringes.
 
-When we lift from $Gr_{\ge 0}(2,4)$ to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** (`complexTwoRowMinor_pluecker` in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1007-L1055), induced by $\mathbb{C}^4$ twistors $Z = (\lambda_\alpha, \mu^{\dot{\alpha}}) \in \mathbb{C}^4$ carrying complex incidence phases $\mu^{\dot{\alpha}} = -i x^{\alpha\dot{\alpha}}\lambda_\alpha$), the pure crossing-minor intensity evaluator (`complexGr24CrossingDoubleSlit` in [Huygens.lean](../src/signals/Signals/Huygens.lean#L1336-L1350)):
+When we lift from $Gr_{\ge 0}(2,4)$ to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** (`complexTwoRowMinor_pluecker` in [Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L1007-L1055), induced by $\mathbb{C}^4$ twistors $Z = (\lambda_\alpha, \mu^{\dot{\alpha}}) \in \mathbb{C}^4$ carrying complex incidence phases $\mu^{\dot{\alpha}} = -i x^{\alpha\dot{\alpha}}\lambda_\alpha$), the pure crossing-minor intensity evaluator (`complexGr24CrossingDoubleSlit` in [Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L1336-L1350)):
 
 $$
 I_{Gr_{\mathbb{C}}(2,4)}^{\times}(M_{\mathbb{C}}; x, y) = I_0 E_{\mathrm{slit}}(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})\bigr|^2
@@ -153,7 +153,7 @@ z_1 = \sqrt{1 + d_{\mathrm{bary}}}\,e^{i\theta}, \qquad
 z_2 = \sqrt{1 - d_{\mathrm{bary}}}\,e^{-i\theta},
 $$
 
-gives $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = z_1 + z_2 = (\sqrt{1+d_{\mathrm{bary}}} + \sqrt{1-d_{\mathrm{bary}}})\cos\theta + i(\sqrt{1+d_{\mathrm{bary}}} - \sqrt{1-d_{\mathrm{bary}}})\sin\theta$. Theorem `complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner` ([Huygens.lean](../src/signals/Signals/Huygens.lean#L1460-L1551)) proves that its squared modulus equals $2\bigl(1 + \sqrt{1 - d_{\mathrm{bary}}^2}\cos(2\theta)\bigr)$, reproducing the partially coherent Huygens–Steiner profile $I_{\mathrm{HS}}\bigl(x,y;\sqrt{1 - d_{\mathrm{bary}}^2}\bigr)$ **identically at every $(x,y) \in \mathbb{R}^2$** (and reducing to $I_{\mathrm{F}}(x,y)$ at $d_{\mathrm{bary}} = 0$ via `complexGr24CrossingDoubleSlit_zero_error`).
+gives $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = z_1 + z_2 = (\sqrt{1+d_{\mathrm{bary}}} + \sqrt{1-d_{\mathrm{bary}}})\cos\theta + i(\sqrt{1+d_{\mathrm{bary}}} - \sqrt{1-d_{\mathrm{bary}}})\sin\theta$. Theorem `complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner` ([Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L1460-L1551)) proves that its squared modulus equals $2\bigl(1 + \sqrt{1 - d_{\mathrm{bary}}^2}\cos(2\theta)\bigr)$, reproducing the partially coherent Huygens–Steiner profile $I_{\mathrm{HS}}\bigl(x,y;\sqrt{1 - d_{\mathrm{bary}}^2}\bigr)$ **identically at every $(x,y) \in \mathbb{R}^2$** (and reducing to $I_{\mathrm{F}}(x,y)$ at $d_{\mathrm{bary}} = 0$ via `complexGr24CrossingDoubleSlit_zero_error`).
 
 ### 3.2 Master Table: Six-Model Double-Slit Superposition & Relative Predictive Error
 
@@ -194,7 +194,7 @@ example (d_bary x y : ℝ) (h_low : -1 ≤ d_bary) (h_high : d_bary ≤ 1) :
 
 ## 4. Orbital Angular Momentum (OAM) Double-Slit Superposition Across Formulations
 
-When Slit $A$ and Slit $B$ carry helical OAM modes $e^{i\ell_1\phi}$ and $e^{i\ell_2\phi}$ with differential topological charge $\Delta\ell = \ell_2 - \ell_1 \in \mathbb{Z}$ and azimuthal angle $\phi \in \mathbb{R}$, the interference fringes twist by $\Delta\ell\,\phi$ (`fraunhoferOAMDoubleSlit`, `huygensSteinerOAMDoubleSlit`, `wignerOAMDoubleSlit` in [src/signals/Signals/Huygens.lean](../src/signals/Signals/Huygens.lean#L1553-L1735)):
+When Slit $A$ and Slit $B$ carry helical OAM modes $e^{i\ell_1\phi}$ and $e^{i\ell_2\phi}$ with differential topological charge $\Delta\ell = \ell_2 - \ell_1 \in \mathbb{Z}$ and azimuthal angle $\phi \in \mathbb{R}$, the interference fringes twist by $\Delta\ell\,\phi$ (`fraunhoferOAMDoubleSlit`, `huygensSteinerOAMDoubleSlit`, `wignerOAMDoubleSlit` in [src/signals/Signals/Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L1553-L1735)):
 
 | Method | OAM Representation & Lean Nodes | OAM Superposition Intensity Law $I_{\mathrm{OAM}}(x,y,\phi;\Delta\ell)$ | OAM Phase-Singularity & Relative Predictive Error Behavior |
 |---|---|---|---|
@@ -252,7 +252,7 @@ example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) (z0 z
 
 *(For the complete treatment of the $Gr_{\mathbb{C}}(2,4)$ and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ unification with `DDFSubstrate` and `MovingSheath`, see the companion paper [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.md).)*
 
-In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in {cite:p}`chat_plucker_sinks_ddf_2026` (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models {cite:p}`partanen2025gravity` and the Dilatant Dark Fluid (DDF) substrate {cite:p}`fedi2026ddf`:
+In [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in {cite:p}`chat_plucker_sinks_ddf_2026` (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models {cite:p}`partanen2025gravity` and the Dilatant Dark Fluid (DDF) substrate {cite:p}`fedi2026ddf`:
 
 | Component | Grassmannian & Coherence Formulation | Emergent Fluid / Sink-Flow Limit | Fedi's Dilatant Dark Fluid (`Signals.DDF`) | Lean 4 Verification & Critique Nodes |
 |---|---|---|---|---|
@@ -277,7 +277,7 @@ Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath
    $$
 
 3. **Quadratic Power-Law Sandwich & Exact Parameter Inversion (`ddf_relative_error_power_law_and_inversion`, `MovingSheath.inverse_recovery_from_relative_error`)**:
-   Answering the power-law and inverse-recovery question in [Turner, Wesley and Google Gemini (2026), lines 226–228](#chat-plucker-sinks-ddf), for every $d_{\mathrm{bary}} \in [-1, 1]$ the on-axis relative error $\varepsilon = (1 - \mathcal{V})/2$ satisfies:
+  Answering the power-law and inverse-recovery question in {cite:p}`chat_plucker_sinks_ddf_2026` (lines 226–228), for every $d_{\mathrm{bary}} \in [-1, 1]$ the on-axis relative error $\varepsilon = (1 - \mathcal{V})/2$ satisfies:
 
    $$
    \frac{d_{\mathrm{bary}}^2}{4} \le \varepsilon \le \frac{d_{\mathrm{bary}}^2}{2}, \qquad \mathcal{V} = 1 - 2\varepsilon, \qquad \gamma_\varphi = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon).
@@ -286,11 +286,11 @@ Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath
 ### 5.2 Formal Critique & Constructive Resolutions of the Chat Claims
 
 1. **Critique 1 & Resolution — Unphased Sum $w_A + w_B = \Delta_{02}\Delta_{13}$ vs. Squared Crossing Product & Complex $Gr_{\mathbb{C}}(2,4)$ Sink Amplitudes (`ddf_symmetric_zero_shear_vs_unphased_critique`, `ddf_critique1_solved_squared_crossing_and_complex_gr24`)**:
-   - *Critique*: The chat prompt and response ([lines 12–30, 140–154](#chat-plucker-sinks-ddf)) state that $w_A + w_B = \Delta_{02}\Delta_{13}$ yields zero relative error against the Fraunhofer reference at the symmetric point $w_A = w_B = 1$. Theorem `ddf_symmetric_zero_shear_vs_unphased_critique` proves that if $w_A + w_B = 2$ is treated as an unphased intensity proxy (`gr24UnphasedDoubleSlit`), it gives $2 I_0$ instead of $4 I_0$ and incurs a $50\%$ ($1/2$) on-axis relative error.
+  - *Critique*: The chat prompt and response ({cite:p}`chat_plucker_sinks_ddf_2026`, lines 12–30, 140–154) state that $w_A + w_B = \Delta_{02}\Delta_{13}$ yields zero relative error against the Fraunhofer reference at the symmetric point $w_A = w_B = 1$. Theorem `ddf_symmetric_zero_shear_vs_unphased_critique` proves that if $w_A + w_B = 2$ is treated as an unphased intensity proxy (`gr24UnphasedDoubleSlit`), it gives $2 I_0$ instead of $4 I_0$ and incurs a $50\%$ ($1/2$) on-axis relative error.
    - *Constructive Resolution (`ddf_critique1_solved_squared_crossing_and_complex_gr24`)*: Treating $Q_A, Q_B$ as **coherent field amplitudes** makes the on-axis intensity proportional to the **squared** crossing product $(\Delta_{02}\Delta_{13})^2 = (Q_A + Q_B)^2 = 4$ (`gr24SquaredCrossingDoubleSlit`), which achieves **exact zero relative error ($\varepsilon_{\mathrm{rel}} = 0$) at $(0, 0)$**. Across the entire detector plane $(x, y) \in \mathbb{R}^2$, lifting to complex sink amplitudes $w_A^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$ and $w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ on $Gr_{\mathbb{C}}(2,4)$ satisfies $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$, so $|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2 = |w_A^{\mathbb{C}} + w_B^{\mathbb{C}}|^2$ achieves **zero relative predictive error everywhere**.
 2. **Critique 2 & Resolution — Non-Symplectic Compressive Jamming Invariance via Projective Plücker Normalization & Trace Renormalization (`nonSymplectic_jamming_barycentricShift_scaling`, `gr24_projective_pythagorean_complementarity`, `ddf_critique2_solved_projective_and_trace_renormalized_jamming`)**:
    - *Critique*: While a symplectic Anosov hyperbolic stretch $A_{\mathrm{Anosov}}(\lambda, t) = \operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ ($\det = 1$) preserves all $2 \times 2$ minors (`anosov_plucker_invariance`), a non-symplectic compressive jamming deformation $B(\lambda_1, \lambda_2, t) = \operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$ ($\lambda_1 + \lambda_2 \neq 0$) scales the unnormalized shift $d_{\mathrm{bary}}(BM) = e^{2(\lambda_1 + \lambda_2)t} d_{\mathrm{bary}}(M)$ (`nonSymplectic_jamming_barycentricShift_scaling`).
-   - *Constructive Resolution (`ddf_critique2_solved_projective_and_trace_renormalized_jamming`)*: Defining the projectively normalized Plücker barycentric shift and squared visibility (`gr24ProjectiveBarycentricShift`, `gr24ProjectiveVisibilitySq` in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1057-L1168)):
+   - *Constructive Resolution (`ddf_critique2_solved_projective_and_trace_renormalized_jamming`)*: Defining the projectively normalized Plücker barycentric shift and squared visibility (`gr24ProjectiveBarycentricShift`, `gr24ProjectiveVisibilitySq` in [Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L1057-L1168)):
 
      $$
      \widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}, \qquad \widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1,
@@ -312,7 +312,7 @@ Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath
 
 ### 5.3 Unified Integration of Complex $Gr_{\mathbb{C}}(2,4)$ with DDF (`MovingSheath.gr24TwistorMatrix`)
 
-In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L1215-L1430), `MovingSheath.gr24TwistorMatrix` embeds any subluminal DDF `MovingSheath` $s$ ($\beta(s) = v/c \in [0, 1)$) and differential OAM vortex charge $\Delta\ell \in \mathbb{Z}$ directly into $Gr_{\mathbb{C}}(2,4)$ via the forward- and reverse-sheared $(\phi \pm \varphi)$ twistor channel entries:
+In [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1215-L1430), `MovingSheath.gr24TwistorMatrix` embeds any subluminal DDF `MovingSheath` $s$ ($\beta(s) = v/c \in [0, 1)$) and differential OAM vortex charge $\Delta\ell \in \mathbb{Z}$ directly into $Gr_{\mathbb{C}}(2,4)$ via the forward- and reverse-sheared $(\phi \pm \varphi)$ twistor channel entries:
 
 $$
 z_\pm(s, \theta) = \sqrt{1 \pm \beta(s)}\,e^{\pm i\theta}, \qquad
@@ -426,7 +426,7 @@ end DoubleSlitPaperVerification
 2. **Higher-Rank $Gr(3,n)$ and $Gr_{\mathbb{C}}(3,n)$ Four-Term Plücker Relations (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`, `selectedMinor_pluecker_rank3_five`)**:
    For any $3 \times n$ matrix over $\mathbb{R}$ or $\mathbb{C}$ and any column indices $(i_1, i_2, j_0, j_1, j_2, j_3)$, the $3 \times 3$ Plücker minors satisfy the 4-term quadratic Plücker syzygy $\Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3} - \Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3} + \Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3} - \Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2} = 0$.
 3. **Multi-Layer & Three-Channel ($k=3$) Lindström–Gessel–Viennot Disjoint-Path Positivity (`lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`)**:
-   Originally developed in [`Signals.Plabic`](../src/signals/Signals/Plabic.lean) while implementing **3D Layer Coding** (`QEC.Stabilizer.Codes.Layer` in `src/QECLean/QEC/Stabilizer/Codes/Layer.lean` and `LayerCodeLift` in [../src/signals/Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean)), any finite cascade of $k \times k$ planar transfer matrices with positive determinants preserves strict $k$-channel positivity ($\det(\prod_r M_r) > 0$), planar 3-channel bidiagonal steps have vertex-disjoint determinant $d_0 d_1 d_2 > 0$, and any 2-vertex bottleneck annihilates the 3-channel determinant ($\det(AB) = 0$). See [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md) (`layer_coding_plabic_lgv_and_multi_array_imaging_identities` in [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean)) for the application of these Layer-Coding Plabic theorems to Hubble $2\times$ CCD mosaics, depth-stacked `LVP` medical X-ray arrays, `LIFU`/`AOT`/`TRUE` sub-surface focusing, and $< 1\text{ nm}$ nanolithography.
+   Originally developed in [`Signals.Plabic`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) while implementing **3D Layer Coding** (`QEC.Stabilizer.Codes.Layer` in `src/QECLean/QEC/Stabilizer/Codes/Layer.lean` and `LayerCodeLift` in [../src/signals/Signals/LayerCodes.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/LayerCodes.lean)), any finite cascade of $k \times k$ planar transfer matrices with positive determinants preserves strict $k$-channel positivity ($\det(\prod_r M_r) > 0$), planar 3-channel bidiagonal steps have vertex-disjoint determinant $d_0 d_1 d_2 > 0$, and any 2-vertex bottleneck annihilates the 3-channel determinant ($\det(AB) = 0$). See [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md) (`layer_coding_plabic_lgv_and_multi_array_imaging_identities` in [../src/signals/Signals/MultiArrayImaging.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MultiArrayImaging.lean)) for the application of these Layer-Coding Plabic theorems to Hubble $2\times$ CCD mosaics, depth-stacked `LVP` medical X-ray arrays, `LIFU`/`AOT`/`TRUE` sub-surface focusing, and $< 1\text{ nm}$ nanolithography.
 
 ---
 

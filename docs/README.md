@@ -7,10 +7,10 @@ mechanisms have been experimentally validated.
 
 ## Research Workflow
 
-For chat-derived changes, first use the [research evidence triage skill](../../.agents/skills/research-evidence-triage/SKILL.md)
-to capture source lines and classify the claim. Then use the [Signals evidence modeling skill](../../.agents/skills/signals-evidence-modeling/SKILL.md)
+For chat-derived changes, first use the [research evidence triage skill](https://github.com/westurner/sustainablefactory/blob/main/.agents/skills/research-evidence-triage/SKILL.md)
+to capture source lines and classify the claim. Then use the [Signals evidence modeling skill](https://github.com/westurner/sustainablefactory/blob/main/.agents/skills/signals-evidence-modeling/SKILL.md)
 to choose a verified module, `Signals.Pending`, or a process/catalog record.
-The current cross-topic review is in the [chat physics catalog](../../docs/chat-physics-catalog.md).
+The current cross-topic review is in the [chat physics catalog](chat-physics-catalog.md).
 Type-checking a finite record proves only its stated assumptions; it does not
 establish the proposed material, hardware, or operating regime.
 
@@ -99,11 +99,11 @@ interpretation while keeping experimental premises explicit:
    proposal evidence: the model does
    not establish room-temperature N-LIG soliton stability, single-photon Kerr
    coupling, nondestructive parity measurement, or a fault-tolerant QPU. See
-   [`docs/soliton-bus.md`](../../docs/soliton-bus.md),
-   [`docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md`](../../docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md),
-   [`docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md`](../../docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md),
-   [`docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md`](../../docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md),
-   and the [signal-phase chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
+   [`docs/soliton-bus.md`](soliton-bus.md),
+   [`docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md`](grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md),
+   [`docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md`](grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md),
+   [`docs/grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md`](grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md),
+   and the [signal-phase chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
 - `Signals.Physlib` imports Physlib's compatible free-space parameter model and
    proves a small interface lemma over its `FreeSpace` parameters.
 - `Signals.Proca` provides a normalized massive-vector mode with explicit mass,
@@ -118,7 +118,7 @@ interpretation while keeping experimental premises explicit:
    These records preserve theoretical and experimental-status boundaries; they
    do not establish Proca material realization, quantum hardware, or any
    propulsion, SQG, vacuum-energy, Argon-MHD, or fracture claim. The cited
-   review is in [paper-model-review.md](../../docs/paper-model-review.md).
+   review is in [paper-model-review.md](paper-model-review.md).
 - `Signals.CavityQED` is imported through `Signals.Pending` and records the
    attached graphite/graphene cavity and Grover cavity-QED models: coupled-mode
    hybrid frequencies, carrier-density resonance fits, spectral-weight
@@ -323,7 +323,7 @@ interpretation while keeping experimental premises explicit:
    covariance, compressibility, healing length, numerical steps, and FTLE
    diagnostics without implementing a weak-PDE or numerical solver. The
    native-first numerical handoff is specified in
-   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/docs/RUST_NUMERICAL_ADAPTER_SPEC.md).
    `numerical_adapter` provides a native Rust core for metadata validation,
    simulated flow-dataset ingestion, weak-jump residuals, covariance PSD checks,
    and deterministic FTLE fixtures. Its optional Vortex file round-trip and
@@ -549,7 +549,7 @@ interpretation while keeping experimental premises explicit:
    metric swell (`isotropicTraceSwell`, `isotropicTraceSwell3D`), Vieta's
    $3 \times 3$ symmetric eigenvalue trace, and WGSL Three.js
    `compose_instance_matrix` quaternion determinant. See
-   [`docs/grassmannian-hawking-radiation-decoding-paper.md`](../../docs/grassmannian-hawking-radiation-decoding-paper.md).
+   [`docs/grassmannian-hawking-radiation-decoding-paper.md`](grassmannian-hawking-radiation-decoding-paper.md).
 - `Signals.Nanolithography` formalizes dual-beam $405\text{ nm} / 532\text{ nm}$
    STED-depleted squared feature linewidth (`stedDepletedLinewidthSq`, reaching
    $(2025/112\text{ nm})^2 \approx (18.08\text{ nm})^2 < 20^2$ at $\zeta_{532} = 63$),
@@ -558,7 +558,7 @@ interpretation while keeping experimental premises explicit:
    orthogonal flash $(4/5)^2 = 16/25 < 2$), and 6-stage `CVA6` vs. 2/3-stage
    `Ibex` RISC-V pipeline critical-path period (`riscvPipelineStagePeriod`,
    `holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`).
-   See [`docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md`](../../docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md).
+   See [`docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md`](grassmannian-riscv-holographic-nanolithography-kicad-paper.md).
 - `Signals.MultiArrayImaging` formalizes multi-spectral and multi-array
    Grassmannian imaging across Hubble Space Telescope $2\times$ CCD mosaics
    (`ACS/WFC`, `WFC3/UVIS`, `WFPC2` `NGC 4151` `u5780205r` on
@@ -583,7 +583,7 @@ interpretation while keeping experimental premises explicit:
    `cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`,
    `layer_coding_plabic_lgv_and_multi_array_imaging_identities`,
    `pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`). See
-   [`docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`](../../docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md).
+   [`docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md).
 - `Signals.QuantumCausalInference` formalizes the five Grassmannian structures in
    classical and quantum causal relations (`WeightedAcyclicNetwork` nilpotency and
    transfer equation $T = 1 + W T$, LGV / Trek d-separation bottlenecks $\det = 0$
@@ -614,9 +614,9 @@ interpretation while keeping experimental premises explicit:
    `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`,
    `qci_directed_phase_flow_and_spin_mutual_info_identities`,
    `qci_optional_vrc_vs_plabic_complex_grassmannian_identities`).
-   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
-   [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
-   and [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](../../docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md).
+   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](grassmannian-quantum-causal-inference-mpemba-paper.md),
+   [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
+   and [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md).
 - `Signals.DFT` (together with `Signals.Plabic` Section 13) formalizes
    Complex Grassmannian Plabic Vector-Relation Configurations
    (`VectorRelationConfiguration`, `gr24HomogeneousVRC`, `gr24MutatedHomogeneousVRC`,
@@ -719,17 +719,17 @@ interpretation while keeping experimental premises explicit:
    Section 22 & 22.1 Rust/PyO3 (`maturin`) Grassmannian–Plabic–VRC–QCI Tequila
    Quantum Simulation Backend `tequila_rust_pyo3_grassmannian_vrc_qci_simulator_identities`
    and `tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities`). See
-   [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
-   [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
-   [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
-   [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md),
-   [`docs/grassmannian-cuprate-superconductivity-paper.md`](../../docs/grassmannian-cuprate-superconductivity-paper.md),
-   [`docs/grassmannian-interfacial-electrical-properties-paper.md`](../../docs/grassmannian-interfacial-electrical-properties-paper.md),
-   [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](../../docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md),
-   [`docs/grassmannian-semi-dirac-fermions-ddf-paper.md`](../../docs/grassmannian-semi-dirac-fermions-ddf-paper.md),
-   [`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`](../../docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md),
-   [`docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md`](../../docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md),
-   and [`docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md`](../../docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md).
+   [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
+   [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
+   [`docs/grassmannian-tuning-materials-with-light-paper.md`](grassmannian-tuning-materials-with-light-paper.md),
+   [`docs/grassmannian-interfacial-heat-transport-paper.md`](grassmannian-interfacial-heat-transport-paper.md),
+   [`docs/grassmannian-cuprate-superconductivity-paper.md`](grassmannian-cuprate-superconductivity-paper.md),
+   [`docs/grassmannian-interfacial-electrical-properties-paper.md`](grassmannian-interfacial-electrical-properties-paper.md),
+   [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md),
+   [`docs/grassmannian-semi-dirac-fermions-ddf-paper.md`](grassmannian-semi-dirac-fermions-ddf-paper.md),
+   [`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`](grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md),
+   [`docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md`](grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md),
+   and [`docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md`](grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker
@@ -747,7 +747,7 @@ interpretation while keeping experimental premises explicit:
    `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), while
    `ComplexGrassmannianIGPEPluckerContract` in `Signals.Pending` isolates speculative
    chiral baryogenesis and dark-sector vacuum claims. See
-   [`docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`](../../docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md).
+   [`docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md).
 - `SignalsTests` contains compile-time examples for the verified identities and
    edge cases. `SignalsPendingTests` separately compiles examples of the pending
    hypotheses and their conditional consequences. `make signals_build` builds
@@ -755,11 +755,11 @@ interpretation while keeping experimental premises explicit:
 
 ## Huygens, Twistor Translation, and Plabic Routing
 
-The [Grassmannian-Huygens chat](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L9)
+The [Grassmannian-Huygens chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L9)
 motivates this local implementation. Library placement remains undecided;
 all new APIs stay in Signals rather than modifying Mathlib or Physlib.
 
-The [twistor specification](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L199)
+The [twistor specification](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L199)
 is implemented using the existing `WeylSpinor` and `Twistor` records, with
 `mu = -i x lambda`. `Twistor.translate_incident_iff`, `translate_add`,
 `translate_zero`, and `translate_neg` prove incidence covariance and the
@@ -767,14 +767,14 @@ additive translation laws. `SpacetimeMatrix` is general complex matrix data;
 Hermiticity, a Minkowski metric, nonzero projective representatives, and
 physical wave propagation are not implicit in this record.
 
-The [proposed angular-momentum shift](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L227)
+The [proposed angular-momentum shift](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L227)
 is represented instead by `orbitalBivector` and `AngularMomentumState` on four
 real coordinates. The proved shift is $M' = M + a \wedge p$, with unchanged
 momentum and preserved antisymmetry. A two-by-two commutator is not substituted
 for this tensor. The existing `Signals.Coherence.ParallelAxis` remains the
 separate scalar Huygens-Steiner model; no Casimir-to-inertia identity is claimed.
 
-For the [double-slit superposition proposal](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L112),
+For the [double-slit superposition proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L112),
 `Signals.Huygens.Aperture.amplitude` sums finite source-to-aperture-to-detector
 contributions using the outgoing scalar kernel $\exp(i k r)/r$.
 Coordinates and wavelength are in metres; weights supply quadrature,
@@ -786,7 +786,7 @@ Intensity is squared complex amplitude, not calibrated irradiance or a
 normalized probability density. `finiteHistoryAmplitude` is a finite weighted
 action-phase sum, not a continuum Feynman integral.
 
-The [strand-routing blueprint](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L357)
+The [strand-routing blueprint](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L357)
 is implemented with boundary/internal identifiers, one color per internal
 vertex, unique boundary neighbors, and single-orbit internal rotations.
 Black uses the supplied counterclockwise rotation; white uses its inverse.
@@ -795,7 +795,7 @@ bijective boundary map before exporting `DecoratedPermutation`. It does not
 prove arbitrary termination, disk planarity, reducedness, graph-move
 equivalence, a cell's rank, or correspondence with Grassmannian minors.
 
-The [alternating-map construction](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L483)
+The [alternating-map construction](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L483)
 is `pluckerAlternating`, built from `Matrix.detRowAlternating.compLinearMap`.
 Its value equals the existing `selectedMinor`; swapping distinct rows negates
 it, and equal distinct rows force zero. `NonnegativeGrassmannian` permits zero
@@ -806,7 +806,7 @@ and $3 \times n$ (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`,
 `selectedMinor_pluecker_rank3_five`) quadratic Pluecker relations are proved;
 arbitrary-rank ($k \ge 4$) Pluecker syzygies remain future work.
 
-The [two-residue interpretation](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L104)
+The [two-residue interpretation](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L104)
 stays in `Signals.Pending.GrassmannianDoubleSlitHypothesis`. Its geometry map,
 nonnegative/full-rank source, distinct column labels, complex contribution
 functions, and matches to slit amplitudes are explicit supplied data.
@@ -826,50 +826,50 @@ checks a supplied zero-aperture hypothesis, not a geometry-derived residue.
 The source chat's extracted Lean corpus is available at
 `../../data/chats/IQ-Sampling-for-Signal-Phase.lean` from this project directory.
 The motivating I/Q equations and phase extraction are in the
-[source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L7-L80); its
+[source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L7-L80); its
 later Proca discussion explicitly corrects the ordinary-air premise and states
 the effective-mass requirement
-([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L359-L377)).
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L359-L377)).
 The chat's iGPE/waveguide proposal is recorded at
-([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L564-L571)),
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L564-L571)),
 while its anti-fire and vacuum-expansion claims are recorded at
-([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1451-L1465)).
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1451-L1465)).
 The neutron/fracture chat proposes an acoustic-to-photonic chain: machinery
 vibration creates underwater pressure waves, surface micro-ripples modulate
 reflected optical phase, and Brillouin scattering can expose acoustic or density
 changes
-([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L94-L129)).
+([fracture chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L94-L129)).
 It further proposes LDV, LiDAR, SAR, and DAS as complementary readout paths and
 calls out ocean-wave background and orbital coherence requirements
-([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L133-L147)).
+([fracture chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L133-L147)).
 The implementation treats these as ordinary scattering/metrology observables.
 An ultrasonic transfer result becomes a Pending fracture candidate only when
 its calibrated classical residual is outside tolerance; transfer by itself is
 not evidence of a massive photon or spacetime fracture.
 The companion Airy discussion describes the proposed Proca equation and later
 reuses it for lithospheric, ionospheric, and through-space channels
-([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2147-L2206),
-[Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2378-L2390)).
+([Airy chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2147-L2206),
+[Airy chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2378-L2390)).
 The primary chat later proposes 400 GHz beam mixing, nonlinear conversion, and
 an intensity estimate
-([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1546-L1591),
-[source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1645-L1686)).
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1546-L1591),
+[source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1645-L1686)).
 The Signals model corrects the reported intensity: $10^6$ V/m gives about
 $1.33 \times 10^9$ W/m², or $132.7$ kW/cm², under the stated vacuum plane-wave
 formula. The source's later atmospheric-scavenging and bow-shock sections reuse
 the unverified SQG premise
-([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L2579-L2611),
-[source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L2648-L2660)).
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L2579-L2611),
+[source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L2648-L2660)).
 
 The companion Airy-beam chat proposes four routing modes: lithospheric chord,
 surface Airy arc, ionospheric MHD ducting, and through-space ballistic
 propagation
-([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2198-L2240),
-[Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2378-L2390)).
+([Airy chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2198-L2240),
+[Airy chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2378-L2390)).
 It also identifies the relevant unresolved engineering variables: interface
 impedance, finite Airy truncation, space-weather variation, insertion loss,
 re-entry loss, and the absence of a supporting nonlinear medium in vacuum
-([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2858-L2933)).
+([Airy chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2858-L2933)).
 The current propagation layer makes those quantities explicit and bounded; it
 does not assert the proposed channel performance.
 The extracted corpus also names future areas including spinors, twistors,
@@ -880,10 +880,10 @@ hardware claims.
 The local transformed Myst corpus was searched for the requested Amplituhedron
 research. The source describes massless spinor factorization, momentum-twistor
 incidence data, the proposed map $Y = C \cdot Z$, and a canonical form with
-logarithmic boundary behavior ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L7520-L7580)).
+logarithmic boundary behavior ([IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L7520-L7580)).
 Its follow-up Lean snippets mark the generalized Pluecker relations, positive
 minor predicate, canonical volume form, and pole theorem as `sorry` stubs
-([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L7868-L7920)).
+([IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L7868-L7920)).
 The implemented API therefore formalizes only the finite algebra that can be
 checked locally and keeps the physical amplitude interpretation Pending. No
 `data/chats/*.myst.md` files are present in this checkout; the inventory above
@@ -892,14 +892,14 @@ uses the transformed files under `docs/chats/`.
 The full LightSlinger review found a useful classical boundary and several
 unsupported extensions. The source describes a laser-driven polarization spot
 with superluminal pattern speed while distinguishing that from faster-than-light
-information transfer ([Airy LightSlinger chat](../../docs/chats/_Airy-Beams-and-Communications-and-Illumination.myst.md#L2876-L2922)).
+information transfer ([Airy LightSlinger chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Airy-Beams-and-Communications-and-Illumination.myst.md#L2876-L2922)).
 It proposes lignin-vitrimer/carbon dielectric tuning, moisture protection, and
 active-mask integration, but supplies no measured permittivity, loss, thermal,
-or mode-conversion data ([Airy LightSlinger chat](../../docs/chats/_Airy-Beams-and-Communications-and-Illumination.myst.md#L2922-L2986)).
+or mode-conversion data ([Airy LightSlinger chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Airy-Beams-and-Communications-and-Illumination.myst.md#L2922-L2986)).
 The companion waveguide review presents Kerr solitons, spin-nematic routing,
 and Rydberg-EIT detection as analog or metrology ideas, while its longitudinal
-Proca interpretation remains Pending ([superfluid waveguide chat](../../docs/chats/Superfluid-Gravity-and-Negative-Energy.myst.md#L280-L410),
-[superfluid Rydberg chat](../../docs/chats/Superfluid-Gravity-and-Negative-Energy.myst.md#L800-L860)).
+Proca interpretation remains Pending ([superfluid waveguide chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/Superfluid-Gravity-and-Negative-Energy.myst.md#L280-L410),
+[superfluid Rydberg chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/Superfluid-Gravity-and-Negative-Energy.myst.md#L800-L860)).
 The implemented model therefore records ordinary sweep, resonance, loss, and
 Stark-response quantities without asserting that a dielectric or CW resonator
 generates a massive longitudinal field.
@@ -912,25 +912,25 @@ Rayleigh/Brillouin fiber sensing, infrared photothermal checks, acoustic-emissio
 monitoring, and RFID audits are inspection methods whose
 non-destructive property must be established by a preserved specimen state and
 a calibrated response
-([inspection corpus](../../docs/chats/Lignin-Vitrimer-Surface-Roughness-Limits.myst.md#L1596-L1610),
-[over-mold NDT chat](../../docs/chats/_Lignin,%20Super%20Glue,%20Baking%20Soda%20Mix%20.myst.md#L1795-L1795),
-[mmWave inspection chat](../../docs/chats/_Ultrasonic-Drilling-Hardware,-Control,-Sensing.myst.md#L313-L313)).
+([inspection corpus](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/Lignin-Vitrimer-Surface-Roughness-Limits.myst.md#L1596-L1610),
+[over-mold NDT chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Lignin,%20Super%20Glue,%20Baking%20Soda%20Mix%20.myst.md#L1795-L1795),
+[mmWave inspection chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Ultrasonic-Drilling-Hardware,-Control,-Sensing.myst.md#L313-L313)).
 The optical chats describe a phase fingerprint or a probe-beam phase shift while
-the target photon or qubit remains unchanged ([phase-fingerprint chat](../../docs/chats/Photon's%20Phase%20Fingerprint%20on%20Particles%20.myst.md#L812-L921),
-[homodyne QND chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9359-L9540)).
+the target photon or qubit remains unchanged ([phase-fingerprint chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/Photon's%20Phase%20Fingerprint%20on%20Particles%20.myst.md#L812-L921),
+[homodyne QND chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9359-L9540)).
 The broader quantum-homodyne review adds dual balanced receivers,
 local-oscillator phase settings, continuous quadrature outcomes, sign binning,
 covariance/CHSH bookkeeping, CV Bell-state measurement, and feed-forward
-([dual BHD context](../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L2396-L2606),
-[BHD noise context](../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L2676-L2721)).
+([dual BHD context](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L2396-L2606),
+[BHD noise context](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L2676-L2721)).
 The source also describes raw telemetry retained through calibration and
-reversible vitrimer disassembly ([calibration chat](../../docs/chats/_weather_app_0%20.myst.md#L8613-L8613),
-[reversible assembly chat](../../docs/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs.myst.md#L8531-L8563)).
+reversible vitrimer disassembly ([calibration chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_weather_app_0%20.myst.md#L8613-L8613),
+[reversible assembly chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs.myst.md#L8531-L8563)).
 Other records describe low-power diagnostic pulses, in-situ structural
 remediation, and continuous recovery processes; these are modeled as distinct
 operation contracts rather than being treated as inspections
-([diagnostic pulse chat](../../docs/chats/_Lignolux%20Enhances%20Fusion%20Production%20Design.myst.md#L4242-L4242),
-[recovery claim](../../docs/chats/_Sustainable%20textiles,%20outerwear,%20apparel.myst.md#L3901-L3901)).
+([diagnostic pulse chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Lignolux%20Enhances%20Fusion%20Production%20Design.myst.md#L4242-L4242),
+[recovery claim](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/_Sustainable%20textiles,%20outerwear,%20apparel.myst.md#L3901-L3901)).
 
 The verified API records the corresponding state, energy, polarization, raw-data,
 and restoration invariants. `Signals.Homodyne` records classical detector
@@ -945,18 +945,18 @@ algebraic equality in a test fixture is not experimental QND evidence.
 The IQ Myst document uses CW in several different roles. The initial I/Q and
 ocean sections use a CW laser as a stable phase reference, but ranging still
 requires pulsing, modulation, or an independent time-of-flight observable
-([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L886-L985)).
+([IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L886-L985)).
 The Lignolux and PCLP sections use a CW master oscillator for steady exposure
 and resonant buildup, while attributing spatial selectivity to an active mask
-and longitudinal-Proca chemistry ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L1613-L1863)).
+and longitudinal-Proca chemistry ([IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L1613-L1863)).
 The 400/800 GHz sections require phase-matched nonlinear mixing or intersecting
 beams; a single CW carrier does not create a sum-frequency acoustic mode by
-itself ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L2053-L2447)).
+itself ([IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L2053-L2447)).
 The later thruster, power-plant, communication, wireless-power, medical, and
 fabrication sections reuse CW as a steady drive, resonant pump, or continuous
-carrier ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L3006-L3151),
-[IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L4848-L6100),
-[IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8069-L9240)).
+carrier ([IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L3006-L3151),
+[IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L4848-L6100),
+[IQ Myst chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8069-L9240)).
 
 The model does not treat those repeated uses as proof that CW works for every
 application. The defensible division is:
@@ -1237,7 +1237,7 @@ model, or environmental error.
    integrated FTLE output. Benchmarks are intentionally deferred; use Vortex
    as the primary large-array artifact format with Arrow interoperability and
    CSV/JSON fixtures. The boundary is specified in
-   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/docs/RUST_NUMERICAL_ADAPTER_SPEC.md).
 20. [Complete, solver-produced external ingestion] Researched open flow
    sources and selected PDEBench's DaRUS `Sod6.hdf5` as the first bounded
    artifact. The optional `hdf5-pure` reader validates its metadata, array
@@ -1247,7 +1247,7 @@ model, or environmental error.
    `SIGNALS_PDEBENCH_SOD6` to its local path to run the integration test.
 21. [Complete, multi-source research and bounded JHTDB probe] Fully attributed
    PDEBench, JHTDB, cylinder PIV, RSPID, and MorphoDunes sources in
-   [`OPEN_FLOW_DATASETS.md`](OPEN_FLOW_DATASETS.md). Added
+   [`OPEN_FLOW_DATASETS.md`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/docs/OPEN_FLOW_DATASETS.md). Added
    `jhtdb_probe.py`, which uses `givernylocal` with the temporary testing token
    for at most 4096 points at two times and records velocity, pressure, and all
    nine velocity-gradient components in a local NPZ plus manifest. The token is
@@ -1317,7 +1317,7 @@ The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
 does not claim a weak solution, crack evolution, turbulent-flow diagnosis, or
 physical fracture mechanism. The numerical implementation requirements are
-tracked in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+tracked in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/docs/RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 Vortex is the planned large-array transport for the Rust adapter. Its upstream
 format and Rust API are versioned dependencies, so local performance claims
@@ -1325,7 +1325,7 @@ must be benchmarked and its file-format edition must be recorded in dataset
 provenance.
 
 The native Rust adapter core is implemented under
-[`numerical_adapter`](numerical_adapter/). The optional Vortex feature is
+[`numerical_adapter`](https://github.com/westurner/sustainablefactory/tree/main/src/signals/numerical_adapter). The optional Vortex feature is
 wired to Vortex 0.86.1 and has a passing in-memory round-trip test in the
 current environment. The development Dockerfiles install `libclang-dev` for
 the upstream `custom-labels` build dependency. The adapter now validates a
@@ -1525,7 +1525,7 @@ namespace and build target:
    `HawkingGrassmannianSynthesisContract` (`als_rank_lt_page_bond_dimension`)
    connect the pipeline to `Signals.Homodyne`, `Signals.HawkingRadiation`, and
    `Signals.DDF` across the 4-quadrant `Without/With DDF` $\times$ `Without/With Splats`
-   matrix ([docs/grassmannian-hawking-radiation-decoding-paper.md](../../docs/grassmannian-hawking-radiation-decoding-paper.md)).
+   matrix ([docs/grassmannian-hawking-radiation-decoding-paper.md](grassmannian-hawking-radiation-decoding-paper.md)).
    It remains Pending and does not establish Hawking radiation, SQG, cryptographic
    recovery, or physical information decoding.
 - `ProcaMHDHypothesis` links a Proca channel to the classical MHD plant only as
@@ -1624,15 +1624,15 @@ They are validation requirements, not additional physical conclusions.
   detector-loss calibration, state tomography, repeated parity outcomes,
   disturbance and absorption statistics, frequency-dependent noise, and a
   classical dispersive control. The related
-  [`QuantumCooling` contract](Signals/QuantumCooling.lean#L26-L51) similarly
+  [`QuantumCooling` contract](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCooling.lean#L26-L51) similarly
   assumes negative conditional entropy and a generalized Landauer equality;
   its theorem derives negative heat transfer from those assumptions, but does
   not derive entanglement, specify an erasure channel, or establish a
   reservoir-level cooling measurement. This is consistent with the operational
   qualification in [del Rio et al.](https://arxiv.org/abs/1009.1630).
   See the QND boundary in
-  [`Pending.lean`](Signals/Pending.lean#L253-L328) and the CV boundary in
-  [`Pending.lean`](Signals/Pending.lean#L334-L478).
+  [`Pending.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L253-L328) and the CV boundary in
+  [`Pending.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L334-L478).
 
 - **GPE, SQG, Proca, and DDF interfaces.** The three GPE records are
   pointwise equation contracts, not PDE solvers; inverse reconstruction also
@@ -1646,10 +1646,10 @@ They are validation requirements, not additional physical conclusions.
   deflection of non-co-propagating beams. These interfaces should remain
   conditional until independent measurements separate them from ordinary
   Maxwell, material, and propagation models. See
-  [`GPE` records](Signals/Pending.lean#L144-L253),
-  [`SQGMaxwellSystem`](Signals/Pending.lean#L930-L1020),
-  [`Proca` contracts](Signals/Pending.lean#L1343-L1588), and the
-  [`DDF` model](Signals/DDF.lean#L8-L34).
+  [`GPE` records](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L144-L253),
+  [`SQGMaxwellSystem`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L930-L1020),
+  [`Proca` contracts](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1343-L1588), and the
+  [`DDF` model](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8-L34).
 
 - **Materials and imaging.** LVP composition fractions, process telemetry,
   photovoltaic output laws, direct-conversion dose response, and Proca imaging
@@ -1660,7 +1660,7 @@ They are validation requirements, not additional physical conclusions.
   aging data, environmental cycling, dosimetry, detector noise, MTF/DQE,
   phantom studies, and a massless imaging control before any clinical or
   materials claim is promoted. See the
-  [`LVP` contracts](Signals/Pending.lean#L478-L662).
+  [`LVP` contracts](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L478-L662).
 
 - **Atmospheric scavenging and plumes.** Species splats, bounded gate
   acceptance, covariance collapse, apodization, calibrated mass flow, and
@@ -1676,7 +1676,7 @@ They are validation requirements, not additional physical conclusions.
    ingest measured or compressible-CFD pressure, heat flux, velocity, mass,
    momentum, energy, and acoustic outputs with inlet/outlet boundary conditions
    and uncertainty propagation. See the
-   [`atmospheric` contracts](Signals/Pending.lean#L663-L929).
+   [`atmospheric` contracts](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L663-L929).
 
 - **Decoding and geometric amplitude claims.** The finite inverse-QFT kernel,
   `C * Z` map, reciprocal chart, and CP/ALS residuals establish executable
@@ -1686,8 +1686,8 @@ They are validation requirements, not additional physical conclusions.
   are synthetic end-to-end data, held-out recovery, rank and initialization
   sensitivity, noise and residual calibration, and a measurement-to-model
   derivation independent of the proposed interpretation. See the
-  [`HawkingRadiationDecoding` boundary](Signals/Pending.lean#L1149-L1318)
-  and the [`Amplituhedron` records](Signals/Pending.lean#L1053-L1148).
+  [`HawkingRadiationDecoding` boundary](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1149-L1318)
+  and the [`Amplituhedron` records](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1053-L1148).
 
 - **Energy, fusion, anti-fire, and deployment claims.** Reaction probability,
   suppression rate, harvested power, control-only Q-factor, and declared
@@ -1697,8 +1697,8 @@ They are validation requirements, not additional physical conclusions.
   independent calorimetry, source and auxiliary-power accounting, mass and
   momentum balance, run-to-run controls, and a measured endpoint such as
   reaction yield or fire suppression. A control-only ratio is never the plant
-  efficiency. See the [`Proca/MHD` accounting](Signals/Pending.lean#L1343-L1470)
-  and [`energy claims`](Signals/Pending.lean#L1779-L1843).
+  efficiency. See the [`Proca/MHD` accounting](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1343-L1470)
+  and [`energy claims`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1779-L1843).
 
 - **Fracture and propagation anomalies.** An ultrasonic transfer outside a
   classical tolerance is only a candidate anomaly. It does not identify a
@@ -1706,8 +1706,8 @@ They are validation requirements, not additional physical conclusions.
   coupling. First reproduce the transfer with ordinary acoustic and link
   models, characterize environmental backgrounds and uncertainty, and then
   use blinded controls and independent receivers. See
-  [`AcousticFractureEvidence`](Signals/Pending.lean#L1589-L1625) and the
-  [`radio/Proca` test-vector boundary](Signals/Pending.lean#L1319-L1438).
+  [`AcousticFractureEvidence`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1589-L1625) and the
+  [`radio/Proca` test-vector boundary](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1319-L1438).
 
 #### Pending-contract promotion checklist
 
@@ -1765,7 +1765,7 @@ Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature
    numerical step sizes, and FTLE metadata. No fixed determinant is treated as
    incompressibility; numerical GP/Madelung solving remains future work. The
    source chat itself notes that air and superfluids are compressible
-   ([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L1258-L1308)).
+   ([fracture chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L1258-L1308)).
    See [Dalfovo et al. (1999)](https://doi.org/10.1103/RevModPhys.71.463),
    [Carusotto and Ciuti (2013)](https://doi.org/10.1103/RevModPhys.85.299),
    [Fetter (2009)](https://doi.org/10.1103/RevModPhys.81.647), and
@@ -1855,7 +1855,7 @@ generation, deterministic fusion, and sub-diffraction lithography.
 > objects because they are part of the requested mathematical framework, but
 > their medium support, coupling coefficients, attenuation, and performance
 > remain hypotheses. The source chat itself acknowledges the distinction
-> between theorem proving and physical validation ([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L4350-L4354)).
+> between theorem proving and physical validation ([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L4350-L4354)).
 
 In particular, no current module proves that a massive longitudinal photon
 propagates through ordinary tropospheric air, that SQG changes vacuum pressure,
@@ -2271,7 +2271,7 @@ example : toyCrystalDetector.forwardDrop < toyCrystalDetector.threshold := by
 ## Dilatant Dark Fluid (DDF) Formalization Plan
 
 ### Citation
-- **Citation**: Marco Fedi. *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. Ministero dell’Istruzione e del Merito, Rome, Italy. SSRN Preprint 7406660 (Dated: 3 September 2026). [ssrn-7406660.pdf](tmp/ssrn-7406660.pdf)
+- **Citation**: Marco Fedi. *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. Ministero dell’Istruzione e del Merito, Rome, Italy. SSRN Preprint 7406660 (Dated: 3 September 2026). [ssrn-7406660.pdf](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660)
 
 ### Theoretical Summary
 The paper introduces the Dilatant Dark Fluid (DDF), a unified cosmic medium comprising two coupled ultralight bosonic sectors:
@@ -2316,16 +2316,16 @@ longitudinal-Proca interpretation as outside the present DDF model.
   - `thermal_inelastic.rs`: Relativistic Inverse Compton, Stokes/anti-Stokes Raman thermometry, and 1D/2D Cattaneo-Vernotte / Grassmannian-DDF second-sound thermal solvers (with and without splats).
   - `polariton_spp.rs`: Polariton Hopfield/LST dispersion, SPP continuum and hotspot splats, CSR-SPP bunching, 't Hooft-Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing & coupled electro-thermal-optical gain, and AdS/CFT integrability & $16 \times 16$ $\mathfrak{psl}(2|2)_c$ secret symmetries (48 unit/parametric/`insta` tests passing).
 - **Companion Papers (`docs/`)**:
-  1. [`docs/grassmannian-huygens-double-slit-oam-paper.md`](../../docs/grassmannian-huygens-double-slit-oam-paper.md)
-  2. [`docs/grassmannian-qism-bethe-ansatz-paper.md`](../../docs/grassmannian-qism-bethe-ansatz-paper.md)
-  3. [`docs/grassmannian-ddf-moving-sheath-paper.md`](../../docs/grassmannian-ddf-moving-sheath-paper.md)
-  4. [`docs/grassmannian-gravity-from-qed-scattering-paper.md`](../../docs/grassmannian-gravity-from-qed-scattering-paper.md)
-  5. [`docs/grassmannian-splat-mechanics-paper.md`](../../docs/grassmannian-splat-mechanics-paper.md)
-  6. [`docs/grassmannian-thermal-compton-raman-paper.md`](../../docs/grassmannian-thermal-compton-raman-paper.md)
-  7. [`docs/grassmannian-polariton-spp-mechanics-paper.md`](../../docs/grassmannian-polariton-spp-mechanics-paper.md)
-  8. [`docs/grassmannian-holographic-principle-paper.md`](../../docs/grassmannian-holographic-principle-paper.md)
-  9. [`docs/grassmannian-ads-cft-ddf-paper.md`](../../docs/grassmannian-ads-cft-ddf-paper.md)
-  10. [`docs/grassmannian-unification-applications-roadmap-paper.md`](../../docs/grassmannian-unification-applications-roadmap-paper.md)
+  1. [`docs/grassmannian-huygens-double-slit-oam-paper.md`](grassmannian-huygens-double-slit-oam-paper.md)
+  2. [`docs/grassmannian-qism-bethe-ansatz-paper.md`](grassmannian-qism-bethe-ansatz-paper.md)
+  3. [`docs/grassmannian-ddf-moving-sheath-paper.md`](grassmannian-ddf-moving-sheath-paper.md)
+  4. [`docs/grassmannian-gravity-from-qed-scattering-paper.md`](grassmannian-gravity-from-qed-scattering-paper.md)
+  5. [`docs/grassmannian-splat-mechanics-paper.md`](grassmannian-splat-mechanics-paper.md)
+  6. [`docs/grassmannian-thermal-compton-raman-paper.md`](grassmannian-thermal-compton-raman-paper.md)
+  7. [`docs/grassmannian-polariton-spp-mechanics-paper.md`](grassmannian-polariton-spp-mechanics-paper.md)
+  8. [`docs/grassmannian-holographic-principle-paper.md`](grassmannian-holographic-principle-paper.md)
+  9. [`docs/grassmannian-ads-cft-ddf-paper.md`](grassmannian-ads-cft-ddf-paper.md)
+  10. [`docs/grassmannian-unification-applications-roadmap-paper.md`](grassmannian-unification-applications-roadmap-paper.md)
 - **Integration**:
   - Export in `Signals.lean` and `SignalsPending.lean`
   - Compile-time test cases in `SignalsTests.lean` and `SignalsPendingTests.lean`

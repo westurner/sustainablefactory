@@ -11,10 +11,10 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical ben
 - **Subjects:**
   - Materials Science (`cond-mat.mtrl-sci`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Statistical Mechanics (`cond-mat.stat-mech`); Computational Physics (`physics.comp-ph`); Mathematical Physics (`math-ph`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L1290-L1575), [../src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L590-L820), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L3115-L3480), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6335-L6480), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7105-L7165), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5610-L5675))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L1290-L1575), [../src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L590-L820), [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L3115-L3480), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6335-L6480), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L7105-L7165), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5610-L5675))
   - Written Plan Document ([interfacial-heat-transport-plan.md](interfacial-heat-transport-plan.md))
   - Python Engine & Benchmark Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L2620-L2925), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L625-L695))
-  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L575-L840), [../src/signals/numerical_adapter/src/thermal_inelastic.rs](../src/signals/numerical_adapter/src/thermal_inelastic.rs))
+  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L575-L840), [../src/signals/numerical_adapter/src/thermal_inelastic.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/thermal_inelastic.rs))
 - **Companion Papers:**
   - [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
   - [Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear Grassmannian Generalized Kadanoff–Baym Ansatz (`G-GKBA`) and Coupled Electron–Exciton–Phonon–Bogoliubov Dynamics Across Hubbard Chains/Ladders, $\mathrm{WSe}_2$, Graphite, and $\mathrm{MgB}_2$ in Lean 4, Python, and Rust](grassmannian-tuning-materials-with-light-paper.md)
@@ -106,7 +106,7 @@ $$
 \xi_{\mathrm{bond}}(\omega) = \frac{4\,\omega^2\,Z_1 Z_2}{K_{\mathrm{bond}}^2} \ge 0.
 $$
 
-The resulting **Grassmannian Bond-Weighted Phonon Transmission** (`gtbcBondWeightedTransmission` in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L1315-L1325)) is:
+The resulting **Grassmannian Bond-Weighted Phonon Transmission** (`gtbcBondWeightedTransmission` in [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L1315-L1325)) is:
 
 $$
 \tau_{12}^{\mathrm{Gr}}(Z_1, Z_2, \xi_{\mathrm{bond}})
@@ -216,7 +216,7 @@ Following the Problem 05 evaluation protocol (*"We then freeze a model that repr
 
 ### 4.2 Critique, Gap Closure, & Per-Dataset `G-TBC` vs. AMM/DMM Error Audit Across All Four Datasets
 
-A rigorous review of our initial `G-TBC` pass revealed five physical and mathematical gaps between `QCI-GXC` DFT ([Paper 23](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)), `G-GKBA` ([Paper 24](grassmannian-tuning-materials-with-light-paper.md)), `Signals.Scattering` ([Paper 6](grassmannian-thermal-compton-raman-paper.md)), and the four Problem 05 datasets. We close all five gaps in `interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities` ([../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L1630-L1805)) and `InterfacialHeatTransportEngine.evaluate_per_dataset_gtbc_errors()`:
+A rigorous review of our initial `G-TBC` pass revealed five physical and mathematical gaps between `QCI-GXC` DFT ([Paper 23](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)), `G-GKBA` ([Paper 24](grassmannian-tuning-materials-with-light-paper.md)), `Signals.Scattering` ([Paper 6](grassmannian-thermal-compton-raman-paper.md)), and the four Problem 05 datasets. We close all five gaps in `interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities` ([../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L1630-L1805)) and `InterfacialHeatTransportEngine.evaluate_per_dataset_gtbc_errors()`:
 
 1. **Gap 1 — Eliminating Tautological Target Anchoring via Ab Initio `QCI-GXC` Work-of-Adhesion Stiffness (`gtbcWorkOfAdhesionSpringStiffness`, `gtbcBondComplianceRatio`)**:
    Instead of anchoring Datasets 1–3 to their exact published integers ($379, 423, 1.48, 59, 115, 139$), we formalize the Prasher/`QCI-GXC` work-of-adhesion spring stiffness $K_{\mathrm{bond}}(W_{\mathrm{ad}}, d_0) = W_{\mathrm{ad}} / d_0^2$ and compliance ratio $\xi_{\mathrm{bond}}(\omega, Z_1, Z_2, K_{\mathrm{bond}}) = 4\omega^2 Z_1 Z_2 / K_{\mathrm{bond}}^2$, proving in Lean 4 that $0 < W_{\mathrm{ad},1} < W_{\mathrm{ad},2}$ strictly increases $K_{\mathrm{bond}}$ and strictly decreases $\xi_{\mathrm{bond}}$.
@@ -369,7 +369,7 @@ pytest -q tests/test_qci_grassmannian_dft.py -k "problem05"
 
 ## 6. Evidentiary Boundaries (`Signals.Pending.InterfacialHeatTransportPendingHypothesis`)
 
-In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS.md)), `InterfacialHeatTransportPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6335-L6480) separates the machine-checked algebraic and constitutive theorems of `G-TBC` from specimen-specific experimental conditions:
+In accordance with our research-evidence separation rules ([AGENTS.md](https://github.com/westurner/sustainablefactory/blob/main/AGENTS.md)), `InterfacialHeatTransportPendingHypothesis` in [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6335-L6480) separates the machine-checked algebraic and constitutive theorems of `G-TBC` from specimen-specific experimental conditions:
 - Real solid–solid interfaces can exhibit root-mean-square atomic roughness $\eta_{\mathrm{rms}}$, native amorphous oxide layers (e.g., $\mathrm{SiO}_x$ or $\mathrm{AlO}_x$), vacancy/interdiffusion gradients, and residual film stress that shift $K_{\mathrm{bond}}$ from its ideal clean-surface value.
 - Experimental thermoreflectance measurements (TDTR / FDTR) require calibrated transducer thickness, spot size, and modulation-frequency sensitivity analysis before claiming specimen-specific validation.
 

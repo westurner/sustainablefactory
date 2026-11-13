@@ -53,7 +53,7 @@ Introduced by Takhtajan, Faddeev, and Sklyanin ({cite:p}`takhtajan1979qism`; {ci
 
 ## 2. Yang's Rational $R$-Matrix, Regularity, Unitarity, and Braid Identity
 
-For spectral parameters $u, v \in \mathbb{R}$ and coupling $\eta \in \mathbb{R}$, let $\delta(u,v) = u - v$ (`spectralDiff`). On $\mathbb{R}^2 \otimes \mathbb{R}^2 \cong \mathbb{R}^4$, the permutation operator $P$ (`swapMatrix4`) and Yang's rational $R$-matrix (`yangRMatrix4` in [src/signals/Signals/QISM.lean](../src/signals/Signals/QISM.lean#L43-L162)) are:
+For spectral parameters $u, v \in \mathbb{R}$ and coupling $\eta \in \mathbb{R}$, let $\delta(u,v) = u - v$ (`spectralDiff`). On $\mathbb{R}^2 \otimes \mathbb{R}^2 \cong \mathbb{R}^4$, the permutation operator $P$ (`swapMatrix4`) and Yang's rational $R$-matrix (`yangRMatrix4` in [src/signals/Signals/QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean#L43-L162)) are:
 
 $$
 R(u; \eta) = u I_4 + \eta P, \qquad
@@ -65,7 +65,7 @@ P = \begin{pmatrix}
 \end{pmatrix}.
 $$
 
-We prove in [QISM.lean](../src/signals/Signals/QISM.lean#L52-L162):
+We prove in [QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean#L52-L162):
 1. **Involutive Swap (`swapMatrix4_mul_self`)**: $P^2 = I_4$.
 2. **Regularity at Zero Spectral Shift (`yangRMatrix4_zero`)**: $R(0;\eta) = \eta P$.
 3. **Symmetric (Triplet) and Antisymmetric (Singlet) Eigenvalues (`yangSymmetricWeight`, `yangAntisymmetricWeight`, `yangRMatrix4_triplet_entry`)**:
@@ -116,7 +116,7 @@ example (u v w η : ℝ) :
 
 ## 3. Monodromy Composition, Cauchy–Binet Expansion, and Shifted Quantum Determinants
 
-A $2 \times 2$ auxiliary Lax or monodromy matrix $T(u) = \begin{pmatrix} A & B \\ C & D \end{pmatrix}$ is represented by `MonodromyMatrix2` ([QISM.lean](../src/signals/Signals/QISM.lean#L164-L320)):
+A $2 \times 2$ auxiliary Lax or monodromy matrix $T(u) = \begin{pmatrix} A & B \\ C & D \end{pmatrix}$ is represented by `MonodromyMatrix2` ([QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean#L164-L320)):
 
 - **Transfer Trace & Cyclic Invariance (`transferTrace_eq_trace`, `transferTrace_comp_comm`)**:
   The auxiliary trace $t(u) = A + D$ agrees with `Matrix.trace` on `toMatrix` and obeys $\operatorname{Tr}(L_2 L_1) = \operatorname{Tr}(L_1 L_2)$.
@@ -144,7 +144,7 @@ A $2 \times 2$ auxiliary Lax or monodromy matrix $T(u) = \begin{pmatrix} A & B \
 
 ## 4. Baxter $Q$-Polynomials in $Gr(2,4)$, the $QQ$-System, and MTV Nondegeneracy
 
-In the Mukhin–Tarasov–Varchenko Grassmannian correspondence {cite:p}`mukhin2009schubert`, a Bethe eigenstate is encoded by a 2-plane $W = \operatorname{span}\{Q_+(u), Q_-(u)\}$ of Baxter functions. Sampling $(Q_+, Q_-)$ at four spectral rapidities $(u_0, u_1, u_2, u_3)$ constructs the $2 \times 4$ Grassmannian matrix (`baxterGrassmannianMatrix` in [QISM.lean](../src/signals/Signals/QISM.lean#L322-L545)):
+In the Mukhin–Tarasov–Varchenko Grassmannian correspondence {cite:p}`mukhin2009schubert`, a Bethe eigenstate is encoded by a 2-plane $W = \operatorname{span}\{Q_+(u), Q_-(u)\}$ of Baxter functions. Sampling $(Q_+, Q_-)$ at four spectral rapidities $(u_0, u_1, u_2, u_3)$ constructs the $2 \times 4$ Grassmannian matrix (`baxterGrassmannianMatrix` in [QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean#L322-L545)):
 
 $$
 M_Q(u_0, u_1, u_2, u_3) =
@@ -194,12 +194,12 @@ example (Q_plus Q_minus : ℝ → ℝ) (u0 u1 u2 u3 u η : ℝ) :
 
 ## 5. Slavnov Determinant Compression & Inverse Scattering Metrology (`Signals.Scattering`)
 
-In Step 4 of Sklyanin's QISM procedure, two-magnon scalar products and Gaudin norms collapse from $(2!)^2 = 4$ commutator contractions into a single $2 \times 2$ Grassmannian minor (`slavnovDet2` and `slavnovKernelMatrix2` in [QISM.lean](../src/signals/Signals/QISM.lean#L547-L639)):
+In Step 4 of Sklyanin's QISM procedure, two-magnon scalar products and Gaudin norms collapse from $(2!)^2 = 4$ commutator contractions into a single $2 \times 2$ Grassmannian minor (`slavnovDet2` and `slavnovKernelMatrix2` in [QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean#L547-L639)):
 - **Matrix Determinant Equivalence (`slavnovDet2_eq_det`)**: $\operatorname{slavnovDet2}(G) = \Delta_{01}(G) = \det G$.
 - **Pauli Exclusion at Colliding Rapidities (`slavnovDet2_pauli_exclusion`, `slavnovDet2_dual_pauli_exclusion`)**: When either the two Bethe rapidities coincide ($u_0 = u_1 = u$) or the two dual rapidities coincide ($v_0 = v_1 = v$), the Slavnov minor vanishes identically.
 - **Rapidity-Swap Antisymmetry (`slavnovDet2_swap_bethe`)**: Exchanging $u_0 \leftrightarrow u_1$ negates the Slavnov determinant.
 
-In [src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L430-L585), `Signals.QISM` is integrated directly with the scattering metrology and inverse-reconstruction contracts:
+In [src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L430-L585), `Signals.QISM` is integrated directly with the scattering metrology and inverse-reconstruction contracts:
 1. **Exact Inverse $R$-Matrix Parameter Recovery (`reconstruct_yang_parameters`)**: `reconstructSpectralDiff` and `reconstructYangCoupling` recover $\delta(u,v) = u - v$ and $\eta$ from $w_{\mathrm{sym}}$ and $w_{\mathrm{anti}}$.
 2. **Unitary Two-Body Scattering Flux Partition (`yang_scattering_probability_conservation`)**: Whenever $\delta(u,v)^2 + \eta^2 \neq 0$, the transmission probability $T_{\mathrm{prob}} = \delta(u,v)^2 / (\delta(u,v)^2 + \eta^2)$ and reflection probability $R_{\mathrm{prob}} = \eta^2 / (\delta(u,v)^2 + \eta^2)$ are nonnegative and sum to $1$.
 3. **Inverse Monodromy Reconstruction (`reconstruct_monodromy_from_trace_and_minor`)**: Recovers $D(u) = t(u) - A(u)$ and the off-diagonal magnon product $B(u)C(u) = A(u)D(u) - \Delta_{01}(T(u))$.

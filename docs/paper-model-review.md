@@ -119,16 +119,16 @@ The paper's amplitude vectors and coherence quantities connect naturally to
 the existing finite coherent-receiver layer, but the connection is a
 composition of models rather than an additional physical theorem:
 
-- [Signals/IQ.lean](../src/signals/Signals/IQ.lean) represents a complex
+- [Signals/IQ.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/IQ.lean) represents a complex
    baseband amplitude as `I + iQ`, with checked magnitude and principal-phase
    identities. This is the coordinate representation needed before estimating
    a coherence matrix from sampled field components.
-- [Signals/Homodyne.lean](../src/signals/Signals/Homodyne.lean) proves that an
+- [Signals/Homodyne.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean) proves that an
    ideal 50:50 mixer conserves finite I/Q energy and that the balanced detector
    difference is the interference term, equivalently a local-oscillator-phase
    rotated quadrature. This supplies the interferometric observable, not a proof
    of the paper's polarization-entanglement identity from detector data.
-- [Signals/Scattering.lean](../src/signals/Signals/Scattering.lean) stores a
+- [Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean) stores a
    coherent incident/return pair, proves nonnegative scattered-to-incident
    power ratio, reconstructs height from a reference-subtracted round-trip
    phase, and accepts a metrology record only within an explicit residual
@@ -219,7 +219,7 @@ objects.
 There is a possible interface for a larger scattering model:
 
 1. Arrange measured polarization/mode amplitudes into a finite matrix $C$.
-2. Use [Signals/Geometry.lean](../src/signals/Signals/Geometry.lean) to retain
+2. Use [Signals/Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean) to retain
     the unrestricted matrix and, only when experimentally or mathematically
     justified, impose positive ordered minors and Pluecker relations.
 3. Form a normalized coherence matrix from the amplitude data and extract its
@@ -338,22 +338,22 @@ No such identification follows from the Halohedron or Stokes-polytope papers.
 The current implementation has useful neighboring layers, but they must not be
 collapsed into one claim:
 
-- [Signals/Geometry.lean](../src/signals/Signals/Geometry.lean) provides finite
+- [Signals/Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean) provides finite
    matrices, ordered minors, optional positive ordered minors, and a Pluecker
    identity. These are prerequisites for positive-geometry bookkeeping, not a
    Halohedron, Stokes polytope, canonical differential form, or QFT amplitude.
-- [Signals/Pending.lean](../src/signals/Signals/Pending.lean) contains the
+- [Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean) contains the
    finite `AmplituhedronMap` and `LogarithmicChart`. Their $Y=CZ$ map, reciprocal
    chart, and measured-amplitude equality are explicit Pending data contracts;
    they do not prove that a measured optical or material signal is a scattering
    amplitude.
-- [Signals/Scattering.lean](../src/signals/Signals/Scattering.lean) and
-   [Signals/Homodyne.lean](../src/signals/Signals/Homodyne.lean) provide
+- [Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean) and
+   [Signals/Homodyne.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean) provide
    classical coherent-return, power-ratio, phase-reconstruction, residual, and
    quadrature-interference laws. These can supply calibrated measurements from
    which one might estimate event features, but they are not an S-matrix or a
    loop-integrand evaluator.
-- [Signals/Coherence.lean](../src/signals/Signals/Coherence.lean) proves a
+- [Signals/Coherence.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean) proves a
    normalized polarization/Schmidt-weight identity and a barycentric inertia
    relation. Those spectral and mechanical constructions are independent of
    the facet incidence and canonical forms used by amplitude polytopes.
@@ -1020,19 +1020,19 @@ structure and lattice surgery. The supplied
 `https://errorcorrectionzoo.org/list/quantum_layer` URL currently returns 404,
 so it is not treated as a live list citation.
 
-The local [QECReferences.lean](../src/signals/Signals/QECReferences.lean)
+The local [QECReferences.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QECReferences.lean)
 registry records these URLs, primary references, and the external
 [QECLean](https://github.com/Stavan-Jain/QECLean) candidate with an explicit
 `referenceOnly` or `localParameterMetadata` status. It does not import QECLean
 or implement a quantum code. In addition, the bicolored strand-routing and
 multi-layer Lindström--Gessel--Viennot (`LGV`) transfer network module
-[`Signals.Plabic`](../src/signals/Signals/Plabic.lean) (`RotationSystem`,
+[`Signals.Plabic`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) (`RotationSystem`,
 `WeightedAcyclicNetwork`, `lgv_multiLayer_det_positive`,
 `planar_threeChannel_lgv_and_bottleneck_identities`) originated from modeling
 syndrome/ancilla routing and laminated layer cascades for 3D Layer Coding, and
 is connected to multi-layer Hubble, `LVP` medical, `LIFU`/`AOT`/`TRUE`, and
 $< 1\text{ nm}$ nanolithography arrays in
-[`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) and
+[`Signals.MultiArrayImaging`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MultiArrayImaging.lean) and
 [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md).
 QECLean is currently the strongest Lean 4 project
 to study for a future integration: its public documentation describes
@@ -1384,11 +1384,11 @@ roughly 3 W to 40 W, including 20 W and 40 W blue-diode configurations. It also
 notes that lower software power changes the reacted Gaussian footprint rather
 than making the emitted optical mode physically smaller. Those are equipment
 or process-planning statements in the chat, not independently verified
-calibrations for this workspace ([AlgoLaser chat](chats/detail-the-algolaser-laser-engraver-products.myst.md#L105-L130), [power and focus discussion](chats/detail-the-algolaser-laser-engraver-products.myst.md#L435-L565)).
+calibrations for this workspace ([AlgoLaser chat](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/detail-the-algolaser-laser-engraver-products.myst.md#L105-L130), [power and focus discussion](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/detail-the-algolaser-laser-engraver-products.myst.md#L435-L565)).
 
 The IQ-Sampling chat proposes 10--15 mW per beam for a 4--8-beam internal
 intersection, a 10--25 kW CW system range in another design passage, and
-1.5--2.5 TW/cm$^2$ internal intensity ([sub-threshold beam proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L8490-L8560), [holographic graphene/diamond proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L8940-L9115)). These values should not be combined: they refer to different speculative architectures and lack measured focal volume, absorption, thermal, damage, and conversion data. A claimed convergent phase pattern is not evidence that a Proca field exists, is longitudinal, is non-diffracting in a material, or can rearrange carbon bonds.
+1.5--2.5 TW/cm$^2$ internal intensity ([sub-threshold beam proposal](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8490-L8560), [holographic graphene/diamond proposal](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8940-L9115)). These values should not be combined: they refer to different speculative architectures and lack measured focal volume, absorption, thermal, damage, and conversion data. A claimed convergent phase pattern is not evidence that a Proca field exists, is longitudinal, is non-diffracting in a material, or can rearrange carbon bonds.
 
 ### Scholarly comparison
 
@@ -1437,7 +1437,7 @@ evidence for simultaneous graphene and diamond synthesis. The IQ chat's
 10--15 mW-per-beam, 50 mW focal-node, 1--2.5 W output-range, and 10--25 kW
 system figures therefore remain proposal metadata, with the task-specific
 ceilings above kept separate from experimental laser-process evidence
-([sub-threshold beam proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L8490-L8560), [3D CW holographic proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L8940-L9115)).
+([sub-threshold beam proposal](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8490-L8560), [3D CW holographic proposal](https://github.com/westurner/sustainablefactory/blob/main/docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8940-L9115)).
 
 ### Attached bibliography evidence map
 
@@ -1482,13 +1482,13 @@ the following narrower answer:
    model a CW pump-dependent optical response, while Uchoa et al. review the
    quasiparticle context. Neither paper gives a synthesis recipe for graphene
    in lignin-vitrimer, rGO-vitrimer, plastic, or another hydrocarbon
-   ([Semi-Dirac section](#semidirac)).
+   ([Semi-Dirac section](#16-semi-dirac-fermions-and-optical-pumping)).
 - **CW or scanned LIG on a carbon-bearing precursor:** use a calibrated,
    apparatus-specific process window. The existing kraft-lignin/PEO example
    records 32 W operating power and a 40 W maximum average-power ceiling; the
    attached reviews justify measuring wavelength, absorption, scan speed,
    thermal history, and material characterization, but do not make 40 W a
-   universal threshold ([Mahmood et al.](#mahmood2020ligninlig), [Wan et al.](#wan2018lrg), [Ye et al.](#ye2024lig), [C. Claro et al.](#claro2022sustainable)).
+   universal threshold ({cite:p}`mahmood2020kraft`, {cite:p}`wan2018laser`, {cite:p}`ye2024review`, {cite:p}`c2022sustainable`).
 - **Fiber laser feeding a semi-Dirac/rGO-vitrimer control chain:** calculate a
    necessary incident lower bound only after measuring absorbed required power
    and end-to-end efficiency:
@@ -1508,14 +1508,14 @@ the following narrower answer:
    nanosecond/UV conversion routes. This does not transfer to bulk
    lignin-vitrimer, rGO-vitrimer, or CW operation without the actual wavelength,
    pulse or dwell profile, fluence, atmosphere, thermal history, and structural
-   verification ([Lin et al.](#lin2021nanodiamond), [Joshi et al.](#joshi2021nanodiamond)).
+   verification ({cite:p}`lin2021fabricating`, {cite:p}`joshi2021advances`).
 - **Convergent holographic graphene or diamond:** no necessary wattage is
    established. The 60 mW and 25 kW values remain chat-derived proposal
    budgets, and the 1.5--2.5 TW/cm$^2$ value is an intensity claim, not a watts
    ceiling. The optical-holography, LIG-optics, maskless-fabrication, and
    additive-manufacturing sources do not demonstrate a Proca field or CW
    holographic synthesis of graphene or diamond in polymer or lignin
-   ([Cheng et al.](#cheng2026maskless), [Park et al.](#park2024selective), [Lee et al.](#lee2023ligoptics), {cite:p}`huang2013holography`, {cite:p}`hu2019holography`).
+   ([Cheng et al.](#cheng2026maskless), {cite:p}`park2024laser`, {cite:p}`lee2023ultra`, {cite:p}`huang2013holography`, {cite:p}`hu2019holography`).
 
 ### Lean extraction
 
@@ -1541,11 +1541,11 @@ tasks remain `unsupportedProposal`.
 
 ## Lean mapping
 
-The paper-derived API is in [Signals/Coherence.lean](../src/signals/Signals/Coherence.lean),
-[Signals/PaperModels.lean](../src/signals/Signals/PaperModels.lean),
-[Signals/ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean),
-[Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean), and
-[Signals/ProtocolZ8.lean](../src/signals/Signals/ProtocolZ8.lean):
+The paper-derived API is in [Signals/Coherence.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean),
+[Signals/PaperModels.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/PaperModels.lean),
+[Signals/ActiveOptics.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ActiveOptics.lean),
+[Signals/LayerCodes.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/LayerCodes.lean), and
+[Signals/ProtocolZ8.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ProtocolZ8.lean):
 
 | Definition | Paper content | Checked consequence |
 | --- | --- | --- |
@@ -1598,9 +1598,9 @@ The paper-derived API is in [Signals/Coherence.lean](../src/signals/Signals/Cohe
 | `pluckerPairDimension` / `zhang_multi_lag_plucker_sum_collapses_to_single_wedge` / `shared_anchor_vs_cross_lag_klein_quadric` | Causal Grassmann flows {cite:p}`zhang2025grassmannFlows` and `kanenorman/grassmann` parameter, gating, & Klein quadric rank audit | $\binom{32}{2}=496$, $12{,}607{,}168 + 6\times 256^2 = 13{,}000{,}384$, gating discrepancy, shared-anchor bilinear wedge collapse ($\mathcal{Q}_4 = 0$), and cross-lag rank-4 escape ($\mathcal{Q}_4 = c_1 c_{12} > 0$) |
 | `grassmannChordalDistSq` / `tautologicalProjectorVec` / `ropeCrossFrameInnerProduct` | Tautological Bundle-Transformer {cite:p}`declercq2026bundleTransformer`, `GrFormer` {cite:p}`kang2025grformer`, & `RoFormer` {cite:p}`su2021roformer` | Chordal bounds $0 \le d_{\mathrm{chord}}^2 \le k$, $\Pi_Z(Z\alpha)=Z\alpha$, $\Pi_Z(v^\perp)=0$, cross-fiber RoPE gauge-mismatch residual $(\sigma_2-1)(\alpha_1\beta_1 - \alpha_2\beta_2)$, and linear-in-volume 3D VideoGen scaling |
 
-Coherence fixtures are compiled in [SignalsTests.lean](../src/signals/SignalsTests.lean).
+Coherence fixtures are compiled in [SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean).
 The Proca-paper and cavity/Grover records and fixtures are compiled through the
-explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean).
+explicit Pending target in [SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean).
 
 ### Scholarly References
 

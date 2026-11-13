@@ -40,10 +40,10 @@ inventory reproducible.
 | Missing Prompt/Response targets | Hundreds | Generated links at `docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md:12-13`; warning at `.tmp/make-docs-fresh-j1.log:11807` |
 
 The heading warnings have a concrete generator-level cause. In
-[`transform_md.py`](../src/transform_md/transform_md/transform_md.py#L260-L315),
+[`transform_md.py`](https://github.com/westurner/sustainablefactory/blob/main/src/transform_md/transform_md/transform_md.py#L260-L315),
 `_normalize_chat_headings()` keeps nested headings at H3 or deeper, while
 `transform_text()` emits Prompt and Response headings as H1
-([lines 382-397](../src/transform_md/transform_md/transform_md.py#L382-L397)).
+([lines 382-397](https://github.com/westurner/sustainablefactory/blob/main/src/transform_md/transform_md/transform_md.py#L382-L397)).
 The generated page consequently places `### Reinterpreting ...` below
 `# Response: 2`, producing the H1-to-H3 jump; the source heading is also H3
 (`data/chats/Bell-Correlations-in-Atomic-Momentum.md:100`).
@@ -156,7 +156,7 @@ add a blanket filter.
 ## First implementation slice
 
 Start with a focused unit fixture in
-[`src/transform_md/tests/test_transform_md.py`](../src/transform_md/tests/test_transform_md.py#L244)
+[`src/transform_md/tests/test_transform_md.py`](https://github.com/westurner/sustainablefactory/blob/main/src/transform_md/tests/test_transform_md.py#L244)
 that captures the current `# Response: 2` followed by `### Reinterpreting ...`
 case. Then change the generator's heading contract, run the focused test, and
 only after it passes regenerate the corpus and compare a clean-build warning

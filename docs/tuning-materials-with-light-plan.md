@@ -9,8 +9,8 @@ description: "Structured theoretical, algorithmic, formal-verification (Lean 4),
 - **Target Challenge**: [Discovered Materials — Problem 04: Tuning Materials with Light](https://discoveredmaterials.com/grand-challenges/tuning-materials-with-light/) ({cite}`discoveredmaterials2026problem04`, written with inputs from Prof. Felipe H. da Jornada, Stanford University)
 - **Companion Paper**: [grassmannian-tuning-materials-with-light-paper.md](grassmannian-tuning-materials-with-light-paper.md)
 - **Verification & Simulation Artifacts**:
-  - Lean 4: [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L720-L1005), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6145-L6275), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7020-L7070), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5555-L5610)
-  - Rust: [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L380-L570)
+  - Lean 4: [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L720-L1005), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6145-L6275), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L7020-L7070), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5555-L5610)
+  - Rust: [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L380-L570)
   - Python: [../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L2200-L2460), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L540-L620)
 
 ---

@@ -9,8 +9,8 @@ description: "Structured theoretical, algorithmic, formal-verification (Lean 4),
 - **Target Challenge**: Formulate, machine-check (in Lean 4), and numerically benchmark (in Rust/WASM and Python) a unified predictive microscopic theory of **superconductivity, integer and fractional quantum anomalous Hall effects (`QAHE`/`FQAH`), supersolid vortex dynamics, and fault-tolerant topological quantum computing** across **rhombohedral trilayer graphene ($N=3$, `RTG`)**, **twisted symmetric trilayer graphene (`MATTG`)**, and **rhombohedral pentalayer graphene ($N=5$, `R5G`)** {cite}`pierce2025light_heavy,lu2024fqah,dong2024ahc_prl,mitnews2024fractions,arp2024intervalley,naturephys2024rtg_briefing,mendez2024sumrule,han2024large_qahe,han2025chiral_sc,casotti2024supersolid,palm2024whirlpools,zhou2021rtg_sc`.
 - **Companion Paper**: [grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md) (Paper 28)
 - **Verification & Simulation Artifacts**:
-  - Lean 4: [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean)
-  - Rust: [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs)
+  - Lean 4: [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean), [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean)
+  - Rust: [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs)
   - Python: [../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py)
 
 ---
@@ -62,7 +62,7 @@ Recent experimental breakthroughs (2021–2025) across crystalline **rhombohedra
 9. **Master & Deep Gap-Closure Theorems**: Prove `graphene_rhombohedral_trilayer_pentalayer_superconductivity_and_qc_identities`, `graphene_superconductivity_critique_sum_rule_fqah_and_error_identities`, and `graphene_superconductivity_deep_gap_closure_identities` in `Signals.DFT`, plus `RhombohedralGrapheneSuperconductivityPendingHypothesis` in `Signals.Pending`.
 
 ### Phase 2: Rust/WASM & Python Implementation and Benchmark Verification
-1. Implement all `G-MGS` functions and `test_rhombohedral_graphene_superconductivity_qc_check_figures` in [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs).
+1. Implement all `G-MGS` functions and `test_rhombohedral_graphene_superconductivity_qc_check_figures` in [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs).
 2. Implement `RhombohedralGrapheneSuperconductivityEngine` in [../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) and `test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes` in [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py).
 
 ### Phase 3: MyST Paper 28, Capstone Unification, & Build Verification

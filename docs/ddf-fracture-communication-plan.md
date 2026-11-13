@@ -6,7 +6,7 @@ This plan replaces the earlier SQG-centered interpretation with a conditional
 Dilatant Dark Fluid (DDF) hypothesis. It does not promote DDF from a formal
 model to an established physical medium.
 
-The relevant formal boundary is [`Signals/DDF.lean`](../src/signals/Signals/DDF.lean):
+The relevant formal boundary is [`Signals/DDF.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean):
 
 - the continuous `phi` phase carries persistent vortex pressure/enthalpy
   deficits;
@@ -18,7 +18,7 @@ The relevant formal boundary is [`Signals/DDF.lean`](../src/signals/Signals/DDF.
   transmission operator, a detector coupling, or a faster-than-light channel.
 
 The finite trace and acoustic boundaries remain in
-[`Signals/Pending.lean`](../src/signals/Signals/Pending.lean), and the numerical handoff is
+[`Signals/Pending.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean), and the numerical handoff is
 specified in {download}`RUST_NUMERICAL_ADAPTER_SPEC.md <../src/signals/numerical_adapter/docs/RUST_NUMERICAL_ADAPTER_SPEC.md>`
 (see also the cross-domain synthesis in
 [`grassmannian-unification-applications-roadmap-paper.md`](grassmannian-unification-applications-roadmap-paper.md),
@@ -34,8 +34,8 @@ theorems `DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_
 and `DDFFractureCommunicationEvidence.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds`
 (backed by `Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`
 and `Signals.DFT.ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_identities`
-in [`Signals/DFT.lean`](../src/signals/Signals/DFT.lean) lines 7104–7534 and Rust evaluators in
-[`numerical_adapter/src/dft_plabic_vrc.rs`](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs) lines 1940–2065).
+in [`Signals/DFT.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean) lines 7104–7534 and Rust evaluators in
+[`numerical_adapter/src/dft_plabic_vrc.rs`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs) lines 1940–2065).
 Its support predicate requires an
 independent defect proposition and detectable defect observable, a classical
 residual outside tolerance (after subtracting both calibrated acoustic transfer
@@ -140,7 +140,7 @@ Magnus law.
 
 ## How DDF Fracture-Based Communication Differs From—and Connects With—$\mathrm{ER}=\mathrm{EPR}$ Entanglement and Wormholes on $\mathrm{Gr}_{\mathbb{C}}(2,4)$
 
-In earlier exploratory chats (`data/chats/_Neutrons-and-Black-Holes-and-Fracture.md`, lines 861–954; `data/chats/Superfluid-Gravity-and-Negative-Energy.md`, lines 243–305; `data/chats/Review-Pop-III-GW-Remnants.md`, lines 1515–1650), **superfluid/DDF shear fractures** ($\mathrm{De}/\mathrm{De}_c > 1$) and **$\mathrm{ER}=\mathrm{EPR}$ wormhole bridges** ($p_{23} = \det\Psi \neq 0$) were discussed alongside one another because both involve non-positive sectors of the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$. Our formalization in [`Signals/DFT.lean`](../src/signals/Signals/DFT.lean) Sections 23–25 (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`) establishes their exact mathematical separation and their hybrid synthesis:
+In earlier exploratory chats (`data/chats/_Neutrons-and-Black-Holes-and-Fracture.md`, lines 861–954; `data/chats/Superfluid-Gravity-and-Negative-Energy.md`, lines 243–305; `data/chats/Review-Pop-III-GW-Remnants.md`, lines 1515–1650), **superfluid/DDF shear fractures** ($\mathrm{De}/\mathrm{De}_c > 1$) and **$\mathrm{ER}=\mathrm{EPR}$ wormhole bridges** ($p_{23} = \det\Psi \neq 0$) were discussed alongside one another because both involve non-positive sectors of the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$. Our formalization in [`Signals/DFT.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean) Sections 23–25 (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`) establishes their exact mathematical separation and their hybrid synthesis:
 
 ### 1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement Bridge
 

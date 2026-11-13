@@ -28,8 +28,8 @@ description: "An arXiv-ready formal verification and numerical simulation paper 
 ## Abstract
 
 Since **Juan Maldacena's (1998)** discovery of the **AdS/CFT correspondence** ([`hep-th/9711200`](#adscft-maldacena1998)) and its field-operator formulation by **Gubser, Klebanov, and Polyakov (1998)** ([`hep-th/9802109`](#adscft-gkp1998)) and **Witten (1998)** ([`hep-th/9802150`](#adscft-witten1998)), two major developments have transformed exact gauge–string duality:
-1. **Planar AdS/CFT Integrability** ({cite:p}`adscft-minahan2003`; [Beisert et al. 2012, *Review of AdS/CFT Integrability: An Overview*, `arXiv:1012.3982`](#adscft-beisert2012)), which solves the spectral and scattering problems of planar $\mathcal{N}=4$ Super Yang–Mills (SYM) and free Type IIB superstrings on $\text{AdS}_5 \times S^5$ across all values of the 't Hooft coupling $\lambda = g_{\mathrm{YM}}^2 N_c = 4\pi^2 T_{\mathrm{str}}^2$ via the centrally extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ $S$-matrix, Baxter $TQ$/Hirota $Y$-systems, and Grassmannian scattering integrals; and
-2. **Secret (Bonus) Symmetries in AdS/CFT** ([Matsumoto, Moriyama & Torrielli 2007, `arXiv:0708.1285`](#adscft-matsumoto2007); [Beisert & Schwab 2011, `arXiv:1103.0646`](#adscft-beisert2011); [Berkovits & Mikhailov 2011, `arXiv:1103.1228`](#adscft-berkovits2011); [de Leeuw, Matsumoto, Moriyama, Regelskis & Torrielli 2012, *Secret Symmetries in AdS/CFT*, `arXiv:1204.2366`](#adscft-deleeuw2012)), which reveal an *indented Yangian* hypercharge generator $\widehat{\mathbb{B}} = B_0\operatorname{diag}(1,1,-1,-1)$ present at level $1$ (and odd levels) with non-vanishing supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0 \neq 0$, despite the absence of its level-$0$ partner $\mathbb{B}$ due to $\text{fermion} \otimes \text{fermion} \leftrightarrow \text{boson} \otimes \text{boson}$ scattering.
+1. **Planar AdS/CFT Integrability** ({cite:p}`adscft-minahan2003`; {cite:p}`adscft-beisert2012`), which solves the spectral and scattering problems of planar $\mathcal{N}=4$ Super Yang–Mills (SYM) and free Type IIB superstrings on $\text{AdS}_5 \times S^5$ across all values of the 't Hooft coupling $\lambda = g_{\mathrm{YM}}^2 N_c = 4\pi^2 T_{\mathrm{str}}^2$ via the centrally extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ $S$-matrix, Baxter $TQ$/Hirota $Y$-systems, and Grassmannian scattering integrals; and
+2. **Secret (Bonus) Symmetries in AdS/CFT** ([Matsumoto, Moriyama & Torrielli 2007, `arXiv:0708.1285`](#adscft-matsumoto2007); [Beisert & Schwab 2011, `arXiv:1103.0646`](#adscft-beisert2011); [Berkovits & Mikhailov 2011, `arXiv:1103.1228`](#adscft-berkovits2011); {cite:p}`adscft-deleeuw2012`), which reveal an *indented Yangian* hypercharge generator $\widehat{\mathbb{B}} = B_0\operatorname{diag}(1,1,-1,-1)$ present at level $1$ (and odd levels) with non-vanishing supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0 \neq 0$, despite the absence of its level-$0$ partner $\mathbb{B}$ due to $\text{fermion} \otimes \text{fermion} \leftrightarrow \text{boson} \otimes \text{boson}$ scattering.
 
 In this paper, we formalize AdS/CFT, planar integrability, and secret symmetries in **Lean 4** (`Signals.Scattering` and `Signals.DDF`) and **Rust/WASM** (`polariton_spp.rs`), and unify them with our **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** and **Dilatant Dark Fluid (DDF)** mechanics both **without splats** (splat-free continuum Plücker and hydrodynamic laws) and **with Normed 2D Tensor Gaussian Splats**:
 
@@ -72,7 +72,7 @@ T_{\mathrm{str}} = \frac{R_{\mathrm{AdS}}^2}{2\pi\alpha'} = \frac{\sqrt{\lambda}
 \frac{1}{N_c} = \frac{g_{\mathrm{str}}}{4\pi^2 T_{\mathrm{str}}^2}
 $$
 
-(`adsTftHooftCoupling` and `adsCouplingFromStringTension` in [src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L1562-L1579); [Beisert et al. 2012, `arXiv:1012.3982`](#adscft-beisert2012), Section *Parameter Space*).
+(`adsTftHooftCoupling` and `adsCouplingFromStringTension` in [src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L1562-L1579); {cite:p}`adscft-beisert2012`, Section *Parameter Space*).
 
 ### 1.2 The Gubser–Klebanov–Polyakov–Witten (GKPW) Mass–Dimension Dictionary & Breitenlohner–Freedman Bound
 
@@ -114,7 +114,7 @@ $$
 
 ## 2. Planar AdS/CFT Integrability: Spin Chains, Spectral Curves, Magnon Dispersion, and the Konishi Benchmark (`arXiv:1012.3982`)
 
-As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)** (*Review of AdS/CFT Integrability: An Overview*, *Lett. Math. Phys.* 99, 3–32, [`arXiv:1012.3982`](#adscft-beisert2012)), planar ($N_c \to \infty$) $\mathcal{N}=4$ SYM and free ($g_{\mathrm{str}} = 0$) Type IIB strings on $\text{AdS}_5 \times S^5$ form an **exact quantum integrable system** bridging weak coupling ($\lambda \ll 1$, perturbative Feynman diagrams) and strong coupling ($\lambda \gg 1$, semiclassical worldsheet sigma model):
+As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)** (*Review of AdS/CFT Integrability: An Overview*, *Lett. Math. Phys.* 99, 3–32, {cite:p}`adscft-beisert2012`), planar ($N_c \to \infty$) $\mathcal{N}=4$ SYM and free ($g_{\mathrm{str}} = 0$) Type IIB strings on $\text{AdS}_5 \times S^5$ form an **exact quantum integrable system** bridging weak coupling ($\lambda \ll 1$, perturbative Feynman diagrams) and strong coupling ($\lambda \gg 1$, semiclassical worldsheet sigma model):
 
 1. **Spin-Chain Mapping & One-Loop Bethe Ansatz** ({cite:p}`adscft-minahan2003`; `arXiv:1012.3982` Sec. I.1):
    Single-trace gauge-invariant operators $\mathcal{O} = \operatorname{Tr}(Z Z \Phi Z \cdots)$ of length $L$ with $M$ impurity magnons map to states of an integrable $\mathfrak{psu}(2,2|4)$ spin chain. At one loop in the $\mathfrak{su}(2)$ sector, the Bethe rapidities $u_k$ satisfy:
@@ -155,7 +155,7 @@ As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)**
 
 ## 3. Secret Symmetries in AdS/CFT: Centrally Extended $\mathfrak{psl}(2|2)_c$, Braided Coproducts, and Indented Yangians (`arXiv:1204.2366`)
 
-In **de Leeuw, Matsumoto, Moriyama, Regelskis, and Torrielli (2012)** (*Secret Symmetries in AdS/CFT*, *Physica Scripta* 86, 028502, [`arXiv:1204.2366`](#adscft-deleeuw2012)), the authors review the remarkable discovery {cite:p}`adscft-matsumoto2007` that the AdS/CFT integrable system possesses a **secret (bonus) quantum-group symmetry** $\widehat{\mathbb{B}}$ at Yangian level $1$ (and odd levels) that has **no level-$0$ partner**:
+In **de Leeuw, Matsumoto, Moriyama, Regelskis, and Torrielli (2012)** (*Secret Symmetries in AdS/CFT*, *Physica Scripta* 86, 028502, {cite:p}`adscft-deleeuw2012`), the authors review the remarkable discovery {cite:p}`adscft-matsumoto2007` that the AdS/CFT integrable system possesses a **secret (bonus) quantum-group symmetry** $\widehat{\mathbb{B}}$ at Yangian level $1$ (and odd levels) that has **no level-$0$ partner**:
 
 ### 3.1 Level-0 Centrally Extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ and Braided Central Charges
 
@@ -212,7 +212,7 @@ satisfies $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\m
   \widehat{\mathbb{Q}}_\alpha^a = [\widehat{\mathbb{B}}, \mathbb{Q}_\alpha^a] + i(1 + e^{-ip})\epsilon^{ab}\epsilon_{\alpha\beta}\mathbb{G}_b^\beta, \qquad [\widehat{\mathfrak{B}}, \mathfrak{Q}^{\alpha b}] = +\widehat{\mathfrak{Q}}^{\alpha b}.
   $$
 
-Across the five sectors reviewed in [de Leeuw et al. (2012, `arXiv:1204.2366`)](#adscft-deleeuw2012), the secret symmetry manifests as:
+Across the five sectors reviewed in {cite:p}`adscft-deleeuw2012`, the secret symmetry manifests as:
 1. **Worldsheet $S$-Matrix / Spectral Problem** (Sec. 3.1): $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}}) R = R \Delta(\widehat{\mathbb{B}})$ for all bound-state representations $4 M$. In `Signals.Scattering`, we formalize the full $16 \times 16$ $\mathbb{Z}_2$-graded permutation matrix $\Pi_{16}$ (`psl22GradedSwap16`), the 6-parameter $16 \times 16$ worldsheet $R$-matrix $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$ (`psl22WorldsheetRMatrix16`), the diagonal secret coproduct $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$ (`psl22SecretCoproductDiag16`), and the antisymmetric off-diagonal Yangian tail $\Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$ (`psl22YangianTail16`), proving (`psl22_rmatrix16_secret_coproduct_intertwining`):
    - $\Pi_{16}^2 = I_{16}$ and $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,\Pi_{16} = \Pi_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$,
    - When $B_1 \neq B_2$ and $L_{BF} \neq 0$, the diagonal secret coproduct alone leaves a mixed boson–fermion diagonal residual $2(B_2 - B_1)L_{BF}$ at $|\phi^1 \otimes \psi^1\rangle$,

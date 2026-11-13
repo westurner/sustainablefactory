@@ -64,7 +64,7 @@ When an electromagnetic mode of frequency $\omega_{\mathrm{ph}} > 0$ couples str
 
 ### 1.1 Vacuum Rabi Splitting, Avoided Crossing, and Exact Inverse Rabi Spectroscopy
 
-In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L973-L1150)), for photon–matter detuning $\Delta_{\mathrm{pol}} = \omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}$ and vacuum Rabi coupling strength $g > 0$, the $2 \times 2$ Hopfield Hamiltonian
+In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L973-L1150)), for photon–matter detuning $\Delta_{\mathrm{pol}} = \omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}$ and vacuum Rabi coupling strength $g > 0$, the $2 \times 2$ Hopfield Hamiltonian
 
 $$
 H_{\mathrm{Hopfield}} = \begin{pmatrix} \omega_{\mathrm{ph}} & g \\ g & \omega_{\mathrm{ex}} \end{pmatrix}
@@ -132,7 +132,7 @@ A **Surface Plasmon Polariton (SPP)** ({cite:p}`pol-raether1988`; {cite:p}`barne
 
 ### 2.1 Sub-Wavelength Momentum Enhancement Outside the Light Cone & Evanescent Decay Ratio
 
-Solving Maxwell's TM continuity conditions for $E_x$ and $D_z = \varepsilon E_z$ across $z = 0$ yields the squared effective SPP refractive index (`sppEffectiveIndexSq` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L4075-L4295)):
+Solving Maxwell's TM continuity conditions for $E_x$ and $D_z = \varepsilon E_z$ across $z = 0$ yields the squared effective SPP refractive index (`sppEffectiveIndexSq` in [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L4075-L4295)):
 
 $$
 n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|) = \left(\frac{c\,k_{\mathrm{SPP}}}{\omega}\right)^2 = \frac{\varepsilon_d\,\varepsilon_m}{\varepsilon_d + \varepsilon_m} = \frac{\varepsilon_d\,|\varepsilon_m|}{|\varepsilon_m| - \varepsilon_d}.
@@ -145,7 +145,7 @@ In `MovingSheath.sppContinuum_gr24_and_semigroup_identities`, we prove (with **z
    n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|) - \varepsilon_d = \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} > 0 \implies k_{\mathrm{SPP}} = k_0\,n_{\mathrm{SPP}} > k_0\sqrt{\varepsilon_d}.
    $$
 
-   Because $k_{\mathrm{SPP}}$ strictly exceeds the maximum tangential wavevector $k_0\sqrt{\varepsilon_d}\sin\theta_{\mathrm{inc}}$ of any propagating plane wave in the dielectric, free-space light cannot directly launch SPPs on a flat interface without momentum-matching via a Kretschmann/Otto prism, a periodic diffraction grating, a high-NA radially polarized focus, or a phase-matched cylindrical microtube (`CylindricalSPPMode` in [src/signals/Signals/ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L127-L155)).
+   Because $k_{\mathrm{SPP}}$ strictly exceeds the maximum tangential wavevector $k_0\sqrt{\varepsilon_d}\sin\theta_{\mathrm{inc}}$ of any propagating plane wave in the dielectric, free-space light cannot directly launch SPPs on a flat interface without momentum-matching via a Kretschmann/Otto prism, a periodic diffraction grating, a high-NA radially polarized focus, or a phase-matched cylindrical microtube (`CylindricalSPPMode` in [src/signals/Signals/ActiveOptics.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ActiveOptics.lean#L127-L155)).
 2. **Exact Normal Evanescent Skin-Depth Ratio**:
    Normal to the interface, the field decays evanescently as $\exp(-\kappa_d z)$ in the dielectric ($z > 0$) and $\exp(+\kappa_m z)$ in the conductor ($z < 0$), where $\kappa_d^2 = k_0^2(n_{\mathrm{SPP}}^2 - \varepsilon_d)$ and $\kappa_m^2 = k_0^2(n_{\mathrm{SPP}}^2 + |\varepsilon_m|)$. We prove the exact identity:
 
@@ -197,7 +197,7 @@ and embedding $(\chi_{\mathrm{SPP}}, \theta)$ into $Gr_{\mathbb{C}}(2,4)$ via $M
 
 ## 3. Surface Plasmon Polaritons With Normed Tensor Gaussian Splats: Sub-Wavelength Hotspot Compression & Bohm Quantum Pressure
 
-When modeling localized SPP wavepackets, plasmonic nano-antenna hotspots ({cite:p}`pol-chat-spp2026`, lines 69–75), or **N-LIG (Nitrogen-doped Laser-Induced Graphene) plasmonic waveguides** on Lignin-Vitrimer substrates ({cite:p}`pol-chat-nlig2026`, lines 2742–2775, where $n_{\mathrm{SPP}} \approx 100$ confines $1550\text{ nm}$ telecom light to $\lambda_0 / 100$), we construct `sppHotspotTensorSplat` in `Signals.DDF` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L4128-L4415)) with:
+When modeling localized SPP wavepackets, plasmonic nano-antenna hotspots ({cite:p}`pol-chat-spp2026`, lines 69–75), or **N-LIG (Nitrogen-doped Laser-Induced Graphene) plasmonic waveguides** on Lignin-Vitrimer substrates ({cite:p}`pol-chat-nlig2026`, lines 2742–2775, where $n_{\mathrm{SPP}} \approx 100$ confines $1550\text{ nm}$ telecom light to $\lambda_0 / 100$), we construct `sppHotspotTensorSplat` in `Signals.DDF` ([src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L4128-L4415)) with:
 
 $$
 \sigma_1 = \frac{\lambda_0}{n_{\mathrm{SPP}}}, \qquad \sigma_2 = \frac{\lambda_0}{n_{\mathrm{SPP}}\,\kappa_{\mathrm{ratio}}}, \qquad \kappa_{\mathrm{ratio}} = \frac{|\varepsilon_m|}{\varepsilon_d} \ge 1.
@@ -245,11 +245,11 @@ In `MovingSheath.sppTensorSplat_and_thermal_identities`, we prove five exact pro
 
 ## 4. Coherent Synchrotron Radiation (CSR) on Cylindrical SPP Microtubes & Carbon Nanotubes vs. Cavity QED
 
-In a recent study, {cite:p}`lei2025csr` (*Physical Review Letters*, `10.1103/cnym-16hc`, `arXiv:2507.04561`; cataloged in `laserReferenceLei2025Csr` in [src/signals/Signals/LaserReferences.lean](../src/signals/Signals/LaserReferences.lean#L351-L370) and `CylindricalSPPMode` / `CoherentRadiationScaling` in [src/signals/Signals/ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L127-L185)) demonstrated via 3D particle-in-cell (PIC) simulations that grazing-incidence circularly polarized laser pulses exciting **cylindrical Surface Plasmon Polaritons (SPPs)** on a near-critical solid microtube or aligned carbon nanotube (CNT) bundle surface trap and accelerate dense surface electron bunches into relativistic helical trajectories ($\gamma_e \gg 1$), emitting brilliant X-ray **Coherent Synchrotron Radiation (CSR)**.
+In a recent study, {cite:p}`lei2025csr` (*Physical Review Letters*, `10.1103/cnym-16hc`, `arXiv:2507.04561`; cataloged in `laserReferenceLei2025Csr` in [src/signals/Signals/LaserReferences.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/LaserReferences.lean#L351-L370) and `CylindricalSPPMode` / `CoherentRadiationScaling` in [src/signals/Signals/ActiveOptics.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ActiveOptics.lean#L127-L185)) demonstrated via 3D particle-in-cell (PIC) simulations that grazing-incidence circularly polarized laser pulses exciting **cylindrical Surface Plasmon Polaritons (SPPs)** on a near-critical solid microtube or aligned carbon nanotube (CNT) bundle surface trap and accelerate dense surface electron bunches into relativistic helical trajectories ($\gamma_e \gg 1$), emitting brilliant X-ray **Coherent Synchrotron Radiation (CSR)**.
 
 ### 4.1 Superradiant $N_e^2$ Bunching Law and Relativistic $\gamma_e^3$ Critical Frequency
 
-When a laser with axial wavenumber $k_L$ and azimuthal spin/OAM index $m_L \in \mathbb{Z}$ matches the cylindrical SPP mode (`CylindricalSPPMode`: $k_L = k_{\mathrm{SPP}}$, $m_L = m_{\mathrm{SPP}}$) on a microtube of electron density $n_e$ near the relativistic critical density $n_c$, the travelling SPP wave potential bunches $N_e \ge 1$ surface electrons within a sub-wavelength microbunch of form factor $f_{\mathrm{bunch}} \in [0, 1]$. In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L1230-L1430)), we define `csrBunchingIntensity` and `csrCriticalFrequency`:
+When a laser with axial wavenumber $k_L$ and azimuthal spin/OAM index $m_L \in \mathbb{Z}$ matches the cylindrical SPP mode (`CylindricalSPPMode`: $k_L = k_{\mathrm{SPP}}$, $m_L = m_{\mathrm{SPP}}$) on a microtube of electron density $n_e$ near the relativistic critical density $n_c$, the travelling SPP wave potential bunches $N_e \ge 1$ surface electrons within a sub-wavelength microbunch of form factor $f_{\mathrm{bunch}} \in [0, 1]$. In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L1230-L1430)), we define `csrBunchingIntensity` and `csrCriticalFrequency`:
 
 $$
 I_{\mathrm{CSR}}(N_e, f_{\mathrm{bunch}}, I_1) = \bigl(N_e + N_e(N_e - 1)\,f_{\mathrm{bunch}}^2\bigr)\,I_1, \qquad
@@ -288,7 +288,7 @@ The three regimes are physically and mathematically distinct across six fundamen
 
 ### 5.1 Why Transverse Plasma Waves Have Superluminal Phase Velocity ($v_{\mathrm{ph},\perp} > c$) While Longitudinal Effective-Mass Waves and SPPs Enable Cherenkov Resonance
 
-A foundational question raised in the literature ([HN Discussion 40876505](#pol-hn40876505)) is:
+A foundational question raised in the literature ({cite:p}`pol-hn40876505`) is:
 > *(a) Are SPPs distinct from Cherenkov radiation and photon–electron–phonon vorticity? (b) What is the exact relation between the Vavilov–Cherenkov condition and effective photon mass in longitudinal plasma waves?*
 
 In `Signals.Scattering` (`csr_spp_cherenkov_cavity_and_grover_identities`), we prove the exact kinematic dichotomy that answers both questions:
@@ -322,7 +322,7 @@ In `Signals.Scattering` (`csr_spp_cherenkov_cavity_and_grover_identities`), we p
 
 ### 5.2 Free-Electron SPP Amplification {cite:p}`zhang2022spp` Driven by Terahertz-eV Graphene Circuits
 
-In {cite:p}`zhang2022spp` (*Nature* `10.1038/s41586-022-05239-2` / `d41586-022-03455-4`; modeled by `SPPFreeElectronAmplifier` in [src/signals/Signals/ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L86-L125)), free electrons moving along a metallic wire pump and coherently amplify a co-propagating SPP seed, obeying the passive/active power balance $P_{\mathrm{out}} + P_{\mathrm{loss}} = P_{\mathrm{in}} + P_{e\text{-pump}}$ and a twofold redshift relation $\omega_{\mathrm{final}} = \omega_{\mathrm{initial}} / 2$.
+In {cite:p}`zhang2022spp` (*Nature* `10.1038/s41586-022-05239-2` / `d41586-022-03455-4`; modeled by `SPPFreeElectronAmplifier` in [src/signals/Signals/ActiveOptics.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ActiveOptics.lean#L86-L125)), free electrons moving along a metallic wire pump and coherently amplify a co-propagating SPP seed, obeying the passive/active power balance $P_{\mathrm{out}} + P_{\mathrm{loss}} = P_{\mathrm{in}} + P_{e\text{-pump}}$ and a twofold redshift relation $\omega_{\mathrm{final}} = \omega_{\mathrm{initial}} / 2$.
 
 How would the emissions vary if this experiment were driven by a **Terahertz-electronvolt ($E_F \sim 0.1\text{–}1.0\text{ eV}$, $f \sim 0.5\text{–}30\text{ THz}$) input from an on-chip graphene circuit**?
 - **Dirac Plasmon Scaling (`grapheneDiracPlasmonFreqSq`)**: Unlike 3D noble metals with fixed eV-scale plasma frequency $\omega_p \propto n_{3D}^{1/2}$, massless 2D Dirac fermions in graphene have a gate-tunable plasmon dispersion:
@@ -339,7 +339,7 @@ How would the emissions vary if this experiment were driven by a **Terahertz-ele
 
 ### 5.3 Low-Symmetry Hyperbolic Shear Polaritons (`arXiv:2312.06805`), Grover State Carving (`10.1103/s3vs-xz7w`), & Single Rare-Earth Ion Fiber Addressing (`oe-33-19-41011`)
 
-Our Lean 4 and Rust models also capture three complementary nanophotonic regimes from [HN Discussion 41442489](#pol-hn41442489) and [HN Discussion 45620981](#pol-hn45620981):
+Our Lean 4 and Rust models also capture three complementary nanophotonic regimes from [HN Discussion 41442489](https://news.ycombinator.com/item?id=41442489) and [HN Discussion 45620981](https://news.ycombinator.com/item?id=45620981):
 - **Low-Symmetry Shear Phonon-Polaritons (`lowSymmetryShearCoupling`; {cite:p}`pol-galiffi2023`, `arXiv:2312.06805`)**: In low-symmetry monoclinic or trigonal crystals such as $\alpha$-quartz or $\beta\text{-Ga}_2\text{O}_3$, non-orthogonal phonon oscillators induce an off-diagonal shear permittivity $\varepsilon_{xy} = (\varepsilon_1 - \varepsilon_2)\sin\phi\cos\phi$. We prove in `RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities` that $\varepsilon_{xy}$ vanishes in isotropic media ($\varepsilon_1 = \varepsilon_2$) or along principal axes ($\phi = 0$), and drives asymmetric hyperbolic shear canalization when $\varepsilon_1 \neq \varepsilon_2$ and $\sin(2\phi) \neq 0$.
 - **Deterministic Quantum State Carving via Grover's Reflection (`groverSuccessAmplitude`; {cite:p}`nagib2025carving`, `10.1103/s3vs-xz7w`)**: Carving a target quantum state out of an $N$-dimensional cavity/qudit superposition by alternating phase-oracle and diffusion reflections rotates the target amplitude from $\sin\theta = 1/\sqrt{N}$ to $\sin(3\theta) = \sin\theta(3 - 4\sin^2\theta)$ in one step. We prove in `csr_spp_cherenkov_cavity_and_grover_identities` that for $N = 4$ ($\sin\theta = 1/2$, corresponding to the 4 twistor columns of $Gr_{\mathbb{C}}(2,4)$), `groverSuccessAmplitude (1 / 2) = 1`—achieving **100% deterministic state carving in a single step**.
 - **Selective Single Rare-Earth Ion Excitation in Optical Fiber ({cite:p}`pol-rareearth2025`, `oe-33-19-41011`)**: Frequency-domain spectral hole burning and sub-wavelength mode addressing isolate a single rare-earth ion ($N_e = 1$) inside a guided fiber mode, operating in the single-emitter limit $C_1 = \operatorname{cavityQEDCooperativity}(g_0, \kappa, \gamma)$ paired with a localized `NormedTensorGaussianSplat2D` mode profile.
@@ -348,7 +348,7 @@ Our Lean 4 and Rust models also capture three complementary nanophotonic regimes
 
 ## 6. Anti-Amplituhedron Destructive Phase Cancellation for Hydroxyl ($\text{OH}^*$) Plasma Fire Suppression
 
-In [docs/anti-fire-cannon-review.md](anti-fire-cannon-review.md), a speculative proposal hypothesized projecting an **"Anti-Amplituhedron"** phase profile to cancel hydroxyl ($\text{OH}^*$) radical plasma in underground fires. Using our complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and SPP attenuation mechanics in `Signals.DDF` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L4420-L4660)), we establish the exact boundary between what is **mathematically proved** and what remains an **unverified physical hypothesis**:
+In [docs/anti-fire-cannon-review.md](anti-fire-cannon-review.md), a speculative proposal hypothesized projecting an **"Anti-Amplituhedron"** phase profile to cancel hydroxyl ($\text{OH}^*$) radical plasma in underground fires. Using our complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and SPP attenuation mechanics in `Signals.DDF` ([src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L4420-L4660)), we establish the exact boundary between what is **mathematically proved** and what remains an **unverified physical hypothesis**:
 
 1. **What Is Mathematically True on $Gr_{\mathbb{C}}(2,4)$ (`antiAmplituhedronGr24Matrix`)**:
    In the *positive* real Grassmannian $Gr_{\ge 0}(2,4)$ (the domain of the standard tree-level Amplituhedron), all ordered Plücker minors are nonnegative, so $w_A + w_B = \Delta_{02}\Delta_{13} > 0$ can **never** cancel to zero for active channels. However, lifting to the *complex* Grassmannian $Gr_{\mathbb{C}}(2,4)$ outside $Gr_{\ge 0}(2,4)$ via `antiAmplituhedronGr24Matrix A = complexGr24ChannelMatrix A (-A)` ($\Delta\theta = \pi$ phase inversion) produces two active channels with $w_A^{\mathbb{C}} = +A$, $w_B^{\mathbb{C}} = -A$, and $|w_A^{\mathbb{C}}|^2 = |w_B^{\mathbb{C}}|^2 = A^2 > 0$ whose coherent crossing amplitude vanishes identically (`RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities`):
@@ -359,14 +359,14 @@ In [docs/anti-fire-cannon-review.md](anti-fire-cannon-review.md), a speculative 
 
    This is a genuine destructive interferometric null (an "anti-amplituhedron" dark node in $Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)$) that creates a steep local ponderomotive intensity gradient $\nabla |\mathbf{E}|^2$ (`ponderomotiveForce_down_gradient` in `Signals.MHD`).
 2. **Physical Soil Attenuation & Thermodynamic Boundaries (`evolveContinuumSppPropagation`)**:
-   - **Electromagnetic Skin-Depth Attenuation in Moist Soil**: At $400\text{–}800\text{ GHz}$, moist soil and landfill overburden have strong dielectric loss $\gamma_{\mathrm{soil}} \gg 1\text{ m}^{-1}$, so the continuum intensity `evolveContinuumSppPropagation γ_soil L I0` decays exponentially as $I_0 \exp(-\gamma_{\mathrm{soil}} L)$ within millimeters to centimeters unless delivered mechanically via the **ground-driven anti-fire shaft array** documented in [docs/anti-fire-cannon-review.md](anti-fire-cannon-review.md#L58-L96).
+  - **Electromagnetic Skin-Depth Attenuation in Moist Soil**: At $400\text{–}800\text{ GHz}$, moist soil and landfill overburden have strong dielectric loss $\gamma_{\mathrm{soil}} \gg 1\text{ m}^{-1}$, so the continuum intensity `evolveContinuumSppPropagation γ_soil L I0` decays exponentially as $I_0 \exp(-\gamma_{\mathrm{soil}} L)$ within millimeters to centimeters unless delivered mechanically via the **ground-driven anti-fire shaft array** documented in [the anti-fire review](https://github.com/westurner/sustainablefactory/blob/main/docs/anti-fire-cannon-review.md#L58-L96).
    - **Destructive Interference Redistributes Energy Rather Than Destroying Heat**: A destructive phase null $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = 0$ at a focal node shifts electromagnetic energy into adjacent constructive lobes (preserving total $L^1$ / $L^2$ energy); it does not by itself remove the stored sensible heat $\rho c_v \Delta T$ of a burning solid mass without an explicit thermal sink (`MHDPowerAccounting` / `ClassicalControlVolume`).
 
 ---
 
 ## 7. How Optical Amplification Works: Low-Power Second-Harmonic ($\chi^{(2)}$) Resonance ({cite:p}`pol-dean2025`, `10.1038/s41586-025-09959-z`) vs. Free-Electron SPP Pumping {cite:p}`zhang2022spp` and Rare-Earth Inversion
 
-How does **low-power integrated optical amplification through second-harmonic resonance** ({cite:p}`pol-dean2025`, *Nature*, `10.1038/s41586-025-09959-z`; modeled by `SecondHarmonicResonance`, `ActiveOpticalAmplifier`, and `LowPowerIntegratedOPA` in [src/signals/Signals/ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L18-L84) and by `second_harmonic_opa_and_centrosymmetry_identities` / `opaSqueezed_splat_and_continuum_identities` in `Signals.Scattering` and `Signals.DDF`) work physically and mathematically, and how does it compare against Erbium-Doped Fiber Amplifiers (EDFAs) and Free-Electron SPP Amplification {cite:p}`zhang2022spp`?
+How does **low-power integrated optical amplification through second-harmonic resonance** ({cite:p}`pol-dean2025`, *Nature*, `10.1038/s41586-025-09959-z`; modeled by `SecondHarmonicResonance`, `ActiveOpticalAmplifier`, and `LowPowerIntegratedOPA` in [src/signals/Signals/ActiveOptics.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/ActiveOptics.lean#L18-L84) and by `second_harmonic_opa_and_centrosymmetry_identities` / `opaSqueezed_splat_and_continuum_identities` in `Signals.Scattering` and `Signals.DDF`) work physically and mathematically, and how does it compare against Erbium-Doped Fiber Amplifiers (EDFAs) and Free-Electron SPP Amplification {cite:p}`zhang2022spp`?
 
 ### 7.1 The Four-Step Physical & Mathematical Mechanism of Second-Harmonic Resonant Optical Parametric Amplification (OPA)
 
@@ -557,7 +557,7 @@ end ArxivPolaritonSppPaperVerification
 
 ## 9. Rust & WebAssembly (`wasm32-unknown-unknown`) Implementation and Reproducibility
 
-In [src/signals/numerical_adapter/src/polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs), `PolaritonHopfieldModel`, `SurfacePlasmonPolaritonModel`, `CsrSppCherenkovCavityModel`, `HolographicDdfGr24Model`, and `SecondHarmonicResonantOpaModel` (with both splat-free continuum methods and `NormedTensorGaussianSplat2D` hotspot/Planck/OPA-squeezed methods) are implemented in pure Rust with C-ABI WebAssembly exports (`wasm_polariton_upper_freq`, `wasm_polariton_lower_freq`, `wasm_spp_effective_index`, `wasm_spp_hotspot_bohm_potential`, `wasm_csr_bunching_intensity`, `wasm_bekenstein_hawking_entropy`, `wasm_shg_opa_squeezed_bohm_potential`), parametric `rstest` suites, and `insta` regression snapshots ([signals_numerical_adapter__polariton_spp__tests__polariton_and_spp_gr24_ddf_summary.snap](../src/signals/numerical_adapter/src/snapshots/signals_numerical_adapter__polariton_spp__tests__polariton_and_spp_gr24_ddf_summary.snap)).
+In [src/signals/numerical_adapter/src/polariton_spp.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/polariton_spp.rs), `PolaritonHopfieldModel`, `SurfacePlasmonPolaritonModel`, `CsrSppCherenkovCavityModel`, `HolographicDdfGr24Model`, and `SecondHarmonicResonantOpaModel` (with both splat-free continuum methods and `NormedTensorGaussianSplat2D` hotspot/Planck/OPA-squeezed methods) are implemented in pure Rust with C-ABI WebAssembly exports (`wasm_polariton_upper_freq`, `wasm_polariton_lower_freq`, `wasm_spp_effective_index`, `wasm_spp_hotspot_bohm_potential`, `wasm_csr_bunching_intensity`, `wasm_bekenstein_hawking_entropy`, `wasm_shg_opa_squeezed_bohm_potential`), parametric `rstest` suites, and `insta` regression snapshots ([signals_numerical_adapter__polariton_spp__tests__polariton_and_spp_gr24_ddf_summary.snap](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/snapshots/signals_numerical_adapter__polariton_spp__tests__polariton_and_spp_gr24_ddf_summary.snap)).
 
 ```bash
 make signals_build

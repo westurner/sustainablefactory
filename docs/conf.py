@@ -127,6 +127,7 @@ myst_enable_extensions = [
     "substitution",
     "tasklist",
 ]
+myst_heading_anchors = 6
 
 myst_fence_as_directive = ["mermaid"]
 

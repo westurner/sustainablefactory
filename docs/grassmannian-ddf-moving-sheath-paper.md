@@ -50,7 +50,7 @@ We present a machine-checked formalization in the Lean 4 theorem prover (`Signal
 
 ## 1. Introduction & Architecture Overview
 
-In Marco Fedi's Dilatant Dark Fluid (DDF) framework ([Fedi 2026](#ddf-fedi2026)), relativistic kinematics and gravitation emerge from a two-component quantum-hydrodynamic medium (`DDFSubstrate` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L39-L77)):
+In Marco Fedi's Dilatant Dark Fluid (DDF) framework ({cite:p}`fedi2026ddf`), relativistic kinematics and gravitation emerge from a two-component quantum-hydrodynamic medium (`DDFSubstrate` in [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L39-L77)):
 - A **continuous superfluid condensate ($\phi$)** of boson mass $m_\phi > 0$ supporting quantized vortices with circulation quantum $\kappa_\phi = 2\pi\hbar / m_\phi$ and Painlevé–Gullstrand river inflow $v_\phi(r) = -\sqrt{2 G_\phi M / r}$ (`RiverExterior`), and
 - A **dispersed dilatant phase ($\varphi$)** of mass $m_\varphi > 0$ with saturated jamming density $\varrho_{\max}^\varphi > 0$ and minimum compressibility $j_{\min}^\varphi > 0$, supporting transverse phonons propagating at the emergent speed of light:
 
@@ -99,7 +99,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) :
 
 ### 2.1 Slit Weights as Coupled $(\phi, \varphi)$ Sink Fluxes
 
-For any real $2 \times 4$ Grassmannian matrix $M \in \mathbb{R}^{2 \times 4}$, `pluckerSinkFluxA` and `pluckerSinkFluxB` ([DDF.lean](../src/signals/Signals/DDF.lean#L549-L580)) define the two uncrossed boundary channel weights:
+For any real $2 \times 4$ Grassmannian matrix $M \in \mathbb{R}^{2 \times 4}$, `pluckerSinkFluxA` and `pluckerSinkFluxB` ([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L549-L580)) define the two uncrossed boundary channel weights:
 
 $$
 Q_A(M) = \Delta_{01}(M)\Delta_{23}(M), \qquad Q_B(M) = \Delta_{03}(M)\Delta_{12}(M).
@@ -114,7 +114,7 @@ $$
 
 ### 2.2 Reciprocal Jamming–Visibility Duality, Power-Law Bounds, and Substrate Parameter Recovery
 
-For a subluminal `MovingSheath` $s$ translating at speed $0 \le v < c$ through `sub : DDFSubstrate`, the constitutive Lorentz jamming factor is $\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$ (`MovingSheath.jammingFactor`). Defining the dual coherence visibility $\mathcal{V}(s) = \sqrt{1 - \beta^2}$ (`MovingSheath.coherenceVisibility`), we prove in [DDF.lean](../src/signals/Signals/DDF.lean#L582-L775):
+For a subluminal `MovingSheath` $s$ translating at speed $0 \le v < c$ through `sub : DDFSubstrate`, the constitutive Lorentz jamming factor is $\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$ (`MovingSheath.jammingFactor`). Defining the dual coherence visibility $\mathcal{V}(s) = \sqrt{1 - \beta^2}$ (`MovingSheath.coherenceVisibility`), we prove in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L582-L775):
 
 1. **Zero-Shear / Zero-Jamming Limit (`MovingSheath.zero_shear_no_jamming`)**:
    When $v = 0$, $\beta^2 = 0$, $\gamma_\varphi(0) = 1$, and $K_D(0) = m c^2(\gamma_\varphi(0) - 1) = 0$.
@@ -149,7 +149,7 @@ For a subluminal `MovingSheath` $s$ translating at speed $0 \le v < c$ through `
 
 ### 3.1 Critique 1 & Resolution: Amplitude-Level Squared Crossing Product vs. Unphased Sum at $(0,0)$
 
-If $Q_A(M) = Q_B(M) = 1$ at the symmetric point ($d_{\mathrm{bary}}(M) = 0$) is substituted into the *unphased* intensity proxy $I_{Gr(2,4)}^{\mathrm{unphased}} = I_0 E_{\mathrm{slit}}(Q_A + Q_B) = 2 I_0 E_{\mathrm{slit}}$, it underpredicts the coherent Fraunhofer peak $4 I_0$ by $50\%$ (`ddf_symmetric_zero_shear_vs_unphased_critique`). Theorem `ddf_critique1_solved_squared_crossing_and_complex_gr24` ([DDF.lean](../src/signals/Signals/DDF.lean#L1140-L1203)) resolves this in two ways:
+If $Q_A(M) = Q_B(M) = 1$ at the symmetric point ($d_{\mathrm{bary}}(M) = 0$) is substituted into the *unphased* intensity proxy $I_{Gr(2,4)}^{\mathrm{unphased}} = I_0 E_{\mathrm{slit}}(Q_A + Q_B) = 2 I_0 E_{\mathrm{slit}}$, it underpredicts the coherent Fraunhofer peak $4 I_0$ by $50\%$ (`ddf_symmetric_zero_shear_vs_unphased_critique`). Theorem `ddf_critique1_solved_squared_crossing_and_complex_gr24` ([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1140-L1203)) resolves this in two ways:
 - **At the symmetric origin $(0,0)$ in real $Gr(2,4)$**: Because $Q_A, Q_B$ represent coherent field amplitudes at zero path difference, the intensity is proportional to the **squared** crossing product $(\Delta_{02}(M)\Delta_{13}(M))^2 = (Q_A + Q_B)^2 = 4$ (`gr24SquaredCrossingDoubleSlit`), yielding $\varepsilon_{\mathrm{rel}} = 0$ at $(0,0)$.
 - **Across the entire detector plane $(x,y) \in \mathbb{R}^2$ in $Gr_{\mathbb{C}}(2,4)$**: Defining the complex sink amplitudes $w_A^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$ and $w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ (`complexPluckerSinkAmplitudeA`, `complexPluckerSinkAmplitudeB`), the complex Plücker identity gives $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$, so $|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2 = |w_A^{\mathbb{C}} + w_B^{\mathbb{C}}|^2$ achieves $\varepsilon_{\mathrm{rel}} = 0$ everywhere.
 
@@ -157,8 +157,8 @@ If $Q_A(M) = Q_B(M) = 1$ at the symmetric point ($d_{\mathrm{bary}}(M) = 0$) is 
 
 Under a symplectic 2D Anosov hyperbolic stretch $A_{\mathrm{Anosov}}(\lambda, t) = \operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ ($\det = 1$), every $2 \times 2$ Plücker minor and $d_{\mathrm{bary}}(M)$ is invariant (`anosov_plucker_invariance`). Under a non-symplectic compressive jamming matrix $B(\lambda_1, \lambda_2, t) = \operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$ with $\lambda_1 + \lambda_2 \neq 0$, the unnormalized shift scales by $e^{2(\lambda_1 + \lambda_2)t}$ (`nonSymplectic_jamming_barycentricShift_scaling`).
 
-Theorem `ddf_critique2_solved_projective_and_trace_renormalized_jamming` ([DDF.lean](../src/signals/Signals/DDF.lean#L1205-L1260)) resolves this completely:
-1. The projectively normalized Plücker barycentric shift and squared visibility (`gr24ProjectiveBarycentricShift`, `gr24ProjectiveVisibilitySq` in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1090-L1210)):
+Theorem `ddf_critique2_solved_projective_and_trace_renormalized_jamming` ([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1205-L1260)) resolves this completely:
+1. The projectively normalized Plücker barycentric shift and squared visibility (`gr24ProjectiveBarycentricShift`, `gr24ProjectiveVisibilitySq` in [Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L1090-L1210)):
 
    $$
    \widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}
@@ -174,7 +174,7 @@ Theorem `ddf_critique2_solved_projective_and_trace_renormalized_jamming` ([DDF.l
 
 ### 3.3 Critique 3 & Resolution: Quantized Vortex Circulation & Gravitomagnetic Frame-Dragging Swirl
 
-When two sinks carry quantized $\phi$-superfluid vortex charges $\ell_1, \ell_2 \in \mathbb{Z}$ with differential circulation $\Delta\Gamma(\ell_1, \ell_2) = (\ell_2 - \ell_1)\kappa_\phi$ (`DDFSubstrate.differentialVortexCirculation`), `RiverExterior.quantized_vortex_swirl_from_circulation` ([DDF.lean](../src/signals/Signals/DDF.lean#L1308-L1336)) proves that the Kerr/Lense–Thirring frame-dragging swirl velocity at radius $r$ for differential angular momentum $J = (\ell_2 - \ell_1)\hbar$ is:
+When two sinks carry quantized $\phi$-superfluid vortex charges $\ell_1, \ell_2 \in \mathbb{Z}$ with differential circulation $\Delta\Gamma(\ell_1, \ell_2) = (\ell_2 - \ell_1)\kappa_\phi$ (`DDFSubstrate.differentialVortexCirculation`), `RiverExterior.quantized_vortex_swirl_from_circulation` ([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1308-L1336)) proves that the Kerr/Lense–Thirring frame-dragging swirl velocity at radius $r$ for differential angular momentum $J = (\ell_2 - \ell_1)\hbar$ is:
 
 $$
 v_{\phi,\mathrm{swirl}}\bigl((\ell_2 - \ell_1)\hbar, r\bigr) = \frac{G_\phi\,m_\phi\,\varrho_{\max}^\varphi\,j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1, \ell_2),
@@ -208,7 +208,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
 
 ### 4.1 Binary ($N = 2$) $Gr_{\mathbb{C}}(2,4)$–DDF Sheath Twistor Matrix (`MovingSheath.gr24TwistorMatrix`)
 
-For any subluminal `MovingSheath` $s$ with reduced speed $\beta(s) = v/c \in [0, 1)$ (`MovingSheath.beta`), `MovingSheath.gr24TwistorMatrix` ([DDF.lean](../src/signals/Signals/DDF.lean#L1375-L1405)) embeds the forward- and reverse-sheared $(\phi \pm \varphi)$ channels into $Gr_{\mathbb{C}}(2,4)$:
+For any subluminal `MovingSheath` $s$ with reduced speed $\beta(s) = v/c \in [0, 1)$ (`MovingSheath.beta`), `MovingSheath.gr24TwistorMatrix` ([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1375-L1405)) embeds the forward- and reverse-sheared $(\phi \pm \varphi)$ channels into $Gr_{\mathbb{C}}(2,4)$:
 
 $$
 M_{\mathbb{C}}^{\mathrm{DDF}}(s) =
@@ -237,7 +237,7 @@ We prove:
 
 ### 4.2 $N$-ary ($N \ge 3$) $Gr_{\mathbb{C}}(2, N+2)$ Channel Matrix, Triple-Slit ($N = 3$) DDF Sheath, and Sorkin $\kappa_3 = 0$
 
-To extend the Grassmannian–DDF correspondence to $N \ge 3$ slits/sinks (triple-slit $N = 3$, quadruple-slit $N = 4$, and general $N$), `complexGr2NChannelMatrix` ([Geometry.lean](../src/signals/Signals/Geometry.lean#L1212-L1325)) constructs the canonical $2 \times (N + 2)$ complex Grassmannian matrix $M_{\mathbb{C}}^{(N)}(z) \in \mathbb{C}^{2 \times (N + 2)}$:
+To extend the Grassmannian–DDF correspondence to $N \ge 3$ slits/sinks (triple-slit $N = 3$, quadruple-slit $N = 4$, and general $N$), `complexGr2NChannelMatrix` ([Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L1212-L1325)) constructs the canonical $2 \times (N + 2)$ complex Grassmannian matrix $M_{\mathbb{C}}^{(N)}(z) \in \mathbb{C}^{2 \times (N + 2)}$:
 
 $$
 M_{\mathbb{C}}^{(N)}(z) =
@@ -247,7 +247,7 @@ M_{\mathbb{C}}^{(N)}(z) =
 \end{pmatrix}.
 $$
 
-We prove in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1255-L1355), [Huygens.lean](../src/signals/Signals/Huygens.lean#L2010-L2200), and [DDF.lean](../src/signals/Signals/DDF.lean#L1560-L1765):
+We prove in [Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean#L1255-L1355), [Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L2010-L2200), and [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1560-L1765):
 
 1. **$N$-ary Plücker Minor & Madelung Sector Laws (`complexGr2NChannelMatrix_minors`, `complexGr2N_madelung_sector_identities`)**:
    For any $N \in \mathbb{N}$ and $z_j = \sqrt{w_j}\,e^{i\theta_j}$ ($w_j \ge 0$):

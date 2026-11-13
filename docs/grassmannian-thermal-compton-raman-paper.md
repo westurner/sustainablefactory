@@ -63,7 +63,7 @@ In relativistic astrophysics, laser-plasma Compton light sources ([Turner, Wesle
 
 ### 1.1 The $Gr_{\mathbb{C}}(2,4)$ Plücker Ratio as the Exact Relativistic Doppler Upshift
 
-In `Signals.DDF` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L1395-L1445)), the canonical DDF moving-sheath twistor matrix $M_{\mathbb{C}}^{\mathrm{DDF}}(s) \in \mathbb{C}^{2 \times 4}$ has uncrossed Plücker channel amplitudes $w_A^{\mathbb{C}} = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$ and $w_B^{\mathbb{C}} = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ with Madelung densities:
+In `Signals.DDF` ([src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L1395-L1445)), the canonical DDF moving-sheath twistor matrix $M_{\mathbb{C}}^{\mathrm{DDF}}(s) \in \mathbb{C}^{2 \times 4}$ has uncrossed Plücker channel amplitudes $w_A^{\mathbb{C}} = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$ and $w_B^{\mathbb{C}} = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ with Madelung densities:
 
 $$
 \bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})\bigr|^2 = 1 + \beta, \qquad
@@ -74,7 +74,7 @@ In the Thomson regime ($\gamma \hbar \omega_0 \ll m_e c^2$, negligible electron 
 1. Transformation from the laboratory frame to the moving-sheath rest frame multiplies frequency by $\gamma_\varphi(v)(1 + \beta) = \sqrt{\frac{1+\beta}{1-\beta}}$,
 2. Transformation from the rest frame back to the laboratory frame multiplies frequency by a second factor of $\gamma_\varphi(v)(1 + \beta) = \sqrt{\frac{1+\beta}{1-\beta}}$.
 
-Consequently, the head-on Inverse Compton frequency upshift ratio is **identically the ratio of the two uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel densities** (`MovingSheath.inverseCompton_gr24_identities` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L3055-L3115)):
+Consequently, the head-on Inverse Compton frequency upshift ratio is **identically the ratio of the two uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel densities** (`MovingSheath.inverseCompton_gr24_identities` in [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L3055-L3115)):
 
 $$
 \frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0}
@@ -93,7 +93,7 @@ $$
 
 ### 1.2 Klein–Nishina Quantum Recoil Suppression
 
-When the incident photon energy in the electron rest frame is comparable to the electron rest mass-energy $m_e c^2$, 4-momentum conservation $p^\mu + \hbar k^\mu = p^{\prime\mu} + \hbar k^{\prime\mu}$ introduces the dimensionless quantum recoil parameter $\epsilon_{\mathrm{rec}} = \frac{2\gamma\hbar\omega_0}{m_e c^2}(1 + \beta) > 0$. In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L590-L660)), `inverseCompton_thomson_and_recoil_identities` proves:
+When the incident photon energy in the electron rest frame is comparable to the electron rest mass-energy $m_e c^2$, 4-momentum conservation $p^\mu + \hbar k^\mu = p^{\prime\mu} + \hbar k^{\prime\mu}$ introduces the dimensionless quantum recoil parameter $\epsilon_{\mathrm{rec}} = \frac{2\gamma\hbar\omega_0}{m_e c^2}(1 + \beta) > 0$. In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L590-L660)), `inverseCompton_thomson_and_recoil_identities` proves:
 
 $$
 \frac{\omega_{\mathrm{KN}}^{\mathrm{ICS}}}{\omega_0}
@@ -116,7 +116,7 @@ where $\delta_R = \Omega_v / \omega_L \in [0, 1)$ is the normalized Raman shift 
 
 ### 2.1 Exact $Gr_{\mathbb{C}}(2,4)$ Plücker Dictionary & Raman Boltzmann Thermometry
 
-In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L662-L790)), `raman_stokes_antiStokes_gr24_identities` proves that setting the $Gr_{\mathbb{C}}(2,4)$ barycentric shift to $d_{\mathrm{bary}} = \delta_R = \Omega_v / \omega_L$ yields:
+In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean#L662-L790)), `raman_stokes_antiStokes_gr24_identities` proves that setting the $Gr_{\mathbb{C}}(2,4)$ barycentric shift to $d_{\mathrm{bary}} = \delta_R = \Omega_v / \omega_L$ yields:
 
 1. **Exact Inverse Spectral Recovery via QISM Channel Operators**:
 
@@ -348,7 +348,7 @@ end ArxivThermalComptonRamanVerification
 
 ## 5. Rust & WebAssembly (`wasm32-unknown-unknown`) Implementation and Verification
 
-In [src/signals/numerical_adapter/src/thermal_inelastic.rs](../src/signals/numerical_adapter/src/thermal_inelastic.rs), all four modules—relativistic Inverse Compton (`inverse_compton_doppler_ratio`, `inverse_compton_klein_nishina_ratio`, `ddf_sheath_inverse_compton_gr24_invariants`), Stokes/anti-Stokes Raman thermometry (`RamanChannelModel`), classical Fourier vs. hyperbolic Cattaneo–Vernotte PDEs (`FourierHeatModel`, `CattaneoVernotteHeatModel`), and unified Grassmannian–DDF thermal splat evolution (`DdfGrassmannianThermalTransport`)—are implemented in pure Rust with C-ABI WebAssembly exports (`wasm_inverse_compton_klein_nishina_ratio`, `wasm_raman_antistokes_to_stokes_ratio`, `wasm_ddf_second_sound_speed`), parametric `rstest` suites, and `insta` regression snapshots ([signals_numerical_adapter__thermal_inelastic__tests__thermal_inelastic_compton_raman_ddf_summary.snap](../src/signals/numerical_adapter/src/snapshots/signals_numerical_adapter__thermal_inelastic__tests__thermal_inelastic_compton_raman_ddf_summary.snap)).
+In [src/signals/numerical_adapter/src/thermal_inelastic.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/thermal_inelastic.rs), all four modules—relativistic Inverse Compton (`inverse_compton_doppler_ratio`, `inverse_compton_klein_nishina_ratio`, `ddf_sheath_inverse_compton_gr24_invariants`), Stokes/anti-Stokes Raman thermometry (`RamanChannelModel`), classical Fourier vs. hyperbolic Cattaneo–Vernotte PDEs (`FourierHeatModel`, `CattaneoVernotteHeatModel`), and unified Grassmannian–DDF thermal splat evolution (`DdfGrassmannianThermalTransport`)—are implemented in pure Rust with C-ABI WebAssembly exports (`wasm_inverse_compton_klein_nishina_ratio`, `wasm_raman_antistokes_to_stokes_ratio`, `wasm_ddf_second_sound_speed`), parametric `rstest` suites, and `insta` regression snapshots ([signals_numerical_adapter__thermal_inelastic__tests__thermal_inelastic_compton_raman_ddf_summary.snap](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/snapshots/signals_numerical_adapter__thermal_inelastic__tests__thermal_inelastic_compton_raman_ddf_summary.snap)).
 
 ```bash
 make signals_build

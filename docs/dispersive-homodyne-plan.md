@@ -42,26 +42,26 @@ type errors:
 1. `Signals.Proca.FourCurrent` requires a zero continuity residual, so
   `DrivenField` cannot represent the nonconserved-source case described by its
   documentation. The model-level coupling strength is also not present in the
-  driven-field equation. See [Proca](../src/signals/Signals/Proca.lean#L29).
+  driven-field equation. See [Proca](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Proca.lean#L29).
 2. `WaveguideSpec.propagationLoss` is stored but omitted from
   `transferFactor`; waveguides with different losses therefore have the same
-  modeled transfer. See [Applications](../src/signals/Signals/Applications.lean#L31).
+  modeled transfer. See [Applications](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Applications.lean#L31).
 3. `DualHomodyneTrace` stores receivers independently from its outcomes, and
   `missingSamples` does not affect the estimator denominator. Arbitrary traces
   can be attached to arbitrary receivers. See
-  [Homodyne](../src/signals/Signals/Homodyne.lean#L230).
+  [Homodyne](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean#L230).
 4. Proca medium, boundary, and model-level coupling data are not connected to
   mode dispersion or the field equation. Treating these as metadata must be
   explicit, or constitutive and boundary laws must consume them. See
-  [Proca](../src/signals/Signals/Proca.lean#L22).
+  [Proca](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Proca.lean#L22).
 5. Homodyne common-mode rejection stores both dB and leakage-factor values
   without a conversion law, so the two measurements can disagree. See
-  [Homodyne](../src/signals/Signals/Homodyne.lean#L109).
+  [Homodyne](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean#L109).
 6. `LinkBudget` uses bare real numbers for source power, distance, and
   attenuation while other modules use unit wrappers. This permits dimensional
   mistakes and leaves the attenuation convention implicit. See
-  [Propagation](../src/signals/Signals/Propagation.lean#L119) and
-  [Units](../src/signals/Signals/Units.lean#L7).
+  [Propagation](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Propagation.lean#L119) and
+  [Units](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Units.lean#L7).
 
 These are contract defects, not evidence for or against any Pending physical
 interpretation. The first implementation pass should add regression fixtures
@@ -78,7 +78,7 @@ not erase units, uncertainty semantics, or domain-specific calibration. Keep
 specialized wrappers for phase, power, current, dose, and vector residuals.
 
 This matches the local Lean style of structures carrying explicit law fields,
-as seen in [CalibrationRecord](../src/signals/Signals/NonDestructive.lean#L153),
+as seen in [CalibrationRecord](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/NonDestructive.lean#L153),
 and the explicit state/channel boundaries in the local Physlib quantum
 information modules. The downside is real: a universal residual type can make
 the API less discoverable, encourage accidental comparison of unlike units,
@@ -245,22 +245,22 @@ explicitly distinct from total-input efficiency.
 
 The classical test path does not require a Proca hypothesis. The chat proposes
 an acoustic tuning ring around the reactor
-([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1365-L1371)) and derives
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1365-L1371)) and derives
 a 400 GHz target from a supplied 20 nm wavelength and 8,000 m/s longitudinal
 sound speed in the *solid cellulose waveguide*, not in Argon plasma
-([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560)). It then
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560)). It then
 proposes 800 GHz acoustic generation by mixing two 400 GHz electromagnetic
-beams ([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1642-L1663)).
+beams ([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1642-L1663)).
 These are proposal inputs. The arithmetic is reproducible, but neither the
 solid-to-plasma coupling nor a propagating 400/800 GHz Argon mode is measured.
 
 The corpus also supplies ordinary ECR candidates. A proposed benchtop source
 uses 2.45 GHz microwave ionization with a matched static magnetic field
-([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L14278-L14289)). A
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L14278-L14289)). A
 second chat states the approximate electron-cyclotron relation
 $f_{ce}\approx28\,B$ GHz/T and gives 98 GHz at 3.5 T, while assigning the heavy
 Argon-ion response to a separate 1--15 MHz ion-acoustic envelope
-([source](../data/chats/Review-Pop-III-GW-Remnants.md#L3733-L3753)). The latter
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L3733-L3753)). The latter
 source wraps these ordinary formulas in an unsupported Proca interpretation;
 only the classical frequency/field and ion-acoustic relations are retained.
 
@@ -303,9 +303,9 @@ transducer.
 The phrase “cellulose strip resonator” is best treated as a finite
 implementation of the chat's periodic cellulose/N-LIG waveguide. The source
 specifies a 10 nm period and the Bragg relation $\lambda_0=2d$
-([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560)), while the
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560)), while the
 layout calls it a core or cylindrical mantle rather than a literal strip
-([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688)).
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688)).
 `CelluloseStripResonator` makes the finite length and cell count explicit;
 `FireCannonCelluloseStripDrive` separates the 400 GHz fundamental from the
 800 GHz sum target. `CelluloseStripArgonOperatingPoint` then inserts the missing
@@ -313,7 +313,7 @@ solid-to-gas interface and charges the full MIMO source to plant control power.
 
 This interface can dominate the optimum. The corpus separately warns of more
 than 99.9% reflection across the proposed solid/cellulose/Argon path
-([source](../data/chats/Review-Pop-III-GW-Remnants.md#L3934-L3944)). The Lean
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L3934-L3944)). The Lean
 fixture illustrates that boundary with 100 W array input, 50 W strip acoustic
 output, and 0.05 W reaching the Argon link. Its end-to-end source efficiency is
 $1/2000$, despite exact 400/800 GHz matching. The values are supplied test data,
@@ -346,7 +346,7 @@ collapsing generator and thruster performance into one score.
 The chat's proposed gridless “topological plasma thruster” and its claimed
 50,000--500,000+ second specific impulse and kilonewton thrust are not implied
 by ordinary longitudinal waves
-([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1373-L1406)). Under the
+([source](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1373-L1406)). Under the
 classical model, helical or topological flow geometry may affect confinement,
 mixing, and nozzle efficiency, but it contributes no unaccounted momentum or
 energy. Those performance claims remain unsupported until a calibrated thrust
@@ -397,17 +397,17 @@ The attached Hawking-radiation chat proposes a staged decoding story: a
 prepared modulation $X(t)$ is measured as a scattered homodyne signal $Y(t)$,
 then corrected with an inverse Gross-Pitaevskii step, phase-processed with an
 iQFT, and passed to an Amplituhedron-constrained CANDECOMP/PARAFAC ALS
-decomposition ([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2500)).
+decomposition ([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2500)).
 The same source describes homodyne phase sweeping for both quadratures and an
 inverse Fourier routine before tensor decomposition
-([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2390-L2440)).
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2390-L2440)).
 A later widget specification exposes ALS rank as a 1--10 control and presents
 rank 2--3 or rank 2 near-zero reconstruction error as simulation behavior, not
 as an experimental result
-([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2524-L2540)).
+([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2524-L2540)).
 The chat itself also states that no standard quantum-gravity precedent makes
 rank 10 universal
-([rank discussion](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2246-L2285)).
+([rank discussion](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2246-L2285)).
 
 The Pending implementation now records the finite boundaries of that proposal:
 
@@ -461,7 +461,7 @@ range and composition laws.
 | CP decomposition represents a tensor as a sum of rank-one terms and ALS is a standard fitting method | Scholarly numerical method {cite:p}`kolda2009` | Use a computed reconstruction residual and explicit stopping metadata. |
 | Density correlations can reveal analogue Hawking emission in a BEC sonic-horizon model | Scholarly numerical theory {cite:p}`carusotto2008` | Relevant observable precedent; it does not validate the proposed decoder. |
 | Hawking/partner correlations and entanglement were reported in an atomic-BEC analogue black hole | Experimental claim {cite:p}`steinhauer2016` | Analogue-gravity evidence only; it does not establish astrophysical decoding, iGPE inversion, iQFT hardware, or Amplituhedron constraints. |
-| iGPE + iQFT + Amplituhedron-constrained ALS gives exact or rank-2 recovery | Proposal with low confidence ([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2540)) | Keep Pending. Require a specified solver, raw calibrated data, held-out controls, uncertainty, rank selection, and reproducible residuals. |
+| iGPE + iQFT + Amplituhedron-constrained ALS gives exact or rank-2 recovery | Proposal with low confidence ([source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2540)) | Keep Pending. Require a specified solver, raw calibrated data, held-out controls, uncertainty, rank selection, and reproducible residuals. |
 
 ### Scholarly References
 
@@ -866,30 +866,30 @@ The grep-style outward review maps the search results to these requirements:
 The existing verified library covers:
 
 - Classical I/Q samples, magnitude, phase, and quadrature orientation in
-  [Signals.IQ](../src/signals/Signals/IQ.lean).
+  [Signals.IQ](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/IQ.lean).
 - Signal-state preservation and signal-energy preservation in
-  [NonDestructive](../src/signals/Signals/NonDestructive.lean#L95).
+  [NonDestructive](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/NonDestructive.lean#L95).
 - Target and signal zero-absorption assumptions, plus a probe phase response.
 - Composition between a phase fingerprint and a dispersive readout in
-  [NonDestructive](../src/signals/Signals/NonDestructive.lean#L153).
+  [NonDestructive](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/NonDestructive.lean#L153).
 - Affine calibration with raw-telemetry preservation.
 - Typed vitrimer operations and operation-power accounting.
 - Finite classical homodyne algebra, typed detector/noise/calibration records,
   dual trace statistics, spatial grids, and typed runtime trace samples in
-  [Homodyne](../src/signals/Signals/Homodyne.lean).
+  [Homodyne](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean).
 - Pending OAM parity preservation over a dispersive readout in
-  [Pending](../src/signals/Signals/Pending.lean#L203).
+  [Pending](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L203).
 - Pending quadrature uncertainty assumptions, TMSV variance bookkeeping,
   CV Bell-state/feed-forward plumbing, QND evidence bounds, and integrated
-  hardware-readiness observations in [Pending](../src/signals/Signals/Pending.lean).
+  hardware-readiness observations in [Pending](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean).
 - Pending Kerr interaction data for nonlinear signal/probe phase coupling in
-  [Pending](../src/signals/Signals/Pending.lean).
+  [Pending](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean).
 - Pending LVP process, composition, photovoltaic, direct-conversion imaging,
   and Proca phase-contrast boundaries in
-  [Pending](../src/signals/Signals/Pending.lean).
+  [Pending](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean).
 - Classical Faraday MHD and Argon power accounting in
-  [MHD](../src/signals/Signals/MHD.lean); the Proca-linked plant remains a
-  Pending hypothesis in [Pending](../src/signals/Signals/Pending.lean).
+  [MHD](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean); the Proca-linked plant remains a
+  Pending hypothesis in [Pending](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean).
 - `AtmosphericArgonSource` records Earth/Mars Argon molar-fraction feed
   assumptions and captured molar flow; abundance is not treated as an energy
   source or as proof that operating costs are nominal.
@@ -901,8 +901,8 @@ The existing verified library covers:
   by the existing `Signals.Proca` and `Signals.Pending` APIs; physical
   longitudinal-wave evidence remains unestablished.
 - Compile-time fixtures for these contracts in
-  [SignalsTests](../src/signals/SignalsTests.lean#L805) and
-  [SignalsPendingTests](../src/signals/SignalsPendingTests.lean#L792).
+  [SignalsTests](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L805) and
+  [SignalsPendingTests](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L792).
 
 The current build is a compiling baseline containing explicit local-oscillator,
 beam-splitter, detector-pair, differential-current, dual-receiver, spatial-grid,
