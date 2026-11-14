@@ -63,9 +63,9 @@ This plan structures the formal verification (Lean 4), numerical simulation (Rus
   - Sections 26, 26.1, 26.2, 27.5, and 28 implemented and proved without `sorry` in `Signals.DFT` (`src/signals/Signals/DFT.lean`), paired with `DDFFractureCommunicationEvidence` Pending boundary theorems in `Signals.Pending` / `SignalsPending` and regression examples in `SignalsTests` / `SignalsPendingTests` (`3,628` Lake jobs passing).
 - [x] **Step 2 (Rust/WASM Implementation & Unit Tests)**:
   - All Section 26–28 evaluators and numerical check-figure assertions implemented in `src/signals/numerical_adapter/src/dft_plabic_vrc.rs` (`98` crate tests passing).
-- [ ] **Step 3 (Complete MyST Paper & Cross-Document Integration)**:
+- [x] **Step 3 (Complete MyST Paper & Cross-Document Integration)**:
   - Complete Sections 3–9, Scholarly References, BibTeX, and Schema.org JSON-LD in [grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md](grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md).
   - Register both the plan and paper in [`docs/_toc.yml`](_toc.yml), [plan-index.md](plan-index.md), and [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md).
-- [ ] **Step 4 (MyST Math/Table Hygiene, Sphinx HTML Build, & Browser Inspection)**:
+- [x] **Step 4 (MyST Math/Table Hygiene, Sphinx HTML Build, & Browser Inspection)**:
   - Run `tools/fix_markdown_table_math_pipes.py` and `tools/fix_markdown_display_math_spacing.py` with reports in `.tmp/`.
   - Run `pytest -q tests/test_markdown_display_math_spacing.py tests/test_markdown_table_math_pipes.py`, `make -C docs html > .tmp/docs-html.log 2>&1`, `git diff --check`, and inspect the rendered HTML page in the integrated browser for MathJax rendering and zero `mjx-merror` / `myst.xref_missing` issues.
