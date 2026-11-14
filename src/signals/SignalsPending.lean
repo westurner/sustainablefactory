@@ -2402,4 +2402,35 @@ theorem maxwell_complete_multi_model_dft_ddf_polariton_plasmon_m1_m2_m3_and_soft
     s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq
     x1_c x2_c hpk1 hpk2 hc_alpha hb_norm hc he hdtheta homega
 
+/-- Re-exports the Section 28.1 multi-model electromagnetism critique gap-closure Pending boundary. -/
+theorem maxwell_complete_multi_model_critique_and_gap_closure_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max : ℝ)
+    (hrho_e : 0 < rho_e) (halpha : 0 < alpha_pol)
+    (homega : 0 < omega_freq) (hgamma : 0 < gamma_coll)
+    (hp_loc : 0 ≤ p_loc) (hrho0 : 0 < rho_0) (hcsq : 0 < c_sq)
+    (hf_max : 0 < f_max) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
+        Signals.DFT.eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
+        Signals.DFT.unitQuaternionNormSq
+            (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
+        Signals.DFT.dftCollisionalPermittivityRe rho_e alpha_pol omega_sq 0 =
+          Signals.DFT.dftElectronDensityPermittivity rho_e alpha_pol omega_sq ∧
+        Signals.DFT.dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
+        Signals.DFT.dftCollisionalPermittivityIm rho_e alpha_pol omega_freq 0 = 0 ∧
+        0 < Signals.DFT.dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll ∧
+        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
+          Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq ∧
+        Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+        0 < Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max ∧
+        Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max < f_max) :=
+  evidence.maxwell_complete_multi_model_critique_and_gap_closure_bounds
+    theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max
+    hrho_e halpha homega hgamma hp_loc hrho0 hcsq hf_max
+
 end SignalsPending

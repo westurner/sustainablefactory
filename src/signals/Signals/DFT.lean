@@ -10057,6 +10057,133 @@ theorem maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identitie
     by unfold wormholeNetNullDefocusingFlux; norm_num,
     by unfold subwavelengthPhotonTrueConjugateCoupling; norm_num⟩
 
+/-! ### Section 28.1: Adversarial Critique & Gap-Closure Fixes for Multi-Model Electromagnetism — Global Spinor Gimbal-Lock Freedom ($\forall \theta \in \mathbb{R}$), Exact Tubular Soliton Azimuthal Stability Threshold ($\sigma_{\mathrm{nl,crit}} = 1/4$), Collisional Drude–Kohn–Sham Permittivity, `SQG/DDF` Cavitation Ceiling, and Unitary Aperture-Bounded `TRUE` Soft-Photon QFIM (`maxwell_complete_multi_model_critique_and_gap_closure_identities`)
+
+Addresses five mathematical and physical critiques across Sections 26–28:
+1. **Critique Fix 1 (North & South Pole Euler Gimbal Lock at $\theta = \pm\pi/2$ vs. Global $\mathrm{SU}(2)$ Spinor/Quaternion Norm Conservation for All $\theta \in \mathbb{R}$)**:
+   - Euler yaw-pitch-roll charts degenerate at both $\theta = +\pi/2$ and $\theta = -\pi/2$
+     (`eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧ eulerKinematicJacobianDet (-Real.pi / 2) = 0`),
+   - For **every** pitch angle $\theta \in \mathbb{R}$, the $\mathrm{SU}(2)$ spinor/quaternion
+     $q(\theta) = (\cos(\theta/2), 0, \sin(\theta/2), 0)$ satisfies
+     `unitQuaternionNormSq (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1`.
+2. **Critique Fix 2 (Exact Tubular Soliton Azimuthal Modulational Instability Values & Critical Nonlocality Threshold $\sigma_{\mathrm{nl,crit}} = 1/4$)**:
+   - Proves the exact rational values at local Kerr ($\sigma_{\mathrm{nl}} = 0 \implies \Gamma_{\mathrm{MI}} = 2 > 0$),
+     critical nonlocality threshold ($\sigma_{\mathrm{nl}} = 1/4 \implies \Gamma_{\mathrm{MI}} = 0$), and
+     nonlocal thermal/dilatant stabilization ($\sigma_{\mathrm{nl}} = 5 \implies \Gamma_{\mathrm{MI}} = -798 / 101 < 0$).
+3. **Critique Fix 3 (Collisional Drude–Kohn–Sham Atmospheric/Plasma Permittivity `dftCollisionalPermittivityRe` & `dftCollisionalPermittivityIm`)**:
+   - Real collisional media ($\gamma_{\mathrm{coll}} > 0$) regularize the $\omega \to 0$ pole of
+     `dftElectronDensityPermittivity` while introducing positive absorptive loss $\operatorname{Im}\varepsilon_r^{\mathrm{Drude}} > 0$.
+4. **Critique Fix 4 (`SQG/DDF` Non-Cavitating Pressure Floor $P_{\mathrm{local}} \ge 0$ & Cavitation Refractive Ceiling)**:
+   - When local superfluid pressure stays above the cavitation floor ($P_{\mathrm{local}} \ge 0$),
+     $n_{\mathrm{DDF}}(P_{\mathrm{amb}}, P_{\mathrm{loc}}, \rho_0, c^2) \le n_{\mathrm{DDF}}(P_{\mathrm{amb}}, 0, \rho_0, c^2)$.
+5. **Critique Fix 5 (Exact `10001 / 11001` Unitary `TRUE` Soft-Photon Coupling & Aperture-Bounded QFIM `trueApertureBoundedSoftPhotonQfim`)**:
+   - At fixed maximum source Fisher information $F_{\max} > 0$, the passive aperture-transmitted QFIM
+     $\eta_{\mathrm{TRUE}}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}})\cdot F_{\max}$ is strictly bounded in $(0, F_{\max})$. -/
+
+/-- **Critique Fix 3a: Collisional Drude–Kohn–Sham Real Relative Permittivity (`dftCollisionalPermittivityRe`)**:
+$$\operatorname{Re}\varepsilon_r^{\mathrm{Drude}}(\rho_e, \alpha_{\mathrm{pol}}, \omega^2, \gamma_{\mathrm{coll}}^2) =
+1 - \frac{\alpha_{\mathrm{pol}}\,\rho_e}{\omega^2 + \gamma_{\mathrm{coll}}^2},$$
+reducing to `dftElectronDensityPermittivity` at $\gamma_{\mathrm{coll}}^2 = 0$ and remaining finite at $\omega^2 = 0$
+for $\gamma_{\mathrm{coll}}^2 > 0$. -/
+@[blueprint "def:signals-dft-collisional-permittivity-re"
+  (title := "Critique Fix 3a: Collisional Drude-Kohn-Sham real relative permittivity")
+  (statement := /-- Define $\operatorname{dftCollisionalPermittivityRe}(\rho_e, \alpha_{\mathrm{pol}}, \omega^2, \gamma_{\mathrm{coll}}^2) = 1 - \alpha_{\mathrm{pol}} \rho_e / (\omega^2 + \gamma_{\mathrm{coll}}^2)$. -/)]
+noncomputable def dftCollisionalPermittivityRe
+    (rho_e alpha_pol omega_sq gamma_coll_sq : ℝ) : ℝ :=
+  1 - alpha_pol * rho_e / (omega_sq + gamma_coll_sq)
+
+/-- **Critique Fix 3b: Collisional Drude–Kohn–Sham Imaginary (Absorptive) Permittivity (`dftCollisionalPermittivityIm`)**:
+$$\operatorname{Im}\varepsilon_r^{\mathrm{Drude}}(\rho_e, \alpha_{\mathrm{pol}}, \omega, \gamma_{\mathrm{coll}}) =
+\frac{\alpha_{\mathrm{pol}}\,\rho_e\,\gamma_{\mathrm{coll}}}{\omega(\omega^2 + \gamma_{\mathrm{coll}}^2)}.$$ -/
+@[blueprint "def:signals-dft-collisional-permittivity-im"
+  (title := "Critique Fix 3b: Collisional Drude-Kohn-Sham imaginary (absorptive) permittivity")
+  (statement := /-- Define $\operatorname{dftCollisionalPermittivityIm}(\rho_e, \alpha_{\mathrm{pol}}, \omega, \gamma_{\mathrm{coll}}) = (\alpha_{\mathrm{pol}} \rho_e \gamma_{\mathrm{coll}}) / (\omega (\omega^2 + \gamma_{\mathrm{coll}}^2))$. -/)]
+noncomputable def dftCollisionalPermittivityIm
+    (rho_e alpha_pol omega_freq gamma_coll : ℝ) : ℝ :=
+  (alpha_pol * rho_e * gamma_coll) / (omega_freq * (omega_freq ^ 2 + gamma_coll ^ 2))
+
+/-- **Critique Fix 5: Passive Aperture-Bounded `TRUE` Soft-Photon QFIM (`trueApertureBoundedSoftPhotonQfim`)**:
+$$F_{\mathrm{TRUE}}^{\mathrm{trans}}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}, F_{\max}) =
+\operatorname{subwavelengthPhotonTrueConjugateCoupling}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}) \cdot F_{\max}.$$ -/
+@[blueprint "def:signals-dft-true-aperture-bounded-soft-photon-qfim"
+  (title := "Critique Fix 5: Passive aperture-bounded TRUE soft-photon QFIM")
+  (statement := /-- Define $\operatorname{trueApertureBoundedSoftPhotonQfim}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}, F_{\max}) = \operatorname{subwavelengthPhotonTrueConjugateCoupling}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}) \cdot F_{\max}$. -/)]
+noncomputable def trueApertureBoundedSoftPhotonQfim
+    (eta_bethe g_true f_max : ℝ) : ℝ :=
+  subwavelengthPhotonTrueConjugateCoupling eta_bethe g_true * f_max
+
+/-- **Master Critique Gap-Closure Theorem for Section 28.1 (`maxwell_complete_multi_model_critique_and_gap_closure_identities`)** -/
+@[blueprint "thm:signals-dft-maxwell-complete-multi-model-critique-and-gap-closure"
+  (title := "Critique gap-closure theorem for Section 28.1: Global spinor gimbal-lock freedom, exact tubular soliton MI threshold, collisional DFT permittivity, DDF cavitation ceiling, and aperture-bounded TRUE QFIM")
+  (statement := /-- Certifies north/south-pole Euler gimbal lock vs. global $\mathrm{SU}(2)$ unit-quaternion
+    norm conservation for all $\theta \in \mathbb{R}$, exact tubular soliton azimuthal MI gains
+    ($+2$, $0$ at $\sigma_{\mathrm{nl}}=1/4$, and $-798/101$ at $\sigma_{\mathrm{nl}}=5$), collisional
+    Drude--Kohn--Sham permittivity reduction and absorptive positivity, non-cavitating \texttt{SQG/DDF}
+    refractive ceiling at $P_{\mathrm{local}} \ge 0$, and unitary aperture-bounded \texttt{TRUE}
+    soft-photon QFIM ($10{,}001/11{,}001 \cdot F_{\max} \in (0, F_{\max})$). -/)
+  (proof := /-- Combine \texttt{Real.cos\_pi\_div\_two}, \texttt{Real.cos\_neg}, \texttt{Real.cos\_sq\_add\_sin\_sq},
+    positivity of quotients, and \texttt{norm\_num}. -/)]
+theorem maxwell_complete_multi_model_critique_and_gap_closure_identities
+    (theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max : ℝ)
+    (hrho_e : 0 < rho_e) (halpha : 0 < alpha_pol)
+    (homega : 0 < omega_freq) (hgamma : 0 < gamma_coll)
+    (hp_loc : 0 ≤ p_loc) (hrho0 : 0 < rho_0) (hcsq : 0 < c_sq)
+    (hf_max : 0 < f_max) :
+    eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
+      eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
+      unitQuaternionNormSq (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
+      nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
+      nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
+      nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
+      dftCollisionalPermittivityRe rho_e alpha_pol omega_sq 0 =
+        dftElectronDensityPermittivity rho_e alpha_pol omega_sq ∧
+      dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
+      dftCollisionalPermittivityIm rho_e alpha_pol omega_freq 0 = 0 ∧
+      0 < dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll ∧
+      ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
+        ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq ∧
+      subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+      0 < trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max ∧
+      trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max < f_max := by
+  have h_south : eulerKinematicJacobianDet (-Real.pi / 2) = 0 := by
+    unfold eulerKinematicJacobianDet
+    have h_neg : -Real.pi / 2 = -(Real.pi / 2) := by ring
+    rw [h_neg, Real.cos_neg, Real.cos_pi_div_two]
+  have h_quat_all :
+      unitQuaternionNormSq (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 := by
+    unfold unitQuaternionNormSq
+    calc
+      Real.cos (theta_pitch / 2) ^ 2 + 0 ^ 2 + Real.sin (theta_pitch / 2) ^ 2 + 0 ^ 2 =
+          Real.cos (theta_pitch / 2) ^ 2 + Real.sin (theta_pitch / 2) ^ 2 := by ring
+      _ = 1 := Real.cos_sq_add_sin_sq (theta_pitch / 2)
+  have h_im_pos : 0 < dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll := by
+    unfold dftCollisionalPermittivityIm
+    positivity
+  have h_cav_ceil :
+      ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
+        ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq := by
+    unfold ddfPressureGradientRefractiveIndex
+    have h_denom : 0 < rho_0 * c_sq := mul_pos hrho0 hcsq
+    have h_num : 2 * (p_amb - p_loc) ≤ 2 * (p_amb - 0) := by linarith
+    have h_div : 2 * (p_amb - p_loc) / (rho_0 * c_sq) ≤ 2 * (p_amb - 0) / (rho_0 * c_sq) :=
+      div_le_div_of_nonneg_right h_num (le_of_lt h_denom)
+    linarith
+  refine ⟨
+    by unfold eulerKinematicJacobianDet; exact Real.cos_pi_div_two,
+    h_south,
+    h_quat_all,
+    by unfold nonlocalStabilizedAzimuthalMiGain; norm_num,
+    by unfold nonlocalStabilizedAzimuthalMiGain; norm_num,
+    by unfold nonlocalStabilizedAzimuthalMiGain; norm_num,
+    by unfold dftCollisionalPermittivityRe dftElectronDensityPermittivity; ring,
+    by unfold dftCollisionalPermittivityRe; norm_num,
+    by unfold dftCollisionalPermittivityIm; simp,
+    h_im_pos,
+    h_cav_ceil,
+    by unfold subwavelengthPhotonTrueConjugateCoupling; norm_num,
+    by unfold trueApertureBoundedSoftPhotonQfim subwavelengthPhotonTrueConjugateCoupling; linarith,
+    by unfold trueApertureBoundedSoftPhotonQfim subwavelengthPhotonTrueConjugateCoupling; linarith⟩
+
 end
 
 end Signals.DFT

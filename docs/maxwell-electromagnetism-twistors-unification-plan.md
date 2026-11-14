@@ -15,8 +15,8 @@ description: "Structured theoretical, formal-verification (Lean 4), numerical-re
   - [grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
   - [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md)
 - **Verification & Simulation Artifacts**:
-  - Lean 4: {download}`src/signals/Signals/DFT.lean, lines 7935–10062 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/Pending.lean, lines 8652–9109 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 2036–2405 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8425–8746 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 6985–7312 <../src/signals/SignalsPendingTests.lean>`
-  - Rust/WASM: {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 2159–2895 and 3929–4291 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`
+  - Lean 4: {download}`src/signals/Signals/DFT.lean, lines 7935–10189 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/Pending.lean, lines 8652–9154 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 2036–2436 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8425–8769 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 6985–7337 <../src/signals/SignalsPendingTests.lean>`
+  - Rust/WASM: {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 2159–2938 and 3970–4357 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`
 
 ---
 

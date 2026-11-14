@@ -9106,4 +9106,49 @@ lemma DDFFractureCommunicationEvidence.maxwell_complete_multi_model_dft_ddf_pola
       s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq
       hc_alpha hb_norm hc he hdtheta homega⟩
 
+/-- **Pending Boundary for Section 28.1 (`maxwell_complete_multi_model_critique_and_gap_closure_bounds`)**:
+Keeps physical dark-fluid cavitation claims (`ActiveRadiationSourcing`), Proca massive-mode claims
+(`CWProcaEmissionHypothesis`), and sub-wavelength `TRUE` hardware claims (`MultiModalSubSurfaceImagingHypothesis`)
+under explicit validation gates while certifying global $\mathrm{SU}(2)$ spinor gimbal-lock freedom,
+exact tubular soliton azimuthal stability thresholds, collisional Drude–Kohn–Sham permittivity,
+non-cavitating `SQG/DDF` refractive bounds, and passive aperture-bounded `TRUE` soft-photon QFIM. -/
+@[blueprint "lem:signals-pending-maxwell-complete-multi-model-critique-and-gap-closure-bounds"
+  (title := "Pending boundary for Section 28.1: Global spinor gimbal-lock freedom, exact tubular soliton MI threshold, collisional DFT permittivity, DDF cavitation ceiling, and aperture-bounded TRUE QFIM")
+  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
+    remain excluded while all Section 28.1 multi-model electromagnetism critique gap-closure
+    identities hold simultaneously. -/)
+  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.DFT.maxwell\_complete\_multi\_model\_critique\_and\_gap\_closure\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma DDFFractureCommunicationEvidence.maxwell_complete_multi_model_critique_and_gap_closure_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max : ℝ)
+    (hrho_e : 0 < rho_e) (halpha : 0 < alpha_pol)
+    (homega : 0 < omega_freq) (hgamma : 0 < gamma_coll)
+    (hp_loc : 0 ≤ p_loc) (hrho0 : 0 < rho_0) (hcsq : 0 < c_sq)
+    (hf_max : 0 < f_max) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
+        Signals.DFT.eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
+        Signals.DFT.unitQuaternionNormSq
+            (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
+        Signals.DFT.dftCollisionalPermittivityRe rho_e alpha_pol omega_sq 0 =
+          Signals.DFT.dftElectronDensityPermittivity rho_e alpha_pol omega_sq ∧
+        Signals.DFT.dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
+        Signals.DFT.dftCollisionalPermittivityIm rho_e alpha_pol omega_freq 0 = 0 ∧
+        0 < Signals.DFT.dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll ∧
+        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
+          Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq ∧
+        Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+        0 < Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max ∧
+        Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max < f_max) :=
+  ⟨evidence.not_supported_by_noncausal_mode,
+    Signals.DFT.maxwell_complete_multi_model_critique_and_gap_closure_identities
+      theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max
+      hrho_e halpha homega hgamma hp_loc hrho0 hcsq hf_max⟩
+
 end Signals.Pending

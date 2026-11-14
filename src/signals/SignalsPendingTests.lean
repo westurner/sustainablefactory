@@ -7309,4 +7309,29 @@ example (p_amb alpha_pol omega_sq alpha_proc beta_proc w_proc q_charge
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
+example (theta_pitch omega_sq p_amb : ℝ) :
+    (toyDDFFractureEvidence.propagationMode ≠ Signals.Pending.DDFCommunicationMode.transversePhonon →
+        ¬toyDDFFractureEvidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
+        Signals.DFT.eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
+        Signals.DFT.unitQuaternionNormSq
+            (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
+        Signals.DFT.dftCollisionalPermittivityRe 4 1 omega_sq 0 =
+          Signals.DFT.dftElectronDensityPermittivity 4 1 omega_sq ∧
+        Signals.DFT.dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
+        Signals.DFT.dftCollisionalPermittivityIm 4 1 2 0 = 0 ∧
+        0 < Signals.DFT.dftCollisionalPermittivityIm 4 1 2 (1 / 2) ∧
+        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 6 2 1 ≤
+          Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 0 2 1 ∧
+        Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+        0 < Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 10 ∧
+        Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 10 < 10) :=
+  SignalsPending.maxwell_complete_multi_model_critique_and_gap_closure_bounds
+    toyDDFFractureEvidence theta_pitch 4 1 omega_sq 2 (1 / 2) p_amb 6 2 1 10
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsPendingTests

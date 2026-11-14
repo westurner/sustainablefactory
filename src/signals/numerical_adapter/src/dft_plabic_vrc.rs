@@ -2894,6 +2894,37 @@ pub fn low_cachazo_strominger_soft_photon_amplitude(
     (s0_weinberg / omega_soft + s1_angular) * m_hard
 }
 
+/// Section 28.1 Critique Fix 3a: Collisional Drude–Kohn–Sham real relative permittivity
+/// `1 - alpha_pol * rho_e / (omega_sq + gamma_coll_sq)`,
+/// matching `Signals.DFT.dftCollisionalPermittivityRe`.
+pub fn dft_collisional_permittivity_re(
+    rho_e: f64,
+    alpha_pol: f64,
+    omega_sq: f64,
+    gamma_coll_sq: f64,
+) -> f64 {
+    1.0 - alpha_pol * rho_e / (omega_sq + gamma_coll_sq)
+}
+
+/// Section 28.1 Critique Fix 3b: Collisional Drude–Kohn–Sham imaginary (absorptive) permittivity
+/// `(alpha_pol * rho_e * gamma_coll) / (omega_freq * (omega_freq^2 + gamma_coll^2))`,
+/// matching `Signals.DFT.dftCollisionalPermittivityIm`.
+pub fn dft_collisional_permittivity_im(
+    rho_e: f64,
+    alpha_pol: f64,
+    omega_freq: f64,
+    gamma_coll: f64,
+) -> f64 {
+    (alpha_pol * rho_e * gamma_coll) / (omega_freq * (omega_freq.powi(2) + gamma_coll.powi(2)))
+}
+
+/// Section 28.1 Critique Fix 5: Passive aperture-bounded `TRUE` soft-photon QFIM
+/// `subwavelength_photon_true_conjugate_coupling(eta_bethe, g_true) * f_max`,
+/// matching `Signals.DFT.trueApertureBoundedSoftPhotonQfim`.
+pub fn true_aperture_bounded_soft_photon_qfim(eta_bethe: f64, g_true: f64, f_max: f64) -> f64 {
+    subwavelength_photon_true_conjugate_coupling(eta_bethe, g_true) * f_max
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -4287,5 +4318,40 @@ mod tests {
         let m_soft_full = low_cachazo_strominger_soft_photon_amplitude(2.5, 1.25, 0.1, 3.0);
         assert!((0.1 * m_soft_lead - 2.5 * 3.0).abs() < 1e-14);
         assert!((m_soft_full - m_soft_lead - 1.25 * 3.0).abs() < 1e-14);
+
+        // 32. Section 28.1: Adversarial Critique & Gap-Closure Fixes for Multi-Model EM
+        assert!(euler_kinematic_jacobian_det(-std::f64::consts::FRAC_PI_2).abs() < 1e-15);
+        for &theta in &[-1.7, -std::f64::consts::FRAC_PI_2, 0.0, 0.9, std::f64::consts::FRAC_PI_2] {
+            let qw = (theta / 2.0).cos();
+            let qy = (theta / 2.0).sin();
+            assert!((unit_quaternion_norm_sq(qw, 0.0, qy, 0.0) - 1.0).abs() < 1e-15);
+        }
+        assert!((nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 0.0, 2.0) - 2.0).abs() < 1e-15);
+        assert!(nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 0.25, 2.0).abs() < 1e-15);
+        assert!(
+            (nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 5.0, 2.0) - (-798.0 / 101.0)).abs()
+                < 1e-14
+        );
+        assert!(
+            (dft_collisional_permittivity_re(4.0, 1.0, 4.0, 0.0)
+                - dft_electron_density_permittivity(4.0, 1.0, 4.0))
+                .abs()
+                < 1e-15
+        );
+        assert!((dft_collisional_permittivity_re(4.0, 1.0, 0.0, 2.0) - (-1.0)).abs() < 1e-15);
+        assert!(dft_collisional_permittivity_im(4.0, 1.0, 2.0, 0.0).abs() < 1e-15);
+        assert!(dft_collisional_permittivity_im(4.0, 1.0, 2.0, 0.5) > 0.0);
+        assert!(
+            ddf_pressure_gradient_refractive_index(10.0, 6.0, 2.0, 1.0)
+                <= ddf_pressure_gradient_refractive_index(10.0, 0.0, 2.0, 1.0)
+        );
+        assert!(
+            (subwavelength_photon_true_conjugate_coupling(1.0 / 10_001.0, 100_010.0)
+                - 10_001.0 / 11_001.0)
+                .abs()
+                < 1e-15
+        );
+        let qfim_ap = true_aperture_bounded_soft_photon_qfim(1.0 / 10_001.0, 100_010.0, 10.0);
+        assert!(qfim_ap > 0.0 && qfim_ap < 10.0);
     }
 }
