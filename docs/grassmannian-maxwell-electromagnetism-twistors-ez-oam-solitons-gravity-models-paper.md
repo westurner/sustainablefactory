@@ -464,3 +464,50 @@ In `Signals.DFT` Sections 20 & 26.2 (`suNRealDim 4 = 15`, `complexGrassmannianRe
 | **$\mathrm{Gr}_{\mathbb{C}}(2, 6)$** | **`16`** (`complexGrassmannianRealDim 2 6`) | $\mathbb{CP}^{14}$ ($15$ Plücker coords) | **`48`** | **6-point NMHV / CHY scattering**, rhombohedral trilayer graphene ($N=3, 2N=6$, `G-MGS`), and 6-port multi-mode waveguide / `CROW` soliton bus |
 | **$\mathrm{Gr}_{\mathbb{C}}(3, 6)$** | **`18`** (`complexGrassmannianRealDim 3 6`) | $\mathbb{CP}^{19}$ ($20$ Plücker coords) | **`54`** | **Full 3D vectorial electromagnetic field $(E_x, E_y, E_z) \oplus (B_x, B_y, B_z)$** (`gr36TwistorMatrix`), 6-point NMHV self-dual helicity sector ($k=3, n=6$), and 3D volumetric holographic imaging |
 | **$\mathrm{Gr}_{\mathbb{C}}(2, 10)$** | **`32`** (`complexGrassmannianRealDim 2 10`) | $\mathbb{CP}^{44}$ ($45$ Plücker coords) | **`160`** | **Rhombohedral pentalayer graphene ($N=5, 2N=10$, `R5G`)** boundary sublattice projection for $C = \pm 5$ QAHE, FQAH, and chiral $p_x \pm i p_y$ superconductivity ([Paper 29](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md)) |
+
+---
+
+## 6. Multi-Path $\mathrm{ER}=\mathrm{EPR}$ Routing Methods $M_1$, $M_2$, and $M_3$
+
+In [Paper 44](grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md) and [Paper 46](grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md) (`Signals.DFT` Sections 23, 25, & 26.2 in {download}`src/signals/Signals/DFT.lean, lines 7180–7934 and 8540–8595 <../src/signals/Signals/DFT.lean>`), when two spacetime regions $A$ and $B$ are linked by an $\mathrm{ER}=\mathrm{EPR}$ entangled bridge ({cite:p}`maldacena2013cool`; {cite:p}`gao2017traversable`) embedded in a Dilatant Dark Fluid (`SQG/DDF`) substrate, electromagnetic and fermionic signals can be routed along **three distinct physical pathways ($M_1, M_2, M_3$)** and their four non-empty multi-path combinations:
+
+```{mermaid}
+flowchart LR
+    Tx["Transmitter Alice (Region A)\nSignal bit s ∈ {-1, +1}"]
+
+    M1["Method M1: Photons AROUND the Wormhole\n• Unconfined exterior Maxwell wave in Stratum 1 Gr_>0(2,4)\n• 3D inverse-square spreading: η_M1 = w_0² / (w_0² + R²)\n• At w_0 = 1, R = 100: η_M1 = 1 / 10,001 ≈ 9.999 × 10⁻⁵"]
+
+    M2["Method M2: Modes Through a Fracture AROUND the Wormhole\n• Contiguous De = τ γ̇ > 1 DDF pressure-fracture waveguide\n  (p_23 = 0, ΔP = P_amb - P_loc > 0) bypassing throat\n• 1D guided corridor: η_M2 = 1 / (1 + γ_damp L)\n• At γ_damp = 10⁻³, L = 10: η_M2 = 100/101 ≈ 0.9901 (> 9,800× M1!)"]
+
+    M3["Method M3: Modes THROUGH the Wormhole Throat\n• Stratum 2 entangled bridge (C_EPR² = 4|p_23|² > 0)\n• Unfocused thermal photon (λ > r_0) blocked: η_Bethe = 1/101 < 1%\n• M3^f: Semi-Dirac fermion along massless k_y: T_Klein = 100%\n• M3^γ: TRUE-conjugated soft photon (N=100,010): η_TRUE = 10/11 > 90%\n  with non-collapsing throat flux ΔΘ_net = 2 - 10 = -8 ≤ 0!"]
+
+    Rx["Receiver Bob (Region B)\n• Standalone M1 or M2 classical readout\n• M1+M2, M1+M3, M2+M3, or M1+M2+M3 AGC Dual-Keyed\n  Gao–Jafferis–Wall ER=EPR Quantum Teleportation\n  (ΔP_AGC = 1.00, 0% throat backreaction from M1 & M2!)"]
+
+    Tx --> M1 --> Rx
+    Tx --> M2 --> Rx
+    Tx --> M3 --> Rx
+```
+
+### 6.1 The Three Elementary Routing Methods ($M_1, M_2, M_3$)
+
+1. **Method $M_1$ — Photons Around the Wormhole (Exterior Unconfined Space)**:
+   Standard transverse Maxwell photons ($h = \pm 1$) propagate through the exterior ambient spacetime (`Stratum 1` factorized real positive Grassmannian $\mathrm{Gr}_{>0}(2,4)$, where $p_{23} = 0$ and $\mathcal{C}_{\mathrm{EPR}}^2 = 0$). Because the wave is unconfined in 3D space, its collection efficiency over distance $R$ obeys inverse-square diffraction spreading (`exteriorPhotonInverseSquareEfficiency w0_sq r_dist_sq` $= \frac{w_0^2}{w_0^2 + R^2}$): at $w_0 = 1, R = 100$, $\eta_{M_1} = \frac{1}{10{,}001} \approx 9.999\times 10^{-5}$.
+2. **Method $M_2$ — Modes Through a DDF Pressure-Fracture Waveguide Around the Wormhole**:
+   When a shear stress pulse exceeds the critical Deborah number $\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1$ (`deborahShearFractureInstability_iff`) in the exterior DDF substrate, it nucleates a low-pressure ($\Delta P = P_{\mathrm{ambient}} - P_{\mathrm{local}} > 0$) topological phase-slip corridor around the wormhole (`fractureGuidedCorridorTransmission gamma_damp l_path` $= \frac{1}{1 + \gamma_{\mathrm{damp}}L}$). Because the wave is confined in 1D rather than spreading in 3D, at $\gamma_{\mathrm{damp}} = 10^{-3}, L = 10$ it achieves $\eta_{M_2} = \frac{100}{101} \approx 0.9901$—a **$> 9{,}800\times$ transmission gain over Method $M_1$** (`exteriorPhotonInverseSquareEfficiency 1 100 < fractureGuidedCorridorTransmission (1 / 1000) 10`) while keeping $100\%$ of its energy outside the wormhole throat!
+3. **Method $M_3$ — Modes Through the $\mathrm{ER}=\mathrm{EPR}$ Wormhole Throat (`Stratum 2`, $\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 > 0$)**:
+   - **Why Unfocused Sub-Wavelength Photons Fail**: An ordinary long-wavelength photon ($\lambda > r_0$, $r_0 / \lambda = 1/10$) suffers Bethe–Bouwkamp evanescent aperture reflection $\eta_{\mathrm{Bethe}} = \frac{(r_0/\lambda)^4}{1 + (r_0/\lambda)^4} = \frac{1}{10{,}001} < 1\%$ (`subwavelengthPhotonApertureEfficiency 1 10 < semiDiracKleinTunnelingY`), while a high-energy hard photon ($\hbar\omega > \mathcal{B}_{\mathrm{Bohm}}$) triggers Raychaudhuri null Focusing (`wormholeNetNullDefocusingFlux > 0`) and collapses the throat!
+   - **Why Semi-Dirac Fermions ($M_3^f$) and `TRUE`-Conjugated Soft Photons ($M_3^\gamma$) Succeed**:
+     - **Method $M_3^f$ (Semi-Dirac Fermion)**: Enters along the relativistic Dirac axis $k_y$ with $100\%$ Klein tunneling (`semiDiracKleinTunnelingY = 1`) while its massive $k_x$ axis provides transverse Bohmian quantum pressure $\mathcal{B}_{\mathrm{Bohm}} > 0$ that holds the throat open.
+     - **Method $M_3^\gamma$ (`TRUE`-Conjugated Soft Photon)**: Uses multi-array Time-Reversed Ultrasonically Encoded (`TRUE`, {cite:p}`xu2011time`; [Paper 21](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)) phase conjugation across $N_{\mathrm{modes}} = 100{,}010$ modes to achieve $\eta_{\mathrm{TRUE}} = 10/11 > 90\%$ coupling (`(9 / 10 : ℝ) < subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010`) at soft energy $E_{\mathrm{soft}} = 2 < \mathcal{B}_{\mathrm{Bohm}} = 10$ (`wormholeNetNullDefocusingFlux 2 10 = -8 ≤ 0`).
+
+### 6.2 Summary of the Seven Multi-Path Routing Modes (`Signals.DFT` Secs. 25.2 & 26.2)
+
+| Mode ID & Pathway | Plücker Stratum & Concurrence | Transmission / Fidelity Law (`Signals.DFT`) | Wormhole Throat Stress Load | Verified Lean 4 / Rust Property |
+| :--- | :--- | :--- | :---: | :--- |
+| **1. `M1` (Photons Around)** | Stratum 1 ($\mathrm{Gr}_{>0}(2,4), \mathcal{C}_{\mathrm{EPR}}^2 = 0$) | $\eta_{M_1} = \frac{w_0^2}{w_0^2 + R^2} = \frac{1}{10{,}001}$ | **$0$** (bypasses throat) | Classical speed-of-light exterior reference channel |
+| **2. `M2` (Fracture Around)** | Stratum 1 ($\mathrm{De} > 1$ phase-slip waveguide) | $\eta_{M_2} = \frac{1}{1 + \gamma_{\mathrm{damp}}L} = \frac{100}{101}$ | **$0$** (bypasses throat) | $> 9{,}800\times$ higher delivery than $M_1$ at $R=100$; clutter-canceling contrast $2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$ |
+| **3. `M3` (Through Wormhole)** | Stratum 2 ($\mathrm{Gr}_{\mathbb{C}}(2,4), \mathcal{C}_{\mathrm{EPR}}^2 = 4\|p_{23}\|^2 > 0$) | $M_3^f: T_{\mathrm{Klein}} = 1$; $M_3^\gamma: \eta_{\mathrm{TRUE}} = \frac{10}{11} > 90\%$ | $E_{\mathrm{wormhole}} \le \mathcal{B}_{\mathrm{Bohm}}$ ($\Delta\Theta_{\mathrm{net}} \le 0$) | Unkeyed standalone readout has zero contrast (`= 1/2`, No-Signaling Theorem!) |
+| **4. `M1 + M2` (Dual Exterior)** | Stratum 1 (spatial + waveguide diversity) | $\mathrm{SNR}_{1+2} = \mathrm{SNR}_1 + \mathrm{SNR}_2$; $P_{\mathrm{out}} = p_1 p_2$ | **$0$** (bypasses throat) | Delay buffer $\tau_{\mathrm{buf}} = \Delta t_{\mathrm{skew}}$ eliminates moving-clutter residual (`= κ_DDF q_DDF`) |
+| **5. `M1 + M3` (Photon Key + Throat)** | Stratum 1 + Stratum 2 (Gao–Jafferis–Wall) | $P_{\mathrm{Rx}} = \frac{1 + s\cdot\tanh(\kappa_{\mathrm{GJW}}) x_{M_1}}{2}$ | $E_{\mathrm{wormhole}}$ only ($E_{M_1}$ stays outside) | Unlocks $M_3$ wormhole teleportation when $M_2$ fracture is unavailable |
+| **6. `M2 + M3` (Fracture Key + Throat)** | Stratum 1 ($\mathrm{De}>1$) + Stratum 2 | $P_{\mathrm{Rx}} = \frac{1 + s\cdot\tanh(\kappa_{\mathrm{GJW}}) x_{M_2}}{2}$ | $E_{\mathrm{wormhole}}$ only ($E_{M_2}$ stays outside) | High-SNR ($>99\%$) classical key delivery across opaque clutter where $M_1$ is blocked |
+| **7. `M1 + M2 + M3` (Tri-Modal AGC)** | Full $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \text{DDF}$ synthesis | `triModalAgcDualKeyedErEprRxProbability` ($\Delta P_{\mathrm{AGC}} = 1$) | `triModalWormholeThroatLoad = e_wormhole` | **Achieves $\Delta P_{\mathrm{AGC}} = 100\%$ whether `M1+M2`, `M1`-only, or `M2`-only survives** (`1 - 0 = 1`)! |
