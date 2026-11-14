@@ -511,3 +511,52 @@ flowchart LR
 | **5. `M1 + M3` (Photon Key + Throat)** | Stratum 1 + Stratum 2 (Gao–Jafferis–Wall) | $P_{\mathrm{Rx}} = \frac{1 + s\cdot\tanh(\kappa_{\mathrm{GJW}}) x_{M_1}}{2}$ | $E_{\mathrm{wormhole}}$ only ($E_{M_1}$ stays outside) | Unlocks $M_3$ wormhole teleportation when $M_2$ fracture is unavailable |
 | **6. `M2 + M3` (Fracture Key + Throat)** | Stratum 1 ($\mathrm{De}>1$) + Stratum 2 | $P_{\mathrm{Rx}} = \frac{1 + s\cdot\tanh(\kappa_{\mathrm{GJW}}) x_{M_2}}{2}$ | $E_{\mathrm{wormhole}}$ only ($E_{M_2}$ stays outside) | High-SNR ($>99\%$) classical key delivery across opaque clutter where $M_1$ is blocked |
 | **7. `M1 + M2 + M3` (Tri-Modal AGC)** | Full $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \text{DDF}$ synthesis | `triModalAgcDualKeyedErEprRxProbability` ($\Delta P_{\mathrm{AGC}} = 1$) | `triModalWormholeThroatLoad = e_wormhole` | **Achieves $\Delta P_{\mathrm{AGC}} = 100\%$ whether `M1+M2`, `M1`-only, or `M2`-only survives** (`1 - 0 = 1`)! |
+
+---
+
+## 7. Soft Photons and `TRUE`-Conjugated Soft Photons Across Every Electromagnetic Model
+
+What are **soft photons**, how do they differ from **`TRUE`-conjugated soft photons** ($M_3^\gamma$), and how does each electromagnetic model in Section 3 represent them? In `Signals.DFT` Sections 23.3, 26.2, & 28 ({download}`src/signals/Signals/DFT.lean, lines 7420–7525, 8508–8595, and 9955–10062 <../src/signals/Signals/DFT.lean>`) and `dft_plabic_vrc.rs` ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 2410–2425 and 2860–2895 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`), we machine-check four exact laws:
+
+### 7.1 Weinberg Leading $O(\omega^{-1})$ Pole, Ward Gauge Invariance, Low–Cachazo–Strominger Subleading $O(\omega^0)$ OAM Operator, & Celestial Currents
+
+1. **Weinberg (1965) Soft-Photon Eikonal Factor & Ward Identity (`weinbergSoftPhotonFactor`, `softPhotonTwoLegWardResidual`)**:
+   When a soft photon of 4-momentum $k^\mu = \omega_{\mathrm{soft}}(1, \hat{\mathbf{k}})$ ($\omega_{\mathrm{soft}} \to 0^+$) is emitted or absorbed by hard external particles $\{a\}$ with charges $Q_a$ and 4-momenta $p_a^\mu$, the $(n+1)$-point amplitude factors universally at leading order $O(\omega_{\mathrm{soft}}^{-1})$ {cite:p}`weinberg1965infrared`:
+
+   $$
+   S_a^{(0)}(Q_a, p_a\cdot\varepsilon, p_a\cdot k) = \frac{Q_a\,(p_a\cdot\varepsilon)}{p_a\cdot k}.
+   $$
+
+   Under a gauge transformation $\varepsilon_\mu \mapsto \varepsilon_\mu + k_\mu$ ($p_a\cdot\varepsilon \mapsto p_a\cdot k$), each leg shifts by $S_a^{(0)}(Q_a, p_a\cdot k, p_a\cdot k) = Q_a$, so for any charge-conserving dipole pair $(+Q, -Q)$, the two-leg Ward residual vanishes identically (`softPhotonTwoLegWardResidual q_charge pk1 pk2 = 0` for $p_1\cdot k \neq 0, p_2\cdot k \neq 0$): **global charge conservation is equivalent to gauge invariance of soft-photon emission**.
+2. **Low–Cachazo–Strominger Leading + Subleading Soft-Photon Expansion (`lowCachazoStromingerSoftPhotonAmplitude`)**:
+   Including Low's (1958) {cite:p}`low1958bremsstrahlung` and Cachazo–Strominger's (2014) {cite:p}`cachazo2014evidence` subleading $O(\omega_{\mathrm{soft}}^0)$ total angular-momentum operator $S^{(1)} = \sum_a \frac{Q_a\,\varepsilon_\mu k_\nu J_a^{\mu\nu}}{p_a\cdot k}$ (which couples directly to spin + **Orbital Angular Momentum `OAM`** $J_a^{\mu\nu}$!), the full soft-photon amplitude (`lowCachazoStromingerSoftPhotonAmplitude`) is:
+
+   $$
+   \mathcal{M}_{n+1}^{\mathrm{soft}}(S^{(0)}, S^{(1)}, \omega_{\mathrm{soft}}, \mathcal{M}_n) = \left(\frac{S^{(0)}}{\omega_{\mathrm{soft}}} + S^{(1)}\right)\mathcal{M}_n,
+   $$
+
+   satisfying exact residue recovery `omega_soft * lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard = s0_weinberg * m_hard` and exact subleading OAM isolation `lowCachazoStromingerSoftPhotonAmplitude s0_weinberg s1_angular omega_soft m_hard - lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard = s1_angular * m_hard`.
+3. **Celestial $\mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ Holomorphic Current & Electromagnetic Memory (`celestialConformalWeightH`, `celestialConformalWeightHBar`)**:
+   Under a Mellin transform $\int_0^\infty d\omega\,\omega^{\Delta - 1}$ in the soft limit $\Delta \to 1$ {cite:p}`strominger2017lectures`, a helicity $J = +1$ soft photon becomes a holomorphic Kac–Moody current on the celestial sphere $\mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ with conformal weights $(h, \bar{h}) = \bigl(\frac{\Delta + J}{2}, \frac{\Delta - J}{2}\bigr) = (1, 0)$ (`celestialConformalWeightH 1 1 = 1`, `celestialConformalWeightHBar 1 1 = 0`), whose permanent DC step $\Delta A_\mu \neq 0$ is the **electromagnetic memory effect** (an observable Aharonov–Bohm holonomy jump!).
+
+### 7.2 Why `TRUE`-Conjugated Soft Photons ($M_3^\gamma$) Overcome Both Sub-Wavelength Bethe Reflection and Raychaudhuri Wormhole Collapse
+
+As proved in `maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identities` ({download}`src/signals/Signals/DFT.lean, lines 9970–10062 <../src/signals/Signals/DFT.lean>`), an ordinary soft photon ($\omega_{\mathrm{soft}} \to 0 \implies \lambda = 2\pi c / \omega_{\mathrm{soft}} \gg r_0$) has two opposite properties at a sub-wavelength wormhole mouth or nano-aperture of radius $r_0$:
+- **Thermodynamic / Gravitational Advantage**: Because its energy is soft ($E_{\mathrm{soft}} = 2 \le 10 = \mathcal{B}_{\mathrm{Bohm}}$) and its rest mass is zero ($m_0 = 0$), it experiences **zero DDF rest-mass Lorentz jamming** (`wormholeTransitJammedEnergy 0 beta_sq e_soft_sq = e_soft_sq`) and **zero Raychaudhuri throat collapse** (`wormholeNetNullDefocusingFlux 2 10 = -8 ≤ 0`).
+- **Diffraction Disadvantage (Unfocused)**: Because $\lambda \gg r_0$, an unfocused single-mode soft wave suffers Bethe–Bouwkamp reflection $\eta_{\mathrm{Bethe}} = \frac{(r_0/\lambda)^4}{1 + (r_0/\lambda)^4} = \frac{1}{10{,}001} < 10^{-4}$ (`subwavelengthPhotonApertureEfficiency 1 10`).
+- **The `TRUE`-Conjugated Soft-Photon Solution ($M_3^\gamma$)**: By phase-conjugating the soft wave across an $N_{\mathrm{modes}}$-element **Time-Reversed Ultrasonically Encoded (`TRUE`)** Grassmannian array (`subwavelengthPhotonTrueConjugateCoupling`, `subwavelengthTrueTaggedConjugateCoupling` with acoustic/phononic tag efficiency $\eta_{\mathrm{tag}} = 1/10$ at the throat mouth), time-reversal coherent addition scales the effective aperture coupling to:
+
+  $$
+  \eta_{\mathrm{TRUE}}\bigl(\eta_{\mathrm{Bethe}}, N_{\mathrm{modes}}\bigr) = \frac{N_{\mathrm{modes}}\,\eta_{\mathrm{Bethe}}}{1 + N_{\mathrm{modes}}\,\eta_{\mathrm{Bethe}}} = \frac{100{,}010 \times \frac{1}{10{,}001}}{1 + 100{,}010 \times \frac{1}{10{,}001}} = \frac{10}{11} > \frac{9}{10} = 90\%!
+  $$
+
+### 7.3 How Each Electromagnetic Model Formulates Soft Photons and `TRUE`-Conjugated Soft Photons
+
+| Electromagnetic / Gravity Model | How Soft Photons ($\omega_{\mathrm{soft}} \to 0$) Are Modeled | How `TRUE`-Conjugated Soft Photons ($M_3^\gamma$) Operate in the Model | Lean 4 & Rust Verification Identifiers |
+| :--- | :--- | :--- | :--- |
+| **1. Classical Maxwell & Einstein GR** | Infrared bremsstrahlung tail $dI/d\omega \sim \text{const}$ & permanent Christodoulou / EM memory shift $\Delta A_\mu$ on $\mathcal{I}^+$ | Time-reversed Green's function sink $F_{\mu\nu}^{\mathrm{ret}} - F_{\mu\nu}^{\mathrm{adv}}$ converging on $r_0$ with $\Delta\Theta_{\mathrm{net}} = E_{\mathrm{soft}} - \mathcal{B}_{\mathrm{Bohm}} \le 0$ | `wormholeNetNullDefocusingFlux` |
+| **2. QED & Gauge Scattering (`BCJ` / $\mathrm{U}(1)^4$)** | Weinberg eikonal pole $S_a^{(0)} = \frac{Q_a(p_a\cdot\varepsilon)}{p_a\cdot k}$ + Low $O(\omega^0)$ spin/OAM operator $S^{(1)}$; Ward residual `= 0` | Coherent $N_{\mathrm{modes}}$-channel phase-conjugated soft coherent state $\exp(\sum_m \alpha_m^* a_m^\dagger - \text{h.c.})\lvert 0\rangle$ | `weinbergSoftPhotonFactor`, `softPhotonTwoLegWardResidual`, `lowCachazoStromingerSoftPhotonAmplitude` |
+| **3. Witten Twistor String & Cachazo (`CHY`)** | Celestial current $(h, \bar{h}) = (1, 0)$ on $\mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ & Cachazo–Strominger holomorphic soft operator $S^{(1)} = \sum_a \frac{\tilde{\lambda}_a^{\dot{A}'}\partial_{\tilde{\lambda}_s^{\dot{A}'}}}{\langle s\,a\rangle}$ | Time-reversed ambitwistor / twistor contour integral focused onto the wormhole throat line $\mathbb{CP}^1_{\mathrm{throat}} \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ | `celestialConformalWeightH`, `celestialConformalWeightHBar` |
+| **4. `SQG/DDF` Superfluid Substrate** | Long-wavelength ($k \to 0$) transverse $\varphi$-phonon with zero rest-mass jamming (`wormholeTransitJammedEnergy 0 = e_soft_sq`) | Acousto-optic (`LIFU` / DDF phonon tag $\eta_{\mathrm{tag}}$) + `TRUE` phase-conjugated shear wave (`subwavelengthTrueTaggedConjugateCoupling > 9/10`) | `wormholeTransitJammedEnergy`, `subwavelengthTrueTaggedConjugateCoupling` |
+| **5. `DFT` / `G-GKBA` / Complex `VRC` Matter** | Sub-gap / Pauli-blocked photon ($\hbar\omega_{\mathrm{soft}} < 2 E_F$) with zero interband absorption (`rgoPauliBlockedAbsorption = 0`) | Non-destructive dispersive `TRUE` focusing through scattering tissue/carbon media (`Signals.MultiArrayImaging`) | `dftElectronDensityPermittivity`, `subwavelengthPhotonTrueConjugateCoupling` |
+| **6. Turner Models 6, 12, 13, 14a, & 14b** | Plücker ray on $\mathcal{Q}_4 \subset \mathbb{CP}^5$ carrying $S^{(0)}$ in its $\mathrm{U}(1)$ connection $\mathcal{A}_\mu$ and $S^{(1)}$ OAM in its projective QFIM $F_{\varphi\varphi}^{\mathrm{OAM}} = 4\ell^2$ | Dual-Schubert $(\Psi, \Phi) \in \mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ conjugate pair boosting effective QFIM by $N_{\mathrm{modes}}\times$ (`trueConjugatedSoftPhotonQfimGain`) | `trueConjugatedSoftPhotonQfimGain`, `triModalAgcDualKeyedErEprRxProbability` |
