@@ -251,3 +251,121 @@ flowchart TB
 | **Tubular Soliton Azimuthal Stability** | `nonlocalStabilizedAzimuthalMiGain`, `nonlocal_stabilized_azimuthal_mi_gain` | Local Kerr ($\sigma_{\mathrm{nl}}=0$) breaks ring into filaments ($\Gamma_{\mathrm{MI}} = +2 > 0$) | Nonlocal thermal/dilatantPlücker response ($\sigma_{\mathrm{nl}}=5$) stabilizes tube | `nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -79/10 < 0` |
 | **Dark Vortex Core ($r \to 0, \det W = 0$)** | `scalarBohmVortexCoreDivergence` vs. `pluckerRegularizedVortexCoreNormSq` | Centrifugal Bohm potential $\frac{\hbar^2\ell^2}{2m r^2}$ blows up $100\times$ as $r: 1 \to 1/10$ | Homogeneous Kähler core norm $\mathcal{D}_{\mathrm{core}} = 1 + \|W\|^2 + \|\det W\|^2 \ge 1$ & $\mathcal{T}_{\mathrm{QFIM}}^{\mathrm{ray}}(0) = 0$ | `1 ≤ pluckerRegularizedVortexCoreNormSq (w_norm ^ 2) 0` |
 | **Dielectric Momentum & Gouy Phase** | `abrahamMinkowskiMomentumProduct`, `laguerreGaussianGouyModeOrder` | $p_{\mathrm{Abr}} = p_0/n$ vs. $p_{\mathrm{Mink}} = n p_0$ controversy | Product $p_{\mathrm{Abr}}p_{\mathrm{Mink}} = p_0^2$ & canonical OAM $L_z = \hbar\ell$ are $n$-invariant; Gouy order $2p + \|\ell\| + 1$ | `abrahamMinkowskiMomentumProduct p0 n = p0 ^ 2`, `laguerreGaussianGouyModeOrder 0 2 = 3` |
+
+---
+
+(sec-em-master-table)=
+## 3. Multi-Model Electromagnetic Wave Dictionary Across All Gravity and Electron/Wave Models
+
+How is an electromagnetic wave—together with its polarization, longitudinal $E_z$ & OAM structure, solar gravitational deflection $\Delta\theta_\gamma$, and active beam–beam gravitational sourcing $\eta_{\mathrm{act}}^\gamma$—modeled across each of the gravitational and electron-scattering frameworks in our research program? Table 3.1 provides a master cross-reference with direct links to the dedicated model subsections ([Sections 3.1–3.8](#sec-em-3-1)) and their machine-checked Lean 4 and Rust implementations (`Signals.DFT` Sections 26, 27.3, 27.4, & 28 in {download}`src/signals/Signals/DFT.lean, lines 8182–8353 and 9370–10062 <../src/signals/Signals/DFT.lean>`).
+
+### Table 3.1: Master Comparison of Electromagnetic Wave Modeling Across Gravity & Electron Frameworks
+
+| Model Family & Dedicated Subsection | Primary EM Field / Wave Carrier | Gravitational Coupling & Light-Bending Formula $\Delta\theta_\gamma$ | Solar Light-Bending Error $\varepsilon_{\mathrm{rel}}$ vs. GR | Active Laser–Laser Deflection $\eta_{\mathrm{act}}^\gamma$ | Longitudinal $E_z$, `OAM`, & Soft-Photon ($M_3^\gamma$) Capabilities | Lean 4 & Rust Verification Identifiers |
+| :--- | :--- | :--- | :---: | :---: | :--- | :--- |
+| **1. Classical GR, Newtonian Vector, & Nordström Scalar** ([Sec. 3.1](#sec-em-3-1)) | Covariant Faraday 2-form $F_{\mu\nu}$ on $(\mathcal{M}, g_{\mu\nu})$; traceless $T^\mu{}_\mu(d=4)=0$ | $\Delta\theta_\gamma^{\mathrm{PPN}} = \frac{2(1+\gamma_{\mathrm{PPN}})GM}{c^2 b}$ (`gravitationalLightDeflectionPPN`) | **GR ($\gamma=1$): $0\%$**<br>Newton/Spin-1 ($\gamma=0$): **$50\%$**<br>Nordström ($\gamma=-1$): **$100\%$** | $\eta_{\mathrm{act}}^\gamma = 1$ (Tolman–Ehrenfest–Podolsky) | Classical geometric optics; point-source & scalar-vortex cores diverge as $1/r^2$ | `maxwellStressEnergyTraceInDim`, `gravitationalLightDeflectionPPN` |
+| **2. QED & Gauge Scattering (`BCJ` / Euler–Heisenberg / Partanen–Tulkki $\mathrm{U}(1)^4$)** ([Sec. 3.2](#sec-em-3-2)) | Quantized $U(1)$ gauge boson $A_\mu$ ($h=\pm 1$) + 1-loop virtual $e^+e^-$ vacuum polarization | $\Delta\theta_\gamma = \frac{4GM}{c^2 b}$ from $t$-channel spin-2 graviton $= \text{Gauge}\otimes\text{Gauge}$; $n_{\mathrm{EH}} = 1 + c_{\mathrm{EH}}\alpha^2(B/B_{\mathrm{crit}})^2 > 1$ | **$0\%$** (Spin-2 double copy & $\mathrm{U}(1)^4$)<br>**$50\%$** (un-doubled spin-1 vector) | $\eta_{\mathrm{act}}^\gamma = 1$ (`activePhotonBeamDeflection 1`) | Exact Weinberg $O(\omega^{-1})$ + Low $O(\omega^0)$ soft theorems; off-shell virtual $k^2 \neq 0$ carries $E_z$ | `qedEulerHeisenbergRefractiveShift`, `qedOrbitalEccentricityQfim` |
+| **3. Witten Twistor String vs. Cachazo (`CSW` / `BCFW` / `Hodges` / `CHY`)** ([Sec. 3.3](#sec-em-3-3)) | Penrose cohomology $f_{-4}(Z) \in H^1(\mathbb{PT}^+, \mathcal{O}(-4))$ & CHY $\mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ punctures | Witten Weyl: $\beta_{\mathrm{scale}}\Delta\theta_{\mathrm{GR}} + \gamma_{\mathrm{conf}}b$<br>Cachazo–Skinner ($\pi_I=1$): $\Delta\theta_{\mathrm{GR}}$ | **Witten ($\pi_I=0$): $100\%$** (at $\beta=\gamma=0$)<br>**Cachazo ($\pi_I=1$): $0\%$** | $\eta_{\mathrm{act}}^\gamma = 1$ (on-shell tree/loop graviton exchange) | Native Robinson OAM congruence & Cachazo–Strominger subleading OAM soft operator $S^{(1)}$ | `wittenConformalLightDeflection`, `cachazoSkinnerLightDeflection`, `chyWorldsheetQfimMetric` |
+| **4. Superfluid Quantum Gravity & Dilatant Dark Fluid (`SQG/DDF`)** ([Sec. 3.4](#sec-em-3-4)) | Transverse $\varphi$-phase shear phonons with saturated speed $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ | $\Delta\theta_\gamma^{\mathrm{DDF}} = \frac{4 G_\phi M(\varrho_{\max}^\varphi j_{\min}^\varphi)}{b}$ via refractive index $n_{\mathrm{DDF}} = 1 + \frac{2\Delta P}{\rho_0 c^2}$ | **$0\%$** (for passive mass source $M$ with $c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi$) | **$\eta_{\mathrm{act}}^\gamma = 0$** (`activePhotonBeamDeflection 0 = 0`, decisive lab discriminator!) | Nonlocal dilatant jamming ($\sigma_{\mathrm{nl}}>0$) stabilizes tubular OAM solitons & guides $M_2$ fracture waves | `ddfRefractiveLightDeflection`, `ddfPressureGradientRefractiveIndex`, `activePhotonBeamDeflection` |
+| **5. Turner Model 6 (Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-`iGPE` Superposition)** ([Sec. 3.5](#sec-em-3-5)) | 6-component Plücker condensate $p_{\mathrm{slit}} = (z_1, 1, z_2, 1, z_1+z_2, 1)^\top \in \mathcal{Q}_4$ | Flat-space / local wave-superposition & OAM interferometer envelope on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ | **$0\%$** double-slit & OAM fringe intensity error (vs. $50\%$ on $\mathrm{Gr}_{\ge 0}(2,4)$) | N/A (local optical / matter-wave superposition benchmark) | Enforces $p_4 = z_1 + z_2$ via $\mathcal{C}(p)=0$; regularizes dark core $\mathcal{D}_{\mathrm{core}} \ge 1$ | `pluckerMadelungSuperpositionOAMDoubleSlit`, `pluckerRegularizedVortexCoreNormSq` |
+| **6. Turner Model 12 (Flat-Space $\mathrm{Gr}_{\mathbb{C}}(2,4)$ `BCJ` Double Copy + Splats, No DDF)** ([Sec. 3.6](#sec-em-3-6)) | $2\times 4$ complex twistor matrix $M_{\mathbb{C}} \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ + 2D/3D `TensorGaussianSplat` | $\Delta\theta_\gamma^{(12)} = \frac{4GM}{c^2 b}\frac{(1+e)(1-e)}{1-e^2}$ (`turnerGr24QEDLightDeflection`) | **$0\%$** ($\varepsilon_{\mathrm{rel}} = 0$ across all eccentricities $e \in [0,1)$) | $\eta_{\mathrm{act}}^\gamma = 1$ (pure QED/BCJ vacuum without DDF medium) | Gimbal-lock-free spinor splat orientation + 3D $\mathrm{Gr}_{\mathbb{C}}(3,6)$ focal $E_z$ | `turnerGr24QEDLightDeflection`, `qedOrbitalEccentricityQfim` |
+| **7. Turner Model 13 (Unified $\mathrm{Gr}_{\mathbb{C}}(2,4)$ + Conservative DDF + 3D Splat)** ([Sec. 3.7](#sec-em-3-7)) | $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker wavepacket advected in 3D `NormedTensorGaussianSplat3D` DDF flow | $\Delta\theta_\gamma^{(13)} = \frac{4 G_\phi M(\varrho_{\max}^\varphi j_{\min}^\varphi)}{b}\frac{(1+e)(1-e)}{1-e^2}$ (`turnerGr24DDFLightDeflection`) | **$0\%$** ($\varepsilon_{\mathrm{rel}} = 0$ for passive gravitational lensing) | **$\eta_{\mathrm{act}}^\gamma = 0$** (inherits DDF passive-radiation rule) | Combines 3D splat Bohm–Fisher core $\frac{1}{2}Q_{\mathrm{core}}(\Sigma)$ with nonlocal DDF tubular soliton stability | `turnerGr24DDFLightDeflection`, `gaussianSplatScalarBohmFromFisher` |
+| **8. Turner Models 14a (No DDF) & 14b (With DDF) — Klein Quadric $\mathcal{Q}_4$ Kähler `iGPE`** ([Sec. 3.8](#sec-em-3-8)) | Dual-Schubert $(\Psi, \Phi) \in \mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ on $\mathcal{Q}_4$ with $g^{\mathrm{FS}} = \frac{1}{4}\mathrm{QFIM}$ | $\Delta\theta_\gamma^{(14\mathrm{a/b})} = \Delta\theta_{\mathrm{GR/DDF}}\frac{\mathcal{D}(W_{\mathrm{orb}})-3}{1-e^2} + \delta_{\mathrm{Jos}}$ (`turnerPluckerKahlerLightDeflection`, `turnerDualGr24IGPEDDFLightDeflection`) | **$0\%$** at solar-system scales ($\delta_{\mathrm{Jos}}=0$, $\mathcal{D}_K - 3 = 1 - e^2$) | **14a: $\eta_{\mathrm{act}}^\gamma = 1$**<br>**14b: $\eta_{\mathrm{act}}^\gamma = 0$** | Exact Heaviside–Larmor duality norm $|\Psi'|^2+|\Phi'|^2$, ghost-free 2-derivative Kähler action, & $M_1\text{–}M_3$ `TRUE` soft-photon bridge | `turnerPluckerKahlerLightDeflection`, `turnerDualGr24IGPEDDFLightDeflection`, `electricMagneticDualityNormSq` |
+
+---
+
+(sec-em-3-1)=
+### 3.1 Classical Baselines: Einstein GR ($\gamma_{\mathrm{PPN}} = 1$), Newtonian / Spin-1 Vector ($\gamma_{\mathrm{PPN}} = 0$), and Nordström Scalar Gravity ($\gamma_{\mathrm{PPN}} = -1$)
+
+In Parameterized Post-Newtonian (`PPN`) metric gravity ($ds^2 = -(1 - \frac{2GM}{c^2 r})c^2 dt^2 + (1 + \gamma_{\mathrm{PPN}}\frac{2GM}{c^2 r})d\mathbf{x}^2$), Maxwell's equations are minimally coupled via $\nabla_\mu F^{\mu\nu} = \mu_0 J^\nu$, and a grazing light ray with impact parameter $b$ is deflected by (`gravitationalLightDeflectionPPN` in {download}`src/signals/Signals/DFT.lean, lines 8172–8181 <../src/signals/Signals/DFT.lean>`):
+
+$$
+\Delta\theta_\gamma(G, M, c, b, \gamma_{\mathrm{PPN}}) = \frac{2(1 + \gamma_{\mathrm{PPN}}) G M}{c^2 b}.
+$$
+
+We prove three exact baseline benchmarks in `maxwell_em_tensors_twistors_ez_oam_solitons_and_gravity_models_identities`:
+1. **Einstein General Relativity ($\gamma_{\mathrm{PPN}} = 1$, {cite:p}`einstein1916grundlage`)**: Equal temporal clock dilation ($g_{00}$) and spatial curvature ($g_{ij}$) yield $\Delta\theta_{\mathrm{GR}} = \frac{4GM}{c^2 b}$ ($1.75''$ at the solar limb, $\varepsilon_{\mathrm{rel}} = 0$).
+2. **Newtonian Corpuscular / Un-Doubled Spin-1 Vector Gravity ($\gamma_{\mathrm{PPN}} = 0$)**: Couples only to the temporal potential $g_{00}$, yielding $\Delta\theta_{\mathrm{Newt}} = \frac{2GM}{c^2 b} = \frac{1}{2}\Delta\theta_{\mathrm{GR}}$ (**$\varepsilon_{\mathrm{rel}} = 1/2 = 50\%$**).
+3. **Nordström Relativistic Spin-0 Scalar Gravity ($\gamma_{\mathrm{PPN}} = -1$, {cite:p}`nordstrom1913gravitation`)**: Couples the scalar gravitational field $\Phi$ exclusively to the trace of the stress-energy tensor ($\Box\Phi = 4\pi G T^\mu{}_\mu$). Because **`maxwellStressEnergyTraceInDim 4 f_contract = 0`** in $d = 4$ spacetime dimensions, light is completely blind to a scalar gravitational field: `gravitationalLightDeflectionPPN g_const mass_source c_light b_impact (-1) = 0` (**$\varepsilon_{\mathrm{rel}} = 1 = 100\%$**).
+
+---
+
+(sec-em-3-2)=
+### 3.2 QED & Gauge Scattering Models: `BCJ` Double Copy, Euler–Heisenberg Vacuum Birefringence, and Partanen–Tulkki (2025) $\mathrm{U}(1)^4$ QFT
+
+In quantum electrodynamics and flat-space gauge scattering ([Paper 4](grassmannian-gravity-from-qed-scattering-paper.md); `Signals.QEDGravity` and `Signals.DFT` Sections 27.4 & 28):
+1. **1-Loop QED Euler–Heisenberg Vacuum Birefringence (`qedEulerHeisenbergRefractiveShift`)**:
+   Whereas classical vacuum Maxwell theory is strictly linear ($n_{\mathrm{vac}} = 1$), 1-loop QED virtual electron–positron ($e^+e^-$) box diagrams ({cite:p}`euler1936folgerungen`; {cite:p}`schwinger1951gauge`) dress the vacuum with the effective Lagrangian $\Delta\mathcal{L}_{\mathrm{EH}} = \frac{2\alpha^2\hbar^3}{45 m_e^4 c^5}\bigl[(|\mathbf{E}|^2/c^2 - |\mathbf{B}|^2)^2 + 7(\mathbf{E}\cdot\mathbf{B}/c)^2\bigr]$. Consequently, a strong magnetic field $B / B_{\mathrm{crit}} > 0$ ($B_{\mathrm{crit}} = m_e^2 c^2 / (e\hbar) \approx 4.41\times 10^9\text{ T}$) shifts the vacuum refractive index above unity (`1 < qedEulerHeisenbergRefractiveShift c_alpha_sq b_norm_sq` vs. `qedEulerHeisenbergRefractiveShift c_alpha_sq 0 = 1`), enabling vacuum photon–photon scattering.
+2. **Why $\text{Gravity} = \text{Gauge}^2$ (`BCJ` Double Copy & Partanen–Tulkki $\mathrm{U}(1)^4$) Restores the Missing Factor of $2$ in Light Bending and $4$ in GW Flux**:
+   In Bern–Carrasco–Johansson (`BCJ`, {cite:p}`bern2008bcj`) double-copy scattering and Partanen & Tulkki's 2025 four-$\mathrm{U}(1)$ gauge theory {cite:p}`partanen2025gravity,partanen2025perihelion` ({cite:p}`bjerrum2018general`), the spin-2 graviton polarization tensor is the symmetric traceless product of two spin-1 Maxwell photon polarizations: $\varepsilon_{\mu\nu}^{(\pm 2)} = \varepsilon_\mu^{(\pm 1)} \otimes \varepsilon_\nu^{(\pm 1)}$. As proved in `qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_identities` ({download}`src/signals/Signals/DFT.lean, lines 9600–9745 <../src/signals/Signals/DFT.lean>`), doubling the spinor helicity ($s: \pm 1 \mapsto \pm 2$) doubles the internal phase winding ($\phi \mapsto 2\phi$), which multiplies the bivector phase variance by $2^2 = 4$ (`twoChannelPhaseVariance p0 p1 (2 * dphi0) (2 * dphi1) = 4 * twoChannelPhaseVariance p0 p1 dphi0 dphi1`), boosting un-doubled spin-1 quadrupole radiation from $\frac{1}{4}P_{\mathrm{GW}}^{\mathrm{GR}}$ ($\varepsilon_{\mathrm{rel}} = 3/4$) to $100\%$ of $P_{\mathrm{GW}}^{\mathrm{GR}}$ ($\varepsilon_{\mathrm{rel}} = 0$) and recovering $\Delta\theta_\gamma = \frac{4GM}{c^2 b}$ ($\varepsilon_{\mathrm{rel}} = 0$) with active photon–photon gravitational deflection $\eta_{\mathrm{act}}^\gamma = 1$.
+
+---
+
+(sec-em-3-3)=
+### 3.3 Witten (2004) Twistor String Theory vs. the Cachazo Program (`CSW` / `BCFW` / `Hodges` / `CHY`)
+
+In [Paper 30](grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md) and `Signals.DFT` Sections 20, 26, & 27.3, we contrast two twistor-space formulations of gauge and gravitational radiation:
+1. **Witten's (2004) $\mathcal{N}=4$ Twistor String ({cite:p}`witten2004twistor`; {cite:p}`berkovits2004conformal`)**:
+   Models Yang–Mills / Maxwell gluons and photons cleanly as holomorphic cohomology classes on $\mathbb{CP}^{3|4}$ (`CSW` MHV vertices {cite:p}`csw2004` and `BCFW` recursion {cite:p}`bcfw2005` with $C_{n-3} = 5$ Catalan trees at $n=6$), but its closed-string gravitational sector preserves full $\mathrm{SU}(2,2)\cong\mathrm{SO}(4,2)$ conformal invariance, generating a **4th-derivative Weyl conformal supergravity propagator** (`wittenFourthOrderPropagator`):
+
+   $$
+   \frac{1}{q^2(q^2 - m_{\mathrm{ghost}}^2)} = \frac{1}{m_{\mathrm{ghost}}^2}\left(\frac{1}{q^2 - m_{\mathrm{ghost}}^2} - \frac{1}{q^2}\right),
+   $$
+
+   which contains a negative-norm Ostrogradsky ghost and produces linear biharmonic light bending `wittenConformalLightDeflection` ($\varepsilon_{\mathrm{rel}} = 100\%$ when $\beta_{\mathrm{scale}} = \gamma_{\mathrm{conf}} = 0$).
+2. **The Cachazo Program (`Cachazo–Geyer` 2012, `Cachazo–Skinner` 2012/2013, & `CHY` 2013/2014)**:
+   - **Cachazo–Skinner Infinity Twistor $I_{\alpha\beta}$ ($\pi_I = 1$, {cite:p}`cachazo2013gravity`)**: Breaks conformal $\mathrm{SU}(2,2)$ down to Poincaré invariance via the infinity twistor $I_{\alpha\beta}$, projecting out Witten's 4th-order Weyl ghost (`cachazoSkinnerFilteredPropagator q_sq m_ghost_sq 1 = twoDerivativeGravitonPropagator q_sq`) and recovering exact Einstein light deflection `cachazoSkinnerLightDeflection delta_theta_gr 1 gamma_conf b_impact = delta_theta_gr` ($\varepsilon_{\mathrm{rel}} = 0$).
+   - **CHY Worldsheet $\mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ Localization ({cite:p}`chy2014`)**: Localizes $n$-photon/graviton scattering onto $(n-3)!$ discrete roots on $\mathbb{CP}^1$ (`chySolutionCount 6 = 6`), where at $n=4$ the unique root $\sigma_4^* = \frac{s_{12}}{s_{12}+s_{13}}$ has worldsheet QFIM $F_{\sigma\sigma}^{\mathrm{CHY}}(\sigma_4^*) = 4\,g_{\sigma\sigma}^{\mathrm{FS}}(\sigma_4^*) = (s_{12}+s_{13})\mathcal{A}_4^{\mathrm{CHY},\phi^3}$ (`cachazo_gravity_chy_hodges_qfim_and_fubini_study_unification_identities`).
+
+---
+
+(sec-em-3-4)=
+### 3.4 Superfluid Quantum Gravity & Dilatant Dark Fluid (`SQG/DDF`): Transverse $\varphi$-Phonons and the $\eta_{\mathrm{act}}^\gamma = 0$ Discriminator
+
+In the Dilatant Dark Fluid (`Signals.DDF`, {cite:p}`fedi2026ddf`; [Paper 3](grassmannian-ddf-moving-sheath-paper.md)):
+- **Electromagnetic Waves as Transverse $\varphi$-Phase Shear Phonons**:
+  The vacuum substrate is a two-component bosonic medium: a superfluid condensate $\phi$ and a heavier dispersed phase $\varphi$ that jams under high-frequency shear stress. Electromagnetic waves are **transverse shear excitations of the jammed $\varphi$ lattice**, propagating at the saturated speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ (`DDFSubstrate`).
+- **Passive Solar Light Deflection (`ddfRefractiveLightDeflection`) vs. Active Laser–Laser Null ($\eta_{\mathrm{act}}^\gamma = 0$, `activePhotonBeamDeflection`)**:
+  Around a massive baryonic body $M$ (which drains $\phi$-condensate pressure $\Delta P > 0$ into a Painlevé–Gullstrand river sink), the constitutive refractive index $n_{\mathrm{DDF}}(r) = 1 + \frac{2 G_\phi M(\varrho_{\max}^\varphi j_{\min}^\varphi)}{r}$ bends starlight by `ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1` ($\varepsilon_{\mathrm{rel}} = 0$). However, because pure electromagnetic waves are transient $\varphi$-shear phonons that **do not consume or sink the $\phi$ superfluid**, a laser beam generates **zero active gravitational potential** ($\eta_{\mathrm{act}}^\gamma = 0$ in `Signals.DDF.ActiveRadiationSourcing`), so two non-co-propagating laser beams experience **zero mutual gravitational deflection** (`activePhotonBeamDeflection 0 delta_theta_gr = 0 < delta_theta_gr = activePhotonBeamDeflection 1 delta_theta_gr`)—providing a falsifiable laboratory discriminator against standard GR and QED ($\eta_{\mathrm{act}}^\gamma = 1$).
+
+---
+
+(sec-em-3-5)=
+### 3.5 Turner Model 6: Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` Wave/OAM Superposition
+
+In [Paper 1](grassmannian-huygens-double-slit-oam-paper.md) and [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md) (`Signals.DDF` Section 30.6), **Turner Model 6** (`pluckerMadelungSuperpositionOAMDoubleSlit` in `Signals.DDF`, `SlitModelKind::PluckerMadelungDualIgpe` in `double_slit.rs`) lifts two-beam and OAM electromagnetic interference from scalar wavefunctions or unphased real $\mathrm{Gr}_{\ge 0}(2,4)$ (which suffers a mandatory $50\%$ on-axis intensity error `gr24UnphasedDoubleSlit_onAxis_relative_error_half`) onto the **Klein quadric $\mathcal{Q}_4 \subset \mathbb{CP}^5$**:
+- **Superposition as an Algebraic Plücker Identity**: For the $2\times 4$ twistor slit matrix with minors $p_{\mathrm{slit}} = (z_1, 1, z_2, 1, z_1 + z_2, 1)^\top$, the Klein quadric constraint $\mathcal{C}(p_{\mathrm{slit}})/2 = p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = z_1 - (z_1 + z_2) + z_2 = 0$ enforces linear wave superposition $p_{13} = z_1 + z_2$ algebraically, achieving **$\varepsilon_{\mathrm{rel}} = 0$ ($0.00\%$)** across all planar and OAM Laguerre–Gaussian fringes in the Hermitian phase-locked regime ($s_{\mathrm{dual}} = s_{\mathrm{real}}$).
+
+---
+
+(sec-em-3-6)=
+### 3.6 Turner Model 12: Flat-Space $\mathrm{Gr}_{\mathbb{C}}(2,4)$ `BCJ` Double Copy + 2D/3D Tensor Gaussian Splats (Without DDF)
+
+In [Paper 4](grassmannian-gravity-from-qed-scattering-paper.md) (`Signals.QEDGravity` and `Signals.DFT` Section 28), **Turner Model 12** (`turnerGr24QEDLightDeflection` in {download}`src/signals/Signals/DFT.lean, lines 9926–9936 <../src/signals/Signals/DFT.lean>`) formulates electromagnetic wave propagation and gravitational lensing in flat Minkowski space without invoking a DDF superfluid substrate:
+- **Plücker Channel Factorization**: The uncrossed aphelion and perihelion Plücker channels $w_A = 1 + e$ and $w_B = 1 - e$ multiply to the semi-latus rectum factor $w_A w_B = (1 + e)(1 - e) = 1 - e^2 = (F_{ee}^{\mathrm{orb}}(e))^{-1}$, yielding exact 1PN light deflection `turnerGr24QEDLightDeflection g_const mass_source c_light b_impact e_ecc = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1` ($\varepsilon_{\mathrm{rel}} = 0$) with active beam–beam deflection $\eta_{\mathrm{act}}^\gamma = 1$, while localized wavepackets are represented by gimbal-lock-free spinor/quaternion 2D/3D `TensorGaussianSplat` primitives.
+
+---
+
+(sec-em-3-7)=
+### 3.7 Turner Model 13: Unified $\mathrm{Gr}_{\mathbb{C}}(2,4)$ + Conservative DDF + 3D `NormedTensorGaussianSplat3D`
+
+In [Paper 4](grassmannian-gravity-from-qed-scattering-paper.md) and [Paper 10](gaussian-splat-tensors-normed-paper.md), **Turner Model 13** (`turnerGr24DDFLightDeflection` in {download}`src/signals/Signals/DFT.lean, lines 9938–9948 <../src/signals/Signals/DFT.lean>`) embeds the $\mathrm{Gr}_{\mathbb{C}}(2,4)$ twistor wavepacket and 3D `NormedTensorGaussianSplat3D` ($\operatorname{Tr}(\Sigma^{-1})$ Bohm–Fisher core energy `gaussianSplatScalarBohmFromFisher`) inside the conservative Painlevé–Gullstrand DDF medium:
+
+$$
+\Delta\theta_\gamma^{(13)}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, e) = \frac{4 G_\phi M(\varrho_{\max}^\varphi j_{\min}^\varphi)}{b}\cdot\frac{(1 + e)(1 - e)}{1 - e^2}.
+$$
+
+Under the constitutive identification $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$, Model 13 matches Einstein GR light bending and 1PN perihelion precession with **$\varepsilon_{\mathrm{rel}} = 0$**, while inheriting the DDF active-radiation null **$\eta_{\mathrm{act}}^\gamma = 0$** (`activePhotonBeamDeflection 0 delta_theta_gr = 0`) and nonlocal dilatant stabilization (`nonlocalStabilizedAzimuthalMiGain < 0`) of tubular OAM solitons.
+
+---
+
+(sec-em-3-8)=
+### 3.8 Turner Models 14a (Without DDF) & 14b (With DDF): Klein Quadric $\mathcal{Q}_4$ Fubini–Study Kähler `iGPE` & Dual-Grassmannian Electrodynamics
+
+In [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md) and [Paper 49](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md) (`Signals.DDF` Section 30.6 and `Signals.DFT` Sections 26, 27, & 28), **Turner Models 14a and 14b** represent our most complete geometric formulation of electromagnetism and gravity:
+1. **Ghost-Free Two-Derivative Fubini–Study Kähler Projection on $\mathcal{Q}_4$**:
+   Instead of Witten's 4th-derivative conformal Weyl action, the $2\times 2$ orbital/wave affine chart $W_{\mathrm{orb}} \in \mathbb{C}^{2\times 2}$ on $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ carries the two-derivative Fubini–Study Kähler metric $g_{\mu\nu}^{\mathrm{FS}} = \frac{1}{4}F_{\mu\nu}$ with Kähler determinant $\mathcal{D}(W_{\mathrm{orb}}) = \det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) = 4 - e^2$, so $\mathcal{D}(W_{\mathrm{orb}}) - 3 = 1 - e^2 = (F_{ee}^{\mathrm{orb}}(e))^{-1}$.
+2. **Exact 1PN Light Bending in Model 14a (`turnerPluckerKahlerLightDeflection`) and Model 14b (`turnerDualGr24IGPEDDFLightDeflection`)**:
+   Both **Model 14a** (without DDF, $\eta_{\mathrm{act}}^\gamma = 1$) and **Model 14b** (with DDF constitutive product $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$, $\eta_{\mathrm{act}}^\gamma = 0$, and $\mathrm{De}/\mathrm{De}_c > 1$ Deborah shear-fracture ringdown echoes) satisfy $\Delta\theta_\gamma^{(14\mathrm{a})} = \Delta\theta_\gamma^{(14\mathrm{b})} = \Delta\theta_{\mathrm{GR}}$ (**$\varepsilon_{\mathrm{rel}} = 0$**) at solar-system scales ($\delta_{\mathrm{Jos}} = 0$).
+3. **Manifest Heaviside–Larmor Electric–Magnetic Duality on $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (`electricMagneticDualityNormSq`)**:
+   Pairing the primary Plücker electric/helicity condensate $\Psi \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ with its dual-Schubert magnetic/Hodge partner $\Phi \in \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ makes continuous Heaviside–Larmor duality rotations $\Psi' = \Psi\cos\alpha - \Phi\sin\alpha$, $\Phi' = \Psi\sin\alpha + \Phi\cos\alpha$ an exact unitary Noether symmetry preserving total norm squared `electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) = psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2`.
