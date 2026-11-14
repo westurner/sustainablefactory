@@ -41,7 +41,7 @@ description: "An arXiv-ready MyST Markdown formal verification and multi-modal i
 
 ## Abstract
 
-When imaging detectors are tiled side-by-side in 2D mosaics—such as the Hubble Space Telescope's (`HST`) dual $4096 \times 2048$ `ACS/WFC` and dual $4096 \times 2051$ `WFC3/UVIS` CCD arrays ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–90 & 265–345 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`; {cite:p}`hubble-acs-ihb2025`; {cite:p}`hubble-wfc3-ihb2025`)—or stacked in 3D depth-resolved layers—such as conformal **Lignin-Vitrimer Perovskite (`LVP`)** medical X-ray and phase-contrast detectors {cite:p}`lvp-medical-chat2026`, **Low-Intensity Focused Ultrasound (`LIFU`)** / **Acousto-Optic Tomography (`AOT`)** / **Time-Reversed Ultrasonically Encoded (`TRUE`)** sub-surface optical arrays ({cite:p}`xu2011true`; {cite:p}`vellekoop2007`), and **convergent holographic longitudinal/transverse nanolithography** masks ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md))—a central mathematical question arises:
+When imaging detectors are tiled side-by-side in 2D mosaics—such as the Hubble Space Telescope's (`HST`) dual $4096 \times 2048$ `ACS/WFC` and dual $4096 \times 2051$ `WFC3/UVIS` CCD arrays ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–90 & 265–345 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`; {cite:p}`acsihb2025`; {cite:p}`hubble-wfc3-ihb2025`)—or stacked in 3D depth-resolved layers—such as conformal **Lignin-Vitrimer Perovskite (`LVP`)** medical X-ray and phase-contrast detectors {cite:p}`lvp-medical-chat2026`, **Low-Intensity Focused Ultrasound (`LIFU`)** / **Acousto-Optic Tomography (`AOT`)** / **Time-Reversed Ultrasonically Encoded (`TRUE`)** sub-surface optical arrays ({cite:p}`xu2011true`; {cite:p}`vellekoop2007`), and **convergent holographic longitudinal/transverse nanolithography** masks ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md))—a central mathematical question arises:
 
 > **If we layer or tile each type of sensor like Hubble's $2\times$ CCDs, do we also use a real Grassmannian $\mathrm{Gr}_{\mathbb{R}}(4, 6.8 \times 10^6)$ (or $\mathrm{Gr}_{\mathbb{R}}(4, 8.4 \times 10^6)$ / $\mathrm{Gr}_{\mathbb{R}}(4, 16.8 \times 10^6)$), or when must we switch to spectral Grassmannians $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ and complex twistor/array Grassmannians $\mathrm{Gr}_{\mathbb{C}}(2,4)$, $\mathrm{Gr}_{\mathbb{C}}(3,6)$, and $\mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$?**
 
@@ -63,7 +63,7 @@ In this paper, we answer this question with a machine-checked formalization in *
 
 ### 1.1 Why `8.4e6`, `16.8e6`, and `6.8e6` Arise in Hubble and Layered Detector Mosaics
 
-In the Hubble sensor design dialogue ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–89 & 275–315 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`) and the official STScI Instrument Handbooks ({cite:p}`hubble-acs-ihb2025`; {cite:p}`hubble-wfc3-ihb2025`), Hubble's primary wide-field cameras use **two side-by-side CCD chips** separated by a physical inter-chip gap:
+In the Hubble sensor design dialogue ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–89 & 275–315 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`) and the official STScI Instrument Handbooks ({cite:p}`acsihb2025`; {cite:p}`hubble-wfc3-ihb2025`), Hubble's primary wide-field cameras use **two side-by-side CCD chips** separated by a physical inter-chip gap:
 
 ```{mermaid}
 flowchart TD
@@ -113,7 +113,7 @@ In `Signals.MultiArrayImaging` ([../src/signals/Signals/MultiArrayImaging.lean](
 1. **Dithered Seam Coverage (`ditherGapUncoveredRows`)**:
    When two $4096 \times 2048$ chips have a physical seam of $g_{\mathrm{gap}} = 50$ rows ($204{,}800$ pixels), a telescope dither shift of $\Delta y_{\mathrm{dither}} \ge 50$ rows (e.g., $\Delta y_{\mathrm{dither}} = 64$ rows) leaves `ditherGapUncoveredRows 50 64 = 0` uncovered rows, ensuring every sky coordinate is observed on active silicon in at least $k - 1$ of the $k$ exposures.
 2. **Exact 4-Exposure Cosmic-Ray Coincidence Bound (`multiExposureCosmicRaySurvivalProb`)**:
-   According to the STScI ACS Instrument Handbook {cite:p}`hubble-acs-ihb2025`, cosmic rays affect $p_{\mathrm{CR}} \in [1.5\%, 3.0\%]$ of WFC pixels during a $1000\text{ s}$ exposure. Breaking a $2400\text{ s}$ Hubble orbit into $k = 4$ dithered exposures ($\sim 600\text{ s}$ each, $p_{\mathrm{CR}} = 1.5\% = 3/200$) reduces the probability that the same sky pixel is hit in all 4 exposures to $(3/200)^4 = 81 / 1{,}600{,}000{,}000$. Across the entire $2\times$ `ACS/WFC` mosaic ($N_{\mathrm{mosaic}} = 16{,}777{,}216$ pixels), the expected number of unrejected cosmic-ray pixels is machine-checked in `multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities`:
+   According to the STScI ACS Instrument Handbook {cite:p}`acsihb2025`, cosmic rays affect $p_{\mathrm{CR}} \in [1.5\%, 3.0\%]$ of WFC pixels during a $1000\text{ s}$ exposure. Breaking a $2400\text{ s}$ Hubble orbit into $k = 4$ dithered exposures ($\sim 600\text{ s}$ each, $p_{\mathrm{CR}} = 1.5\% = 3/200$) reduces the probability that the same sky pixel is hit in all 4 exposures to $(3/200)^4 = 81 / 1{,}600{,}000{,}000$. Across the entire $2\times$ `ACS/WFC` mosaic ($N_{\mathrm{mosaic}} = 16{,}777{,}216$ pixels), the expected number of unrejected cosmic-ray pixels is machine-checked in `multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities`:
 
    $$
    N_{\mathrm{mosaic}}\,p_{\mathrm{CR}}^4 = 16{,}777{,}216 \times \left(\frac{3}{200}\right)^4 = \frac{84{,}934{,}656}{100{,}000{,}000} = 0.84934656 < 1\text{ pixel}.
@@ -127,7 +127,7 @@ Instead of discarding the sparse outlier matrix $S = X - L$ after Grassmannian s
 
 ### 2.1 Silicon Ionization Energy Calibration ($\epsilon_{\mathrm{eh}} = 3.65\text{ eV}$) and 8-Connected CCL Classification
 
-In silicon at operating temperature, an incoming relativistic particle expends $\epsilon_{\mathrm{eh}} = 3.65\text{ eV} = \frac{73}{20}\text{ eV}$ per generated electron-hole pair ({cite:p}`christensen1976`; {cite:p}`hubble-acs-ihb2025`). For an 8-connected pixel cluster $C$ with integrated Data Numbers $\Phi_{\mathrm{DN}} = \sum_{(r,c)\in C} S_{r,c}$ and amplifier gain $G$ ($\mathrm{e}^-/\mathrm{DN}$), the deposited kinetic energy (`cosmicRayDepositedEnergyEv`) and bounding-box aspect ratio (`cosmicRayClusterAspectRatio`) are:
+In silicon at operating temperature, an incoming relativistic particle expends $\epsilon_{\mathrm{eh}} = 3.65\text{ eV} = \frac{73}{20}\text{ eV}$ per generated electron-hole pair ({cite:p}`christensen1976`; {cite:p}`acsihb2025`). For an 8-connected pixel cluster $C$ with integrated Data Numbers $\Phi_{\mathrm{DN}} = \sum_{(r,c)\in C} S_{r,c}$ and amplifier gain $G$ ($\mathrm{e}^-/\mathrm{DN}$), the deposited kinetic energy (`cosmicRayDepositedEnergyEv`) and bounding-box aspect ratio (`cosmicRayClusterAspectRatio`) are:
 
 $$
 E_{\mathrm{dep}}(\mathrm{eV}) = \Phi_{\mathrm{DN}} \times G \times 3.65, \qquad
@@ -159,7 +159,7 @@ In both `Signals.MultiArrayImaging` ([../src/signals/Signals/MultiArrayImaging.l
 
 ### 2.3 Critique & Mathematical Resolution of Three Gaps in the Chat's Cosmic-Ray Pipeline (`cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`)
 
-Auditing the Rust cosmic-ray classifier in {download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 770–930 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>` against the STScI ACS Instrument Handbook {cite:p}`hubble-acs-ihb2025` and {cite:p}`miles2021cr` revealed three bugs/gaps that we resolved in [`Signals.MultiArrayImaging`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MultiArrayImaging.lean) and [`multi_array_imaging.rs`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/multi_array_imaging.rs):
+Auditing the Rust cosmic-ray classifier in {download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 770–930 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>` against the STScI ACS Instrument Handbook {cite:p}`acsihb2025` and {cite:p}`miles2021cr` revealed three bugs/gaps that we resolved in [`Signals.MultiArrayImaging`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MultiArrayImaging.lean) and [`multi_array_imaging.rs`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/multi_array_imaging.rs):
 
 1. **Bug 1 — Syntax Error (`cluster_pixels.length()` vs. `cluster_pixels.len()`)**:
    Line 871 of the chat's Rust listing calls `cluster_pixels.length()`, which does not compile on `std::vec::Vec` in Rust (`Vec::len()` is required).
@@ -181,7 +181,7 @@ Auditing the Rust cosmic-ray classifier in {download}`Google-Search_Hubble-Senso
 
        which vanishes identically for any collinear streak at *any* angle $\theta \in [0, \pi)$.
 3. **Gap 3 — Deposited Ionization Energy ($\mathrm{d}E/\mathrm{d}x$) vs. Primary Particle Kinetic Energy (`cosmicRaySiliconPathLengthSq`, `cosmicRayGrazingTangent`, `cosmicRayLinearEnergyTransferEvPerUm`)**:
-   Relativistic galactic cosmic-ray protons ($\sim\text{GeV}$) are Minimum Ionizing Particles (MIPs) that pass completely through Hubble's thinned $d_{\mathrm{Si}} = 15\text{ }\mu\text{m}$ silicon CCD wafer without stopping ([STScI ACS IHB 2025, Sec. 4.3.7](#hubble-acs-ihb2025); {cite:p}`miles2021cr`). Thus $E_{\mathrm{dep}} = \Phi_{\mathrm{DN}}\cdot G\cdot 3.65\text{ eV}$ measures the **deposited ionization energy along the 3D silicon chord** $L_{\mathrm{path}} = \sqrt{d_{\mathrm{Si}}^2 + L_\parallel^2}$ rather than the total GeV kinetic energy of the primary proton. For the real `NGC 4151` (`u5780205r`) `Chip 3` 17-pixel proton streak ($L_\parallel = 16 \times 15\text{ }\mu\text{m} = 240\text{ }\mu\text{m}$):
+   Relativistic galactic cosmic-ray protons ($\sim\text{GeV}$) are Minimum Ionizing Particles (MIPs) that pass completely through Hubble's thinned $d_{\mathrm{Si}} = 15\text{ }\mu\text{m}$ silicon CCD wafer without stopping ([STScI ACS IHB 2025, Sec. 4.3.7](#acsihb2025); {cite:p}`miles2021cr`). Thus $E_{\mathrm{dep}} = \Phi_{\mathrm{DN}}\cdot G\cdot 3.65\text{ eV}$ measures the **deposited ionization energy along the 3D silicon chord** $L_{\mathrm{path}} = \sqrt{d_{\mathrm{Si}}^2 + L_\parallel^2}$ rather than the total GeV kinetic energy of the primary proton. For the real `NGC 4151` (`u5780205r`) `Chip 3` 17-pixel proton streak ($L_\parallel = 16 \times 15\text{ }\mu\text{m} = 240\text{ }\mu\text{m}$):
 
    $$
    L_{\mathrm{path}}^2(15, 240) = 15^2 + 240^2 = 57{,}825\text{ }\mu\text{m}^2 = 257 \times L_{\mathrm{path}}^2(15, 0), \qquad
@@ -362,7 +362,7 @@ Specifically, while implementing `QEC.Stabilizer.Codes.Layer`:
 2. **Star-Hub Syndrome Routing Without Unverified Planar Disk Assumptions (`RotationSystem`, `plabicStar`)**:
    To route syndromes and optical OAM/soliton ancilla modes around 3-leg boundary stars, 4-leg surface stars, and 5-leg Z-line stars (`gridZLineFiveLegXStar`, `plabicStar`) without assuming an unproved genus-zero disk embedding, we formulated `RotationSystem` in [`Signals.Plabic`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L56-L469), proving from finite permutation periodicity (`dartTurn_period`) that every boundary start reaches a unique first exit within $\le \mathrm{card}(\mathrm{DirectedEdge})$ steps (`boundary_firstExit_exists`, `boundaryExit_injective`), inducing a derived bijective boundary permutation (`RotationSystem.boundaryPerm`).
 3. **Acyclic Inter-Layer Transfer & Lindström–Gessel–Viennot Disjoint-Path Positivity (`WeightedAcyclicNetwork`, `lgv_multiLayer_det_positive`)**:
-   Propagating syndrome/optical weights across $h$ laminated vitrimer layers led directly to `WeightedAcyclicNetwork` ($W^{h+1} = 0$, $T = \sum_{\ell=0}^h W^\ell = 1 + W T$) and the multi-layer and 3-channel LGV theorems ({cite:p}`postnikov2006`; {cite:p}`lindstrom1973lgv`; {cite:p}`gessel1985lgv`).
+   Propagating syndrome/optical weights across $h$ laminated vitrimer layers led directly to `WeightedAcyclicNetwork` ($W^{h+1} = 0$, $T = \sum_{\ell=0}^h W^\ell = 1 + W T$) and the multi-layer and 3-channel LGV theorems ({cite:p}`postnikov2006`; {cite:p}`lindstrom1973lgv`; {cite:p}`gessel1985`).
 
 ### 6.2 How Every Component of `Signals.Plabic` Applies to Hubble, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, and $< 1\text{ nm}$ Nanolithography
 
@@ -545,8 +545,8 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 
 ### Scholarly References
 
-(hubble-acs-ihb2025)=
-<a id="hubble-acs-ihb2025"></a>
+(acsihb2025)=
+<a id="acsihb2025"></a>
 1. STScI ACS Team (2025). *Advanced Camera for Surveys Instrument Handbook for Cycle 34 (Version 24.0)*, Chapters 3.5, 4.2, & 4.3 (Baltimore: Space Telescope Science Institute). [https://hst-docs.stsci.edu/acsihb](https://hst-docs.stsci.edu/acsihb).
 
 (hubble-wfc3-ihb2025)=
@@ -601,8 +601,8 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 <a id="lindstrom1973lgv"></a>
 14. Lindström, B. (1973). On the vector representations of induced matroids. *Bulletin of the London Mathematical Society*, 5(1), 85–90. DOI: `10.1112/blms/5.1.85`.
 
-(gessel1985lgv)=
-<a id="gessel1985lgv"></a>
+(gessel1985)=
+<a id="gessel1985"></a>
 15. Gessel, I., & Viennot, G. (1985). Binomial determinants, paths, and hook length formulae. *Advances in Mathematics*, 58(3), 300–321. DOI: `10.1016/0001-8708(85)90121-5`.
 
 (layer-coding-chat2026)=

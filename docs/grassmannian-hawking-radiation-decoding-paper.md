@@ -115,7 +115,7 @@ $$
 
 ### 2.2 Quadrant III (With DDF, Without Splats): Acoustic Hawking Temperature, Gordon Metric, S301 Pericenter Wake, & Hydrodynamic `iGPE` Potential Unwinding
 
-In the Dilatant Dark Fluid (`Signals.HawkingRadiation` in [../src/signals/Signals/HawkingRadiation.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/HawkingRadiation.lean#L430-L550) and `RiverExterior` in [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean)), the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ is set by the saturated jamming density $\varrho_{\max}^\varphi$ and minimum compressibility $j_{\min}^\varphi$ of the dispersed $\varphi$-phase ({cite:p}`fedi2026ddf`; {cite:p}`hawk-unruh1981`). Substituting $r_H = \frac{2 G_\phi M}{c^2}$ and $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ into `RiverExterior.hawkingTemperature` proves:
+In the Dilatant Dark Fluid (`Signals.HawkingRadiation` in [../src/signals/Signals/HawkingRadiation.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/HawkingRadiation.lean#L430-L550) and `RiverExterior` in [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean)), the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ is set by the saturated jamming density $\varrho_{\max}^\varphi$ and minimum compressibility $j_{\min}^\varphi$ of the dispersed $\varphi$-phase ({cite:p}`fedi2026ddf`; {cite:p}`unruh1981`). Substituting $r_H = \frac{2 G_\phi M}{c^2}$ and $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ into `RiverExterior.hawkingTemperature` proves:
 
 $$
 T_H^{\mathrm{DDF}} = \frac{\hbar\,\kappa_H}{2\pi\,k_B\,c} = \frac{\hbar\,c}{4\pi\,k_B\,r_H}, \qquad
@@ -434,8 +434,8 @@ end ArxivHawkingRadiationDecodingPaperVerification
 <a id="hawk-hawking1975"></a>
 2. Hawking, S. W. (1975). *Particle Creation by Black Holes*. Communications in Mathematical Physics 43(3), 199–220. [DOI: 10.1007/BF02345020](https://doi.org/10.1007/BF02345020).
 
-(hawk-unruh1981)=
-<a id="hawk-unruh1981"></a>
+(unruh1981)=
+<a id="unruh1981"></a>
 3. Unruh, W. G. (1981). *Experimental Black-Hole Evaporation?* Physical Review Letters 46(21), 1351–1353. [DOI: 10.1103/PhysRevLett.46.1351](https://doi.org/10.1103/PhysRevLett.46.1351).
 
 (hawk-page1993)=

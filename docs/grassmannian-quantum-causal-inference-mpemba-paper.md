@@ -119,7 +119,7 @@ T = \sum_{r=0}^h W^r = (I - W)^{-1}, \qquad T = I + W T
 $$
 
 How does the Grassmannian $\mathrm{Gr}(k, n)$ enter?
-- **The LGV / Trek Determinant Criterion for Causal Bottlenecks and Confounding ({cite:p}`sullivant2010trek`; {cite:p}`lindstrom1973lgv`; {cite:p}`gessel1985lgv`)**:
+- **The LGV / Trek Determinant Criterion for Causal Bottlenecks and Confounding ({cite:p}`sullivant2010trek`; {cite:p}`lindstrom1973lgv`; {cite:p}`gessel1985`)**:
   Given $k$ intervention/source variables $A = \{a_1, \dots, a_k\}$ and $k$ outcome variables $B = \{b_1, \dots, b_k\}$, the $k \times k$ submatrix $T_{A,B}$ is a Plücker coordinate of the $k$-plane spanned by the causal response vectors in $\mathrm{Gr}(k, V)$:
   1. **Unconfounded Vertex-Disjoint Causal Channels ($\det T_{A,B} > 0$)**: When $k$ causal pathways travel through $k$ independent, non-intersecting mediators (`planarThreeChannelLowerStep * planarThreeChannelUpperStep`), all $k!$ non-identity path permutations are blocked or positive, placing the causal system in the interior of the totally positive Grassmannian cell $\mathrm{Gr}_{>0}(k, n)$:
 

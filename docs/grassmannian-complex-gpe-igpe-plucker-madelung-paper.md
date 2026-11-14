@@ -436,13 +436,13 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 
 ### Scholarly References
 
-<a id="cgpe-madelung1927"></a>
+<a id="madelung1927"></a>
 1. Madelung, E. (1927). *Quantentheorie in hydrodynamischer Form*. Zeitschrift für Physik 40(3–4), 322–326. [DOI: 10.1007/BF01400372](https://doi.org/10.1007/BF01400372).
 
-<a id="cgpe-gross1961"></a>
+<a id="gross1961"></a>
 2. Gross, E. P. (1961). *Structure of a quantized vortex in boson systems*. Il Nuovo Cimento 20(3), 454–477. [DOI: 10.1007/BF02731494](https://doi.org/10.1007/BF02731494).
 
-<a id="cgpe-pitaevskii1961"></a>
+<a id="pitaevskii1961"></a>
 3. Pitaevskii, L. P. (1961). *Vortex lines in an imperfect Bose gas*. Soviet Physics JETP 13(2), 451–454.
 
 <a id="cgpe-penrose1967"></a>

@@ -226,7 +226,7 @@ end SemiDiracApplication4AndPhaseLasingVerification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"han2025chiral_sc", "sd32-shao2024", "zhou2021rtg_sc"}
+:filter: key in {"han2025chiral_sc", "shao2024", "zhou2021rtg_sc"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

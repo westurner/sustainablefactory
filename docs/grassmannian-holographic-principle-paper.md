@@ -28,7 +28,7 @@ description: "An arXiv-ready formal verification and numerical simulation paper 
 
 ## Abstract
 
-First proposed by **Gerard 't Hooft (1993)** ({cite:p}`holo-thooft1993`) and given its string-theoretic and relativistic light-sheet formulation by **Leonard Susskind (1995)** ({cite:p}`holo-susskind1995`), the **Holographic Principle** asserts that the complete physical description of a $(3+1)$-dimensional bulk spacetime region is encoded on a $2$-dimensional boundary screen with at most one degree of freedom per four Planck areas ($S_{\mathrm{BH}} = k_B A_H / (4\ell_P^2)$; {cite:p}`holo-bekenstein1973`; {cite:p}`hawking1975particle`; {cite:p}`bousso2002holographic`). In this paper, we formalize the exact mathematical bridge connecting 't Hooft's and Susskind's Holographic Principle to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** and the **Dilatant Dark Fluid (DDF)** Painlevé–Gullstrand river geometry (`RiverExterior` in `Signals.DDF`), both **without splats** (splat-free continuum boundary laws and Plücker lapse invariants) and **with Planck-pixelated Normed 2D Tensor Gaussian Splats**:
+First proposed by **Gerard 't Hooft (1993)** ({cite:p}`thooft1993`) and given its string-theoretic and relativistic light-sheet formulation by **Leonard Susskind (1995)** ({cite:p}`susskind1995`), the **Holographic Principle** asserts that the complete physical description of a $(3+1)$-dimensional bulk spacetime region is encoded on a $2$-dimensional boundary screen with at most one degree of freedom per four Planck areas ($S_{\mathrm{BH}} = k_B A_H / (4\ell_P^2)$; {cite:p}`holo-bekenstein1973`; {cite:p}`hawking1975particle`; {cite:p}`bousso2002holographic`). In this paper, we formalize the exact mathematical bridge connecting 't Hooft's and Susskind's Holographic Principle to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** and the **Dilatant Dark Fluid (DDF)** Painlevé–Gullstrand river geometry (`RiverExterior` in `Signals.DDF`), both **without splats** (splat-free continuum boundary laws and Plücker lapse invariants) and **with Planck-pixelated Normed 2D Tensor Gaussian Splats**:
 
 1. **DDF Acoustic Horizon Screen Area $A_H$, 't Hooft–Susskind–Bekenstein–Hawking Entropy $S_{\mathrm{BH}}$, & Gauss–Smarr 2D-to-3D Bulk Mass Recovery (`RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities`)**:
    In a DDF `RiverExterior` flow where the radial superfluid inflow $v_\phi(r) = -\sqrt{2 G_\phi M / r}$ reaches the transverse phonon speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ at the acoustic event horizon $r_H = \frac{2 G_\phi M}{c^2}$ (`RiverExterior.horizon_velocity_matches_c`), the 2D horizon screen area $A_H = 4\pi r_H^2$, surface gravity $\kappa_H = \frac{c^2}{2 r_H}$, and Bekenstein–Hawking entropy $S_{\mathrm{BH}} = \frac{k_B A_H}{4\ell_P^2}$ satisfy:
@@ -66,9 +66,9 @@ $$
 S_{\mathrm{BH}} = \frac{k_B\,c^3\,A_H}{4 G\hbar} = \frac{k_B\,A_H}{4\,\ell_P^2}, \qquad \ell_P = \sqrt{\frac{G\hbar}{c^3}}.
 $$
 
-Building on this area law, **Gerard 't Hooft (1993)** (*Dimensional Reduction in Quantum Gravity*, {cite:p}`holo-thooft1993`) proposed that at the Planck scale, quantum gravity in $3+1$ dimensions reduces to a $(2+1)$-dimensional theory of Boolean/cellular degrees of freedom living on a 2D boundary surface, with information density bounded by $\frac{1}{4\ell_P^2}$ nats per unit area. In 1995, **Leonard Susskind** (*The World as a Hologram*, *J. Math. Phys.* 36, 6377, {cite:p}`holo-susskind1995`) elevated 't Hooft's dimensional reduction into the **Holographic Principle**, demonstrating via relativistic light-front / light-sheet focusing (later generalized covariantly by {cite:p}`bousso2002holographic`) that any bulk configuration exceeding $S_{\mathrm{BH}}$ inside an enclosing area $A_H$ must collapse into a horizon of area at least $A_H$.
+Building on this area law, **Gerard 't Hooft (1993)** (*Dimensional Reduction in Quantum Gravity*, {cite:p}`thooft1993`) proposed that at the Planck scale, quantum gravity in $3+1$ dimensions reduces to a $(2+1)$-dimensional theory of Boolean/cellular degrees of freedom living on a 2D boundary surface, with information density bounded by $\frac{1}{4\ell_P^2}$ nats per unit area. In 1995, **Leonard Susskind** (*The World as a Hologram*, *J. Math. Phys.* 36, 6377, {cite:p}`susskind1995`) elevated 't Hooft's dimensional reduction into the **Holographic Principle**, demonstrating via relativistic light-front / light-sheet focusing (later generalized covariantly by {cite:p}`bousso2002holographic`) that any bulk configuration exceeding $S_{\mathrm{BH}}$ inside an enclosing area $A_H$ must collapse into a horizon of area at least $A_H$.
 
-In 1997, Juan Maldacena {cite:p}`maldacena1998large` realized the Holographic Principle in string theory via the **AdS/CFT correspondence** (formalized with the Gubser–Klebanov–Polyakov–Witten mass–dimension dictionary $\Delta_\pm = d/2 \pm \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$, the Kovtun–Son–Starinets viscosity bound $\eta/s = \hbar/(4\pi k_B)$, planar $\mathcal{N}=4$ SYM integrability {cite:p}`holo-beisert2012`, and $\mathfrak{psl}(2|2)_c$ secret symmetries {cite:p}`holo-deleeuw2012` in our companion paper [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and DDF Mechanics](grassmannian-ads-cft-ddf-paper.md)), and {cite:p}`ryu2006holographic` showed that boundary entanglement entropy equals the minimal bulk surface area $S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}$.
+In 1997, Juan Maldacena {cite:p}`maldacena1998large` realized the Holographic Principle in string theory via the **AdS/CFT correspondence** (formalized with the Gubser–Klebanov–Polyakov–Witten mass–dimension dictionary $\Delta_\pm = d/2 \pm \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$, the Kovtun–Son–Starinets viscosity bound $\eta/s = \hbar/(4\pi k_B)$, planar $\mathcal{N}=4$ SYM integrability {cite:p}`beisert2012`, and $\mathfrak{psl}(2|2)_c$ secret symmetries {cite:p}`deleeuw2012` in our companion paper [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and DDF Mechanics](grassmannian-ads-cft-ddf-paper.md)), and {cite:p}`ryu2006holographic` showed that boundary entanglement entropy equals the minimal bulk surface area $S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}$.
 
 ### 1.2 How Does the Holographic Principle Connect to $Gr_{\mathbb{C}}(2,4)$ and the Dilatant Dark Fluid (DDF)?
 
@@ -208,10 +208,10 @@ popd
 
 ### Scholarly References
 
-<a id="holo-thooft1993"></a>
+<a id="thooft1993"></a>
 1. 't Hooft, G. (1993). *Dimensional Reduction in Quantum Gravity*. In *Salamfestschrift: A Collection of Talks*, World Scientific, pp. 284–296; [arXiv:gr-qc/9310026](https://arxiv.org/abs/gr-qc/9310026).
 
-<a id="holo-susskind1995"></a>
+<a id="susskind1995"></a>
 2. Susskind, L. (1995). *The World as a Hologram*. Journal of Mathematical Physics 36(11), 6377–6396. [DOI: 10.1063/1.531249](https://doi.org/10.1063/1.531249); [arXiv:hep-th/9409089](https://arxiv.org/abs/hep-th/9409089).
 
 <a id="holo-bekenstein1973"></a>
@@ -238,10 +238,10 @@ popd
 <a id="holo-chat-fracture2026"></a>
 10. Turner, Wesley and Google Gemini (2026). *Review Pop III GW Remnants (Dilatant Superfluid Fracture Phases & Singularity Regularization)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 1070-1135 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
 
-<a id="holo-beisert2012"></a>
+<a id="beisert2012"></a>
 11. Beisert, N., Ahn, C., Alday, L. F., Bajnok, Z., Drummond, J. M., et al. (2012). *Review of AdS/CFT Integrability: An Overview*. Letters in Mathematical Physics 99(1–3), 3–32. [DOI: 10.1007/s11005-011-0529-2](https://doi.org/10.1007/s11005-011-0529-2); [arXiv:1012.3982](https://arxiv.org/abs/1012.3982).
 
-<a id="holo-deleeuw2012"></a>
+<a id="deleeuw2012"></a>
 12. de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., and Torrielli, A. (2012). *Secret Symmetries in AdS/CFT*. Physica Scripta 86(2), 028502. [DOI: 10.1088/0031-8949/86/02/028502](https://doi.org/10.1088/0031-8949/86/02/028502); [arXiv:1204.2366](https://arxiv.org/abs/1204.2366).
 
 ---

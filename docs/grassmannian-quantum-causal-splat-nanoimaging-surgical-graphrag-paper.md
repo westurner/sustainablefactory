@@ -80,7 +80,7 @@ flowchart LR
 
 ### 1.1 Exact Complexity Ledger and the $> 6{,}400\times$ Efficiency Theorem
 
-Consider a 3D spatiotemporal or volumetric grid of dimensions $T \times H \times W$ with total voxel/patch count $N_{\mathrm{vox}} = T \cdot H \cdot W$ and per-head feature dimension $d_{\mathrm{head}} > 0$. In standard 3D spatiotemporal self-attention {cite:p}`qcs-vaswani2017`, every voxel attends to every other voxel across the volume, incurring quadratic FLOP complexity (`spatiotemporalFullAttentionComplexity`):
+Consider a 3D spatiotemporal or volumetric grid of dimensions $T \times H \times W$ with total voxel/patch count $N_{\mathrm{vox}} = T \cdot H \cdot W$ and per-head feature dimension $d_{\mathrm{head}} > 0$. In standard 3D spatiotemporal self-attention {cite:p}`vaswani2017`, every voxel attends to every other voxel across the volume, incurring quadratic FLOP complexity (`spatiotemporalFullAttentionComplexity`):
 
 $$
 \mathcal{C}_{\mathrm{attn}}(T, H, W, d_{\mathrm{head}}) = (T \cdot H \cdot W)^2 \, d_{\mathrm{head}} = N_{\mathrm{vox}}^2 \, d_{\mathrm{head}}.
@@ -609,8 +609,8 @@ Following the repository's research evidence boundaries (`AGENTS.md`), we mainta
 <a id="qcs-oreshkov2012"></a>
 11. **Oreshkov, O., Costa, F., & Brukner, Č. (2012).** Quantum correlations with no causal order. *Nature Communications*, 3, 1092. [doi:10.1038/ncomms2096](https://doi.org/10.1038/ncomms2096) (`oreshkov2012quantumCorrelations`)
 
-(qcs-vaswani2017)=
-<a id="qcs-vaswani2017"></a>
+(vaswani2017)=
+<a id="vaswani2017"></a>
 12. **Vaswani, A., et al. (2017).** Attention Is All You Need. *Advances in Neural Information Processing Systems (NeurIPS)*, 30. [https://arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762)
 
 ### BibTeX Entries

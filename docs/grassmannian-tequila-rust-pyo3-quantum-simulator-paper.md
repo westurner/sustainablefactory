@@ -33,7 +33,7 @@ description: "An arXiv-ready MyST Markdown formal verification and systems engin
 
 ## Abstract
 
-In variational quantum eigensolvers (`VQE`), Hard-Core Boson (`HCB`) Separable Pair Ansätze (`SPA-UpCCD`), and `MADNESS` multiwavelet Pair Natural Orbital (`MRA-PNO`) workflows in **Tequila** ({cite:p}`tsim-kottmann2021tequila`; {cite:p}`tsim-kottmann2021direct`), simulation performance and physical expressiveness are governed by the underlying `BackendCircuit` and `BackendExpectationValue` engine ([../src/tequila/src/tequila/simulators/simulator_base.py](https://github.com/westurner/sustainablefactory/blob/main/src/tequila/src/tequila/simulators/simulator_base.py#L1-L1200)). Existing Tequila backends either:
+In variational quantum eigensolvers (`VQE`), Hard-Core Boson (`HCB`) Separable Pair Ansätze (`SPA-UpCCD`), and `MADNESS` multiwavelet Pair Natural Orbital (`MRA-PNO`) workflows in **Tequila** ({cite:p}`tequila2021`; {cite:p}`kottmann2021direct`), simulation performance and physical expressiveness are governed by the underlying `BackendCircuit` and `BackendExpectationValue` engine ([../src/tequila/src/tequila/simulators/simulator_base.py](https://github.com/westurner/sustainablefactory/blob/main/src/tequila/src/tequila/simulators/simulator_base.py#L1-L1200)). Existing Tequila backends either:
 1. Allocate unconstrained $2^{n_{\mathrm{orb}}}$ dense statevectors in C++/Python (`qulacs`, `qiskit`, `cirq`) without exploiting the **Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(n_{\mathrm{occ}}, n_{\mathrm{orb}})$** Plücker subspace geometry of particle-number-conserving electronic and `HCB` circuits;
 2. Lack native support for **Homogeneous Complex Plabic Vector-Relation Configurations (`VRC`)** $(V, K)$ with $V K^\top = 0$, **Madelung / Dilatant Dark Fluid (`DDF`) / Turner Plücker $\mathcal{Q}_4$** quantum-pressure diagnostics, and **McWeeny cubic idempotency purification** ($\rho \leftarrow 3\rho^2 - 2\rho^3$) under hardware noise; or
 3. Lack native **Quantum Causal Inference (`QCI`)** primitives—including **Pearl $\operatorname{do}(q = b)$ causal interventions**, **Quantum Jeffrey Plücker probability kinematics** (`quantumJeffreyPluckerKinematicUpdate`), and **Diaconis–Zabell log-odds updates** (`diaconisZabellLogOddsUpdate`)—for mid-circuit soft syndrome evidence and deconfounded expectation evaluation.
@@ -389,7 +389,7 @@ end TequilaRustPyO3SimulatorVerification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"affolter2024vrc", "mcweeny1960densityMatrix", "tsim-kottmann2021direct", "tsim-kottmann2021tequila"}
+:filter: key in {"affolter2024vrc", "mcweeny1960densityMatrix", "kottmann2021direct", "tequila2021"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

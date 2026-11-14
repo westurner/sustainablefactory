@@ -104,7 +104,7 @@ Sections 2–4 below show how `Signals.DDF` and `madelung_lagrangian.rs` close b
 
 ### 2.1 Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density
 
-For a continuous bosonic superfluid condensate $\psi(\mathbf{x}, t) \in \mathbb{C}$ of boson mass $m_\phi > 0$ in an external potential $V_{\mathrm{ext}}$ with contact self-interaction coupling $g_\phi$, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is ({cite:p}`mad-madelung1927`; {cite:p}`mad-gross1961`; {cite:p}`mad-pitaevskii1961`):
+For a continuous bosonic superfluid condensate $\psi(\mathbf{x}, t) \in \mathbb{C}$ of boson mass $m_\phi > 0$ in an external potential $V_{\mathrm{ext}}$ with contact self-interaction coupling $g_\phi$, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is ({cite:p}`madelung1927`; {cite:p}`gross1961`; {cite:p}`pitaevskii1961`):
 
 $$
 \mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
@@ -493,24 +493,24 @@ end ArxivMadelungLagrangianDdfJammingVerification
 
 ### Scholarly References
 
-(mad-madelung1927)=
-<a id="mad-madelung1927"></a>
+(madelung1927)=
+<a id="madelung1927"></a>
 1. Madelung, E. (1927). *Quantentheorie in hydrodynamischer Form*. Zeitschrift für Physik 40(3–4), 322–326. [DOI: 10.1007/BF01400372](https://doi.org/10.1007/BF01400372).
 
 (mad-bohm1952)=
 <a id="mad-bohm1952"></a>
 2. Bohm, D. (1952). *A Suggested Interpretation of the Quantum Theory in Terms of "Hidden" Variables. I*. Physical Review 85(2), 166–179. [DOI: 10.1103/PhysRev.85.166](https://doi.org/10.1103/PhysRev.85.166).
 
-(mad-gross1961)=
-<a id="mad-gross1961"></a>
+(gross1961)=
+<a id="gross1961"></a>
 3. Gross, E. P. (1961). *Structure of a quantized vortex in boson systems*. Il Nuovo Cimento 20(3), 454–477. [DOI: 10.1007/BF02731494](https://doi.org/10.1007/BF02731494).
 
-(mad-pitaevskii1961)=
-<a id="mad-pitaevskii1961"></a>
+(pitaevskii1961)=
+<a id="pitaevskii1961"></a>
 4. Pitaevskii, L. P. (1961). *Vortex Lines in an Imperfect Bose Gas*. Soviet Physics JETP 13(2), 451–454.
 
-(mad-unruh1981)=
-<a id="mad-unruh1981"></a>
+(unruh1981)=
+<a id="unruh1981"></a>
 5. Unruh, W. G. (1981). *Experimental Black-Hole Evaporation?* Physical Review Letters 46(21), 1351–1353. [DOI: 10.1103/PhysRevLett.46.1351](https://doi.org/10.1103/PhysRevLett.46.1351).
 
 (mad-fedi2026)=

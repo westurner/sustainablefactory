@@ -6,5 +6,6 @@
     },
     "git.autoRepositoryDetection": "subFolders",
     "git.repositoryScanMaxDepth": 3,
-    "diffEditor.maxComputationTime": 10000 // default: 5000 (5seconds)
+    "diffEditor.maxComputationTime": 10000,
+    "cmake.sourceDirectory": "/var/home/wturner/-wrk/-ve311/sustainablefactory/src/sustainablefactory/src/madness" // default: 5000 (5seconds)
 }

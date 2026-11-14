@@ -168,7 +168,7 @@ end SemiDiracSolitonBusPaper33Verification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"kivshar1993solitonSwitching", "pol-dean2025", "sb33-shao2024"}
+:filter: key in {"kivshar1993solitonSwitching", "pol-dean2025", "shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

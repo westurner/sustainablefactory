@@ -168,7 +168,7 @@ $$
 
 ### 2.2 Isomorphism Between `NCM` Hierarchy Probes (`Appendix C`) and Pearl's 3-Rung Causal Ladder
 
-Remarkably, the three qualitative hierarchy experiments conducted by Kumbong et al. in `Appendix C` (`appendix/story_continuation.tex`, `story_composition.tex`, `story_perturbation.tex`) correspond one-to-one with **Pearl's 3-Rung Causal Hierarchy** {cite:p}`pearl2009causality` and **Giarmatzi–Costa Quantum Counterfactual Semantics** ([Giarmatzi & Costa 2023, `arXiv:2302.11783`](#ncm-giarmatzi2023), {download}`_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>`):
+Remarkably, the three qualitative hierarchy experiments conducted by Kumbong et al. in `Appendix C` (`appendix/story_continuation.tex`, `story_composition.tex`, `story_perturbation.tex`) correspond one-to-one with **Pearl's 3-Rung Causal Hierarchy** {cite:p}`pearl2009causality` and **Giarmatzi–Costa Quantum Counterfactual Semantics** ([Giarmatzi & Costa 2023, `arXiv:2302.11783`](#giarmatzi2023semantics), {download}`_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>`):
 
 | Pearl / Giarmatzi–Costa Causal Rung | Mathematical Operation in `Signals.QuantumCausalInference` | Corresponding `NCM` Hierarchy Operation (`arXiv:2610.14162`) | Semantic / Geometric Meaning in Tautological Flag Bundle |
 | :--- | :--- | :--- | :--- |
@@ -449,7 +449,7 @@ end QciNextConceptModelingPaper39Verification
 | :--- | :--- | :--- |
 | **Next-Concept Modeling (`NCM`) multiscale residual VQ-VAE, block-diagonal parallel level generation, conditioning corruption, ELBO, and benchmark speedups ($10\text{--}31\times$)** | [Kumbong et al. 2026 (`arXiv:2610.14162`)](#ncm-kumbong2026), Sections 3–4 & Appendices A, C, D, E | **Peer-reviewed / Preprint Benchmark + Machine-Checked Algebra** (`Signals.QuantumCausalInference`, Section 15) |
 | **Tautological Fiber Bundle (`Bundle-Transformer`) & Causal Grassmann Flows** | {cite:p}`ncm-declercq2026` ({download}`data/papers/bundle_transformer.pdf, pp. 1-7 <../data/papers/bundle_transformer.pdf>`); [Zhang 2025 (`arXiv:2512.19428`)](#ncm-zhang2025) | **Machine-Checked Geometry** (`Signals.QuantumCausalInference`, Sections 9–10 & 15) |
-| **Quantum Causal Counterfactuals, Pearl $\operatorname{do}$-Calculus, & Jeffrey's Kinematic Engine** | {cite:p}`pearl2009causality`; {cite:p}`jeffrey1965logicOfDecision`; [Giarmatzi & Costa 2023 (`arXiv:2302.11783`)](#ncm-giarmatzi2023); {download}`data/chats/_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>` | **Machine-Checked Causal Algebra** (`Signals.QuantumCausalInference`, Sections 1, 2, 11, 14, 15) |
+| **Quantum Causal Counterfactuals, Pearl $\operatorname{do}$-Calculus, & Jeffrey's Kinematic Engine** | {cite:p}`pearl2009causality`; {cite:p}`jeffrey1965logicOfDecision`; [Giarmatzi & Costa 2023 (`arXiv:2302.11783`)](#giarmatzi2023semantics); {download}`data/chats/_Mpemba Effect_ Landau vs. Quantum .md, lines 395-535 <../data/chats/_Mpemba Effect_ Landau vs. Quantum .md>` | **Machine-Checked Causal Algebra** (`Signals.QuantumCausalInference`, Sections 1, 2, 11, 14, 15) |
 | **Active `N-LIG`/`B-LIG` Steering Layers ($A'_i = A_i + \alpha \vec{v}_s$) & Pressed `LHAT` Holographic Weight Tape** | {download}`data/chats/_Read our A2Q and quantum review chats about N-LIG and B-LIG...md, lines 105-285 <../data/chats/_Read our A2Q and quantum review chats about N-LIG and B-LIG.__Read our chats on hardware implementation of LLMs with _steering_ layers__Design a USB A+C thumb drive given same. .md>`; {download}`data/chats/_Scaling Sustainable Semiconductors_ R2R Processing and Bio-Solvents .md, lines 338-496 <../data/chats/_Scaling Sustainable Semiconductors_ R2R Processing and Bio-Solvents .md>` | **Verified Mathematical & EDA Model (`Signals.SolitonBus`, `cannon_mask_cad.rs`) + Pending Physical Calibration (`Signals.Pending`)** |
 | **QFT Holographic Associative Memory, Log-Polar OAM Unwrapping ($\Phi_{\mathrm{cart}} = (\ell/a)y$), & $100\text{ ps}$ `VACNT` Kapitza Quench** | {download}`data/chats/_LLMs, Fourier, and Quantum Logic .md, lines 28-695 <../data/chats/_LLMs, Fourier, and Quantum Logic .md>`; [data/chats/_Quantum Processor and Soliton Discussions  .md, lines 5668–5728](chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.myst.md) | **Verified Algebraic & Thermal Bound (`Signals.SolitonBus`) + Pending Hardware Gate (`Signals.Pending`)** |
 
@@ -487,8 +487,8 @@ end QciNextConceptModelingPaper39Verification
 <a id="ncm-jeffrey1965"></a>
 8. **Jeffrey, R. C. (1965).** *The Logic of Decision*. McGraw-Hill.
 
-(ncm-giarmatzi2023)=
-<a id="ncm-giarmatzi2023"></a>
+(giarmatzi2023semantics)=
+<a id="giarmatzi2023semantics"></a>
 9. **Giarmatzi, C., & Costa, F. (2023).** *A Semantics for Counterfactuals in Quantum Causal Models*. `arXiv:2302.11783`.
 
 ### BibTeX Metadata

@@ -24,7 +24,7 @@ description: "An arXiv-ready MyST Markdown formal verification and systems archi
 
 ## Abstract
 
-Standard autoregressive Large Language Models (LLMs), vision-language transformers, and spatiotemporal video diffusion transformers rely on **multi-head self-attention** {cite:p}`qcb-vaswani2017`, which lifts a sequence of $L$ token vectors in $\mathbb{R}^d$ into an unstructured $L \times L$ pairwise compatibility tensor and conditions predictions observationally on past tokens. From the standpoint of decision theory, causal inference, and differential geometry, this architecture suffers from four structural limitations: **(i) evidential confounding** (observational conditioning $P(s \mid A)$ in **Jeffrey Expected Value (`JEV`)** decision models conflates causal mechanisms with backdoor confounders), **(ii) algebraic opacity and quadratic scaling** ($O(L^2 d_{\mathrm{head}})$ tensor lifting with no finite-dimensional global invariants, critiqued by {cite:p}`zhang2025grassmannFlows` in *Attention Is Not What You Need*, `arXiv:2512.19428`), **(iii) real-simplex positivity** (softmax weights $A_{ij} \ge 0$ cannot represent destructive phase interference or non-commutative causal order), and **(iv) flat Euclidean token conflation** (representing both an invariant semantic concept and its contextual instance as a single unstructured vector $h_t \in \mathbb{R}^d$, critiqued by {cite:p}`declercq2026bundleTransformer` in *Bundle-Transformer*).
+Standard autoregressive Large Language Models (LLMs), vision-language transformers, and spatiotemporal video diffusion transformers rely on **multi-head self-attention** {cite:p}`vaswani2017`, which lifts a sequence of $L$ token vectors in $\mathbb{R}^d$ into an unstructured $L \times L$ pairwise compatibility tensor and conditions predictions observationally on past tokens. From the standpoint of decision theory, causal inference, and differential geometry, this architecture suffers from four structural limitations: **(i) evidential confounding** (observational conditioning $P(s \mid A)$ in **Jeffrey Expected Value (`JEV`)** decision models conflates causal mechanisms with backdoor confounders), **(ii) algebraic opacity and quadratic scaling** ($O(L^2 d_{\mathrm{head}})$ tensor lifting with no finite-dimensional global invariants, critiqued by {cite:p}`zhang2025grassmannFlows` in *Attention Is Not What You Need*, `arXiv:2512.19428`), **(iii) real-simplex positivity** (softmax weights $A_{ij} \ge 0$ cannot represent destructive phase interference or non-commutative causal order), and **(iv) flat Euclidean token conflation** (representing both an invariant semantic concept and its contextual instance as a single unstructured vector $h_t \in \mathbb{R}^d$, critiqued by {cite:p}`declercq2026bundleTransformer` in *Bundle-Transformer*).
 
 In this paper, we unify and redevelop **JEV-style decision models**, **self-attention and attention-free Grassmannian LLMs**, **tautological fiber bundle transformers**, and **quantum-causal video generation (`VideoGen`)** in **Lean 4** (`Signals.QuantumCausalInference`) and **Rust/WebAssembly** (`quantum_causal_inference.rs`):
 
@@ -97,7 +97,7 @@ The designation **JEV-style decision models** encompasses three foundational dec
    \mathrm{JEV}(A) - \mathrm{CEV}(A) = b_{\mathrm{conf}} \cdot (u_1 - u_2).
    $$
 
-2. **Quantum Causal Grassmannian Decision Theory (`QCDT`, {cite:p}`qcb-yukalov2010`; {cite:p}`qcb-busemeyer2012`; {cite:p}`qcb-giarmatzi2023`)**:
+2. **Quantum Causal Grassmannian Decision Theory (`QCDT`, {cite:p}`qcb-yukalov2010`; {cite:p}`qcb-busemeyer2012`; {cite:p}`giarmatzi2023semantics`)**:
    Even after removing classical backdoor confounding via $\operatorname{do}(A)$, classical `CEV` assumes that competing causal pathways sum incoherently (requiring positive real probabilities on a simplex) and that sequential cognitive operations commute. When we lift causal pathways to the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$**, the total probability of reaching outcome $s_1$ through two coherent Plücker channel amplitudes $w_A^{\mathbb{C}}, w_B^{\mathbb{C}} \in \mathbb{C}$ decomposes into the classical causal sum plus the **Plücker interference / attraction term** (`qcdtPluckerInterferenceTerm`):
 
    $$
@@ -125,7 +125,7 @@ The designation **JEV-style decision models** encompasses three foundational dec
 
 | Decision / LLM Paradigm | Scoring Rule | Causal Status | Handles Destructive Interference? | Handles Order Non-Commutativity? | Lean 4 Formalization |
 |---|---|---|---|---|---|
-| **Jeffrey Evidential (`JEV`) / Standard Softmax LLM** ({cite:p}`jeffrey1965logicOfDecision`; {cite:p}`qcb-vaswani2017`) | $\sum_s P(s \mid A) U(s,A)$ | Rung 1 (Observational; biased by $b_{\mathrm{conf}}$) | No ($A_{ij} \ge 0$ on real simplex) | Only via positional masks | `jevEvidentialExpectedUtility` |
+| **Jeffrey Evidential (`JEV`) / Standard Softmax LLM** ({cite:p}`jeffrey1965logicOfDecision`; {cite:p}`vaswani2017`) | $\sum_s P(s \mid A) U(s,A)$ | Rung 1 (Observational; biased by $b_{\mathrm{conf}}$) | No ($A_{ij} \ge 0$ on real simplex) | Only via positional masks | `jevEvidentialExpectedUtility` |
 | **Causal Decision Theory (`CEV`)** ({cite:p}`pearl2009causality`; {cite:p}`qcb-joyce1999`) | $\sum_s P(s \mid \operatorname{do}(A)) U(s,A)$ | Rung 2–3 (Interventional $\operatorname{do}$-surgery) | No (classical positive Markov kernel) | Fixed DAG partial order | `cevCausalDoExpectedUtility`, `doInterventionTransfer` |
 | **Quantum Causal Grassmannian (`QCDT`)** (This Work) | $\sum_s \bigl(P(s \mid \operatorname{do}(A)) + q_{\mathrm{Pl\ddot{u}cker}}(s)\bigr) U(s,A)$ | Rung 3 + Indefinite Quantum Causal Order | **Yes** ($\pi$-phase cancellation on $Gr_{\mathbb{C}}(2,4)$) | **Yes** (`quantumSwitchCommutator`, OCB $> 3/4$) | `qcdtQuantumCausalExpectedUtility`, `qcdtPluckerInterferenceTerm` |
 
@@ -135,7 +135,7 @@ The designation **JEV-style decision models** encompasses three foundational dec
 
 ### 2.1 Self-Attention as a 1-Hop Causal DAG Transfer Operator & LGV Bottleneck
 
-In a standard Transformer {cite:p}`qcb-vaswani2017`, given hidden states $H \in \mathbb{R}^{L \times d}$, each attention head $h \in \{1, \dots, H_{\mathrm{heads}}\}$ forms queries $Q_h = H W_Q^{(h)}$, keys $K_h = H W_K^{(h)}$, and values $V_h = H W_V^{(h)}$ in $\mathbb{R}^{L \times d_{\mathrm{head}}}$, and computes the causally masked transition matrix:
+In a standard Transformer {cite:p}`vaswani2017`, given hidden states $H \in \mathbb{R}^{L \times d}$, each attention head $h \in \{1, \dots, H_{\mathrm{heads}}\}$ forms queries $Q_h = H W_Q^{(h)}$, keys $K_h = H W_K^{(h)}$, and values $V_h = H W_V^{(h)}$ in $\mathbb{R}^{L \times d_{\mathrm{head}}}$, and computes the causally masked transition matrix:
 
 $$
 A_{ij}^{(h)} = \frac{\exp\bigl(\langle q_i^{(h)}, k_j^{(h)}\rangle / \sqrt{d_{\mathrm{head}}}\bigr)\,\mathbf{1}_{j \le i}}{\sum_{\ell \le i} \exp\bigl(\langle q_i^{(h)}, k_\ell^{(h)}\rangle / \sqrt{d_{\mathrm{head}}}\bigr)}, \qquad O^{(h)} = A^{(h)} V_h.
@@ -275,7 +275,7 @@ When combined with our Quantum Causal Grassmannian Inference framework, the taut
    - Because $\mathrm{Gr}(k, n)$ is compact with diameter bounded by $\sqrt{k}$ ($0 \le d_{\mathrm{chord}}(Z_i, Z_j)^2 \le k$ proved in `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`), **Reformer-style Locality-Sensitive Hashing (LSH)** ({cite:p}`declercq2026bundleTransformer`, Section 4.1) partitions tokens by concept subspace without suffering from unbounded Euclidean vector norms, reducing long-context attention from $O(L^2)$ to $O(L \log L)$ within well-balanced concept buckets!
 4. **Fiber-Preserving Rotary Position Embedding (`RoPE`) & Strict $k = n$ Classical Transformer Recovery (`ropeFiberRotate`)**:
    - Applying {cite:p}`su2021roformer` Rotary Position Embedding $R_{\theta_m} \in SO(k)$ to the fiber coordinates $\alpha_i := Z_i^\top v_i \in \mathbb{R}^k$ ($\alpha_i \leftarrow R_{\theta_m}\alpha_i$, $v_i \leftarrow Z_i \alpha_i$, {cite:p}`declercq2026bundleTransformer` Section 3.3) is a **strictly vertical bundle automorphism**: it injects relative position $\theta_n - \theta_m$ into the instance $v_i$, preserves the Euclidean norm $\|\alpha_i'\|_2^2 = \|\alpha_i\|_2^2$ (`ropeFiberRotate`), and leaves the invariant concept subspace $Z_i$ untouched.
-   - When $k = n$, $\mathrm{Gr}(n, n)$ is a single point ($Z_i = I_n$, $\Pi_{Z_i} = I_n$, $d_{\mathrm{chord}}^2 = 0$), and the Bundle-Transformer reduces identically to the standard {cite:p}`qcb-vaswani2017` Transformer (`De Clercq 2026`, Sections 2.3 & 3.4).
+   - When $k = n$, $\mathrm{Gr}(n, n)$ is a single point ($Z_i = I_n$, $\Pi_{Z_i} = I_n$, $d_{\mathrm{chord}}^2 = 0$), and the Bundle-Transformer reduces identically to the standard {cite:p}`vaswani2017` Transformer (`De Clercq 2026`, Sections 2.3 & 3.4).
 5. **Non-Abelian Wilczek–Zee / Berry Holonomy for Indefinite Quantum Causal Order**:
    - Over the complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n)$, the Stiefel frame bundle $U(k) \hookrightarrow V_k(\mathbb{C}^n) \to \mathrm{Gr}_{\mathbb{C}}(k, n)$ carries the canonical **non-Abelian Berry connection** $\mathcal{A} = Z^\dagger dZ \in \mathfrak{u}(k)$ with curvature $\mathcal{F} = d\mathcal{A} + \mathcal{A}\wedge\mathcal{A} = dZ^\dagger(I_n - Z Z^\dagger)dZ$ (the Fubini–Study Kähler 2-form from [grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)).
    - If two causal reasoning steps $\gamma_A, \gamma_B$ are traversed in opposite orders ($A \prec B$ vs. $B \prec A$) around a closed loop in concept space $\mathrm{Gr}_{\mathbb{C}}(k, n)$, the base subspace $Z$ returns to itself—so a **base-only Grassmannian model sees zero difference**! Only the **fiber vector $v \in Z$** in the tautological bundle $\mathcal{T}_{\mathbb{C}}$ acquires the non-Abelian holonomy $\Delta v \approx \mathcal{F}_{AB} v = [\nabla_A, \nabla_B] v$, which directly encodes the **Quantum Switch commutator**!
@@ -379,7 +379,7 @@ flowchart TD
      - **Relativistic / Acoustic Lightcone Causality**: Only subluminal motion ($|\beta| = |v|/c < 1 \iff \|w_A^{\mathbb{C}}\|^2 \|w_B^{\mathbb{C}}\|^2 = 1 - \beta^2 > 0$, `causalLightconeInterval`) is permitted across temporal lag edges.
      - **Constructor-Theoretic Task Admissibility (`ConstructorTask.isPossible`)**: Frame transitions violating thermodynamic surplus ($\Sigma_{\mathrm{task}} < 0$) are pruned during beam/diffusion sampling ({download}`data/chats/_LLMs, Fourier, and Quantum Logic .md, lines 94-107 <../data/chats/_LLMs, Fourier, and Quantum Logic .md>`).
 4. **Counterfactual Video Editing via Abduction–Action–Prediction $\operatorname{do}$-Surgery (`counterfactualStructuralOutcome`)**:
-   - Given an observed video trajectory $x_{\mathrm{obs}}$, Giarmatzi–Costa {cite:p}`qcb-giarmatzi2023` quantum causal inference enables exact counterfactual video editing:
+   - Given an observed video trajectory $x_{\mathrm{obs}}$, Giarmatzi–Costa {cite:p}`giarmatzi2023semantics` quantum causal inference enables exact counterfactual video editing:
      - **Step 1 (Abduction)**: Invert the causal Grassmannian transfer operator to recover the exogenous scene innovations $u = (I - W^\top) x_{\mathrm{obs}}$ (`abducedExogenousState`).
      - **Step 2 (Action on the Bundle)**: Apply either a **vertical fiber $\operatorname{do}$-intervention** $\operatorname{do}(\alpha_{i,t_0} := \alpha')$ (e.g., changing an actor's velocity or lighting at frame $t_0$ while preserving object concept $Z_i$) or a **horizontal base $\operatorname{do}$-intervention** $\operatorname{do}(Z_i := Z_{\mathrm{new}})$ (e.g., swapping material concept while projecting existing motion $\Pi_{Z_{\mathrm{new}}}(v_i)$ onto the new concept fiber).
      - **Step 3 (Prediction)**: Propagate forward through the surgically modified DAG $W_{\operatorname{do}}$, leaving causally unperturbed background regions identically preserved (`counterfactual_recovery_exact_on_unperturbed_node`).
@@ -574,8 +574,8 @@ end QuantumCausalJevBundleTransformerVideogenPaperVerification
 <a id="qcb-su2021"></a>
 3. Su, J., Lu, Y., Pan, S., Murtadha, A., Wen, B., and Liu, Y. (2021). *RoFormer: Enhanced Transformer with Rotary Position Embedding*. Neurocomputing, 568, 127063 (2024); [arXiv:2104.09864](https://arxiv.org/abs/2104.09864).
 
-(qcb-vaswani2017)=
-<a id="qcb-vaswani2017"></a>
+(vaswani2017)=
+<a id="vaswani2017"></a>
 4. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., and Polosukhin, I. (2017). *Attention Is All You Need*. Advances in Neural Information Processing Systems (NeurIPS), 30, 5998–6008. [arXiv:1706.03762](https://arxiv.org/abs/1706.03762).
 
 (qcb-zhang2025)=
@@ -606,8 +606,8 @@ end QuantumCausalJevBundleTransformerVideogenPaperVerification
 <a id="qcb-busemeyer2012"></a>
 11. Busemeyer, J. R., and Bruza, P. D. (2012). *Quantum Models of Cognition and Decision*. Cambridge University Press.
 
-(qcb-giarmatzi2023)=
-<a id="qcb-giarmatzi2023"></a>
+(giarmatzi2023semantics)=
+<a id="giarmatzi2023semantics"></a>
 12. Giarmatzi, C., and Costa, F. (2023). *A Semantics for Counterfactuals in Quantum Causal Models*. [arXiv:2302.11783](https://arxiv.org/abs/2302.11783).
 
 (qcb-jevons1865)=

@@ -78,12 +78,12 @@ flowchart TD
 
 ### 1.1 How $405\text{ nm} / 532\text{ nm}$ Nanolithography Synthesizes Semi-Dirac Carbon Channels
 
-In conventional semiconductor fabrication, realizing a semi-Dirac dispersion requires either bulk crystals such as $\mathrm{ZrSiS}$ {cite:p}`sd31-shao2024` or external mechanical anvil cells to strain graphene or black phosphorus {cite:p}`sd31-kim2015`. Our dual-wavelength $405\text{ nm} / 532\text{ nm}$ carbon nanolithography stack ({download}`_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854-952 <../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md>`; {download}`gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 520-535 <../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md>`) synthesizes strain-locked semi-Dirac channels monolithically inside `polyCBD-SS-Lignin`:
+In conventional semiconductor fabrication, realizing a semi-Dirac dispersion requires either bulk crystals such as $\mathrm{ZrSiS}$ {cite:p}`shao2024` or external mechanical anvil cells to strain graphene or black phosphorus {cite:p}`kim2015`. Our dual-wavelength $405\text{ nm} / 532\text{ nm}$ carbon nanolithography stack ({download}`_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854-952 <../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md>`; {download}`gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 520-535 <../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md>`) synthesizes strain-locked semi-Dirac channels monolithically inside `polyCBD-SS-Lignin`:
 
 1. **Sub-$20\text{ nm}$ Active Channel & Gate Writing (`stedDepletedLinewidthSq`)**:
    The $405\text{ nm}$ radial vector vortex beam ($\mathrm{NA} = 1.4$) co-focused with the $532\text{ nm}$ helical doughnut depletion ring ($\sigma\cdot\ell = +1, \zeta_{532} = 63$) writes $n$-type `N-LIG` (Layer 10) and $p$-type `S-LIG` (Layer 11) splines at feature width $w_{\mathrm{STED}} = \frac{2025}{112}\text{ nm} \approx 18.08\text{ nm} < 20\text{ nm}$.
 2. **In-Situ $532\text{ nm}$ Laser Compression Shock (LCS) Uniaxial Strain Locking (`semiDiracStrainMergingGap`)**:
-   Flashing Layer 14 (`polyCBD` Bragg clamps, $d_{\mathrm{Bragg,532}} = \frac{532}{2 \times 1.59} \approx 167.30\text{ nm}$) on the west and east boundaries of the `N-LIG` / `RTG` channel applies a permanent uniaxial compressive strain $\varepsilon_{xx}^* = \Delta_0 / \beta_{\mathrm{strain}}$, driving the Montambaux merging parameter {cite:p}`sd31-montambaux2009` to zero:
+   Flashing Layer 14 (`polyCBD` Bragg clamps, $d_{\mathrm{Bragg,532}} = \frac{532}{2 \times 1.59} \approx 167.30\text{ nm}$) on the west and east boundaries of the `N-LIG` / `RTG` channel applies a permanent uniaxial compressive strain $\varepsilon_{xx}^* = \Delta_0 / \beta_{\mathrm{strain}}$, driving the Montambaux merging parameter {cite:p}`montambaux2009` to zero:
 
    $$
    \Delta_m(\Delta_0, \beta_{\mathrm{strain}}, \varepsilon_{xx}^*) = \Delta_0 - \beta_{\mathrm{strain}}\left(\frac{\Delta_0}{\beta_{\mathrm{strain}}}\right) = 0.
@@ -274,7 +274,7 @@ end SemiDiracApplications1To3Verification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"sd31-kim2015", "sd31-montambaux2009", "sd31-shao2024"}
+:filter: key in {"kim2015", "montambaux2009", "shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

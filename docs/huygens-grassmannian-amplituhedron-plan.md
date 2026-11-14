@@ -1856,7 +1856,7 @@ Source type: mathematical preprint on nonnegative Grassmannian cells and
 weighted planar networks, not an optical-device validation.
 
 (scholarly-qian-izadi)=
-<a id="qian-izadi2023"></a>
+<a id="qian2023"></a>
 Qian, X.-F., and Izadi, M. (2023). *Bridging coherence optics and classical
 mechanics: A generic light polarization-entanglement complementary relation*.
 Physical Review Research 5(3), 033110.

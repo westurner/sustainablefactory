@@ -18400,7 +18400,10 @@ The interactive diagram below maps the dependency graph of the four sub-domain c
 **Visual type:** Interactive hierarchical architecture and proof-dependency graph.
 **Data specification:**
 - **Data structure:** object with `nodes` (array of {id, module, theoremName, layer, boundSummary, leanHypothesis, status}) and `edges` (array of {source, target, couplingVariable})
-- **Initial values:** {
+- **Initial values:**
+
+  ```json
+  {
   "nodes": [
     {"id": "siphon", "module": "Lignolux.Siphon", "theoremName": "safe_generation_bound", "layer": "Sub-Contract 1: Energy Extraction", "boundSummary": "Bootstrap (15 kJ) < Extracted Power < Thermal Limit Tv (140 C)", "leanHypothesis": "h_over_unity ∧ h_thermal_safety", "status": "VERIFIED"},
     {"id": "cooling", "module": "Lignolux.QuantumCooling", "theoremName": "quantum_cooling_guaranteed", "layer": "Sub-Contract 2: Algorithmic Cooling", "boundSummary": "Conditional Entropy S(A|B) < 0 implies Heat Transfer dQ < 0", "leanHypothesis": "h_negative_entropy → heat_transfer < 0", "status": "VERIFIED"},
@@ -18417,7 +18420,8 @@ The interactive diagram below maps the dependency graph of the four sub-domain c
     {"source": "fracture", "target": "master", "couplingVariable": "Athermal DDF-SQF Lithography"},
     {"source": "cannon", "target": "master", "couplingVariable": "800 GHz OH Radical Collapse"}
   ]
-}
+  }
+  ```
 - **Mapping:** `nodes` → interactive proof cards arranged by layer from sub-contracts at the top to the master CI/CD gate at the bottom; `edges` → directed dependency connectors labeled with `couplingVariable`.
 **User controls:** Filter/highlight by proof branch ("All Branches", "Thermodynamic & Power Loop", "Proca Lithography & Metamaterial", "800 GHz Anti-Fire Defense").
 **Interactivity:** Click any proof node to inspect its full Lean 4 hypothesis signature, physical thresholds, and downstream dependencies; toggle branches to trace how sub-lemmas combine into `lignolux_sil4_master_safety`.

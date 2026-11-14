@@ -28,7 +28,7 @@ description: "An arXiv-ready MyST Markdown formal verification and condensed-mat
 
 ## Abstract
 
-**Semi-Dirac fermions** are exotic two-dimensional relativistic-nonrelativistic hybrid quasiparticles that behave as **massive Schrödinger particles along one spatial axis ($x$)** ($E \propto \frac{\hbar^2 k_x^2}{2 m_x^*}$ with effective mass $m_x^* > 0$) while simultaneously propagating as **massless ultra-relativistic Dirac particles along the orthogonal axis ($y$)** ($E \propto \hbar v_y |k_y|$ with zero rest mass $m_y^* = 0$) ({cite:p}`sd-dietl2008`; {cite:p}`sd-banerjee2009`; {cite:p}`sd-montambaux2009`). Following their landmark magneto-optical observation at the nodal-line crossings of $\mathrm{ZrSiS}$ by **Shao et al. (2024)** (*Physical Review X* 14, 041057, [`arXiv:2311.03735`](#sd-shao2024))—verified via the signature **$B^{2/3}$ Landau-level scaling** $E_n(B) \propto [(n + 1/2)B]^{2/3}$—a foundational question arises across condensed-matter physics, complex projective geometry, and quantum hydrodynamics:
+**Semi-Dirac fermions** are exotic two-dimensional relativistic-nonrelativistic hybrid quasiparticles that behave as **massive Schrödinger particles along one spatial axis ($x$)** ($E \propto \frac{\hbar^2 k_x^2}{2 m_x^*}$ with effective mass $m_x^* > 0$) while simultaneously propagating as **massless ultra-relativistic Dirac particles along the orthogonal axis ($y$)** ($E \propto \hbar v_y |k_y|$ with zero rest mass $m_y^* = 0$) ({cite:p}`dietl2008`; {cite:p}`banerjee2009`; {cite:p}`montambaux2009`). Following their landmark magneto-optical observation at the nodal-line crossings of $\mathrm{ZrSiS}$ by **Shao et al. (2024)** (*Physical Review X* 14, 041057, [`arXiv:2311.03735`](#shao2024))—verified via the signature **$B^{2/3}$ Landau-level scaling** $E_n(B) \propto [(n + 1/2)B]^{2/3}$—a foundational question arises across condensed-matter physics, complex projective geometry, and quantum hydrodynamics:
 
 > *How are semi-Dirac fermions formulated **with and without the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}$** ($\mathrm{Gr}_{\mathbb{C}}(1,2)$, $\mathrm{Gr}_{\mathbb{C}}(2,4)$, and $\mathrm{Gr}_{\mathbb{C}}(2,6)$) and **with and without the Dilatant Dark Fluid (DDF)** (`Signals.DDF`), why does a quasiparticle acquire mass in only one direction from a hydrodynamic perspective, and what engineering and quantum-computing applications follow?*
 
@@ -73,11 +73,11 @@ In two spatial dimensions $(k_x, k_y)$, electronic and photonic quasiparticles f
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1. Non-Relativistic Schrödinger** | 2DEG ($\mathrm{GaAs}$, $\mathrm{Si}$ inversion layer) | Massive quadratic: $\frac{\hbar^2 k_x^2}{2 m^*}$ | Massive quadratic: $\frac{\hbar^2 k_y^2}{2 m^*}$ | Constant: $E^0$ | Linear: $\hbar\omega_c(n + \frac{1}{2}) \propto B^1$ | $0$ |
 | **2. Isotropic Relativistic Dirac** | Monolayer Graphene ($N=1$) | Massless linear: $\hbar v_F \|k_x\|$ | Massless linear: $\hbar v_F \|k_y\|$ | Linear: $E^1$ | Square-root: $v_F\sqrt{2\hbar e B n} \propto B^{1/2}$ | $\pm\pi$ |
-| **3. Semi-Dirac Hybrid (`Signals.DFT` Sec. 19)** | **$\mathrm{ZrSiS}$ nodal-line crossing** {cite:p}`sd-shao2024`, $\mathrm{TiO}_2/\mathrm{VO}_2$, strained graphene / black phosphorus | **Massive quadratic**: $\frac{\hbar^2 k_x^2}{2 m_x^*}$ ($m_x^* > 0$) | **Massless linear**: $\hbar v_y \|k_y\|$ ($m_y^* = 0$) | **Square-root**: $E^{1/2}$ | **Two-thirds power**: $\propto [(n + \frac{1}{2})B]^{2/3}$ | $0$ ($\pi + (-\pi)$) |
+| **3. Semi-Dirac Hybrid (`Signals.DFT` Sec. 19)** | **$\mathrm{ZrSiS}$ nodal-line crossing** {cite:p}`shao2024`, $\mathrm{TiO}_2/\mathrm{VO}_2$, strained graphene / black phosphorus | **Massive quadratic**: $\frac{\hbar^2 k_x^2}{2 m_x^*}$ ($m_x^* > 0$) | **Massless linear**: $\hbar v_y \|k_y\|$ ($m_y^* = 0$) | **Square-root**: $E^{1/2}$ | **Two-thirds power**: $\propto [(n + \frac{1}{2})B]^{2/3}$ | $0$ ($\pi + (-\pi)$) |
 
 ### 1.2 Universal Montambaux–Banerjee–Shao Merging Hamiltonian
 
-When two 2D Dirac cones of opposite chirality ($\Phi_B = +\pi$ and $\Phi_B = -\pi$) approach each other along the $k_x$-axis under uniaxial strain, pressure, interlayer sliding, or nodal-line crossing in $\mathrm{ZrSiS}$ ({cite:p}`sd-montambaux2009`; {cite:p}`sd-shao2024`), the low-energy $2\times 2$ effective Bloch Hamiltonian is governed by the merging parameter $\Delta_m \in \mathbb{R}$:
+When two 2D Dirac cones of opposite chirality ($\Phi_B = +\pi$ and $\Phi_B = -\pi$) approach each other along the $k_x$-axis under uniaxial strain, pressure, interlayer sliding, or nodal-line crossing in $\mathrm{ZrSiS}$ ({cite:p}`montambaux2009`; {cite:p}`shao2024`), the low-energy $2\times 2$ effective Bloch Hamiltonian is governed by the merging parameter $\Delta_m \in \mathbb{R}$:
 
 $$
 \mathcal{H}_{\mathrm{SD}}(k_x, k_y; \Delta_m) = \left(\frac{\hbar^2 k_x^2}{2 m_x^*} + \Delta_m\right)\sigma_x + \hbar v_y k_y\,\sigma_y,
@@ -115,7 +115,7 @@ $$
 \mathcal{H}_{\mathrm{SD}}^2\,\psi_n(\tilde{x}) = \left[\frac{\hbar^4}{4 (m_x^*)^2}\frac{d^4}{d\tilde{x}^4} + e^2 v_y^2 B^2 \tilde{x}^2\right]\psi_n(\tilde{x}) = E_n(B)^2\,\psi_n(\tilde{x}).
 $$
 
-Rescaling $\tilde{x} = \ell_{\mathrm{SD}}\,\xi$ with characteristic semi-Dirac magnetic length $\ell_{\mathrm{SD}} = \bigl(\frac{\hbar^2}{2 m_x^* e v_y B}\bigr)^{1/3} \propto B^{-1/3}$ factors all parameter dependence out of the differential operator, yielding the exact **$\mathbf{B^{2/3}}$ quantization law** ({cite:p}`sd-montambaux2009`; {cite:p}`sd-shao2024`):
+Rescaling $\tilde{x} = \ell_{\mathrm{SD}}\,\xi$ with characteristic semi-Dirac magnetic length $\ell_{\mathrm{SD}} = \bigl(\frac{\hbar^2}{2 m_x^* e v_y B}\bigr)^{1/3} \propto B^{-1/3}$ factors all parameter dependence out of the differential operator, yielding the exact **$\mathbf{B^{2/3}}$ quantization law** ({cite:p}`montambaux2009`; {cite:p}`shao2024`):
 
 $$
 E_n(B) = \pm\,\alpha_{\mathrm{WKB}}\left(\frac{\hbar^2 e^2 v_y^2}{m_x^*}\right)^{1/3}\left[\left(n + \frac{1}{2}\right) B\right]^{2/3} \iff E_n(B)^3 = C_{\mathrm{LL}}^3\,\frac{v_y^2\,\bigl((n + 1/2) B\bigr)^2}{m_x^*},
@@ -271,9 +271,9 @@ To ensure that our semi-Dirac formalization is non-tautological and quantitative
 
    proving that a pristine, unpatterned 2D semi-Dirac crystal acts as an **intrinsic in-plane hyperbolic metasurface**.
 4. **Gap 4 — Non-Tautological $\mathrm{ZrSiS}$ $B^{2/3}$ Magneto-Optical Benchmark vs. Isotropic Dirac ($B^{1/2}$) and Schrödinger ($B^1$) Baselines**:
-   In the high-field magneto-optical spectroscopy of $\mathrm{ZrSiS}$ by {cite:p}`sd-shao2024`, scaling the magnetic field by a factor of $B / B_0 = 8$ (e.g., from $2\text{ T}$ to $16\text{ T}$) scales the inter-Landau-level transition energy by $R_{\mathrm{exp}} \approx 3.98$:
+   In the high-field magneto-optical spectroscopy of $\mathrm{ZrSiS}$ by {cite:p}`shao2024`, scaling the magnetic field by a factor of $B / B_0 = 8$ (e.g., from $2\text{ T}$ to $16\text{ T}$) scales the inter-Landau-level transition energy by $R_{\mathrm{exp}} \approx 3.98$:
 
-   | Model | Field-Scaling Law $E_n(8 B_0) / E_n(B_0)$ | Predicted Ratio at $B/B_0 = 8$ | Experimental $\mathrm{ZrSiS}$ Ratio {cite:p}`sd-shao2024` | Relative Error $\varepsilon_{\mathrm{rel}}$ (`gtbcRelativeError`) |
+   | Model | Field-Scaling Law $E_n(8 B_0) / E_n(B_0)$ | Predicted Ratio at $B/B_0 = 8$ | Experimental $\mathrm{ZrSiS}$ Ratio {cite:p}`shao2024` | Relative Error $\varepsilon_{\mathrm{rel}}$ (`gtbcRelativeError`) |
    | :--- | :---: | :---: | :---: | :---: |
    | **Semi-Dirac (`Signals.DFT` Sec. 19)** | $8^{2/3}$ | **$4.000$** | $3.980$ | **$0.50\% < 1\%$** |
    | **Isotropic Relativistic Dirac Baseline** | $8^{1/2}$ | $2.828$ | $3.980$ | $28.94\%$ ($57.6\times$ worse) |
@@ -339,7 +339,7 @@ end SemiDiracFermionsPaperVerification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"sd-banerjee2009", "sd-dietl2008", "sd-fedi2026", "sd-kim2015", "sd-montambaux2009", "sd-shao2024"}
+:filter: key in {"banerjee2009", "dietl2008", "fedi2026relativity", "kim2015", "montambaux2009", "shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)
