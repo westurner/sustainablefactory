@@ -369,3 +369,66 @@ In [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md) and [Pape
    Both **Model 14a** (without DDF, $\eta_{\mathrm{act}}^\gamma = 1$) and **Model 14b** (with DDF constitutive product $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$, $\eta_{\mathrm{act}}^\gamma = 0$, and $\mathrm{De}/\mathrm{De}_c > 1$ Deborah shear-fracture ringdown echoes) satisfy $\Delta\theta_\gamma^{(14\mathrm{a})} = \Delta\theta_\gamma^{(14\mathrm{b})} = \Delta\theta_{\mathrm{GR}}$ (**$\varepsilon_{\mathrm{rel}} = 0$**) at solar-system scales ($\delta_{\mathrm{Jos}} = 0$).
 3. **Manifest Heaviside–Larmor Electric–Magnetic Duality on $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (`electricMagneticDualityNormSq`)**:
    Pairing the primary Plücker electric/helicity condensate $\Psi \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ with its dual-Schubert magnetic/Hodge partner $\Phi \in \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ makes continuous Heaviside–Larmor duality rotations $\Psi' = \Psi\cos\alpha - \Phi\sin\alpha$, $\Phi' = \Psi\sin\alpha + \Phi\cos\alpha$ an exact unitary Noether symmetry preserving total norm squared `electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) = psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2`.
+
+---
+
+## 4. Why Vacuum Maxwell Equations Must Be Extended: Kohn–Sham `DFT` Electron Density & Complex Plabic `VRC`s in Matter vs. Pressure Differences in `SQG/DDF`
+
+Maxwell's free-space equations ($\nabla\cdot\mathbf{E} = 0$, $\nabla\times\mathbf{B} = \frac{1}{c^2}\partial_t\mathbf{E}$, $\varepsilon_r = \mu_r = n = 1$) describe an idealized, completely empty background ($\rho_e = 0, \Delta P = 0$). In `Signals.DFT` Section 26.2 (`maxwell_vacuum_vs_dft_electron_density_ddf_pressure_polariton_plasmon_and_m1_m2_m3_identities` in {download}`src/signals/Signals/DFT.lean, lines 8447–8595 <../src/signals/Signals/DFT.lean>`), we prove why real electromagnetic propagation requires two distinct physical extensions depending on the medium:
+
+```{mermaid}
+flowchart TB
+    Vac["1. Classical Vacuum Maxwell Limit\n• Empty background: ρ_e(r) = 0, P_local = P_ambient (ΔP = 0)\n• ε_r(0) = 1, n_DDF(P_amb, P_amb) = 1, Φ_ϕ = 0\n• Strictly linear, nondispersive, uncoupled plane waves"]
+
+    DFT["2. Atmosphere, Plasma, & Solid Structures (Kohn–Sham DFT + Complex Plabic VRC)\n• Wave propagation governed by ELECTRON DENSITY ρ_e(r) = ∑_σ Tr(P_σ n̂(r)) ≥ 0\n  on unrestricted spin-polarized Gr_C(N_α, M) × Gr_C(N_β, M) (QCI-GXC & G-GKBA)\n• Relative permittivity: ε_r(ρ_e) = 1 - α_pol ρ_e / ω² (dftElectronDensityPermittivity)\n  – Vacuum: ρ_e = 0 ⇒ ε_r = 1\n  – ENZ boundary/bulk: α_pol ρ_e = ω² ⇒ ε_r = 0 (100×–400× E_z boost)\n  – Overdense plasmonic stop-band: α_pol ρ_e > ω² ⇒ ε_r < 0\n  – Bound-exciton / dielectric: α_pol < 0 ⇒ ε_r > 1\n• Complex Homogeneous Plabic VRC (V K^T = 0) removes the x_X = -1 resonance pole!"]
+
+    DDF["3. Superfluid Quantum Gravity / Dilatant Dark Fluid (SQG/DDF Substrate)\n• NO COMPLETE VACUUM EXISTS (ρ_0 > 0 everywhere)!\n• Only DIFFERENCES IN PRESSURE ΔP = P_ambient - P_local exist:\n  – Bernoulli gravitational enthalpy: Φ_ϕ = -(P_ambient - P_local) / ρ_0\n  – Effective optical refractive index: n_DDF = 1 + 2(P_ambient - P_local) / (ρ_0 c²)\n  – Uniform baseline P_local = P_ambient (ΔP = 0) mimics 'vacuum' (Φ_ϕ = 0, n_DDF = 1)\n  – Low-pressure sink P_local < P_ambient (ΔP > 0) bends light (n_DDF > 1, Δθ_γ = 4GM/c²b)\n  – High-shear Deborah fracture (De > 1) opens an M_2 low-impedance waveguide!"]
+
+    Vac -->|"Turn on electron density\nρ_e(r) > 0 in matter"| DFT
+    Vac -->|"Turn on superfluid pressure\ndifference ΔP ≠ 0"| DDF
+```
+
+### 4.1 Propagation Through Atmosphere, Plasma, or Solid Structures: Electron Density $\rho_e(\mathbf{r})$ in Kohn–Sham `DFT` and Pole-Free Complex Plabic `VRC`s
+
+When an electromagnetic wave propagates through a gas (such as Earth/Mars atmosphere), an ionized plasma, or a condensed-matter lattice (`N-LIG`, `rGO-Vitrimer`, `Si/SiO2`, `WSe2`, cuprates, or rhombohedral graphene), photons do not travel through empty space—they continuously polarize the local **electron density** $\rho_e(\mathbf{r}, t)$ ({cite:p}`hohenberg1964inhomogeneous`; {cite:p}`kohn1965self`; [Paper 23](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md); [Paper 25](grassmannian-tuning-materials-with-light-paper.md)):
+
+1. **Grassmannian Kohn–Sham Density Matrix & Electron-Density Permittivity (`dftElectronDensityPermittivity`)**:
+   In our Quantum Causal Inference Kohn–Sham Density Functional Theory (`QCI-GXC` in `Signals.DFT` Sections 1–12 and `MADNESS`/`Tequila` Sections 21–22), the $N = N_\alpha + N_\beta$ electrons occupy an unrestricted spin-polarized point $(P_\alpha, P_\beta) \in \mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$ ($P_\sigma^2 = P_\sigma = P_\sigma^\dagger$, $\operatorname{Tr} P_\sigma = N_\sigma$, evolved via unitary Riemannian Cayley retractions `(I - K/2)(I + K/2)^{-1}` and purified via McWeeny's cubic map $3P^2 - 2P^3$). The local electron density $\rho_e(\mathbf{r}) = \sum_{\sigma\in\{\alpha,\beta\}}\operatorname{Tr}(P_\sigma\hat{n}(\mathbf{r})) \ge 0$ dresses Maxwell's displacement field via (`dftElectronDensityPermittivity` in {download}`src/signals/Signals/DFT.lean, lines 8498–8506 <../src/signals/Signals/DFT.lean>`):
+
+   $$
+   \varepsilon_r(\rho_e, \alpha_{\mathrm{pol}}, \omega^2) = 1 - \frac{\alpha_{\mathrm{pol}}\,\rho_e(\mathbf{r})}{\omega^2}.
+   $$
+
+   As certified in `maxwell_vacuum_vs_dft_electron_density_ddf_pressure_polariton_plasmon_and_m1_m2_m3_identities`, this single constitutive law spans four distinct optical regimes:
+   - **Vacuum Maxwell Reduction ($\rho_e = 0$)**: `dftElectronDensityPermittivity 0 alpha_pol omega_sq = 1`—recovering classical vacuum electrodynamics when no electrons are present.
+   - **Epsilon-Near-Zero (`ENZ`) Regime ($\alpha_{\mathrm{pol}}\rho_e = \omega^2$)**: `dftElectronDensityPermittivity 4 1 4 = 0`—triggering $100\times\text{–}400\times$ normal $E_z$ boundary amplification (`enzBoundaryIntensityEnhancement`) and longitudinal bulk modes.
+   - **Overdense Plasmonic / Reststrahlen Stop-Band ($\alpha_{\mathrm{pol}}\rho_e > \omega^2$)**: `dftElectronDensityPermittivity 8 1 4 < 0`—where bulk transverse waves become evanescent and surface plasmon polaritons (`SPP`s) bind to interfaces.
+   - **Bound-Exciton / Dielectric Atmospheric & Solid Refraction ($\alpha_{\mathrm{pol}} < 0$, i.e. $\omega < \omega_0$)**: `1 < dftElectronDensityPermittivity 4 (-1) 4`—producing $n = \sqrt{\varepsilon_r} > 1$ index refraction, Cherenkov cones ($v > c/n$), and Kerr/thermal self-focusing of tubular OAM solitons.
+2. **Why Complex Homogeneous Plabic Vector-Relation Configurations (`VRC`s) Are Required at Strong Light–Matter Coupling ($x_X = -1$)**:
+   When an electromagnetic wave hits an on-shell exciton, polariton, or Kohn–Sham interband resonance, standard rational perturbation denominators $1/(1 + x_X)$ diverge at $x_X = -1$ (`squareMoveDenominator (-1) = 0` in `Signals.Plabic`). Lifting the scattering/polarisability network to a **Complex Homogeneous Plabic `VRC`** $(V, K)$ on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ (`gr24MutatedHomogeneousVRC x1_c x2_c (-1)`, {cite:p}`lam2014totally`; [Paper 23](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)) clears all rational denominators into polynomial entries satisfying exact vector-relation orthogonality `vrc_res.vectors * vrc_res.relations.transpose = 0` and finite non-singular Plücker minor `plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2_c - x1_c` right through $x_X = -1$!
+
+### 4.2 Propagation in `SQG/DDF`: Why There Is No Complete Vacuum—Only Differences in Superfluid Pressure ($\Delta P = P_{\mathrm{ambient}} - P_{\mathrm{local}}$)
+
+In **Superfluid Quantum Gravity / Dilatant Dark Fluid (`SQG/DDF`)** ({cite:p}`fedi2026ddf`; {download}`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md, lines 35–120 <../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md>`; {download}`data/chats/Real-Positive-Grassmannian-With-Plabic-Networks.md, lines 442–510 <../data/chats/Real-Positive-Grassmannian-With-Plabic-Networks.md>`), **a "complete empty vacuum" ($\rho_0 = 0$) does not exist anywhere in the universe**:
+- If the background condensate density $\rho_0$ vanished completely, the transverse shear-phonon lattice would disappear and no electromagnetic wave could propagate at all!
+- Instead, what classical Maxwell theory calls "empty vacuum" is simply a region of **uniform baseline superfluid pressure** $P_{\mathrm{local}} = P_{\mathrm{ambient}}$ where the **pressure difference** $\Delta P = P_{\mathrm{ambient}} - P_{\mathrm{local}} = 0$ vanishes.
+- Every gravitational and vacuum-optical phenomenon is governed by **hydrodynamic pressure differences** $\Delta P = P_{\mathrm{ambient}} - P_{\mathrm{local}}$ relative to the ambient condensate (`ddfPressureDifferenceEnthalpy` and `ddfPressureGradientRefractiveIndex` in {download}`src/signals/Signals/DFT.lean, lines 8476–8496 <../src/signals/Signals/DFT.lean>`):
+
+  $$
+  \Phi_\phi(P_{\mathrm{ambient}}, P_{\mathrm{local}}, \rho_0) = -\frac{P_{\mathrm{ambient}} - P_{\mathrm{local}}}{\rho_0}, \qquad
+  n_{\mathrm{DDF}}(P_{\mathrm{ambient}}, P_{\mathrm{local}}, \rho_0, c^2) = 1 + \frac{2(P_{\mathrm{ambient}} - P_{\mathrm{local}})}{\rho_0\,c^2}.
+  $$
+
+- We prove in `maxwell_vacuum_vs_dft_electron_density_ddf_pressure_polariton_plasmon_and_m1_m2_m3_identities`:
+  1. **Zero Pressure Difference ($\Delta P = 0 \iff P_{\mathrm{local}} = P_{\mathrm{ambient}}$)**: `ddfPressureDifferenceEnthalpy p_amb p_amb 1 = 0` and `ddfPressureGradientRefractiveIndex p_amb p_amb 1 1 = 1`—recovering the flat-space Maxwell speed $c_{\mathrm{eff}} = c / n_{\mathrm{DDF}} = c$.
+  2. **Low-Pressure Gravitational Sink ($\Delta P > 0 \iff P_{\mathrm{local}} < P_{\mathrm{ambient}}$)**: Around a mass $M$, superfluid inflow lowers local pressure ($P_{\mathrm{local}} = 6 < 10 = P_{\mathrm{ambient}}$), creating a negative gravitational potential `ddfPressureDifferenceEnthalpy 10 6 2 = -2 < 0` and an elevated refractive index `1 < ddfPressureGradientRefractiveIndex 10 6 2 1` ($n_{\mathrm{DDF}} = 5 > 1$) that refracts light rays toward the low-pressure zone by $\Delta\theta_\gamma = \frac{4GM}{c^2 b}$.
+  3. **Super-Critical Deborah Shear Fracture ($\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1$)**: When an intense acoustic/optical shock drives the pressure gradient past the critical cavitation/jamming threshold $\mathrm{De}_c = 1$, the medium opens a phase-slip fracture corridor (Method $M_2$ in Section 6).
+
+### 4.3 Summary Comparison: Vacuum Maxwell vs. `DFT`/`VRC` Matter vs. `SQG/DDF` Pressure-Difference Substrate
+
+| Physical Property | Classical Vacuum Maxwell | Dense Matter / Atmosphere / Solids (`QCI-GXC` `DFT` & Complex `VRC`) | `SQG/DDF` Superfluid Substrate |
+| :--- | :--- | :--- | :--- |
+| **Does a true empty vacuum exist?** | **Yes** ($\rho_e = 0$ empty geometric arena $\mathbb{R}^{1,3}$) | **No inside matter**: space is filled with spin-polarized electron density $\rho_e(\mathbf{r}) > 0$ | **No anywhere**: background density $\rho_0 > 0$ is everywhere; "vacuum" is $\Delta P = P_{\mathrm{amb}} - P_{\mathrm{loc}} = 0$ |
+| **Governing state variable** | Field strengths $(\mathbf{E}, \mathbf{B})$ or $F_{\mu\nu}$ | Kohn–Sham projectors $(P_\alpha, P_\beta) \in \mathrm{Gr}_{\mathbb{C}}(N_\alpha, M)\times\mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$ & `VRC` $(V, K)$ | Pressure difference $\Delta P = P_{\mathrm{ambient}} - P_{\mathrm{local}}$ & dispersed jamming product $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$ |
+| **Constitutive permittivity / index** | $\varepsilon_r = 1,\; n = 1$ | $\varepsilon_r(\rho_e) = 1 - \frac{\alpha_{\mathrm{pol}}\rho_e(\mathbf{r})}{\omega^2}$ (`dftElectronDensityPermittivity`) | $n_{\mathrm{DDF}}(\Delta P) = 1 + \frac{2(P_{\mathrm{ambient}} - P_{\mathrm{local}})}{\rho_0 c^2}$ (`ddfPressureGradientRefractiveIndex`) |
+| **Resonance & singularity resolution** | Point charges diverge as $1/r^2$ | Homogeneous Plabic `VRC` ($V K^\top = 0$) removes $x_X = -1$ resonance poles (`gr24MutatedHomogeneousVRC`) | Plücker Kähler core $\mathcal{D}_{\mathrm{core}} \ge 1$ & nonlocal dilatant jamming $\sigma_{\mathrm{nl}} > 0$ regularize vortex cores |
