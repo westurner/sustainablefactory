@@ -2033,4 +2033,373 @@ theorem seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_bou
     p_fail rho_corr e_around e_fracture e_wormhole
     hw_sum hw1_ne hw2_ne hl_pos hl_le hv_pos hv_le hp_pos hp_lt hrho_nonneg hrho_lt
 
+/-- Re-exports the Section 26 & 26.1 Maxwell EM, twistor, longitudinal $E_z$, OAM tubular soliton,
+and multi-model gravity/electron EM Pending boundary theorem. -/
+theorem maxwell_em_tensors_twistors_ez_oam_solitons_and_gravity_models_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (div_f cx cy cz b_sq f_contract kx ex ky ey kz w0_sq p_diff p_oam w_norm
+      g_const mass_source c_light b_impact delta_theta_gr gamma_conf e_ecc
+      psi_re psi_im phi_re phi_im p0 n_index omega_freq m_eff : ℝ)
+    (l_in : ℤ)
+    (hc : c_light ≠ 0) (hkz : kz ≠ 0) (he : 1 - e_ecc ^ 2 ≠ 0)
+    (hn : n_index ≠ 0) (homega : 0 < omega_freq) (hm : 0 < m_eff) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.maxwellOriginal1865EquationCount = 20 ∧
+        Signals.DFT.heavisideGibbsVectorEquationCount = 4 ∧
+        Signals.DFT.minkowskiTensorEquationCount = 2 ∧
+        Signals.DFT.penroseTwistorSpinorEquationCount = 1 ∧
+        Signals.DFT.penroseTwistorSpinorEquationCount < Signals.DFT.minkowskiTensorEquationCount ∧
+        Signals.DFT.minkowskiTensorEquationCount < Signals.DFT.heavisideGibbsVectorEquationCount ∧
+        Signals.DFT.heavisideGibbsVectorEquationCount < Signals.DFT.maxwellOriginal1865EquationCount ∧
+        Signals.DFT.maxwellQuaternionNablaNormSq div_f cx cy cz = div_f ^ 2 + cx ^ 2 + cy ^ 2 + cz ^ 2 ∧
+        Signals.DFT.eulerKinematicJacobianDet 0 = 1 ∧
+        Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
+        Signals.DFT.unitQuaternionNormSq (1 / Real.sqrt 2) 0 (1 / Real.sqrt 2) 0 = 1 ∧
+        Signals.DFT.maxwellLorentzInvariantLagrange (c_light ^ 2 * b_sq) (c_light ^ 2) b_sq = 0 ∧
+        Signals.DFT.maxwellLorentzInvariantPontryagin 0 c_light = 0 ∧
+        Signals.DFT.maxwellStressEnergyTraceInDim 4 f_contract = 0 ∧
+        Signals.DFT.maxwellSpinorNullDeterminant 1 0 1 0 1 0 = 0 ∧
+        0 < Signals.DFT.maxwellSpinorNullDeterminant 2 0 1 0 1 0 ∧
+        kx * ex + ky * ey + kz * Signals.DFT.maxwellGaussLongitudinalEz kx ex ky ey kz = 0 ∧
+        Signals.DFT.samToOamLongitudinalTopologicalCharge l_in 1 + 0 = l_in + 1 ∧
+        Signals.DFT.tubularSolitonRingRadiusSq w0_sq 0 = 0 ∧
+        Signals.DFT.tubularSolitonRingRadiusSq 2 1 = 1 ∧
+        Signals.DFT.tubularSolitonRingRadiusSq 2 1 < Signals.DFT.tubularSolitonRingRadiusSq 2 3 ∧
+        Signals.DFT.tubularSolitonRadialEquilibriumResidual (p_diff + p_oam) p_diff p_oam = 0 ∧
+        Signals.DFT.scalarBohmVortexCoreDivergence 1 1 1 <
+          Signals.DFT.scalarBohmVortexCoreDivergence 1 1 (1 / 100) ∧
+        1 ≤ Signals.DFT.pluckerRegularizedVortexCoreNormSq (w_norm ^ 2) 0 ∧
+        Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact (-1) = 0 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1)
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 0)
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 1 / 2 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 (-1))
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 1 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.wittenConformalLightDeflection 4 0 0 1) 4 = 1 ∧
+        Signals.DFT.cachazoSkinnerLightDeflection delta_theta_gr 1 gamma_conf b_impact =
+          delta_theta_gr ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.cachazoSkinnerLightDeflection 4 1 gamma_conf b_impact) 4 = 0 ∧
+        Signals.DFT.ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
+        Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 =
+          delta_theta_gr ∧
+        Signals.DFT.electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) =
+          psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2) ∧
+      (Signals.DFT.abrahamMinkowskiMomentumProduct p0 n_index = p0 ^ 2 ∧
+        Signals.DFT.laguerreGaussianGouyModeOrder 0 0 = 1 ∧
+        Signals.DFT.laguerreGaussianGouyModeOrder 0 2 = 3 ∧
+        Signals.DFT.laguerreGaussianGouyModeOrder 0 0 <
+          Signals.DFT.laguerreGaussianGouyModeOrder 0 2 ∧
+        Signals.DFT.maxwellGaussLongitudinalEz 0 ex 0 ey kz = 0 ∧
+        0 < Signals.DFT.procaLongitudinalPolarizationZ omega_freq m_eff ∧
+        0 < Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 0 2 ∧
+        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 5 2 < 0) :=
+  evidence.maxwell_em_tensors_twistors_ez_oam_solitons_and_gravity_models_bounds
+    div_f cx cy cz b_sq f_contract kx ex ky ey kz w0_sq p_diff p_oam w_norm
+    g_const mass_source c_light b_impact delta_theta_gr gamma_conf e_ecc
+    psi_re psi_im phi_re phi_im p0 n_index omega_freq m_eff l_in
+    hc hkz he hn homega hm
+
+/-- Re-exports the Section 27 QFIM $= 4\times$ Fubini–Study Kähler metric, 3-channel Madelung
+kinetic split on $\mathcal{Q}_4$, Plücker simplex phase-variance split, Klein quadric tangency,
+ghost-free Turner unification, and critique gap-closure Pending boundary theorem. -/
+theorem qfim_four_times_fubini_study_madelung_split_and_turner_unification_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (d : Signals.DFT.PluckerDirectionalJet)
+    (j : Signals.DFT.Plucker3DSpatialJet)
+    (p dp dphi : Fin 6 → ℝ)
+    (amp damp : ℝ) (n dn : Signals.DFT.Bivector6 ℝ)
+    (q_sq m_ghost_sq e_ecc delta_theta_gr g_const mass_source c_light b_impact
+      n_probes delta_h hbar mass c_geom delta_sc trace_inv_cov
+      rho drho A_mu ortho_norm_sq dchi p0 p1 dphi0 dphi1 g_fs_ray : ℝ)
+    (hd_rho : d.rho ≠ 0) (hj_rho : j.rho ≠ 0) (hm : mass ≠ 0)
+    (h_quad : Signals.DFT.kleinQuadric n = 0) (h_tang : Signals.DFT.kleinPolarForm n dn = 0)
+    (hq : q_sq ≠ 0) (hqm : q_sq - m_ghost_sq ≠ 0) (hm_ghost : m_ghost_sq ≠ 0)
+    (he : 1 - e_ecc ^ 2 ≠ 0)
+    (hrho_pos : 0 < rho) (hortho_nonneg : 0 ≤ ortho_norm_sq)
+    (hp_sum : p0 + p1 = 1) (hp0 : 0 ≤ p0) (hp1 : 0 ≤ p1) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.qfimDiag d = 4 * Signals.DFT.fubiniStudyDiag d ∧
+        Signals.DFT.projectiveQfimEnergyDir hbar mass d =
+          Signals.DFT.projectiveFubiniStudyEnergyDir hbar mass d ∧
+        Signals.DFT.gpeKineticDir hbar mass d =
+          Signals.DFT.hydroFlowDir hbar mass d +
+            Signals.DFT.scalarBohmDensityDir hbar mass d +
+            Signals.DFT.projectiveQfimEnergyDir hbar mass d ∧
+        Signals.DFT.traceQFIM3D j = 4 * Signals.DFT.traceFubiniStudy3D j ∧
+        Signals.DFT.totalProjectiveQfimEnergy3D hbar mass j =
+          Signals.DFT.totalProjectiveFubiniStudyEnergy3D hbar mass j ∧
+        Signals.DFT.totalGpeKinetic3D hbar mass j =
+          Signals.DFT.totalHydroFlow3D hbar mass j +
+            Signals.DFT.totalScalarBohm3D hbar mass j +
+            Signals.DFT.totalProjectiveQfimEnergy3D hbar mass j ∧
+        4 * Signals.DFT.normalizedRayFubiniStudy p dp dphi =
+          Signals.DFT.classicalPluckerFisher p dp +
+            4 * Signals.DFT.bivectorPhaseVariance p dphi ∧
+        Signals.DFT.kleinPolarForm (Signals.DFT.scaleBivector amp n)
+            (Signals.DFT.addBivector (Signals.DFT.scaleBivector damp n)
+              (Signals.DFT.scaleBivector amp dn)) = 0) ∧
+      (Signals.DFT.wittenFourthOrderPropagator q_sq m_ghost_sq =
+          (1 / m_ghost_sq) *
+            (Signals.DFT.ostrogradskyGhostPropagator q_sq m_ghost_sq -
+              Signals.DFT.twoDerivativeGravitonPropagator q_sq) ∧
+        Signals.DFT.turnerKahlerOrbitalSemiLatusFactor e_ecc = 1 - e_ecc ^ 2 ∧
+        Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 =
+          delta_theta_gr ∧
+        Signals.DFT.ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
+        Signals.DFT.buresMetricDiagFromQfim (Signals.DFT.qfimDiag d) =
+          Signals.DFT.fubiniStudyDiag d ∧
+        Signals.DFT.quantumCramerRaoVarianceBound n_probes (Signals.DFT.qfimDiag d) =
+          (1 / 4) * (1 / (n_probes * Signals.DFT.fubiniStudyDiag d)) ∧
+        Signals.DFT.mandelstamTammTemporalQfim delta_h hbar =
+          4 * Signals.DFT.mandelstamTammTemporalFubiniStudy delta_h hbar ∧
+        Signals.DFT.peottaTormaFlatBandStiffnessFromQfim c_geom delta_sc (Signals.DFT.qfimDiag d) =
+          Signals.DFT.gmgsTotalSuperfluidStiffness 0 c_geom delta_sc (Signals.DFT.fubiniStudyDiag d) ∧
+        Signals.DFT.gaussianSplatScalarBohmFromFisher hbar mass trace_inv_cov =
+          (1 / 2) * ((hbar ^ 2 / (4 * mass)) * trace_inv_cov)) ∧
+      (Signals.DFT.fubiniStudyDiag
+            (Signals.DFT.mkPhysicalPluckerDirectionalJet rho drho A_mu ortho_norm_sq) =
+          ortho_norm_sq / rho ∧
+        Signals.DFT.qfimDiag
+            (Signals.DFT.mkPhysicalPluckerDirectionalJet rho drho A_mu ortho_norm_sq) =
+          4 * ortho_norm_sq / rho ∧
+        0 ≤ Signals.DFT.fubiniStudyDiag
+            (Signals.DFT.mkPhysicalPluckerDirectionalJet rho drho A_mu ortho_norm_sq) ∧
+        0 ≤ Signals.DFT.qfimDiag
+            (Signals.DFT.mkPhysicalPluckerDirectionalJet rho drho A_mu ortho_norm_sq) ∧
+        Signals.DFT.fubiniStudyDiag (Signals.DFT.gaugeShiftedPluckerJet d dchi) =
+          Signals.DFT.fubiniStudyDiag d ∧
+        Signals.DFT.qfimDiag (Signals.DFT.gaugeShiftedPluckerJet d dchi) =
+          Signals.DFT.qfimDiag d ∧
+        Signals.DFT.twoChannelPhaseVariance p0 p1 dphi0 dphi1 =
+          p0 * p1 * (dphi0 - dphi1) ^ 2 ∧
+        0 ≤ Signals.DFT.twoChannelPhaseVariance p0 p1 dphi0 dphi1 ∧
+        Signals.DFT.scalarBohmDensityDir 1 1 ⟨1, 0, 2, 0⟩ <
+          Signals.DFT.scalarBohmDensityDir 1 1 ⟨1 / 100, 0, 2, 0⟩ ∧
+        Signals.DFT.projectiveQfimEnergyFromRayMetric hbar mass 0 g_fs_ray = 0) :=
+  evidence.qfim_four_times_fubini_study_madelung_split_and_turner_unification_bounds
+    d j p dp dphi amp damp n dn
+    q_sq m_ghost_sq e_ecc delta_theta_gr g_const mass_source c_light b_impact
+    n_probes delta_h hbar mass c_geom delta_sc trace_inv_cov
+    rho drho A_mu ortho_norm_sq dchi p0 p1 dphi0 dphi1 g_fs_ray
+    hd_rho hj_rho hm h_quad h_tang hq hqm hm_ghost he
+    hrho_pos hortho_nonneg hp_sum hp0 hp1
+
+/-- Re-exports the Section 27.3 Cachazo gravity (`CSW` / `BCFW` / `Hodges` / `CHY`), `QFIM`,
+and Fubini–Study Kähler metric Pending boundary theorem. -/
+theorem cachazo_gravity_chy_hodges_qfim_and_fubini_study_unification_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (sigma4 s12 s13 q_sq m_ghost_sq delta_theta_gr gamma_conf b_impact e_ecc dphi0 dphi1 : ℝ)
+    (hs12 : s12 ≠ 0) (hs13 : s13 ≠ 0) (hsum : s12 + s13 ≠ 0)
+    (he : 1 - e_ecc ^ 2 ≠ 0) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.chyFourPointRoot s12 s13 + (1 - Signals.DFT.chyFourPointRoot s12 s13) = 1 ∧
+        Signals.DFT.chyWorldsheetQfimMetric sigma4 =
+          4 * Signals.DFT.chyWorldsheetFubiniStudyMetric sigma4 ∧
+        Signals.DFT.chyFourPointBiAdjointScalar s12 s13 =
+          Signals.DFT.chyWorldsheetQfimMetric (Signals.DFT.chyFourPointRoot s12 s13) /
+            (s12 + s13) ∧
+        Signals.DFT.chyFourPointBiAdjointScalar s12 s13 =
+          (4 * Signals.DFT.chyWorldsheetFubiniStudyMetric (Signals.DFT.chyFourPointRoot s12 s13)) /
+            (s12 + s13) ∧
+        Signals.DFT.chyFourPointReducedJacobian s12 s13 (Signals.DFT.chyFourPointRoot s12 s13) =
+          - (s12 + s13) *
+            Signals.DFT.chyWorldsheetQfimMetric (Signals.DFT.chyFourPointRoot s12 s13) ∧
+        Signals.DFT.chyFourPointReducedJacobian s12 s13 (Signals.DFT.chyFourPointRoot s12 s13) =
+          - 4 * (s12 + s13) *
+            Signals.DFT.chyWorldsheetFubiniStudyMetric (Signals.DFT.chyFourPointRoot s12 s13) ∧
+        Signals.DFT.cachazoSkinnerFilteredPropagator q_sq m_ghost_sq 0 =
+          Signals.DFT.wittenFourthOrderPropagator q_sq m_ghost_sq ∧
+        Signals.DFT.cachazoSkinnerFilteredPropagator q_sq m_ghost_sq 1 =
+          Signals.DFT.twoDerivativeGravitonPropagator q_sq ∧
+        Signals.DFT.cachazoSkinnerLightDeflection delta_theta_gr 1 gamma_conf b_impact =
+          Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 ∧
+        Signals.DFT.cachazoHodgesDoubleCopyScalarKernel (1 + e_ecc) (1 - e_ecc) = 4 ∧
+        (Signals.DFT.cachazoHodgesDoubleCopyScalarKernel (1 + e_ecc) (1 - e_ecc) -
+            ((1 + e_ecc) - (1 - e_ecc)) ^ 2) / 4 =
+          Signals.DFT.turnerKahlerOrbitalSemiLatusFactor e_ecc ∧
+        4 * Signals.DFT.twoChannelPhaseVariance ((1 + e_ecc) / 2) ((1 - e_ecc) / 2) dphi0 dphi1 =
+          Signals.DFT.turnerKahlerOrbitalSemiLatusFactor e_ecc * (dphi0 - dphi1) ^ 2 ∧
+        Signals.DFT.chySolutionCount 6 = 6 ∧
+        Signals.DFT.bcfwCatalanTreeCount 6 = 5 ∧
+        Signals.DFT.grassmannianScalarCurvature 1 2 = 2 ∧
+        Signals.DFT.grassmannianScalarCurvature 2 4 = 16) :=
+  evidence.cachazo_gravity_chy_hodges_qfim_and_fubini_study_unification_bounds
+    sigma4 s12 s13 q_sq m_ghost_sq delta_theta_gr gamma_conf b_impact e_ecc dphi0 dphi1
+    hs12 hs13 hsum he
+
+/-- Re-exports the Section 27.4 QED & gauge scattering gravity (`BCJ` double copy,
+Partanen–Tulkki 2025 $\mathrm{U}(1)^4$ QFT, & Turner $\mathrm{Gr}_{\mathbb{C}}(2,4)$ orbital/GW models)
+via `QFIM` and Fubini–Study Kähler metric Pending boundary theorem. -/
+theorem qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (e_ecc delta_varpi_circ p_pm p_gw_gr p0 p1 dphi0 dphi1 : ℝ)
+    (h1pe : 1 + e_ecc ≠ 0) (h1me : 1 - e_ecc ≠ 0) (he : 1 - e_ecc ^ 2 ≠ 0)
+    (he_nonneg : 0 ≤ 1 - e_ecc ^ 2) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      ((1 / 2 : ℝ) ^ 2 / ((1 + e_ecc) / 2) + (- (1 / 2 : ℝ)) ^ 2 / ((1 - e_ecc) / 2) =
+          Signals.DFT.qedOrbitalEccentricityQfim e_ecc ∧
+        Signals.DFT.qedOrbitalEccentricityQfim e_ecc =
+          4 * Signals.DFT.qedOrbitalEccentricityFubiniStudy e_ecc ∧
+        Signals.DFT.qedOrbitalEccentricityQfim e_ecc *
+          Signals.DFT.turnerKahlerOrbitalSemiLatusFactor e_ecc = 1 ∧
+        Signals.DFT.qedDoubleCopyPrecessionFromQfim delta_varpi_circ
+            (Signals.DFT.qedOrbitalEccentricityQfim e_ecc) =
+          delta_varpi_circ / (1 - e_ecc ^ 2) ∧
+        Signals.DFT.qedDoubleCopyPrecessionFromQfim delta_varpi_circ
+            (Signals.DFT.qedOrbitalEccentricityQfim e_ecc) =
+          4 * delta_varpi_circ * Signals.DFT.qedOrbitalEccentricityFubiniStudy e_ecc ∧
+        Signals.DFT.qedPetersMathewsFromOrbitalQfimSq p_pm
+            (Signals.DFT.qedOrbitalEccentricityQfim e_ecc) =
+          p_pm ^ 2 / (1 - e_ecc ^ 2) ^ 7 ∧
+        Signals.DFT.qedPetersMathewsFromOrbitalQfimSq p_pm
+            (Signals.DFT.qedOrbitalEccentricityQfim e_ecc) =
+          p_pm ^ 2 * (4 * Signals.DFT.qedOrbitalEccentricityFubiniStudy e_ecc) ^ 7 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.qedDoubleCopyPrecessionFromQfim 6
+              (Signals.DFT.qedOrbitalEccentricityQfim e_ecc))
+            (Signals.DFT.qedDoubleCopyPrecessionFromQfim 6
+              (Signals.DFT.qedOrbitalEccentricityQfim e_ecc)) = 0 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.qedSpinOnePrecessionFromQfim 6 1)
+            (Signals.DFT.qedDoubleCopyPrecessionFromQfim 6 1) = 5 / 6 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.qedNordstromScalarPrecessionFromQfim 6 1)
+            (Signals.DFT.qedDoubleCopyPrecessionFromQfim 6 1) = 7 / 6 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.qedSpinOneToDoubleCopyGwFluxRatio 4) 4 = 3 / 4 ∧
+        4 * Signals.DFT.qedSpinOneToDoubleCopyGwFluxRatio p_gw_gr = p_gw_gr ∧
+        Signals.DFT.twoChannelPhaseVariance p0 p1 (2 * dphi0) (2 * dphi1) =
+          4 * Signals.DFT.twoChannelPhaseVariance p0 p1 dphi0 dphi1 ∧
+        (2 * (1 + Real.sqrt (1 - e_ecc ^ 2))) * (2 * (1 - Real.sqrt (1 - e_ecc ^ 2))) =
+          4 * e_ecc ^ 2) :=
+  evidence.qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_bounds
+    e_ecc delta_varpi_circ p_pm p_gw_gr p0 p1 dphi0 dphi1 h1pe h1me he he_nonneg
+
+/-- Re-exports the Section 27.5 Maxwell EM, Poincaré gimbal-lock elimination, longitudinal $E_z$,
+OAM tubular soliton, and `TRUE` soft-photon QFIM and Fubini–Study Kähler metric Pending boundary. -/
+theorem maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (f_transverse dp_z p_z l_charge n_probes f_single delta_theta_gr e_ecc hbar mass g_fs_ray : ℝ)
+    (hpz : 0 < p_z) (hdpz : dp_z ≠ 0) (hf_single : 0 < f_single) (he : 1 - e_ecc ^ 2 ≠ 0) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.poincareSphereQfimTheta = 4 * Signals.DFT.poincareSphereFubiniStudyTheta ∧
+        Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
+        0 < Signals.DFT.poincareSphereQfimTheta ∧
+        f_transverse ≤ Signals.DFT.vectorialEzThreeChannelFisher f_transverse dp_z p_z ∧
+        f_transverse < Signals.DFT.vectorialEzThreeChannelFisher f_transverse dp_z p_z ∧
+        Signals.DFT.oamSuperpositionQfimPhi l_charge =
+          4 * Signals.DFT.oamSuperpositionFubiniStudyPhi l_charge ∧
+        Signals.DFT.quantumCramerRaoVarianceBound n_probes
+            (Signals.DFT.oamSuperpositionQfimPhi l_charge) =
+          1 / (4 * n_probes * l_charge ^ 2) ∧
+        Signals.DFT.quantumCramerRaoVarianceBound 10 (Signals.DFT.oamSuperpositionQfimPhi 3) <
+          Signals.DFT.quantumCramerRaoVarianceBound 10 (Signals.DFT.oamSuperpositionQfimPhi 1) ∧
+        Signals.DFT.projectiveQfimEnergyFromRayMetric hbar mass 0 g_fs_ray = 0 ∧
+        f_single < Signals.DFT.trueConjugatedSoftPhotonQfimGain 100010 f_single ∧
+        Signals.DFT.turnerPluckerKahlerLightDeflection
+            delta_theta_gr (3 + 1 / Signals.DFT.qedOrbitalEccentricityQfim e_ecc) e_ecc 0 =
+          delta_theta_gr) :=
+  evidence.maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_bounds
+    f_transverse dp_z p_z l_charge n_probes f_single delta_theta_gr e_ecc hbar mass g_fs_ray
+    hpz hdpz hf_single he
+
+/-- Re-exports the Sections 26.2 & 28 Maxwell EM, `DFT` electron density, `SQG/DDF` pressure
+difference, polariton/plasmon $\mathrm{SU}(4)$ lower Grassmannians, Methods $M_1/M_2/M_3$,
+multi-model EM light deflection, and soft-photon / `TRUE`-conjugated soft-photon Pending boundary. -/
+theorem maxwell_complete_multi_model_dft_ddf_polariton_plasmon_m1_m2_m3_and_soft_photon_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (p_amb alpha_pol omega_sq alpha_proc beta_proc w_proc q_charge pk1 pk2
+      c_alpha_sq b_norm_sq g_const mass_source c_light b_impact e_ecc delta_theta_gr
+      s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq : ℝ)
+    (x1_c x2_c : ℂ)
+    (hpk1 : pk1 ≠ 0) (hpk2 : pk2 ≠ 0)
+    (hc_alpha : 0 < c_alpha_sq) (hb_norm : 0 < b_norm_sq)
+    (hc : c_light ≠ 0) (he : 1 - e_ecc ^ 2 ≠ 0)
+    (hdtheta : 0 < delta_theta_gr) (homega : omega_soft ≠ 0) :
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1_c x2_c (-1)
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (Signals.DFT.ddfPressureDifferenceEnthalpy p_amb p_amb 1 = 0 ∧
+        Signals.DFT.ddfPressureDifferenceEnthalpy 10 6 2 = -2 ∧
+        Signals.DFT.ddfPressureDifferenceEnthalpy 10 6 2 < 0 ∧
+        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb p_amb 1 1 = 1 ∧
+        (1 : ℝ) < Signals.DFT.ddfPressureGradientRefractiveIndex 10 6 2 1 ∧
+        Signals.DFT.dftElectronDensityPermittivity 0 alpha_pol omega_sq = 1 ∧
+        Signals.DFT.dftElectronDensityPermittivity 4 1 4 = 0 ∧
+        Signals.DFT.dftElectronDensityPermittivity 8 1 4 < 0 ∧
+        (1 : ℝ) < Signals.DFT.dftElectronDensityPermittivity 4 (-1) 4 ∧
+        vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+        Signals.Plabic.plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2_c - x1_c ∧
+        Signals.QuantumCausalInference.qciCausalPhaseVelocity 10 2 = 5 ∧
+        Signals.QuantumCausalInference.qciConfinedPlasmonProcessWeight alpha_proc beta_proc w_proc w_proc =
+          (alpha_proc + beta_proc) * w_proc ∧
+        Signals.DFT.suNRealDim 4 = 15 ∧
+        Signals.DFT.complexGrassmannianRealDim 1 2 = 2 ∧
+        Signals.DFT.complexGrassmannianRealDim 1 4 = 6 ∧
+        Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+        Signals.DFT.complexGrassmannianRealDim 2 5 = 12 ∧
+        Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧
+        Signals.DFT.complexGrassmannianRealDim 3 6 = 18 ∧
+        Signals.DFT.complexGrassmannianRealDim 2 10 = 32 ∧
+        Signals.DFT.exteriorPhotonInverseSquareEfficiency 1 100 <
+          Signals.DFT.fractureGuidedCorridorTransmission (1 / 1000) 10 ∧
+        Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
+        Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 1 -
+            Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 (-1) = 1 ∧
+        Signals.DFT.softPhotonTwoLegWardResidual q_charge pk1 pk2 = 0 ∧
+        Signals.DFT.celestialConformalWeightH 1 1 = 1 ∧
+        Signals.DFT.celestialConformalWeightHBar 1 1 = 0 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux 2 10 ≤ 0 ∧
+        (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 ∧
+        (9 / 10 : ℝ) < Signals.DFT.subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100) ∧
+      (Signals.DFT.qedEulerHeisenbergRefractiveShift c_alpha_sq 0 = 1 ∧
+        (1 : ℝ) < Signals.DFT.qedEulerHeisenbergRefractiveShift c_alpha_sq b_norm_sq ∧
+        Signals.DFT.activePhotonBeamDeflection 0 delta_theta_gr = 0 ∧
+        Signals.DFT.activePhotonBeamDeflection 1 delta_theta_gr = delta_theta_gr ∧
+        Signals.DFT.activePhotonBeamDeflection 0 delta_theta_gr <
+          Signals.DFT.activePhotonBeamDeflection 1 delta_theta_gr ∧
+        Signals.DFT.turnerGr24QEDLightDeflection g_const mass_source c_light b_impact e_ecc =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
+        Signals.DFT.turnerGr24DDFLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact e_ecc =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
+        Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+            g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.turnerGr24QEDLightDeflection 1 1 1 1 e_ecc)
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.turnerGr24DDFLightDeflection 1 1 1 1 1 e_ecc)
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
+        Signals.Huygens.relativePredictiveError
+            (Signals.DFT.turnerDualGr24IGPEDDFLightDeflection 1 1 1 1 1 (4 - e_ecc ^ 2) e_ecc 0)
+            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
+        omega_soft *
+            Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard =
+          s0_weinberg * m_hard ∧
+        Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg s1_angular omega_soft m_hard -
+            Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard =
+          s1_angular * m_hard ∧
+        Signals.DFT.wormholeTransitJammedEnergy 0 beta_sq e_soft_sq = e_soft_sq ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux 2 10 ≤ 0 ∧
+        (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010) :=
+  evidence.maxwell_complete_multi_model_dft_ddf_polariton_plasmon_m1_m2_m3_and_soft_photon_bounds
+    p_amb alpha_pol omega_sq alpha_proc beta_proc w_proc q_charge pk1 pk2
+    c_alpha_sq b_norm_sq g_const mass_source c_light b_impact e_ecc delta_theta_gr
+    s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq
+    x1_c x2_c hpk1 hpk2 hc_alpha hb_norm hc he hdtheta homega
+
 end SignalsPending

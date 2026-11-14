@@ -2155,6 +2155,745 @@ pub fn trimodal_parasitic_throat_load(
     eps_around * e_around + eps_fracture * e_fracture + e_wormhole
 }
 
+// ============================================================================
+// Section 26 & 26.1: Maxwell Electromagnetic Theory Across Pre-Tensor, Vector/Gimbal-Lock,
+// Tensor, and Twistor Formulations, Longitudinal E_z & OAM Tubular Solitons, and
+// Multi-Model Gravity/Electron EM Synthesis (Paper 48)
+// ============================================================================
+
+/// Maxwell (1865/1873) original component equation count (`= 20`),
+/// matching `Signals.DFT.maxwellOriginal1865EquationCount`.
+pub const MAXWELL_ORIGINAL_1865_EQUATION_COUNT: usize = 3 + 3 + 3 + 3 + 3 + 3 + 1 + 1;
+
+/// Heaviside–Gibbs (1884–1893) modern 3-vector equation count (`= 4`),
+/// matching `Signals.DFT.heavisideGibbsVectorEquationCount`.
+pub const HEAVISIDE_GIBBS_VECTOR_EQUATION_COUNT: usize = 4;
+
+/// Minkowski (1908) relativistic tensor equation count (`= 2`),
+/// matching `Signals.DFT.minkowskiTensorEquationCount`.
+pub const MINKOWSKI_TENSOR_EQUATION_COUNT: usize = 2;
+
+/// Penrose (1967) spinor/twistor Weyl equation count (`= 1`),
+/// matching `Signals.DFT.penroseTwistorSpinorEquationCount`.
+pub const PENROSE_TWISTOR_SPINOR_EQUATION_COUNT: usize = 1;
+
+/// Maxwell quaternion derivative squared norm `(-div_f)^2 + curl_x^2 + curl_y^2 + curl_z^2`,
+/// matching `Signals.DFT.maxwellQuaternionNablaNormSq`.
+pub fn maxwell_quaternion_nabla_norm_sq(
+    div_f: f64,
+    curl_x: f64,
+    curl_y: f64,
+    curl_z: f64,
+) -> f64 {
+    (-div_f).powi(2) + curl_x.powi(2) + curl_y.powi(2) + curl_z.powi(2)
+}
+
+/// Euler-angle kinematic Jacobian determinant `cos(theta_pitch)` (vanishes at `pi/2` gimbal lock),
+/// matching `Signals.DFT.eulerKinematicJacobianDet`.
+pub fn euler_kinematic_jacobian_det(theta_pitch: f64) -> f64 {
+    theta_pitch.cos()
+}
+
+/// Unit spinor / quaternion norm squared `qw^2 + qx^2 + qy^2 + qz^2`,
+/// matching `Signals.DFT.unitQuaternionNormSq`.
+pub fn unit_quaternion_norm_sq(qw: f64, qx: f64, qy: f64, qz: f64) -> f64 {
+    qw.powi(2) + qx.powi(2) + qy.powi(2) + qz.powi(2)
+}
+
+/// First relativistic Maxwell Lorentz invariant `|E|^2 / c^2 - |B|^2`,
+/// matching `Signals.DFT.maxwellLorentzInvariantLagrange`.
+pub fn maxwell_lorentz_invariant_lagrange(e_sq: f64, c_sq: f64, b_sq: f64) -> f64 {
+    e_sq / c_sq - b_sq
+}
+
+/// Second relativistic Maxwell Lorentz invariant `(E dot B) / c`,
+/// matching `Signals.DFT.maxwellLorentzInvariantPontryagin`.
+pub fn maxwell_lorentz_invariant_pontryagin(e_dot_b: f64, c_light: f64) -> f64 {
+    e_dot_b / c_light
+}
+
+/// Maxwell stress-energy tensor trace `((4 - d) / 4) * f_contract` in `d` spacetime dimensions
+/// (vanishes identically in `d = 4`), matching `Signals.DFT.maxwellStressEnergyTraceInDim`.
+pub fn maxwell_stress_energy_trace_in_dim(d_spacetime: f64, f_contract: f64) -> f64 {
+    ((4.0 - d_spacetime) / 4.0) * f_contract
+}
+
+/// Symmetric Maxwell 2-spinor determinant squared modulus `|phi00 * phi11 - phi01^2|^2`,
+/// matching `Signals.DFT.maxwellSpinorNullDeterminant`.
+pub fn maxwell_spinor_null_determinant(
+    phi00_re: f64,
+    phi00_im: f64,
+    phi11_re: f64,
+    phi11_im: f64,
+    phi01_re: f64,
+    phi01_im: f64,
+) -> f64 {
+    let re = phi00_re * phi11_re - phi00_im * phi11_im - (phi01_re.powi(2) - phi01_im.powi(2));
+    let im = phi00_re * phi11_im + phi00_im * phi11_re - 2.0 * phi01_re * phi01_im;
+    re.powi(2) + im.powi(2)
+}
+
+/// Gauss-law longitudinal electric field `E_z = -(kx * Ex + ky * Ey) / kz`,
+/// matching `Signals.DFT.maxwellGaussLongitudinalEz`.
+pub fn maxwell_gauss_longitudinal_ez(kx: f64, ex: f64, ky: f64, ey: f64, kz: f64) -> f64 {
+    -(kx * ex + ky * ey) / kz
+}
+
+/// High-NA spin-to-OAM longitudinal topological charge `l_in + sigma_sam`,
+/// matching `Signals.DFT.samToOamLongitudinalTopologicalCharge`.
+pub fn sam_to_oam_longitudinal_topological_charge(l_in: i64, sigma_sam: i64) -> i64 {
+    l_in + sigma_sam
+}
+
+/// Tubular OAM vortex soliton bright-ring radius squared `w0_sq * l_abs / 2`,
+/// matching `Signals.DFT.tubularSolitonRingRadiusSq`.
+pub fn tubular_soliton_ring_radius_sq(w0_sq: f64, l_abs: f64) -> f64 {
+    w0_sq * l_abs / 2.0
+}
+
+/// Tubular OAM soliton radial self-trapping equilibrium residual `p_focus - (p_diff + p_oam)`,
+/// matching `Signals.DFT.tubularSolitonRadialEquilibriumResidual`.
+pub fn tubular_soliton_radial_equilibrium_residual(
+    p_kerr_focus: f64,
+    p_diffraction: f64,
+    p_oam_centrifugal: f64,
+) -> f64 {
+    p_kerr_focus - (p_diffraction + p_oam_centrifugal)
+}
+
+/// Scalar Madelung / Bohm centrifugal vortex-core potential `(hbar^2 / 2m) * l^2 / r_core^2`,
+/// matching `Signals.DFT.scalarBohmVortexCoreDivergence`.
+pub fn scalar_bohm_vortex_core_divergence(
+    hbar_sq_over_2m: f64,
+    l_sq: f64,
+    r_core_sq: f64,
+) -> f64 {
+    hbar_sq_over_2m * l_sq / r_core_sq
+}
+
+/// Twistor / Plücker Fubini–Study Kähler vortex-core norm squared `1 + ||W||^2 + |det W|^2 >= 1`,
+/// matching `Signals.DFT.pluckerRegularizedVortexCoreNormSq`.
+pub fn plucker_regularized_vortex_core_norm_sq(w_norm_sq: f64, det_w_norm_sq: f64) -> f64 {
+    1.0 + w_norm_sq + det_w_norm_sq
+}
+
+/// PPN gravitational light deflection angle `2(1 + gamma_ppn) G M / (c^2 b)`,
+/// matching `Signals.DFT.gravitationalLightDeflectionPPN`.
+pub fn gravitational_light_deflection_ppn(
+    g_const: f64,
+    mass_source: f64,
+    c_light: f64,
+    b_impact: f64,
+    gamma_ppn: f64,
+) -> f64 {
+    2.0 * (1.0 + gamma_ppn) * g_const * mass_source / (c_light.powi(2) * b_impact)
+}
+
+/// Witten (2004) conformal twistor-string light deflection `beta_scale * dtheta_gr + gamma_conf * b`,
+/// matching `Signals.DFT.wittenConformalLightDeflection`.
+pub fn witten_conformal_light_deflection(
+    delta_theta_gr: f64,
+    beta_scale: f64,
+    gamma_conf: f64,
+    b_impact: f64,
+) -> f64 {
+    beta_scale * delta_theta_gr + gamma_conf * b_impact
+}
+
+/// Cachazo–Skinner (2012) infinity-twistor projected light deflection
+/// `pi_proj * dtheta_gr + (1 - pi_proj) * gamma_conf * b`,
+/// matching `Signals.DFT.cachazoSkinnerLightDeflection`.
+pub fn cachazo_skinner_light_deflection(
+    delta_theta_gr: f64,
+    pi_proj: f64,
+    gamma_conf: f64,
+    b_impact: f64,
+) -> f64 {
+    pi_proj * delta_theta_gr + (1.0 - pi_proj) * gamma_conf * b_impact
+}
+
+/// DDF constitutive refractive light deflection `4 G_phi M (rho_max * j_min) / b`,
+/// matching `Signals.DFT.ddfRefractiveLightDeflection`.
+pub fn ddf_refractive_light_deflection(
+    g_phi: f64,
+    mass_source: f64,
+    rho_max_varphi: f64,
+    j_min_varphi: f64,
+    b_impact: f64,
+) -> f64 {
+    4.0 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact
+}
+
+/// Turner (2026) Plücker Q_4 / Fubini–Study Kähler iGPE light deflection
+/// `dtheta_gr * ((kahler_det - 3) / (1 - e^2)) + delta_jos`,
+/// matching `Signals.DFT.turnerPluckerKahlerLightDeflection`.
+pub fn turner_plucker_kahler_light_deflection(
+    delta_theta_gr: f64,
+    kahler_det: f64,
+    e_ecc: f64,
+    delta_jos: f64,
+) -> f64 {
+    delta_theta_gr * ((kahler_det - 3.0) / (1.0 - e_ecc.powi(2))) + delta_jos
+}
+
+/// Heaviside–Larmor electric–magnetic duality norm on `Gr_C(2,4) x Gr_C(2,4)^v`,
+/// matching `Signals.DFT.electricMagneticDualityNormSq`.
+pub fn electric_magnetic_duality_norm_sq(
+    psi_re: f64,
+    psi_im: f64,
+    phi_re: f64,
+    phi_im: f64,
+    cos_a: f64,
+    sin_a: f64,
+) -> f64 {
+    (psi_re * cos_a - phi_re * sin_a).powi(2)
+        + (psi_im * cos_a - phi_im * sin_a).powi(2)
+        + (psi_re * sin_a + phi_re * cos_a).powi(2)
+        + (psi_im * sin_a + phi_im * cos_a).powi(2)
+}
+
+/// Section 26.1 Critique Fix 1: Abraham–Minkowski momentum product `(p0 / n) * (n * p0) = p0^2`,
+/// matching `Signals.DFT.abrahamMinkowskiMomentumProduct`.
+pub fn abraham_minkowski_momentum_product(p0: f64, n_index: f64) -> f64 {
+    (p0 / n_index) * (n_index * p0)
+}
+
+/// Section 26.1 Critique Fix 2: Laguerre–Gaussian Gouy phase mode order `2p + |l| + 1`,
+/// matching `Signals.DFT.laguerreGaussianGouyModeOrder`.
+pub fn laguerre_gaussian_gouy_mode_order(p_radial: usize, l_abs: usize) -> usize {
+    2 * p_radial + l_abs + 1
+}
+
+/// Section 26.1 Critique Fix 3: Proca/Kähler longitudinal polarization z-component `omega / m_eff`,
+/// matching `Signals.DFT.procaLongitudinalPolarizationZ`.
+pub fn proca_longitudinal_polarization_z(omega_freq: f64, m_eff: f64) -> f64 {
+    omega_freq / m_eff
+}
+
+/// Section 26.1 Critique Fix 4: Nonlocal-stabilized tubular soliton azimuthal modulational
+/// instability gain `g_kerr / (1 + sigma_nl^2 * m_az^2) - kappa_disp * m_az^2`,
+/// matching `Signals.DFT.nonlocalStabilizedAzimuthalMiGain`.
+pub fn nonlocal_stabilized_azimuthal_mi_gain(
+    g_kerr: f64,
+    m_azimuthal: f64,
+    sigma_nonlocal: f64,
+    kappa_disp: f64,
+) -> f64 {
+    g_kerr / (1.0 + sigma_nonlocal.powi(2) * m_azimuthal.powi(2))
+        - kappa_disp * m_azimuthal.powi(2)
+}
+
+/// Section 26.2: SQG/DDF pressure-difference Bernoulli enthalpy `-(p_ambient - p_local) / rho_0`,
+/// matching `Signals.DFT.ddfPressureDifferenceEnthalpy`.
+pub fn ddf_pressure_difference_enthalpy(p_ambient: f64, p_local: f64, rho_0: f64) -> f64 {
+    -(p_ambient - p_local) / rho_0
+}
+
+/// Section 26.2: SQG/DDF pressure-difference optical refractive index
+/// `1 + 2 * (p_ambient - p_local) / (rho_0 * c_sq)`,
+/// matching `Signals.DFT.ddfPressureGradientRefractiveIndex`.
+pub fn ddf_pressure_gradient_refractive_index(
+    p_ambient: f64,
+    p_local: f64,
+    rho_0: f64,
+    c_sq: f64,
+) -> f64 {
+    1.0 + 2.0 * (p_ambient - p_local) / (rho_0 * c_sq)
+}
+
+/// Section 26.2: Kohn–Sham DFT electron-density relative permittivity
+/// `1 - alpha_pol * rho_e / omega_sq`,
+/// matching `Signals.DFT.dftElectronDensityPermittivity`.
+pub fn dft_electron_density_permittivity(rho_e: f64, alpha_pol: f64, omega_sq: f64) -> f64 {
+    1.0 - alpha_pol * rho_e / omega_sq
+}
+
+/// Section 26.2: Weinberg (1965) soft-photon eikonal vertex factor `q_charge * p_dot_eps / p_dot_k`,
+/// matching `Signals.DFT.weinbergSoftPhotonFactor`.
+pub fn weinberg_soft_photon_factor(q_charge: f64, p_dot_eps: f64, p_dot_k: f64) -> f64 {
+    q_charge * p_dot_eps / p_dot_k
+}
+
+/// Section 26.2: Two-leg soft-photon Ward / gauge-invariance residual under `eps -> k`,
+/// matching `Signals.DFT.softPhotonTwoLegWardResidual`.
+pub fn soft_photon_two_leg_ward_residual(q_charge: f64, pk1: f64, pk2: f64) -> f64 {
+    weinberg_soft_photon_factor(q_charge, pk1, pk1)
+        + weinberg_soft_photon_factor(-q_charge, pk2, pk2)
+}
+
+/// Section 27: Local directional derivative invariants of a homogeneous Plücker condensate
+/// `Psi` on `Q_4`, matching `Signals.DFT.PluckerDirectionalJet`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PluckerDirectionalJet {
+    pub rho: f64,
+    pub dpsi_norm_sq: f64,
+    pub drho: f64,
+    pub a_mu: f64,
+}
+
+/// Section 27: Squared modulus of the inner product `|<Psi | d_mu Psi>|^2 = (drho / 2)^2 + (rho * A_mu)^2`,
+/// matching `Signals.DFT.innerPsiDpsiNormSq`.
+pub fn inner_psi_dpsi_norm_sq(d: PluckerDirectionalJet) -> f64 {
+    (d.drho / 2.0).powi(2) + (d.rho * d.a_mu).powi(2)
+}
+
+/// Section 27: Projective Fubini–Study diagonal metric component `g^{FS}_{mu mu}` on `Q_4`,
+/// matching `Signals.DFT.fubiniStudyDiag`.
+pub fn fubini_study_diag(d: PluckerDirectionalJet) -> f64 {
+    (d.rho * d.dpsi_norm_sq - inner_psi_dpsi_norm_sq(d)) / d.rho.powi(2)
+}
+
+/// Section 27: Diagonal Quantum Fisher Information Metric component `F_{mu mu} = 4 g^{FS}_{mu mu}`,
+/// matching `Signals.DFT.qfimDiag`.
+pub fn qfim_diag(d: PluckerDirectionalJet) -> f64 {
+    4.0 * (d.rho * d.dpsi_norm_sq - inner_psi_dpsi_norm_sq(d)) / d.rho.powi(2)
+}
+
+/// Section 27: Direct Gross–Pitaevskii directional kinetic energy density `(hbar^2 / 2m) <d_mu Psi | d_mu Psi>`,
+/// matching `Signals.DFT.gpeKineticDir`.
+pub fn gpe_kinetic_dir(hbar: f64, mass: f64, d: PluckerDirectionalJet) -> f64 {
+    (hbar.powi(2) / (2.0 * mass)) * d.dpsi_norm_sq
+}
+
+/// Section 27: Center-of-mass hydrodynamic flow energy `(hbar^2 / 2m) rho A_mu^2`,
+/// matching `Signals.DFT.hydroFlowDir`.
+pub fn hydro_flow_dir(hbar: f64, mass: f64, d: PluckerDirectionalJet) -> f64 {
+    (hbar.powi(2) / (2.0 * mass)) * d.rho * d.a_mu.powi(2)
+}
+
+/// Section 27: Scalar Bohmian density Fisher energy `(hbar^2 / 8m) (d_mu rho)^2 / rho`,
+/// matching `Signals.DFT.scalarBohmDensityDir`.
+pub fn scalar_bohm_density_dir(hbar: f64, mass: f64, d: PluckerDirectionalJet) -> f64 {
+    (hbar.powi(2) / (8.0 * mass)) * (d.drho.powi(2) / d.rho)
+}
+
+/// Section 27: Projective QFIM kinetic energy `(hbar^2 / 8m) rho F_{mu mu}`,
+/// matching `Signals.DFT.projectiveQfimEnergyDir`.
+pub fn projective_qfim_energy_dir(hbar: f64, mass: f64, d: PluckerDirectionalJet) -> f64 {
+    (hbar.powi(2) / (8.0 * mass)) * d.rho * qfim_diag(d)
+}
+
+/// Section 27: Projective Fubini–Study Kähler kinetic energy `(hbar^2 / 2m) rho g^{FS}_{mu mu}`,
+/// matching `Signals.DFT.projectiveFubiniStudyEnergyDir`.
+pub fn projective_fubini_study_energy_dir(hbar: f64, mass: f64, d: PluckerDirectionalJet) -> f64 {
+    (hbar.powi(2) / (2.0 * mass)) * d.rho * fubini_study_diag(d)
+}
+
+/// Section 27: 3D spatial jet of a Plücker condensate field on `Q_4`,
+/// matching `Signals.DFT.Plucker3DSpatialJet`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Plucker3DSpatialJet {
+    pub dir: [PluckerDirectionalJet; 3],
+    pub rho: f64,
+}
+
+/// Section 27: Total 3D GPE kinetic energy density, matching `Signals.DFT.totalGpeKinetic3D`.
+pub fn total_gpe_kinetic_3d(hbar: f64, mass: f64, j: &Plucker3DSpatialJet) -> f64 {
+    j.dir.iter().map(|&d| gpe_kinetic_dir(hbar, mass, d)).sum()
+}
+
+/// Section 27: Total 3D hydrodynamic flow energy density, matching `Signals.DFT.totalHydroFlow3D`.
+pub fn total_hydro_flow_3d(hbar: f64, mass: f64, j: &Plucker3DSpatialJet) -> f64 {
+    j.dir.iter().map(|&d| hydro_flow_dir(hbar, mass, d)).sum()
+}
+
+/// Section 27: Total 3D scalar Bohmian density Fisher energy, matching `Signals.DFT.totalScalarBohm3D`.
+pub fn total_scalar_bohm_3d(hbar: f64, mass: f64, j: &Plucker3DSpatialJet) -> f64 {
+    j.dir
+        .iter()
+        .map(|&d| scalar_bohm_density_dir(hbar, mass, d))
+        .sum()
+}
+
+/// Section 27: Spatial trace of the Quantum Fisher Information Metric `Tr(F_{mu nu})`,
+/// matching `Signals.DFT.traceQFIM3D`.
+pub fn trace_qfim_3d(j: &Plucker3DSpatialJet) -> f64 {
+    j.dir.iter().map(|&d| qfim_diag(d)).sum()
+}
+
+/// Section 27: Spatial trace of the Fubini–Study Kähler Metric `Tr(g^{FS}_{mu nu})`,
+/// matching `Signals.DFT.traceFubiniStudy3D`.
+pub fn trace_fubini_study_3d(j: &Plucker3DSpatialJet) -> f64 {
+    j.dir.iter().map(|&d| fubini_study_diag(d)).sum()
+}
+
+/// Section 27: Total 3D projective QFIM energy density `(hbar^2 / 8m) rho Tr(F_{mu nu})`,
+/// matching `Signals.DFT.totalProjectiveQfimEnergy3D`.
+pub fn total_projective_qfim_energy_3d(hbar: f64, mass: f64, j: &Plucker3DSpatialJet) -> f64 {
+    (hbar.powi(2) / (8.0 * mass)) * j.rho * trace_qfim_3d(j)
+}
+
+/// Section 27: Total 3D projective Fubini–Study Kähler energy density `(hbar^2 / 2m) rho Tr(g^{FS}_{mu nu})`,
+/// matching `Signals.DFT.totalProjectiveFubiniStudyEnergy3D`.
+pub fn total_projective_fubini_study_energy_3d(
+    hbar: f64,
+    mass: f64,
+    j: &Plucker3DSpatialJet,
+) -> f64 {
+    (hbar.powi(2) / (2.0 * mass)) * j.rho * trace_fubini_study_3d(j)
+}
+
+/// Section 27: Classical Fisher information on the 6-component Plücker probability simplex `p_k`,
+/// matching `Signals.DFT.classicalPluckerFisher`.
+pub fn classical_plucker_fisher(p: &[f64; 6], dp: &[f64; 6]) -> f64 {
+    (0..6).map(|k| dp[k].powi(2) / p[k]).sum()
+}
+
+/// Section 27: Probability-weighted mean of internal Plücker bivector phase gradients,
+/// matching `Signals.DFT.meanBivectorPhaseGrad`.
+pub fn mean_bivector_phase_grad(p: &[f64; 6], dphi: &[f64; 6]) -> f64 {
+    (0..6).map(|k| p[k] * dphi[k]).sum()
+}
+
+/// Section 27: Probability-weighted second moment of internal Plücker bivector phase gradients,
+/// matching `Signals.DFT.secondMomentBivectorPhaseGrad`.
+pub fn second_moment_bivector_phase_grad(p: &[f64; 6], dphi: &[f64; 6]) -> f64 {
+    (0..6).map(|k| p[k] * dphi[k].powi(2)).sum()
+}
+
+/// Section 27: Variance of Plücker bivector phase gradients `Var_p(d_mu phi)`,
+/// matching `Signals.DFT.bivectorPhaseVariance`.
+pub fn bivector_phase_variance(p: &[f64; 6], dphi: &[f64; 6]) -> f64 {
+    second_moment_bivector_phase_grad(p, dphi) - mean_bivector_phase_grad(p, dphi).powi(2)
+}
+
+/// Section 27: Normalized-ray Fubini–Study metric `g^{FS}_{mu mu}`,
+/// matching `Signals.DFT.normalizedRayFubiniStudy`.
+pub fn normalized_ray_fubini_study(p: &[f64; 6], dp: &[f64; 6], dphi: &[f64; 6]) -> f64 {
+    let sum_ray: f64 = (0..6)
+        .map(|k| dp[k].powi(2) / (4.0 * p[k]) + p[k] * dphi[k].powi(2))
+        .sum();
+    sum_ray - mean_bivector_phase_grad(p, dphi).powi(2)
+}
+
+/// Section 27: Homogeneous 6-bivector indexed by Plücker pairs `(01, 02, 03, 12, 13, 23)`,
+/// matching `Signals.DFT.Bivector6`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Bivector6 {
+    pub p01: f64,
+    pub p02: f64,
+    pub p03: f64,
+    pub p12: f64,
+    pub p13: f64,
+    pub p23: f64,
+}
+
+impl Bivector6 {
+    pub fn scale(self, c: f64) -> Self {
+        Self {
+            p01: c * self.p01,
+            p02: c * self.p02,
+            p03: c * self.p03,
+            p12: c * self.p12,
+            p13: c * self.p13,
+            p23: c * self.p23,
+        }
+    }
+
+    pub fn add(self, other: Self) -> Self {
+        Self {
+            p01: self.p01 + other.p01,
+            p02: self.p02 + other.p02,
+            p03: self.p03 + other.p03,
+            p12: self.p12 + other.p12,
+            p13: self.p13 + other.p13,
+            p23: self.p23 + other.p23,
+        }
+    }
+
+    pub fn klein_quadric(self) -> f64 {
+        self.p01 * self.p23 - self.p02 * self.p13 + self.p03 * self.p12
+    }
+
+    pub fn klein_polar_form(self, other: Self) -> f64 {
+        self.p01 * other.p23 + other.p01 * self.p23
+            - (self.p02 * other.p13 + other.p02 * self.p13)
+            + (self.p03 * other.p12 + other.p03 * self.p12)
+    }
+}
+
+/// Section 27.1: Witten 4th-derivative conformal Weyl propagator `1 / (q^2 * (q^2 - m_ghost^2))`,
+/// matching `Signals.DFT.wittenFourthOrderPropagator`.
+pub fn witten_fourth_order_propagator(q_sq: f64, m_ghost_sq: f64) -> f64 {
+    1.0 / (q_sq * (q_sq - m_ghost_sq))
+}
+
+/// Section 27.1: Standard two-derivative graviton / Madelung-Kähler propagator `1 / q^2`,
+/// matching `Signals.DFT.twoDerivativeGravitonPropagator`.
+pub fn two_derivative_graviton_propagator(q_sq: f64) -> f64 {
+    1.0 / q_sq
+}
+
+/// Section 27.1: Ostrogradsky ghost propagator pole `1 / (q^2 - m_ghost^2)`,
+/// matching `Signals.DFT.ostrogradskyGhostPropagator`.
+pub fn ostrogradsky_ghost_propagator(q_sq: f64, m_ghost_sq: f64) -> f64 {
+    1.0 / (q_sq - m_ghost_sq)
+}
+
+/// Section 27.1: Turner orbital Fubini–Study Kähler excess `(4 - e^2) - 3 = 1 - e^2`,
+/// matching `Signals.DFT.turnerKahlerOrbitalSemiLatusFactor`.
+pub fn turner_kahler_orbital_semi_latus_factor(e_ecc: f64) -> f64 {
+    (4.0 - e_ecc.powi(2)) - 3.0
+}
+
+/// Section 27.1: Bures statistical distance metric component `F_{mu mu} / 4 = g^{FS}_{mu mu}`,
+/// matching `Signals.DFT.buresMetricDiagFromQfim`.
+pub fn bures_metric_diag_from_qfim(f_diag: f64) -> f64 {
+    f_diag / 4.0
+}
+
+/// Section 27.1: Quantum Cramér–Rao variance lower bound `1 / (n_probes * f_diag)`,
+/// matching `Signals.DFT.quantumCramerRaoVarianceBound`.
+pub fn quantum_cramer_rao_variance_bound(n_probes: f64, f_diag: f64) -> f64 {
+    1.0 / (n_probes * f_diag)
+}
+
+/// Section 27.1: Mandelstam–Tamm temporal Fubini–Study metric `(delta_h / hbar)^2`,
+/// matching `Signals.DFT.mandelstamTammTemporalFubiniStudy`.
+pub fn mandelstam_tamm_temporal_fubini_study(delta_h: f64, hbar: f64) -> f64 {
+    (delta_h / hbar).powi(2)
+}
+
+/// Section 27.1: Mandelstam–Tamm temporal QFIM `4 * (delta_h / hbar)^2`,
+/// matching `Signals.DFT.mandelstamTammTemporalQfim`.
+pub fn mandelstam_tamm_temporal_qfim(delta_h: f64, hbar: f64) -> f64 {
+    4.0 * (delta_h / hbar).powi(2)
+}
+
+/// Section 27.1: Peotta–Törmä flat-band geometric superfluid stiffness from QFIM,
+/// matching `Signals.DFT.peottaTormaFlatBandStiffnessFromQfim`.
+pub fn peotta_torma_flat_band_stiffness_from_qfim(
+    delta_pair: f64,
+    delta_doping: f64,
+    f_diag: f64,
+) -> f64 {
+    delta_pair * delta_doping * (1.0 - delta_doping) * (f_diag / 4.0)
+}
+
+/// Section 27.1: Gaussian splat scalar Bohmian density Fisher energy `(hbar^2 / 8m) Tr(Sigma^{-1})`,
+/// matching `Signals.DFT.gaussianSplatScalarBohmFromFisher`.
+pub fn gaussian_splat_scalar_bohm_from_fisher(hbar: f64, mass: f64, trace_inv_cov: f64) -> f64 {
+    (hbar.powi(2) / (8.0 * mass)) * trace_inv_cov
+}
+
+/// Section 27.2 Critique Fix 1: Physically realizable Plücker directional jet from orthogonal
+/// gradient norm squared `||Psi_perp||^2 >= 0`, matching `Signals.DFT.mkPhysicalPluckerDirectionalJet`.
+pub fn mk_physical_plucker_directional_jet(
+    rho: f64,
+    drho: f64,
+    a_mu: f64,
+    ortho_norm_sq: f64,
+) -> PluckerDirectionalJet {
+    PluckerDirectionalJet {
+        rho,
+        dpsi_norm_sq: ((drho / 2.0).powi(2) + (rho * a_mu).powi(2)) / rho + ortho_norm_sq,
+        drho,
+        a_mu,
+    }
+}
+
+/// Section 27.2 Critique Fix 2: Local U(1) gauge-shifted Plücker directional jet under
+/// `Psi -> exp(i chi) Psi`, matching `Signals.DFT.gaugeShiftedPluckerJet`.
+pub fn gauge_shifted_plucker_jet(d: PluckerDirectionalJet, dchi: f64) -> PluckerDirectionalJet {
+    PluckerDirectionalJet {
+        rho: d.rho,
+        dpsi_norm_sq: d.dpsi_norm_sq + 2.0 * d.rho * d.a_mu * dchi + d.rho * dchi.powi(2),
+        drho: d.drho,
+        a_mu: d.a_mu + dchi,
+    }
+}
+
+/// Section 27.2 Critique Fix 3: Two-channel bivector phase-gradient variance,
+/// matching `Signals.DFT.twoChannelPhaseVariance`.
+pub fn two_channel_phase_variance(p0: f64, p1: f64, dphi0: f64, dphi1: f64) -> f64 {
+    p0 * dphi0.powi(2) + p1 * dphi1.powi(2) - (p0 * dphi0 + p1 * dphi1).powi(2)
+}
+
+/// Section 27.2 Critique Fix 4: Projective QFIM energy from smooth normalized-ray metric,
+/// matching `Signals.DFT.projectiveQfimEnergyFromRayMetric`.
+pub fn projective_qfim_energy_from_ray_metric(
+    hbar: f64,
+    mass: f64,
+    rho: f64,
+    g_fs_ray: f64,
+) -> f64 {
+    (hbar.powi(2) / (8.0 * mass)) * rho * (4.0 * g_fs_ray)
+}
+
+/// Section 27.3: CHY worldsheet CP^1 = Gr_C(1,2) Fubini–Study metric `1 / (4 sigma_4 (1 - sigma_4))`,
+/// matching `Signals.DFT.chyWorldsheetFubiniStudyMetric`.
+pub fn chy_worldsheet_fubini_study_metric(sigma4: f64) -> f64 {
+    1.0 / (4.0 * sigma4 * (1.0 - sigma4))
+}
+
+/// Section 27.3: CHY worldsheet channel simplex QFIM `1 / (sigma_4 (1 - sigma_4)) = 4 g^{FS}_{sigma sigma}`,
+/// matching `Signals.DFT.chyWorldsheetQfimMetric`.
+pub fn chy_worldsheet_qfim_metric(sigma4: f64) -> f64 {
+    1.0 / (sigma4 * (1.0 - sigma4))
+}
+
+/// Section 27.3: 4-point CHY reduced Jacobian / logarithmic potential Hessian `-s12/sigma4^2 - s13/(1-sigma4)^2`,
+/// matching `Signals.DFT.chyFourPointReducedJacobian`.
+pub fn chy_four_point_reduced_jacobian(s12: f64, s13: f64, sigma4: f64) -> f64 {
+    -s12 / sigma4.powi(2) - s13 / (1.0 - sigma4).powi(2)
+}
+
+/// Section 27.3: Cachazo–Skinner infinity-twistor filtered propagator,
+/// matching `Signals.DFT.cachazoSkinnerFilteredPropagator`.
+pub fn cachazo_skinner_filtered_propagator(q_sq: f64, m_ghost_sq: f64, pi_proj: f64) -> f64 {
+    pi_proj * two_derivative_graviton_propagator(q_sq)
+        + (1.0 - pi_proj) * witten_fourth_order_propagator(q_sq, m_ghost_sq)
+}
+
+/// Section 27.3: Cachazo–Skinner / BCJ 4-point Hodges double-copy scalar kernel `(w_A + w_B)^2`,
+/// matching `Signals.DFT.cachazoHodgesDoubleCopyScalarKernel`.
+pub fn cachazo_hodges_double_copy_scalar_kernel(w_a: f64, w_b: f64) -> f64 {
+    (w_a + w_b).powi(2)
+}
+
+/// Section 27.4: Orbital eccentricity Fubini–Study Kähler metric `(1 / 4) / (1 - e^2)` on the
+/// aphelion–perihelion Plücker simplex, matching `Signals.DFT.qedOrbitalEccentricityFubiniStudy`.
+pub fn qed_orbital_eccentricity_fubini_study(e_ecc: f64) -> f64 {
+    0.25 / (1.0 - e_ecc.powi(2))
+}
+
+/// Section 27.4: Orbital eccentricity Quantum Fisher Information Metric `1 / (1 - e^2) = 4 g^{FS}_{ee}(e)`,
+/// matching `Signals.DFT.qedOrbitalEccentricityQfim`.
+pub fn qed_orbital_eccentricity_qfim(e_ecc: f64) -> f64 {
+    1.0 / (1.0 - e_ecc.powi(2))
+}
+
+/// Section 27.4: 1PN spin-2 BCJ double-copy / Partanen–Tulkki U(1)^4 QED scattering precession
+/// from orbital QFIM, matching `Signals.DFT.qedDoubleCopyPrecessionFromQfim`.
+pub fn qed_double_copy_precession_from_qfim(delta_varpi_circ: f64, f_ee: f64) -> f64 {
+    delta_varpi_circ * f_ee
+}
+
+/// Section 27.4: 1PN un-doubled spin-1 Coulomb/QED vector precession `(1 / 6) * delta_varpi_circ * f_ee`,
+/// matching `Signals.DFT.qedSpinOnePrecessionFromQfim`.
+pub fn qed_spin_one_precession_from_qfim(delta_varpi_circ: f64, f_ee: f64) -> f64 {
+    (1.0 / 6.0) * delta_varpi_circ * f_ee
+}
+
+/// Section 27.4: 1PN Nordström spin-0 scalar retrograde precession `-(1 / 6) * delta_varpi_circ * f_ee`,
+/// matching `Signals.DFT.qedNordstromScalarPrecessionFromQfim`.
+pub fn qed_nordstrom_scalar_precession_from_qfim(delta_varpi_circ: f64, f_ee: f64) -> f64 {
+    -(1.0 / 6.0) * delta_varpi_circ * f_ee
+}
+
+/// Section 27.4: 2.5PN Peters–Mathews squared eccentricity enhancement factor `P_PM(e)^2 * F_{ee}(e)^7`,
+/// matching `Signals.DFT.qedPetersMathewsFromOrbitalQfimSq`.
+pub fn qed_peters_mathews_from_orbital_qfim_sq(p_pm: f64, f_ee: f64) -> f64 {
+    p_pm.powi(2) * f_ee.powi(7)
+}
+
+/// Section 27.4: 2.5PN un-doubled spin-1 vector to spin-2 double-copy quadrupole GW flux ratio `1/4`,
+/// matching `Signals.DFT.qedSpinOneToDoubleCopyGwFluxRatio`.
+pub fn qed_spin_one_to_double_copy_gw_flux_ratio(p_gw_gr: f64) -> f64 {
+    0.25 * p_gw_gr
+}
+
+/// Section 27.5: Poincaré sphere `CP^1 = Gr_C(1,2)` polar Fubini–Study metric `g^{FS}_{theta theta} = 1/4`,
+/// matching `Signals.DFT.poincareSphereFubiniStudyTheta`.
+pub const POINCARE_SPHERE_FUBINI_STUDY_THETA: f64 = 0.25;
+
+/// Section 27.5: Poincaré sphere `CP^1 = Gr_C(1,2)` polar QFIM `F_{theta theta} = 1`,
+/// matching `Signals.DFT.poincareSphereQfimTheta`.
+pub const POINCARE_SPHERE_QFIM_THETA: f64 = 1.0;
+
+/// Section 27.5: 3D vectorial `(E_x, E_y, E_z)` simplex Fisher information including longitudinal `E_z`,
+/// matching `Signals.DFT.vectorialEzThreeChannelFisher`.
+pub fn vectorial_ez_three_channel_fisher(f_transverse: f64, dp_z: f64, p_z: f64) -> f64 {
+    f_transverse + dp_z.powi(2) / p_z
+}
+
+/// Section 27.5: OAM balanced superposition azimuthal Fubini–Study metric `g^{FS}_{phi phi}(ell) = ell^2`,
+/// matching `Signals.DFT.oamSuperpositionFubiniStudyPhi`.
+pub fn oam_superposition_fubini_study_phi(l_charge: f64) -> f64 {
+    l_charge.powi(2)
+}
+
+/// Section 27.5: OAM balanced superposition azimuthal QFIM `F^{OAM}_{phi phi}(ell) = 4 ell^2`,
+/// matching `Signals.DFT.oamSuperpositionQfimPhi`.
+pub fn oam_superposition_qfim_phi(l_charge: f64) -> f64 {
+    4.0 * l_charge.powi(2)
+}
+
+/// Section 27.5: Multi-mode `TRUE` phase-conjugated soft-photon effective QFIM `N_modes * F_single`,
+/// matching `Signals.DFT.trueConjugatedSoftPhotonQfimGain`.
+pub fn true_conjugated_soft_photon_qfim_gain(n_modes: f64, f_single: f64) -> f64 {
+    n_modes * f_single
+}
+
+/// Section 28: 1-loop QED Euler–Heisenberg vacuum polarization refractive index
+/// `1 + c_alpha_sq * b_over_bcrit_sq`, matching `Signals.DFT.qedEulerHeisenbergRefractiveShift`.
+pub fn qed_euler_heisenberg_refractive_shift(c_alpha_sq: f64, b_over_bcrit_sq: f64) -> f64 {
+    1.0 + c_alpha_sq * b_over_bcrit_sq
+}
+
+/// Section 28: Active counter-propagating laser beam gravitational deflection
+/// `eta_act * delta_theta_gr`, matching `Signals.DFT.activePhotonBeamDeflection`.
+pub fn active_photon_beam_deflection(eta_act: f64, delta_theta_gr: f64) -> f64 {
+    eta_act * delta_theta_gr
+}
+
+/// Section 28: Turner Model 12 (`Gr_C(2,4)` BCJ double copy without DDF) 1PN light deflection,
+/// matching `Signals.DFT.turnerGr24QEDLightDeflection`.
+pub fn turner_gr24_qed_light_deflection(
+    g_const: f64,
+    mass_source: f64,
+    c_light: f64,
+    b_impact: f64,
+    e_ecc: f64,
+) -> f64 {
+    (4.0 * g_const * mass_source / (c_light.powi(2) * b_impact))
+        * (((1.0 + e_ecc) * (1.0 - e_ecc)) / (1.0 - e_ecc.powi(2)))
+}
+
+/// Section 28: Turner Model 13 (unified `Gr_C(2,4)` + conservative DDF + 3D splat) 1PN light deflection,
+/// matching `Signals.DFT.turnerGr24DDFLightDeflection`.
+pub fn turner_gr24_ddf_light_deflection(
+    g_phi: f64,
+    mass_source: f64,
+    rho_max_varphi: f64,
+    j_min_varphi: f64,
+    b_impact: f64,
+    e_ecc: f64,
+) -> f64 {
+    (4.0 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact)
+        * (((1.0 + e_ecc) * (1.0 - e_ecc)) / (1.0 - e_ecc.powi(2)))
+}
+
+/// Section 28: Turner Model 14b (unified Dual-Grassmannian `iGPE` + Plücker `Q_4` + DDF) light deflection,
+/// matching `Signals.DFT.turnerDualGr24IGPEDDFLightDeflection`.
+#[allow(clippy::too_many_arguments)]
+pub fn turner_dual_gr24_igpe_ddf_light_deflection(
+    g_phi: f64,
+    mass_source: f64,
+    rho_max_varphi: f64,
+    j_min_varphi: f64,
+    b_impact: f64,
+    kahler_det: f64,
+    e_ecc: f64,
+    delta_jos: f64,
+) -> f64 {
+    (4.0 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact)
+        * ((kahler_det - 3.0) / (1.0 - e_ecc.powi(2)))
+        + delta_jos
+}
+
+/// Section 28: Weinberg–Low–Cachazo–Strominger leading + subleading soft-photon amplitude
+/// `(s0_weinberg / omega_soft + s1_angular) * m_hard`,
+/// matching `Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude`.
+pub fn low_cachazo_strominger_soft_photon_amplitude(
+    s0_weinberg: f64,
+    s1_angular: f64,
+    omega_soft: f64,
+    m_hard: f64,
+) -> f64 {
+    (s0_weinberg / omega_soft + s1_angular) * m_hard
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -3186,5 +3925,367 @@ mod tests {
                 10.0,
             ) <= 0.0
         );
+
+        // 25. Section 26 & 26.1: Maxwell EM (Pre-Tensor, Vector/Gimbal-Lock, Tensor, Twistor),
+        // Longitudinal E_z, OAM Tubular Solitons, and Multi-Model Gravity/Electron EM Synthesis
+        assert_eq!(MAXWELL_ORIGINAL_1865_EQUATION_COUNT, 20);
+        assert_eq!(HEAVISIDE_GIBBS_VECTOR_EQUATION_COUNT, 4);
+        assert_eq!(MINKOWSKI_TENSOR_EQUATION_COUNT, 2);
+        assert_eq!(PENROSE_TWISTOR_SPINOR_EQUATION_COUNT, 1);
+        assert!((maxwell_quaternion_nabla_norm_sq(2.0, 3.0, 4.0, 5.0) - 54.0).abs() < 1e-15);
+        assert!((euler_kinematic_jacobian_det(0.0) - 1.0).abs() < 1e-15);
+        assert!(euler_kinematic_jacobian_det(std::f64::consts::FRAC_PI_2).abs() < 1e-15);
+        let q_inv = 1.0 / 2.0_f64.sqrt();
+        assert!((unit_quaternion_norm_sq(q_inv, 0.0, q_inv, 0.0) - 1.0).abs() < 1e-15);
+        assert!(maxwell_lorentz_invariant_lagrange(9.0, 9.0, 1.0).abs() < 1e-15);
+        assert!(maxwell_lorentz_invariant_pontryagin(0.0, 3.0).abs() < 1e-15);
+        assert!(maxwell_stress_energy_trace_in_dim(4.0, 42.0).abs() < 1e-15);
+        assert!(maxwell_spinor_null_determinant(1.0, 0.0, 1.0, 0.0, 1.0, 0.0).abs() < 1e-15);
+        assert!(maxwell_spinor_null_determinant(2.0, 0.0, 1.0, 0.0, 1.0, 0.0) > 0.0);
+
+        let ez_gauss = maxwell_gauss_longitudinal_ez(1.5, 2.0, -0.5, 4.0, 2.0);
+        assert!((1.5 * 2.0 + (-0.5) * 4.0 + 2.0 * ez_gauss).abs() < 1e-15);
+        assert_eq!(sam_to_oam_longitudinal_topological_charge(2, 1), 3);
+        assert!(tubular_soliton_ring_radius_sq(2.0, 0.0).abs() < 1e-15);
+        assert!((tubular_soliton_ring_radius_sq(2.0, 1.0) - 1.0).abs() < 1e-15);
+        assert!(tubular_soliton_ring_radius_sq(2.0, 1.0) < tubular_soliton_ring_radius_sq(2.0, 3.0));
+        assert!(tubular_soliton_radial_equilibrium_residual(5.0, 2.0, 3.0).abs() < 1e-15);
+        assert!(
+            scalar_bohm_vortex_core_divergence(1.0, 1.0, 1.0)
+                < scalar_bohm_vortex_core_divergence(1.0, 1.0, 0.01)
+        );
+        assert!(plucker_regularized_vortex_core_norm_sq(0.25, 0.0) >= 1.0);
+
+        let dtheta_gr = gravitational_light_deflection_ppn(1.0, 1.0, 1.0, 1.0, 1.0);
+        let dtheta_newt = gravitational_light_deflection_ppn(1.0, 1.0, 1.0, 1.0, 0.0);
+        let dtheta_nord = gravitational_light_deflection_ppn(1.0, 1.0, 1.0, 1.0, -1.0);
+        assert!((dtheta_gr - 4.0).abs() < 1e-15);
+        assert!(gtbc_relative_error(dtheta_gr, dtheta_gr).abs() < 1e-15);
+        assert!((gtbc_relative_error(dtheta_newt, dtheta_gr) - 0.5).abs() < 1e-15);
+        assert!((gtbc_relative_error(dtheta_nord, dtheta_gr) - 1.0).abs() < 1e-15);
+        assert!(
+            (gtbc_relative_error(witten_conformal_light_deflection(dtheta_gr, 0.0, 0.0, 1.0), dtheta_gr)
+                - 1.0)
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (cachazo_skinner_light_deflection(dtheta_gr, 1.0, 0.25, 10.0) - dtheta_gr).abs()
+                < 1e-15
+        );
+        assert!(
+            (ddf_refractive_light_deflection(1.0, 1.0, 1.0, 1.0, 1.0) - dtheta_gr).abs() < 1e-15
+        );
+        assert!(
+            (turner_plucker_kahler_light_deflection(dtheta_gr, 4.0 - 0.04, 0.2, 0.0) - dtheta_gr)
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (electric_magnetic_duality_norm_sq(1.2, -0.5, 0.8, 0.3, 0.6, 0.8)
+                - (1.2_f64.powi(2) + (-0.5_f64).powi(2) + 0.8_f64.powi(2) + 0.3_f64.powi(2)))
+                .abs()
+                < 1e-14
+        );
+        assert!((abraham_minkowski_momentum_product(2.5, 1.5) - 2.5_f64.powi(2)).abs() < 1e-15);
+        assert_eq!(laguerre_gaussian_gouy_mode_order(0, 0), 1);
+        assert_eq!(laguerre_gaussian_gouy_mode_order(0, 2), 3);
+        assert!(maxwell_gauss_longitudinal_ez(0.0, 2.0, 0.0, 4.0, 2.0).abs() < 1e-15);
+        assert!(proca_longitudinal_polarization_z(10.0, 2.0) > 0.0);
+        assert!(nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 0.0, 2.0) > 0.0);
+        assert!(nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 5.0, 2.0) < 0.0);
+
+        // 26. Section 26.2: Vacuum Maxwell vs. DFT Electron Density & SQG/DDF Pressure Differences,
+        // Polaritons/Plasmons on SU(4) Lower Grassmannians, and Methods M1, M2, M3
+        assert!(ddf_pressure_difference_enthalpy(10.0, 10.0, 1.0).abs() < 1e-15);
+        assert!((ddf_pressure_difference_enthalpy(10.0, 6.0, 2.0) - (-2.0)).abs() < 1e-15);
+        assert!((ddf_pressure_gradient_refractive_index(10.0, 10.0, 1.0, 1.0) - 1.0).abs() < 1e-15);
+        assert!(ddf_pressure_gradient_refractive_index(10.0, 6.0, 2.0, 1.0) > 1.0);
+        assert!((dft_electron_density_permittivity(0.0, 1.0, 4.0) - 1.0).abs() < 1e-15);
+        assert!(dft_electron_density_permittivity(4.0, 1.0, 4.0).abs() < 1e-15);
+        assert!(dft_electron_density_permittivity(8.0, 1.0, 4.0) < 0.0);
+        assert!(dft_electron_density_permittivity(4.0, -1.0, 4.0) > 1.0);
+        assert!(soft_photon_two_leg_ward_residual(1.0, 3.0, 5.0).abs() < 1e-15);
+        assert!((celestial_conformal_weight_h(1.0, 1.0) - 1.0).abs() < 1e-15);
+        assert!(celestial_conformal_weight_hbar(1.0, 1.0).abs() < 1e-15);
+
+        // 27. Section 27: QFIM = 4x Fubini–Study Kähler Metric, 3-Channel Madelung-QFIM GPE Split
+        // on Q_4, Plücker Simplex Phase-Variance Split, Klein Quadric Tangency, and Ghost-Free
+        // Turner Model Unification (Paper 49)
+        let d_jet = mk_physical_plucker_directional_jet(2.0, 4.0, 3.0, 6.0);
+        assert!((fubini_study_diag(d_jet) - 3.0).abs() < 1e-15);
+        assert!((qfim_diag(d_jet) - 12.0).abs() < 1e-15);
+        assert!((qfim_diag(d_jet) - 4.0 * fubini_study_diag(d_jet)).abs() < 1e-15);
+        assert!(
+            (projective_qfim_energy_dir(1.0, 2.0, d_jet)
+                - projective_fubini_study_energy_dir(1.0, 2.0, d_jet))
+                .abs()
+                < 1e-15
+        );
+        let t_dir_lhs = gpe_kinetic_dir(1.0, 2.0, d_jet);
+        let t_dir_rhs = hydro_flow_dir(1.0, 2.0, d_jet)
+            + scalar_bohm_density_dir(1.0, 2.0, d_jet)
+            + projective_qfim_energy_dir(1.0, 2.0, d_jet);
+        assert!((t_dir_lhs - t_dir_rhs).abs() < 1e-15);
+
+        let j_3d = Plucker3DSpatialJet {
+            dir: [
+                mk_physical_plucker_directional_jet(2.0, 4.0, 3.0, 6.0),
+                mk_physical_plucker_directional_jet(2.0, -2.0, 1.5, 4.0),
+                mk_physical_plucker_directional_jet(2.0, 1.0, -0.5, 2.0),
+            ],
+            rho: 2.0,
+        };
+        assert!((trace_qfim_3d(&j_3d) - 4.0 * trace_fubini_study_3d(&j_3d)).abs() < 1e-14);
+        assert!(
+            (total_projective_qfim_energy_3d(1.0, 2.0, &j_3d)
+                - total_projective_fubini_study_energy_3d(1.0, 2.0, &j_3d))
+                .abs()
+                < 1e-14
+        );
+        let t_3d_lhs = total_gpe_kinetic_3d(1.0, 2.0, &j_3d);
+        let t_3d_rhs = total_hydro_flow_3d(1.0, 2.0, &j_3d)
+            + total_scalar_bohm_3d(1.0, 2.0, &j_3d)
+            + total_projective_qfim_energy_3d(1.0, 2.0, &j_3d);
+        assert!((t_3d_lhs - t_3d_rhs).abs() < 1e-14);
+
+        let p_simp = [0.2, 0.15, 0.25, 0.1, 0.2, 0.1];
+        let dp_simp = [0.05, -0.02, -0.03, 0.04, -0.01, -0.03];
+        let dphi_simp = [1.2, -0.5, 0.8, 2.1, -1.0, 0.3];
+        let qfim_ray = 4.0 * normalized_ray_fubini_study(&p_simp, &dp_simp, &dphi_simp);
+        let split_ray = classical_plucker_fisher(&p_simp, &dp_simp)
+            + 4.0 * bivector_phase_variance(&p_simp, &dphi_simp);
+        assert!((qfim_ray - split_ray).abs() < 1e-14);
+        assert!(bivector_phase_variance(&p_simp, &dphi_simp) >= 0.0);
+
+        let n_biv = Bivector6 {
+            p01: 1.0,
+            p02: 2.0,
+            p03: 1.0,
+            p12: 2.0,
+            p13: 2.0,
+            p23: 2.0,
+        };
+        let dn_biv = Bivector6 {
+            p01: 1.0,
+            p02: 1.0,
+            p03: 0.0,
+            p12: 2.0,
+            p13: 2.0,
+            p23: 2.0,
+        };
+        assert!(n_biv.klein_quadric().abs() < 1e-15);
+        assert!(n_biv.klein_polar_form(dn_biv).abs() < 1e-15);
+        let psi_biv = n_biv.scale(2.5);
+        let dpsi_biv = n_biv.scale(-0.7).add(dn_biv.scale(2.5));
+        assert!(psi_biv.klein_quadric().abs() < 1e-15);
+        assert!(psi_biv.klein_polar_form(dpsi_biv).abs() < 1e-15);
+
+        // Section 27.1 & 27.2: Ghost-free Turner projection, Bures/QCRB/QSL, Peotta-Törmä,
+        // Gaussian splat Bohm-Fisher bridge, U(1) gauge invariance, and vortex-core regularity
+        let g_witten = witten_fourth_order_propagator(5.0, 2.0);
+        let g_split = 0.5
+            * (ostrogradsky_ghost_propagator(5.0, 2.0) - two_derivative_graviton_propagator(5.0));
+        assert!((g_witten - g_split).abs() < 1e-15);
+        assert!(
+            (turner_kahler_orbital_semi_latus_factor(0.2) - (1.0 - 0.2_f64.powi(2))).abs() < 1e-15
+        );
+        assert!(
+            (bures_metric_diag_from_qfim(qfim_diag(d_jet)) - fubini_study_diag(d_jet)).abs()
+                < 1e-15
+        );
+        assert!(
+            (quantum_cramer_rao_variance_bound(10.0, qfim_diag(d_jet))
+                - 0.25 / (10.0 * fubini_study_diag(d_jet)))
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (mandelstam_tamm_temporal_qfim(3.0, 1.0)
+                - 4.0 * mandelstam_tamm_temporal_fubini_study(3.0, 1.0))
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (peotta_torma_flat_band_stiffness_from_qfim(2.0, 0.25, qfim_diag(d_jet))
+                - gmgs_total_superfluid_stiffness(0.0, 2.0, 0.25, fubini_study_diag(d_jet)))
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (gaussian_splat_scalar_bohm_from_fisher(1.0, 2.0, 8.0)
+                - 0.5 * ((1.0 / (4.0 * 2.0)) * 8.0))
+                .abs()
+                < 1e-15
+        );
+        let d_gauge = gauge_shifted_plucker_jet(d_jet, 1.75);
+        assert!((fubini_study_diag(d_gauge) - fubini_study_diag(d_jet)).abs() < 1e-14);
+        assert!((qfim_diag(d_gauge) - qfim_diag(d_jet)).abs() < 1e-14);
+        let var2 = two_channel_phase_variance(1.0 / 3.0, 2.0 / 3.0, 1.5, -0.5);
+        assert!(
+            (var2 - (1.0 / 3.0) * (2.0 / 3.0) * (1.5_f64 - (-0.5_f64)).powi(2)).abs() < 1e-15
+                && var2 >= 0.0
+        );
+        let bohm_r1 = scalar_bohm_density_dir(
+            1.0,
+            1.0,
+            PluckerDirectionalJet {
+                rho: 1.0,
+                dpsi_norm_sq: 0.0,
+                drho: 2.0,
+                a_mu: 0.0,
+            },
+        );
+        let bohm_r001 = scalar_bohm_density_dir(
+            1.0,
+            1.0,
+            PluckerDirectionalJet {
+                rho: 0.01,
+                dpsi_norm_sq: 0.0,
+                drho: 2.0,
+                a_mu: 0.0,
+            },
+        );
+        assert!(bohm_r1 < bohm_r001);
+        assert!(projective_qfim_energy_from_ray_metric(1.0, 2.0, 0.0, 3.0).abs() < 1e-15);
+
+        // 28. Section 27.3: Unification of Cachazo Gravity (CSW / BCFW / Hodges / CHY) with
+        // QFIM = 4x Fubini-Study Kähler Metric
+        let sigma4_root = chy_four_point_root(3.0, 5.0);
+        assert!((sigma4_root + (1.0 - sigma4_root) - 1.0).abs() < 1e-15);
+        let qfim_chy = chy_worldsheet_qfim_metric(sigma4_root);
+        let fs_chy = chy_worldsheet_fubini_study_metric(sigma4_root);
+        assert!((qfim_chy - 4.0 * fs_chy).abs() < 1e-14);
+        let a4_chy = chy_four_point_bi_adjoint_scalar(3.0, 5.0);
+        assert!((a4_chy - qfim_chy / (3.0 + 5.0)).abs() < 1e-15);
+        assert!((a4_chy - (4.0 * fs_chy) / (3.0 + 5.0)).abs() < 1e-15);
+        let jac_chy = chy_four_point_reduced_jacobian(3.0, 5.0, sigma4_root);
+        assert!((jac_chy - (-(3.0 + 5.0) * qfim_chy)).abs() < 1e-13);
+        assert!((jac_chy - (-4.0 * (3.0 + 5.0) * fs_chy)).abs() < 1e-13);
+        assert!(
+            (cachazo_skinner_filtered_propagator(5.0, 2.0, 0.0)
+                - witten_fourth_order_propagator(5.0, 2.0))
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (cachazo_skinner_filtered_propagator(5.0, 2.0, 1.0)
+                - two_derivative_graviton_propagator(5.0))
+                .abs()
+                < 1e-15
+        );
+        let e_orb = 0.2_f64;
+        let k_cs = cachazo_hodges_double_copy_scalar_kernel(1.0 + e_orb, 1.0 - e_orb);
+        assert!((k_cs - 4.0).abs() < 1e-15);
+        assert!(
+            ((k_cs - ((1.0 + e_orb) - (1.0 - e_orb)).powi(2)) / 4.0
+                - turner_kahler_orbital_semi_latus_factor(e_orb))
+                .abs()
+                < 1e-15
+        );
+        let var_orb = two_channel_phase_variance(
+            (1.0 + e_orb) / 2.0,
+            (1.0 - e_orb) / 2.0,
+            1.5,
+            -0.5,
+        );
+        assert!(
+            (4.0 * var_orb
+                - turner_kahler_orbital_semi_latus_factor(e_orb) * (1.5_f64 - (-0.5_f64)).powi(2))
+                .abs()
+                < 1e-15
+        );
+
+        // 29. Section 27.4: QED & Gauge Scattering Gravity (BCJ Double Copy, Partanen-Tulkki U(1)^4,
+        // & Turner Gr_C(2,4) Orbital/GW Models) via QFIM and Fubini-Study Kähler Metric
+        let f_ee_orb = qed_orbital_eccentricity_qfim(e_orb);
+        let g_fs_orb = qed_orbital_eccentricity_fubini_study(e_orb);
+        let simplex_fisher = 0.5_f64.powi(2) / ((1.0 + e_orb) / 2.0)
+            + (-0.5_f64).powi(2) / ((1.0 - e_orb) / 2.0);
+        assert!((simplex_fisher - f_ee_orb).abs() < 1e-15);
+        assert!((f_ee_orb - 4.0 * g_fs_orb).abs() < 1e-15);
+        assert!(
+            (f_ee_orb * turner_kahler_orbital_semi_latus_factor(e_orb) - 1.0).abs() < 1e-15
+        );
+        let prec_dc = qed_double_copy_precession_from_qfim(6.0, f_ee_orb);
+        assert!((prec_dc - 6.0 / (1.0 - e_orb.powi(2))).abs() < 1e-15);
+        assert!((prec_dc - 24.0 * g_fs_orb).abs() < 1e-15);
+        let pm_sq = qed_peters_mathews_from_orbital_qfim_sq(1.25, f_ee_orb);
+        assert!((pm_sq - 1.25_f64.powi(2) / (1.0 - e_orb.powi(2)).powi(7)).abs() < 1e-14);
+        assert!((pm_sq - 1.25_f64.powi(2) * (4.0 * g_fs_orb).powi(7)).abs() < 1e-14);
+        let err_vec_1pn =
+            ((qed_spin_one_precession_from_qfim(6.0, 1.0) - 6.0) / 6.0).abs();
+        let err_nord_1pn =
+            ((qed_nordstrom_scalar_precession_from_qfim(6.0, 1.0) - 6.0) / 6.0).abs();
+        let err_vec_gw =
+            ((qed_spin_one_to_double_copy_gw_flux_ratio(4.0) - 4.0) / 4.0).abs();
+        assert!((err_vec_1pn - 5.0 / 6.0).abs() < 1e-15);
+        assert!((err_nord_1pn - 7.0 / 6.0).abs() < 1e-15);
+        assert!((err_vec_gw - 3.0 / 4.0).abs() < 1e-15);
+        assert!(
+            (4.0 * qed_spin_one_to_double_copy_gw_flux_ratio(12.0) - 12.0).abs() < 1e-15
+        );
+        assert!(
+            (two_channel_phase_variance(0.6, 0.4, 2.0 * 1.5, 2.0 * (-0.5))
+                - 4.0 * two_channel_phase_variance(0.6, 0.4, 1.5, -0.5))
+                .abs()
+                < 1e-15
+        );
+        let quad_prod = (2.0 * (1.0 + (1.0 - e_orb.powi(2)).sqrt()))
+            * (2.0 * (1.0 - (1.0 - e_orb.powi(2)).sqrt()));
+        assert!((quad_prod - 4.0 * e_orb.powi(2)).abs() < 1e-15);
+
+        // 30. Section 27.5: Maxwell EM, Poincaré Gimbal-Lock Elimination, Longitudinal E_z,
+        // OAM Tubular Solitons, and TRUE Soft Photons via QFIM and Fubini–Study Kähler Metric
+        assert!(
+            (POINCARE_SPHERE_QFIM_THETA - 4.0 * POINCARE_SPHERE_FUBINI_STUDY_THETA).abs() < 1e-15
+        );
+        assert!(
+            euler_kinematic_jacobian_det(std::f64::consts::FRAC_PI_2).abs() < 1e-15
+                && POINCARE_SPHERE_QFIM_THETA > 0.0
+        );
+        let f_3d = vectorial_ez_three_channel_fisher(2.5, 0.5, 0.25);
+        assert!(f_3d > 2.5 && (f_3d - 3.5).abs() < 1e-15);
+        assert!(
+            (oam_superposition_qfim_phi(3.0) - 4.0 * oam_superposition_fubini_study_phi(3.0)).abs()
+                < 1e-15
+        );
+        let qcrb_l3 = quantum_cramer_rao_variance_bound(10.0, oam_superposition_qfim_phi(3.0));
+        let qcrb_l1 = quantum_cramer_rao_variance_bound(10.0, oam_superposition_qfim_phi(1.0));
+        assert!(qcrb_l3 < qcrb_l1 && (qcrb_l3 - 1.0 / 360.0).abs() < 1e-15);
+        assert!(true_conjugated_soft_photon_qfim_gain(100_010.0, 1.0) > 1.0);
+        let dtheta_qfim =
+            turner_plucker_kahler_light_deflection(4.0, 3.0 + 1.0 / f_ee_orb, e_orb, 0.0);
+        assert!((dtheta_qfim - 4.0).abs() < 1e-15);
+
+        // 31. Section 28: Complete Multi-Model EM Wave & Soft-Photon / TRUE-Conjugated Soft-Photon
+        // Synthesis Across QED/Euler-Heisenberg, Cachazo, DDF, and Turner Models 12, 13, 14a, 14b
+        assert!((qed_euler_heisenberg_refractive_shift(1e-3, 0.0) - 1.0).abs() < 1e-15);
+        assert!(qed_euler_heisenberg_refractive_shift(1e-3, 0.25) > 1.0);
+        assert!(active_photon_beam_deflection(0.0, dtheta_gr).abs() < 1e-15);
+        assert!((active_photon_beam_deflection(1.0, dtheta_gr) - dtheta_gr).abs() < 1e-15);
+        assert!(
+            active_photon_beam_deflection(0.0, dtheta_gr)
+                < active_photon_beam_deflection(1.0, dtheta_gr)
+        );
+        let dtheta_m12 = turner_gr24_qed_light_deflection(1.0, 1.0, 1.0, 1.0, e_orb);
+        let dtheta_m13 = turner_gr24_ddf_light_deflection(1.0, 1.0, 1.0, 1.0, 1.0, e_orb);
+        let dtheta_m14b = turner_dual_gr24_igpe_ddf_light_deflection(
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            4.0 - e_orb.powi(2),
+            e_orb,
+            0.0,
+        );
+        assert!((dtheta_m12 - dtheta_gr).abs() < 1e-15);
+        assert!((dtheta_m13 - dtheta_gr).abs() < 1e-15);
+        assert!((dtheta_m14b - dtheta_gr).abs() < 1e-15);
+        let m_soft_lead = low_cachazo_strominger_soft_photon_amplitude(2.5, 0.0, 0.1, 3.0);
+        let m_soft_full = low_cachazo_strominger_soft_photon_amplitude(2.5, 1.25, 0.1, 3.0);
+        assert!((0.1 * m_soft_lead - 2.5 * 3.0).abs() < 1e-14);
+        assert!((m_soft_full - m_soft_lead - 1.25 * 3.0).abs() < 1e-14);
     }
 }
