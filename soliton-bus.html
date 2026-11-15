@@ -49,9 +49,9 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -91,7 +91,7 @@
       <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -281,14 +281,14 @@ architecture.</p>
 </tbody>
 </table>
 <p>The source request explicitly groups WDM, MDM, OAM, A2Q, squeezed-state
-readout, and nondestructive phase measurement <span class="xref myst">in the signal-phase chat</span>.
-The same chat proposes OAM encoding and a Kerr probe path <span class="xref myst">at the bus design section</span>.
+readout, and nondestructive phase measurement <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8547">in the signal-phase chat</a>.
+The same chat proposes OAM encoding and a Kerr probe path <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8589">at the bus design section</a>.
 The proposed N-LIG architecture also describes the signal bus, OAM qudit
-payload, and a Kerr cavity <span class="xref myst">in the interaction-zone design</span>.</p>
+payload, and a Kerr cavity <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8729">in the interaction-zone design</a>.</p>
 <p>The separate architecture chat proposes wavelength as a coarse address and a
-thermo-optic layer as a fine decoder <span class="xref myst">in its address-tree description</span>.
+thermo-optic layer as a fine decoder <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L363">in its address-tree description</a>.
 It describes bucket-brigade routing as a simulation target, with switch
-latency and loss as quantities to measure <span class="xref myst">in the network-routing plan</span>.</p>
+latency and loss as quantities to measure <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L582">in the network-routing plan</a>.</p>
 </section>
 <section id="classical-transport-api">
 <h2>Classical Transport API<a class="headerlink" href="#classical-transport-api" title="Link to this heading">¶</a></h2>
@@ -395,7 +395,7 @@ not demonstrate soliton propagation or N-LIG fabrication.</p>
 </section>
 <section id="multi-lane-n-0-interferometric-couplers-gr-mathbb-c-2-4-twistor-channels-and-yangbaxter-soliton-collisions">
 <h2>Multi-Lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) Interferometric Couplers, <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Channels, and Yang–Baxter Soliton Collisions<a class="headerlink" href="#multi-lane-n-0-interferometric-couplers-gr-mathbb-c-2-4-twistor-channels-and-yangbaxter-soliton-collisions" title="Link to this heading">¶</a></h2>
-<p>In <a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">src/signals/Signals/SolitonBus.lean</span></a>,
+<p>In <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/SolitonBus.lean">src/signals/Signals/SolitonBus.lean</a>,
 <code class="docutils literal notranslate"><span class="pre">SolitonMultiLaneCoupler</span></code> connects the <span class="math notranslate nohighlight">\(N\)</span>-lane soliton-bus architecture to the
 multi-model interferometric and Quantum Inverse Scattering frameworks developed
 in <a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>
@@ -439,10 +439,10 @@ to certify that the <span class="math notranslate nohighlight">\(8 \times 8\)</s
 <li><p><strong>Rust + WebAssembly (<code class="docutils literal notranslate"><span class="pre">wasm32-unknown-unknown</span></code>) + WebGL2 GLSL Implementation</strong>:
 All seven multi-slit / multi-lane (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) models (<code class="docutils literal notranslate"><span class="pre">Fraunhofer</span></code>, <code class="docutils literal notranslate"><span class="pre">HuygensSteiner</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Gr24RealPlucker</span></code>, <code class="docutils literal notranslate"><span class="pre">Gr24ComplexTwistor</span></code>, <code class="docutils literal notranslate"><span class="pre">PilotWave</span></code>, <code class="docutils literal notranslate"><span class="pre">Wigner</span></code>, <code class="docutils literal notranslate"><span class="pre">Gr24Unphased</span></code>)
-are implemented in <a class="reference download internal" download="" href="_downloads/f8f9cf2c6d8e8eb55e7c467f18040797/double_slit.rs"><span class="xref download myst">src/signals/numerical_adapter/src/double_slit.rs</span></a>
+are implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/double_slit.rs">src/signals/numerical_adapter/src/double_slit.rs</a>
 with WebGL2 (<code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>) shaders in
-<a class="reference download internal" download="" href="_downloads/3a5c081971347cfa0bb52c6cebe177f9/double_slit.vert.glsl"><span class="xref download myst">double_slit.vert.glsl</span></a>
-and <a class="reference download internal" download="" href="_downloads/5cf1d712e3faba8bc10c2f2fe1cdb5bb/double_slit.frag.glsl"><span class="xref download myst">double_slit.frag.glsl</span></a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/shaders/double_slit.vert.glsl">double_slit.vert.glsl</a>
+and <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl">double_slit.frag.glsl</a>,
 parameterized by <code class="docutils literal notranslate"><span class="pre">num_slits</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">slit_width</span></code>, <code class="docutils literal notranslate"><span class="pre">slit_separation</span></code>, <code class="docutils literal notranslate"><span class="pre">barycentric_shift</span></code>,
 <code class="docutils literal notranslate"><span class="pre">delta_oam</span></code>, and <code class="docutils literal notranslate"><span class="pre">azimuth_phi</span></code>.</p></li>
 <li><p><strong>Revised Semi-Dirac Soliton Bus, Slow-Light CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, &amp; Integrated Multi-Band (<span class="math notranslate nohighlight">\(405\text{–}1550\text{ nm}\)</span>) CNC / <span class="math notranslate nohighlight">\(c\text{-BAs}\)</span> Photonics (<code class="docutils literal notranslate"><span class="pre">semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities</span></code>)</strong>:
@@ -497,15 +497,15 @@ They should not be collapsed into one meaning for “multiplexing.”</p>
 depth/layer selector, OAM or MDM as a finer channel selector, and a
 thermo-optic switch as an active route into an ancilla or memory layer. The
 chats also propose TDM to reuse a waveguide at different pulse times
-(<span class="xref myst">depth and OAM routing</span>,
-<span class="xref myst">time-bin reuse</span>).
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L256">depth and OAM routing</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.md#L1477">time-bin reuse</a>).
 <strong>Use in v1:</strong> represent these as address/scheduling coordinates only.
 Address separation does not prove low crosstalk or independent quantum
 channels.</p></li>
 <li><p><strong>Port graph with an ancilla hub.</strong> The proposed star has data leaves
 reached through a central ancilla, with bus operations intended to support
-stabilizer measurements (<span class="xref myst">star and bus-connected checks</span>,
-<a class="reference internal" href="paper.html#L60"><span class="std std-ref">paper architecture</span></a>). <strong>Use in v1:</strong> call each
+stabilizer measurements (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L3172">star and bus-connected checks</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper.md#L60">paper architecture</a>). <strong>Use in v1:</strong> call each
 physical endpoint a <code class="docutils literal notranslate"><span class="pre">BusPort</span></code>; represent possible interactions with an
 explicit coupling relation. A port is not itself a code qubit or a
 stabilizer. The measurement order, ancilla reuse, fault propagation, and
@@ -515,22 +515,22 @@ the data state, so mode shifts, phases, leakage, and mode mixing are data
 errors rather than just routing errors. The existing OAM-100 record is
 readiness metadata: the review explicitly says it lacks an OAM encoding
 map, syndrome readout, and recovery, and requires mode-dependent loss and
-crosstalk characterization (<a class="reference internal" href="paper-model-review.html#L1077"><span class="std std-ref">OAM boundary and next measurements</span></a>,
-<a class="reference internal" href="paper-model-review.html#L1137"><span class="std std-ref">QEC readiness fields</span></a>). <strong>Defer as a separate
+crosstalk characterization (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1077">OAM boundary and next measurements</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1137">QEC readiness fields</a>). <strong>Defer as a separate
 qudit-code project.</strong> A coherent superposition over OAM modes is one
 qudit state, not a collection of independent addressed channels.</p></li>
 <li><p><strong>Propagating GKP/CV state.</strong> A grid state with homodyne syndrome
 measurements is a distinct continuous-variable encoding path. The paper
 review describes the cited optical work as a logical-state precursor, not
 completed fault-tolerant computation, and the qutrit/ququart break-even
-experiment is not an OAM experiment (<a class="reference internal" href="paper-model-review.html#L1071"><span class="std std-ref">optical-state boundary</span></a>,
-<a class="reference internal" href="paper-model-review.html#L1098"><span class="std std-ref">qudit experiment boundary</span></a>). <strong>Keep outside
+experiment is not an OAM experiment (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1071">optical-state boundary</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1098">qudit experiment boundary</a>). <strong>Keep outside
 the first qubit/erasure API.</strong></p></li>
 <li><p><strong>Layer-code geometry.</strong> Layer codes are a CSS-to-3D topological-code
 construction: their layers and 1D junctions come from Tanner incidences.
 They are not optical wavelength layers or OAM channels. The paper’s
 construction supplies mathematical code properties, not a photonic
-decoder, threshold, or hardware benchmark (<a class="reference internal" href="paper-model-review.html#L916"><span class="std std-ref">Layer-code review</span></a>).
+decoder, threshold, or hardware benchmark (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L916">Layer-code review</a>).
 <strong>Treat this as a later code-family contribution</strong>, independent of the
 optical address scheme.</p></li>
 </ol>
@@ -591,8 +591,8 @@ assumptions; they do not establish QEC performance. In particular, the
 existing XPM phase law is not a QND parity measurement, and the proposed
 room-temperature/no-dispersion, 10 GHz, and entropy-siphoning statements in
 <code class="docutils literal notranslate"><span class="pre">paper.md</span></code> remain design claims, not fields to promote to verified facts
-(<a class="reference internal" href="paper.html#L60"><span class="std std-ref">paper architecture and claims</span></a>,
-<a class="reference internal" href="paper-model-review.html#L1"><span class="std std-ref">paper-model-review evidence boundary</span></a>).</p>
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper.md#L60">paper architecture and claims</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1">paper-model-review evidence boundary</a>).</p>
 </section>
 <section id="qeclean-contribution">
 <h3>QECLean contribution<a class="headerlink" href="#qeclean-contribution" title="Link to this heading">¶</a></h3>
@@ -619,7 +619,7 @@ where an erased set contains a logical support. This theorem is a code
 property, not an erasure decoder, channel model, or hardware threshold. Keep
 the work independent of <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and <code class="docutils literal notranslate"><span class="pre">Physlib</span></code>; QECLean’s Lake configuration
 already uses mathlib and its own Lean tooling, and this contribution needs no
-new dependency. The existing <a class="reference download internal" download="" href="_downloads/350d42153a95c06bd6ef81a3bfedeba5/Layer.lean"><span class="xref download myst">Layer scaffold</span></a>
+new dependency. The existing <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/QECLean/QEC/Stabilizer/Codes/Layer.lean#L274">Layer scaffold</a>
 can use the API later, but deriving its defect stabilizers is a separate task.</p>
 </section>
 <section id="cross-project-handoff-and-gates">

@@ -35,13 +35,13 @@ its assumptions, not those assumptions' physical truth.
 Review date: 2026-10-08. The review target is the Git index, not all changes in
 the working tree. It includes
 {download}`src/signals/README.md <../src/signals/README.md>`,
-[Signals.lean](../src/signals/Signals.lean),
-[Geometry.lean](../src/signals/Signals/Geometry.lean),
-[Huygens.lean](../src/signals/Signals/Huygens.lean),
-[Plabic.lean](../src/signals/Signals/Plabic.lean),
-[Pending.lean](../src/signals/Signals/Pending.lean),
-[SignalsTests.lean](../src/signals/SignalsTests.lean), and
-[SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean).
+[Signals.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals.lean),
+[Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean),
+[Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean),
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean),
+[Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean),
+[SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean), and
+[SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean).
 Dependency and toolchain changes are also staged, but their upstream suitability
 is outside this mathematical review. Unstaged changes to Pending, tests, and
 the README are not attributed to this snapshot. Links resolve to the local
@@ -56,10 +56,10 @@ and promotion gates, not findings of false Lean theorems.
 
 | Priority | Follow-up | Evidence and consequence | Required next check |
 |---|---|---|---|
-| P2, physical API | Require a regular evaluation domain. | `Aperture.regularAt` exists in [Huygens.lean](../src/signals/Signals/Huygens.lean#L57), but `amplitude` and `DoubleSlit` do not require it. Coincident samples evaluate through totalized division. This is documented algebra, not a physical singularity treatment. | A guarded wrapper, positive separation bounds, and a coincident-point rejection test. |
-| P2, research validation | Construct candidate contributions independently of slit amplitudes. | `GrassmannianDoubleSlitHypothesis` in [Pending.lean](../src/signals/Signals/Pending.lean#L1247) supplies `contribution`, `firstMatch`, and `secondMatch`. Its conclusions do not derive those functions from the geometry. | A geometry-to-amplitude evaluator and a deliberately mismatching candidate that fails the comparison. |
-| P2, test coverage | Add a nonzero bridge fixture and a detector sweep. | The Pending example in [SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L4563) uses empty apertures and zero contributions. The verified optics examples in [SignalsTests.lean](../src/signals/SignalsTests.lean#L1018) establish finite algebra and symmetric-path equality, not an independently computed fringe map. | Nonempty slits, several relative phases, destructive minima, both single-slit masks, and off-axis detector samples. |
-| P3, future topology | Derive exits, decorations, and cell data where possible. | `BoundaryRouting` in [Plabic.lean](../src/signals/Signals/Plabic.lean#L112) checks supplied exits and a supplied permutation. It does not construct a disk embedding or derive fixed-point colors. | A finite first-return construction and a separately verified planar network model. |
+| P2, physical API | Require a regular evaluation domain. | `Aperture.regularAt` exists in [Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L57), but `amplitude` and `DoubleSlit` do not require it. Coincident samples evaluate through totalized division. This is documented algebra, not a physical singularity treatment. | A guarded wrapper, positive separation bounds, and a coincident-point rejection test. |
+| P2, research validation | Construct candidate contributions independently of slit amplitudes. | `GrassmannianDoubleSlitHypothesis` in [Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1247) supplies `contribution`, `firstMatch`, and `secondMatch`. Its conclusions do not derive those functions from the geometry. | A geometry-to-amplitude evaluator and a deliberately mismatching candidate that fails the comparison. |
+| P2, test coverage | Add a nonzero bridge fixture and a detector sweep. | The Pending example in [SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L4563) uses empty apertures and zero contributions. The verified optics examples in [SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L1018) establish finite algebra and symmetric-path equality, not an independently computed fringe map. | Nonempty slits, several relative phases, destructive minima, both single-slit masks, and off-axis detector samples. |
+| P3, future topology | Derive exits, decorations, and cell data where possible. | `BoundaryRouting` in [Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L112) checks supplied exits and a supplied permutation. It does not construct a disk embedding or derive fixed-point colors. | A finite first-return construction and a separately verified planar network model. |
 
 The regularity follow-up does not invalidate the existing algebraic
 superposition lemmas. Likewise, the empty-aperture fixture checks the Pending
@@ -150,7 +150,7 @@ I_{\mathrm{parallel}}=I_{\mathrm{CM}}+m d_\perp^2.
 $$
 
 The last identity is the separate scalar model in
-[Coherence.lean](../src/signals/Signals/Coherence.lean#L37).
+[Coherence.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean#L37).
 For a physical derivation, $d_\perp$ is the perpendicular separation of parallel
 axes and the first moment about the center of mass vanishes. Neither a twistor
 shear nor antisymmetry of $M$ supplies those mechanical assumptions.
@@ -516,7 +516,7 @@ requiring a completed differential-form library.
 
 ### Iteration 1: Regular Evaluation and Action Scale
 
-Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean):
+Implemented in [Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean):
 `distance_pos_of_ne`, source/detector coincidence rejection, positive regular
 propagation distances, `ApertureSeparation.regular`, `RegularSlitEvaluation`,
 `DoubleSlit.regularAmplitude`, and the positive `ActionScale` wrapper.
@@ -579,7 +579,7 @@ the rectangular-slit Fraunhofer limit have not been connected to this integral.
 
 ### Iteration 4: Grassmannian Basis and a Positive Cell
 
-[Geometry.lean](../src/signals/Signals/Geometry.lean) proves
+[Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean) proves
 `selectedMinor_basisChange` for arbitrary finite row/column sizes. Every
 ordered maximal minor acquires the same determinant factor. Nonsingular
 basis changes preserve totalized ratios; use a nonzero denominator for a
@@ -598,7 +598,7 @@ network moves, and general Pluecker relations remain phase-3 obligations.
 
 ### Iteration 5: Affine Alternating Forms and Residues
 
-[CanonicalForms.lean](../src/signals/Signals/CanonicalForms.lean) represents
+[CanonicalForms.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/CanonicalForms.lean) represents
 the interval, triangle, and unit-square examples as position-dependent
 alternating covectors. The one-form acts on a one-dimensional tangent vector;
 the two-forms evaluate the determinant of two tangent vectors. This adds
@@ -649,7 +649,7 @@ or declaring phases 5--7 complete.
 
 ### Iteration 7: Measured-Cell Quadrature and Refinement
 
-[Quadrature.lean](../src/signals/Signals/Quadrature.lean) introduces a finite
+[Quadrature.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Quadrature.lean) introduces a finite
 measurable disjoint cell partition with one sample per cell. Its weights are
 the actual restricted measure masses, not fitted amplitude coefficients.
 The cell measures decompose the original measure, their weights sum to its
@@ -687,7 +687,7 @@ HTML generation passed with 66 warnings, and `git diff --check` passed.
 
 ### Iteration 8: Derived Bounded First-Exit Routing
 
-[Plabic.lean](../src/signals/Signals/Plabic.lean) now computes `firstExit`
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) now computes `firstExit`
 from a directed edge and fuel, returning an earliest step count and boundary
 label or an explicit fuel failure. Successful results satisfy the route
 equation, stay within the budget, and exclude every earlier boundary exit.
@@ -708,7 +708,7 @@ Fixed-point colors remain supplied data; no planarity or reducedness is inferred
 
 ### Iteration 9: Finite Weighted Acyclic Measurements
 
-`WeightedAcyclicNetwork` in [Plabic.lean](../src/signals/Signals/Plabic.lean)
+`WeightedAcyclicNetwork` in [Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean)
 uses nonnegative edge weights and a checked strictly increasing level on every
 nonzero edge. Mathlib matrix powers compute successive weighted compositions.
 A path longer than the available level difference has zero weight; the
@@ -729,7 +729,7 @@ phase/units remain outside this finite nonnegative-weight model.
 
 ### Iteration 10: Continuing Dart Permutation
 
-[Plabic.lean](../src/signals/Signals/Plabic.lean) constructs `dartTurn`
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) constructs `dartTurn`
 by composing edge reversal with the existing color-dependent neighbor
 permutations. A boundary turn continues through its unique incident edge;
 the original absorbing `step` and `route` remain unchanged. The continuing
@@ -747,7 +747,7 @@ not inferred from this intermediate construction.
 
 ### Iteration 11: Dart-Count Boundary Search Guarantee
 
-`route_eq_dartIterate` in [Plabic.lean](../src/signals/Signals/Plabic.lean)
+`route_eq_dartIterate` in [Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean)
 proves agreement between absorbing and continuing dynamics before any
 boundary arrival. Exhausted fuel excludes all earlier arrivals because
 boundary absorption would preserve them through the remaining budget.
@@ -768,7 +768,7 @@ rules, embedding, reduction moves and cell interpretation remain separate.
 
 ### Iteration 12: Derived Boundary First-Return Permutation
 
-[Plabic.lean](../src/signals/Signals/Plabic.lean) proves that one continuing
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) proves that one continuing
 turn after the earliest boundary arrival reaches its boundary start edge.
 No positive iterate reaches any boundary start earlier. Comparing two such
 returns and cancelling injective dart iterates proves that distinct starts
@@ -790,7 +790,7 @@ embedding, reducedness, network moves, minor positivity or positroid cells.
 ### Iteration 13: Guarded Weighted Edge Subdivision
 
 `oneEdgePath` and `twoEdgePath` in
-[Plabic.lean](../src/signals/Signals/Plabic.lean) construct ranked networks
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) construct ranked networks
 with independently supplied weights. Their actual finite transfer entries
 recover a single weight and the product of two successive weights.
 For a nonzero subdivision factor $a$, `subdivision_boundary` proves equality
@@ -993,7 +993,7 @@ path obligations and an independently justified complex evaluator remain open.
 
 ### Iteration 21: General $2 \times n$ Four-Column Pluecker Relations
 
-`twoRowMinor` in [Geometry.lean](../src/signals/Signals/Geometry.lean) evaluates
+`twoRowMinor` in [Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean) evaluates
 arbitrary two-column determinants of any real $2 \times n$ matrix and agrees
 with `selectedMinor` on every strictly ordered column pair
 (`twoRowMinor_eq_selectedMinor`). `twoRowMinor_pluecker` proves the three-term
@@ -1020,7 +1020,7 @@ and quotient constructions remain open.
 ### Iteration 22: Parallel Two-Edge Path Reduction
 
 `WeightedAcyclicNetwork.diamond` in
-[Plabic.lean](../src/signals/Signals/Plabic.lean) models one source at level
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean) models one source at level
 zero feeding two parallel intermediate vertices at level one, which both feed
 one sink at level two. `diamond_transfer` derives its actual finite transfer
 sum as the sum of the two parallel two-edge path products:
@@ -1040,7 +1040,7 @@ series-parallel graph reductions remain open.
 ### Iteration 23: Analytic Fraunhofer Rectangular Double-Slit Benchmark
 
 `unnormalizedSinc` and `fraunhoferRectangularDoubleSlit` in
-[Huygens.lean](../src/signals/Signals/Huygens.lean) formalize the analytic
+[Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean) formalize the analytic
 paraxial/Fraunhofer benchmark stated above:
 
 $$
@@ -1066,11 +1066,11 @@ via an explicit paraxial error bound remains a Phase 2 obligation.
 
 ### Iteration 24: Five-Model Double-Slit Superposition, $Gr(2,4)$ Pluecker Channels, Qian--Izadi Parallel-Axis Coherence, and OAM Relative Predictive Error
 
-[Huygens.lean](../src/signals/Signals/Huygens.lean),
-[Coherence.lean](../src/signals/Signals/Coherence.lean),
-[Geometry.lean](../src/signals/Signals/Geometry.lean),
-[DDF.lean](../src/signals/Signals/DDF.lean), and
-[OAM.lean](../src/signals/Signals/OAM.lean) formalize and compare double-slit
+[Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean),
+[Coherence.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean),
+[Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean),
+[DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean), and
+[OAM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/OAM.lean) formalize and compare double-slit
 superposition and its relative predictive error across five mathematical
 frameworks, both for standard planar wavefronts and for beams carrying
 **Orbital Angular Momentum (OAM)**:
@@ -1226,11 +1226,11 @@ example (x y : ℝ) :
 
 ### Iteration 25: Quantum Inverse Scattering Method (QISM), $8 \times 8$ Matrix Quantum Yang--Baxter Equation, $Gr(2,4)$ Baxter $QQ/TQ$ Wronskians, and $N$-Slit ($N > 0$) Generalization
 
-Implemented across [QISM.lean](../src/signals/Signals/QISM.lean),
-[Scattering.lean](../src/signals/Signals/Scattering.lean),
-[OAM.lean](../src/signals/Signals/OAM.lean),
-[Huygens.lean](../src/signals/Signals/Huygens.lean),
-[SolitonBus.lean](../src/signals/Signals/SolitonBus.lean), and the Rust/WASM/GLSL
+Implemented across [QISM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean),
+[Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean),
+[OAM.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/OAM.lean),
+[Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean),
+[SolitonBus.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/SolitonBus.lean), and the Rust/WASM/GLSL
 crate (`src/signals/numerical_adapter/src/double_slit.rs`), and documented in
 [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md)
 and [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md):
@@ -1255,9 +1255,9 @@ and [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-
 
 ### Iteration 26: Pluecker Sink-Flux Hydrodynamics, Dilatant Dark Fluid (DDF) Moving Sheaths, Anosov Symplectic Invariance, and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Sorkin Triple-Slit Unification
 
-Implemented in [DDF.lean](../src/signals/Signals/DDF.lean),
-[Geometry.lean](../src/signals/Signals/Geometry.lean), and
-[Huygens.lean](../src/signals/Signals/Huygens.lean), and documented in
+Implemented in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean),
+[Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean), and
+[Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean), and documented in
 [grassmannian-ddf-moving-sheath-paper.md](grassmannian-ddf-moving-sheath-paper.md):
 
 - **Reciprocal Visibility--Jamming Duality & Critique Resolutions**:
@@ -1277,7 +1277,7 @@ Implemented in [DDF.lean](../src/signals/Signals/DDF.lean),
 
 ### Iteration 27: Grassmannian Gravity from QED/Gauge Scattering Amplitudes, BCJ Double Copy on $Gr_{\mathbb{C}}(2,4)$, Precessing Polar Conics, and Mercury's $42.98''/\text{cy}$ Perihelion Precession
 
-Implemented in [DDF.lean](../src/signals/Signals/DDF.lean) and
+Implemented in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean) and
 `src/signals/numerical_adapter/src/orbital_splat.rs`, and documented in
 [grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md):
 
@@ -1296,7 +1296,7 @@ Implemented in [DDF.lean](../src/signals/Signals/DDF.lean) and
 
 ### Iteration 28: Normed 2D Anisotropic Tensor Gaussian Splat Mechanics, Dual-Layer $Gr_{\mathbb{C}}(2,4)$ Twistor Wavepackets, Core Bohm Potential, and Madelung Quantum Pressure Tensor $\Pi_{ij}$
 
-Implemented in [DDF.lean](../src/signals/Signals/DDF.lean) and
+Implemented in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean) and
 `src/signals/numerical_adapter/src/orbital_splat.rs` (with WebGL2 `#version 300 es`
 shaders `orbital_splat.vert.glsl` and `orbital_splat.frag.glsl`), and documented in
 [grassmannian-splat-mechanics-paper.md](grassmannian-splat-mechanics-paper.md):
@@ -1316,8 +1316,8 @@ shaders `orbital_splat.vert.glsl` and `orbital_splat.frag.glsl`), and documented
 
 ### Iteration 29: Inelastic Scattering (Inverse Compton & Stokes/Anti-Stokes Raman), What $Gr_{\mathbb{C}}(2,4)$ Does Not Cover, and the Heat Problem (Fourier, Cattaneo--Vernotte, Splat-Free Continuum $Gr_{\mathbb{C}}(2,4)$--DDF, and Thermal Splat Evolution)
 
-Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
-[DDF.lean](../src/signals/Signals/DDF.lean), and
+Implemented in [Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean),
+[DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean), and
 `src/signals/numerical_adapter/src/thermal_inelastic.rs`, and documented in
 [grassmannian-thermal-compton-raman-paper.md](grassmannian-thermal-compton-raman-paper.md):
 
@@ -1351,8 +1351,8 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 
 ### Iteration 30: Polaritons (Hopfield Bogoliubov Mixing, Vacuum Rabi Anticrossing, Lyddane--Sachs--Teller Reststrahlen Bands) and Surface Plasmon Polaritons (SPPs) With and Without Tensor Gaussian Splats
 
-Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
-[DDF.lean](../src/signals/Signals/DDF.lean), and
+Implemented in [Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean),
+[DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean), and
 `src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
 [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md):
 
@@ -1380,8 +1380,8 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 
 ### Iteration 31: Coherent Synchrotron Radiation (CSR) on Cylindrical SPP Microtubes/CNTs, Cavity QED vs. Cherenkov Phase Matching, 't Hooft--Susskind Holography, and Second-Harmonic ($\chi^{(2)}$) Resonant OPA (With and Without Splats)
 
-Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
-[DDF.lean](../src/signals/Signals/DDF.lean), and
+Implemented in [Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean),
+[DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean), and
 `src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
 [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md),
 [grassmannian-holographic-principle-paper.md](grassmannian-holographic-principle-paper.md),
@@ -1413,8 +1413,8 @@ and [anti-fire-cannon-review.md](anti-fire-cannon-review.md):
 
 ### Iteration 32: Maldacena/GKPW AdS/CFT Correspondence, Planar Integrability (`arXiv:1012.3982`), Secret Symmetries (`arXiv:1204.2366`), and Complex $Gr_{\mathbb{C}}(2,4)$ / DDF Holographic RG Unification (With and Without Splats)
 
-Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
-[DDF.lean](../src/signals/Signals/DDF.lean), and
+Implemented in [Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean),
+[DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean), and
 `src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
 [grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md):
 
@@ -1448,11 +1448,11 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 
 ### Iteration 33: Paraxial Fresnel-to-Fraunhofer Remainder Bound, Higher-Rank $Gr(3,n)$ / $Gr_{\mathbb{C}}(3,n)$ Four-Term Plücker Relations, Multi-Layer & Three-Channel ($k=3$) LGV Disjoint-Path Positivity, and Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix Secret Intertwining
 
-Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
-[Quadrature.lean](../src/signals/Signals/Quadrature.lean),
-[Geometry.lean](../src/signals/Signals/Geometry.lean),
-[Plabic.lean](../src/signals/Signals/Plabic.lean),
-[Scattering.lean](../src/signals/Signals/Scattering.lean), and the Rust/WASM crate
+Implemented in [Huygens.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean),
+[Quadrature.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Quadrature.lean),
+[Geometry.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean),
+[Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean),
+[Scattering.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean), and the Rust/WASM crate
 (`double_slit.rs`, `orbital_splat.rs`, `polariton_spp.rs`):
 
 - **Paraxial Fresnel-to-Fraunhofer Quadratic Phase Remainder & Combined Quadrature Comparison (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`)**:
@@ -1506,7 +1506,7 @@ Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
   for arbitrary $B_1, B_2, A_B, B_B, D_F, E_F, G_{BF}, L_{BF} \in \mathbb{R}$.
 - **Adaptive Two-Child Splat Splitting Conservation (`NormedTensorGaussianSplat2D.splitMajor_conservation_identities`) & Coupled Electro-Thermal-Optical OPA Gain**:
   Formalized `splitMajorOffset`, `splitMajorPlus`, `splitMajorMinus`, and
-  `splitMajor_conservation_identities` in [DDF.lean](../src/signals/Signals/DDF.lean)
+  `splitMajor_conservation_identities` in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean)
   (and `NormedTensorGaussianSplat2D::split_if_anisotropic` / `OrbitalSplatScene::adaptive_remesh`
   in `orbital_splat.rs`), proving exact $L^1$ weight conservation ($w_+ + w_- = w$),
   center-of-mass preservation, major-axis second-moment variance conservation
@@ -1856,7 +1856,7 @@ Source type: mathematical preprint on nonnegative Grassmannian cells and
 weighted planar networks, not an optical-device validation.
 
 (scholarly-qian-izadi)=
-<a id="qian-izadi2023"></a>
+<a id="qian2023"></a>
 Qian, X.-F., and Izadi, M. (2023). *Bridging coherence optics and classical
 mechanics: A generic light polarization-entanglement complementary relation*.
 Physical Review Research 5(3), 033110.

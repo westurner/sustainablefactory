@@ -72,8 +72,8 @@ transport first-class variables.
 They do not show that CW operation alone yields pristine graphene, that the
 conversion is athermal, or that a low optical power threshold is universal.
 The active chat's CW block is therefore provenance for a proposed experiment
-([CW Lean block](../data/chats/IQ-Sampling-for-Signal-Phase.md#L7394-L7482);
-[process narrative](../data/chats/IQ-Sampling-for-Signal-Phase.md#L7484-L7491)),
+([CW Lean block](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L7394-L7482);
+[process narrative](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L7484-L7491)),
 not external evidence for Proca emission or zero diffraction. The measured
 `VitrimerLithographyObservation` contract records continuous-wave mode, scan
 geometry, absorbed fluence, temperature, Raman/XPS/resistance endpoints,
@@ -84,51 +84,51 @@ recorded output state.
 
 The related superfluid/Hawking discussion proposes a mechanical interpretation
 of Hawking radiation as emission from a shear-driven fracture state
-([superfluid/Hawking chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L46-L74)).
+([superfluid/Hawking chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L46-L74)).
 Its transformation-toughening extension predicts burst-like emission and
-possible remnant behavior ([same chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L146-L179)).
+possible remnant behavior ([same chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L146-L179)).
 Those passages are hypothesis provenance, not evidence that an astrophysical
 horizon fractures or that Hawking radiation has been decoded.
 
 The proposed inverse pipeline uses prepared modulation, homodyne observations,
 finite-rank tensor decomposition, and an asserted nonlinear scattering operator
-([same chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L241-L265)).
+([same chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L241-L265)).
 The implementation retains only the finite data-flow bookkeeping: observed
 traces, iGPE/iQFT stage laws, Amplituhedron matrix maps, ALS residuals, and known-
 input comparisons. It does not turn a low residual into a black-hole decoder or
 an interior-state reconstruction
-([HawkingRadiationDecoding](../src/signals/Signals/Pending.lean#L1262-L1295)).
+([HawkingRadiationDecoding](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1262-L1295)).
 
 The Population III review concerns a simulated Einstein Telescope/Cosmic
-Explorer inference study, not an observed event ([Pop III review](../data/chats/Review-Pop-III-GW-Remnants.md#L43-L57)).
+Explorer inference study, not an observed event ([Pop III review](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L43-L57)).
 The reported comparison uses 5 Hz and 10 Hz low-frequency cutoffs; for the
 reviewed simulated event at $z \simeq 19.8$, it reports 90%-credible lower bounds
 of $z > 18.5$ and $z > 17.5$, respectively, approximately 12% source-frame mass
 uncertainty, improved localization, and modest spin constraints
-([reported findings](../data/chats/Review-Pop-III-GW-Remnants.md#L63-L83)).
+([reported findings](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L63-L83)).
 These values are retained as simulation metadata and require verification
 against the cited paper before use as an external dataset.
 
 The same review connects curvature backscatter to gravitational-wave tails, then
 proposes DDF shear thickening, GPE-vortex scattering, and Schur-complement
-conditioning as a separate analog model ([tail and DDF proposal](../data/chats/Review-Pop-III-GW-Remnants.md#L398-L427),
-[GPE and tensor-conditioning proposal](../data/chats/Review-Pop-III-GW-Remnants.md#L508-L570)).
+conditioning as a separate analog model ([tail and DDF proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L398-L427),
+[GPE and tensor-conditioning proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L508-L570)).
 The formal boundary is correspondingly finite and conditional:
 
 - `Signals.DDF` formalizes supplied DDF substrate, river-flow, and radiation-
-  sourcing laws ([DDF.lean](../src/signals/Signals/DDF.lean#L35-L35), [river model](../src/signals/Signals/DDF.lean#L186-L186),
-  [radiation discriminator](../src/signals/Signals/DDF.lean#L301-L301)).
+  sourcing laws ([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L35-L35), [river model](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L186-L186),
+  [radiation discriminator](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L301-L301)).
 - `dilatantViscosity`, `dilatantDampingRate`, and
   `DDFTwistorSliceConditioning` record nonnegative constitutive and Schur-slice
-  laws ([Pending.lean](../src/signals/Signals/Pending.lean#L1707-L1813)).
+  laws ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1707-L1813)).
 - `gpeVortexDensity` and `gpeVortexScatteringPotential` retain a finite
-  depleted-core/scattering proxy ([Pending.lean](../src/signals/Signals/Pending.lean#L1815-L1846)).
+  depleted-core/scattering proxy ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1815-L1846)).
 - `DDFWaveTailObservation` requires detector calibration, an independent vortex
   control, replication, an energy-closed ledger, and a declared mechanism
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L1848-L1900)).
+  ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1848-L1900)).
 - `PopIIIGWRemnantInference` and `PopIIIGWCutoffComparison` preserve the
   simulation-only provenance, posterior bounds, 5 Hz/10 Hz comparison, and
-  modest-spin limitation ([Pending.lean](../src/signals/Signals/Pending.lean#L1903-L1970)).
+  modest-spin limitation ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1903-L1970)).
 
 No contract in this review promotes a DDF tail to a gravitational-wave medium,
 a fracture emission to Hawking radiation, a Pop III posterior to a Pop III
@@ -158,11 +158,11 @@ The corresponding finite Lean layer is deliberately measurement/model scoped:
 - `FaradayGoldstoneObservation` records pump and threshold fluence, amplitude
   and phase mode amplitudes, nonlinear coupling, beating, pattern residual,
   thermal-noise residual, calibration, and model/experiment agreement
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L472-L536)).
+  ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L472-L536)).
 - `PhotonicTimeCrystalPatternModel` records the $2+1$ dimensionality, periodic
   modulation, Kerr coefficient, transition threshold, broken translation
   symmetries, Goldstone/Higgs-like mode frequencies, pattern residual, and an
-  explicit `modelOnly` premise ([Pending.lean](../src/signals/Signals/Pending.lean#L538-L594)).
+  explicit `modelOnly` premise ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L538-L594)).
 
 These records provide controls for testing light-driven phase and pattern
 formation in N-LIG or related materials. They do not identify a Goldstone-like
@@ -175,10 +175,10 @@ The attached Navier--Stokes/FTLE/SQG chat connects four useful measurement
 layers: acoustic crackle in a stressed vitrimer, density-zero phase-slip cores,
 calibrated I/Q or homodyne quadratures, and Madelung/Euler--Korteweg residuals.
 The source describes these as a unified physical picture
-([fracture and acoustic-crackle proposal](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L741-L748),
-[phase-slip proposal](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L746-L748),
-[homodyne proposal](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L751-L756),
-[Madelung/Euler--Korteweg proposal](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L543)).
+([fracture and acoustic-crackle proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L741-L748),
+[phase-slip proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L746-L748),
+[homodyne proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L751-L756),
+[Madelung/Euler--Korteweg proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L543)).
 
 The evidence boundary is narrower than the summary's unifying language:
 
@@ -199,8 +199,8 @@ The evidence boundary is narrower than the summary's unifying language:
 
 The new finite contracts are `AcousticCrackleObservation`,
 `PhaseSlipCoreObservation`, `EulerKortewegResidualObservation`, and
-`HomodyneQuadratureVarianceObservation` ([Pending.lean](../src/signals/Signals/Pending.lean#L1747-L1818),
-[QHD and homodyne diagnostics](../src/signals/Signals/Pending.lean#L2665-L2765)).
+`HomodyneQuadratureVarianceObservation` ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1747-L1818),
+[QHD and homodyne diagnostics](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2665-L2765)).
 They retain the useful signal-processing and fluid diagnostics while rejecting
 unsupported promotion to a quantum-vacuum measurement.
 
@@ -213,10 +213,10 @@ the fracture-mediated candidate must additionally close receiver, absorption,
 loss, and incident-power channels with cavitation, fracture, thermal, detector,
 and replication controls. The chat's claims of harmless tissue-transparent
 fracture-state wireless power remain speculative and are not supported by the
-ultrasonic engineering discussion ([fracture-state power proposal](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1992-L2032),
-[ultrasonic cavitation processing](../data/chats/IQ-Sampling-for-Signal-Phase.md#L3837-L3844)).
+ultrasonic engineering discussion ([fracture-state power proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1992-L2032),
+[ultrasonic cavitation processing](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L3837-L3844)).
 The finite boundary is `FractureMediatedUltrasonicTransfer`
-([Pending.lean](../src/signals/Signals/Pending.lean#L1728-L1785)).
+([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1728-L1785)).
 
 ## Classical Longitudinal and Structured-Light Methods
 
@@ -267,7 +267,7 @@ polarization-current mechanics are useful for directional beam synthesis and
 MIMO steering; they do not imply Proca emission or faster-than-light signaling.
 
 The finite evidence boundary is `LongitudinalBeamApplicationEvidence` in
-[`Pending.lean`](../src/signals/Signals/Pending.lean#L2277-L2390). It requires
+[`Pending.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2277-L2390). It requires
 longitudinal probe calibration, an aperture-matched control, a
 longitudinal-suppression control, PSF/MTF residuals, side-lobe power, causal
 group and information speeds, absorbed/source-power accounting, replication,
@@ -296,10 +296,10 @@ compressible and incompressible at once:
 
 `MadelungEulerKortewegBridge` fixes the phase convention and quantum-pressure
 coefficient; `NSDDFBridge` records the three regime labels and residual laws
-([Pending.lean](../src/signals/Signals/Pending.lean#L2833-L3000)). `DDF.lean`
+([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L2833-L3000)). `DDF.lean`
 supplies the separate substrate, moving-sheath, and river-flow model laws
-([DDF.lean](../src/signals/Signals/DDF.lean#L35-L255)), while
-[`Signals/HawkingRadiation.lean`](../src/signals/Signals/HawkingRadiation.lean)
+([DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L35-L255)), while
+[`Signals/HawkingRadiation.lean`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/HawkingRadiation.lean)
 and [`grassmannian-hawking-radiation-decoding-paper.md`](grassmannian-hawking-radiation-decoding-paper.md)
 formalize the four-quadrant (`Without/With DDF` $\times$ `Without/With Splats`)
 horizon thermodynamics, Gordon acoustic metric, `iGPE` unwinding, and
@@ -319,7 +319,7 @@ direct pixel image of the event horizon or a ruler placed at $R_s$.
 
 `EHTShadowRingObservation` keeps the observed ring diameter, inferred shadow
 diameter, angular gravitational radius, Schwarzschild reference radius, and
-calibration residual separate ([Pending.lean](../src/signals/Signals/Pending.lean#L3009-L3075)).
+calibration residual separate ([Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L3009-L3075)).
 
 The relevant production methods answer different experimental questions:
 
@@ -349,9 +349,9 @@ The relevant production methods answer different experimental questions:
   {cite:p}`stafeev2024b`).
 
 The chat discussions propose radial vector beams, q-plates, OAM/helical fields,
-and active metamaterial masks ([longitudinal CW chat](../data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md#L96-L173),
-[dielectric nanolaser chat](../data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.md#L40-L100),
-[Airy/structured-beam chat](../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L1-L120)).
+and active metamaterial masks ([longitudinal CW chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.md#L96-L173),
+[dielectric nanolaser chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.md#L40-L100),
+[Airy/structured-beam chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L1-L120)).
 These are hypothesis and apparatus discussions, not evidence for Proca waves.
 
 ## Validation Apparatus and Lower-Power CW Success
@@ -390,7 +390,7 @@ phase-slip cleavage.
 
 ## Sub-Nanometer ($< 1\text{ nm}$) Convergent Nanoimaging, `LIFU`/`AOT`/`TRUE` Sub-Surface Focusing, and `LVPProcaImagingHypothesis` Boundaries
 
-In [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) and the companion paper [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md), we establish the formal boundary between **verified classical sub-surface and sub-nanometer optical/acoustic-optical methods** and **Pending Proca phase-contrast / Flat-Light claims** (`LVPProcaImagingHypothesis`, `MultiModalSubSurfaceImagingHypothesis` in [`Signals.Pending`](../src/signals/Signals/Pending.lean)):
+In [`Signals.MultiArrayImaging`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MultiArrayImaging.lean) and the companion paper [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md), we establish the formal boundary between **verified classical sub-surface and sub-nanometer optical/acoustic-optical methods** and **Pending Proca phase-contrast / Flat-Light claims** (`LVPProcaImagingHypothesis`, `MultiModalSubSurfaceImagingHypothesis` in [`Signals.Pending`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean)):
 
 1. **Verified Sub-Nanometer ($< 1\text{ nm}$) Convergent Longitudinal & Transverse Nanoimaging (`cascadedNanoImagingLinewidthSq`, `homodyneSubNanometerLocalizationSq`)**:
    - Without invoking infinite photon effective mass or Proca fields, combining a $405\text{ nm}$ high-NA radially polarized longitudinal write beam ($E_z = 2 E_0 \sin\theta$) with a coaxial $532\text{ nm}$ helical doughnut STED depletion beam ($\sigma\cdot\ell = +1$, $\zeta_{532} = 63$) compresses the squared spot width from the Abbe limit $(2025/14\text{ nm})^2 \approx (144.64\text{ nm})^2$ down to $(2025/112\text{ nm})^2 \approx (18.08\text{ nm})^2 < (20\text{ nm})^2$ (`stedDepletedLinewidthSq`).
@@ -399,15 +399,15 @@ In [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) 
 2. **Verified Sub-Surface Focusing in Scattering Media via `LIFU`, `AOT`, and `TRUE` Phase Conjugation**:
    - In turbid biological tissue or opaque polymer/vitrimer precursors, classical **Low-Intensity Focused Ultrasound (`LIFU`)** ($f_{\mathrm{US}} = 1.54\text{ MHz}$, $\lambda_{\mathrm{US}} = 1\text{ mm}$, $\mathrm{MI}^2 = 18/77 < 1.9^2$), **Acousto-Optic Tomography (`AOT`)** sideband tagging ($\omega_{\pm 1} = \omega_0 \pm \omega_{\mathrm{US}}$ read out on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ via $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}$), and **Time-Reversed Ultrasonically Encoded (`TRUE`)** optical focusing ($\eta_{\mathrm{TRUE}}(N_{\mathrm{modes}}) = \frac{\pi}{4}(N_{\mathrm{modes}}-1)+1 > 1$, iterative `DORT` variance compression $\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m$) provide a calibrated, non-ionizing sub-surface focusing benchmark {cite:p}`xu2011true`.
 3. **Strict Pending Isolation of `LVPProcaImagingHypothesis`**:
-   - High-$Z$ `LVP` direct-conversion X-ray arrays (`LVPDirectConversionImaging`) provide a verified classical $292/45 \approx 6.49\times$ charge-yield improvement and $16\times$ stopping-efficiency gain over silicon (`directConversionChargeYield`), whereas the chat's proposed $0.1\text{–}0.5\text{ \AA}$ whole-body Proca phase-contrast scanner ([IQ-Sampling-for-Signal-Phase.md, lines 5902–6140](../data/chats/IQ-Sampling-for-Signal-Phase.md#L5902-L6140)) remains isolated inside `LVPProcaImagingHypothesis` and `MultiModalSubSurfaceImagingHypothesis` until massless Maxwell controls (`masslessControlResidual ≤ masslessControlTolerance`), phantom MTF/NPS calibration, and acoustic/thermal safety bounds are experimentally satisfied.
+   - High-$Z$ `LVP` direct-conversion X-ray arrays (`LVPDirectConversionImaging`) provide a verified classical $292/45 \approx 6.49\times$ charge-yield improvement and $16\times$ stopping-efficiency gain over silicon (`directConversionChargeYield`), whereas the chat's proposed $0.1\text{–}0.5\text{ \AA}$ whole-body Proca phase-contrast scanner ([IQ-Sampling-for-Signal-Phase.md, lines 5902–6140](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L5902-L6140)) remains isolated inside `LVPProcaImagingHypothesis` and `MultiModalSubSurfaceImagingHypothesis` until massless Maxwell controls (`masslessControlResidual ≤ masslessControlTolerance`), phantom MTF/NPS calibration, and acoustic/thermal safety bounds are experimentally satisfied.
 
 ## References
 
 ### Chat Provenance
 - <a id="iq_chat2026"></a>**Lignolux Conversational Record 2026**: "IQ-Sampling-for-Signal-Phase." Outlines the Anti-Fire Cannon and Flat Light proposals. Available in `docs/chats/IQ-Sampling-for-Signal-Phase.myst.md`.
-- <a id="navier_stokes_ftle_sqg_chat2026"></a>**Navier--Stokes, FTLE, and SQG**: compressible-fluid, fracture, phase-slip, homodyne, and Madelung/Euler--Korteweg discussion. Source: [`data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md`](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L756).
-- <a id="superfluid_hawking_chat2026"></a>**Superfluid Quantum Gravity and Hawking Radiation**: fracture-state, transformation-toughening, homodyne inverse-transform, and analog-fluid proposals. Source: [`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L46-L74), [`#L241-L265`](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L241-L265).
-- <a id="popiii_gw_chat2026"></a>**Review: Population III GW Remnants**: ET/CE simulation review, DDF tail proposal, and Schur-conditioning discussion. Source: [`data/chats/Review-Pop-III-GW-Remnants.md`](../data/chats/Review-Pop-III-GW-Remnants.md#L43-L83), [`#L398-L570`](../data/chats/Review-Pop-III-GW-Remnants.md#L398-L570).
+- <a id="navier_stokes_ftle_sqg_chat2026"></a>**Navier--Stokes, FTLE, and SQG**: compressible-fluid, fracture, phase-slip, homodyne, and Madelung/Euler--Korteweg discussion. Source: [`data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md`](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L756).
+- <a id="superfluid_hawking_chat2026"></a>**Superfluid Quantum Gravity and Hawking Radiation**: fracture-state, transformation-toughening, homodyne inverse-transform, and analog-fluid proposals. Source: [`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L46-L74), [`#L241-L265`](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L241-L265).
+- <a id="popiii_gw_chat2026"></a>**Review: Population III GW Remnants**: ET/CE simulation review, DDF tail proposal, and Schur-conditioning discussion. Source: [`data/chats/Review-Pop-III-GW-Remnants.md`](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L43-L83), [`#L398-L570`](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L398-L570).
 
 ### Scholarly References
 

@@ -1,9 +1,8 @@
 
 /* leftnavbar.css */
 @media (min-width: 767px) {
-    #content-wrapper, div.footer-relbar, footer {
+    div.footer-relbar, footer {
         position: relative;
-        /* left: 25%; */
         margin-left: 25%;
         width: 75%;
         float: none;
@@ -13,5 +12,209 @@
         position: fixed;
         right: 24px;
         z-index: 1000;
+    }
+}
+
+.theme-sidebar-layout {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+}
+
+.theme-sidebar-layout > #sidebar-wrapper,
+.theme-sidebar-layout > [data-theme-sidebar-position] {
+    position: sticky !important;
+    top: 0;
+    z-index: 30;
+    flex: 0 0 var(--theme-left-sidebar-width, 25%);
+    width: var(--theme-left-sidebar-width, 25%);
+    max-width: var(--theme-left-sidebar-width, 25%);
+    min-width: 0;
+    height: 100vh;
+    max-height: 100vh;
+    margin-top: 0 !important;
+    overflow: visible !important;
+    float: none;
+    box-sizing: border-box;
+}
+
+.theme-sidebar-layout > #content-wrapper {
+    flex: 1 1 0%;
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    float: none;
+}
+
+.theme-sidebar-layout > #sidebar-wrapper[data-theme-sidebar-position="right"],
+.theme-sidebar-layout > [data-theme-sidebar-position="right"] {
+    flex-basis: var(--theme-right-sidebar-width, 25%);
+    width: var(--theme-right-sidebar-width, 25%);
+    max-width: var(--theme-right-sidebar-width, 25%);
+}
+
+.theme-sidebar-layout > #sidebar-wrapper > .sidebar,
+.theme-sidebar-layout > [data-theme-sidebar-position] > .sidebar {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.theme-sidebar-layout > #sidebar-wrapper.theme-sidebar-collapsed,
+.theme-sidebar-layout > [data-theme-sidebar-position].theme-sidebar-collapsed {
+    flex-basis: 32px !important;
+    width: 32px !important;
+    max-width: 32px !important;
+    min-width: 32px;
+    overflow: visible !important;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.theme-sidebar-layout > #sidebar-wrapper.theme-sidebar-collapsed > .sidebar,
+.theme-sidebar-layout > [data-theme-sidebar-position].theme-sidebar-collapsed > .sidebar {
+    display: none;
+}
+
+.theme-sidebar-resize-handle {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    right: -8px;
+    width: 16px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: col-resize;
+    touch-action: none;
+}
+
+[data-theme-sidebar-position="right"] .theme-sidebar-resize-handle {
+    right: auto;
+    left: -8px;
+}
+
+.theme-sidebar-resize-handle::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 7px;
+    width: 2px;
+    background: transparent;
+    content: "";
+}
+
+.theme-sidebar-resize-handle:hover::after,
+.theme-sidebar-resize-handle:focus-visible::after {
+    background: #587080;
+}
+
+[data-theme-sidebar-position="right"] .theme-sidebar-resize-handle::after {
+    right: 7px;
+    left: auto;
+}
+
+.theme-sidebar-collapsed .theme-sidebar-resize-handle {
+    right: 0;
+    left: 0;
+    width: 100%;
+    cursor: pointer;
+}
+
+.theme-sidebar-collapsed .theme-sidebar-resize-handle::after {
+    right: 0;
+    left: 15px;
+}
+
+.theme-settings-menu {
+    position: relative;
+}
+
+.theme-settings-menu > details > summary {
+    display: block;
+    padding: 10px 15px;
+    color: #777;
+    cursor: pointer;
+    list-style: none;
+}
+
+.theme-settings-menu > details > summary::-webkit-details-marker {
+    display: none;
+}
+
+.theme-settings-menu > details > summary:hover,
+.theme-settings-menu > details > summary:focus-visible {
+    color: #333;
+    background: #eee;
+    outline-offset: -2px;
+}
+
+.theme-settings-panel {
+    position: absolute;
+    z-index: 1200;
+    top: 100%;
+    right: 0;
+    min-width: 230px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
+}
+
+.theme-settings-panel button {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    border: 0;
+    background: transparent;
+    color: #333;
+    text-align: left;
+}
+
+.theme-settings-panel button:hover,
+.theme-settings-panel button:focus-visible {
+    background: #f0f3f5;
+    outline-offset: -2px;
+}
+
+@media (max-width: 767px) {
+    .theme-sidebar-layout {
+        display: block;
+    }
+
+    .theme-sidebar-layout > #sidebar-wrapper,
+    .theme-sidebar-layout > [data-theme-sidebar-position] {
+        display: none;
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .theme-sidebar-layout > #sidebar-wrapper.theme-sidebar-mobile-open,
+    .theme-sidebar-layout > [data-theme-sidebar-position].theme-sidebar-mobile-open {
+        display: block;
+    }
+
+    .theme-sidebar-layout > #sidebar-wrapper > .sidebar,
+    .theme-sidebar-layout > [data-theme-sidebar-position] > .sidebar {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .theme-sidebar-resize-handle {
+        display: none;
+    }
+
+    .theme-sidebar-layout > #content-wrapper {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 0;
+        margin-left: 0;
+        float: none;
     }
 }

@@ -11,10 +11,10 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical ben
 - **Subjects:**
   - Materials Science (`cond-mat.mtrl-sci`); Strongly Correlated Electrons (`cond-mat.str-el`); Superconductivity (`cond-mat.supr-con`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Mathematical Physics (`math-ph`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L720-L1005), [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1125-L1330), [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L2045-L2290), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6145-L6275), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7020-L7070), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5555-L5610))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L720-L1005), [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1125-L1330), [../src/signals/Signals/QuantumCausalInference.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCausalInference.lean#L2045-L2290), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6145-L6275), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L7020-L7070), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5555-L5610))
   - Written Plan Document ([tuning-materials-with-light-plan.md](tuning-materials-with-light-plan.md))
   - Python / SymPy / NumPy Engine & Benchmark Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L2200-L2460), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L540-L620))
-  - `signals-numerical-adapter` Rust Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L380-L570))
+  - `signals-numerical-adapter` Rust Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L380-L570))
 - **Companion Papers:**
   - [Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (`QCI-GXC`), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and `def2-QZVP` `WTMAD-2` / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)
   - [Complex Grassmannian Plabic Vector-Relation Configurations (`VRC`), Quantum Causal Inference Kohn–Sham Density Functional Theory (`QCI-GXC`), Riemannian Cayley Optimization, and Topological Multi-Qudit Compilers in Lean 4, SymPy, and Rust](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
@@ -92,7 +92,7 @@ $$
 = \int_{t_0}^{t} d\bar{t}\,\Bigl(\Sigma_\sigma^{\mathrm{R}}(t, \bar{t})\,G_\sigma^{\lessgtr}(\bar{t}, t') + \Sigma_\sigma^{\lessgtr}(t, \bar{t})\,G_\sigma^{\mathrm{A}}(\bar{t}, t')\Bigr),
 $$
 
-where $\Sigma_\sigma = \Sigma_{\sigma}^{\mathrm{e\text{-}e}} + \Sigma_{\sigma}^{\mathrm{e\text{-}ph}}$. Because evaluating the history integral at every pair $(t_m, t_n)$ on an $N_t \times N_t$ two-time grid requires $O(N_t)$ operations per grid point, the total computational cost scales as (`twoTimeKBEFlops` in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L728-L734)):
+where $\Sigma_\sigma = \Sigma_{\sigma}^{\mathrm{e\text{-}e}} + \Sigma_{\sigma}^{\mathrm{e\text{-}ph}}$. Because evaluating the history integral at every pair $(t_m, t_n)$ on an $N_t \times N_t$ two-time grid requires $O(N_t)$ operations per grid point, the total computational cost scales as (`twoTimeKBEFlops` in [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L728-L734)):
 
 $$
 C_{\mathrm{KBE}}(N_t, N_{\mathrm{basis}}) = N_t^3 \, N_{\mathrm{basis}}^3.
@@ -135,7 +135,7 @@ Our method—**Time-Linear Grassmannian GKBA (`G-GKBA`)**—eliminates the $O(N_
 
 ### 2.2 Machine-Checked Proof of the $N_t^2 (N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = 1.44 \times 10^8\times$ Bare and $1.44 \times 10^7\times$ Cumulant-Inclusive `G-GKBA` Speedups
 
-In [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L728-L1275), we formalize both the bare occupied-subspace Cayley complexity (`twoTimeKBEFlops`, `timeLinearGrassmannGKBAFlops`, `grassmannGKBASpeedupRatio`):
+In [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L728-L1275), we formalize both the bare occupied-subspace Cayley complexity (`twoTimeKBEFlops`, `timeLinearGrassmannGKBAFlops`, `grassmannGKBASpeedupRatio`):
 
 $$
 \operatorname{grassmannGKBASpeedupRatio}(N_t, N_{\mathrm{occ}}, N_{\mathrm{basis}})
@@ -169,13 +169,13 @@ $$
 The complete `G-GKBA` light–matter solver is implemented across three synchronized layers:
 
 1. **Lean 4 Formal Verification Layer**:
-   - Module: [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L720-L1005) (Section 13) and [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6145-L6275) (Section 32).
+   - Module: [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L720-L1005) (Section 13) and [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6145-L6275) (Section 32).
    - Run verification:
      ```bash
      cd src/signals && lake build Signals SignalsTests SignalsPending SignalsPendingTests
      ```
 2. **Rust High-Performance & WASM Layer (`signals-numerical-adapter`)**:
-   - Module: [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L380-L570).
+   - Module: [../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L380-L570).
    - Run unit tests:
      ```bash
      cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml dft_plabic_vrc
@@ -319,7 +319,7 @@ In Katsumi et al. {cite}`katsumi2025mgb2`, two-band superconducting $\mathrm{MgB
    - At $U/J \to 0$, `hubbardCorrelatedDoubleOccupancy` recovers the exact uncorrelated fermion product $n_\uparrow n_\downarrow = 1/4$.
    - At $n_s^{\mathrm{driven}} \to n_s^{\mathrm{eq}}$ (weak THz field), $\sigma(\omega)$ in $\mathrm{MgB}_2$ recovers the equilibrium London/Mattis–Bardeen response.
 2. **Evidentiary Boundary (`Signals.Pending.LightDrivenMaterialsPendingHypothesis`)**:
-   - In accordance with repository evidence rules ([chat-physics-catalog.md](chat-physics-catalog.md)), `LightDrivenMaterialsPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6145-L6275) (`SignalsPending.light_driven_materials_gkba_and_four_target_bounds`) separates the machine-checked `G-GKBA` scaling and reproduction equations from full Brillouin-zone $GW\text{-}\mathrm{BSE}$ / DFPT matrix-element integration and experimental trARPES, UEDS, and THz-TDS calibration.
+   - In accordance with repository evidence rules ([chat-physics-catalog.md](chat-physics-catalog.md)), `LightDrivenMaterialsPendingHypothesis` in [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6145-L6275) (`SignalsPending.light_driven_materials_gkba_and_four_target_bounds`) separates the machine-checked `G-GKBA` scaling and reproduction equations from full Brillouin-zone $GW\text{-}\mathrm{BSE}$ / DFPT matrix-element integration and experimental trARPES, UEDS, and THz-TDS calibration.
 
 ---
 

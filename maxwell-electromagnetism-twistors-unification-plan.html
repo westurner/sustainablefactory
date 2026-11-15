@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Maxwell Electromagnetic Theory, Twistors, Longitudinal \(E_z\) &amp; OAM Tubular Solitons, and Multi-Model Gravity/Electron Unification in Lean 4 and Rust &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Maxwell Electromagnetic Theory, Twistors, Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span> &amp; OAM Tubular Solitons, and Multi-Model Gravity/Electron Unification in Lean 4 and Rust</a><ul>
+<li><a class="reference internal" href="#objectives-architectural-scope">1. Objectives &amp; Architectural Scope</a></li>
+<li><a class="reference internal" href="#implementation-validation-checklist">2. Implementation &amp; Validation Checklist</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/maxwell-electromagnetism-twistors-unification-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Maxwell Electromagnetic Theory, Twistors, Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span> &amp; OAM Tubular Solitons, and Multi-Model Gravity/Electron Unification in Lean 4 and Rust</a><ul>
+<li><a class="reference internal" href="#objectives-architectural-scope">1. Objectives &amp; Architectural Scope</a></li>
+<li><a class="reference internal" href="#implementation-validation-checklist">2. Implementation &amp; Validation Checklist</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/maxwell-electromagnetism-twistors-unification-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-maxwell-electromagnetic-theory-twistors-longitudinal-e-z-oam-tubular-solitons-and-multi-model-gravity-electron-unification-in-lean-4-and-rust">
+<span id="maxwell-electromagnetism-twistors-unification-plan"></span><h1>Written Plan: Maxwell Electromagnetic Theory, Twistors, Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span> &amp; OAM Tubular Solitons, and Multi-Model Gravity/Electron Unification in Lean 4 and Rust<a class="headerlink" href="#written-plan-maxwell-electromagnetic-theory-twistors-longitudinal-e-z-oam-tubular-solitons-and-multi-model-gravity-electron-unification-in-lean-4-and-rust" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Companion Paper</strong>: <a class="reference internal" href="grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.html"><span class="std std-doc">grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md</span></a></p></li>
+<li><p><strong>Related Unification &amp; Metrology Papers</strong>:</p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">grassmannian-unification-applications-roadmap-paper.md</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.html"><span class="std std-doc">grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.html"><span class="std std-doc">grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">grassmannian-polariton-spp-mechanics-paper.md</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Verification &amp; Simulation Artifacts</strong>:</p>
+<ul>
+<li><p>Lean 4: <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DFT.lean,</span> <span class="pre">lines</span> <span class="pre">7935–10189</span></code></a>, <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean,</span> <span class="pre">lines</span> <span class="pre">8652–9154</span></code></a>, <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPending.lean,</span> <span class="pre">lines</span> <span class="pre">2036–2436</span></code></a>, <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean,</span> <span class="pre">lines</span> <span class="pre">8425–8769</span></code></a>, <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean,</span> <span class="pre">lines</span> <span class="pre">6985–7337</span></code></a></p></li>
+<li><p>Rust/WASM: <a class="reference download internal" download="" href="_downloads/de7ac817f1c5d824ed4f16506cfe4729/dft_plabic_vrc.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/dft_plabic_vrc.rs,</span> <span class="pre">lines</span> <span class="pre">2159–2938</span> <span class="pre">and</span> <span class="pre">3970–4357</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="objectives-architectural-scope">
+<h2>1. Objectives &amp; Architectural Scope<a class="headerlink" href="#objectives-architectural-scope" title="Link to this heading">¶</a></h2>
+<p>This plan structures the formal verification (Lean 4), numerical simulation (Rust/WASM), and arXiv-ready MyST documentation for unifying <strong>Maxwell’s electromagnetic theory</strong> across its four historical/geometric representations and across all gravity, electron, dense-matter, quasiparticle, wormhole/fracture, soft-photon, and quantum-information-geometric models in the <code class="docutils literal notranslate"><span class="pre">Signals</span></code> architecture:</p>
+<ol class="arabic simple">
+<li><p><strong>Layer 1 — Historical &amp; Geometric Formulations of Maxwell EM (Paper Sec. 1; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sec. 26)</strong>:</p>
+<ul class="simple">
+<li><p>Review Maxwell’s original pre-tensor component &amp; quaternion formulation (<code class="docutils literal notranslate"><span class="pre">maxwellOriginal1865EquationCount</span> <span class="pre">=</span> <span class="pre">20</span></code>, <span class="math notranslate nohighlight">\(\nabla\mathbf{F} = -\nabla\cdot\mathbf{F} + \nabla\times\mathbf{F}\)</span>, <code class="docutils literal notranslate"><span class="pre">maxwellQuaternionNablaNormSq</span></code>).</p></li>
+<li><p>Analyze the modern Heaviside–Gibbs 3-vector formulation (<code class="docutils literal notranslate"><span class="pre">heavisideGibbsVectorEquationCount</span> <span class="pre">=</span> <span class="pre">4</span></code>) and prove its structural limitations: Euler coordinate/polarization <strong>gimbal lock</strong> at <span class="math notranslate nohighlight">\(\theta_{\mathrm{pitch}} = \pm\pi/2\)</span> (<code class="docutils literal notranslate"><span class="pre">eulerKinematicJacobianDet</span> <span class="pre">(Real.pi</span> <span class="pre">/</span> <span class="pre">2)</span> <span class="pre">=</span> <span class="pre">0</span></code>, contrasted with non-singular spinor/quaternion norm <code class="docutils literal notranslate"><span class="pre">unitQuaternionNormSq</span> <span class="pre">=</span> <span class="pre">1</span></code>), Aharonov–Bohm potential erasure, and <span class="math notranslate nohighlight">\(100\%\)</span> paraxial 2D Jones error on focal <span class="math notranslate nohighlight">\(E_z\)</span>.</p></li>
+<li><p>Review Maxwell’s stress tensor and Minkowski’s relativistic 2-form (<code class="docutils literal notranslate"><span class="pre">minkowskiTensorEquationCount</span> <span class="pre">=</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">maxwellLorentzInvariantLagrange</span></code>, <code class="docutils literal notranslate"><span class="pre">maxwellLorentzInvariantPontryagin</span></code>, and 4D conformal tracelessness <code class="docutils literal notranslate"><span class="pre">maxwellStressEnergyTraceInDim</span> <span class="pre">4</span> <span class="pre">f_contract</span> <span class="pre">=</span> <span class="pre">0</span></code>).</p></li>
+<li><p>Formulate Penrose’s massless spinor/twistor theory (<code class="docutils literal notranslate"><span class="pre">penroseTwistorSpinorEquationCount</span> <span class="pre">=</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">maxwellSpinorNullDeterminant</span></code>) on <span class="math notranslate nohighlight">\(\mathbb{CP}^3 = \mathrm{Gr}_{\mathbb{C}}(1,4)\)</span> and its Plücker lift to <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Layer 2 — Longitudinal Waves (<span class="math notranslate nohighlight">\(E_z\)</span>), <code class="docutils literal notranslate"><span class="pre">OAM</span></code>, and Hollow-Core Tubular Solitons (Paper Sec. 2; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Secs. 26 &amp; 26.1)</strong>:</p>
+<ul class="simple">
+<li><p>Prove 3D Fourier Gauss orthogonality <span class="math notranslate nohighlight">\(E_z = -(k_x E_x + k_y E_y)/k_z\)</span> (<code class="docutils literal notranslate"><span class="pre">maxwellGaussLongitudinalEz</span></code>), Debye–Wolf counter-polarization <span class="math notranslate nohighlight">\(E_z = 2 E_0 \sin\theta\)</span>, high-NA <code class="docutils literal notranslate"><span class="pre">SAM</span></code> <span class="math notranslate nohighlight">\(\to\)</span> <code class="docutils literal notranslate"><span class="pre">OAM</span></code> conversion <span class="math notranslate nohighlight">\(\ell_z = \ell_{\mathrm{in}} + \sigma_{\mathrm{SAM}}\)</span> (<code class="docutils literal notranslate"><span class="pre">samToOamLongitudinalTopologicalCharge</span></code>), ENZ <span class="math notranslate nohighlight">\(100\times\text{–}400\times\)</span> boundary amplification, and gapped Proca/Kähler longitudinal polarization <span class="math notranslate nohighlight">\(e_L^z = \omega / m_{\mathrm{eff}}\)</span> (<code class="docutils literal notranslate"><span class="pre">procaLongitudinalPolarizationZ</span></code>).</p></li>
+<li><p>Prove why twistors (Robinson congruences and two-twistor <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span> Plücker states) outperform 3-vector and scalar Madelung models for <strong>tubular OAM solitons</strong>: hollow ring radius squared <span class="math notranslate nohighlight">\(r_{\mathrm{ring}}^2 = w_0^2|\ell|/2\)</span> (<code class="docutils literal notranslate"><span class="pre">tubularSolitonRingRadiusSq</span></code>), radial self-trapping (<code class="docutils literal notranslate"><span class="pre">tubularSolitonRadialEquilibriumResidual</span></code>), nonlocal suppression of azimuthal breakup (<code class="docutils literal notranslate"><span class="pre">nonlocalStabilizedAzimuthalMiGain</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>), Abraham–Minkowski product invariance <span class="math notranslate nohighlight">\(p_{\mathrm{Abr}}p_{\mathrm{Mink}} = p_0^2\)</span>, Gouy mode order <span class="math notranslate nohighlight">\(2p + |\ell| + 1\)</span>, and dark-core regularization (<code class="docutils literal notranslate"><span class="pre">pluckerRegularizedVortexCoreNormSq</span> <span class="pre">≥</span> <span class="pre">1</span></code> vs. <span class="math notranslate nohighlight">\(1/r^2\)</span> <code class="docutils literal notranslate"><span class="pre">scalarBohmVortexCoreDivergence</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Layer 3 — Multi-Model EM Wave Dictionary Across All Gravity &amp; Electron Models (Paper Sec. 3; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Secs. 26, 27.3, 27.4, &amp; 28)</strong>:</p>
+<ul class="simple">
+<li><p>Provide a master navigation table linking directly to dedicated subsections (<code class="docutils literal notranslate"><span class="pre">Sec.</span> <span class="pre">3.1</span></code>–<code class="docutils literal notranslate"><span class="pre">Sec.</span> <span class="pre">3.8</span></code>) with explicit Lean 4 and Rust links for:</p>
+<ul>
+<li><p><strong>Sec. 3.1</strong>: Classical Baselines — Einstein GR (<span class="math notranslate nohighlight">\(\gamma_{\mathrm{PPN}}=1\)</span>), Newtonian / Un-Doubled Spin-1 Vector (<span class="math notranslate nohighlight">\(\gamma_{\mathrm{PPN}}=0\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}}=50\%\)</span>), &amp; Nordström Spin-0 Scalar (<span class="math notranslate nohighlight">\(\gamma_{\mathrm{PPN}}=-1\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}}=100\%\)</span> via <span class="math notranslate nohighlight">\(T^\mu{}_\mu = 0\)</span>).</p></li>
+<li><p><strong>Sec. 3.2</strong>: QED &amp; Gauge Scattering (<code class="docutils literal notranslate"><span class="pre">BCJ</span></code> Double Copy, 1-Loop Euler–Heisenberg Vacuum Birefringence <code class="docutils literal notranslate"><span class="pre">qedEulerHeisenbergRefractiveShift</span></code>, &amp; Partanen–Tulkki <span class="math notranslate nohighlight">\(\mathrm{U}(1)^4\)</span> QFT).</p></li>
+<li><p><strong>Sec. 3.3</strong>: Witten (2004) Twistor String (<span class="math notranslate nohighlight">\(1/q^4\)</span> Conformal Weyl Ghost) vs. Cachazo Program (<code class="docutils literal notranslate"><span class="pre">CSW</span></code> / <code class="docutils literal notranslate"><span class="pre">BCFW</span></code> / <code class="docutils literal notranslate"><span class="pre">Cachazo–Skinner</span></code> Infinity Twistor <span class="math notranslate nohighlight">\(\pi_I=1\)</span> / <code class="docutils literal notranslate"><span class="pre">CHY</span></code> <span class="math notranslate nohighlight">\((n-3)!\)</span> Worldsheet Roots).</p></li>
+<li><p><strong>Sec. 3.4</strong>: Superfluid Quantum Gravity &amp; Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">SQG/DDF</span></code>: <span class="math notranslate nohighlight">\(c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}\)</span>, <code class="docutils literal notranslate"><span class="pre">ddfRefractiveLightDeflection</span></code>, and Active Laser-Deflection Null <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span> in <code class="docutils literal notranslate"><span class="pre">activePhotonBeamDeflection</span></code>).</p></li>
+<li><p><strong>Sec. 3.5</strong>: Turner Model 6 — Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Madelung &amp; Dual-Grassmannian <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> Wave/OAM Superposition (<code class="docutils literal notranslate"><span class="pre">pluckerMadelungSuperpositionOAMDoubleSlit</span></code>).</p></li>
+<li><p><strong>Sec. 3.6</strong>: Turner Model 12 — Flat-Space <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> <code class="docutils literal notranslate"><span class="pre">BCJ</span></code> Double Copy + 2D/3D Tensor Splats Without DDF (<code class="docutils literal notranslate"><span class="pre">turnerGr24QEDLightDeflection</span></code>).</p></li>
+<li><p><strong>Sec. 3.7</strong>: Turner Model 13 — Unified <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> + Conservative DDF + 3D <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat3D</span></code> (<code class="docutils literal notranslate"><span class="pre">turnerGr24DDFLightDeflection</span></code>).</p></li>
+<li><p><strong>Sec. 3.8</strong>: Turner Models 14a (Without DDF) &amp; 14b (With DDF) — Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Fubini–Study Kähler <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> (<code class="docutils literal notranslate"><span class="pre">turnerPluckerKahlerLightDeflection</span></code>, <code class="docutils literal notranslate"><span class="pre">turnerDualGr24IGPEDDFLightDeflection</span></code>, and Heaviside–Larmor duality norm <code class="docutils literal notranslate"><span class="pre">electricMagneticDualityNormSq</span></code>).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Layer 4 — Vacuum Maxwell vs. Dense Media (<code class="docutils literal notranslate"><span class="pre">DFT</span></code> Electron Density &amp; Complex <code class="docutils literal notranslate"><span class="pre">VRC</span></code>) vs. <code class="docutils literal notranslate"><span class="pre">SQG/DDF</span></code> Pressure Differences (Paper Sec. 4; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Sec. 26.2)</strong>:</p>
+<ul class="simple">
+<li><p>Contrast Maxwell’s idealized empty vacuum (<span class="math notranslate nohighlight">\(\rho_e = 0, \Delta P = 0\)</span>) with:</p>
+<ul>
+<li><p><strong>Atmosphere, Plasma, &amp; Condensed Matter (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Kohn–Sham <code class="docutils literal notranslate"><span class="pre">DFT</span></code>, <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>, &amp; Complex Plabic <code class="docutils literal notranslate"><span class="pre">VRC</span></code>s)</strong>: Wave propagation governed by <strong>electron density <span class="math notranslate nohighlight">\(\rho_e(\mathbf{r})\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">dftElectronDensityPermittivity</span></code>) on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M)\times\mathrm{Gr}_{\mathbb{C}}(N_\beta, M)\)</span> and pole-free homogeneous Vector-Relation Configurations <span class="math notranslate nohighlight">\((V, K)\)</span> (<span class="math notranslate nohighlight">\(V K^\top = 0\)</span>) across <span class="math notranslate nohighlight">\(x_X = -1\)</span>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SQG/DDF</span></code> Substrate</strong>: No complete vacuum exists (<span class="math notranslate nohighlight">\(\rho_0 &gt; 0\)</span> everywhere)—only <strong>differences in superfluid pressure</strong> <span class="math notranslate nohighlight">\(\Delta P = P_{\mathrm{ambient}} - P_{\mathrm{local}}\)</span> (<code class="docutils literal notranslate"><span class="pre">ddfPressureDifferenceEnthalpy</span></code>, <code class="docutils literal notranslate"><span class="pre">ddfPressureGradientRefractiveIndex</span></code>).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Layer 5 — Polaritons, Plasmons, Photons, &amp; Electrons on <span class="math notranslate nohighlight">\(\mathrm{SU}(4)\)</span> Lower Grassmannians (Paper Sec. 5; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Secs. 12, 20, &amp; 26.2)</strong>:</p>
+<ul class="simple">
+<li><p>Classify spin, statistics, dispersion, application domains, and exact <span class="math notranslate nohighlight">\(\mathrm{SU}(4)\)</span> (<span class="math notranslate nohighlight">\(\dim_{\mathbb{R}} = 15\)</span>) lower Grassmannians <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(1,2)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(1,3)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(1,4)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,5)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span>, and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,10)\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Layer 6 — Multi-Path <span class="math notranslate nohighlight">\(\mathrm{ER}=\mathrm{EPR}\)</span> Methods <span class="math notranslate nohighlight">\(M_1\)</span>, <span class="math notranslate nohighlight">\(M_2\)</span>, and <span class="math notranslate nohighlight">\(M_3\)</span> (Paper Sec. 6; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Secs. 25.2 &amp; 26.2)</strong>:</p>
+<ul class="simple">
+<li><p>Synthesize <span class="math notranslate nohighlight">\(M_1\)</span> (photons around the wormhole), <span class="math notranslate nohighlight">\(M_2\)</span> (modes through a contiguous <span class="math notranslate nohighlight">\(\mathrm{De} &gt; 1\)</span> DDF fracture waveguide around the wormhole, <span class="math notranslate nohighlight">\(&gt;9{,}800\times\)</span> gain), and <span class="math notranslate nohighlight">\(M_3\)</span> (Semi-Dirac fermions and <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> soft photons through the wormhole throat), plus their composite transceivers (<code class="docutils literal notranslate"><span class="pre">triModalAgcDualKeyedErEprRxProbability</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Layer 7 — Soft Photons &amp; <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>-Conjugated Soft Photons Across Every EM Model (Paper Sec. 7; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Secs. 23.3, 26.2, &amp; 28)</strong>:</p>
+<ul class="simple">
+<li><p>Formalize Weinberg’s <span class="math notranslate nohighlight">\(O(\omega^{-1})\)</span> eikonal factor (<code class="docutils literal notranslate"><span class="pre">weinbergSoftPhotonFactor</span></code>), two-leg Ward gauge invariance (<code class="docutils literal notranslate"><span class="pre">softPhotonTwoLegWardResidual</span> <span class="pre">=</span> <span class="pre">0</span></code>), Low–Cachazo–Strominger <span class="math notranslate nohighlight">\(O(\omega^0)\)</span> angular-momentum subleading soft theorem (<code class="docutils literal notranslate"><span class="pre">lowCachazoStromingerSoftPhotonAmplitude</span></code>), Celestial <code class="docutils literal notranslate"><span class="pre">(h,</span> <span class="pre">\bar{h})</span> <span class="pre">=</span> <span class="pre">(1,</span> <span class="pre">0)</span></code> currents, and <span class="math notranslate nohighlight">\(M_3^\gamma\)</span> <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>-conjugated soft-photon <span class="math notranslate nohighlight">\(&gt;90\%\)</span> sub-wavelength wormhole coupling without Raychaudhuri throat collapse across every EM model.</p></li>
+</ul>
+</li>
+<li><p><strong>Layer 8 — Quantum Fisher Information Metric (<code class="docutils literal notranslate"><span class="pre">QFIM</span></code>) <span class="math notranslate nohighlight">\(= 4\times\)</span> Fubini–Study Kähler Metric (Paper Sec. 8; <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Secs. 27 &amp; 27.5)</strong>:</p>
+<ul class="simple">
+<li><p>Connect <span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span> (<code class="docutils literal notranslate"><span class="pre">qfimDiag_eq_four_mul_fubiniStudyDiag</span></code>, <code class="docutils literal notranslate"><span class="pre">totalGpeKinetic3D_eq_madelung_qfim_trace</span></code>, <code class="docutils literal notranslate"><span class="pre">qfim_simplex_phase_variance_split</span></code>) directly to Poincaré-sphere gimbal-lock elimination (<code class="docutils literal notranslate"><span class="pre">poincareSphereQfimTheta</span> <span class="pre">=</span> <span class="pre">1</span></code>), 3D vectorial <span class="math notranslate nohighlight">\(E_z\)</span> Fisher gain (<code class="docutils literal notranslate"><span class="pre">vectorialEzThreeChannelFisher</span></code>), <span class="math notranslate nohighlight">\(4\ell^2\)</span> OAM super-resolution (<code class="docutils literal notranslate"><span class="pre">oamSuperpositionQfimPhi</span></code>), multi-mode <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> soft-photon QFIM scaling (<code class="docutils literal notranslate"><span class="pre">trueConjugatedSoftPhotonQfimGain</span></code>), and 1PN orbital-QFIM light deflection.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="implementation-validation-checklist">
+<h2>2. Implementation &amp; Validation Checklist<a class="headerlink" href="#implementation-validation-checklist" title="Link to this heading">¶</a></h2>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"><strong>Step 1 (Lean 4 Formalization &amp; Pending Contracts)</strong>:</p>
+<ul>
+<li><p>Sections 26, 26.1, 26.2, 27.5, and 28 implemented and proved without <code class="docutils literal notranslate"><span class="pre">sorry</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> (<code class="docutils literal notranslate"><span class="pre">src/signals/Signals/DFT.lean</span></code>), paired with <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code> Pending boundary theorems in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> / <code class="docutils literal notranslate"><span class="pre">SignalsPending</span></code> and regression examples in <code class="docutils literal notranslate"><span class="pre">SignalsTests</span></code> / <code class="docutils literal notranslate"><span class="pre">SignalsPendingTests</span></code> (<code class="docutils literal notranslate"><span class="pre">3,628</span></code> Lake jobs passing).</p></li>
+</ul>
+</li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"><strong>Step 2 (Rust/WASM Implementation &amp; Unit Tests)</strong>:</p>
+<ul>
+<li><p>All Section 26–28 evaluators and numerical check-figure assertions implemented in <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/dft_plabic_vrc.rs</span></code> (<code class="docutils literal notranslate"><span class="pre">98</span></code> crate tests passing).</p></li>
+</ul>
+</li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"><strong>Step 3 (Complete MyST Paper &amp; Cross-Document Integration)</strong>:</p>
+<ul>
+<li><p>Complete Sections 3–9, Scholarly References, BibTeX, and <a class="reference external" href="http://Schema.org">Schema.org</a> JSON-LD in <a class="reference internal" href="grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.html"><span class="std std-doc">grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md</span></a>.</p></li>
+<li><p>Register both the plan and paper in <a class="reference download internal" download="" href="_downloads/056806de8da745a0c59599887088495d/_toc.yml"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code></span></a>, <a class="reference internal" href="plan-index.html"><span class="std std-doc">plan-index.md</span></a>, and <a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">grassmannian-unification-applications-roadmap-paper.md</span></a>.</p></li>
+</ul>
+</li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"><strong>Step 4 (MyST Math/Table Hygiene, Sphinx HTML Build, &amp; Browser Inspection)</strong>:</p>
+<ul>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">tools/fix_markdown_table_math_pipes.py</span></code> and <code class="docutils literal notranslate"><span class="pre">tools/fix_markdown_display_math_spacing.py</span></code> with reports in <code class="docutils literal notranslate"><span class="pre">.tmp/</span></code>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">tests/test_markdown_display_math_spacing.py</span> <span class="pre">tests/test_markdown_table_math_pipes.py</span></code>, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">docs</span> <span class="pre">html</span> <span class="pre">&gt;</span> <span class="pre">.tmp/docs-html.log</span> <span class="pre">2&gt;&amp;1</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code>, and inspect the rendered HTML page in the integrated browser for MathJax rendering and zero <code class="docutils literal notranslate"><span class="pre">mjx-merror</span></code> / <code class="docutils literal notranslate"><span class="pre">myst.xref_missing</span></code> issues.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

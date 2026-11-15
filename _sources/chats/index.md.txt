@@ -11,7 +11,7 @@
 *.myst
 ```
 
-- {ref}`tables_and_figures.md`
+- [Tables and figures](https://github.com/westurner/sustainablefactory/blob/main/docs/tables_and_figures.md)
 
 
 ```{note}

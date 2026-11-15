@@ -40,10 +40,10 @@ architecture discussed in
 {download}`Twistors-and-Positive-Grassmannian-Interference.md, lines 279-4019 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`
 and formalized in
 {download}`Twistors-and-Positive-Grassmannian-Interference.md.lean, lines 1-851 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md.lean>`
-to its verified mathematical nodes in [MHD.lean](../src/signals/Signals/MHD.lean)
-and [DDF.lean](../src/signals/Signals/DDF.lean) and its conditional boundary
-contracts in [Pending.lean](../src/signals/Signals/Pending.lean) and
-[SignalsPending.lean](../src/signals/SignalsPending.lean).
+to its verified mathematical nodes in [MHD.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean)
+and [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean) and its conditional boundary
+contracts in [Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean) and
+[SignalsPending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPending.lean).
 
 ### Comparative Architecture Matrix
 
@@ -51,9 +51,9 @@ contracts in [Pending.lean](../src/signals/Signals/Pending.lean) and
 |---|---|---|---|---|
 | **1. Neon Glow-Discharge Lamp** | Baseline thermal plasma consumer | Low-pressure $\text{Ne}$ gas; stochastic Townsend discharge | Cost $\$10\text{--}\$50$; $F=0\text{ N}$ isotropic ($0.33\,\mu\text{N}$ if $100\text{ W}$ collimated, $I_{sp}\approx 3.05\times 10^7\text{ s}$); $\eta_{\text{prop}}=0\%$ | Isotropic photon momentum cancels identically; $80\%$ thermal / $20\%$ radiative loss with no coherent wave amplification. |
 | **2. Cathode Ray Tube (CRT)** | Ballistic electron-beam benchmark | Hard vacuum; thermionic cathode + $20\text{ kV}$ anode + magnetic steering | Cost $\$100\text{--}\$500$; $F\approx 0.47\,\mu\text{N}$ at $1\text{ mA}$ ($v_e\approx 8.4\times 10^7\text{ m/s}$, $I_{sp}\approx 8.5\times 10^6\text{ s}$); $\eta_{\text{prop}}<0.001\%$ | Governed by `def:signals-magnetic-lorentz-force` and `thm:signals-magnetic-lorentz-work-free`. Unneutralized electron exhaust charges the hull positively, pulling the beam back. |
-| **3. Argon MHD Wakefield Plant & Pulsed Thruster** | Multi-GW pulsed electricity generator & Earth-to-orbit thruster | Magnetized Argon plasma ($n_e\sim 10^{18}\text{ cm}^{-3}$); Fabry-Pérot Langmuir cavity + bump-on-tail $e^-$ beam + Halbach/B-LIG extraction | Cost $\$10\text{M--}\$100\text{M}+$; $I_{sp}\approx 3.05\times 10^7\text{ s}$; continuous $\sim 2\text{ N/GW}$ vs. pulsed $F_{\text{peak}}\sim 20\text{--}3300\text{ N}$; $1\text{ TW}$ peak electrical pulse stepped to $1.2\text{ MV}$ | Verified dispersion/Landau/ponderomotive/Halbach laws in [MHD.lean](../src/signals/Signals/MHD.lean); bounded by `def:signals-pulsed-wakefield-halbach`, `lem:signals-extracted-pulse-energy-le-dawson`, and `lem:signals-pulsed-wakefield-avg-thrust-le-peak`. |
-| **4. Deborah-Number Shear-Fracture (DDF) Thruster & Siphon** | Proposed propellantless vacuum thruster & vortex-annealing generator | Two-component Dilatant Dark Fluid (`DDFSubstrate`); acoustic shear above Landau critical speed $v_c=c_s$ | Cost $\$1\text{B}+$; claimed $F\sim 10^3\text{--}10^5\text{ N}$, $I_{sp}=\infty$ (propellantless) | Madelung circulation and Bogoliubov threshold in [DDF.lean](../src/signals/Signals/DDF.lean); constrained by `def:signals-ddf-phase-slip-hull-stress` and `lem:signals-ddf-zero-drive-zero-thrust` (supercritical vortex shedding is drag without external drive power $P_{\text{drive}}\ge F v$). |
-| **5. $\text{D-He3}$ Aneutronic Reactor & AMB Centrifugal Spool** | Deep-space direct-conversion power plant, cryo-cooler, & attitude control | Aneutronic $\text{D-He3}$ fusion plasma + supercritical $\text{He-3}$ spool on 5-axis $\text{MgB}_2$ AMBs | Direct proton/alpha Halbach capture; $\sim 39\text{ K}$ $\text{MgB}_2$ stator coils; $H_\infty$ active damping; proposed solid-$\text{He-3}$ labyrinth seal | Centrifugal head, thermosyphon buoyancy, and gyroscopic torque in [MHD.lean](../src/signals/Signals/MHD.lean); phase limits enforced by `def:signals-cryogenic-spool-amb`, `lem:signals-he3-supercritical-at-39k`, and `lem:signals-he3-no-solid-seal-below-3-4-mpa`. |
+| **3. Argon MHD Wakefield Plant & Pulsed Thruster** | Multi-GW pulsed electricity generator & Earth-to-orbit thruster | Magnetized Argon plasma ($n_e\sim 10^{18}\text{ cm}^{-3}$); Fabry-Pérot Langmuir cavity + bump-on-tail $e^-$ beam + Halbach/B-LIG extraction | Cost $\$10\text{M--}\$100\text{M}+$; $I_{sp}\approx 3.05\times 10^7\text{ s}$; continuous $\sim 2\text{ N/GW}$ vs. pulsed $F_{\text{peak}}\sim 20\text{--}3300\text{ N}$; $1\text{ TW}$ peak electrical pulse stepped to $1.2\text{ MV}$ | Verified dispersion/Landau/ponderomotive/Halbach laws in [MHD.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean); bounded by `def:signals-pulsed-wakefield-halbach`, `lem:signals-extracted-pulse-energy-le-dawson`, and `lem:signals-pulsed-wakefield-avg-thrust-le-peak`. |
+| **4. Deborah-Number Shear-Fracture (DDF) Thruster & Siphon** | Proposed propellantless vacuum thruster & vortex-annealing generator | Two-component Dilatant Dark Fluid (`DDFSubstrate`); acoustic shear above Landau critical speed $v_c=c_s$ | Cost $\$1\text{B}+$; claimed $F\sim 10^3\text{--}10^5\text{ N}$, $I_{sp}=\infty$ (propellantless) | Madelung circulation and Bogoliubov threshold in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean); constrained by `def:signals-ddf-phase-slip-hull-stress` and `lem:signals-ddf-zero-drive-zero-thrust` (supercritical vortex shedding is drag without external drive power $P_{\text{drive}}\ge F v$). |
+| **5. $\text{D-He3}$ Aneutronic Reactor & AMB Centrifugal Spool** | Deep-space direct-conversion power plant, cryo-cooler, & attitude control | Aneutronic $\text{D-He3}$ fusion plasma + supercritical $\text{He-3}$ spool on 5-axis $\text{MgB}_2$ AMBs | Direct proton/alpha Halbach capture; $\sim 39\text{ K}$ $\text{MgB}_2$ stator coils; $H_\infty$ active damping; proposed solid-$\text{He-3}$ labyrinth seal | Centrifugal head, thermosyphon buoyancy, and gyroscopic torque in [MHD.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean); phase limits enforced by `def:signals-cryogenic-spool-amb`, `lem:signals-he3-supercritical-at-39k`, and `lem:signals-he3-no-solid-seal-below-3-4-mpa`. |
 
 ---
 
@@ -141,7 +141,7 @@ B-LIG electrode capture ({download}`lines 2354-2378 <../data/chats/Twistors-and-
 2. **Work-Free Identity & Faraday Load Requirement (`thm:signals-magnetic-lorentz-work-free`)**:
    Because $q(\mathbf v\times\mathbf B)\cdot\mathbf v = 0$, the static magnetic
    field alone does zero work and cannot extract energy without an opposing
-   transverse load electric field $E_x$ (`FaradayChannel` in [MHD.lean](../src/signals/Signals/MHD.lean#L111)),
+   transverse load electric field $E_x$ (`FaradayChannel` in [MHD.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean#L111)),
    whose matched-load power density is bounded by $\frac{1}{4}\sigma v^2 B^2$
    (`FaradayChannel.power_density_le_quarter_base`) and whose plant efficiency
    cannot exceed unity (`MHDPowerAccounting.full_efficiency_le_one`,
@@ -206,7 +206,7 @@ When operated as an Earth-to-orbit or high-G thruster
 In {download}`Twistors-and-Positive-Grassmannian-Interference.md, lines 1268-1346 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`
 and {download}`lines 1546-1618 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`,
 the alternative vacuum thruster replaces plasma ions with Marco Fedi's
-Dilatant Dark Fluid (`DDFSubstrate` in [DDF.lean](../src/signals/Signals/DDF.lean)):
+Dilatant Dark Fluid (`DDFSubstrate` in [DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean)):
 
 - **Madelung Hydrodynamics & Quantized Circulation (`def:signals-madelung-density`, `def:signals-bohm-quantum-potential`, `def:signals-superfluid-velocity`, `thm:signals-quantized-vortex-circulation`, `thm:signals-ddf-substrate-circulation-eq`)**:
   Writing $\psi = \sqrt{\rho}e^{iS}$ gives $\mathbf v = (\hbar/m)\nabla S$ and

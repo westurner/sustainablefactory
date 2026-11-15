@@ -42,16 +42,16 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
-    <link rel="next" title="Research Brief: Carbothermic Reduction and Ultrasonic Processing" href="research_brief_carbothermic_ultrasonic.html" />
+    <link rel="next" title="DDF Fracture-Communication Validation Plan" href="ddf-fracture-communication-plan.html" />
     <link rel="prev" title="Soliton Bus Model" href="soliton-bus.html" />
   
     
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -91,7 +91,7 @@
       <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -184,7 +184,7 @@
 
             
               <li><a href="soliton-bus.html" title="Soliton Bus Model" accesskey="P">previous </a></li>
-              <li><a href="research_brief_carbothermic_ultrasonic.html" title="Research Brief: Carbothermic Reduction and Ultrasonic Processing" accesskey="N">next </a></li>
+              <li><a href="ddf-fracture-communication-plan.html" title="DDF Fracture-Communication Validation Plan" accesskey="N">next </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
             <li class="visible-xs"><a href="_sources/dispersive-homodyne-plan.md.txt" rel="nofollow">Show Source</a></li>
@@ -296,8 +296,8 @@
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="research_brief_carbothermic_ultrasonic.html"
-                          title="next chapter">Research Brief: Carbothermic Reduction and Ultrasonic Processing</a></p>
+    <p class="topless"><a href="ddf-fracture-communication-plan.html"
+                          title="next chapter">DDF Fracture-Communication Validation Plan</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -373,26 +373,26 @@ type errors:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">Signals.Proca.FourCurrent</span></code> requires a zero continuity residual, so
 <code class="docutils literal notranslate"><span class="pre">DrivenField</span></code> cannot represent the nonconserved-source case described by its
 documentation. The model-level coupling strength is also not present in the
-driven-field equation. See <a class="reference download internal" download="" href="_downloads/10283426eb4f5fd12a3623ce85e9f83d/Proca.lean"><span class="xref download myst">Proca</span></a>.</p></li>
+driven-field equation. See <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Proca.lean#L29">Proca</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">WaveguideSpec.propagationLoss</span></code> is stored but omitted from
 <code class="docutils literal notranslate"><span class="pre">transferFactor</span></code>; waveguides with different losses therefore have the same
-modeled transfer. See <a class="reference download internal" download="" href="_downloads/b8fdd7606c8af00298a60aec99613733/Applications.lean"><span class="xref download myst">Applications</span></a>.</p></li>
+modeled transfer. See <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Applications.lean#L31">Applications</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">DualHomodyneTrace</span></code> stores receivers independently from its outcomes, and
 <code class="docutils literal notranslate"><span class="pre">missingSamples</span></code> does not affect the estimator denominator. Arbitrary traces
 can be attached to arbitrary receivers. See
-<a class="reference download internal" download="" href="_downloads/a92eb06ea1edc0b239d9642079cf274e/Homodyne.lean"><span class="xref download myst">Homodyne</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean#L230">Homodyne</a>.</p></li>
 <li><p>Proca medium, boundary, and model-level coupling data are not connected to
 mode dispersion or the field equation. Treating these as metadata must be
 explicit, or constitutive and boundary laws must consume them. See
-<a class="reference download internal" download="" href="_downloads/10283426eb4f5fd12a3623ce85e9f83d/Proca.lean"><span class="xref download myst">Proca</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Proca.lean#L22">Proca</a>.</p></li>
 <li><p>Homodyne common-mode rejection stores both dB and leakage-factor values
 without a conversion law, so the two measurements can disagree. See
-<a class="reference download internal" download="" href="_downloads/a92eb06ea1edc0b239d9642079cf274e/Homodyne.lean"><span class="xref download myst">Homodyne</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean#L109">Homodyne</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LinkBudget</span></code> uses bare real numbers for source power, distance, and
 attenuation while other modules use unit wrappers. This permits dimensional
 mistakes and leaves the attenuation convention implicit. See
-<a class="reference download internal" download="" href="_downloads/600bc2dc1fd052ebcdaa417a53d20a6b/Propagation.lean"><span class="xref download myst">Propagation</span></a> and
-<a class="reference download internal" download="" href="_downloads/7787316a26f236324ae506e660c87287/Units.lean"><span class="xref download myst">Units</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Propagation.lean#L119">Propagation</a> and
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Units.lean#L7">Units</a>.</p></li>
 </ol>
 <p>These are contract defects, not evidence for or against any Pending physical
 interpretation. The first implementation pass should add regression fixtures
@@ -408,7 +408,7 @@ measurement and expose a residual law plus an acceptance predicate; it should
 not erase units, uncertainty semantics, or domain-specific calibration. Keep
 specialized wrappers for phase, power, current, dose, and vector residuals.</p>
 <p>This matches the local Lean style of structures carrying explicit law fields,
-as seen in <a class="reference download internal" download="" href="_downloads/35409b7c906c083bd0add148a14aa0f7/NonDestructive.lean"><span class="xref download myst">CalibrationRecord</span></a>,
+as seen in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/NonDestructive.lean#L153">CalibrationRecord</a>,
 and the explicit state/channel boundaries in the local Physlib quantum
 information modules. The downside is real: a universal residual type can make
 the API less discoverable, encourage accidental comparison of unlike units,
@@ -566,21 +566,21 @@ explicitly distinct from total-input efficiency.</p>
 <h4>Ordinary Longitudinal-Wave Parameter Landscape<a class="headerlink" href="#ordinary-longitudinal-wave-parameter-landscape" title="Link to this heading">¶</a></h4>
 <p>The classical test path does not require a Proca hypothesis. The chat proposes
 an acoustic tuning ring around the reactor
-(<span class="xref myst">source</span>) and derives
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1365-L1371">source</a>) and derives
 a 400 GHz target from a supplied 20 nm wavelength and 8,000 m/s longitudinal
 sound speed in the <em>solid cellulose waveguide</em>, not in Argon plasma
-(<span class="xref myst">source</span>). It then
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560">source</a>). It then
 proposes 800 GHz acoustic generation by mixing two 400 GHz electromagnetic
-beams (<span class="xref myst">source</span>).
+beams (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1642-L1663">source</a>).
 These are proposal inputs. The arithmetic is reproducible, but neither the
 solid-to-plasma coupling nor a propagating 400/800 GHz Argon mode is measured.</p>
 <p>The corpus also supplies ordinary ECR candidates. A proposed benchtop source
 uses 2.45 GHz microwave ionization with a matched static magnetic field
-(<span class="xref myst">source</span>). A
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L14278-L14289">source</a>). A
 second chat states the approximate electron-cyclotron relation
 <span class="math notranslate nohighlight">\(f_{ce}\approx28\,B\)</span> GHz/T and gives 98 GHz at 3.5 T, while assigning the heavy
 Argon-ion response to a separate 1–15 MHz ion-acoustic envelope
-(<span class="xref myst">source</span>). The latter
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L3733-L3753">source</a>). The latter
 source wraps these ordinary formulas in an unsupported Proca interpretation;
 only the classical frequency/field and ion-acoustic relations are retained.</p>
 <p>With the supplied 28 GHz/T calibration, useful ECR checkpoints are:</p>
@@ -677,16 +677,16 @@ transducer.</p>
 <p>The phrase “cellulose strip resonator” is best treated as a finite
 implementation of the chat’s periodic cellulose/N-LIG waveguide. The source
 specifies a 10 nm period and the Bragg relation <span class="math notranslate nohighlight">\(\lambda_0=2d\)</span>
-(<span class="xref myst">source</span>), while the
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560">source</a>), while the
 layout calls it a core or cylindrical mantle rather than a literal strip
-(<span class="xref myst">source</span>).
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688">source</a>).
 <code class="docutils literal notranslate"><span class="pre">CelluloseStripResonator</span></code> makes the finite length and cell count explicit;
 <code class="docutils literal notranslate"><span class="pre">FireCannonCelluloseStripDrive</span></code> separates the 400 GHz fundamental from the
 800 GHz sum target. <code class="docutils literal notranslate"><span class="pre">CelluloseStripArgonOperatingPoint</span></code> then inserts the missing
 solid-to-gas interface and charges the full MIMO source to plant control power.</p>
 <p>This interface can dominate the optimum. The corpus separately warns of more
 than 99.9% reflection across the proposed solid/cellulose/Argon path
-(<span class="xref myst">source</span>). The Lean
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L3934-L3944">source</a>). The Lean
 fixture illustrates that boundary with 100 W array input, 50 W strip acoustic
 output, and 0.05 W reaching the Argon link. Its end-to-end source efficiency is
 <span class="math notranslate nohighlight">\(1/2000\)</span>, despite exact 400/800 GHz matching. The values are supplied test data,
@@ -716,7 +716,7 @@ collapsing generator and thruster performance into one score.</p>
 <p>The chat’s proposed gridless “topological plasma thruster” and its claimed
 50,000–500,000+ second specific impulse and kilonewton thrust are not implied
 by ordinary longitudinal waves
-(<span class="xref myst">source</span>). Under the
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1373-L1406">source</a>). Under the
 classical model, helical or topological flow geometry may affect confinement,
 mixing, and nozzle efficiency, but it contributes no unaccounted momentum or
 energy. Those performance claims remain unsupported until a calibrated thrust
@@ -765,17 +765,17 @@ and cooling power so a plant-level efficiency cannot silently omit them.</p>
 prepared modulation <span class="math notranslate nohighlight">\(X(t)\)</span> is measured as a scattered homodyne signal <span class="math notranslate nohighlight">\(Y(t)\)</span>,
 then corrected with an inverse Gross-Pitaevskii step, phase-processed with an
 iQFT, and passed to an Amplituhedron-constrained CANDECOMP/PARAFAC ALS
-decomposition (<span class="xref myst">source chat</span>).
+decomposition (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2500">source chat</a>).
 The same source describes homodyne phase sweeping for both quadratures and an
 inverse Fourier routine before tensor decomposition
-(<span class="xref myst">source chat</span>).
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2390-L2440">source chat</a>).
 A later widget specification exposes ALS rank as a 1–10 control and presents
 rank 2–3 or rank 2 near-zero reconstruction error as simulation behavior, not
 as an experimental result
-(<span class="xref myst">source chat</span>).
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2524-L2540">source chat</a>).
 The chat itself also states that no standard quantum-gravity precedent makes
 rank 10 universal
-(<span class="xref myst">rank discussion</span>).</p>
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2246-L2285">rank discussion</a>).</p>
 <p>The Pending implementation now records the finite boundaries of that proposal:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">PreparedModulation</span></code> preserves the known finite input trace.</p></li>
@@ -846,7 +846,7 @@ range and composition laws.</p>
 <td><p>Analogue-gravity evidence only; it does not establish astrophysical decoding, iGPE inversion, iQFT hardware, or Amplituhedron constraints.</p></td>
 </tr>
 <tr class="row-odd"><td><p>iGPE + iQFT + Amplituhedron-constrained ALS gives exact or rank-2 recovery</p></td>
-<td><p>Proposal with low confidence (<span class="xref myst">source chat</span>)</p></td>
+<td><p>Proposal with low confidence (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2540">source chat</a>)</p></td>
 <td><p>Keep Pending. Require a specified solver, raw calibrated data, held-out controls, uncertainty, rank selection, and reproducible residuals.</p></td>
 </tr>
 </tbody>
@@ -1272,30 +1272,30 @@ lines 374-380).</p></li>
 <p>The existing verified library covers:</p>
 <ul class="simple">
 <li><p>Classical I/Q samples, magnitude, phase, and quadrature orientation in
-<a class="reference download internal" download="" href="_downloads/14c06ef400c24892229e97de3012096f/IQ.lean"><span class="xref download myst">Signals.IQ</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/IQ.lean">Signals.IQ</a>.</p></li>
 <li><p>Signal-state preservation and signal-energy preservation in
-<a class="reference download internal" download="" href="_downloads/35409b7c906c083bd0add148a14aa0f7/NonDestructive.lean"><span class="xref download myst">NonDestructive</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/NonDestructive.lean#L95">NonDestructive</a>.</p></li>
 <li><p>Target and signal zero-absorption assumptions, plus a probe phase response.</p></li>
 <li><p>Composition between a phase fingerprint and a dispersive readout in
-<a class="reference download internal" download="" href="_downloads/35409b7c906c083bd0add148a14aa0f7/NonDestructive.lean"><span class="xref download myst">NonDestructive</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/NonDestructive.lean#L153">NonDestructive</a>.</p></li>
 <li><p>Affine calibration with raw-telemetry preservation.</p></li>
 <li><p>Typed vitrimer operations and operation-power accounting.</p></li>
 <li><p>Finite classical homodyne algebra, typed detector/noise/calibration records,
 dual trace statistics, spatial grids, and typed runtime trace samples in
-<a class="reference download internal" download="" href="_downloads/a92eb06ea1edc0b239d9642079cf274e/Homodyne.lean"><span class="xref download myst">Homodyne</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Homodyne.lean">Homodyne</a>.</p></li>
 <li><p>Pending OAM parity preservation over a dispersive readout in
-<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L203">Pending</a>.</p></li>
 <li><p>Pending quadrature uncertainty assumptions, TMSV variance bookkeeping,
 CV Bell-state/feed-forward plumbing, QND evidence bounds, and integrated
-hardware-readiness observations in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending</span></a>.</p></li>
+hardware-readiness observations in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean">Pending</a>.</p></li>
 <li><p>Pending Kerr interaction data for nonlinear signal/probe phase coupling in
-<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean">Pending</a>.</p></li>
 <li><p>Pending LVP process, composition, photovoltaic, direct-conversion imaging,
 and Proca phase-contrast boundaries in
-<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean">Pending</a>.</p></li>
 <li><p>Classical Faraday MHD and Argon power accounting in
-<a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD</span></a>; the Proca-linked plant remains a
-Pending hypothesis in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean">MHD</a>; the Proca-linked plant remains a
+Pending hypothesis in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean">Pending</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">AtmosphericArgonSource</span></code> records Earth/Mars Argon molar-fraction feed
 assumptions and captured molar flow; abundance is not treated as an energy
 source or as proof that operating costs are nominal.</p></li>
@@ -1307,8 +1307,8 @@ power and supports a full-input passive-efficiency bound.</p></li>
 by the existing <code class="docutils literal notranslate"><span class="pre">Signals.Proca</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> APIs; physical
 longitudinal-wave evidence remains unestablished.</p></li>
 <li><p>Compile-time fixtures for these contracts in
-<a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">SignalsTests</span></a> and
-<a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">SignalsPendingTests</span></a>.</p></li>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L805">SignalsTests</a> and
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L792">SignalsPendingTests</a>.</p></li>
 </ul>
 <p>The current build is a compiling baseline containing explicit local-oscillator,
 beam-splitter, detector-pair, differential-current, dual-receiver, spatial-grid,
@@ -1837,7 +1837,7 @@ Pending physical hypothesis.</p>
 <ul class="nav navbar-nav text-center">
       
         <li><a href="soliton-bus.html" title="Soliton Bus Model" >previous</a></li>
-        <li><a href="research_brief_carbothermic_ultrasonic.html" title="Research Brief: Carbothermic Reduction and Ultrasonic Processing" >next</a></li>
+        <li><a href="ddf-fracture-communication-plan.html" title="DDF Fracture-Communication Validation Plan" >next</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

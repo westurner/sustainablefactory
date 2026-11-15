@@ -11,10 +11,10 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical ben
 - **Subjects:**
   - Materials Science (`cond-mat.mtrl-sci`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Applied Physics (`physics.app-ph`); Computational Physics (`physics.comp-ph`); Mathematical Physics (`math-ph`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L2460-L2900), [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6720-L6865), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7260-L7315), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5805-L5880))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L2460-L2900), [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean), [../src/signals/Signals/QuantumCausalInference.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCausalInference.lean), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6720-L6865), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L7260-L7315), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5805-L5880))
   - Written Plan Document ([interfacial-electrical-properties-plan.md](interfacial-electrical-properties-plan.md))
   - Python Engine & Benchmark Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L3615-L3885), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L890-L985))
-  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L945-L1435))
+  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L945-L1435))
 - **Companion Papers:**
   - [Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (`QCI-GXC`), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and `def2-QZVP` `WTMAD-2` / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)
   - [Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): Grassmannian Thermal Boundary Conductance (`G-TBC`), Bond-Stiffness Plücker Transmission, Anharmonic $\mathrm{Gr}_{\mathbb{C}}(2,5)$ Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in Lean 4, Python, and Rust](grassmannian-interfacial-heat-transport-paper.md)
@@ -76,7 +76,7 @@ flowchart TB
 
 ### 1.1 Universal Governing Equations Carried Unchanged Across All Five Interfaces
 
-A single set of five coupled constitutive equations governs all five semiconductor interfaces in `G-IEP` ([../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L2460-L2900)):
+A single set of five coupled constitutive equations governs all five semiconductor interfaces in `G-IEP` ([../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L2460-L2900)):
 
 1. **Plabic 3-Flux Reaction–Diffusion & Volatile-Desorption Growth Law (`giepThreeFluxSteadyState`, `giepGeOxideNetRate`)**:
    Across any oxidizing interface with effective gas-transfer coefficient $h_{\mathrm{gas}}$, stress- and layer-dependent diffusivity $D_{\mathrm{eff}}(P)$, and orientation-, stress-, and byproduct-dependent interfacial reaction rate $k_{\mathrm{eff}}(hkl, \sigma_{\mathrm{norm}}, r_{\mathrm{byprod}})$, the net oxide growth rate is:
@@ -144,7 +144,7 @@ Evaluating `G-IEP` (`InterfacialElectricalProcessEngine.run_all_problem02_benchm
 
 ### 2.3 Critique & Five Deep Gap Closures Across the Five Semiconductor Interfaces (`interfacial_electrical_properties_deep_gap_closure_identities`)
 
-A comprehensive review of our initial `G-IEP` formalization identified five deeper physical and mathematical gaps connecting forward time integration, thin-oxide kinetics, passivation/depassivation equilibrium, curvature-induced fixed charge, $\mathrm{SiC}$ carbon-cluster traps, high-$\kappa$ flatband shifts, and $\mathrm{SiGe}$ mass conservation. We close all five gaps in `interfacial_electrical_properties_deep_gap_closure_identities` ([../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L2900-L3155)) and `InterfacialElectricalProcessEngine`:
+A comprehensive review of our initial `G-IEP` formalization identified five deeper physical and mathematical gaps connecting forward time integration, thin-oxide kinetics, passivation/depassivation equilibrium, curvature-induced fixed charge, $\mathrm{SiC}$ carbon-cluster traps, high-$\kappa$ flatband shifts, and $\mathrm{SiGe}$ mass conservation. We close all five gaps in `interfacial_electrical_properties_deep_gap_closure_identities` ([../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L2900-L3155)) and `InterfacialElectricalProcessEngine`:
 
 1. **Gap 1 — Explicit Forward Deal–Grove Time-to-Thickness Inversion & Massoud Thin-Oxide Regime (`giepDealGroveExplicitThickness`, `giepMassoudThinOxideRate`)**:
    - We formalize the closed-form forward trajectory $x_{\mathrm{ox}}(A, B, \tau, t) = \frac{\sqrt{A^2 + 4 B(t + \tau)} - A}{2}$ and prove in Lean 4 that it satisfies $x_{\mathrm{ox}}(t)^2 + A\,x_{\mathrm{ox}}(t) = B(t + \tau)$ and is the **exact right-inverse** of `giepDealGroveTimeForThickness`:
@@ -265,7 +265,7 @@ pytest -q tests/test_qci_grassmannian_dft.py -k "problem02"
 
 ## 4. Evidentiary Boundaries (`Signals.Pending.InterfacialElectricalPropertiesPendingHypothesis`)
 
-In accordance with our research-evidence separation rules ([AGENTS.md](../AGENTS.md)), `InterfacialElectricalPropertiesPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6720-L6865) separates the machine-checked algebraic and constitutive theorems of `G-IEP` from chamber-specific experimental calibrations:
+In accordance with our research-evidence separation rules ([AGENTS.md](https://github.com/westurner/sustainablefactory/blob/main/AGENTS.md)), `InterfacialElectricalPropertiesPendingHypothesis` in [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L6720-L6865) separates the machine-checked algebraic and constitutive theorems of `G-IEP` from chamber-specific experimental calibrations:
 - Real semiconductor oxidation furnaces, rapid thermal annealing (`RTA`) chambers, and atomic-layer deposition (`ALD`) reactors exhibit tool-to-tool variations in trace $\mathrm{H_2O}$ / $\mathrm{H}$ partial pressures, ramp/cooling thermal gradients, and wet-clean surface microroughness ({cite:p}`giep-chat-fet2026`, line 34; {cite:p}`giep-chat-eot2026`, line 1526; {cite:p}`giep-chat-gaafet2026`, line 558).
 
 ---

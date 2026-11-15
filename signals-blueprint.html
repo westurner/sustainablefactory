@@ -49,9 +49,9 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -91,7 +91,7 @@
       <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -276,10 +276,10 @@ architecture discussed in
 <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md,</span> <span class="pre">lines</span> <span class="pre">279-4019</span></code></a>
 and formalized in
 <a class="reference download internal" download="" href="_downloads/7b25188b3712562714177e29f9e4f7dd/Twistors-and-Positive-Grassmannian-Interference.md.lean"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md.lean,</span> <span class="pre">lines</span> <span class="pre">1-851</span></code></a>
-to its verified mathematical nodes in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>
-and <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a> and its conditional boundary
-contracts in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a> and
-<a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><span class="xref download myst">SignalsPending.lean</span></a>.</p>
+to its verified mathematical nodes in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean">MHD.lean</a>
+and <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a> and its conditional boundary
+contracts in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean">Pending.lean</a> and
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPending.lean">SignalsPending.lean</a>.</p>
 <section id="comparative-architecture-matrix">
 <h3>Comparative Architecture Matrix<a class="headerlink" href="#comparative-architecture-matrix" title="Link to this heading">¶</a></h3>
 <table class="docutils align-default">
@@ -308,19 +308,19 @@ contracts in <a class="reference download internal" download="" href="_downloads
 <td><p>Multi-GW pulsed electricity generator &amp; Earth-to-orbit thruster</p></td>
 <td><p>Magnetized Argon plasma (<span class="math notranslate nohighlight">\(n_e\sim 10^{18}\text{ cm}^{-3}\)</span>); Fabry-Pérot Langmuir cavity + bump-on-tail <span class="math notranslate nohighlight">\(e^-\)</span> beam + Halbach/B-LIG extraction</p></td>
 <td><p>Cost <span class="math notranslate nohighlight">\(\$10\text{M--}\$100\text{M}+\)</span>; <span class="math notranslate nohighlight">\(I_{sp}\approx 3.05\times 10^7\text{ s}\)</span>; continuous <span class="math notranslate nohighlight">\(\sim 2\text{ N/GW}\)</span> vs. pulsed <span class="math notranslate nohighlight">\(F_{\text{peak}}\sim 20\text{--}3300\text{ N}\)</span>; <span class="math notranslate nohighlight">\(1\text{ TW}\)</span> peak electrical pulse stepped to <span class="math notranslate nohighlight">\(1.2\text{ MV}\)</span></p></td>
-<td><p>Verified dispersion/Landau/ponderomotive/Halbach laws in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>; bounded by <code class="docutils literal notranslate"><span class="pre">def:signals-pulsed-wakefield-halbach</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-extracted-pulse-energy-le-dawson</span></code>, and <code class="docutils literal notranslate"><span class="pre">lem:signals-pulsed-wakefield-avg-thrust-le-peak</span></code>.</p></td>
+<td><p>Verified dispersion/Landau/ponderomotive/Halbach laws in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean">MHD.lean</a>; bounded by <code class="docutils literal notranslate"><span class="pre">def:signals-pulsed-wakefield-halbach</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-extracted-pulse-energy-le-dawson</span></code>, and <code class="docutils literal notranslate"><span class="pre">lem:signals-pulsed-wakefield-avg-thrust-le-peak</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>4. Deborah-Number Shear-Fracture (DDF) Thruster &amp; Siphon</strong></p></td>
 <td><p>Proposed propellantless vacuum thruster &amp; vortex-annealing generator</p></td>
 <td><p>Two-component Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code>); acoustic shear above Landau critical speed <span class="math notranslate nohighlight">\(v_c=c_s\)</span></p></td>
 <td><p>Cost <span class="math notranslate nohighlight">\(\$1\text{B}+\)</span>; claimed <span class="math notranslate nohighlight">\(F\sim 10^3\text{--}10^5\text{ N}\)</span>, <span class="math notranslate nohighlight">\(I_{sp}=\infty\)</span> (propellantless)</p></td>
-<td><p>Madelung circulation and Bogoliubov threshold in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>; constrained by <code class="docutils literal notranslate"><span class="pre">def:signals-ddf-phase-slip-hull-stress</span></code> and <code class="docutils literal notranslate"><span class="pre">lem:signals-ddf-zero-drive-zero-thrust</span></code> (supercritical vortex shedding is drag without external drive power <span class="math notranslate nohighlight">\(P_{\text{drive}}\ge F v\)</span>).</p></td>
+<td><p>Madelung circulation and Bogoliubov threshold in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>; constrained by <code class="docutils literal notranslate"><span class="pre">def:signals-ddf-phase-slip-hull-stress</span></code> and <code class="docutils literal notranslate"><span class="pre">lem:signals-ddf-zero-drive-zero-thrust</span></code> (supercritical vortex shedding is drag without external drive power <span class="math notranslate nohighlight">\(P_{\text{drive}}\ge F v\)</span>).</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>5. <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> Aneutronic Reactor &amp; AMB Centrifugal Spool</strong></p></td>
 <td><p>Deep-space direct-conversion power plant, cryo-cooler, &amp; attitude control</p></td>
 <td><p>Aneutronic <span class="math notranslate nohighlight">\(\text{D-He3}\)</span> fusion plasma + supercritical <span class="math notranslate nohighlight">\(\text{He-3}\)</span> spool on 5-axis <span class="math notranslate nohighlight">\(\text{MgB}_2\)</span> AMBs</p></td>
 <td><p>Direct proton/alpha Halbach capture; <span class="math notranslate nohighlight">\(\sim 39\text{ K}\)</span> <span class="math notranslate nohighlight">\(\text{MgB}_2\)</span> stator coils; <span class="math notranslate nohighlight">\(H_\infty\)</span> active damping; proposed solid-<span class="math notranslate nohighlight">\(\text{He-3}\)</span> labyrinth seal</p></td>
-<td><p>Centrifugal head, thermosyphon buoyancy, and gyroscopic torque in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>; phase limits enforced by <code class="docutils literal notranslate"><span class="pre">def:signals-cryogenic-spool-amb</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-supercritical-at-39k</span></code>, and <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-no-solid-seal-below-3-4-mpa</span></code>.</p></td>
+<td><p>Centrifugal head, thermosyphon buoyancy, and gyroscopic torque in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean">MHD.lean</a>; phase limits enforced by <code class="docutils literal notranslate"><span class="pre">def:signals-cryogenic-spool-amb</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-supercritical-at-39k</span></code>, and <code class="docutils literal notranslate"><span class="pre">lem:signals-he3-no-solid-seal-below-3-4-mpa</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -414,7 +414,7 @@ with magnetic force <span class="math notranslate nohighlight">\(\mathbf F = q(\
 <li><p><strong>Work-Free Identity &amp; Faraday Load Requirement (<code class="docutils literal notranslate"><span class="pre">thm:signals-magnetic-lorentz-work-free</span></code>)</strong>:
 Because <span class="math notranslate nohighlight">\(q(\mathbf v\times\mathbf B)\cdot\mathbf v = 0\)</span>, the static magnetic
 field alone does zero work and cannot extract energy without an opposing
-transverse load electric field <span class="math notranslate nohighlight">\(E_x\)</span> (<code class="docutils literal notranslate"><span class="pre">FaradayChannel</span></code> in <a class="reference download internal" download="" href="_downloads/17af363fc500134b9a5175332d9473e1/MHD.lean"><span class="xref download myst">MHD.lean</span></a>),
+transverse load electric field <span class="math notranslate nohighlight">\(E_x\)</span> (<code class="docutils literal notranslate"><span class="pre">FaradayChannel</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MHD.lean#L111">MHD.lean</a>),
 whose matched-load power density is bounded by <span class="math notranslate nohighlight">\(\frac{1}{4}\sigma v^2 B^2\)</span>
 (<code class="docutils literal notranslate"><span class="pre">FaradayChannel.power_density_le_quarter_base</span></code>) and whose plant efficiency
 cannot exceed unity (<code class="docutils literal notranslate"><span class="pre">MHDPowerAccounting.full_efficiency_le_one</span></code>,
@@ -482,7 +482,7 @@ conservation <span class="math notranslate nohighlight">\(\Delta\mathbf P_{\math
 <p>In <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">Twistors-and-Positive-Grassmannian-Interference.md,</span> <span class="pre">lines</span> <span class="pre">1268-1346</span></code></a>
 and <a class="reference download internal" download="" href="_downloads/1b1946822e2cb2de6bdf60cebdce437f/Twistors-and-Positive-Grassmannian-Interference.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">1546-1618</span></code></a>,
 the alternative vacuum thruster replaces plasma ions with Marco Fedi’s
-Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>):</p>
+Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDFSubstrate</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>):</p>
 <ul class="simple">
 <li><p><strong>Madelung Hydrodynamics &amp; Quantized Circulation (<code class="docutils literal notranslate"><span class="pre">def:signals-madelung-density</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-bohm-quantum-potential</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-superfluid-velocity</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-quantized-vortex-circulation</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:signals-ddf-substrate-circulation-eq</span></code>)</strong>:
 Writing <span class="math notranslate nohighlight">\(\psi = \sqrt{\rho}e^{iS}\)</span> gives <span class="math notranslate nohighlight">\(\mathbf v = (\hbar/m)\nabla S\)</span> and

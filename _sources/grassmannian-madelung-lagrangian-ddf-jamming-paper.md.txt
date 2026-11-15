@@ -10,9 +10,9 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
 - **Subjects:**
   - Mathematical Physics (`math-ph`); Quantum Gases (`cond-mat.quant-gas`); Quantum Physics (`quant-ph`); General Relativity and Quantum Cosmology (`gr-qc`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7395-L7935), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4839-L4932), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L1909-L1958), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L4815-L4853))
-  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L260-L315))
-  - `signals-numerical-adapter` Rust/WASM Variational & Hydrodynamic Engine ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L7395-L7935), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L4839-L4932), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L1909-L1958), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L4815-L4853))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](https://github.com/westurner/sustainablefactory/blob/main/src/signals/blueprint/src/content.tex#L260-L315))
+  - `signals-numerical-adapter` Rust/WASM Variational & Hydrodynamic Engine ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/madelung_lagrangian.rs))
 - **Companion `grassmannian-*-paper.md` Series:**
   1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
   2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md)
@@ -36,7 +36,7 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
 
 ## Abstract
 
-In earlier modules of `Signals.DDF`, the Madelung representation of the continuous superfluid condensate ($\phi$) was introduced at the kinematic variable level ($\rho = |\psi|^2$, $A = \sqrt{\rho}$, $S = \hbar\arg\psi$, $\mathbf{v}_\phi = \frac{\hbar}{m_\phi}\nabla\theta = \frac{1}{m_\phi}\nabla S$, and $Q = -\frac{\hbar^2}{2 m_\phi}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}$), while the operational Minkowski interval theorem (`material_minkowski_interval`) took the clock proper-time relation $d\tau_D = dt / \gamma_\varphi(v)$ as an external hypothesis (`h_dtau`). In this paper, we upgrade the **DDF $\to$ Madelung $\to$ Lagrangian** connection from a kinematic variable decomposition to a machine-checked **variational dynamics theorem** (`MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities` in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7395-L7935)) paired with a zero-dependency **Rust/WASM** variational and conservative finite-difference solver ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs)):
+In earlier modules of `Signals.DDF`, the Madelung representation of the continuous superfluid condensate ($\phi$) was introduced at the kinematic variable level ($\rho = |\psi|^2$, $A = \sqrt{\rho}$, $S = \hbar\arg\psi$, $\mathbf{v}_\phi = \frac{\hbar}{m_\phi}\nabla\theta = \frac{1}{m_\phi}\nabla S$, and $Q = -\frac{\hbar^2}{2 m_\phi}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}$), while the operational Minkowski interval theorem (`material_minkowski_interval`) took the clock proper-time relation $d\tau_D = dt / \gamma_\varphi(v)$ as an external hypothesis (`h_dtau`). In this paper, we upgrade the **DDF $\to$ Madelung $\to$ Lagrangian** connection from a kinematic variable decomposition to a machine-checked **variational dynamics theorem** (`MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities` in [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L7395-L7935)) paired with a zero-dependency **Rust/WASM** variational and conservative finite-difference solver ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/madelung_lagrangian.rs)):
 
 1. **Superfluid Gross–Pitaevskii Action & Exact Madelung Polar Substitution ($\psi = A e^{i S / \hbar}$)**:
    We formalize the polar complex order parameter $\psi(A, \theta) = A(\cos\theta + i\sin\theta)$ (`madelungPolarWavefunction`) and its chain-rule spatiotemporal derivative $\partial_\mu\psi = (\partial_\mu A + i A\,\partial_\mu\theta)e^{i\theta}$ (`madelungPolarDerivative`) for $\theta = S / \hbar$. Substituting these into the complex Gross–Pitaevskii / nonlinear Schrödinger (NLS) Lagrangian density $\mathcal{L}_{\mathrm{GP}}$ (`grossPitaevskiiPolarLagrangianDensity`) proves over $\mathbb{C}$ that the temporal symplectic term $-\hbar\,\operatorname{Im}(\psi^*\partial_t\psi)$ equals $-A^2\,\partial_t S = -\rho\,\partial_t S$ (canceling $\dot{A}$ identically), the spatial gradient norm squared $|\nabla\psi|^2$ splits into $(\nabla A)^2 + A^2(\nabla S / \hbar)^2$, and $\mathcal{L}_{\mathrm{GP}}$ equals both the amplitude-phase Lagrangian density $\mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)$ and the hydrodynamic density-phase Lagrangian density $\mathcal{L}_{\mathrm{Mad}}^\rho(\rho, \nabla\rho, \partial_t S, \nabla S)$ for $\rho = A^2, \nabla\rho = 2 A\nabla A$.
@@ -94,7 +94,7 @@ In our review of the repository's Grassmannian and DDF papers ([Grassmannian Spl
 1. **From Kinematic Decomposition to Variational Dynamics**:
    Prior to this work, `Signals.DDF` defined the Madelung density $\rho(\mathbf{x}) = |\psi(\mathbf{x})|^2$ (`madelungDensity`), amplitude $\sqrt{\rho(\mathbf{x})}$ (`madelungAmplitude`), phase $S(\mathbf{x}) = \arg\psi(\mathbf{x})$ (`madelungPhase`), superfluid velocity $\mathbf{v}(\mathbf{x}) = \frac{\hbar}{m}\nabla S(\mathbf{x})$ (`superfluidVelocity`), and Bohm quantum potential $Q(\mathbf{x}) = -\frac{\hbar^2}{2m}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}}$ (`bohmQuantumPotential`), and used "Lagrangian" in the particle/wavepacket sense (`NormedTensorGaussianSplat2D`) rather than as an action functional $\mathcal{S}[\psi, \psi^*] = \int \mathcal{L}_{\mathrm{GP}}\,dt\,d^3x$.
 2. **Discharging the Proper-Time Hypothesis `h_dtau` in `material_minkowski_interval`**:
-   In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L160-L185), the docstring of `material_minkowski_interval` referred to *"action-derived clock proper time $d\tau_D = dt / \gamma_\varphi(v)$"*, but the theorem signature previously accepted `h_dtau : dtau = dt / s.jammingFactor` as an explicit hypothesis rather than deriving $d\tau_D$ from a worldline Lagrangian $L_{\mathrm{DDF}}(v)$.
+   In [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L160-L185), the docstring of `material_minkowski_interval` referred to *"action-derived clock proper time $d\tau_D = dt / \gamma_\varphi(v)$"*, but the theorem signature previously accepted `h_dtau : dtau = dt / s.jammingFactor` as an explicit hypothesis rather than deriving $d\tau_D$ from a worldline Lagrangian $L_{\mathrm{DDF}}(v)$.
 
 Sections 2–4 below show how `Signals.DDF` and `madelung_lagrangian.rs` close both gaps completely.
 
@@ -104,7 +104,7 @@ Sections 2–4 below show how `Signals.DDF` and `madelung_lagrangian.rs` close b
 
 ### 2.1 Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density
 
-For a continuous bosonic superfluid condensate $\psi(\mathbf{x}, t) \in \mathbb{C}$ of boson mass $m_\phi > 0$ in an external potential $V_{\mathrm{ext}}$ with contact self-interaction coupling $g_\phi$, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is ({cite:p}`mad-madelung1927`; {cite:p}`mad-gross1961`; {cite:p}`mad-pitaevskii1961`):
+For a continuous bosonic superfluid condensate $\psi(\mathbf{x}, t) \in \mathbb{C}$ of boson mass $m_\phi > 0$ in an external potential $V_{\mathrm{ext}}$ with contact self-interaction coupling $g_\phi$, the Gross–Pitaevskii (nonlinear Schrödinger) Lagrangian density is ({cite:p}`madelung1927`; {cite:p}`gross1961`; {cite:p}`pitaevskii1961`):
 
 $$
 \mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
@@ -127,7 +127,7 @@ $$
 = (\partial_\mu A\cos\theta - A\,\partial_\mu\theta\sin\theta) + i(\partial_\mu A\sin\theta + A\,\partial_\mu\theta\cos\theta),
 $$
 
-Theorem `MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7708-L7806)) proves four exact algebraic identities over $\mathbb{C}$:
+Theorem `MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities` ([src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L7708-L7806)) proves four exact algebraic identities over $\mathbb{C}$:
 1. **Amplitude Normalization**: $|\psi|^2 = \operatorname{Complex.normSq}(\psi) = A^2(\cos^2\theta + \sin^2\theta) = A^2 = \rho$.
 2. **Exact Cancellation of $\dot{A}$ in the Symplectic Time Term**:
 
@@ -160,7 +160,7 @@ Treating $S$ and $A = \sqrt{\rho}$ as the independent real fields in the action 
 
 ### 2.3 Field Legendre Transform ($\mathcal{H}_{\mathrm{Mad}} \ge 0$) & Gradient Bridge to the Compressible Madelung–Euler Momentum Equation
 
-A natural critique of the real hydrodynamic Lagrangian density $\mathcal{L}_{\mathrm{Mad}}$ in Section 2.1 is: *why do the kinetic, external-potential, self-interaction, and quantum-gradient terms all appear with minus signs in $\mathcal{L}_{\mathrm{Mad}}$?* Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8008-L8145)) resolves this by proving the canonical field Legendre transformation with respect to $\partial_t S$:
+A natural critique of the real hydrodynamic Lagrangian density $\mathcal{L}_{\mathrm{Mad}}$ in Section 2.1 is: *why do the kinetic, external-potential, self-interaction, and quantum-gradient terms all appear with minus signs in $\mathcal{L}_{\mathrm{Mad}}$?* Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` ([src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8008-L8145)) resolves this by proving the canonical field Legendre transformation with respect to $\partial_t S$:
 
 1. **Positive-Definite Field Legendre Hamiltonian Density (`madelungAmplitudeHamiltonianDensity`, `madelungHydrodynamicHamiltonianDensity`)**:
    Because $\pi_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\partial_t S)} = -\rho = -A^2$, the canonical Hamilton–Jacobi decomposition $\mathcal{L}_{\mathrm{Mad}} = \pi_S\,\partial_t S - \mathcal{H}_{\mathrm{Mad}}$ yields the strictly nonnegative energy density:
@@ -183,7 +183,7 @@ A natural critique of the real hydrodynamic Lagrangian density $\mathcal{L}_{\ma
 
 ### 3.1 Variational Derivation of Longitudinal Sheath Compression $\Lambda_\parallel(v) = \gamma_\varphi(v)$
 
-In Marco Fedi's Dilatant Dark Fluid framework ({cite:p}`fedi2026ddf`; [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L49-L185)), the continuous $\phi$-superfluid coexists with a heavier dispersed dilatant phase ($\varphi$) of saturated jamming density $\varrho_{\max}^\varphi > 0$ and minimum compressibility $j_{\min}^\varphi > 0$, supporting transverse phonons at the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ (`DDFSubstrate.c`).
+In Marco Fedi's Dilatant Dark Fluid framework ({cite:p}`fedi2026ddf`; [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L49-L185)), the continuous $\phi$-superfluid coexists with a heavier dispersed dilatant phase ($\varphi$) of saturated jamming density $\varrho_{\max}^\varphi > 0$ and minimum compressibility $j_{\min}^\varphi > 0$, supporting transverse phonons at the emergent speed of light $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$ (`DDFSubstrate.c`).
 
 When a massive vortex-core defect of rest mass $m > 0$ translates at subluminal velocity $v < c$ ($\beta = v/c \in [0, 1)$, $\beta^2 = v^2/c^2 < 1$) through the $\varphi$-substrate, the comoving acoustic wave operator acquires the anisotropic convective factor $1 - v^2/c^2 = 1 - \beta^2 > 0$ along the motion axis. Balancing longitudinal elastic compression of the sheath scale $\Lambda_\parallel > 0$ against the dilatant log-strain restoring potential defines the sheath-compression variational functional:
 
@@ -191,7 +191,7 @@ $$
 \mathcal{W}_{\mathrm{sheath}}(\Lambda_\parallel; v) = \frac{1}{2}m c^2\bigl[\Lambda_\parallel^2(1 - \beta^2) - 2\ln\Lambda_\parallel - 1\bigr],
 $$
 
-whose Euler–Lagrange stationary residual with respect to $\Lambda_\parallel$ (normalized by $m c^2$) is (`MovingSheath.sheathCompressionResidual` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7611-L7618)):
+whose Euler–Lagrange stationary residual with respect to $\Lambda_\parallel$ (normalized by $m c^2$) is (`MovingSheath.sheathCompressionResidual` in [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L7611-L7618)):
 
 $$
 \mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = \frac{1}{m c^2}\frac{\partial\mathcal{W}_{\mathrm{sheath}}}{\partial\Lambda_\parallel} = \Lambda_\parallel(1 - \beta^2) - \frac{1}{\Lambda_\parallel},
@@ -274,7 +274,7 @@ $$
 
 ### 3.4 Cross-Domain Bridge to $\text{AdS}_5/\text{CFT}_4$ Black-Brane Emblackening, $405\text{ nm}/532\text{ nm}$ STED Nanolithography, and `kicad-volumetric` DRC
 
-Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8008-L8145)) connects the Madelung variational formalism directly to the companion AdS/CFT ([grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md)) and holographic RISC-V carbon nanolithography ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md)) papers:
+Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` ([src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8008-L8145)) connects the Madelung variational formalism directly to the companion AdS/CFT ([grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md)) and holographic RISC-V carbon nanolithography ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md)) papers:
 
 1. **$\text{AdS}_5$ Planar Black-Brane Emblackening vs. DDF Worldline Lagrangian Square**:
    Evaluating $M_{\text{AdS}_5} = \operatorname{ddfThermalGr24Matrix}\bigl((z/z_H)^2, \theta\bigr)$ for $0 < z < z_H$ proves that the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel product equals the $\text{AdS}_5$ black-brane emblackening factor:
@@ -301,7 +301,7 @@ Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` (
 
 ## 4. Strain-Thickened Dilatant Bogoliubov Dispersion & Evidence Boundaries (`Signals.Pending`)
 
-In a standard weakly interacting Bose–Einstein condensate ($\phi$-phase alone), linearized perturbations around uniform density $\rho_0 > 0$ obey the Bogoliubov squared phase velocity (`standardBogoliubovPhaseVelSq` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7667-L7674)):
+In a standard weakly interacting Bose–Einstein condensate ($\phi$-phase alone), linearized perturbations around uniform density $\rho_0 > 0$ obey the Bogoliubov squared phase velocity (`standardBogoliubovPhaseVelSq` in [src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L7667-L7674)):
 
 $$
 v_p^2(k) = \frac{\omega_{\mathrm{Bog}}^2(k)}{k^2} = \frac{\hbar^2 k^2}{4 m_\phi^2} + \frac{g_0 \rho_0}{m_\phi}.
@@ -316,7 +316,7 @@ $$
 
 ### Epistemic & Physical Evidence Boundary (`MadelungDilatantVariationalHypothesis`)
 
-In accordance with the repository's evidence-triage discipline ([../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4839-L4932)), `MadelungDilatantVariationalHypothesis` separates the machine-checked variational identities from open experimental premises:
+In accordance with the repository's evidence-triage discipline ([../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L4839-L4932)), `MadelungDilatantVariationalHypothesis` separates the machine-checked variational identities from open experimental premises:
 
 | Claim / Mathematical Layer | Status in `Signals` | Owning Declaration | Required Experimental / Calibration Control |
 |---|---|---|---|
@@ -493,24 +493,24 @@ end ArxivMadelungLagrangianDdfJammingVerification
 
 ### Scholarly References
 
-(mad-madelung1927)=
-<a id="mad-madelung1927"></a>
+(madelung1927)=
+<a id="madelung1927"></a>
 1. Madelung, E. (1927). *Quantentheorie in hydrodynamischer Form*. Zeitschrift für Physik 40(3–4), 322–326. [DOI: 10.1007/BF01400372](https://doi.org/10.1007/BF01400372).
 
 (mad-bohm1952)=
 <a id="mad-bohm1952"></a>
 2. Bohm, D. (1952). *A Suggested Interpretation of the Quantum Theory in Terms of "Hidden" Variables. I*. Physical Review 85(2), 166–179. [DOI: 10.1103/PhysRev.85.166](https://doi.org/10.1103/PhysRev.85.166).
 
-(mad-gross1961)=
-<a id="mad-gross1961"></a>
+(gross1961)=
+<a id="gross1961"></a>
 3. Gross, E. P. (1961). *Structure of a quantized vortex in boson systems*. Il Nuovo Cimento 20(3), 454–477. [DOI: 10.1007/BF02731494](https://doi.org/10.1007/BF02731494).
 
-(mad-pitaevskii1961)=
-<a id="mad-pitaevskii1961"></a>
+(pitaevskii1961)=
+<a id="pitaevskii1961"></a>
 4. Pitaevskii, L. P. (1961). *Vortex Lines in an Imperfect Bose Gas*. Soviet Physics JETP 13(2), 451–454.
 
-(mad-unruh1981)=
-<a id="mad-unruh1981"></a>
+(unruh1981)=
+<a id="unruh1981"></a>
 5. Unruh, W. G. (1981). *Experimental Black-Hole Evaporation?* Physical Review Letters 46(21), 1351–1353. [DOI: 10.1103/PhysRevLett.46.1351](https://doi.org/10.1103/PhysRevLett.46.1351).
 
 (mad-fedi2026)=

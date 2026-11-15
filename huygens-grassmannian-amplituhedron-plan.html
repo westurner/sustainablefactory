@@ -49,9 +49,9 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -91,7 +91,7 @@
       <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -386,13 +386,13 @@ its assumptions, not those assumptions’ physical truth.</p>
 <p>Review date: 2026-10-08. The review target is the Git index, not all changes in
 the working tree. It includes
 <a class="reference download internal" download="" href="_downloads/181215391bfc5bbb3d52ad41942d94c1/README.md"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/README.md</span></code></a>,
-<a class="reference download internal" download="" href="_downloads/0ae578627d5e6e3b38559674437b3482/Signals.lean"><span class="xref download myst">Signals.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">SignalsTests.lean</span></a>, and
-<a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">SignalsPendingTests.lean</span></a>.
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals.lean">Signals.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean">Geometry.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean">Pending.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean">SignalsTests.lean</a>, and
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean">SignalsPendingTests.lean</a>.
 Dependency and toolchain changes are also staged, but their upstream suitability
 is outside this mathematical review. Unstaged changes to Pending, tests, and
 the README are not attributed to this snapshot. Links resolve to the local
@@ -414,22 +414,22 @@ and promotion gates, not findings of false Lean theorems.</p>
 <tbody>
 <tr class="row-even"><td><p>P2, physical API</p></td>
 <td><p>Require a regular evaluation domain.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">Aperture.regularAt</span></code> exists in <a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>, but <code class="docutils literal notranslate"><span class="pre">amplitude</span></code> and <code class="docutils literal notranslate"><span class="pre">DoubleSlit</span></code> do not require it. Coincident samples evaluate through totalized division. This is documented algebra, not a physical singularity treatment.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Aperture.regularAt</span></code> exists in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean#L57">Huygens.lean</a>, but <code class="docutils literal notranslate"><span class="pre">amplitude</span></code> and <code class="docutils literal notranslate"><span class="pre">DoubleSlit</span></code> do not require it. Coincident samples evaluate through totalized division. This is documented algebra, not a physical singularity treatment.</p></td>
 <td><p>A guarded wrapper, positive separation bounds, and a coincident-point rejection test.</p></td>
 </tr>
 <tr class="row-odd"><td><p>P2, research validation</p></td>
 <td><p>Construct candidate contributions independently of slit amplitudes.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GrassmannianDoubleSlitHypothesis</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><span class="xref download myst">Pending.lean</span></a> supplies <code class="docutils literal notranslate"><span class="pre">contribution</span></code>, <code class="docutils literal notranslate"><span class="pre">firstMatch</span></code>, and <code class="docutils literal notranslate"><span class="pre">secondMatch</span></code>. Its conclusions do not derive those functions from the geometry.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GrassmannianDoubleSlitHypothesis</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L1247">Pending.lean</a> supplies <code class="docutils literal notranslate"><span class="pre">contribution</span></code>, <code class="docutils literal notranslate"><span class="pre">firstMatch</span></code>, and <code class="docutils literal notranslate"><span class="pre">secondMatch</span></code>. Its conclusions do not derive those functions from the geometry.</p></td>
 <td><p>A geometry-to-amplitude evaluator and a deliberately mismatching candidate that fails the comparison.</p></td>
 </tr>
 <tr class="row-even"><td><p>P2, test coverage</p></td>
 <td><p>Add a nonzero bridge fixture and a detector sweep.</p></td>
-<td><p>The Pending example in <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><span class="xref download myst">SignalsPendingTests.lean</span></a> uses empty apertures and zero contributions. The verified optics examples in <a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><span class="xref download myst">SignalsTests.lean</span></a> establish finite algebra and symmetric-path equality, not an independently computed fringe map.</p></td>
+<td><p>The Pending example in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L4563">SignalsPendingTests.lean</a> uses empty apertures and zero contributions. The verified optics examples in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L1018">SignalsTests.lean</a> establish finite algebra and symmetric-path equality, not an independently computed fringe map.</p></td>
 <td><p>Nonempty slits, several relative phases, destructive minima, both single-slit masks, and off-axis detector samples.</p></td>
 </tr>
 <tr class="row-odd"><td><p>P3, future topology</p></td>
 <td><p>Derive exits, decorations, and cell data where possible.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">BoundaryRouting</span></code> in <a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a> checks supplied exits and a supplied permutation. It does not construct a disk embedding or derive fixed-point colors.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BoundaryRouting</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L112">Plabic.lean</a> checks supplied exits and a supplied permutation. It does not construct a disk embedding or derive fixed-point colors.</p></td>
 <td><p>A finite first-return construction and a separately verified planar network model.</p></td>
 </tr>
 </tbody>
@@ -580,7 +580,7 @@ M_{\mu\nu}(x,p)=x_\mu p_\nu-x_\nu p_\mu,
 I_{\mathrm{parallel}}=I_{\mathrm{CM}}+m d_\perp^2.
 \]</div>
 <p>The last identity is the separate scalar model in
-<a class="reference download internal" download="" href="_downloads/c7d524a38beb60ec0f6a388c13bd725d/Coherence.lean"><span class="xref download myst">Coherence.lean</span></a>.
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean#L37">Coherence.lean</a>.
 For a physical derivation, <span class="math notranslate nohighlight">\(d_\perp\)</span> is the perpendicular separation of parallel
 axes and the first moment about the center of mass vanishes. Neither a twistor
 shear nor antisymmetry of <span class="math notranslate nohighlight">\(M\)</span> supplies those mechanical assumptions.</p>
@@ -954,7 +954,7 @@ requiring a completed differential-form library.</p>
 <h2>Implementation Checkpoints<a class="headerlink" href="#implementation-checkpoints" title="Link to this heading">¶</a></h2>
 <section id="iteration-1-regular-evaluation-and-action-scale">
 <h3>Iteration 1: Regular Evaluation and Action Scale<a class="headerlink" href="#iteration-1-regular-evaluation-and-action-scale" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>:
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a>:
 <code class="docutils literal notranslate"><span class="pre">distance_pos_of_ne</span></code>, source/detector coincidence rejection, positive regular
 propagation distances, <code class="docutils literal notranslate"><span class="pre">ApertureSeparation.regular</span></code>, <code class="docutils literal notranslate"><span class="pre">RegularSlitEvaluation</span></code>,
 <code class="docutils literal notranslate"><span class="pre">DoubleSlit.regularAmplitude</span></code>, and the positive <code class="docutils literal notranslate"><span class="pre">ActionScale</span></code> wrapper.
@@ -1012,7 +1012,7 @@ the rectangular-slit Fraunhofer limit have not been connected to this integral.<
 </section>
 <section id="iteration-4-grassmannian-basis-and-a-positive-cell">
 <h3>Iteration 4: Grassmannian Basis and a Positive Cell<a class="headerlink" href="#iteration-4-grassmannian-basis-and-a-positive-cell" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a> proves
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean">Geometry.lean</a> proves
 <code class="docutils literal notranslate"><span class="pre">selectedMinor_basisChange</span></code> for arbitrary finite row/column sizes. Every
 ordered maximal minor acquires the same determinant factor. Nonsingular
 basis changes preserve totalized ratios; use a nonzero denominator for a
@@ -1030,7 +1030,7 @@ network moves, and general Pluecker relations remain phase-3 obligations.</p>
 </section>
 <section id="iteration-5-affine-alternating-forms-and-residues">
 <h3>Iteration 5: Affine Alternating Forms and Residues<a class="headerlink" href="#iteration-5-affine-alternating-forms-and-residues" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/dabf613a1bcc5443fd69f575573e3d33/CanonicalForms.lean"><span class="xref download myst">CanonicalForms.lean</span></a> represents
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/CanonicalForms.lean">CanonicalForms.lean</a> represents
 the interval, triangle, and unit-square examples as position-dependent
 alternating covectors. The one-form acts on a one-dimensional tangent vector;
 the two-forms evaluate the determinant of two tangent vectors. This adds
@@ -1077,7 +1077,7 @@ or declaring phases 5–7 complete.
 </section>
 <section id="iteration-7-measured-cell-quadrature-and-refinement">
 <h3>Iteration 7: Measured-Cell Quadrature and Refinement<a class="headerlink" href="#iteration-7-measured-cell-quadrature-and-refinement" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/a971a0e0eb8f5714d42c7371c7c5046c/Quadrature.lean"><span class="xref download myst">Quadrature.lean</span></a> introduces a finite
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Quadrature.lean">Quadrature.lean</a> introduces a finite
 measurable disjoint cell partition with one sample per cell. Its weights are
 the actual restricted measure masses, not fitted amplitude coefficients.
 The cell measures decompose the original measure, their weights sum to its
@@ -1110,7 +1110,7 @@ HTML generation passed with 66 warnings, and <code class="docutils literal notra
 </section>
 <section id="iteration-8-derived-bounded-first-exit-routing">
 <h3>Iteration 8: Derived Bounded First-Exit Routing<a class="headerlink" href="#iteration-8-derived-bounded-first-exit-routing" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a> now computes <code class="docutils literal notranslate"><span class="pre">firstExit</span></code>
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a> now computes <code class="docutils literal notranslate"><span class="pre">firstExit</span></code>
 from a directed edge and fuel, returning an earliest step count and boundary
 label or an explicit fuel failure. Successful results satisfy the route
 equation, stay within the budget, and exclude every earlier boundary exit.
@@ -1129,7 +1129,7 @@ Fixed-point colors remain supplied data; no planarity or reducedness is inferred
 </section>
 <section id="iteration-9-finite-weighted-acyclic-measurements">
 <h3>Iteration 9: Finite Weighted Acyclic Measurements<a class="headerlink" href="#iteration-9-finite-weighted-acyclic-measurements" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">WeightedAcyclicNetwork</span></code> in <a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a>
+<p><code class="docutils literal notranslate"><span class="pre">WeightedAcyclicNetwork</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a>
 uses nonnegative edge weights and a checked strictly increasing level on every
 nonzero edge. Mathlib matrix powers compute successive weighted compositions.
 A path longer than the available level difference has zero weight; the
@@ -1148,7 +1148,7 @@ phase/units remain outside this finite nonnegative-weight model.</p>
 </section>
 <section id="iteration-10-continuing-dart-permutation">
 <h3>Iteration 10: Continuing Dart Permutation<a class="headerlink" href="#iteration-10-continuing-dart-permutation" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a> constructs <code class="docutils literal notranslate"><span class="pre">dartTurn</span></code>
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a> constructs <code class="docutils literal notranslate"><span class="pre">dartTurn</span></code>
 by composing edge reversal with the existing color-dependent neighbor
 permutations. A boundary turn continues through its unique incident edge;
 the original absorbing <code class="docutils literal notranslate"><span class="pre">step</span></code> and <code class="docutils literal notranslate"><span class="pre">route</span></code> remain unchanged. The continuing
@@ -1165,7 +1165,7 @@ not inferred from this intermediate construction.</p>
 </section>
 <section id="iteration-11-dart-count-boundary-search-guarantee">
 <h3>Iteration 11: Dart-Count Boundary Search Guarantee<a class="headerlink" href="#iteration-11-dart-count-boundary-search-guarantee" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">route_eq_dartIterate</span></code> in <a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a>
+<p><code class="docutils literal notranslate"><span class="pre">route_eq_dartIterate</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a>
 proves agreement between absorbing and continuing dynamics before any
 boundary arrival. Exhausted fuel excludes all earlier arrivals because
 boundary absorption would preserve them through the remaining budget.
@@ -1184,7 +1184,7 @@ rules, embedding, reduction moves and cell interpretation remain separate.</p>
 </section>
 <section id="iteration-12-derived-boundary-first-return-permutation">
 <h3>Iteration 12: Derived Boundary First-Return Permutation<a class="headerlink" href="#iteration-12-derived-boundary-first-return-permutation" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a> proves that one continuing
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a> proves that one continuing
 turn after the earliest boundary arrival reaches its boundary start edge.
 No positive iterate reaches any boundary start earlier. Comparing two such
 returns and cancelling injective dart iterates proves that distinct starts
@@ -1204,7 +1204,7 @@ embedding, reducedness, network moves, minor positivity or positroid cells.</p>
 <section id="iteration-13-guarded-weighted-edge-subdivision">
 <h3>Iteration 13: Guarded Weighted Edge Subdivision<a class="headerlink" href="#iteration-13-guarded-weighted-edge-subdivision" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">oneEdgePath</span></code> and <code class="docutils literal notranslate"><span class="pre">twoEdgePath</span></code> in
-<a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a> construct ranked networks
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a> construct ranked networks
 with independently supplied weights. Their actual finite transfer entries
 recover a single weight and the product of two successive weights.
 For a nonzero subdivision factor <span class="math notranslate nohighlight">\(a\)</span>, <code class="docutils literal notranslate"><span class="pre">subdivision_boundary</span></code> proves equality
@@ -1390,7 +1390,7 @@ path obligations and an independently justified complex evaluator remain open.</
 </section>
 <section id="iteration-21-general-2-times-n-four-column-pluecker-relations">
 <h3>Iteration 21: General <span class="math notranslate nohighlight">\(2 \times n\)</span> Four-Column Pluecker Relations<a class="headerlink" href="#iteration-21-general-2-times-n-four-column-pluecker-relations" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">twoRowMinor</span></code> in <a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a> evaluates
+<p><code class="docutils literal notranslate"><span class="pre">twoRowMinor</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean">Geometry.lean</a> evaluates
 arbitrary two-column determinants of any real <span class="math notranslate nohighlight">\(2 \times n\)</span> matrix and agrees
 with <code class="docutils literal notranslate"><span class="pre">selectedMinor</span></code> on every strictly ordered column pair
 (<code class="docutils literal notranslate"><span class="pre">twoRowMinor_eq_selectedMinor</span></code>). <code class="docutils literal notranslate"><span class="pre">twoRowMinor_pluecker</span></code> proves the three-term
@@ -1416,7 +1416,7 @@ and quotient constructions remain open.</p>
 <section id="iteration-22-parallel-two-edge-path-reduction">
 <h3>Iteration 22: Parallel Two-Edge Path Reduction<a class="headerlink" href="#iteration-22-parallel-two-edge-path-reduction" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">WeightedAcyclicNetwork.diamond</span></code> in
-<a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a> models one source at level
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a> models one source at level
 zero feeding two parallel intermediate vertices at level one, which both feed
 one sink at level two. <code class="docutils literal notranslate"><span class="pre">diamond_transfer</span></code> derives its actual finite transfer
 sum as the sum of the two parallel two-edge path products:</p>
@@ -1435,7 +1435,7 @@ series-parallel graph reductions remain open.</p>
 <section id="iteration-23-analytic-fraunhofer-rectangular-double-slit-benchmark">
 <h3>Iteration 23: Analytic Fraunhofer Rectangular Double-Slit Benchmark<a class="headerlink" href="#iteration-23-analytic-fraunhofer-rectangular-double-slit-benchmark" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">unnormalizedSinc</span></code> and <code class="docutils literal notranslate"><span class="pre">fraunhoferRectangularDoubleSlit</span></code> in
-<a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a> formalize the analytic
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a> formalize the analytic
 paraxial/Fraunhofer benchmark stated above:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1460,11 +1460,11 @@ via an explicit paraxial error bound remains a Phase 2 obligation.</p>
 </section>
 <section id="iteration-24-five-model-double-slit-superposition-gr-2-4-pluecker-channels-qianizadi-parallel-axis-coherence-and-oam-relative-predictive-error">
 <h3>Iteration 24: Five-Model Double-Slit Superposition, <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> Pluecker Channels, Qian–Izadi Parallel-Axis Coherence, and OAM Relative Predictive Error<a class="headerlink" href="#iteration-24-five-model-double-slit-superposition-gr-2-4-pluecker-channels-qianizadi-parallel-axis-coherence-and-oam-relative-predictive-error" title="Link to this heading">¶</a></h3>
-<p><a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/c7d524a38beb60ec0f6a388c13bd725d/Coherence.lean"><span class="xref download myst">Coherence.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>, and
-<a class="reference download internal" download="" href="_downloads/6b967226432e92a223702df79dcb61a2/OAM.lean"><span class="xref download myst">OAM.lean</span></a> formalize and compare double-slit
+<p><a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Coherence.lean">Coherence.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean">Geometry.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>, and
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/OAM.lean">OAM.lean</a> formalize and compare double-slit
 superposition and its relative predictive error across five mathematical
 frameworks, both for standard planar wavefronts and for beams carrying
 <strong>Orbital Angular Momentum (OAM)</strong>:</p>
@@ -1675,11 +1675,11 @@ azimuthal phase twist <span class="math notranslate nohighlight">\(\Delta\ell\,\
 </section>
 <section id="iteration-25-quantum-inverse-scattering-method-qism-8-times-8-matrix-quantum-yangbaxter-equation-gr-2-4-baxter-qq-tq-wronskians-and-n-slit-n-0-generalization">
 <h3>Iteration 25: Quantum Inverse Scattering Method (QISM), <span class="math notranslate nohighlight">\(8 \times 8\)</span> Matrix Quantum Yang–Baxter Equation, <span class="math notranslate nohighlight">\(Gr(2,4)\)</span> Baxter <span class="math notranslate nohighlight">\(QQ/TQ\)</span> Wronskians, and <span class="math notranslate nohighlight">\(N\)</span>-Slit (<span class="math notranslate nohighlight">\(N &gt; 0\)</span>) Generalization<a class="headerlink" href="#iteration-25-quantum-inverse-scattering-method-qism-8-times-8-matrix-quantum-yangbaxter-equation-gr-2-4-baxter-qq-tq-wronskians-and-n-slit-n-0-generalization" title="Link to this heading">¶</a></h3>
-<p>Implemented across <a class="reference download internal" download="" href="_downloads/3d7c103c6459a4f4ccb5918d61408af1/QISM.lean"><span class="xref download myst">QISM.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">Scattering.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/6b967226432e92a223702df79dcb61a2/OAM.lean"><span class="xref download myst">OAM.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/c99c6ce8e34904e5d8be6b1b53fb47c1/SolitonBus.lean"><span class="xref download myst">SolitonBus.lean</span></a>, and the Rust/WASM/GLSL
+<p>Implemented across <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QISM.lean">QISM.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean">Scattering.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/OAM.lean">OAM.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/SolitonBus.lean">SolitonBus.lean</a>, and the Rust/WASM/GLSL
 crate (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/double_slit.rs</span></code>), and documented in
 <a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">grassmannian-qism-bethe-ansatz-paper.md</span></a>
 and <a class="reference internal" href="grassmannian-huygens-double-slit-oam-paper.html"><span class="std std-doc">grassmannian-huygens-double-slit-oam-paper.md</span></a>:</p>
@@ -1705,9 +1705,9 @@ generalized all five double-slit models to <span class="math notranslate nohighl
 </section>
 <section id="iteration-26-pluecker-sink-flux-hydrodynamics-dilatant-dark-fluid-ddf-moving-sheaths-anosov-symplectic-invariance-and-n-ary-gr-mathbb-c-2-n-2-sorkin-triple-slit-unification">
 <h3>Iteration 26: Pluecker Sink-Flux Hydrodynamics, Dilatant Dark Fluid (DDF) Moving Sheaths, Anosov Symplectic Invariance, and <span class="math notranslate nohighlight">\(N\)</span>-ary <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2, N+2)\)</span> Sorkin Triple-Slit Unification<a class="headerlink" href="#iteration-26-pluecker-sink-flux-hydrodynamics-dilatant-dark-fluid-ddf-moving-sheaths-anosov-symplectic-invariance-and-n-ary-gr-mathbb-c-2-n-2-sorkin-triple-slit-unification" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>, and
-<a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>, and documented in
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean">Geometry.lean</a>, and
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a>, and documented in
 <a class="reference internal" href="grassmannian-ddf-moving-sheath-paper.html"><span class="std std-doc">grassmannian-ddf-moving-sheath-paper.md</span></a>:</p>
 <ul class="simple">
 <li><p><strong>Reciprocal Visibility–Jamming Duality &amp; Critique Resolutions</strong>:
@@ -1728,7 +1728,7 @@ vanishing Sorkin third-order quantum interference parameter <span class="math no
 </section>
 <section id="iteration-27-grassmannian-gravity-from-qed-gauge-scattering-amplitudes-bcj-double-copy-on-gr-mathbb-c-2-4-precessing-polar-conics-and-mercurys-42-98-text-cy-perihelion-precession">
 <h3>Iteration 27: Grassmannian Gravity from QED/Gauge Scattering Amplitudes, BCJ Double Copy on <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>, Precessing Polar Conics, and Mercury’s <span class="math notranslate nohighlight">\(42.98''/\text{cy}\)</span> Perihelion Precession<a class="headerlink" href="#iteration-27-grassmannian-gravity-from-qed-gauge-scattering-amplitudes-bcj-double-copy-on-gr-mathbb-c-2-4-precessing-polar-conics-and-mercurys-42-98-text-cy-perihelion-precession" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a> and
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a> and
 <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/orbital_splat.rs</span></code>, and documented in
 <a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">grassmannian-gravity-from-qed-scattering-paper.md</span></a>:</p>
 <ul class="simple">
@@ -1748,7 +1748,7 @@ together with the <span class="math notranslate nohighlight">\(N\)</span>-body <
 </section>
 <section id="iteration-28-normed-2d-anisotropic-tensor-gaussian-splat-mechanics-dual-layer-gr-mathbb-c-2-4-twistor-wavepackets-core-bohm-potential-and-madelung-quantum-pressure-tensor-pi-ij">
 <h3>Iteration 28: Normed 2D Anisotropic Tensor Gaussian Splat Mechanics, Dual-Layer <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Twistor Wavepackets, Core Bohm Potential, and Madelung Quantum Pressure Tensor <span class="math notranslate nohighlight">\(\Pi_{ij}\)</span><a class="headerlink" href="#iteration-28-normed-2d-anisotropic-tensor-gaussian-splat-mechanics-dual-layer-gr-mathbb-c-2-4-twistor-wavepackets-core-bohm-potential-and-madelung-quantum-pressure-tensor-pi-ij" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a> and
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a> and
 <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/orbital_splat.rs</span></code> (with WebGL2 <code class="docutils literal notranslate"><span class="pre">#version</span> <span class="pre">300</span> <span class="pre">es</span></code>
 shaders <code class="docutils literal notranslate"><span class="pre">orbital_splat.vert.glsl</span></code> and <code class="docutils literal notranslate"><span class="pre">orbital_splat.frag.glsl</span></code>), and documented in
 <a class="reference internal" href="grassmannian-splat-mechanics-paper.html"><span class="std std-doc">grassmannian-splat-mechanics-paper.md</span></a>:</p>
@@ -1769,8 +1769,8 @@ $<span class="math notranslate nohighlight">\(Q_{\mathrm{core}}(\Sigma) = \frac{
 </section>
 <section id="iteration-29-inelastic-scattering-inverse-compton-stokes-anti-stokes-raman-what-gr-mathbb-c-2-4-does-not-cover-and-the-heat-problem-fourier-cattaneovernotte-splat-free-continuum-gr-mathbb-c-2-4-ddf-and-thermal-splat-evolution">
 <h3>Iteration 29: Inelastic Scattering (Inverse Compton &amp; Stokes/Anti-Stokes Raman), What <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Does Not Cover, and the Heat Problem (Fourier, Cattaneo–Vernotte, Splat-Free Continuum <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span>–DDF, and Thermal Splat Evolution)<a class="headerlink" href="#iteration-29-inelastic-scattering-inverse-compton-stokes-anti-stokes-raman-what-gr-mathbb-c-2-4-does-not-cover-and-the-heat-problem-fourier-cattaneovernotte-splat-free-continuum-gr-mathbb-c-2-4-ddf-and-thermal-splat-evolution" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">Scattering.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>, and
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean">Scattering.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>, and
 <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/thermal_inelastic.rs</span></code>, and documented in
 <a class="reference internal" href="grassmannian-thermal-compton-raman-paper.html"><span class="std std-doc">grassmannian-thermal-compton-raman-paper.md</span></a>:</p>
 <ul class="simple">
@@ -1805,8 +1805,8 @@ core Bohm relaxation theorems (<code class="docutils literal notranslate"><span 
 </section>
 <section id="iteration-30-polaritons-hopfield-bogoliubov-mixing-vacuum-rabi-anticrossing-lyddanesachsteller-reststrahlen-bands-and-surface-plasmon-polaritons-spps-with-and-without-tensor-gaussian-splats">
 <h3>Iteration 30: Polaritons (Hopfield Bogoliubov Mixing, Vacuum Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands) and Surface Plasmon Polaritons (SPPs) With and Without Tensor Gaussian Splats<a class="headerlink" href="#iteration-30-polaritons-hopfield-bogoliubov-mixing-vacuum-rabi-anticrossing-lyddanesachsteller-reststrahlen-bands-and-surface-plasmon-polaritons-spps-with-and-without-tensor-gaussian-splats" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">Scattering.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>, and
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean">Scattering.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>, and
 <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/polariton_spp.rs</span></code>, and documented in
 <a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">grassmannian-polariton-spp-mechanics-paper.md</span></a>:</p>
 <ul class="simple">
@@ -1835,8 +1835,8 @@ and obeys Ohmic-thermal semigroup identity/additivity and monotonic Bohm relaxat
 </section>
 <section id="iteration-31-coherent-synchrotron-radiation-csr-on-cylindrical-spp-microtubes-cnts-cavity-qed-vs-cherenkov-phase-matching-t-hooftsusskind-holography-and-second-harmonic-chi-2-resonant-opa-with-and-without-splats">
 <h3>Iteration 31: Coherent Synchrotron Radiation (CSR) on Cylindrical SPP Microtubes/CNTs, Cavity QED vs. Cherenkov Phase Matching, ‘t Hooft–Susskind Holography, and Second-Harmonic (<span class="math notranslate nohighlight">\(\chi^{(2)}\)</span>) Resonant OPA (With and Without Splats)<a class="headerlink" href="#iteration-31-coherent-synchrotron-radiation-csr-on-cylindrical-spp-microtubes-cnts-cavity-qed-vs-cherenkov-phase-matching-t-hooftsusskind-holography-and-second-harmonic-chi-2-resonant-opa-with-and-without-splats" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">Scattering.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>, and
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean">Scattering.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>, and
 <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/polariton_spp.rs</span></code>, and documented in
 <a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">grassmannian-polariton-spp-mechanics-paper.md</span></a>,
 <a class="reference internal" href="grassmannian-holographic-principle-paper.html"><span class="std std-doc">grassmannian-holographic-principle-paper.md</span></a>,
@@ -1869,8 +1869,8 @@ and Madelung quantum pressure squeezing anisotropy <span class="math notranslate
 </section>
 <section id="iteration-32-maldacena-gkpw-ads-cft-correspondence-planar-integrability-arxiv-1012-3982-secret-symmetries-arxiv-1204-2366-and-complex-gr-mathbb-c-2-4-ddf-holographic-rg-unification-with-and-without-splats">
 <h3>Iteration 32: Maldacena/GKPW AdS/CFT Correspondence, Planar Integrability (<code class="docutils literal notranslate"><span class="pre">arXiv:1012.3982</span></code>), Secret Symmetries (<code class="docutils literal notranslate"><span class="pre">arXiv:1204.2366</span></code>), and Complex <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> / DDF Holographic RG Unification (With and Without Splats)<a class="headerlink" href="#iteration-32-maldacena-gkpw-ads-cft-correspondence-planar-integrability-arxiv-1012-3982-secret-symmetries-arxiv-1204-2366-and-complex-gr-mathbb-c-2-4-ddf-holographic-rg-unification-with-and-without-splats" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">Scattering.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>, and
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean">Scattering.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>, and
 <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/polariton_spp.rs</span></code>, and documented in
 <a class="reference internal" href="grassmannian-ads-cft-ddf-paper.html"><span class="std std-doc">grassmannian-ads-cft-ddf-paper.md</span></a>:</p>
 <ul class="simple">
@@ -1905,11 +1905,11 @@ and relaxes both the continuum and splat core Bohm potentials by <span class="ma
 </section>
 <section id="iteration-33-paraxial-fresnel-to-fraunhofer-remainder-bound-higher-rank-gr-3-n-gr-mathbb-c-3-n-four-term-plucker-relations-multi-layer-three-channel-k-3-lgv-disjoint-path-positivity-and-full-16-times-16-mathfrak-psl-2-2-c-worldsheet-r-matrix-secret-intertwining">
 <h3>Iteration 33: Paraxial Fresnel-to-Fraunhofer Remainder Bound, Higher-Rank <span class="math notranslate nohighlight">\(Gr(3,n)\)</span> / <span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(3,n)\)</span> Four-Term Plücker Relations, Multi-Layer &amp; Three-Channel (<span class="math notranslate nohighlight">\(k=3\)</span>) LGV Disjoint-Path Positivity, and Full <span class="math notranslate nohighlight">\(16 \times 16\)</span> <span class="math notranslate nohighlight">\(\mathfrak{psl}(2|2)_c\)</span> Worldsheet <span class="math notranslate nohighlight">\(R\)</span>-Matrix Secret Intertwining<a class="headerlink" href="#iteration-33-paraxial-fresnel-to-fraunhofer-remainder-bound-higher-rank-gr-3-n-gr-mathbb-c-3-n-four-term-plucker-relations-multi-layer-three-channel-k-3-lgv-disjoint-path-positivity-and-full-16-times-16-mathfrak-psl-2-2-c-worldsheet-r-matrix-secret-intertwining" title="Link to this heading">¶</a></h3>
-<p>Implemented in <a class="reference download internal" download="" href="_downloads/ea068627e8029abdec69b48231aa51d5/Huygens.lean"><span class="xref download myst">Huygens.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/a971a0e0eb8f5714d42c7371c7c5046c/Quadrature.lean"><span class="xref download myst">Quadrature.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/b1c89602c77a0c0ed32e402427423479/Geometry.lean"><span class="xref download myst">Geometry.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/3fcbd8bb6a477503f4fa465903050fa9/Plabic.lean"><span class="xref download myst">Plabic.lean</span></a>,
-<a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><span class="xref download myst">Scattering.lean</span></a>, and the Rust/WASM crate
+<p>Implemented in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Huygens.lean">Huygens.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Quadrature.lean">Quadrature.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Geometry.lean">Geometry.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean">Plabic.lean</a>,
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Scattering.lean">Scattering.lean</a>, and the Rust/WASM crate
 (<code class="docutils literal notranslate"><span class="pre">double_slit.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">orbital_splat.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">polariton_spp.rs</span></code>):</p>
 <ul>
 <li><p><strong>Paraxial Fresnel-to-Fraunhofer Quadratic Phase Remainder &amp; Combined Quadrature Comparison (<code class="docutils literal notranslate"><span class="pre">fresnel_to_fraunhofer_remainder_bound</span></code>, <code class="docutils literal notranslate"><span class="pre">CellQuadrature.fresnelFraunhoferComparison</span></code>)</strong>:
@@ -1963,7 +1963,7 @@ the mixed boson–fermion diagonal commutator residual <span class="math notrans
 </li>
 <li><p><strong>Adaptive Two-Child Splat Splitting Conservation (<code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D.splitMajor_conservation_identities</span></code>) &amp; Coupled Electro-Thermal-Optical OPA Gain</strong>:
 Formalized <code class="docutils literal notranslate"><span class="pre">splitMajorOffset</span></code>, <code class="docutils literal notranslate"><span class="pre">splitMajorPlus</span></code>, <code class="docutils literal notranslate"><span class="pre">splitMajorMinus</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">splitMajor_conservation_identities</span></code> in <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><span class="xref download myst">DDF.lean</span></a>
+<code class="docutils literal notranslate"><span class="pre">splitMajor_conservation_identities</span></code> in <a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean">DDF.lean</a>
 (and <code class="docutils literal notranslate"><span class="pre">NormedTensorGaussianSplat2D::split_if_anisotropic</span></code> / <code class="docutils literal notranslate"><span class="pre">OrbitalSplatScene::adaptive_remesh</span></code>
 in <code class="docutils literal notranslate"><span class="pre">orbital_splat.rs</span></code>), proving exact <span class="math notranslate nohighlight">\(L^1\)</span> weight conservation (<span class="math notranslate nohighlight">\(w_+ + w_- = w\)</span>),
 center-of-mass preservation, major-axis second-moment variance conservation
@@ -2411,7 +2411,7 @@ Postnikov, A. (2006). <em>Total positivity, Grassmannians, and networks</em>.
 <a class="reference external" href="https://doi.org/10.48550/arXiv.math/0609764">DOI: 10.48550/arXiv.math/0609764</a>.
 Source type: mathematical preprint on nonnegative Grassmannian cells and
 weighted planar networks, not an optical-device validation.</p>
-<p id="scholarly-qian-izadi"><a id="qian-izadi2023"></a>
+<p id="scholarly-qian-izadi"><a id="qian2023"></a>
 Qian, X.-F., and Izadi, M. (2023). <em>Bridging coherence optics and classical
 mechanics: A generic light polarization-entanglement complementary relation</em>.
 Physical Review Research 5(3), 033110.

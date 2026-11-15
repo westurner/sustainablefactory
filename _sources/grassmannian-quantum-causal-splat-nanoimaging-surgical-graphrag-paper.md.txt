@@ -10,9 +10,9 @@ description: "An arXiv-ready MyST Markdown formal verification and systems engin
 - **Subjects:**
   - Machine Learning (`cs.LG`); Computer Vision and Pattern Recognition (`cs.CV`); Information Retrieval (`cs.IR`); Medical Physics (`physics.med-ph`); Quantum Physics (`quant-ph`); Optics (`physics.optics`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L1680-L2164), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5750-L5867), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L250-L280), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8346-L9050), [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L1-L420), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L6710-L6803), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5380-L5456))
-  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L420-L545))
-  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/quantum_causal_inference.rs](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L930-L1525))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/QuantumCausalInference.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCausalInference.lean#L1680-L2164), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L5750-L5867), [../src/signals/SignalsPending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPending.lean#L250-L280), [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8346-L9050), [../src/signals/Signals/MultiArrayImaging.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/MultiArrayImaging.lean#L1-L420), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L6710-L6803), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5380-L5456))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](https://github.com/westurner/sustainablefactory/blob/main/src/signals/blueprint/src/content.tex#L420-L545))
+  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/quantum_causal_inference.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/quantum_causal_inference.rs#L930-L1525))
 - **Companion Papers:**
   - [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation in Lean 4 and Rust/WASM](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
   - [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md)
@@ -80,7 +80,7 @@ flowchart LR
 
 ### 1.1 Exact Complexity Ledger and the $> 6{,}400\times$ Efficiency Theorem
 
-Consider a 3D spatiotemporal or volumetric grid of dimensions $T \times H \times W$ with total voxel/patch count $N_{\mathrm{vox}} = T \cdot H \cdot W$ and per-head feature dimension $d_{\mathrm{head}} > 0$. In standard 3D spatiotemporal self-attention {cite:p}`qcs-vaswani2017`, every voxel attends to every other voxel across the volume, incurring quadratic FLOP complexity (`spatiotemporalFullAttentionComplexity`):
+Consider a 3D spatiotemporal or volumetric grid of dimensions $T \times H \times W$ with total voxel/patch count $N_{\mathrm{vox}} = T \cdot H \cdot W$ and per-head feature dimension $d_{\mathrm{head}} > 0$. In standard 3D spatiotemporal self-attention {cite:p}`vaswani2017`, every voxel attends to every other voxel across the volume, incurring quadratic FLOP complexity (`spatiotemporalFullAttentionComplexity`):
 
 $$
 \mathcal{C}_{\mathrm{attn}}(T, H, W, d_{\mathrm{head}}) = (T \cdot H \cdot W)^2 \, d_{\mathrm{head}} = N_{\mathrm{vox}}^2 \, d_{\mathrm{head}}.
@@ -113,7 +113,7 @@ $$
 | **Surgical OCT/Endoscopic Slab ($10\times$ Sparsity)** | $32 \times 32 \times 40$ | $40{,}960$ | $4{,}096$ ($10\times$) | $(64,\, 2,\, 10)$ | $1.0737 \times 10^{11}$ | $8.192 \times 10^4$ | **$1{,}310{,}720.0\times$** | $> 6{,}400\times$ |
 | **Surgical Slab + $199\times$ Projection & Sort Overhead** | $32 \times 32 \times 40$ | $40{,}960$ | $4{,}096$ ($10\times$) | $(64,\, 2,\, 10) + 1.63\times 10^7$ | $1.0737 \times 10^{11}$ | $1.6384 \times 10^7$ | **$6{,}553.6\times$** | $> 6{,}400\times$ |
 
-All seven regimes—and the strict inequalities $13{,}107.2 > 6{,}400$, $104{,}857.6 > 6{,}400$, $1{,}310{,}720 > 6{,}400$, and $6{,}553.6 > 6{,}400$—are machine-checked in `Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities` and `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities` ([../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L1680-L1895)).
+All seven regimes—and the strict inequalities $13{,}107.2 > 6{,}400$, $104{,}857.6 > 6{,}400$, $1{,}310{,}720 > 6{,}400$, and $6{,}553.6 > 6{,}400$—are machine-checked in `Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities` and `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities` ([../src/signals/Signals/QuantumCausalInference.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCausalInference.lean#L1680-L1895)).
 
 ### 1.2 Adversarial Systems Critique: Accounting for Per-Splat Linear Projections and 3D Radix-Sorting Overhead (`effectiveVolumetricSpeedupWithOverhead`)
 
@@ -549,7 +549,7 @@ end QuantumCausalSplatGraphRAGPaper
 
 ## 6. Evidence Triage and Verification Boundaries (`Signals.Pending`)
 
-Following the repository's research evidence boundaries (`AGENTS.md`), we maintain a strict separation between **verified mathematical and algorithmic identities** (`Signals.QuantumCausalInference`) and **hardware, clinical, and deployment hypotheses** (`Signals.Pending.QuantumCausalSurgicalSplatGraphRAGHypothesis`, [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5750-L5867)):
+Following the repository's research evidence boundaries (`AGENTS.md`), we maintain a strict separation between **verified mathematical and algorithmic identities** (`Signals.QuantumCausalInference`) and **hardware, clinical, and deployment hypotheses** (`Signals.Pending.QuantumCausalSurgicalSplatGraphRAGHypothesis`, [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L5750-L5867)):
 
 | Claim / Subsystem | Status | Lean 4 Artifact | Required Physical / Clinical Controls |
 | :--- | :--- | :--- | :--- |
@@ -609,8 +609,8 @@ Following the repository's research evidence boundaries (`AGENTS.md`), we mainta
 <a id="qcs-oreshkov2012"></a>
 11. **Oreshkov, O., Costa, F., & Brukner, Č. (2012).** Quantum correlations with no causal order. *Nature Communications*, 3, 1092. [doi:10.1038/ncomms2096](https://doi.org/10.1038/ncomms2096) (`oreshkov2012quantumCorrelations`)
 
-(qcs-vaswani2017)=
-<a id="qcs-vaswani2017"></a>
+(vaswani2017)=
+<a id="vaswani2017"></a>
 12. **Vaswani, A., et al. (2017).** Attention Is All You Need. *Advances in Neural Information Processing Systems (NeurIPS)*, 30. [https://arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762)
 
 ### BibTeX Entries

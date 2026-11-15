@@ -47,9 +47,9 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-pMG6jW4CpfwhPI/zuOrUZCvOYYxxgy4f0DXMY4+wiIrAbRoIiLTT6YfQUfqcsNI6"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -440,7 +440,7 @@ window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -602,12 +602,12 @@ direct bulk-builder API in <code class="docutils literal notranslate"><span clas
 <h2>Scope and Constraints<a class="headerlink" href="#scope-and-constraints" title="Link to this heading">¶</a></h2>
 <p>The current backend stores RDF in <code class="docutils literal notranslate"><span class="pre">pyoxigraph.Store</span></code> and creates an in-memory
 store when no remote URL or persistent storage path is configured. See
-<a class="reference download internal" download="" href="_downloads/6fde68da666bd48f668b2b807affd0f8/oxirs.py"><span class="xref download myst">oxirs.py</span></a>.
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-core/src/docindex_core/backends/oxirs.py#L36-L82">oxirs.py</a>.
 Static export currently iterates the store’s quads, formats each subject,
 predicate, and object as N-Triples, and returns one large <code class="docutils literal notranslate"><span class="pre">bytes</span></code> value
-(<a class="reference download internal" download="" href="_downloads/6fde68da666bd48f668b2b807affd0f8/oxirs.py"><span class="xref download myst">oxirs.py</span></a>).
+(<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-core/src/docindex_core/backends/oxirs.py#L118-L127">oxirs.py</a>).
 The Sphinx hook writes that data to <code class="docutils literal notranslate"><span class="pre">docindex.nt</span></code> and probes for an optional HDT
-encoder (<a class="reference download internal" download="" href="_downloads/a395e3f6e7ee4462accd5e5aad65131f/hooks.py"><span class="xref download myst">hooks.py</span></a>).</p>
+encoder (<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-sphinx/src/docindex_sphinx/hooks.py#L144-L164">hooks.py</a>).</p>
 <p>The target crate is <a class="reference external" href="https://docs.rs/hdt/latest/hdt/"><code class="docutils literal notranslate"><span class="pre">hdt</span></code></a>, currently version
 <code class="docutils literal notranslate"><span class="pre">0.7.3</span></code>. Its public API can read HDT, read N-Triples with the experimental <code class="docutils literal notranslate"><span class="pre">nt</span></code>
 feature, iterate triple patterns, write HDT, and write N-Triples. It does not
@@ -770,7 +770,7 @@ capability warning.</p>
 <li><p>Repeated imports and exports.</p></li>
 </ul>
 <p>Add Python tests near the existing backend tests in
-<a class="reference download internal" download="" href="_downloads/dfdea753d7bd805e94f6f74f61a74aba/test_oxirs.py"><span class="xref download myst">test_oxirs.py</span></a>:</p>
+<a class="reference external" href="https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-core/tests/test_oxirs.py#L1-L120">test_oxirs.py</a>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">dump_hdt()</span></code> creates a non-empty artifact.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">load_hdt()</span></code> makes the expected documents searchable.</p></li>

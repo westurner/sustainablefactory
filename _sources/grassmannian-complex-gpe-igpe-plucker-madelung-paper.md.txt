@@ -10,9 +10,9 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
 - **Subjects:**
   - Mathematical Physics (`math-ph`); Quantum Gases (`cond-mat.quant-gas`); High Energy Physics - Theory (`hep-th`); General Relativity and Quantum Cosmology (`gr-qc`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8346-L9304), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5495-L5630), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L172-L212), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L6496-L6568), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5250-L5332))
-  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L315-L385))
-  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs#L616-L1060))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8346-L9304), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L5495-L5630), [../src/signals/SignalsPending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPending.lean#L172-L212), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L6496-L6568), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5250-L5332))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](https://github.com/westurner/sustainablefactory/blob/main/src/signals/blueprint/src/content.tex#L315-L385))
+  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/madelung_lagrangian.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/madelung_lagrangian.rs#L616-L1060))
 - **Companion Papers:**
   - [From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Mechanics](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)
   - [Hawking Radiation, Inverse Gross–Pitaevskii (`iGPE`) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-hawking-radiation-decoding-paper.md)
@@ -131,7 +131,7 @@ $$
 \bigl(\mathcal{H}(p, \bar{p})\,v\bigr)_I = \|p\|^2 v_I - \langle p, v\rangle\,p_I - \langle n(p), v\rangle\,n_I(p),
 $$
 
-Theorem `plucker_hodge_klein_quadric_and_projector_identities` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8482-L8566)) machine-checks:
+Theorem `plucker_hodge_klein_quadric_and_projector_identities` ([../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8482-L8566)) machine-checks:
 1. $\operatorname{pluckerHodgeDual}(\operatorname{pluckerHodgeDual}(p)) = p$ (involution),
 2. $\|\tilde{p}\|^2 = \|n(p)\|^2 = \|p\|^2$ (norm preservation),
 3. $\operatorname{OnKleinQuadric}(\operatorname{twistorToPluckerVec}(Z))$ for all $Z \in \mathbb{C}^{2 \times 4}$, and
@@ -145,7 +145,7 @@ Theorem `plucker_hodge_klein_quadric_and_projector_identities` ([../src/signals/
 
 In the canonical coordinate patch where $p_{01} = \Delta_{01}^{\mathbb{C}}(Z) = 1 \neq 0$, a 2-plane in $\mathbb{C}^4$ is represented by $Z = \operatorname{chartToTwistor}(W) = (I_2 \mid W)$ with $W \in \mathbb{C}^{2 \times 2}$ ({download}`lines 66-74, 179-196, 322-349 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`). The Fubini–Study metric $g_{a\alpha, \bar{b}\bar{\beta}} = \partial_{a\alpha}\bar{\partial}_{\bar{b}\bar{\beta}}\mathcal{K}$ derives from the Kähler potential $\mathcal{K}(W, W^\dagger) = \ln\det(I_2 + W W^\dagger)$.
 
-Theorem `kahlerDetFactor_eq_pluckerNormSq_and_ge_one` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8634-L8715)) proves that the Kähler determinant factor (`kahlerDetFactor`) equals the sum of squared moduli of all six Plücker coordinates of $Z = (I_2 \mid W)$:
+Theorem `kahlerDetFactor_eq_pluckerNormSq_and_ge_one` ([../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8634-L8715)) proves that the Kähler determinant factor (`kahlerDetFactor`) equals the sum of squared moduli of all six Plücker coordinates of $Z = (I_2 \mid W)$:
 
 $$
 \det(I_2 + W W^\dagger) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2 = \sum_{0 \le i < j \le 3} \bigl|\Delta_{ij}^{\mathbb{C}}(I_2 \mid W)\bigr|^2 = \bigl\|p(I_2 \mid W)\bigr\|_{\mathbb{C}^6}^2 \ge 1,
@@ -168,7 +168,7 @@ $$
 \frac{d\Phi}{d\tau'} = -i\Bigl(\bigl(H_{0,\mathrm{dual}} + g_{\mathrm{dual,nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}}\bigr)\Phi + \bar{\lambda}\Psi\Bigr).
 $$
 
-Theorem `grassmannian_igpe_norm_balance_and_josephson_identities` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8863-L8925)) proves:
+Theorem `grassmannian_igpe_norm_balance_and_josephson_identities` ([../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L8863-L8925)) proves:
 1. **Individual Branch Rates & Chiral Josephson Schubert Current**:
    With $J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda) = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)$ (`josephsonSchubertCurrent`),
 
@@ -203,7 +203,7 @@ $$
 \frac{\mathrm{De}}{\mathrm{De}_c} = \frac{\max\bigl(0, -2\operatorname{Re}(g_{\mathrm{eff}}\rho_0)\bigr) + |\operatorname{Im}(V_{\mathrm{ext}})|}{\frac{\hbar^2}{\mathcal{M}} + \mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + |\lambda|},
 $$
 
-Theorem `grassmannian_bogoliubov_proca_and_deborah_fracture_identities` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L9015-L9092)) proves:
+Theorem `grassmannian_bogoliubov_proca_and_deborah_fracture_identities` ([../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L9015-L9092)) proves:
 - In the positive/repulsive sector ($g \ge 0, \rho_0 \ge 0$), $\hbar^2\omega^2(\mathbf{k}, W) > 0$ and $\mathrm{De}/\mathrm{De}_c = 0 < 1$ at $\operatorname{Im}(V_{\mathrm{ext}}) = 0$.
 - In the uncoupled Hermitian limit ($|\lambda| = 0, \operatorname{Im}(V_{\mathrm{ext}}) = 0$), tachyonic shear fracture ($\hbar^2\omega^2(\mathbf{k}, W) < 0$, `IsShearFractureUnstable`) occurs **if and only if** $\mathrm{De}/\mathrm{De}_c > 1$:
 
@@ -223,7 +223,7 @@ where:
 - $Q_{\mathrm{Pl\ddot{u}cker}}(\rho) = -\frac{\hbar^2}{2\mathcal{M}\sqrt{\rho}}\mathcal{H}^{I\bar{J}}\partial_I\bar{\partial}_{\bar{J}}\sqrt{\rho}$ (`pluckerQuantumPotential`) is the homogeneous Plücker Bohmian quantum potential, and
 - $\Lambda_{\mathrm{dual}}(p, \tilde{p}) = \sqrt{\frac{\rho_{\mathrm{dual}}(\tilde{p})}{\rho(p)}}\bigl(\lambda_{\mathrm{re}}\cos\Delta\theta - \lambda_{\mathrm{im}}\sin\Delta\theta\bigr)$ (`dualJosephsonPotential`, $\Delta\theta = (S_{\mathrm{dual}} - S_R)/\hbar$) is the dual Schubert Josephson energy.
 
-Theorem `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L9228-L9302)) proves four exact hydrodynamic and twistor-gravity identities:
+Theorem `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities` ([../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L9228-L9302)) proves four exact hydrodynamic and twistor-gravity identities:
 1. **Homogeneous Plücker `iGPE` Potential Reconstruction**:
    Solving the Plücker QHJ equation for $V_{\mathrm{ext,re}}^{\mathrm{rec}}(p) = \operatorname{pluckerInversePotentialReconstruction}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)$ gives $\mathcal{R}_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}}(V_{\mathrm{ext,re}}^{\mathrm{rec}}) = 0$ identically.
 2. **Phase-Locked Equilibrium ($\Delta\theta = 0, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0$)**:
@@ -240,7 +240,7 @@ Theorem `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities` ([../src/
 
 ## 5. Application to Turner (2026) Models for Superposition, Gravity (1PN Perihelion), and Gravitational Waves (2.5PN & Ringdown Fracture)
 
-How do the intrinsic Fubini–Study Kähler GPE, coupled Dual-Grassmannian `iGPE` ($Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$), Einstein–Kähler Bogoliubov / Deborah shear-fracture dispersion, and homogeneous Plücker $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ Madelung hydrodynamics apply to and upgrade our earlier (Turner 2026) models for **Superposition** ([grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)), **Gravity**, and **Gravitational Waves** ([grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md))? In Section 30.6 of [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L9305-L9710) (`turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), we formalize three foundational upgrades:
+How do the intrinsic Fubini–Study Kähler GPE, coupled Dual-Grassmannian `iGPE` ($Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$), Einstein–Kähler Bogoliubov / Deborah shear-fracture dispersion, and homogeneous Plücker $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ Madelung hydrodynamics apply to and upgrade our earlier (Turner 2026) models for **Superposition** ([grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)), **Gravity**, and **Gravitational Waves** ([grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md))? In Section 30.6 of [../src/signals/Signals/DDF.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DDF.lean#L9305-L9710) (`turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), we formalize three foundational upgrades:
 
 ### 5.1 Revised Superposition Model (`pluckerMadelungSuperpositionOAMDoubleSlit`): Linear Superposition as the Klein Quadric Constraint & Dual-Schubert Origin of $\delta_{\mathrm{neq}}$
 
@@ -436,13 +436,13 @@ cargo build --manifest-path src/signals/numerical_adapter/Cargo.toml --lib --tar
 
 ### Scholarly References
 
-<a id="cgpe-madelung1927"></a>
+<a id="madelung1927"></a>
 1. Madelung, E. (1927). *Quantentheorie in hydrodynamischer Form*. Zeitschrift für Physik 40(3–4), 322–326. [DOI: 10.1007/BF01400372](https://doi.org/10.1007/BF01400372).
 
-<a id="cgpe-gross1961"></a>
+<a id="gross1961"></a>
 2. Gross, E. P. (1961). *Structure of a quantized vortex in boson systems*. Il Nuovo Cimento 20(3), 454–477. [DOI: 10.1007/BF02731494](https://doi.org/10.1007/BF02731494).
 
-<a id="cgpe-pitaevskii1961"></a>
+<a id="pitaevskii1961"></a>
 3. Pitaevskii, L. P. (1961). *Vortex lines in an imperfect Bose gas*. Soviet Physics JETP 13(2), 451–454.
 
 <a id="cgpe-penrose1967"></a>

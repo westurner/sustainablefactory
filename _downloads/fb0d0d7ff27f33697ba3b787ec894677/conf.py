@@ -127,6 +127,7 @@ myst_enable_extensions = [
     "substitution",
     "tasklist",
 ]
+myst_heading_anchors = 6
 
 myst_fence_as_directive = ["mermaid"]
 
@@ -321,7 +322,12 @@ def _copy_signals_blueprint(app, exception):
     shutil.copytree(source, destination, copy_function=link_or_copy)
 
 
+def _set_mathjax_assets_policy(app, pagename, templatename, context, doctree):
+    app.set_html_assets_policy("always" if pagename == "references" else "per_page")
+
+
 def setup(app):
+    app.connect("html-page-context", _set_mathjax_assets_policy, priority=400)
     # Regenerate glossary.md from glossary.yaml at build start
     app.connect("builder-inited", lambda app: _regenerate_glossary(app))
     app.connect("builder-inited", _build_signals_blueprint)

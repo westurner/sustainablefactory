@@ -16,15 +16,15 @@ The reviewed chat corpus groups the bus design into four related layers:
 | Operators | Gaussian quadrature operations, beam splitters, phase gates, CNOT-like gates, and nonlinear phase interactions | Finite matrices and phase-space maps are implemented; material coupling and universal hardware operation are not inferred. |
 
 The source request explicitly groups WDM, MDM, OAM, A2Q, squeezed-state
-readout, and nondestructive phase measurement [in the signal-phase chat](../data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
-The same chat proposes OAM encoding and a Kerr probe path [at the bus design section](../data/chats/IQ-Sampling-for-Signal-Phase.md#L8589).
+readout, and nondestructive phase measurement [in the signal-phase chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
+The same chat proposes OAM encoding and a Kerr probe path [at the bus design section](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8589).
 The proposed N-LIG architecture also describes the signal bus, OAM qudit
-payload, and a Kerr cavity [in the interaction-zone design](../data/chats/IQ-Sampling-for-Signal-Phase.md#L8729).
+payload, and a Kerr cavity [in the interaction-zone design](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L8729).
 
 The separate architecture chat proposes wavelength as a coarse address and a
-thermo-optic layer as a fine decoder [in its address-tree description](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L363).
+thermo-optic layer as a fine decoder [in its address-tree description](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L363).
 It describes bucket-brigade routing as a simulation target, with switch
-latency and loss as quantities to measure [in the network-routing plan](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L582).
+latency and loss as quantities to measure [in the network-routing plan](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L582).
 
 ## Classical Transport API
 
@@ -125,7 +125,7 @@ not demonstrate soliton propagation or N-LIG fabrication.
 
 ## Multi-Lane ($N > 0$) Interferometric Couplers, $Gr_{\mathbb{C}}(2,4)$ Twistor Channels, and Yang–Baxter Soliton Collisions
 
-In [src/signals/Signals/SolitonBus.lean](../src/signals/Signals/SolitonBus.lean),
+In [src/signals/Signals/SolitonBus.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/SolitonBus.lean),
 `SolitonMultiLaneCoupler` connects the $N$-lane soliton-bus architecture to the
 multi-model interferometric and Quantum Inverse Scattering frameworks developed
 in [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)
@@ -166,10 +166,10 @@ and [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-pap
 4. **Rust + WebAssembly (`wasm32-unknown-unknown`) + WebGL2 GLSL Implementation**:
    All seven multi-slit / multi-lane ($N > 0$) models (`Fraunhofer`, `HuygensSteiner`,
    `Gr24RealPlucker`, `Gr24ComplexTwistor`, `PilotWave`, `Wigner`, `Gr24Unphased`)
-   are implemented in [src/signals/numerical_adapter/src/double_slit.rs](../src/signals/numerical_adapter/src/double_slit.rs)
+   are implemented in [src/signals/numerical_adapter/src/double_slit.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/double_slit.rs)
    with WebGL2 (`#version 300 es`) shaders in
-   [double_slit.vert.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.vert.glsl)
-   and [double_slit.frag.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl),
+   [double_slit.vert.glsl](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/shaders/double_slit.vert.glsl)
+   and [double_slit.frag.glsl](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl),
    parameterized by `num_slits > 0`, `slit_width`, `slit_separation`, `barycentric_shift`,
    `delta_oam`, and `azimuth_phi`.
 5. **Revised Semi-Dirac Soliton Bus, Slow-Light CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, & Integrated Multi-Band ($405\text{–}1550\text{ nm}$) CNC / $c\text{-BAs}$ Photonics (`semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities`)**:
@@ -224,15 +224,15 @@ They should not be collapsed into one meaning for “multiplexing.”
 	depth/layer selector, OAM or MDM as a finer channel selector, and a
 	thermo-optic switch as an active route into an ancilla or memory layer. The
 	chats also propose TDM to reuse a waveguide at different pulse times
-	([depth and OAM routing](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L256),
-	[time-bin reuse](../data/chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.md#L1477)).
+	([depth and OAM routing](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L256),
+	[time-bin reuse](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.md#L1477)).
 	**Use in v1:** represent these as address/scheduling coordinates only.
 	Address separation does not prove low crosstalk or independent quantum
 	channels.
 2. **Port graph with an ancilla hub.** The proposed star has data leaves
 	reached through a central ancilla, with bus operations intended to support
-	stabilizer measurements ([star and bus-connected checks](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L3172),
-	[paper architecture](paper.md#L60)). **Use in v1:** call each
+	stabilizer measurements ([star and bus-connected checks](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L3172),
+	[paper architecture](https://github.com/westurner/sustainablefactory/blob/main/docs/paper.md#L60)). **Use in v1:** call each
 	physical endpoint a `BusPort`; represent possible interactions with an
 	explicit coupling relation. A port is not itself a code qubit or a
 	stabilizer. The measurement order, ancilla reuse, fault propagation, and
@@ -242,22 +242,22 @@ They should not be collapsed into one meaning for “multiplexing.”
 	errors rather than just routing errors. The existing OAM-100 record is
 	readiness metadata: the review explicitly says it lacks an OAM encoding
 	map, syndrome readout, and recovery, and requires mode-dependent loss and
-	crosstalk characterization ([OAM boundary and next measurements](paper-model-review.md#L1077),
-	[QEC readiness fields](paper-model-review.md#L1137)). **Defer as a separate
+	crosstalk characterization ([OAM boundary and next measurements](https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1077),
+	[QEC readiness fields](https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1137)). **Defer as a separate
 	qudit-code project.** A coherent superposition over OAM modes is one
 	qudit state, not a collection of independent addressed channels.
 4. **Propagating GKP/CV state.** A grid state with homodyne syndrome
 	measurements is a distinct continuous-variable encoding path. The paper
 	review describes the cited optical work as a logical-state precursor, not
 	completed fault-tolerant computation, and the qutrit/ququart break-even
-	experiment is not an OAM experiment ([optical-state boundary](paper-model-review.md#L1071),
-	[qudit experiment boundary](paper-model-review.md#L1098)). **Keep outside
+	experiment is not an OAM experiment ([optical-state boundary](https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1071),
+	[qudit experiment boundary](https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1098)). **Keep outside
 	the first qubit/erasure API.**
 5. **Layer-code geometry.** Layer codes are a CSS-to-3D topological-code
 	construction: their layers and 1D junctions come from Tanner incidences.
 	They are not optical wavelength layers or OAM channels. The paper’s
 	construction supplies mathematical code properties, not a photonic
-	decoder, threshold, or hardware benchmark ([Layer-code review](paper-model-review.md#L916)).
+	decoder, threshold, or hardware benchmark ([Layer-code review](https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L916)).
 	**Treat this as a later code-family contribution**, independent of the
 	optical address scheme.
 
@@ -318,8 +318,8 @@ assumptions; they do not establish QEC performance. In particular, the
 existing XPM phase law is not a QND parity measurement, and the proposed
 room-temperature/no-dispersion, 10 GHz, and entropy-siphoning statements in
 `paper.md` remain design claims, not fields to promote to verified facts
-([paper architecture and claims](paper.md#L60),
-[paper-model-review evidence boundary](paper-model-review.md#L1)).
+([paper architecture and claims](https://github.com/westurner/sustainablefactory/blob/main/docs/paper.md#L60),
+[paper-model-review evidence boundary](https://github.com/westurner/sustainablefactory/blob/main/docs/paper-model-review.md#L1)).
 
 ### QECLean contribution
 
@@ -347,7 +347,7 @@ where an erased set contains a logical support. This theorem is a code
 property, not an erasure decoder, channel model, or hardware threshold. Keep
 the work independent of `Signals` and `Physlib`; QECLean’s Lake configuration
 already uses mathlib and its own Lean tooling, and this contribution needs no
-new dependency. The existing [Layer scaffold](../src/QECLean/QEC/Stabilizer/Codes/Layer.lean#L274)
+new dependency. The existing [Layer scaffold](https://github.com/westurner/sustainablefactory/blob/main/src/QECLean/QEC/Stabilizer/Codes/Layer.lean#L274)
 can use the API later, but deriving its defect stabilizers is a separate task.
 
 ### Cross-project handoff and gates

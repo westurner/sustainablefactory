@@ -8,12 +8,12 @@ direct bulk-builder API in `hdt-rs`.
 
 The current backend stores RDF in `pyoxigraph.Store` and creates an in-memory
 store when no remote URL or persistent storage path is configured. See
-[oxirs.py](../src/docindex/src/docindex-core/src/docindex_core/backends/oxirs.py#L36-L82).
+[oxirs.py](https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-core/src/docindex_core/backends/oxirs.py#L36-L82).
 Static export currently iterates the store's quads, formats each subject,
 predicate, and object as N-Triples, and returns one large `bytes` value
-([oxirs.py](../src/docindex/src/docindex-core/src/docindex_core/backends/oxirs.py#L118-L127)).
+([oxirs.py](https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-core/src/docindex_core/backends/oxirs.py#L118-L127)).
 The Sphinx hook writes that data to `docindex.nt` and probes for an optional HDT
-encoder ([hooks.py](../src/docindex/src/docindex-sphinx/src/docindex_sphinx/hooks.py#L144-L164)).
+encoder ([hooks.py](https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-sphinx/src/docindex_sphinx/hooks.py#L144-L164)).
 
 The target crate is [`hdt`](https://docs.rs/hdt/latest/hdt/), currently version
 `0.7.3`. Its public API can read HDT, read N-Triples with the experimental `nt`
@@ -186,7 +186,7 @@ Add Rust tests for:
 - Repeated imports and exports.
 
 Add Python tests near the existing backend tests in
-[test_oxirs.py](../src/docindex/src/docindex-core/tests/test_oxirs.py#L1-L120):
+[test_oxirs.py](https://github.com/westurner/sustainablefactory/blob/main/src/docindex/src/docindex-core/tests/test_oxirs.py#L1-L120):
 
 - `dump_hdt()` creates a non-empty artifact.
 - `load_hdt()` makes the expected documents searchable.

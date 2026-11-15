@@ -351,8 +351,15 @@ div.citation {
 }
 
 div.citation p {
-  display: list-item;
+  display: inherit;
+  margin-left: 2.5em;
 }
+
+div.citation span.label {
+  padding-top: 4px;
+  color: #b0b0b0;
+}
+
 
 
 @media print {

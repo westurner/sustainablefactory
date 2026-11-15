@@ -10,13 +10,14 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
 - **Subjects:**
   - Chemical Physics (`physics.chem-ph`); Strongly Correlated Electrons (`cond-mat.str-el`); Mathematical Physics (`math-ph`); Quantum Physics (`quant-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1125-L1330), [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L1-L265), [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L3718-L3799), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5965-L6075), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L315-L355), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L6868-L6925), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5484-L5538))
-  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L650-L715))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1125-L1330), [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L1-L265), [../src/signals/Signals/QuantumCausalInference.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCausalInference.lean#L3718-L3799), [../src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L5965-L6075), [../src/signals/SignalsPending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPending.lean#L315-L355), [../src/signals/SignalsTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsTests.lean#L6868-L6925), [../src/signals/SignalsPendingTests.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/SignalsPendingTests.lean#L5484-L5538))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](https://github.com/westurner/sustainablefactory/blob/main/src/signals/blueprint/src/content.tex#L650-L715))
   - Python / SymPy / SciPy Engine & Unit Tests ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L1-L1150), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L1-L280))
-  - `signals-numerical-adapter` Rust Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L1-L300))
+  - `signals-numerical-adapter` Rust Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L1-L300))
 - **Companion Papers:**
   - [Breaking the Speed–Accuracy Barrier in Quantum Chemistry (Discovered Materials Grand Challenge 03): Unrestricted Complex Grassmannian Kohn–Sham DFT (`QCI-GXC`), Homogeneous Plabic Vector-Relation Configurations, McWeeny Idempotency Restoration, and `def2-QZVP` `WTMAD-2` / ALD–CVD Benchmarks in Lean 4, SymPy, and Rust](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)
   - [Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations (`VRC`), and Unrestricted Grassmannian Quantum Chemistry (`QCI-GXC`) in `MADNESS` Multiwavelet `MRA-PNO` and `Tequila` for Computational Advantage](grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md)
+  - [Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$): Three-Channel Plücker Madelung–QFIM Kinetic Decomposition on $\mathcal{Q}_4$, Ghost-Free Turner Gravity vs. Witten's Twistor String, and Cross-Domain Model Unification in Lean 4 and Rust](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md)
   - [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$ in Lean 4 and Rust/WASM](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
   - [Quantum Causal Inference, Grassmannian DAG d-Separation, Indefinite Causal Order, and Mpemba/Landauer Thermodynamics in Lean 4 and Rust](grassmannian-quantum-causal-inference-mpemba-paper.md)
   - [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-unification-applications-roadmap-paper.md)
@@ -42,13 +43,13 @@ In this paper—synthesizing, auditing, and extending **Google Search & Gemini: 
 
 ## 1. Provenance & Critical Audit of the Research Chat
 
-All derivations and code artifacts in this paper are traced to **Google Search & Gemini: Density Functional Theory & QCI-GXC (2026)** ({download}`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`). Following the workspace **Research Evidence Triage** (`[../.agents/skills/research-evidence-triage/SKILL.md](../.agents/skills/research-evidence-triage/SKILL.md)`) and **Signals Evidence Modeling** (`[../.agents/skills/signals-evidence-modeling/SKILL.md](../.agents/skills/signals-evidence-modeling/SKILL.md)`) protocols, we separate **algebraically and numerically verified mathematical identities** from **corrected implementation defects** and **Pending empirical/quantum-chemistry benchmarks**.
+All derivations and code artifacts in this paper are traced to **Google Search & Gemini: Density Functional Theory & QCI-GXC (2026)** ({download}`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`). Following the workspace **Research Evidence Triage** (`[../.agents/skills/research-evidence-triage/SKILL.md](https://github.com/westurner/sustainablefactory/blob/main/.agents/skills/research-evidence-triage/SKILL.md)`) and **Signals Evidence Modeling** (`[../.agents/skills/signals-evidence-modeling/SKILL.md](https://github.com/westurner/sustainablefactory/blob/main/.agents/skills/signals-evidence-modeling/SKILL.md)`) protocols, we separate **algebraically and numerically verified mathematical identities** from **corrected implementation defects** and **Pending empirical/quantum-chemistry benchmarks**.
 
 | Chat Section & Lines | Topic / Script | Audit Findings & Corrections Implemented | Evidence Status |
 |---|---|---|---|
 | Lines 1–509 | Classical KS-DFT, Jacob's Ladder, 2024–2026 ML-DFT (`Skala`, `Orb-v3`, `UMA`, `Egret-1`), & Grand Challenges | Accurate survey of Kohn–Sham equations, self-interaction / fractional-spin errors, and $O(N^3) \to O(N)$ scaling bottlenecks. | **Contextual Literature Survey** |
-| Lines 510–710 | Quantum Causal Inference (`QCI`), Indefinite Causal Order (`ICO`), & Complex Plabic Graphs | Identifies directed conditional mutual information $I(A \to B \mid C)$, causal phase velocity $v_p = \Delta x / \Delta t$, and confined plasmonic causal superposition $\alpha\mathcal{N}_{A\to B} + \beta\mathcal{N}_{B\to A}$. Formalized in [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L3718-L3799). | **Formalized in `Signals.QuantumCausalInference`** |
-| Lines 711–905 | `qci_grassmannian_xc.py` & `qci_gxc_sympy.py`: $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker minors & cluster mutations | **Defect 1 (Line 798)**: Broken line wrap `complex(\n`. Fixed in source chat. **Defect 2 (Lines 771–781)**: `compute_qci_entropy` forms a rank-1 outer product $\rho = v v^\dagger$ of the 6-component Plücker vector, whose eigenvalues are $\{1, 0, 0, 0, 0, 0\}$, yielding $S_{\mathrm{vN}} \equiv 0$ identically! **Correction**: Replaced by the 1-RDM orbital occupation entropy (`compute_1rdm_correlation_entropy` and `twoOrbitalLinearCorrelationEntropy`), which is strictly positive ($S_{\mathrm{corr}}(1/2) = 1$) for entangled fractional occupations. **Defect 3 (Line 765)**: Ad-hoc `1e-5` fudge when $x_X \to -1$. **Correction**: Resolved exactly via homogeneous **Vector-Relation Configurations (`VRC`)** in [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1125-L1330). | **Corrected & Formalized in `Signals.Plabic` & `Signals.DFT`** |
+| Lines 510–710 | Quantum Causal Inference (`QCI`), Indefinite Causal Order (`ICO`), & Complex Plabic Graphs | Identifies directed conditional mutual information $I(A \to B \mid C)$, causal phase velocity $v_p = \Delta x / \Delta t$, and confined plasmonic causal superposition $\alpha\mathcal{N}_{A\to B} + \beta\mathcal{N}_{B\to A}$. Formalized in [../src/signals/Signals/QuantumCausalInference.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumCausalInference.lean#L3718-L3799). | **Formalized in `Signals.QuantumCausalInference`** |
+| Lines 711–905 | `qci_grassmannian_xc.py` & `qci_gxc_sympy.py`: $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker minors & cluster mutations | **Defect 1 (Line 798)**: Broken line wrap `complex(\n`. Fixed in source chat. **Defect 2 (Lines 771–781)**: `compute_qci_entropy` forms a rank-1 outer product $\rho = v v^\dagger$ of the 6-component Plücker vector, whose eigenvalues are $\{1, 0, 0, 0, 0, 0\}$, yielding $S_{\mathrm{vN}} \equiv 0$ identically! **Correction**: Replaced by the 1-RDM orbital occupation entropy (`compute_1rdm_correlation_entropy` and `twoOrbitalLinearCorrelationEntropy`), which is strictly positive ($S_{\mathrm{corr}}(1/2) = 1$) for entangled fractional occupations. **Defect 3 (Line 765)**: Ad-hoc `1e-5` fudge when $x_X \to -1$. **Correction**: Resolved exactly via homogeneous **Vector-Relation Configurations (`VRC`)** in [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1125-L1330). | **Corrected & Formalized in `Signals.Plabic` & `Signals.DFT`** |
 | Lines 906–1647 | `qci_gxc_advanced.py`, `qci_gxc_spin_polarized.py`, & `test_qci_gxc_production.py` | Unrestricted spin-polarized product manifold $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, N_{\mathrm{basis}}) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, N_{\mathrm{basis}})$ with $P_\sigma = C_\sigma^\dagger(C_\sigma C_\sigma^\dagger)^{-1}C_\sigma$ and spin mutual information $I(\alpha:\beta) = S(\rho_\alpha) + S(\rho_\beta) - S(\rho_{\alpha+\beta})$. | **Formalized in `Signals.DFT` & `Signals.QuantumCausalInference`** |
 | Lines 1648–2150 | `qci_gxc_optimization.py` & `qci_gxc_complete_pipeline.py`: Riemannian BFGS & Cayley retraction | **Defect 4 (Lines 1738–1740, 1974–1976)**: Calling `sp.diff(energy_expr, s)` on an expression containing `conjugate(s)` produces unevaluated `Derivative(conjugate(s), s)` terms that crash `sp.lambdify(..., 'numpy')`. **Correction**: Split complex chart coordinates $x_k = r_k + i\,im_k$ into explicit real/imaginary symbols before differentiating (`real_grad_kernel`). BFGS converges in $\le 18$ steps to the exact ground state $E = 3.000000\text{ Ha}$ (closed-shell) and $E = 4.000000\text{ Ha} = 2{,}510.036\text{ kcal/mol}$ (spin-polarized). | **Corrected & Formalized in `Signals.DFT`** |
 | Lines 2151–2840 | `qci_gxc_topological_quantum.py`, `qci_gxc_fault_tolerant_gates.py`, `openqasm_compiler.py`, & `qci_gxc_soliton_qudit.py` | **Defect 5 (Lines 2278–2282)**: Holomorphic projection required in `dP_ds0`, `dP_ds1` for Berry curvature compilation; in addition, the integrated first Chern number over $\mathbb{CP}^1 \cong \mathrm{Gr}_{\mathbb{C}}(1,2)$ (`compute_cp1_integrated_first_chern_number`) is proved equal to $C_1 = 1$. McWeeny cubic purification $P_{\mathrm{healed}} = 3P^2 - 2P^3$ verified in Lean 4, Python, and Rust. | **Corrected & Formalized in `Signals.DFT`** |
@@ -60,7 +61,7 @@ All derivations and code artifacts in this paper are traced to **Google Search &
 
 ### 2.1 Why Rational Face Weights Fail on $\mathrm{Gr}_{\mathbb{C}}(k, n)$ at On-Shell Resonance
 
-In `qci_grassmannian_xc.py` and `qci_gxc_sympy.py` ({download}`lines 740-770 and 830-865 <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`), a 4-boundary plabic graph on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ with complex face weights $(x_1, x_2, x_X) \in (\mathbb{C}^\times)^3$ is parameterized by the rational boundary measurement matrix (`gr24RationalChartMatrix` in [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1186-L1190)):
+In `qci_grassmannian_xc.py` and `qci_gxc_sympy.py` ({download}`lines 740-770 and 830-865 <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`), a 4-boundary plabic graph on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ with complex face weights $(x_1, x_2, x_X) \in (\mathbb{C}^\times)^3$ is parameterized by the rational boundary measurement matrix (`gr24RationalChartMatrix` in [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1186-L1190)):
 
 $$
 C_{\mathrm{rat}}(x_1, x_2, x_X) = \begin{pmatrix} 1 & 0 & -x_1 & -x_X \\ 0 & 1 & \dfrac{1}{x_X} & -x_2 \end{pmatrix}.
@@ -78,7 +79,7 @@ $$
 P_{01} P_{23} - P_{02} P_{13} + P_{03} P_{12} = 1\cdot(x_1 x_2 + 1) - \frac{1}{x_X}\cdot x_X + (-x_2)\cdot x_1 = 0.
 $$
 
-Under a square-move (urban renewal) cluster mutation at face $f_X$ (`gr24ClusterMutation` in [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1193-L1196)), the face weights transform as:
+Under a square-move (urban renewal) cluster mutation at face $f_X$ (`gr24ClusterMutation` in [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1193-L1196)), the face weights transform as:
 
 $$
 (x_1, x_2, x_X) \longmapsto \left(x_1' = \frac{x_1 x_X + x_2}{x_X + 1},\; x_2' = x_2,\; x_X' = \frac{1}{x_X}\right).
@@ -90,7 +91,7 @@ On the **positive Grassmannian** $\mathrm{Gr}_{>0}(2,4)$ where $x_X \in \mathbb{
 
 ### 2.2 Resolution via Homogeneous Vector-Relation Configurations (`VectorRelationConfiguration`)
 
-To eliminate both poles globally across $\mathrm{Gr}_{\mathbb{C}}(k, n)$, we formalize **Vector-Relation Configurations (`VRC`)** (`Signals.Plabic.VectorRelationConfiguration` in [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1150-L1168)):
+To eliminate both poles globally across $\mathrm{Gr}_{\mathbb{C}}(k, n)$, we formalize **Vector-Relation Configurations (`VRC`)** (`Signals.Plabic.VectorRelationConfiguration` in [../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1150-L1168)):
 
 ```{mermaid}
 flowchart LR
@@ -119,7 +120,7 @@ We prove in Lean 4 that `VectorRelationConfiguration` is invariant under:
 - Global orbital gauge transformations $V \mapsto g V$ for $g \in \mathrm{GL}_k(R)$ (`VectorRelationConfiguration.transformGL`), and
 - Local black-vertex relation rescalings $K \mapsto M K$ for $M \in \mathrm{GL}_{n_{\mathrm{black}}}(R)$ (`VectorRelationConfiguration.transformBlackRelations`).
 
-Clearing the denominators of the square-move yields `gr24MutatedHomogeneousVRC` ([../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1230-L1255)):
+Clearing the denominators of the square-move yields `gr24MutatedHomogeneousVRC` ([../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1230-L1255)):
 
 $$
 V_{\mathrm{mut}}(x_1, x_2, x_X) = \begin{pmatrix} 1 & 0 & -(x_1 x_X + x_2) & -1 \\ 0 & 1 & x_X(x_X + 1) & -x_2 x_X \end{pmatrix}, \qquad K_{\mathrm{mut}}(x_1, x_2, x_X) = \begin{pmatrix} x_1 x_X + x_2 & -x_X(x_X + 1) & 1 & 0 \\ 1 & x_2 x_X & 0 & 1 \end{pmatrix}.
@@ -133,7 +134,7 @@ $$
 x_1 = \frac{1}{2} + \frac{1}{5}i = 0.5 + 0.2i, \qquad x_2 = -\frac{3}{10} + \frac{7}{10}i = -0.3 + 0.7i, \qquad x_X = \frac{6}{5} - \frac{2}{5}i = 1.2 - 0.4i,
 $$
 
-the theorem `Signals.Plabic.complex_plabic_vrc_and_sympy_check_figures` ([../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean#L1260-L1330)), `test_qci_grassmannian_dft.py`, and `dft_plabic_vrc.rs` machine-check the exact values:
+the theorem `Signals.Plabic.complex_plabic_vrc_and_sympy_check_figures` ([../src/signals/Signals/Plabic.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L1260-L1330)), `test_qci_grassmannian_dft.py`, and `dft_plabic_vrc.rs` machine-check the exact values:
 
 | Quantity | Symbolic Formula | Exact Value at $(0.5+0.2i, -0.3+0.7i, 1.2-0.4i)$ | At Resonance $x_X = -1$ (`gr24MutatedHomogeneousVRC`) |
 |---|---|---|---|
@@ -158,7 +159,7 @@ $$
 \mathcal{M}_{\mathrm{UKS}} = \mathrm{Gr}_{\mathbb{C}}(N_\alpha, N_{\mathrm{basis}}) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, N_{\mathrm{basis}}),
 $$
 
-whose real manifold dimension (`Signals.DFT.spinPolarizedGrassmannianRealDim` in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L35-L45)) is:
+whose real manifold dimension (`Signals.DFT.spinPolarizedGrassmannianRealDim` in [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L35-L45)) is:
 
 $$
 \dim_{\mathbb{R}}\mathcal{M}_{\mathrm{UKS}} = 2\bigl(N_\alpha(N_{\mathrm{basis}} - N_\alpha) + N_\beta(N_{\mathrm{basis}} - N_\beta)\bigr).
@@ -176,7 +177,7 @@ which satisfies $P_\sigma^\dagger = P_\sigma$, $P_\sigma^2 = P_\sigma$, and $\op
 
 ### 3.2 Variational Ground-State Bounds and QCI Spin-Channel Mutual Information
 
-In `Signals.DFT` ([../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L48-L115)), we prove:
+In `Signals.DFT` ([../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L48-L115)), we prove:
 1. **Two-Orbital Variational Principle (`grassmannianKohnShamEnergy2x2_ge_ground`, `grassmannianKohnShamEnergy2x2_le_excited`)**:
    For $H_{\mathrm{core}} = \operatorname{diag}(\varepsilon_1, \varepsilon_2)$ with $\varepsilon_1 \le \varepsilon_2$ and $C = [1, x]$, the Rayleigh–Ritz energy functional (`grassmannianKohnShamEnergy2x2`) is:
 
@@ -217,7 +218,7 @@ To step along the curved Grassmannian manifold without leaving the unitary frame
    $$
 
 2. **McWeeny (1960) Cubic Idempotency Purification (`mcweenyPurificationPoly`)**:
-   When finite-precision floating-point drift or anyon braiding leakage perturbs the eigenvalues $\lambda \in [0, 1]$ of $P_\sigma$ away from $\{0, 1\}$, `AnyonLeakageCorrector` applies the cubic polynomial (`mcweenyPurificationPoly` in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L130-L162)):
+   When finite-precision floating-point drift or anyon braiding leakage perturbs the eigenvalues $\lambda \in [0, 1]$ of $P_\sigma$ away from $\{0, 1\}$, `AnyonLeakageCorrector` applies the cubic polynomial (`mcweenyPurificationPoly` in [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L130-L162)):
 
    $$
    P_{\mathrm{healed}} = 3 P^2 - 2 P^3 \quad \Longleftrightarrow \quad f(\lambda) = 3\lambda^2 - 2\lambda^3.
@@ -251,14 +252,14 @@ Under bounded stochastic thermal/electronic perturbations $\delta C \in (-0.49, 
 
 ### 4.2 Soliton Envelope Width Optimization & 3-Qudit GHZ Mermin Nonlocality Witness
 
-1. **Soliton Envelope Gate Execution Time (`solitonEnvelopeGateTime` in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L180-L202))**:
+1. **Soliton Envelope Gate Execution Time (`solitonEnvelopeGateTime` in [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L180-L202))**:
    In 1D polyacetylene (`trans-PA`) / Su–Schrieffer–Heeger (`SSH`) topological soliton wavepackets $\psi_s(x) \propto \operatorname{sech}((x - x_0)/w)$, the gate execution time $T_{\mathrm{gate}}(w)$ balances broad-soliton dispersion delay ($\propto w^\alpha$) against narrow-soliton inter-site Peierls pinning/crosstalk ($\propto (w + 0.1)^{-1}$). We prove in Lean 4 that the optimal width $w_{\mathrm{opt}} = 0.73\text{ nm}$ strictly outperforms both the narrow-pinning regime ($w = 0.1\text{ nm}$) and the broad-overlap regime ($w = 3.5\text{ nm}$):
 
    $$
    T_{\mathrm{gate}}(0.73) < T_{\mathrm{gate}}(0.10) \quad \text{and} \quad T_{\mathrm{gate}}(0.73) < T_{\mathrm{gate}}(3.50).
    $$
 
-2. **Generalized 3-Qudit GHZ Mermin Nonlocality Witness (`merminThreeQuditGHZWitness` in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L204-L230))**:
+2. **Generalized 3-Qudit GHZ Mermin Nonlocality Witness (`merminThreeQuditGHZWitness` in [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L204-L230))**:
    For the 3-qudit Greenberger–Horne–Zeilinger (GHZ) state $|\Psi_{\mathrm{GHZ}}\rangle = (|0,0,0\rangle + |d-1,d-1,d-1\rangle)/\sqrt{2}$ prepared by cascading a $d$-level Chrestenson gate $F_d = \frac{1}{\sqrt{d}}\sum_{j,k=0}^{d-1} \omega^{jk}|j\rangle\langle k|$ ($\omega = e^{2\pi i/d}$) with two causal CNOT gates (`OpenQASM3MultiQuditCompiler`), the 3-party Mermin operator:
 
    $$
@@ -275,7 +276,7 @@ Under bounded stochastic thermal/electronic perturbations $\delta C \in (-0.49, 
 
 ### 4.3 Polaritons, Plasmons, Skyrmions, Majorana Zero Modes (`MZMs`), and Nondestructive Measurement (`Signals.NonDestructive`)
 
-In [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L425-L570) (`polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`) and `TopologicalQuasiparticleAndNDMEngine` ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L1525-L1685)), we further formalize and cross-verify the hybrid quasiparticle, topological defect, and nondestructive readout architecture ({download}`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md, lines 480-705 and 2117-2235 <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`; {download}`data/chats/Lignin-Vitrimer-Surface-Roughness-Limits.md, lines 1372-1565 <../data/chats/Lignin-Vitrimer-Surface-Roughness-Limits.md>`; {download}`data/chats/Gemini-_08.md, lines 20-135, 760 <../data/chats/Gemini-_08.md>`; {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 5385-5440 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`):
+In [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean#L425-L570) (`polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`) and `TopologicalQuasiparticleAndNDMEngine` ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L1525-L1685)), we further formalize and cross-verify the hybrid quasiparticle, topological defect, and nondestructive readout architecture ({download}`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md, lines 480-705 and 2117-2235 <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>`; {download}`data/chats/Lignin-Vitrimer-Surface-Roughness-Limits.md, lines 1372-1565 <../data/chats/Lignin-Vitrimer-Surface-Roughness-Limits.md>`; {download}`data/chats/Gemini-_08.md, lines 20-135, 760 <../data/chats/Gemini-_08.md>`; {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 5385-5440 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`):
 
 1. **Polaritons & Plasmons on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and QCI Process Matrices**:
    - **Polaritons**: Embedding the 4-state cavity–molecule basis ($1 \equiv |g,1\rangle$, $2 \equiv |e,0\rangle$, $3 \equiv |g,0\rangle$, $4 \equiv |e,1\rangle$) into `gr24MutatedHomogeneousVRC x1 x2 (-1)` resolves the on-shell strong-coupling resonance pole $x_X = -1$ into finite upper and lower polariton branches $|\mathrm{Polariton}_\pm\rangle \propto P_{01}|g,1\rangle \pm P_{23}|e,0\rangle$ with $P_{12} = x_2 - x_1$.
