@@ -40,6 +40,7 @@ docs: docs_local
 
 docs_local:
 	@echo "docs_local  #  Build the sustainablefactory Sphinx documentation locally"
+	rm -f -- docs/tables_and_figures* "docs/_static/docindex.nt"
 	$(MAKE) -C docs html
 
 docs_deploy:
