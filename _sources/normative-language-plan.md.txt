@@ -129,6 +129,7 @@ Klein Quadric Q_4 Kähler (with DDF)
 - name_full: Vector Relation Configuration
 - description: Plabic graphs extended to Complex space
 - appliedBy: docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
+- definedBy: {cite:p}`affolter2024vrc`
 
 
 # Materials
