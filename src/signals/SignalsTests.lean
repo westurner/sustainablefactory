@@ -8469,6 +8469,9 @@ example (div_f cx cy cz b_sq f_contract kx ex ky ey w0_sq p_diff p_oam w_norm
         Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
       Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - (1 / 5) ^ 2) (1 / 5) 0 =
         delta_theta_gr ∧
+      Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+          g_const mass_source (1 / (1 : ℝ) ^ 2) 1 b_impact (4 - (1 / 5) ^ 2) (1 / 5) 0 =
+        Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
       Signals.DFT.electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) =
         psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2) ∧
     (Signals.DFT.abrahamMinkowskiMomentumProduct p0 (3 / 2) = p0 ^ 2 ∧
@@ -8561,6 +8564,9 @@ example (p dp dphi : Fin 6 → ℝ) (amp damp delta_theta_gr g_const mass_source
       Signals.DFT.turnerKahlerOrbitalSemiLatusFactor (1 / 5) = 1 - (1 / 5 : ℝ) ^ 2 ∧
       Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - (1 / 5 : ℝ) ^ 2) (1 / 5) 0 =
         delta_theta_gr ∧
+      Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+          g_const mass_source (1 / (1 : ℝ) ^ 2) 1 b_impact (4 - (1 / 5 : ℝ) ^ 2) (1 / 5) 0 =
+        Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
       Signals.DFT.ddfRefractiveLightDeflection g_const mass_source (1 / (1 : ℝ) ^ 2) 1 b_impact =
         Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
       Signals.DFT.buresMetricDiagFromQfim (Signals.DFT.qfimDiag d) =
@@ -8702,68 +8708,55 @@ example (f_transverse l_charge n_probes delta_theta_gr hbar mass g_fs_ray : ℝ)
       (1 : ℝ) < Signals.DFT.trueConjugatedSoftPhotonQfimGain 100010 1 ∧
       Signals.DFT.turnerPluckerKahlerLightDeflection
           delta_theta_gr (3 + 1 / Signals.DFT.qedOrbitalEccentricityQfim (1 / 5)) (1 / 5) 0 =
-        delta_theta_gr :=
+        delta_theta_gr ∧
+      Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+          1 1 1 1 1 (3 + 1 / Signals.DFT.qedOrbitalEccentricityQfim (1 / 5)) (1 / 5) 0 =
+        Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1 :=
   Signals.DFT.maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_identities
     f_transverse (1 / 2) (1 / 4) l_charge n_probes 1 delta_theta_gr (1 / 5) hbar mass g_fs_ray
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
-example (g_const mass_source b_impact s0_weinberg s1_angular m_hard beta_sq e_soft_sq : ℝ) :
-    Signals.DFT.qedEulerHeisenbergRefractiveShift (1 / 1000) 0 = 1 ∧
-      (1 : ℝ) < Signals.DFT.qedEulerHeisenbergRefractiveShift (1 / 1000) (1 / 4) ∧
-      Signals.DFT.activePhotonBeamDeflection 0 4 = 0 ∧
-      Signals.DFT.activePhotonBeamDeflection 1 4 = 4 ∧
-      Signals.DFT.activePhotonBeamDeflection 0 4 < Signals.DFT.activePhotonBeamDeflection 1 4 ∧
-      Signals.DFT.turnerGr24QEDLightDeflection g_const mass_source 1 b_impact (1 / 5) =
-        Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
-      Signals.DFT.turnerGr24DDFLightDeflection g_const mass_source (1 / (1 : ℝ) ^ 2) 1 b_impact (1 / 5) =
-        Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
-      Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
-          g_const mass_source (1 / (1 : ℝ) ^ 2) 1 b_impact (4 - (1 / 5 : ℝ) ^ 2) (1 / 5) 0 =
-        Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source 1 b_impact 1 ∧
-      Signals.Huygens.relativePredictiveError
-          (Signals.DFT.turnerGr24QEDLightDeflection 1 1 1 1 (1 / 5))
-          (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-      Signals.Huygens.relativePredictiveError
-          (Signals.DFT.turnerGr24DDFLightDeflection 1 1 1 1 1 (1 / 5))
-          (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-      Signals.Huygens.relativePredictiveError
-          (Signals.DFT.turnerDualGr24IGPEDDFLightDeflection 1 1 1 1 1 (4 - (1 / 5 : ℝ) ^ 2) (1 / 5) 0)
-          (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-      (1 / 10 : ℝ) *
-          Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 (1 / 10) m_hard =
-        s0_weinberg * m_hard ∧
-      Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg s1_angular (1 / 10) m_hard -
-          Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 (1 / 10) m_hard =
-        s1_angular * m_hard ∧
-      Signals.DFT.wormholeTransitJammedEnergy 0 beta_sq e_soft_sq = e_soft_sq ∧
-      Signals.DFT.wormholeNetNullDefocusingFlux 2 10 ≤ 0 ∧
-      (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 :=
-  Signals.DFT.maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identities
-    (1 / 1000) (1 / 4) g_const mass_source 1 b_impact (1 / 5) 4
-    s0_weinberg s1_angular (1 / 10) m_hard beta_sq e_soft_sq
-    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+example (g_phi mass_source rho_max_varphi j_min_varphi b_impact kahler_det delta_jos : ℝ) :
+    Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+        g_phi mass_source rho_max_varphi j_min_varphi b_impact kahler_det (1 / 5) delta_jos =
+      Signals.DFT.turnerPluckerKahlerLightDeflection
+        (Signals.DFT.ddfRefractiveLightDeflection g_phi mass_source rho_max_varphi j_min_varphi b_impact)
+        kahler_det (1 / 5) delta_jos ∧
+    Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+        g_phi mass_source (1 / (1 : ℝ) ^ 2) 1 b_impact (4 - (1 / 5 : ℝ) ^ 2) (1 / 5) delta_jos =
+      Signals.DFT.gravitationalLightDeflectionPPN g_phi mass_source 1 b_impact 1 + delta_jos :=
+  Signals.DFT.turnerDualGr24IGPEDDFLightDeflection_eq_model14a_of_ddf
+    g_phi mass_source rho_max_varphi j_min_varphi 1 b_impact kahler_det (1 / 5) delta_jos
+    (by norm_num)
 
-example (theta_pitch omega_sq p_amb : ℝ) :
-    Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
-      Signals.DFT.eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
-      Signals.DFT.unitQuaternionNormSq
-          (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
-      Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
-      Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
-      Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
-      Signals.DFT.dftCollisionalPermittivityRe 4 1 omega_sq 0 =
-        Signals.DFT.dftElectronDensityPermittivity 4 1 omega_sq ∧
-      Signals.DFT.dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
-      Signals.DFT.dftCollisionalPermittivityIm 4 1 2 0 = 0 ∧
-      0 < Signals.DFT.dftCollisionalPermittivityIm 4 1 2 (1 / 2) ∧
-      Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 6 2 1 ≤
-        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 0 2 1 ∧
-      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
-      0 < Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 10 ∧
-      Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 10 < 10 :=
-  Signals.DFT.maxwell_complete_multi_model_critique_and_gap_closure_identities
-    theta_pitch 4 1 omega_sq 2 (1 / 2) p_amb 6 2 1 10
-    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+example (x1 x2 sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta : ℝ) :
+    let d : Signals.DFT.PluckerDirectionalJet :=
+      { rho := 2, dpsi_norm_sq := 10, drho := 4, A_mu := 1 }
+    Signals.DFT.vrcResonantPluckerNormSq x1 x2 =
+        2 + x2 ^ 2 + (x2 - x1) ^ 2 * (1 + x2 ^ 2) ∧
+      2 ≤ Signals.DFT.vrcResonantPluckerNormSq x1 x2 ∧
+      Signals.DFT.fubiniStudyDiag (Signals.DFT.vrcResonantDirectionalJetX1 x1 x2) =
+        Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 ∧
+      Signals.DFT.qfimDiag (Signals.DFT.vrcResonantDirectionalJetX1 x1 x2) =
+        Signals.DFT.vrcResonantQfimX1 x1 x2 ∧
+      Signals.DFT.vrcResonantQfimX1 x1 x2 =
+        4 * Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 ∧
+      0 < Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 ∧
+      0 < Signals.DFT.vrcResonantQfimX1 x1 x2 ∧
+      Signals.DFT.vrcResonantFubiniStudyX1 0 0 = 1 / 2 ∧
+      Signals.DFT.vrcResonantQfimX1 0 0 = 2 ∧
+      Signals.DFT.fubiniStudyDiag (Signals.DFT.complexRescaledVrcJet d 3 sigma_mu dchi) =
+        Signals.DFT.fubiniStudyDiag d ∧
+      Signals.DFT.qfimDiag (Signals.DFT.complexRescaledVrcJet d 3 sigma_mu dchi) =
+        Signals.DFT.qfimDiag d ∧
+      Signals.DFT.vrcRegularizedPnoAmplitude g_ijab 0 gamma_vrc = 0 ∧
+      Signals.DFT.vrcPnoGapQfimAtDegeneracy g_ijab gamma_vrc =
+        4 * Signals.DFT.vrcPnoGapFubiniStudyAtDegeneracy g_ijab gamma_vrc ∧
+      Signals.DFT.vrcQuantumNaturalGradientStep eta grad_theta (4 * g_fs_theta) =
+        (1 / 4) * Signals.DFT.vrcQuantumNaturalGradientStep eta grad_theta g_fs_theta :=
+  Signals.DFT.vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_identities
+    x1 x2 { rho := 2, dpsi_norm_sq := 10, drho := 4, A_mu := 1 }
+    3 sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta
+    (by norm_num) (by norm_num)
 
 end SignalsTests

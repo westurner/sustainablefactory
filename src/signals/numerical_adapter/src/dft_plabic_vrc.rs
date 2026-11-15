@@ -2324,7 +2324,7 @@ pub fn ddf_refractive_light_deflection(
     4.0 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact
 }
 
-/// Turner (2026) Plücker Q_4 / Fubini–Study Kähler iGPE light deflection
+/// Model 14a (Without DDF): Turner (2026) Plücker Q_4 / Fubini–Study Kähler iGPE light deflection
 /// `dtheta_gr * ((kahler_det - 3) / (1 - e^2)) + delta_jos`,
 /// matching `Signals.DFT.turnerPluckerKahlerLightDeflection`.
 pub fn turner_plucker_kahler_light_deflection(
@@ -2334,6 +2334,26 @@ pub fn turner_plucker_kahler_light_deflection(
     delta_jos: f64,
 ) -> f64 {
     delta_theta_gr * ((kahler_det - 3.0) / (1.0 - e_ecc.powi(2))) + delta_jos
+}
+
+/// Model 14b (With DDF): Turner (2026) unified Dual-Grassmannian `Gr_C(2,4) x Gr_C(2,4)^v` iGPE,
+/// Plücker Q_4 Kähler, and conservative DDF light deflection
+/// `ddf_refractive_light_deflection(...) * ((kahler_det - 3) / (1 - e^2)) + delta_jos`,
+/// matching `Signals.DFT.turnerDualGr24IGPEDDFLightDeflection`.
+#[allow(clippy::too_many_arguments)]
+pub fn turner_dual_gr24_igpe_ddf_light_deflection(
+    g_phi: f64,
+    mass_source: f64,
+    rho_max_varphi: f64,
+    j_min_varphi: f64,
+    b_impact: f64,
+    kahler_det: f64,
+    e_ecc: f64,
+    delta_jos: f64,
+) -> f64 {
+    ddf_refractive_light_deflection(g_phi, mass_source, rho_max_varphi, j_min_varphi, b_impact)
+        * ((kahler_det - 3.0) / (1.0 - e_ecc.powi(2)))
+        + delta_jos
 }
 
 /// Heaviside–Larmor electric–magnetic duality norm on `Gr_C(2,4) x Gr_C(2,4)^v`,
@@ -2825,104 +2845,71 @@ pub fn true_conjugated_soft_photon_qfim_gain(n_modes: f64, f_single: f64) -> f64
     n_modes * f_single
 }
 
-/// Section 28: 1-loop QED Euler–Heisenberg vacuum polarization refractive index
-/// `1 + c_alpha_sq * b_over_bcrit_sq`, matching `Signals.DFT.qedEulerHeisenbergRefractiveShift`.
-pub fn qed_euler_heisenberg_refractive_shift(c_alpha_sq: f64, b_over_bcrit_sq: f64) -> f64 {
-    1.0 + c_alpha_sq * b_over_bcrit_sq
+/// Section 27.6: Pole-free resonant VRC Plücker norm squared at `x_X = -1`,
+/// matching `Signals.DFT.vrcResonantPluckerNormSq`.
+pub fn vrc_resonant_plucker_norm_sq(x1: f64, x2: f64) -> f64 {
+    2.0 + x2.powi(2) + (x2 - x1).powi(2) * (1.0 + x2.powi(2))
 }
 
-/// Section 28: Active counter-propagating laser beam gravitational deflection
-/// `eta_act * delta_theta_gr`, matching `Signals.DFT.activePhotonBeamDeflection`.
-pub fn active_photon_beam_deflection(eta_act: f64, delta_theta_gr: f64) -> f64 {
-    eta_act * delta_theta_gr
+/// Section 27.6: Resonant VRC directional Plücker jet along `x_1` at `x_X = -1`,
+/// matching `Signals.DFT.vrcResonantDirectionalJetX1`.
+pub fn vrc_resonant_directional_jet_x1(x1: f64, x2: f64) -> PluckerDirectionalJet {
+    PluckerDirectionalJet {
+        rho: vrc_resonant_plucker_norm_sq(x1, x2),
+        dpsi_norm_sq: 1.0 + x2.powi(2),
+        drho: 2.0 * (x1 - x2) * (1.0 + x2.powi(2)),
+        a_mu: 0.0,
+    }
 }
 
-/// Section 28: Turner Model 12 (`Gr_C(2,4)` BCJ double copy without DDF) 1PN light deflection,
-/// matching `Signals.DFT.turnerGr24QEDLightDeflection`.
-pub fn turner_gr24_qed_light_deflection(
-    g_const: f64,
-    mass_source: f64,
-    c_light: f64,
-    b_impact: f64,
-    e_ecc: f64,
-) -> f64 {
-    (4.0 * g_const * mass_source / (c_light.powi(2) * b_impact))
-        * (((1.0 + e_ecc) * (1.0 - e_ecc)) / (1.0 - e_ecc.powi(2)))
+/// Section 27.6: Pole-free resonant VRC Fubini–Study Kähler metric along `x_1` at `x_X = -1`,
+/// matching `Signals.DFT.vrcResonantFubiniStudyX1`.
+pub fn vrc_resonant_fubini_study_x1(x1: f64, x2: f64) -> f64 {
+    ((2.0 + x2.powi(2)) * (1.0 + x2.powi(2))) / vrc_resonant_plucker_norm_sq(x1, x2).powi(2)
 }
 
-/// Section 28: Turner Model 13 (unified `Gr_C(2,4)` + conservative DDF + 3D splat) 1PN light deflection,
-/// matching `Signals.DFT.turnerGr24DDFLightDeflection`.
-pub fn turner_gr24_ddf_light_deflection(
-    g_phi: f64,
-    mass_source: f64,
-    rho_max_varphi: f64,
-    j_min_varphi: f64,
-    b_impact: f64,
-    e_ecc: f64,
-) -> f64 {
-    (4.0 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact)
-        * (((1.0 + e_ecc) * (1.0 - e_ecc)) / (1.0 - e_ecc.powi(2)))
+/// Section 27.6: Pole-free resonant VRC Quantum Fisher Information Metric along `x_1` at `x_X = -1`,
+/// matching `Signals.DFT.vrcResonantQfimX1`.
+pub fn vrc_resonant_qfim_x1(x1: f64, x2: f64) -> f64 {
+    (4.0 * (2.0 + x2.powi(2)) * (1.0 + x2.powi(2))) / vrc_resonant_plucker_norm_sq(x1, x2).powi(2)
 }
 
-/// Section 28: Turner Model 14b (unified Dual-Grassmannian `iGPE` + Plücker `Q_4` + DDF) light deflection,
-/// matching `Signals.DFT.turnerDualGr24IGPEDDFLightDeflection`.
-#[allow(clippy::too_many_arguments)]
-pub fn turner_dual_gr24_igpe_ddf_light_deflection(
-    g_phi: f64,
-    mass_source: f64,
-    rho_max_varphi: f64,
-    j_min_varphi: f64,
-    b_impact: f64,
-    kahler_det: f64,
-    e_ecc: f64,
-    delta_jos: f64,
-) -> f64 {
-    (4.0 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact)
-        * ((kahler_det - 3.0) / (1.0 - e_ecc.powi(2)))
-        + delta_jos
+/// Section 27.6 Critique Fix VRC-2: Complex radial + phase VRC denominator-clearing rescaled jet,
+/// matching `Signals.DFT.complexRescaledVrcJet`.
+pub fn complex_rescaled_vrc_jet(
+    d: PluckerDirectionalJet,
+    s: f64,
+    sigma_mu: f64,
+    dchi: f64,
+) -> PluckerDirectionalJet {
+    PluckerDirectionalJet {
+        rho: s.powi(2) * d.rho,
+        dpsi_norm_sq: s.powi(2)
+            * (d.dpsi_norm_sq
+                + sigma_mu * d.drho
+                + 2.0 * d.rho * d.a_mu * dchi
+                + d.rho * (sigma_mu.powi(2) + dchi.powi(2))),
+        drho: s.powi(2) * (d.drho + 2.0 * sigma_mu * d.rho),
+        a_mu: d.a_mu + dchi,
+    }
 }
 
-/// Section 28: Weinberg–Low–Cachazo–Strominger leading + subleading soft-photon amplitude
-/// `(s0_weinberg / omega_soft + s1_angular) * m_hard`,
-/// matching `Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude`.
-pub fn low_cachazo_strominger_soft_photon_amplitude(
-    s0_weinberg: f64,
-    s1_angular: f64,
-    omega_soft: f64,
-    m_hard: f64,
-) -> f64 {
-    (s0_weinberg / omega_soft + s1_angular) * m_hard
+/// Section 27.6 Critique Fix VRC-3: VRC-regularized MRA-PNO pair excitation gap Fubini–Study metric
+/// at HOMO–LUMO degeneracy `Delta_eps = 0`, matching `Signals.DFT.vrcPnoGapFubiniStudyAtDegeneracy`.
+pub fn vrc_pno_gap_fubini_study_at_degeneracy(g_ijab: f64, gamma_vrc: f64) -> f64 {
+    g_ijab.powi(2) / gamma_vrc.powi(4)
 }
 
-/// Section 28.1 Critique Fix 3a: Collisional Drude–Kohn–Sham real relative permittivity
-/// `1 - alpha_pol * rho_e / (omega_sq + gamma_coll_sq)`,
-/// matching `Signals.DFT.dftCollisionalPermittivityRe`.
-pub fn dft_collisional_permittivity_re(
-    rho_e: f64,
-    alpha_pol: f64,
-    omega_sq: f64,
-    gamma_coll_sq: f64,
-) -> f64 {
-    1.0 - alpha_pol * rho_e / (omega_sq + gamma_coll_sq)
+/// Section 27.6 Critique Fix VRC-3: VRC-regularized MRA-PNO pair excitation gap QFIM at
+/// HOMO–LUMO degeneracy `Delta_eps = 0`, matching `Signals.DFT.vrcPnoGapQfimAtDegeneracy`.
+pub fn vrc_pno_gap_qfim_at_degeneracy(g_ijab: f64, gamma_vrc: f64) -> f64 {
+    4.0 * g_ijab.powi(2) / gamma_vrc.powi(4)
 }
 
-/// Section 28.1 Critique Fix 3b: Collisional Drude–Kohn–Sham imaginary (absorptive) permittivity
-/// `(alpha_pol * rho_e * gamma_coll) / (omega_freq * (omega_freq^2 + gamma_coll^2))`,
-/// matching `Signals.DFT.dftCollisionalPermittivityIm`.
-pub fn dft_collisional_permittivity_im(
-    rho_e: f64,
-    alpha_pol: f64,
-    omega_freq: f64,
-    gamma_coll: f64,
-) -> f64 {
-    (alpha_pol * rho_e * gamma_coll) / (omega_freq * (omega_freq.powi(2) + gamma_coll.powi(2)))
-}
-
-/// Section 28.1 Critique Fix 5: Passive aperture-bounded `TRUE` soft-photon QFIM
-/// `subwavelength_photon_true_conjugate_coupling(eta_bethe, g_true) * f_max`,
-/// matching `Signals.DFT.trueApertureBoundedSoftPhotonQfim`.
-pub fn true_aperture_bounded_soft_photon_qfim(eta_bethe: f64, g_true: f64, f_max: f64) -> f64 {
-    subwavelength_photon_true_conjugate_coupling(eta_bethe, g_true) * f_max
+/// Section 27.6 Critique Fix VRC-3: `Tequila` / `QCI-GXC` Quantum Natural Gradient step,
+/// matching `Signals.DFT.vrcQuantumNaturalGradientStep`.
+pub fn vrc_quantum_natural_gradient_step(eta: f64, grad_theta: f64, f_theta: f64) -> f64 {
+    -eta * grad_theta / f_theta
 }
 
 #[cfg(test)]
@@ -4013,6 +4000,18 @@ mod tests {
                 < 1e-15
         );
         assert!(
+            (turner_dual_gr24_igpe_ddf_light_deflection(1.0, 1.0, 1.0, 1.0, 1.0, 4.0 - 0.04, 0.2, 0.0)
+                - dtheta_gr)
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (turner_dual_gr24_igpe_ddf_light_deflection(1.0, 1.0, 1.0, 1.0, 1.0, 4.0 - 0.04, 0.2, 0.125)
+                - (dtheta_gr + 0.125))
+                .abs()
+                < 1e-15
+        );
+        assert!(
             (electric_magnetic_duality_norm_sq(1.2, -0.5, 0.8, 0.3, 0.6, 0.8)
                 - (1.2_f64.powi(2) + (-0.5_f64).powi(2) + 0.8_f64.powi(2) + 0.3_f64.powi(2)))
                 .abs()
@@ -4288,70 +4287,46 @@ mod tests {
         let dtheta_qfim =
             turner_plucker_kahler_light_deflection(4.0, 3.0 + 1.0 / f_ee_orb, e_orb, 0.0);
         assert!((dtheta_qfim - 4.0).abs() < 1e-15);
-
-        // 31. Section 28: Complete Multi-Model EM Wave & Soft-Photon / TRUE-Conjugated Soft-Photon
-        // Synthesis Across QED/Euler-Heisenberg, Cachazo, DDF, and Turner Models 12, 13, 14a, 14b
-        assert!((qed_euler_heisenberg_refractive_shift(1e-3, 0.0) - 1.0).abs() < 1e-15);
-        assert!(qed_euler_heisenberg_refractive_shift(1e-3, 0.25) > 1.0);
-        assert!(active_photon_beam_deflection(0.0, dtheta_gr).abs() < 1e-15);
-        assert!((active_photon_beam_deflection(1.0, dtheta_gr) - dtheta_gr).abs() < 1e-15);
-        assert!(
-            active_photon_beam_deflection(0.0, dtheta_gr)
-                < active_photon_beam_deflection(1.0, dtheta_gr)
-        );
-        let dtheta_m12 = turner_gr24_qed_light_deflection(1.0, 1.0, 1.0, 1.0, e_orb);
-        let dtheta_m13 = turner_gr24_ddf_light_deflection(1.0, 1.0, 1.0, 1.0, 1.0, e_orb);
-        let dtheta_m14b = turner_dual_gr24_igpe_ddf_light_deflection(
+        let dtheta_qfim_14b = turner_dual_gr24_igpe_ddf_light_deflection(
             1.0,
             1.0,
             1.0,
             1.0,
             1.0,
-            4.0 - e_orb.powi(2),
+            3.0 + 1.0 / f_ee_orb,
             e_orb,
             0.0,
         );
-        assert!((dtheta_m12 - dtheta_gr).abs() < 1e-15);
-        assert!((dtheta_m13 - dtheta_gr).abs() < 1e-15);
-        assert!((dtheta_m14b - dtheta_gr).abs() < 1e-15);
-        let m_soft_lead = low_cachazo_strominger_soft_photon_amplitude(2.5, 0.0, 0.1, 3.0);
-        let m_soft_full = low_cachazo_strominger_soft_photon_amplitude(2.5, 1.25, 0.1, 3.0);
-        assert!((0.1 * m_soft_lead - 2.5 * 3.0).abs() < 1e-14);
-        assert!((m_soft_full - m_soft_lead - 1.25 * 3.0).abs() < 1e-14);
+        assert!((dtheta_qfim_14b - 4.0).abs() < 1e-15);
 
-        // 32. Section 28.1: Adversarial Critique & Gap-Closure Fixes for Multi-Model EM
-        assert!(euler_kinematic_jacobian_det(-std::f64::consts::FRAC_PI_2).abs() < 1e-15);
-        for &theta in &[-1.7, -std::f64::consts::FRAC_PI_2, 0.0, 0.9, std::f64::consts::FRAC_PI_2] {
-            let qw = (theta / 2.0).cos();
-            let qy = (theta / 2.0).sin();
-            assert!((unit_quaternion_norm_sq(qw, 0.0, qy, 0.0) - 1.0).abs() < 1e-15);
-        }
-        assert!((nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 0.0, 2.0) - 2.0).abs() < 1e-15);
-        assert!(nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 0.25, 2.0).abs() < 1e-15);
+        // 31. Section 27.6: Complex Plabic VRC and QFIM = 4x Fubini–Study Kähler Metric Across
+        // x_X = -1 Resonance, Denominator-Clearing Gauge Invariance, and MRA-PNO / Tequila QNG
+        let vrc_norm = vrc_resonant_plucker_norm_sq(0.5, -0.3);
+        assert!(vrc_norm >= 2.0);
+        let d_vrc_res = vrc_resonant_directional_jet_x1(0.5, -0.3);
+        let fs_vrc = vrc_resonant_fubini_study_x1(0.5, -0.3);
+        let qfim_vrc = vrc_resonant_qfim_x1(0.5, -0.3);
+        assert!(fs_vrc > 0.0 && qfim_vrc > 0.0);
+        assert!((fubini_study_diag(d_vrc_res) - fs_vrc).abs() < 1e-15);
+        assert!((qfim_diag(d_vrc_res) - qfim_vrc).abs() < 1e-15);
+        assert!((qfim_vrc - 4.0 * fs_vrc).abs() < 1e-15);
+        assert!((vrc_resonant_fubini_study_x1(0.0, 0.0) - 0.5).abs() < 1e-15);
+        assert!((vrc_resonant_qfim_x1(0.0, 0.0) - 2.0).abs() < 1e-15);
+        let d_rescaled = complex_rescaled_vrc_jet(d_vrc_res, 3.0, 0.7, -1.2);
+        assert!((fubini_study_diag(d_rescaled) - fubini_study_diag(d_vrc_res)).abs() < 1e-14);
+        assert!((qfim_diag(d_rescaled) - qfim_diag(d_vrc_res)).abs() < 1e-14);
+        assert!(vrc_regularized_pno_amplitude(0.4, 0.0, 0.1).abs() < 1e-15);
         assert!(
-            (nonlocal_stabilized_azimuthal_mi_gain(10.0, 2.0, 5.0, 2.0) - (-798.0 / 101.0)).abs()
-                < 1e-14
+            (vrc_pno_gap_qfim_at_degeneracy(0.4, 0.1)
+                - 4.0 * vrc_pno_gap_fubini_study_at_degeneracy(0.4, 0.1))
+                .abs()
+                < 1e-12
         );
         assert!(
-            (dft_collisional_permittivity_re(4.0, 1.0, 4.0, 0.0)
-                - dft_electron_density_permittivity(4.0, 1.0, 4.0))
+            (vrc_quantum_natural_gradient_step(0.1, 0.8, 4.0 * 0.25)
+                - 0.25 * vrc_quantum_natural_gradient_step(0.1, 0.8, 0.25))
                 .abs()
                 < 1e-15
         );
-        assert!((dft_collisional_permittivity_re(4.0, 1.0, 0.0, 2.0) - (-1.0)).abs() < 1e-15);
-        assert!(dft_collisional_permittivity_im(4.0, 1.0, 2.0, 0.0).abs() < 1e-15);
-        assert!(dft_collisional_permittivity_im(4.0, 1.0, 2.0, 0.5) > 0.0);
-        assert!(
-            ddf_pressure_gradient_refractive_index(10.0, 6.0, 2.0, 1.0)
-                <= ddf_pressure_gradient_refractive_index(10.0, 0.0, 2.0, 1.0)
-        );
-        assert!(
-            (subwavelength_photon_true_conjugate_coupling(1.0 / 10_001.0, 100_010.0)
-                - 10_001.0 / 11_001.0)
-                .abs()
-                < 1e-15
-        );
-        let qfim_ap = true_aperture_bounded_soft_photon_qfim(1.0 / 10_001.0, 100_010.0, 10.0);
-        assert!(qfim_ap > 0.0 && qfim_ap < 10.0);
     }
 }

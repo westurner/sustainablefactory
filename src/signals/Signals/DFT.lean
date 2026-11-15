@@ -8171,15 +8171,63 @@ noncomputable def ddfRefractiveLightDeflection
     (g_phi mass_source rho_max_varphi j_min_varphi b_impact : ℝ) : ℝ :=
   4 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact
 
-/-- **Turner (2026) Plücker $\mathcal{Q}_4$ / Fubini–Study Kähler `iGPE` Light Deflection (`turnerPluckerKahlerLightDeflection`)**:
-$$\Delta\theta_{\gamma}^{\mathrm{Turner}}(\Delta\theta_{\mathrm{GR}}, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) =
+/-- **Model 14a (Without DDF): Turner (2026) Plücker $\mathcal{Q}_4$ / Fubini–Study Kähler `iGPE` Light Deflection (`turnerPluckerKahlerLightDeflection`)**:
+Factors 1PN gravitational light deflection in flat-space / QED / Kähler geometry (without a DDF
+superfluid medium, $\eta_{\mathrm{act}}^\gamma = 1$) through the Fubini–Study Kähler determinant
+excess $\mathcal{D}_K - 3 = \det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = p/a$
+plus the strong-field near-horizon Plücker Bohm + dual-Schubert Josephson core shift $\delta_{\mathrm{Jos}}$:
+$$\Delta\theta_{\gamma}^{(14\mathrm{a})}(\Delta\theta_{\mathrm{GR}}, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) =
 \Delta\theta_{\mathrm{GR}} \cdot \frac{\mathcal{D}_K - 3}{1 - e^2} + \delta_{\mathrm{Jos}}.$$ -/
 @[blueprint "def:signals-dft-turner-plucker-kahler-light-deflection"
-  (title := "Turner 2026 Plücker Q_4 / Fubini-Study Kähler iGPE light deflection")
+  (title := "Model 14a (Without DDF): Turner 2026 Plücker Q_4 / Fubini-Study Kähler iGPE light deflection")
   (statement := /-- Define $\operatorname{turnerPluckerKahlerLightDeflection}(\Delta\theta_{\mathrm{GR}}, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) = \Delta\theta_{\mathrm{GR}} ((\mathcal{D}_K - 3) / (1 - e^2)) + \delta_{\mathrm{Jos}}$. -/)]
 noncomputable def turnerPluckerKahlerLightDeflection
     (delta_theta_gr kahler_det e_ecc delta_jos : ℝ) : ℝ :=
   delta_theta_gr * ((kahler_det - 3) / (1 - e_ecc ^ 2)) + delta_jos
+
+/-- **Model 14b (With DDF): Turner (2026) Unified Dual-Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker $\mathcal{Q}_4$ Madelung, & Conservative DDF Light Deflection (`turnerDualGr24IGPEDDFLightDeflection`)**:
+Replaces $c^{-2}$ in $\Delta\theta_{\mathrm{GR}}$ with the constitutive DDF dispersed-phase product
+$\varrho_{\max}^\varphi j_{\min}^\varphi$ (`ddfRefractiveLightDeflection`, $\eta_{\mathrm{act}}^\gamma = 0$)
+and factors $p/a = 1 - e^2$ through the Fubini–Study Kähler determinant excess
+$\mathcal{D}_K - 3 = \det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3$ plus the coupled
+Dual-Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$
+Josephson–Schubert core regularization shift $\delta_{\mathrm{Jos}}$:
+$$\Delta\theta_{\gamma}^{(14\mathrm{b})}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) =
+\frac{4\,G_\phi\,M\,(\varrho_{\max}^\varphi j_{\min}^\varphi)}{b} \cdot \frac{\mathcal{D}_K - 3}{1 - e^2} + \delta_{\mathrm{Jos}}.$$ -/
+@[blueprint "def:signals-dft-turner-dual-gr24-igpe-ddf-light-deflection"
+  (title := "Model 14b (With DDF): Turner 2026 unified Dual-Grassmannian Gr_C(2,4) x Gr_C(2,4)^v iGPE, Plücker Q_4 Kähler, and DDF light deflection")
+  (statement := /-- Define $\operatorname{turnerDualGr24IGPEDDFLightDeflection}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) = \operatorname{ddfRefractiveLightDeflection}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b) \cdot ((\mathcal{D}_K - 3) / (1 - e^2)) + \delta_{\mathrm{Jos}}$. -/)]
+noncomputable def turnerDualGr24IGPEDDFLightDeflection
+    (g_phi mass_source rho_max_varphi j_min_varphi b_impact kahler_det e_ecc delta_jos : ℝ) : ℝ :=
+  ddfRefractiveLightDeflection g_phi mass_source rho_max_varphi j_min_varphi b_impact *
+    ((kahler_det - 3) / (1 - e_ecc ^ 2)) + delta_jos
+
+/-- **Exact Bridge Between Turner Model 14b (With DDF) and Model 14a (Without DDF) Light Deflection (`turnerDualGr24IGPEDDFLightDeflection_eq_model14a_of_ddf`)**:
+Model 14b is the exact composition of Model 14a (`turnerPluckerKahlerLightDeflection`) with the
+constitutive DDF refractive baseline (`ddfRefractiveLightDeflection`), and at $\mathcal{D}_K = 4 - e^2$
+ exposes the pure Dual-Grassmannian Josephson–Schubert core shift $\delta_{\mathrm{Jos}}$. -/
+@[blueprint "thm:signals-dft-turner-dual-gr24-igpe-ddf-light-deflection-bridge"
+  (title := "Exact bridge between Turner Model 14b (With DDF) and Model 14a (Without DDF) light deflection")
+  (statement := /-- For all parameters, $\operatorname{turnerDualGr24IGPEDDFLightDeflection}$ equals
+    $\operatorname{turnerPluckerKahlerLightDeflection}$ applied to $\operatorname{ddfRefractiveLightDeflection}$,
+    and when $1 - e^2 \neq 0$, $\operatorname{turnerDualGr24IGPEDDFLightDeflection}(G_\phi, M, c^{-2}, 1, b, 4 - e^2, e, \delta_{\mathrm{Jos}}) = \operatorname{gravitationalLightDeflectionPPN}(G_\phi, M, c, b, 1) + \delta_{\mathrm{Jos}}$. -/)
+  (proof := /-- Unfold both definitions, cancel $(1 - e^2)/(1 - e^2) = 1$ using $1 - e^2 \neq 0$, and close by \texttt{ring}. -/)]
+theorem turnerDualGr24IGPEDDFLightDeflection_eq_model14a_of_ddf
+    (g_phi mass_source rho_max_varphi j_min_varphi c_light b_impact kahler_det e_ecc delta_jos : ℝ)
+    (he : 1 - e_ecc ^ 2 ≠ 0) :
+    turnerDualGr24IGPEDDFLightDeflection
+        g_phi mass_source rho_max_varphi j_min_varphi b_impact kahler_det e_ecc delta_jos =
+      turnerPluckerKahlerLightDeflection
+        (ddfRefractiveLightDeflection g_phi mass_source rho_max_varphi j_min_varphi b_impact)
+        kahler_det e_ecc delta_jos ∧
+    turnerDualGr24IGPEDDFLightDeflection
+        g_phi mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc delta_jos =
+      gravitationalLightDeflectionPPN g_phi mass_source c_light b_impact 1 + delta_jos := by
+  refine ⟨rfl, ?_⟩
+  unfold turnerDualGr24IGPEDDFLightDeflection ddfRefractiveLightDeflection gravitationalLightDeflectionPPN
+  have h_num : 4 - e_ecc ^ 2 - 3 = 1 - e_ecc ^ 2 := by ring
+  rw [h_num, div_self he]
+  ring
 
 /-- **Heaviside–Larmor Electric–Magnetic Duality Rotation Norm on $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (`electricMagneticDualityNormSq`)**:
 Under $\Psi' = \Psi\cos\alpha - \Phi\sin\alpha$ and $\Phi' = \Psi\sin\alpha + \Phi\cos\alpha$:
@@ -8223,8 +8271,9 @@ Simultaneously establishes:
    - Witten conformal ($\beta_{\mathrm{scale}} = 0, \gamma_{\mathrm{conf}} = 0$): `Signals.Huygens.relativePredictiveError (wittenConformalLightDeflection 4 0 0 1) 4 = 1`,
    - Cachazo–Skinner infinity twistor ($\pi_I = 1$): `cachazoSkinnerLightDeflection delta_theta_gr 1 gamma_conf b_impact = delta_theta_gr` and `Signals.Huygens.relativePredictiveError (cachazoSkinnerLightDeflection 4 1 gamma_conf b_impact) 4 = 0`,
    - DDF constitutive medium ($c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$): `ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1`,
-   - Turner Plücker $\mathcal{Q}_4$ / Kähler `iGPE` (Models 14a & 14b at $\mathcal{D}_K = 4 - e^2, \delta_{\mathrm{Jos}} = 0$):
-     `turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 = delta_theta_gr` (for $1 - e^2 \neq 0$),
+   - Turner Plücker $\mathcal{Q}_4$ / Kähler `iGPE` Model 14a (`turnerPluckerKahlerLightDeflection`) & Dual-Grassmannian `iGPE` + DDF Model 14b (`turnerDualGr24IGPEDDFLightDeflection`) at $\mathcal{D}_K = 4 - e^2, \delta_{\mathrm{Jos}} = 0$:
+     `turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 = delta_theta_gr` and
+     `turnerDualGr24IGPEDDFLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1` (for $1 - e^2 \neq 0$),
    - Heaviside–Larmor electric–magnetic duality norm conservation on $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$:
      `electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) = psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2`. -/
 @[blueprint "thm:signals-dft-maxwell-em-tensors-twistors-ez-oam-solitons-gravity-models-identities"
@@ -8233,7 +8282,7 @@ Simultaneously establishes:
     $\theta=\pi/2$ gimbal-lock Jacobian vanishing vs. unit spinor/quaternion regularity, 4D traceless
     Maxwell stress-energy $T^\mu{}_\mu = 0$, Gauss-law longitudinal $E_z$, spin-to-OAM conservation,
     tubular soliton ring radius and Plücker vortex-core regularization, multi-model solar light-bending
-    relative errors (GR/QED/Cachazo-Skinner/DDF/Turner $0\%$ vs. Newtonian/Spin-1 $50\%$ and Nordström/Witten $100\%$),
+    relative errors (GR/QED/Cachazo-Skinner/DDF/Turner Models 14a & 14b $0\%$ vs. Newtonian/Spin-1 $50\%$ and Nordström/Witten $100\%$),
     and $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ electric-magnetic duality norm conservation. -/)
   (proof := /-- Combine \texttt{Real.cos\_pi\_div\_two}, \texttt{Real.sq\_sqrt}, field simplification for
     non-zero $c, k_z, 1-e^2$, polynomial ring identities, and \texttt{norm\_num}. -/)]
@@ -8286,6 +8335,9 @@ theorem maxwell_em_tensors_twistors_ez_oam_solitons_and_gravity_models_identitie
         gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
       turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 =
         delta_theta_gr ∧
+      turnerDualGr24IGPEDDFLightDeflection
+          g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
       electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) =
         psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2 := by
   have h_quat : unitQuaternionNormSq (1 / Real.sqrt 2) 0 (1 / Real.sqrt 2) 0 = 1 := by
@@ -8316,6 +8368,14 @@ theorem maxwell_em_tensors_twistors_ez_oam_solitons_and_gravity_models_identitie
     have h_num : 4 - e_ecc ^ 2 - 3 = 1 - e_ecc ^ 2 := by ring
     rw [h_num, div_self he]
     ring
+  have h_turner_14b :
+      turnerDualGr24IGPEDDFLightDeflection
+          g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 := by
+    have h_bridge :=
+      (turnerDualGr24IGPEDDFLightDeflection_eq_model14a_of_ddf
+        g_const mass_source (1 / c_light ^ 2) 1 c_light b_impact (4 - e_ecc ^ 2) e_ecc 0 he).2
+    linarith [h_bridge]
   refine ⟨
     by unfold maxwellOriginal1865EquationCount; norm_num,
     rfl,
@@ -8350,6 +8410,7 @@ theorem maxwell_em_tensors_twistors_ez_oam_solitons_and_gravity_models_identitie
     by unfold Signals.Huygens.relativePredictiveError cachazoSkinnerLightDeflection; norm_num,
     by unfold ddfRefractiveLightDeflection gravitationalLightDeflectionPPN; ring,
     h_turner,
+    h_turner_14b,
     by unfold electricMagneticDualityNormSq; ring⟩
 
 /-! ### 26.1 Adversarial Critique & Gap-Closure Fixes: Abraham–Minkowski Momentum Product, Laguerre–Gaussian Gouy Phase Shift, Vacuum vs. Proca Longitudinal $E_z$, and Nonlocal Stabilization of Tubular Soliton Azimuthal Modulational Instability (`maxwell_em_twistor_ez_oam_soliton_critique_and_gap_closure_identities`)
@@ -9150,7 +9211,10 @@ Simultaneously establishes:
 1. **Witten 4th-Derivative Ghost Partial-Fraction Split vs. Ghost-Free Turner Two-Derivative Projection on $\mathcal{Q}_4$**:
    - `wittenFourthOrderPropagator q_sq m_ghost_sq = (1 / m_ghost_sq) * (ostrogradskyGhostPropagator q_sq m_ghost_sq - twoDerivativeGravitonPropagator q_sq)` (for $q^2 \neq 0, q^2 - m_{\mathrm{ghost}}^2 \neq 0, m_{\mathrm{ghost}}^2 \neq 0$),
    - `turnerKahlerOrbitalSemiLatusFactor e_ecc = 1 - e_ecc ^ 2`,
-   - Exact 1PN light deflection recovery: `turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 = delta_theta_gr` (for $1 - e^2 \neq 0$) and `ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1`,
+   - Exact 1PN light deflection recovery in both Model 14a (`turnerPluckerKahlerLightDeflection`) and Model 14b (`turnerDualGr24IGPEDDFLightDeflection`):
+     `turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 = delta_theta_gr`,
+     `turnerDualGr24IGPEDDFLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1` (for $1 - e^2 \neq 0$), and
+     `ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact = gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1`,
 2. **Bures Statistical Distance, $4\times$ Quantum Cramér–Rao Compression, & Mandelstam–Tamm Temporal QFIM**:
    - `buresMetricDiagFromQfim (qfimDiag d) = fubiniStudyDiag d`,
    - `quantumCramerRaoVarianceBound n_probes (qfimDiag d) = (1 / 4) * (1 / (n_probes * fubiniStudyDiag d))`,
@@ -9161,9 +9225,9 @@ Simultaneously establishes:
 @[blueprint "thm:signals-dft-qfim-four-times-fubini-study-turner-projection-and-unification-identities"
   (title := "Master unification theorem for Section 27.1: QFIM = 4x Fubini-Study Kähler metric, ghost-free Turner projection on Q_4, Bures/QCRB/QSL metrology, flat-band superfluid stiffness, and Gaussian splat Bohm-Fisher bridge")
   (statement := /-- Certifies the partial-fraction ghost decomposition of Witten's 4th-order Weyl
-    propagator vs. the two-derivative Turner Kähler projection on $\mathcal{Q}_4$, exact Bures and
-    $4\times$ Quantum Cramér–Rao identities, Mandelstam–Tamm temporal QFIM, Peotta–Törmä flat-band
-    superfluid weight, and the Gaussian splat Bohm–Fisher identity. -/)
+    propagator vs. the two-derivative Turner Kähler projection on $\mathcal{Q}_4$ (Models 14a & 14b),
+    exact Bures and $4\times$ Quantum Cramér–Rao identities, Mandelstam–Tamm temporal QFIM, Peotta–Törmä
+    flat-band superfluid weight, and the Gaussian splat Bohm–Fisher identity. -/)
   (proof := /-- Combine \texttt{field\_simp} for non-zero propagator denominators,
     \texttt{qfimDiag\_eq\_four\_mul\_fubiniStudyDiag}, and \texttt{ring}. -/)]
 theorem qfim_four_times_fubini_study_turner_projection_and_unification_identities
@@ -9178,6 +9242,9 @@ theorem qfim_four_times_fubini_study_turner_projection_and_unification_identitie
       turnerKahlerOrbitalSemiLatusFactor e_ecc = 1 - e_ecc ^ 2 ∧
       turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 =
         delta_theta_gr ∧
+      turnerDualGr24IGPEDDFLightDeflection
+          g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
       ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact =
         gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
       buresMetricDiagFromQfim (qfimDiag d) = fubiniStudyDiag d ∧
@@ -9203,10 +9270,19 @@ theorem qfim_four_times_fubini_study_turner_projection_and_unification_identitie
     have h_num : 4 - e_ecc ^ 2 - 3 = 1 - e_ecc ^ 2 := by ring
     rw [h_num, div_self he]
     ring
+  have h_turner_14b :
+      turnerDualGr24IGPEDDFLightDeflection
+          g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 := by
+    have h_bridge :=
+      (turnerDualGr24IGPEDDFLightDeflection_eq_model14a_of_ddf
+        g_const mass_source (1 / c_light ^ 2) 1 c_light b_impact (4 - e_ecc ^ 2) e_ecc 0 he).2
+    linarith [h_bridge]
   refine ⟨
     h_witten,
     by unfold turnerKahlerOrbitalSemiLatusFactor; ring,
     h_turner,
+    h_turner_14b,
     by unfold ddfRefractiveLightDeflection gravitationalLightDeflectionPPN; ring,
     by unfold buresMetricDiagFromQfim; rw [qfimDiag_eq_four_mul_fubiniStudyDiag d]; ring,
     by unfold quantumCramerRaoVarianceBound; rw [qfimDiag_eq_four_mul_fubiniStudyDiag d]; ring,
@@ -9838,7 +9914,10 @@ theorem maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_identities
       f_single < trueConjugatedSoftPhotonQfimGain 100010 f_single ∧
       turnerPluckerKahlerLightDeflection
           delta_theta_gr (3 + 1 / qedOrbitalEccentricityQfim e_ecc) e_ecc 0 =
-        delta_theta_gr := by
+        delta_theta_gr ∧
+      turnerDualGr24IGPEDDFLightDeflection
+          1 1 1 1 1 (3 + 1 / qedOrbitalEccentricityQfim e_ecc) e_ecc 0 =
+        gravitationalLightDeflectionPPN 1 1 1 1 1 := by
   have h_dpz_sq_pos : 0 < dp_z ^ 2 :=
     lt_of_le_of_ne (sq_nonneg dp_z) (Ne.symm (pow_ne_zero 2 hdpz))
   have h_ez_pos : 0 < dp_z ^ 2 / p_z := div_pos h_dpz_sq_pos hpz
@@ -9851,6 +9930,16 @@ theorem maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_identities
     have h_sub : 3 + (1 - e_ecc ^ 2) - 3 = 1 - e_ecc ^ 2 := by ring
     rw [h_sub, div_self he]
     ring
+  have h_light_qfim_14b :
+      turnerDualGr24IGPEDDFLightDeflection
+          1 1 1 1 1 (3 + 1 / qedOrbitalEccentricityQfim e_ecc) e_ecc 0 =
+        gravitationalLightDeflectionPPN 1 1 1 1 1 := by
+    unfold turnerDualGr24IGPEDDFLightDeflection ddfRefractiveLightDeflection
+      qedOrbitalEccentricityQfim gravitationalLightDeflectionPPN
+    rw [one_div_one_div]
+    have h_sub : 3 + (1 - e_ecc ^ 2) - 3 = 1 - e_ecc ^ 2 := by ring
+    rw [h_sub, div_self he]
+    norm_num
   refine ⟨
     by unfold poincareSphereQfimTheta poincareSphereFubiniStudyTheta; norm_num,
     by unfold eulerKinematicJacobianDet; exact Real.cos_pi_div_two,
@@ -9862,327 +9951,208 @@ theorem maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_identities
     by unfold quantumCramerRaoVarianceBound oamSuperpositionQfimPhi; norm_num,
     by unfold projectiveQfimEnergyFromRayMetric; ring,
     by unfold trueConjugatedSoftPhotonQfimGain; linarith,
-    h_light_qfim⟩
+    h_light_qfim,
+    h_light_qfim_14b⟩
 
-/-! ## Section 28: Complete Multi-Model Electromagnetic Wave & Soft-Photon / `TRUE`-Conjugated Soft-Photon Synthesis Across QED Scattering, Cachazo (`CSW`/`BCFW`/`Hodges`/`CHY`), `SQG/DDF`, and All Turner (2026) Models (`maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identities`)
+/-! ### Section 27.6: Complex Plabic Vector-Relation Configurations (`VRC`) and the Quantum Fisher Information Metric (`QFIM`) $= 4\times$ Fubini–Study Kähler Metric: Pole-Free On-Shell Resonance ($x_X = -1$), Complex Denominator-Clearing Gauge Invariance, and MRA-PNO / `Tequila` Quantum Natural Gradient (`vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_identities`)
 
-Completes the per-model mathematical dictionary for electromagnetic waves, active beam–beam
-deflection, vacuum vs. dense-matter dispersion, and infrared soft photons / `TRUE`-conjugated soft
-photons ($M_3^\gamma$) across every gravity and electron/wave model in the `Signals` architecture:
-1. **QED & Gauge Scattering EM (`qedEulerHeisenbergRefractiveShift`, `activePhotonBeamDeflection`)**:
-   - Classical vacuum Maxwell has $n_{\mathrm{vac}} = 1$, whereas 1-loop QED virtual $e^+e^-$ vacuum
-     polarization (Euler–Heisenberg 1936) induces $n_{\mathrm{EH}} = 1 + c_{\mathrm{EH}}\alpha^2(B/B_{\mathrm{crit}})^2 > 1$.
-   - 1-loop QED / BCJ double-copy / Partanen–Tulkki $\mathrm{U}(1)^4$ gravity predicts active
-     counter-propagating laser beam deflection $\Delta\theta_{\mathrm{beam}} = \eta_{\mathrm{act}}^\gamma \Delta\theta_{\mathrm{GR}}$
-     with $\eta_{\mathrm{act}}^\gamma = 1 > 0$, whereas `SQG/DDF` predicts $\eta_{\mathrm{act}}^\gamma = 0$
-     (`Signals.DDF.ActiveRadiationSourcing`).
-2. **All Turner (2026) Gravity-EM Models (`turnerGr24QEDLightDeflection` Model 12, `turnerGr24DDFLightDeflection` Model 13, `turnerPluckerKahlerLightDeflection` Model 14a, & `turnerDualGr24IGPEDDFLightDeflection` Model 14b)**:
-   - Model 12 factors 1PN light deflection through the uncrossed $\mathrm{Gr}_{\mathbb{C}}(2,4)$
-     Plücker channel product $w_A w_B = (1+e)(1-e) = 1-e^2$,
-   - Model 13 combines $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker channels with the constitutive DDF
-     dispersed-phase product $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$,
-   - Model 14a projects onto the Klein quadric $\mathcal{Q}_4$ via the two-derivative Fubini–Study
-     Kähler excess $\mathcal{D}(W_{\mathrm{orb}}) - 3 = (F_{ee}^{\mathrm{orb}}(e))^{-1} = 1 - e^2$, and
-   - Model 14b unifies $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$, $\mathcal{D}(W_{\mathrm{orb}}) - 3 = 1 - e^2$,
-     and the dual-Schubert $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ Josephson shift $\delta_{\mathrm{Jos}}$.
-3. **Weinberg–Low–Cachazo–Strominger Soft-Photon Expansion & `TRUE`-Conjugated Soft-Photon Multi-Model Synthesis**:
-   - Combines Weinberg's leading $O(\omega^{-1})$ eikonal pole $S^{(0)}/\omega$ with Low's /
-     Cachazo–Strominger's subleading $O(\omega^0)$ spin/OAM angular-momentum operator $S^{(1)}$
-     (`lowCachazoStromingerSoftPhotonAmplitude`), satisfying $\omega\cdot\mathcal{M}_{\mathrm{soft}}(\omega) \to S^{(0)}\mathcal{M}_{\mathrm{hard}}$ as $S^{(1)} = 0$,
-   - Proves that `TRUE`-conjugated soft photons ($M_3^\gamma$) simultaneously achieve $> 90\%$
-     sub-wavelength throat coupling (`subwavelengthPhotonTrueConjugateCoupling`), zero DDF rest-mass
-     jamming (`wormholeTransitJammedEnergy 0 beta_sq e_soft_sq = e_soft_sq`), non-collapsing
-     Raychaudhuri throat flux (`wormholeNetNullDefocusingFlux e_soft b_bohm ≤ 0` for $e_{\mathrm{soft}} \le \mathcal{B}_{\mathrm{Bohm}}$),
-     and Pauli-blocked zero interband absorption in `DFT`/`G-GKBA` (`rgoPauliBlockedAbsorption` regime $\hbar\omega < 2 E_F$). -/
+Unites our **Complex Plabic Vector-Relation Configurations (`VRC`, `(V, K)` with $V K^\top = 0$)**
+from Companion Papers 18, 22, 23, 24, 39, 43, and 44 (`Signals.Plabic.gr24HomogeneousVRC`,
+`Signals.Plabic.gr24MutatedHomogeneousVRC`, `Signals.DFT.vrcRegularizedPnoAmplitude`) with the
+**Quantum Fisher Information Metric (`QFIM`) $F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$ and
+Fubini–Study Kähler metric**, and proves four adversarial critique fixes:
+1. **Critique & Fix VRC-1 — Pole-Free VRC Fubini–Study Metric & QFIM Across the $x_X = -1$ On-Shell Polariton / Antibonding / Conical-Intersection Resonance (`vrcResonantPluckerNormSq`, `vrcResonantDirectionalJetX1`, `vrcResonantFubiniStudyX1`, `vrcResonantQfimX1`)**:
+   - *Critique*: In the rational Plabic face-weight chart $C_{\mathrm{rat}}(x_1, x_2, x_X)$, the
+     square-move cluster mutation $x_1' = (x_1 x_X + x_2)/(x_X + 1)$ divides by zero at the
+     on-shell resonance $x_X = -1$ ($x_X + 1 = 0$), causing the coordinate Jacobian $\partial x_1'/\partial x_X$
+     to blow up as $(x_X + 1)^{-2}$ and rational-chart Fubini–Study / QFIM evaluations to diverge as $(x_X + 1)^{-4}$.
+   - *Machine-Checked Fix*: In `gr24MutatedHomogeneousVRC x1 x2 (-1)`, the 6 Plücker minors
+     $(1, 0, x_2, x_2 - x_1, 1, x_2(x_1 - x_2))$ have strictly positive polynomial norm squared
+     $\rho_{\mathrm{VRC}}^{(-1)}(x_1, x_2) = 2 + x_2^2 + (x_2 - x_1)^2(1 + x_2^2) \ge 2 > 0$. Along $x_1$,
+     the $(x_2 - x_1)^2(1 + x_2^2)^2$ terms in $\rho\langle\partial_{x_1}\Psi\mid\partial_{x_1}\Psi\rangle - |\langle\Psi\mid\partial_{x_1}\Psi\rangle|^2$
+     cancel identically, leaving $(2 + x_2^2)(1 + x_2^2) > 0$ and closed pole-free metrics
+     $F_{x_1 x_1}^{\mathrm{VRC}}|_{x_X=-1} = 4\,g_{x_1 x_1}^{\mathrm{FS,VRC}}|_{x_X=-1} = \frac{4(2 + x_2^2)(1 + x_2^2)}{(\rho_{\mathrm{VRC}}^{(-1)}(x_1, x_2))^2} > 0$.
+2. **Critique & Fix VRC-2 — Exact Invariance of $g_{\mu\mu}^{\mathrm{FS}}$ and $F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$ Under Coordinate-Dependent Complex VRC Denominator Clearing (`complexRescaledVrcJet`)**:
+   - *Critique*: Clearing rational chart poles $x_X^{-1}$ and $(x_X + 1)^{-1}$ multiplies the
+     homogeneous Plücker vector by a coordinate-dependent factor $\tilde{\Psi}(x) = s(x)\,e^{i\chi(x)}\,\Psi(x)$
+     with radial logarithmic derivative $\sigma_\mu = (\partial_\mu s)/s$ and phase gradient $d\chi = \partial_\mu\chi$,
+     which shifts $\tilde{\rho} = s^2\rho$, $\partial_\mu\tilde{\rho} = s^2(\partial_\mu\rho + 2\sigma_\mu\rho)$,
+     and $\tilde{\mathcal{A}}_\mu = \mathcal{A}_\mu + d\chi$. Does this denominator-clearing factor distort
+     the Fubini–Study Kähler metric or QFIM?
+   - *Machine-Checked Fix*: In the 3-channel Madelung–QFIM split, Channel 1 absorbs $d\chi$ and
+     Channel 2 absorbs $\sigma_\mu$, while Channel 3's projective metrics $g_{\mu\mu}^{\mathrm{FS}}$
+     and $F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$ are **identically invariant** under arbitrary
+     $s \neq 0$, $\sigma_\mu \in \mathbb{R}$, and $d\chi \in \mathbb{R}$.
+3. **Critique & Fix VRC-3 — VRC-Regularized MRA-PNO Pair Excitation Gap QFIM at HOMO–LUMO Degeneracy $\Delta\varepsilon = 0$ and `Tequila` Quantum Natural Gradient Step (`vrcPnoGapFubiniStudyAtDegeneracy`, `vrcPnoGapQfimAtDegeneracy`, `vrcQuantumNaturalGradientStep`)**:
+   - *Critique*: Standard MP2/PNO pair amplitudes $T_{ij}^{ab} = -g_{ij}^{ab}/\Delta\varepsilon$
+     diverge at HOMO–LUMO degeneracy $\Delta\varepsilon \to 0$, and Euclidean vs. Fubini–Study vs.
+     QFIM natural gradients have conflicting step-size conventions.
+   - *Machine-Checked Fix*: Using `vrcRegularizedPnoAmplitude` $T_{\mathrm{VRC}}(\Delta\varepsilon) = \frac{-g\,\Delta\varepsilon}{\Delta\varepsilon^2 + \gamma_{\mathrm{VRC}}^2}$
+     on $\mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ yields finite gap QFIM
+     $F_{\Delta\varepsilon,\Delta\varepsilon}^{\mathrm{PNO}}|_{\Delta\varepsilon=0} = 4\,g_{\Delta\varepsilon,\Delta\varepsilon}^{\mathrm{FS,PNO}}|_{\Delta\varepsilon=0} = \frac{4 g^2}{\gamma_{\mathrm{VRC}}^4}$
+     at $\Delta\varepsilon = 0$, while the QFIM-preconditioned Quantum Natural Gradient step is
+     exactly $\frac{1}{4}$ of the Fubini–Study-preconditioned step.
+4. **Critique & Fix VRC-4 — Non-Vanishing Anchor Minors Guarantee Maximal QFIM Sensitivity at the Symmetric Constraint Locus $x_1 = x_2, x_X = -1$**:
+   - *Critique*: At $x_X = -1$ and $x_1 = x_2$ (where `QCI-NCM` intra-level destructive constraint
+     coupling sets $P_{12} = x_2 - x_1 = 0$ and $P_{23} = x_2(x_1 - x_2) = 0$), does the VRC
+     Fubini–Study / QFIM metric vanish or become singular?
+   - *Machine-Checked Fix*: Because the anchor minors $P_{01} = 1, P_{03} = x_2, P_{13} = 1$ remain
+     non-vanishing ($\rho_{\mathrm{VRC}}^{(-1)}(x_2, x_2) = 2 + x_2^2 \ge 2$), the metrics reduce cleanly
+     to $g_{x_1 x_1}^{\mathrm{FS,VRC}}(x_2, x_2) = \frac{1 + x_2^2}{2 + x_2^2}$ and
+     $F_{x_1 x_1}^{\mathrm{VRC}}(x_2, x_2) = \frac{4(1 + x_2^2)}{2 + x_2^2}$ ($= 1/2$ and $2$ at $x_1 = x_2 = 0$). -/
 
-/-- **1-Loop QED Euler–Heisenberg Vacuum Polarization Refractive Index (`qedEulerHeisenbergRefractiveShift`)**:
-$$n_{\mathrm{EH}}(c_{\mathrm{EH}}\alpha^2, (B/B_{\mathrm{crit}})^2) = 1 + (c_{\mathrm{EH}}\alpha^2)\cdot(B/B_{\mathrm{crit}})^2,$$
-reducing to vacuum Maxwell $n = 1$ at $B = 0$ and strictly exceeding $1$ for non-zero field strength. -/
-@[blueprint "def:signals-dft-qed-euler-heisenberg-refractive-shift"
-  (title := "1-loop QED Euler-Heisenberg vacuum polarization refractive index 1 + c_EH alpha^2 (B/B_crit)^2")
-  (statement := /-- Define $\operatorname{qedEulerHeisenbergRefractiveShift}(c_\alpha, b_{\mathrm{norm}}^2) = 1 + c_\alpha \cdot b_{\mathrm{norm}}^2$. -/)]
-def qedEulerHeisenbergRefractiveShift (c_alpha_sq b_over_bcrit_sq : ℝ) : ℝ :=
-  1 + c_alpha_sq * b_over_bcrit_sq
+/-- **Pole-Free Resonant VRC Plücker Norm Squared at $x_X = -1$ (`vrcResonantPluckerNormSq`)**:
+$$\rho_{\mathrm{VRC}}^{(-1)}(x_1, x_2) = 1^2 + 0^2 + x_2^2 + (x_2 - x_1)^2 + 1^2 + \bigl(x_2(x_1 - x_2)\bigr)^2 = 2 + x_2^2 + (x_2 - x_1)^2(1 + x_2^2) \ge 2.$$ -/
+@[blueprint "def:signals-dft-vrc-resonant-plucker-norm-sq"
+  (title := "Pole-free resonant VRC Plücker norm squared at x_X = -1")
+  (statement := /-- Define $\operatorname{vrcResonantPluckerNormSq}(x_1, x_2) = 1^2 + 0^2 + x_2^2 + (x_2 - x_1)^2 + 1^2 + (x_2(x_1 - x_2))^2$. -/)]
+def vrcResonantPluckerNormSq (x1 x2 : ℝ) : ℝ :=
+  1 ^ 2 + 0 ^ 2 + x2 ^ 2 + (x2 - x1) ^ 2 + 1 ^ 2 + (x2 * (x1 - x2)) ^ 2
 
-/-- **Active Counter-Propagating Laser Beam Gravitational Deflection (`activePhotonBeamDeflection`)**:
-$$\Delta\theta_{\mathrm{beam}}(\eta_{\mathrm{act}}^\gamma, \Delta\theta_{\mathrm{GR}}) = \eta_{\mathrm{act}}^\gamma \cdot \Delta\theta_{\mathrm{GR}},$$
-distinguishing GR / QED double copy / Cachazo / Turner Models 12 & 14a ($\eta_{\mathrm{act}}^\gamma = 1$)
-from `SQG/DDF` & Turner Models 13 & 14b ($\eta_{\mathrm{act}}^\gamma = 0$). -/
-@[blueprint "def:signals-dft-active-photon-beam-deflection"
-  (title := "Active counter-propagating laser beam gravitational deflection eta_act * Delta_theta_GR")
-  (statement := /-- Define $\operatorname{activePhotonBeamDeflection}(\eta_{\mathrm{act}}^\gamma, \Delta\theta_{\mathrm{GR}}) = \eta_{\mathrm{act}}^\gamma \cdot \Delta\theta_{\mathrm{GR}}$. -/)]
-def activePhotonBeamDeflection (eta_act delta_theta_gr : ℝ) : ℝ :=
-  eta_act * delta_theta_gr
+/-- **Resonant VRC Directional Jet Along $x_1$ at $x_X = -1$ (`vrcResonantDirectionalJetX1`)** -/
+@[blueprint "def:signals-dft-vrc-resonant-directional-jet-x1"
+  (title := "Resonant VRC directional Plücker jet along x_1 at x_X = -1")
+  (statement := /-- Construct the \texttt{PluckerDirectionalJet} of \texttt{gr24MutatedHomogeneousVRC}
+    along $x_1$ at the on-shell resonance $x_X = -1$. -/)]
+def vrcResonantDirectionalJetX1 (x1 x2 : ℝ) : PluckerDirectionalJet where
+  rho := vrcResonantPluckerNormSq x1 x2
+  dpsi_norm_sq := 1 + x2 ^ 2
+  drho := 2 * (x1 - x2) * (1 + x2 ^ 2)
+  A_mu := 0
 
-/-- **Turner Model 12 (Flat-Space $\mathrm{Gr}_{\mathbb{C}}(2,4)$ BCJ Double Copy Without DDF) Light Deflection (`turnerGr24QEDLightDeflection`)**:
-$$\Delta\theta_\gamma^{(12)}(G, M, c, b, e) = \frac{4 G M}{c^2 b} \cdot \frac{(1 + e)(1 - e)}{1 - e^2}.$$ -/
-@[blueprint "def:signals-dft-turner-gr24-qed-light-deflection"
-  (title := "Turner Model 12 (Gr_C(2,4) BCJ double copy without DDF) 1PN light deflection")
-  (statement := /-- Define $\operatorname{turnerGr24QEDLightDeflection}(G, M, c, b, e) = (4 G M / (c^2 b)) \cdot (((1 + e)(1 - e)) / (1 - e^2))$. -/)]
-noncomputable def turnerGr24QEDLightDeflection
-    (g_const mass_source c_light b_impact e_ecc : ℝ) : ℝ :=
-  (4 * g_const * mass_source / (c_light ^ 2 * b_impact)) *
-    (((1 + e_ecc) * (1 - e_ecc)) / (1 - e_ecc ^ 2))
+/-- **Pole-Free Resonant VRC Fubini–Study Kähler Metric Along $x_1$ at $x_X = -1$ (`vrcResonantFubiniStudyX1`)**:
+$$g_{x_1 x_1}^{\mathrm{FS,VRC}}\big|_{x_X=-1}(x_1, x_2) = \frac{(2 + x_2^2)(1 + x_2^2)}{\bigl(\rho_{\mathrm{VRC}}^{(-1)}(x_1, x_2)\bigr)^2}.$$ -/
+@[blueprint "def:signals-dft-vrc-resonant-fubini-study-x1"
+  (title := "Pole-free resonant VRC Fubini-Study Kähler metric along x_1 at x_X = -1")
+  (statement := /-- Define $\operatorname{vrcResonantFubiniStudyX1}(x_1, x_2) = ((2 + x_2^2)(1 + x_2^2)) / (\operatorname{vrcResonantPluckerNormSq}(x_1, x_2))^2$. -/)]
+noncomputable def vrcResonantFubiniStudyX1 (x1 x2 : ℝ) : ℝ :=
+  ((2 + x2 ^ 2) * (1 + x2 ^ 2)) / (vrcResonantPluckerNormSq x1 x2) ^ 2
 
-/-- **Turner Model 13 (Unified $\mathrm{Gr}_{\mathbb{C}}(2,4)$ + Conservative DDF + 3D Splat) Light Deflection (`turnerGr24DDFLightDeflection`)**:
-$$\Delta\theta_\gamma^{(13)}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, e) =
-\frac{4 G_\phi M (\varrho_{\max}^\varphi j_{\min}^\varphi)}{b} \cdot \frac{(1 + e)(1 - e)}{1 - e^2}.$$ -/
-@[blueprint "def:signals-dft-turner-gr24-ddf-light-deflection"
-  (title := "Turner Model 13 (unified Gr_C(2,4) + conservative DDF + 3D splat) 1PN light deflection")
-  (statement := /-- Define $\operatorname{turnerGr24DDFLightDeflection}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, e) = (4 G_\phi M (\varrho_{\max}^\varphi j_{\min}^\varphi) / b) \cdot (((1 + e)(1 - e)) / (1 - e^2))$. -/)]
-noncomputable def turnerGr24DDFLightDeflection
-    (g_phi mass_source rho_max_varphi j_min_varphi b_impact e_ecc : ℝ) : ℝ :=
-  (4 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact) *
-    (((1 + e_ecc) * (1 - e_ecc)) / (1 - e_ecc ^ 2))
+/-- **Pole-Free Resonant VRC Quantum Fisher Information Metric Along $x_1$ at $x_X = -1$ (`vrcResonantQfimX1`)**:
+$$F_{x_1 x_1}^{\mathrm{VRC}}\big|_{x_X=-1}(x_1, x_2) = 4\,g_{x_1 x_1}^{\mathrm{FS,VRC}}\big|_{x_X=-1}(x_1, x_2) = \frac{4\,(2 + x_2^2)(1 + x_2^2)}{\bigl(\rho_{\mathrm{VRC}}^{(-1)}(x_1, x_2)\bigr)^2}.$$ -/
+@[blueprint "def:signals-dft-vrc-resonant-qfim-x1"
+  (title := "Pole-free resonant VRC Quantum Fisher Information Metric along x_1 at x_X = -1")
+  (statement := /-- Define $\operatorname{vrcResonantQfimX1}(x_1, x_2) = (4(2 + x_2^2)(1 + x_2^2)) / (\operatorname{vrcResonantPluckerNormSq}(x_1, x_2))^2$. -/)]
+noncomputable def vrcResonantQfimX1 (x1 x2 : ℝ) : ℝ :=
+  (4 * (2 + x2 ^ 2) * (1 + x2 ^ 2)) / (vrcResonantPluckerNormSq x1 x2) ^ 2
 
-/-- **Turner Model 14b (Unified Dual-Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ `iGPE` + Plücker $\mathcal{Q}_4$ + DDF) Light Deflection (`turnerDualGr24IGPEDDFLightDeflection`)**:
-$$\Delta\theta_\gamma^{(14\mathrm{b})}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) =
-\frac{4 G_\phi M (\varrho_{\max}^\varphi j_{\min}^\varphi)}{b} \cdot \frac{\mathcal{D}_K - 3}{1 - e^2} + \delta_{\mathrm{Jos}}.$$ -/
-@[blueprint "def:signals-dft-turner-dual-gr24-igpe-ddf-light-deflection"
-  (title := "Turner Model 14b (unified Dual-Grassmannian iGPE + Plücker Q_4 + DDF) light deflection")
-  (statement := /-- Define $\operatorname{turnerDualGr24IGPEDDFLightDeflection}(G_\phi, M, \varrho_{\max}^\varphi, j_{\min}^\varphi, b, \mathcal{D}_K, e, \delta_{\mathrm{Jos}}) = (4 G_\phi M (\varrho_{\max}^\varphi j_{\min}^\varphi) / b) \cdot ((\mathcal{D}_K - 3) / (1 - e^2)) + \delta_{\mathrm{Jos}}$. -/)]
-noncomputable def turnerDualGr24IGPEDDFLightDeflection
-    (g_phi mass_source rho_max_varphi j_min_varphi b_impact kahler_det e_ecc delta_jos : ℝ) : ℝ :=
-  (4 * g_phi * mass_source * (rho_max_varphi * j_min_varphi) / b_impact) *
-    ((kahler_det - 3) / (1 - e_ecc ^ 2)) + delta_jos
+/-- **Critique Fix VRC-2: Complex Radial + Phase VRC Denominator-Clearing Rescaled Jet (`complexRescaledVrcJet`)**:
+Models the transformation of `PluckerDirectionalJet` under $\tilde{\Psi}(x) = s(x)\,e^{i\chi(x)}\,\Psi(x)$
+with radial factor $s$, radial logarithmic derivative $\sigma_\mu = (\partial_\mu s)/s$, and phase gradient $d\chi = \partial_\mu\chi$. -/
+@[blueprint "def:signals-dft-complex-rescaled-vrc-jet"
+  (title := "Complex radial and phase VRC denominator-clearing rescaled Plücker directional jet")
+  (statement := /-- Transform a \texttt{PluckerDirectionalJet} under $\tilde{\Psi} = s\,e^{i\chi}\Psi$
+    with radial logarithmic derivative $\sigma_\mu = (\partial_\mu s)/s$ and phase gradient $d\chi = \partial_\mu\chi$. -/)]
+def complexRescaledVrcJet (d : PluckerDirectionalJet) (s sigma_mu dchi : ℝ) :
+    PluckerDirectionalJet where
+  rho := s ^ 2 * d.rho
+  dpsi_norm_sq :=
+    s ^ 2 * (d.dpsi_norm_sq + sigma_mu * d.drho + 2 * d.rho * d.A_mu * dchi +
+      d.rho * (sigma_mu ^ 2 + dchi ^ 2))
+  drho := s ^ 2 * (d.drho + 2 * sigma_mu * d.rho)
+  A_mu := d.A_mu + dchi
 
-/-- **Weinberg–Low–Cachazo–Strominger Leading + Subleading Soft-Photon Amplitude (`lowCachazoStromingerSoftPhotonAmplitude`)**:
-$$\mathcal{M}_{n+1}^{\mathrm{soft}}(S^{(0)}, S^{(1)}, \omega_{\mathrm{soft}}, \mathcal{M}_n) =
-\left(\frac{S^{(0)}}{\omega_{\mathrm{soft}}} + S^{(1)}\right)\mathcal{M}_n,$$
-where $S^{(0)}$ is Weinberg's universal eikonal charge factor (`weinbergSoftPhotonFactor`) and
-$S^{(1)}$ is the Low / Cachazo–Strominger $O(\omega^0)$ total angular-momentum (`SAM` + `OAM`) term. -/
-@[blueprint "def:signals-dft-low-cachazo-strominger-soft-photon-amplitude"
-  (title := "Weinberg-Low-Cachazo-Strominger leading + subleading soft-photon amplitude")
-  (statement := /-- Define $\operatorname{lowCachazoStromingerSoftPhotonAmplitude}(S^{(0)}, S^{(1)}, \omega, \mathcal{M}_n) = (S^{(0)} / \omega + S^{(1)}) \mathcal{M}_n$. -/)]
-noncomputable def lowCachazoStromingerSoftPhotonAmplitude
-    (s0_weinberg s1_angular omega_soft m_hard : ℝ) : ℝ :=
-  (s0_weinberg / omega_soft + s1_angular) * m_hard
+/-- **Critique Fix VRC-3: VRC-Regularized MRA-PNO Pair Excitation Gap Fubini–Study Metric at $\Delta\varepsilon = 0$ (`vrcPnoGapFubiniStudyAtDegeneracy`)**:
+$$g_{\Delta\varepsilon,\Delta\varepsilon}^{\mathrm{FS,PNO}}\big|_{\Delta\varepsilon=0}(g_{ij}^{ab}, \gamma_{\mathrm{VRC}}) = \frac{(g_{ij}^{ab})^2}{\gamma_{\mathrm{VRC}}^4}.$$ -/
+@[blueprint "def:signals-dft-vrc-pno-gap-fubini-study-at-degeneracy"
+  (title := "VRC-regularized MRA-PNO pair excitation gap Fubini-Study metric at HOMO-LUMO degeneracy Delta_eps = 0")
+  (statement := /-- Define $\operatorname{vrcPnoGapFubiniStudyAtDegeneracy}(g_{ij}^{ab}, \gamma_{\mathrm{VRC}}) = (g_{ij}^{ab})^2 / \gamma_{\mathrm{VRC}}^4$. -/)]
+noncomputable def vrcPnoGapFubiniStudyAtDegeneracy (g_ijab gamma_vrc : ℝ) : ℝ :=
+  g_ijab ^ 2 / gamma_vrc ^ 4
 
-/-- **Master Theorem for Section 28 (`maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identities`)** -/
-@[blueprint "thm:signals-dft-maxwell-complete-multi-model-em-and-soft-photon-true-synthesis"
-  (title := "Master theorem for Section 28: Complete multi-model EM wave and soft-photon / TRUE-conjugated soft-photon synthesis across QED scattering, Cachazo, DDF, and all Turner models")
-  (statement := /-- Certifies 1-loop QED Euler--Heisenberg vacuum birefringence ($n_{\mathrm{EH}} > 1$ vs. $n_{\mathrm{vac}} = 1$),
-    active beam-deflection discrimination ($\eta_{\mathrm{act}}^\gamma = 1$ vs. $\eta_{\mathrm{act}}^\gamma = 0$),
-    exact zero-error 1PN light deflection across Turner Models 12, 13, 14a, and 14b,
-    Weinberg--Low--Cachazo--Strominger leading + subleading soft-photon residue recovery, and
-    jamming-free non-collapsing \texttt{TRUE}-conjugated soft-photon ($M_3^\gamma$) wormhole transit. -/)
-  (proof := /-- Combine field simplification for $c \neq 0$, $1 - e^2 \neq 0$, and $\omega_{\mathrm{soft}} \neq 0$
-    with positivity, polynomial ring identities, and \texttt{norm\_num}. -/)]
-theorem maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identities
-    (c_alpha_sq b_norm_sq g_const mass_source c_light b_impact e_ecc delta_theta_gr
-      s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq : ℝ)
-    (hc_alpha : 0 < c_alpha_sq) (hb_norm : 0 < b_norm_sq)
-    (hc : c_light ≠ 0) (he : 1 - e_ecc ^ 2 ≠ 0)
-    (hdtheta : 0 < delta_theta_gr) (homega : omega_soft ≠ 0) :
-    qedEulerHeisenbergRefractiveShift c_alpha_sq 0 = 1 ∧
-      (1 : ℝ) < qedEulerHeisenbergRefractiveShift c_alpha_sq b_norm_sq ∧
-      activePhotonBeamDeflection 0 delta_theta_gr = 0 ∧
-      activePhotonBeamDeflection 1 delta_theta_gr = delta_theta_gr ∧
-      activePhotonBeamDeflection 0 delta_theta_gr < activePhotonBeamDeflection 1 delta_theta_gr ∧
-      turnerGr24QEDLightDeflection g_const mass_source c_light b_impact e_ecc =
-        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
-      turnerGr24DDFLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact e_ecc =
-        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
-      turnerDualGr24IGPEDDFLightDeflection
-          g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
-        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
-      Signals.Huygens.relativePredictiveError
-          (turnerGr24QEDLightDeflection 1 1 1 1 e_ecc)
-          (gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-      Signals.Huygens.relativePredictiveError
-          (turnerGr24DDFLightDeflection 1 1 1 1 1 e_ecc)
-          (gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-      Signals.Huygens.relativePredictiveError
-          (turnerDualGr24IGPEDDFLightDeflection 1 1 1 1 1 (4 - e_ecc ^ 2) e_ecc 0)
-          (gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-      omega_soft * lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard =
-        s0_weinberg * m_hard ∧
-      lowCachazoStromingerSoftPhotonAmplitude s0_weinberg s1_angular omega_soft m_hard -
-          lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard =
-        s1_angular * m_hard ∧
-      wormholeTransitJammedEnergy 0 beta_sq e_soft_sq = e_soft_sq ∧
-      wormholeNetNullDefocusingFlux 2 10 ≤ 0 ∧
-      (9 / 10 : ℝ) < subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 := by
-  have h_prod : (1 + e_ecc) * (1 - e_ecc) = 1 - e_ecc ^ 2 := by ring
-  have h_m12 :
-      turnerGr24QEDLightDeflection g_const mass_source c_light b_impact e_ecc =
-        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 := by
-    unfold turnerGr24QEDLightDeflection gravitationalLightDeflectionPPN
-    rw [h_prod, div_self he]
+/-- **Critique Fix VRC-3: VRC-Regularized MRA-PNO Pair Excitation Gap QFIM at $\Delta\varepsilon = 0$ (`vrcPnoGapQfimAtDegeneracy`)**:
+$$F_{\Delta\varepsilon,\Delta\varepsilon}^{\mathrm{PNO}}\big|_{\Delta\varepsilon=0}(g_{ij}^{ab}, \gamma_{\mathrm{VRC}}) = 4\,g_{\Delta\varepsilon,\Delta\varepsilon}^{\mathrm{FS,PNO}}\big|_{\Delta\varepsilon=0} = \frac{4\,(g_{ij}^{ab})^2}{\gamma_{\mathrm{VRC}}^4}.$$ -/
+@[blueprint "def:signals-dft-vrc-pno-gap-qfim-at-degeneracy"
+  (title := "VRC-regularized MRA-PNO pair excitation gap QFIM at HOMO-LUMO degeneracy Delta_eps = 0")
+  (statement := /-- Define $\operatorname{vrcPnoGapQfimAtDegeneracy}(g_{ij}^{ab}, \gamma_{\mathrm{VRC}}) = 4 (g_{ij}^{ab})^2 / \gamma_{\mathrm{VRC}}^4$. -/)]
+noncomputable def vrcPnoGapQfimAtDegeneracy (g_ijab gamma_vrc : ℝ) : ℝ :=
+  4 * g_ijab ^ 2 / gamma_vrc ^ 4
+
+/-- **Critique Fix VRC-3: `Tequila` / `QCI-GXC` Quantum Natural Gradient Step (`vrcQuantumNaturalGradientStep`)**:
+$$\Delta\theta_{\mathrm{QNG}}(\eta, \partial_\theta E, F_{\theta\theta}) = -\frac{\eta\,\partial_\theta E}{F_{\theta\theta}}.$$ -/
+@[blueprint "def:signals-dft-vrc-quantum-natural-gradient-step"
+  (title := "Tequila / QCI-GXC Quantum Natural Gradient step -eta * grad_theta / F_{theta theta}")
+  (statement := /-- Define $\operatorname{vrcQuantumNaturalGradientStep}(\eta, \partial_\theta E, F_{\theta\theta}) = -\eta \cdot \partial_\theta E / F_{\theta\theta}$. -/)]
+noncomputable def vrcQuantumNaturalGradientStep (eta grad_theta f_theta : ℝ) : ℝ :=
+  - eta * grad_theta / f_theta
+
+/-- **Master Theorem for Section 27.6: Complex Plabic Vector-Relation Configurations (`VRC`), `QFIM` $= 4\times$ Fubini–Study Kähler Metric, Pole-Free $x_X = -1$ Resonance, Denominator-Clearing Gauge Invariance, and MRA-PNO / `Tequila` Critique Fixes (`vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_identities`)** -/
+@[blueprint "thm:signals-dft-vrc-fubini-study-kahler-qfim-pole-free-resonance-and-critique-fixes-identities"
+  (title := "Master theorem for Section 27.6: Complex Plabic VRC and QFIM = 4x Fubini-Study Kähler metric across x_X = -1 resonance, denominator-clearing gauge invariance, and MRA-PNO / Tequila natural gradient")
+  (statement := /-- Simultaneously proves:
+    (1) Pole-free VRC Plücker norm $\rho_{\mathrm{VRC}}^{(-1)}(x_1, x_2) \ge 2 > 0$ and closed-form
+        resonant metrics $F_{x_1 x_1}^{\mathrm{VRC}} = 4\,g_{x_1 x_1}^{\mathrm{FS,VRC}} > 0$ at $x_X = -1$;
+    (2) Exact invariance of \texttt{fubiniStudyDiag} and \texttt{qfimDiag} under arbitrary complex
+        radial + phase VRC denominator clearing \texttt{complexRescaledVrcJet};
+    (3) Finite VRC-regularized MRA-PNO gap QFIM $4 g^2 / \gamma_{\mathrm{VRC}}^4$ at HOMO--LUMO
+        degeneracy $\Delta\varepsilon = 0$ and the $1/4$ ratio between QFIM and Fubini--Study
+        Quantum Natural Gradient steps; and
+    (4) Non-vanishing symmetric-locus sensitivity $g_{x_1 x_1}^{\mathrm{FS,VRC}}(0,0) = 1/2$ and
+        $F_{x_1 x_1}^{\mathrm{VRC}}(0,0) = 2$ at $x_1 = x_2 = 0, x_X = -1$. -/)
+  (proof := /-- Combine polynomial ring identities, \texttt{positivity}, \texttt{field\_simp} for
+    $s \neq 0$ and $d.\mathrm{rho} \neq 0$, and \texttt{norm\_num}. -/)]
+theorem vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_identities
+    (x1 x2 : ℝ) (d : PluckerDirectionalJet) (s sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta : ℝ)
+    (hs : s ≠ 0) (hrho : d.rho ≠ 0) :
+    vrcResonantPluckerNormSq x1 x2 = 2 + x2 ^ 2 + (x2 - x1) ^ 2 * (1 + x2 ^ 2) ∧
+      2 ≤ vrcResonantPluckerNormSq x1 x2 ∧
+      fubiniStudyDiag (vrcResonantDirectionalJetX1 x1 x2) = vrcResonantFubiniStudyX1 x1 x2 ∧
+      qfimDiag (vrcResonantDirectionalJetX1 x1 x2) = vrcResonantQfimX1 x1 x2 ∧
+      vrcResonantQfimX1 x1 x2 = 4 * vrcResonantFubiniStudyX1 x1 x2 ∧
+      0 < vrcResonantFubiniStudyX1 x1 x2 ∧
+      0 < vrcResonantQfimX1 x1 x2 ∧
+      vrcResonantFubiniStudyX1 0 0 = 1 / 2 ∧
+      vrcResonantQfimX1 0 0 = 2 ∧
+      fubiniStudyDiag (complexRescaledVrcJet d s sigma_mu dchi) = fubiniStudyDiag d ∧
+      qfimDiag (complexRescaledVrcJet d s sigma_mu dchi) = qfimDiag d ∧
+      vrcRegularizedPnoAmplitude g_ijab 0 gamma_vrc = 0 ∧
+      vrcPnoGapQfimAtDegeneracy g_ijab gamma_vrc =
+        4 * vrcPnoGapFubiniStudyAtDegeneracy g_ijab gamma_vrc ∧
+      vrcQuantumNaturalGradientStep eta grad_theta (4 * g_fs_theta) =
+        (1 / 4) * vrcQuantumNaturalGradientStep eta grad_theta g_fs_theta := by
+  have h_norm_expand :
+      vrcResonantPluckerNormSq x1 x2 = 2 + x2 ^ 2 + (x2 - x1) ^ 2 * (1 + x2 ^ 2) := by
+    unfold vrcResonantPluckerNormSq
     ring
-  have h_m13 :
-      turnerGr24DDFLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact e_ecc =
-        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 := by
-    unfold turnerGr24DDFLightDeflection gravitationalLightDeflectionPPN
-    rw [h_prod, div_self he]
-    have hc2 : c_light ^ 2 ≠ 0 := pow_ne_zero 2 hc
-    field_simp [hc2]
-    ring
-  have h_m14b :
-      turnerDualGr24IGPEDDFLightDeflection
-          g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
-        gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 := by
-    unfold turnerDualGr24IGPEDDFLightDeflection gravitationalLightDeflectionPPN
-    have h_num : 4 - e_ecc ^ 2 - 3 = 1 - e_ecc ^ 2 := by ring
-    rw [h_num, div_self he]
-    have hc2 : c_light ^ 2 ≠ 0 := pow_ne_zero 2 hc
-    field_simp [hc2]
-    ring
-  refine ⟨
-    by unfold qedEulerHeisenbergRefractiveShift; ring,
-    by unfold qedEulerHeisenbergRefractiveShift; have hp := mul_pos hc_alpha hb_norm; linarith,
-    by unfold activePhotonBeamDeflection; ring,
-    by unfold activePhotonBeamDeflection; ring,
-    by unfold activePhotonBeamDeflection; linarith,
-    h_m12,
-    h_m13,
-    h_m14b,
-    by
-      have h12 : turnerGr24QEDLightDeflection 1 1 1 1 e_ecc = 4 := by
-        unfold turnerGr24QEDLightDeflection; rw [h_prod, div_self he]; norm_num
-      rw [h12]; unfold Signals.Huygens.relativePredictiveError gravitationalLightDeflectionPPN; norm_num,
-    by
-      have h13 : turnerGr24DDFLightDeflection 1 1 1 1 1 e_ecc = 4 := by
-        unfold turnerGr24DDFLightDeflection; rw [h_prod, div_self he]; norm_num
-      rw [h13]; unfold Signals.Huygens.relativePredictiveError gravitationalLightDeflectionPPN; norm_num,
-    by
-      have h14b : turnerDualGr24IGPEDDFLightDeflection 1 1 1 1 1 (4 - e_ecc ^ 2) e_ecc 0 = 4 := by
-        unfold turnerDualGr24IGPEDDFLightDeflection
-        have h_num : 4 - e_ecc ^ 2 - 3 = 1 - e_ecc ^ 2 := by ring
-        rw [h_num, div_self he]; norm_num
-      rw [h14b]; unfold Signals.Huygens.relativePredictiveError gravitationalLightDeflectionPPN; norm_num,
-    by unfold lowCachazoStromingerSoftPhotonAmplitude; field_simp [homega]; ring,
-    by unfold lowCachazoStromingerSoftPhotonAmplitude; ring,
-    by unfold wormholeTransitJammedEnergy; simp,
-    by unfold wormholeNetNullDefocusingFlux; norm_num,
-    by unfold subwavelengthPhotonTrueConjugateCoupling; norm_num⟩
-
-/-! ### Section 28.1: Adversarial Critique & Gap-Closure Fixes for Multi-Model Electromagnetism — Global Spinor Gimbal-Lock Freedom ($\forall \theta \in \mathbb{R}$), Exact Tubular Soliton Azimuthal Stability Threshold ($\sigma_{\mathrm{nl,crit}} = 1/4$), Collisional Drude–Kohn–Sham Permittivity, `SQG/DDF` Cavitation Ceiling, and Unitary Aperture-Bounded `TRUE` Soft-Photon QFIM (`maxwell_complete_multi_model_critique_and_gap_closure_identities`)
-
-Addresses five mathematical and physical critiques across Sections 26–28:
-1. **Critique Fix 1 (North & South Pole Euler Gimbal Lock at $\theta = \pm\pi/2$ vs. Global $\mathrm{SU}(2)$ Spinor/Quaternion Norm Conservation for All $\theta \in \mathbb{R}$)**:
-   - Euler yaw-pitch-roll charts degenerate at both $\theta = +\pi/2$ and $\theta = -\pi/2$
-     (`eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧ eulerKinematicJacobianDet (-Real.pi / 2) = 0`),
-   - For **every** pitch angle $\theta \in \mathbb{R}$, the $\mathrm{SU}(2)$ spinor/quaternion
-     $q(\theta) = (\cos(\theta/2), 0, \sin(\theta/2), 0)$ satisfies
-     `unitQuaternionNormSq (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1`.
-2. **Critique Fix 2 (Exact Tubular Soliton Azimuthal Modulational Instability Values & Critical Nonlocality Threshold $\sigma_{\mathrm{nl,crit}} = 1/4$)**:
-   - Proves the exact rational values at local Kerr ($\sigma_{\mathrm{nl}} = 0 \implies \Gamma_{\mathrm{MI}} = 2 > 0$),
-     critical nonlocality threshold ($\sigma_{\mathrm{nl}} = 1/4 \implies \Gamma_{\mathrm{MI}} = 0$), and
-     nonlocal thermal/dilatant stabilization ($\sigma_{\mathrm{nl}} = 5 \implies \Gamma_{\mathrm{MI}} = -798 / 101 < 0$).
-3. **Critique Fix 3 (Collisional Drude–Kohn–Sham Atmospheric/Plasma Permittivity `dftCollisionalPermittivityRe` & `dftCollisionalPermittivityIm`)**:
-   - Real collisional media ($\gamma_{\mathrm{coll}} > 0$) regularize the $\omega \to 0$ pole of
-     `dftElectronDensityPermittivity` while introducing positive absorptive loss $\operatorname{Im}\varepsilon_r^{\mathrm{Drude}} > 0$.
-4. **Critique Fix 4 (`SQG/DDF` Non-Cavitating Pressure Floor $P_{\mathrm{local}} \ge 0$ & Cavitation Refractive Ceiling)**:
-   - When local superfluid pressure stays above the cavitation floor ($P_{\mathrm{local}} \ge 0$),
-     $n_{\mathrm{DDF}}(P_{\mathrm{amb}}, P_{\mathrm{loc}}, \rho_0, c^2) \le n_{\mathrm{DDF}}(P_{\mathrm{amb}}, 0, \rho_0, c^2)$.
-5. **Critique Fix 5 (Exact `10001 / 11001` Unitary `TRUE` Soft-Photon Coupling & Aperture-Bounded QFIM `trueApertureBoundedSoftPhotonQfim`)**:
-   - At fixed maximum source Fisher information $F_{\max} > 0$, the passive aperture-transmitted QFIM
-     $\eta_{\mathrm{TRUE}}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}})\cdot F_{\max}$ is strictly bounded in $(0, F_{\max})$. -/
-
-/-- **Critique Fix 3a: Collisional Drude–Kohn–Sham Real Relative Permittivity (`dftCollisionalPermittivityRe`)**:
-$$\operatorname{Re}\varepsilon_r^{\mathrm{Drude}}(\rho_e, \alpha_{\mathrm{pol}}, \omega^2, \gamma_{\mathrm{coll}}^2) =
-1 - \frac{\alpha_{\mathrm{pol}}\,\rho_e}{\omega^2 + \gamma_{\mathrm{coll}}^2},$$
-reducing to `dftElectronDensityPermittivity` at $\gamma_{\mathrm{coll}}^2 = 0$ and remaining finite at $\omega^2 = 0$
-for $\gamma_{\mathrm{coll}}^2 > 0$. -/
-@[blueprint "def:signals-dft-collisional-permittivity-re"
-  (title := "Critique Fix 3a: Collisional Drude-Kohn-Sham real relative permittivity")
-  (statement := /-- Define $\operatorname{dftCollisionalPermittivityRe}(\rho_e, \alpha_{\mathrm{pol}}, \omega^2, \gamma_{\mathrm{coll}}^2) = 1 - \alpha_{\mathrm{pol}} \rho_e / (\omega^2 + \gamma_{\mathrm{coll}}^2)$. -/)]
-noncomputable def dftCollisionalPermittivityRe
-    (rho_e alpha_pol omega_sq gamma_coll_sq : ℝ) : ℝ :=
-  1 - alpha_pol * rho_e / (omega_sq + gamma_coll_sq)
-
-/-- **Critique Fix 3b: Collisional Drude–Kohn–Sham Imaginary (Absorptive) Permittivity (`dftCollisionalPermittivityIm`)**:
-$$\operatorname{Im}\varepsilon_r^{\mathrm{Drude}}(\rho_e, \alpha_{\mathrm{pol}}, \omega, \gamma_{\mathrm{coll}}) =
-\frac{\alpha_{\mathrm{pol}}\,\rho_e\,\gamma_{\mathrm{coll}}}{\omega(\omega^2 + \gamma_{\mathrm{coll}}^2)}.$$ -/
-@[blueprint "def:signals-dft-collisional-permittivity-im"
-  (title := "Critique Fix 3b: Collisional Drude-Kohn-Sham imaginary (absorptive) permittivity")
-  (statement := /-- Define $\operatorname{dftCollisionalPermittivityIm}(\rho_e, \alpha_{\mathrm{pol}}, \omega, \gamma_{\mathrm{coll}}) = (\alpha_{\mathrm{pol}} \rho_e \gamma_{\mathrm{coll}}) / (\omega (\omega^2 + \gamma_{\mathrm{coll}}^2))$. -/)]
-noncomputable def dftCollisionalPermittivityIm
-    (rho_e alpha_pol omega_freq gamma_coll : ℝ) : ℝ :=
-  (alpha_pol * rho_e * gamma_coll) / (omega_freq * (omega_freq ^ 2 + gamma_coll ^ 2))
-
-/-- **Critique Fix 5: Passive Aperture-Bounded `TRUE` Soft-Photon QFIM (`trueApertureBoundedSoftPhotonQfim`)**:
-$$F_{\mathrm{TRUE}}^{\mathrm{trans}}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}, F_{\max}) =
-\operatorname{subwavelengthPhotonTrueConjugateCoupling}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}) \cdot F_{\max}.$$ -/
-@[blueprint "def:signals-dft-true-aperture-bounded-soft-photon-qfim"
-  (title := "Critique Fix 5: Passive aperture-bounded TRUE soft-photon QFIM")
-  (statement := /-- Define $\operatorname{trueApertureBoundedSoftPhotonQfim}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}, F_{\max}) = \operatorname{subwavelengthPhotonTrueConjugateCoupling}(\eta_{\mathrm{Bethe}}, G_{\mathrm{TRUE}}) \cdot F_{\max}$. -/)]
-noncomputable def trueApertureBoundedSoftPhotonQfim
-    (eta_bethe g_true f_max : ℝ) : ℝ :=
-  subwavelengthPhotonTrueConjugateCoupling eta_bethe g_true * f_max
-
-/-- **Master Critique Gap-Closure Theorem for Section 28.1 (`maxwell_complete_multi_model_critique_and_gap_closure_identities`)** -/
-@[blueprint "thm:signals-dft-maxwell-complete-multi-model-critique-and-gap-closure"
-  (title := "Critique gap-closure theorem for Section 28.1: Global spinor gimbal-lock freedom, exact tubular soliton MI threshold, collisional DFT permittivity, DDF cavitation ceiling, and aperture-bounded TRUE QFIM")
-  (statement := /-- Certifies north/south-pole Euler gimbal lock vs. global $\mathrm{SU}(2)$ unit-quaternion
-    norm conservation for all $\theta \in \mathbb{R}$, exact tubular soliton azimuthal MI gains
-    ($+2$, $0$ at $\sigma_{\mathrm{nl}}=1/4$, and $-798/101$ at $\sigma_{\mathrm{nl}}=5$), collisional
-    Drude--Kohn--Sham permittivity reduction and absorptive positivity, non-cavitating \texttt{SQG/DDF}
-    refractive ceiling at $P_{\mathrm{local}} \ge 0$, and unitary aperture-bounded \texttt{TRUE}
-    soft-photon QFIM ($10{,}001/11{,}001 \cdot F_{\max} \in (0, F_{\max})$). -/)
-  (proof := /-- Combine \texttt{Real.cos\_pi\_div\_two}, \texttt{Real.cos\_neg}, \texttt{Real.cos\_sq\_add\_sin\_sq},
-    positivity of quotients, and \texttt{norm\_num}. -/)]
-theorem maxwell_complete_multi_model_critique_and_gap_closure_identities
-    (theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max : ℝ)
-    (hrho_e : 0 < rho_e) (halpha : 0 < alpha_pol)
-    (homega : 0 < omega_freq) (hgamma : 0 < gamma_coll)
-    (hp_loc : 0 ≤ p_loc) (hrho0 : 0 < rho_0) (hcsq : 0 < c_sq)
-    (hf_max : 0 < f_max) :
-    eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
-      eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
-      unitQuaternionNormSq (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
-      nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
-      nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
-      nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
-      dftCollisionalPermittivityRe rho_e alpha_pol omega_sq 0 =
-        dftElectronDensityPermittivity rho_e alpha_pol omega_sq ∧
-      dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
-      dftCollisionalPermittivityIm rho_e alpha_pol omega_freq 0 = 0 ∧
-      0 < dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll ∧
-      ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
-        ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq ∧
-      subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
-      0 < trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max ∧
-      trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max < f_max := by
-  have h_south : eulerKinematicJacobianDet (-Real.pi / 2) = 0 := by
-    unfold eulerKinematicJacobianDet
-    have h_neg : -Real.pi / 2 = -(Real.pi / 2) := by ring
-    rw [h_neg, Real.cos_neg, Real.cos_pi_div_two]
-  have h_quat_all :
-      unitQuaternionNormSq (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 := by
-    unfold unitQuaternionNormSq
-    calc
-      Real.cos (theta_pitch / 2) ^ 2 + 0 ^ 2 + Real.sin (theta_pitch / 2) ^ 2 + 0 ^ 2 =
-          Real.cos (theta_pitch / 2) ^ 2 + Real.sin (theta_pitch / 2) ^ 2 := by ring
-      _ = 1 := Real.cos_sq_add_sin_sq (theta_pitch / 2)
-  have h_im_pos : 0 < dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll := by
-    unfold dftCollisionalPermittivityIm
-    positivity
-  have h_cav_ceil :
-      ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
-        ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq := by
-    unfold ddfPressureGradientRefractiveIndex
-    have h_denom : 0 < rho_0 * c_sq := mul_pos hrho0 hcsq
-    have h_num : 2 * (p_amb - p_loc) ≤ 2 * (p_amb - 0) := by linarith
-    have h_div : 2 * (p_amb - p_loc) / (rho_0 * c_sq) ≤ 2 * (p_amb - 0) / (rho_0 * c_sq) :=
-      div_le_div_of_nonneg_right h_num (le_of_lt h_denom)
+  have h_norm_ge_two : 2 ≤ vrcResonantPluckerNormSq x1 x2 := by
+    rw [h_norm_expand]
+    have h_nonneg : 0 ≤ x2 ^ 2 + (x2 - x1) ^ 2 * (1 + x2 ^ 2) := by positivity
     linarith
+  have h_fs_pos : 0 < vrcResonantFubiniStudyX1 x1 x2 := by
+    unfold vrcResonantFubiniStudyX1
+    rw [h_norm_expand]
+    positivity
+  have h_qfim_pos : 0 < vrcResonantQfimX1 x1 x2 := by
+    unfold vrcResonantQfimX1
+    rw [h_norm_expand]
+    positivity
+  have h_rescale_fs :
+      fubiniStudyDiag (complexRescaledVrcJet d s sigma_mu dchi) = fubiniStudyDiag d := by
+    unfold fubiniStudyDiag complexRescaledVrcJet innerPsiDpsiNormSq
+    dsimp
+    field_simp [hs, hrho]
+    ring
+  have h_rescale_qfim :
+      qfimDiag (complexRescaledVrcJet d s sigma_mu dchi) = qfimDiag d := by
+    unfold qfimDiag complexRescaledVrcJet innerPsiDpsiNormSq
+    dsimp
+    field_simp [hs, hrho]
+    ring
   refine ⟨
-    by unfold eulerKinematicJacobianDet; exact Real.cos_pi_div_two,
-    h_south,
-    h_quat_all,
-    by unfold nonlocalStabilizedAzimuthalMiGain; norm_num,
-    by unfold nonlocalStabilizedAzimuthalMiGain; norm_num,
-    by unfold nonlocalStabilizedAzimuthalMiGain; norm_num,
-    by unfold dftCollisionalPermittivityRe dftElectronDensityPermittivity; ring,
-    by unfold dftCollisionalPermittivityRe; norm_num,
-    by unfold dftCollisionalPermittivityIm; simp,
-    h_im_pos,
-    h_cav_ceil,
-    by unfold subwavelengthPhotonTrueConjugateCoupling; norm_num,
-    by unfold trueApertureBoundedSoftPhotonQfim subwavelengthPhotonTrueConjugateCoupling; linarith,
-    by unfold trueApertureBoundedSoftPhotonQfim subwavelengthPhotonTrueConjugateCoupling; linarith⟩
+    h_norm_expand,
+    h_norm_ge_two,
+    by unfold fubiniStudyDiag vrcResonantDirectionalJetX1 vrcResonantFubiniStudyX1 innerPsiDpsiNormSq vrcResonantPluckerNormSq; dsimp; ring,
+    by unfold qfimDiag vrcResonantDirectionalJetX1 vrcResonantQfimX1 innerPsiDpsiNormSq vrcResonantPluckerNormSq; dsimp; ring,
+    by unfold vrcResonantQfimX1 vrcResonantFubiniStudyX1; ring,
+    h_fs_pos,
+    h_qfim_pos,
+    by unfold vrcResonantFubiniStudyX1 vrcResonantPluckerNormSq; norm_num,
+    by unfold vrcResonantQfimX1 vrcResonantPluckerNormSq; norm_num,
+    h_rescale_fs,
+    h_rescale_qfim,
+    by unfold vrcRegularizedPnoAmplitude; ring,
+    by unfold vrcPnoGapQfimAtDegeneracy vrcPnoGapFubiniStudyAtDegeneracy; ring,
+    by unfold vrcQuantumNaturalGradientStep; ring⟩
 
 end
 

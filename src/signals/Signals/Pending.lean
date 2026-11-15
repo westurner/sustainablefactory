@@ -8721,6 +8721,9 @@ lemma DDFFractureCommunicationEvidence.maxwell_em_tensors_twistors_ez_oam_solito
           Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
         Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 =
           delta_theta_gr ∧
+        Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+            g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
         Signals.DFT.electricMagneticDualityNormSq psi_re psi_im phi_re phi_im (3 / 5) (4 / 5) =
           psi_re ^ 2 + psi_im ^ 2 + phi_re ^ 2 + phi_im ^ 2) ∧
       (Signals.DFT.abrahamMinkowskiMomentumProduct p0 n_index = p0 ^ 2 ∧
@@ -8802,6 +8805,9 @@ lemma DDFFractureCommunicationEvidence.qfim_four_times_fubini_study_madelung_spl
         Signals.DFT.turnerKahlerOrbitalSemiLatusFactor e_ecc = 1 - e_ecc ^ 2 ∧
         Signals.DFT.turnerPluckerKahlerLightDeflection delta_theta_gr (4 - e_ecc ^ 2) e_ecc 0 =
           delta_theta_gr ∧
+        Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+            g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
+          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
         Signals.DFT.ddfRefractiveLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact =
           Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
         Signals.DFT.buresMetricDiagFromQfim (Signals.DFT.qfimDiag d) =
@@ -8905,19 +8911,14 @@ lemma DDFFractureCommunicationEvidence.cachazo_gravity_chy_hodges_qfim_and_fubin
       sigma4 s12 s13 q_sq m_ghost_sq delta_theta_gr gamma_conf b_impact e_ecc dphi0 dphi1
       hs12 hs13 hsum he⟩
 
-/-- **Pending Boundary for Section 27.4: QED & Gauge Scattering Gravity (`BCJ` Double Copy, Partanen–Tulkki 2025 $\mathrm{U}(1)^4$ QFT, & Turner $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Orbital/GW Models) via `QFIM` and Fubini–Study Kähler Metric (`qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_bounds`)**:
-Keeps physical dark-fluid substrate claims (`ActiveRadiationSourcing`) and non-causal communication
-claims (`DDFFractureCommunicationEvidence`) under explicit validation gates while certifying the
-Section 27.4 QED and gauge scattering gravity QFIM and Fubini–Study Kähler metric identities. -/
-@[blueprint "lem:signals-pending-qed-scattering-gravity-bcj-partanen-tulkki-qfim-and-fubini-study-bounds"
-  (title := "Pending boundary for Section 27.4: QED and gauge scattering gravity via QFIM and Fubini-Study Kähler metric")
-  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
-    remain excluded while all Section 27.4 QED and gauge scattering gravity QFIM and Fubini--Study
-    Kähler metric identities hold simultaneously. -/)
-  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
-    \texttt{Signals.DFT.qed\_scattering\_gravity\_bcj\_partanen\_tulkki\_qfim\_and\_fubini\_study\_identities}. -/)
-  (latexEnv := "lemma")]
-lemma DDFFractureCommunicationEvidence.qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_bounds
+/-- **Pending Boundary for Section 27.4: QED & Gauge Scattering Gravity (`BCJ` Double Copy, Partanen–Tulkki 2025 $\mathrm{U}(1)^4$ QFT, & Turner $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Orbital/GW Models) via `QFIM` and Fubini–Study Kähler Metric (`qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_bounds`)** -/
+@[blueprint "thm:signals-pending-qed-scattering-gravity-bcj-partanen-tulkki-qfim-and-fubini-study-bounds"
+  (title := "Pending boundary for Section 27.4 QED and gauge scattering gravity via QFIM and Fubini-Study Kähler metric")
+  (statement := /-- Pairs the causal-evidence exclusion boundary with the Section 27.4 QED and gauge
+    scattering gravity QFIM and Fubini--Study Kähler metric identities. -/)
+  (proof := /-- Combine \texttt{not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.DFT.qed\_scattering\_gravity\_bcj\_partanen\_tulkki\_qfim\_and\_fubini\_study\_identities}. -/)]
+theorem DDFFractureCommunicationEvidence.qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_bounds
     (evidence : DDFFractureCommunicationEvidence)
     (e_ecc delta_varpi_circ p_pm p_gw_gr p0 p1 dphi0 dphi1 : ℝ)
     (h1pe : 1 + e_ecc ≠ 0) (h1me : 1 - e_ecc ≠ 0) (he : 1 - e_ecc ^ 2 ≠ 0)
@@ -8964,20 +8965,15 @@ lemma DDFFractureCommunicationEvidence.qed_scattering_gravity_bcj_partanen_tulkk
     Signals.DFT.qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_identities
       e_ecc delta_varpi_circ p_pm p_gw_gr p0 p1 dphi0 dphi1 h1pe h1me he he_nonneg⟩
 
-/-- **Pending Boundary for Section 27.5 (`maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_bounds`)**:
-Keeps physical dark-fluid substrate claims (`ActiveRadiationSourcing`), Proca massive-mode claims
-(`CWProcaEmissionHypothesis`), and sub-wavelength `TRUE` hardware claims (`MultiModalSubSurfaceImagingHypothesis`)
-under explicit validation gates while certifying the Section 27.5 Maxwell EM, Poincaré gimbal-lock
-elimination, longitudinal $E_z$, OAM tubular soliton, and `TRUE` soft-photon QFIM identities. -/
-@[blueprint "lem:signals-pending-maxwell-em-poincare-ez-oam-true-qfim-and-fubini-study-bounds"
-  (title := "Pending boundary for Section 27.5: Maxwell EM, Poincaré gimbal-lock elimination, longitudinal E_z, OAM solitons, and TRUE soft photons via QFIM and Fubini-Study Kähler metric")
-  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
-    remain excluded while all Section 27.5 Maxwell EM, Poincaré sphere, longitudinal $E_z$, OAM
-    tubular soliton, and \texttt{TRUE} soft-photon QFIM and Fubini--Study Kähler metric identities hold. -/)
-  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
-    \texttt{Signals.DFT.maxwell\_em\_poincare\_ez\_oam\_true\_qfim\_and\_fubini\_study\_identities}. -/)
-  (latexEnv := "lemma")]
-lemma DDFFractureCommunicationEvidence.maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_bounds
+/-- **Pending Boundary for Section 27.5 (`maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_bounds`)** -/
+@[blueprint "thm:signals-pending-maxwell-em-poincare-ez-oam-true-qfim-and-fubini-study-bounds"
+  (title := "Pending boundary for Section 27.5 Maxwell EM, Poincaré gimbal-lock elimination, longitudinal E_z, OAM solitons, and TRUE soft photons via QFIM and Fubini-Study Kähler metric")
+  (statement := /-- Pairs the causal-evidence exclusion boundary with the Section 27.5 Maxwell EM,
+    Poincaré sphere, longitudinal $E_z$, OAM tubular soliton, and \texttt{TRUE} soft-photon QFIM
+    and Fubini--Study Kähler metric identities. -/)
+  (proof := /-- Combine \texttt{not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.DFT.maxwell\_em\_poincare\_ez\_oam\_true\_qfim\_and\_fubini\_study\_identities}. -/)]
+theorem DDFFractureCommunicationEvidence.maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_bounds
     (evidence : DDFFractureCommunicationEvidence)
     (f_transverse dp_z p_z l_charge n_probes f_single delta_theta_gr e_ecc hbar mass g_fs_ray : ℝ)
     (hpz : 0 < p_z) (hdpz : dp_z ≠ 0) (hf_single : 0 < f_single) (he : 1 - e_ecc ^ 2 ≠ 0) :
@@ -8999,156 +8995,54 @@ lemma DDFFractureCommunicationEvidence.maxwell_em_poincare_ez_oam_true_qfim_and_
         f_single < Signals.DFT.trueConjugatedSoftPhotonQfimGain 100010 f_single ∧
         Signals.DFT.turnerPluckerKahlerLightDeflection
             delta_theta_gr (3 + 1 / Signals.DFT.qedOrbitalEccentricityQfim e_ecc) e_ecc 0 =
-          delta_theta_gr) :=
+          delta_theta_gr ∧
+        Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
+            1 1 1 1 1 (3 + 1 / Signals.DFT.qedOrbitalEccentricityQfim e_ecc) e_ecc 0 =
+          Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) :=
   ⟨evidence.not_supported_by_noncausal_mode,
     Signals.DFT.maxwell_em_poincare_ez_oam_true_qfim_and_fubini_study_identities
       f_transverse dp_z p_z l_charge n_probes f_single delta_theta_gr e_ecc hbar mass g_fs_ray
       hpz hdpz hf_single he⟩
 
-/-- **Pending Boundary for Sections 26.2 & 28 (`maxwell_complete_multi_model_dft_ddf_polariton_plasmon_m1_m2_m3_and_soft_photon_bounds`)**:
-Keeps physical dark-fluid substrate claims (`ActiveRadiationSourcing`), Proca massive-mode claims
-(`CWProcaEmissionHypothesis`), and sub-wavelength `TRUE` hardware claims (`MultiModalSubSurfaceImagingHypothesis`)
-under explicit validation gates while certifying Section 26.2 (vacuum Maxwell vs. `DFT` electron
-density & `SQG/DDF` pressure differences, polaritons/plasmons on $\mathrm{SU}(4)$ lower Grassmannians,
-Methods $M_1, M_2, M_3$) and Section 28 (multi-model EM light deflection across QED/Euler–Heisenberg,
-Cachazo, DDF, and Turner Models 12, 13, 14a, 14b, plus Weinberg–Low–Cachazo–Strominger soft photons
-and `TRUE`-conjugated soft-photon wormhole transit). -/
-@[blueprint "lem:signals-pending-maxwell-complete-multi-model-dft-ddf-polariton-plasmon-m1-m2-m3-soft-photon-bounds"
-  (title := "Pending boundary for Sections 26.2 and 28: Vacuum vs. DFT electron density and SQG/DDF pressure differences, polaritons/plasmons on SU(4) lower Grassmannians, Methods M1/M2/M3, and complete multi-model EM and soft-photon synthesis")
-  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
-    remain excluded while all Section 26.2 and Section 28 identities in \texttt{Signals.DFT} hold. -/)
-  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
-    \texttt{Signals.DFT.maxwell\_vacuum\_vs\_dft\_electron\_density\_ddf\_pressure\_polariton\_plasmon\_and\_m1\_m2\_m3\_identities}
-    and \texttt{Signals.DFT.maxwell\_complete\_multi\_model\_em\_and\_soft\_photon\_true\_synthesis\_identities}. -/)
-  (latexEnv := "lemma")]
-lemma DDFFractureCommunicationEvidence.maxwell_complete_multi_model_dft_ddf_polariton_plasmon_m1_m2_m3_and_soft_photon_bounds
+/-- **Pending Boundary for Section 27.6 (`vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_bounds`)** -/
+@[blueprint "thm:signals-pending-vrc-fubini-study-kahler-qfim-pole-free-resonance-and-critique-fixes-bounds"
+  (title := "Pending boundary for Section 27.6 Complex Plabic VRC and QFIM = 4x Fubini-Study Kähler metric across x_X = -1 resonance, denominator-clearing gauge invariance, and MRA-PNO / Tequila natural gradient")
+  (statement := /-- Pairs the causal-evidence exclusion boundary with the Section 27.6 Complex Plabic
+    VRC, pole-free $x_X = -1$ resonance, complex denominator-clearing gauge invariance, and
+    MRA-PNO / \texttt{Tequila} Quantum Natural Gradient QFIM and Fubini--Study identities. -/)
+  (proof := /-- Combine \texttt{not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.DFT.vrc\_fubini\_study\_kahler\_qfim\_pole\_free\_resonance\_and\_critique\_fixes\_identities}. -/)]
+theorem DDFFractureCommunicationEvidence.vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_bounds
     (evidence : DDFFractureCommunicationEvidence)
-    (p_amb alpha_pol omega_sq alpha_proc beta_proc w_proc q_charge pk1 pk2
-      c_alpha_sq b_norm_sq g_const mass_source c_light b_impact e_ecc delta_theta_gr
-      s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq : ℝ)
-    (x1_c x2_c : ℂ)
-    (hpk1 : pk1 ≠ 0) (hpk2 : pk2 ≠ 0)
-    (hc_alpha : 0 < c_alpha_sq) (hb_norm : 0 < b_norm_sq)
-    (hc : c_light ≠ 0) (he : 1 - e_ecc ^ 2 ≠ 0)
-    (hdtheta : 0 < delta_theta_gr) (homega : omega_soft ≠ 0) :
-    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1_c x2_c (-1)
+    (x1 x2 : ℝ) (d : Signals.DFT.PluckerDirectionalJet)
+    (s sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta : ℝ)
+    (hs : s ≠ 0) (hrho : d.rho ≠ 0) :
     (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
         ¬evidence.supportsDDFHypothesis) ∧
-      (Signals.DFT.ddfPressureDifferenceEnthalpy p_amb p_amb 1 = 0 ∧
-        Signals.DFT.ddfPressureDifferenceEnthalpy 10 6 2 = -2 ∧
-        Signals.DFT.ddfPressureDifferenceEnthalpy 10 6 2 < 0 ∧
-        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb p_amb 1 1 = 1 ∧
-        (1 : ℝ) < Signals.DFT.ddfPressureGradientRefractiveIndex 10 6 2 1 ∧
-        Signals.DFT.dftElectronDensityPermittivity 0 alpha_pol omega_sq = 1 ∧
-        Signals.DFT.dftElectronDensityPermittivity 4 1 4 = 0 ∧
-        Signals.DFT.dftElectronDensityPermittivity 8 1 4 < 0 ∧
-        (1 : ℝ) < Signals.DFT.dftElectronDensityPermittivity 4 (-1) 4 ∧
-        vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
-        Signals.Plabic.plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2_c - x1_c ∧
-        Signals.QuantumCausalInference.qciCausalPhaseVelocity 10 2 = 5 ∧
-        Signals.QuantumCausalInference.qciConfinedPlasmonProcessWeight alpha_proc beta_proc w_proc w_proc =
-          (alpha_proc + beta_proc) * w_proc ∧
-        Signals.DFT.suNRealDim 4 = 15 ∧
-        Signals.DFT.complexGrassmannianRealDim 1 2 = 2 ∧
-        Signals.DFT.complexGrassmannianRealDim 1 4 = 6 ∧
-        Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
-        Signals.DFT.complexGrassmannianRealDim 2 5 = 12 ∧
-        Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧
-        Signals.DFT.complexGrassmannianRealDim 3 6 = 18 ∧
-        Signals.DFT.complexGrassmannianRealDim 2 10 = 32 ∧
-        Signals.DFT.exteriorPhotonInverseSquareEfficiency 1 100 <
-          Signals.DFT.fractureGuidedCorridorTransmission (1 / 1000) 10 ∧
-        Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
-        Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 1 -
-            Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 (-1) = 1 ∧
-        Signals.DFT.softPhotonTwoLegWardResidual q_charge pk1 pk2 = 0 ∧
-        Signals.DFT.celestialConformalWeightH 1 1 = 1 ∧
-        Signals.DFT.celestialConformalWeightHBar 1 1 = 0 ∧
-        Signals.DFT.wormholeNetNullDefocusingFlux 2 10 ≤ 0 ∧
-        (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 ∧
-        (9 / 10 : ℝ) < Signals.DFT.subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100) ∧
-      (Signals.DFT.qedEulerHeisenbergRefractiveShift c_alpha_sq 0 = 1 ∧
-        (1 : ℝ) < Signals.DFT.qedEulerHeisenbergRefractiveShift c_alpha_sq b_norm_sq ∧
-        Signals.DFT.activePhotonBeamDeflection 0 delta_theta_gr = 0 ∧
-        Signals.DFT.activePhotonBeamDeflection 1 delta_theta_gr = delta_theta_gr ∧
-        Signals.DFT.activePhotonBeamDeflection 0 delta_theta_gr <
-          Signals.DFT.activePhotonBeamDeflection 1 delta_theta_gr ∧
-        Signals.DFT.turnerGr24QEDLightDeflection g_const mass_source c_light b_impact e_ecc =
-          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
-        Signals.DFT.turnerGr24DDFLightDeflection g_const mass_source (1 / c_light ^ 2) 1 b_impact e_ecc =
-          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
-        Signals.DFT.turnerDualGr24IGPEDDFLightDeflection
-            g_const mass_source (1 / c_light ^ 2) 1 b_impact (4 - e_ecc ^ 2) e_ecc 0 =
-          Signals.DFT.gravitationalLightDeflectionPPN g_const mass_source c_light b_impact 1 ∧
-        Signals.Huygens.relativePredictiveError
-            (Signals.DFT.turnerGr24QEDLightDeflection 1 1 1 1 e_ecc)
-            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-        Signals.Huygens.relativePredictiveError
-            (Signals.DFT.turnerGr24DDFLightDeflection 1 1 1 1 1 e_ecc)
-            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-        Signals.Huygens.relativePredictiveError
-            (Signals.DFT.turnerDualGr24IGPEDDFLightDeflection 1 1 1 1 1 (4 - e_ecc ^ 2) e_ecc 0)
-            (Signals.DFT.gravitationalLightDeflectionPPN 1 1 1 1 1) = 0 ∧
-        omega_soft *
-            Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard =
-          s0_weinberg * m_hard ∧
-        Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg s1_angular omega_soft m_hard -
-            Signals.DFT.lowCachazoStromingerSoftPhotonAmplitude s0_weinberg 0 omega_soft m_hard =
-          s1_angular * m_hard ∧
-        Signals.DFT.wormholeTransitJammedEnergy 0 beta_sq e_soft_sq = e_soft_sq ∧
-        Signals.DFT.wormholeNetNullDefocusingFlux 2 10 ≤ 0 ∧
-        (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010) :=
+      (Signals.DFT.vrcResonantPluckerNormSq x1 x2 =
+          2 + x2 ^ 2 + (x2 - x1) ^ 2 * (1 + x2 ^ 2) ∧
+        2 ≤ Signals.DFT.vrcResonantPluckerNormSq x1 x2 ∧
+        Signals.DFT.fubiniStudyDiag (Signals.DFT.vrcResonantDirectionalJetX1 x1 x2) =
+          Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 ∧
+        Signals.DFT.qfimDiag (Signals.DFT.vrcResonantDirectionalJetX1 x1 x2) =
+          Signals.DFT.vrcResonantQfimX1 x1 x2 ∧
+        Signals.DFT.vrcResonantQfimX1 x1 x2 =
+          4 * Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 ∧
+        0 < Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 ∧
+        0 < Signals.DFT.vrcResonantQfimX1 x1 x2 ∧
+        Signals.DFT.vrcResonantFubiniStudyX1 0 0 = 1 / 2 ∧
+        Signals.DFT.vrcResonantQfimX1 0 0 = 2 ∧
+        Signals.DFT.fubiniStudyDiag (Signals.DFT.complexRescaledVrcJet d s sigma_mu dchi) =
+          Signals.DFT.fubiniStudyDiag d ∧
+        Signals.DFT.qfimDiag (Signals.DFT.complexRescaledVrcJet d s sigma_mu dchi) =
+          Signals.DFT.qfimDiag d ∧
+        Signals.DFT.vrcRegularizedPnoAmplitude g_ijab 0 gamma_vrc = 0 ∧
+        Signals.DFT.vrcPnoGapQfimAtDegeneracy g_ijab gamma_vrc =
+          4 * Signals.DFT.vrcPnoGapFubiniStudyAtDegeneracy g_ijab gamma_vrc ∧
+        Signals.DFT.vrcQuantumNaturalGradientStep eta grad_theta (4 * g_fs_theta) =
+          (1 / 4) * Signals.DFT.vrcQuantumNaturalGradientStep eta grad_theta g_fs_theta) :=
   ⟨evidence.not_supported_by_noncausal_mode,
-    Signals.DFT.maxwell_vacuum_vs_dft_electron_density_ddf_pressure_polariton_plasmon_and_m1_m2_m3_identities
-      p_amb alpha_pol omega_sq alpha_proc beta_proc w_proc q_charge pk1 pk2 x1_c x2_c hpk1 hpk2,
-    Signals.DFT.maxwell_complete_multi_model_em_and_soft_photon_true_synthesis_identities
-      c_alpha_sq b_norm_sq g_const mass_source c_light b_impact e_ecc delta_theta_gr
-      s0_weinberg s1_angular omega_soft m_hard beta_sq e_soft_sq
-      hc_alpha hb_norm hc he hdtheta homega⟩
-
-/-- **Pending Boundary for Section 28.1 (`maxwell_complete_multi_model_critique_and_gap_closure_bounds`)**:
-Keeps physical dark-fluid cavitation claims (`ActiveRadiationSourcing`), Proca massive-mode claims
-(`CWProcaEmissionHypothesis`), and sub-wavelength `TRUE` hardware claims (`MultiModalSubSurfaceImagingHypothesis`)
-under explicit validation gates while certifying global $\mathrm{SU}(2)$ spinor gimbal-lock freedom,
-exact tubular soliton azimuthal stability thresholds, collisional Drude–Kohn–Sham permittivity,
-non-cavitating `SQG/DDF` refractive bounds, and passive aperture-bounded `TRUE` soft-photon QFIM. -/
-@[blueprint "lem:signals-pending-maxwell-complete-multi-model-critique-and-gap-closure-bounds"
-  (title := "Pending boundary for Section 28.1: Global spinor gimbal-lock freedom, exact tubular soliton MI threshold, collisional DFT permittivity, DDF cavitation ceiling, and aperture-bounded TRUE QFIM")
-  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, non-causal modes
-    remain excluded while all Section 28.1 multi-model electromagnetism critique gap-closure
-    identities hold simultaneously. -/)
-  (proof := /-- Combine \texttt{evidence.not\_supported\_by\_noncausal\_mode} with
-    \texttt{Signals.DFT.maxwell\_complete\_multi\_model\_critique\_and\_gap\_closure\_identities}. -/)
-  (latexEnv := "lemma")]
-lemma DDFFractureCommunicationEvidence.maxwell_complete_multi_model_critique_and_gap_closure_bounds
-    (evidence : DDFFractureCommunicationEvidence)
-    (theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max : ℝ)
-    (hrho_e : 0 < rho_e) (halpha : 0 < alpha_pol)
-    (homega : 0 < omega_freq) (hgamma : 0 < gamma_coll)
-    (hp_loc : 0 ≤ p_loc) (hrho0 : 0 < rho_0) (hcsq : 0 < c_sq)
-    (hf_max : 0 < f_max) :
-    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
-        ¬evidence.supportsDDFHypothesis) ∧
-      (Signals.DFT.eulerKinematicJacobianDet (Real.pi / 2) = 0 ∧
-        Signals.DFT.eulerKinematicJacobianDet (-Real.pi / 2) = 0 ∧
-        Signals.DFT.unitQuaternionNormSq
-            (Real.cos (theta_pitch / 2)) 0 (Real.sin (theta_pitch / 2)) 0 = 1 ∧
-        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 0 2 = 2 ∧
-        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 (1 / 4) 2 = 0 ∧
-        Signals.DFT.nonlocalStabilizedAzimuthalMiGain 10 2 5 2 = -798 / 101 ∧
-        Signals.DFT.dftCollisionalPermittivityRe rho_e alpha_pol omega_sq 0 =
-          Signals.DFT.dftElectronDensityPermittivity rho_e alpha_pol omega_sq ∧
-        Signals.DFT.dftCollisionalPermittivityRe 4 1 0 2 = -1 ∧
-        Signals.DFT.dftCollisionalPermittivityIm rho_e alpha_pol omega_freq 0 = 0 ∧
-        0 < Signals.DFT.dftCollisionalPermittivityIm rho_e alpha_pol omega_freq gamma_coll ∧
-        Signals.DFT.ddfPressureGradientRefractiveIndex p_amb p_loc rho_0 c_sq ≤
-          Signals.DFT.ddfPressureGradientRefractiveIndex p_amb 0 rho_0 c_sq ∧
-        Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
-        0 < Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max ∧
-        Signals.DFT.trueApertureBoundedSoftPhotonQfim (1 / 10001) 100010 f_max < f_max) :=
-  ⟨evidence.not_supported_by_noncausal_mode,
-    Signals.DFT.maxwell_complete_multi_model_critique_and_gap_closure_identities
-      theta_pitch rho_e alpha_pol omega_sq omega_freq gamma_coll p_amb p_loc rho_0 c_sq f_max
-      hrho_e halpha homega hgamma hp_loc hrho0 hcsq hf_max⟩
+    Signals.DFT.vrc_fubini_study_kahler_qfim_pole_free_resonance_and_critique_fixes_identities
+      x1 x2 d s sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta hs hrho⟩
 
 end Signals.Pending

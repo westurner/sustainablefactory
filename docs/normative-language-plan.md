@@ -1,0 +1,150 @@
+
+# Normative language plan
+
+
+# Theories
+
+
+## Turner Models
+(these are currently named according to the table row number in:
+- docs/grassmannian-gravity-from-qed-scattering-paper.md 
+  - [ ] TODO: add a table deep link
+
+they are further compared in:
+
+- docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md
+
+
+### Turner Model 6
+- name: Turner Model 6
+- description: Homogeneous Plücker Q_4 Madelung & Dual-iGPE Superposition)
+- definedBy: 
+
+### Turner Model 12
+- name: Turner Model 12
+- description: Flat-Space GrC(2,4) BCJ Double Copy + Splats, No DDF
+
+  Gimbal-lock-free spinor splat orientation + 3D GrC(3,6) focal E_z
+- definedBy: 
+
+
+### Turner Model 13
+- name: Turner Model 13
+- description: Unified GrC(2,4) + Conservative DDF + 3D Splat
+
+  Combines 3D splat Bohm–Fisher core 
+  1/2 Q_core(Σ) with nonlocal DDF tubular soliton stability
+- definedBy: 
+
+### Turner Model 14a
+- name: Turner Model 14a
+- description: Klein Quadric Q_4 Kähler (without DDF)
+
+  Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
+  ghost-free 2-derivative Kähler action,
+  M1-M3 TRUE soft-photon bridge
+- definedBy: 
+
+### Turner Model 14b
+- name: Turner Model 14b
+- description: 
+Klein Quadric Q_4 Kähler (with DDF)
+
+  Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
+  ghost-free 2-derivative Kähler action,
+  M1-M3 TRUE soft-photon bridge
+- definedBy: 
+
+
+## G-CSC
+- name: G-CSC
+- name_full: Grassmannian Cuprate Superconductivity theory
+
+- definedBy: docs/grassmannian-cuprate-superconductivity-paper.md
+
+
+## G-IEP
+- name: G-IEP
+- name_full: Grassmannian Interfacial Electrical Model
+- definedBy: docs/grassmannian-interfacial-electrical-properties-paper.md
+
+## G-MGS
+- name: G-MGS
+- name_full: Grassmannian Multilayer Graphene Superconductivity (G-MGS) framework
+- definedBy: docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md
+
+
+## G-GKBA
+- name: G-GKBA
+- hame: GGKBA
+- hame_lower: ggkba
+- name_full: Grassmannian Generialized Kadanoff-Baym Ansatz
+- definedBy: docs/grassmannian-tuning-materials-with-light-paper.md
+
+
+## G-TBC
+- name: G-TBC
+- hame: GTBC
+- hame_lower: gtbc
+- name_full: Grassmannian Thermal Boundary Conductance
+- definedBy: docs/grassmannian-thermo-electro-magnetics-lord-shulman-paper.md
+
+
+## QCI-GXC
+- name: QCI-GXC
+- hame: QCIGXC
+- hame_lower: qcigxc
+- name_full: Quantum Causal Inference Grassmannian Exchange-Correlation Functional
+- definedBy: /workspaces/sustainablefactory/docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
+
+
+## G-NCM
+- name: G-NCM
+- name_full: Grassmannian Next Concept Modeling
+- definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
+
+## QCI-NCM
+- name: QCI-NCM
+- name_full: Quantum Causual Next Concept Modeling
+- definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
+
+
+## QCI-G-NCM
+- name: QCI-G-NCM
+- name_full: Quantum Causual Grassmannian Next Concept Modeling
+- definedBy
+
+## G-DDF-TEM
+- name: G-DDF-TEM
+- name_full: Grassmannian Thermo-Electro-Magnetics
+- definedBy: docs/grassmannian-thermo-electro-magnetics-lord-shulman-paper.md
+
+# Existing Theories
+
+## Plabic Graphs
+- author: Postnikov
+
+## VRC
+- name: VRC
+- name_full: Vector Relation Configuration
+- description: Plabic graphs extended to Complex space
+- appliedBy: docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
+- definedBy: {cite:p}`affolter2024vrc`
+
+
+# Materials
+
+## G-QD
+- name_full: Graphene Quantum Dot
+
+# API
+
+- [ ] better / more polite names than "Grassmannian ___" "G-___"
+
+- Pending.lean:
+  - grassman_, grassmannian_
+
+- over-full modules to refactor:
+  - Huygens.lean
+  - DDF.lean
+  - DFT.lean
