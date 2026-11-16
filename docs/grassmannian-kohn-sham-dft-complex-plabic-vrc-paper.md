@@ -314,5 +314,5 @@ In [../src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefac
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"affolter2024vrc", "dft-mermin1990", "edelman1998orthogonality", "hohenberg1964inhomogeneous", "kitaev2001unpaired", "kohn1965selfConsistent", "lam2016totally", "mcweeny1960densityMatrix", "ornelas2024nonlocal", "postnikov2006", "reiserer2013nondestructive", "sab-chat-2026", "skyrme1962unified"}
+:filter: key in {"affolter2024vrc", "dft-mermin1990", "edelman1998orthogonality", "hohenberg1964inhomogeneous", "kitaev2001unpaired", "kohn1965selfConsistent", "lam2016totally", "mcweeny1960densityMatrix", "ornelas2024nonlocal", "postnikov2006plabic", "reiserer2013nondestructive", "sab-chat-2026", "skyrme1962unified"}
 ```

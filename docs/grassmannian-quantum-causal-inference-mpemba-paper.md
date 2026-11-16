@@ -383,7 +383,7 @@ In Section 11 of [`src/signals/Signals/QuantumCausalInference.lean`](https://git
 
 | Claim / Model Component | Source Citation | Evidence Status | Confidence | Owning Lean 4 / Rust Symbol | Missing Control / Next Check |
 |---|---|---|---|---|---|
-| **Plabic / LGV Causal Transfer & d-Separation Bottlenecks ($\det T_{A,B} = 0$ vs. $> 0$)** | {cite:p}`sullivant2010trek`; {cite:p}`postnikov2006` | `scholarly theory` (verified math) | High | `grassmannian_causal_relations_do_calculus_and_quantum_switch_identities`, `causal_dag_do_surgery_3x3` | Apply to empirical multi-node sensor DAG covariance matrices |
+| **Plabic / LGV Causal Transfer & d-Separation Bottlenecks ($\det T_{A,B} = 0$ vs. $> 0$)** | {cite:p}`sullivant2010trek`; {cite:p}`postnikov2006plabic` | `scholarly theory` (verified math) | High | `grassmannian_causal_relations_do_calculus_and_quantum_switch_identities`, `causal_dag_do_surgery_3x3` | Apply to empirical multi-node sensor DAG covariance matrices |
 | **Quantum Causal Counterfactuals (`Abduction–Action–Prediction`) & Quantum Switch on $\mathrm{Gr}_{\mathbb{C}}(2,4)$** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 390–455](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L390-L455); {cite:p}`giarmatzi2023semantics`; {cite:p}`chiribella2013switch` | `scholarly theory` (verified math) | High | `counterfactualStructuralOutcome`, `quantumSwitchCausalAsymmetry`, `evaluate_quantum_switch_2x2` | Interferometric visibility calibration on photonic Quantum Switch bench |
 | **Landau Quartic Potential & Strong Mpemba Slow-Mode Orthogonal Projection ($a_{2,\mathrm{hot}} = 0$)** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 45–75, 240–272](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L45-L75); {cite:p}`holtzman2022landau` | `scholarly theory` (verified math) | High | `landauFreeEnergy`, `mpembaTwoModeDistance`, `strongMpembaCrossingTime` | Measure Liouvillian decay rates $\lambda_2, \lambda_3$ in target spin/phonon bath |
 | **Quantum Resource Theory (QRT) Thermo-Majorization & Constructor Theory Task Algebra** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 78–110, 355–435](https://github.com/westurner/sustainablefactory/blob/main/data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L78-L110); {cite:p}`summer2026resource`; {cite:p}`marletto2015info` | `scholarly theory` (verified math) | High | `qrtNonEquilibriumFreeEnergy`, `ConstructorTask`, `thermo_majorization_dominates` | Tomographic state reconstruction of $\rho(t)$ relative to $\gamma_\beta$ |
@@ -725,8 +725,8 @@ end QuantumCausalInferenceMpembaPaperVerification
 <a id="penrose1986spinors"></a>
 14. Penrose, R., & Rindler, W. (1986). *Spinors and Space-Time, Vol. 2: Spinor and Twistor Methods in Space-Time Geometry*. Cambridge University Press.
 
-(postnikov2006plabic)=
-<a id="postnikov2006plabic"></a>
+(postnikov2006plabicplabic)=
+<a id="postnikov2006plabicplabic"></a>
 15. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`.
 
 (lindstrom1973lgv)=
