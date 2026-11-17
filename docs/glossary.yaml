@@ -391,6 +391,166 @@ terms:
 
 # Existing Theories
 
+pi:
+  definition: |
+    - pi (`π`) is approximately equal to 3.14159265359... in radix-10 (decimal notation).
+    - pi is a universal constant.
+    . pi is a transcendental number: in any radix other than pi,
+      pi has a nonterminating decimal representation.
+    - pi is the ratio of the circumference of a perfect circle to its radius/diameter:  
+      `circumference = (2*radius)*pi`.
+    - Approximations of pi:
+      ```
+      pi      = 3.14159265359
+      22/7    = 
+      355/113 = 
+      666/212 = 3.14150...
+      ```
+  synonyms:
+  - π
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Pi
+  - https://en.wikipedia.org/wiki/Approximations_of_pi
+
+e:
+  definition: |
+    - e is a unversal constant
+    - e is a transcendental number: in any radix other than e,
+      e has a nonterminating decimal representation
+    - 2.718... tran
+  synonyms:
+  - e
+  - Euler's number
+  - Napier's constant
+  wikipedia: https://en.wikipedia.org/wiki/E_(mathematical_constant)
+
+Eulerian mechanics:
+  definition: |
+    - Compressible and incompressible fluid flows
+
+  synonyms:
+  - Euler equations
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)
+  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
+  - https://en.wikipedia.org/wiki/Continuum_mechanics#Eulerian_description
+
+Lagrangian mechanics:
+  definition: |
+
+
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Lagrangian_mechanics
+  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
+  - https://en.wikipedia.org/wiki/Continuum_mechanics#Lagrangian_description
+
+
+Newton's laws of motion:
+  definition:
+    Newton's laws:
+
+    2. `F = ma` Force = mass \* acceleration
+    2. inertia / conservation symmetry
+    3.
+    4.  
+  synonyms:
+    - Newton's laws
+    - Newtonian mechanics
+
+  wikipedia: https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion
+
+Classical mechanics:
+  definition: |
+
+    - Newton, Leibniz, Euler
+
+    - Newtonian mechanics: {term}`Newton's laws`
+
+  synonyms:
+  - CM
+  - NM
+  - Newtonian mechanics:
+  wikipedia: https://en.wikipedia.org/wiki/Classical_mechanics
+
+
+Gravity:
+  definition: |
+    The behavior of objects with mass in motion.
+
+    Newton's calculus and Newtonian mechanics were developed
+    to model the movements and the forces of massful bodies.
+
+    See also:
+    - {term}`QG` (Quantum gravity)
+      - {term}`Turner models`
+  synonyms:
+  - G 
+  wikipedia: https://en.wikipedia.org/Gravity
+
+Orbit:
+  definition: |
+
+    - Copernicus
+    - Ptolemy
+    - Galileo proposed that the universe revolves around the sun 
+      (heliocentrism) which was heretical at the time.
+    - Kepler
+    - Einstein ({term}`GR` {term}`1PN`, {term}`2.5PN`)
+  wikipedia: https://en.wikipedia.org/wiki/Orbit
+
+Perihelion:
+  synonyms:
+  - Perihelion of Mercury
+  - Perihelion procession of Mercury
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Tests_of_general_relativity#Perihelion_precession_of_Mercury
+  - https://en.wikipedia.org/wiki/MESSENGER
+
+
+Orbital resonance:
+  wikipedia: https://en.wikipedia.org/wiki/Orbital_resonance
+
+GW:
+  synonyms:
+  - Gravitational wave
+  wikipedia: https://en.wikipedia.org/Gravitational_wave
+
+Post-Newtonian expansion:
+  definition:
+
+    - 1PN: {term}`GR` {term}`Gravity`
+    - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
+    - TODO: on 3 and 3.5PN
+
+  synonyms:
+  - 1PN
+  - 2.5PN
+  - 3PN
+  - 3.5PN
+  wikipedia: https://en.wikipedia.org/wiki/Post-Newtonian_expansion
+
+1PN:
+  definition: |
+    {term}`Post-Newtonian expansion` of the {term}`GR` metric tensor
+    (for predicting the orbits of celestial bodies including Perihelion of Mercury)
+
+    - 1PN: {term}`GR` {term}`Gravity`
+
+
+2.5PN:
+  definition: |
+    {term}`Post-Newtonian expansion` of the {term}`GR` metric tensor
+    (for predicting the {term}`Gravitational waves <GW>`
+    of celestial bodies including Perihelion of Mercury)
+    GW gravity
+
+    - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
+
+
+Post-Minkowskian expansion:
+  wikipedia: https://en.wikipedia.org/wiki/Post-Minkowskian_expansion
+
+
 ## Exterior algebra
 
 Grassmann number:
@@ -447,6 +607,36 @@ GrC(2,4):
 
 ## Physics theories
 
+Planck constant:
+  definition: |
+    
+    - `h = 1 quanta`
+    - Unit of mass (`Joule-second = kg*m^2*s^{-1}`)
+    - Is now the basis for the kilogram SI unit
+
+  synonyms:
+  - h
+  - quantum of action
+  - 1 quanta
+  symbol:
+  - h
+
+  year: 1900
+  wikipedia: https://en.wikipedia.org/wiki/Planck_constant
+
+Reduced Planck constant:
+  definition: |
+    {term}`Planck constant` divided by 2 times {term}`Pi`
+
+    - ℏ = h/2*pi
+    - hbar = h/2*pi
+
+  synonyms:
+  - ℏ
+  - h-bar 
+  symbol:
+  - ℏ
+
 Minkowski spacetime:
   definition: |
 
@@ -455,9 +645,11 @@ Minkowski spacetime:
 
 SR:
   definition: |
-    Special Relativity (Einstein) 
+    Special Relativity (Einstein, Galilei, Michelson, Lorentz, Poincaré, Planck, Minkowski,)
+
+
   synonyms:
-    - Special Relativity (Einstein, Galilei, Michelson, Lorentz, Poincaré, Planck, Minkowski,)
+    - Special Relativity
   wikipedia:
   - https://en.wikipedia.org/wiki/Special_relativity
   - https://en.wikipedia.org/wiki/History_of_special_relativity
@@ -467,12 +659,52 @@ SR:
   - {cite:p}`einstein1905perihelion`
   - https://en.wikipedia.org/wiki/Annus_mirabilis_papers#Special_relativity
 
+Mass-energy equivalance:
+  definition: |
+    Theory that Energy (E) equal mass (m) times the speed of light squared (c^2),
+    wherein "times" is the (metric) tensor product operator.
+
+    ```
+    E = mc^2
+    ```
+
+    $$
+      E = mc^2$
+    $$
+
+  wikipedia: https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence
+
+Energy-momentum relation:
+  definition: |
+    More complete form of the {term}`Mass-energy equivalence`
+
+    ```
+    E^2 = (pc)^2 + (mc^2)^2
+
+    E  = ((pc)^2 + (mc^2)^2)^(1/2)
+    ```
+
+    $$
+      E^2 = (pc)^2 + (mc^2)^2
+
+      E  = ((pc)^2 + (mc^2)^2)^(1/2)
+    $$
+
+  wikipedia: https://en.wikipedia.org/wiki/Energy%E2%80%93momentum_relation
+
 GR:
   definition: |
     General Relativity (Einstein)
+
+    Post-Newtonian expansions of the GR metric tensor:
+    - {term}`1PN`
+    - {term}`2.5PN`
+
   synonyms:
     - General Relativity
-  wikipedia: https://en.wikipedia.org/wiki/General_relativity
+  wikipedia:
+  - https://en.wikipedia.org/wiki/General_relativity
+  - https://en.wikipedia.org/wiki/Tests_of_general_relativity
   definedBy:
   - {cite:p}`einstein1915perihelion`
   - {cite:p}`einstein1916grundlage`
@@ -529,6 +761,24 @@ Probability_amplitude:
 
 Scattering amplitudes:
   wikipedia: https://en.wikipedia.org/wiki/Scattering_amplitude
+
+de Broglie-Bohm theory:
+  definition: |
+
+
+
+  synonyms:
+  - Pilot Wave Theory
+  - PWT
+  - de Broglie-Bohm mechanics
+  - Bohmian mechanics 
+  definedBy:
+  - {cite:p}`bohm1952a`
+  - {cite:p}`bohm1952b`
+  - {cite:p}`bohm1982`
+  wikipedia:
+  - https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory
+
 
 Feynman diagram:
   wikipedia: https://en.wikipedia.org/wiki/Feynman_diagram
@@ -616,7 +866,7 @@ Twistor space:
   wikipedia: https://en.wikipedia.org/wiki/Twistor_space
 
 
-String Theory:
+String theory:
   definition: |
     Theory of physics with strings instead of point-like particles
   wikipedia:
@@ -711,10 +961,14 @@ SQG:
 
 DDF:
   definition:
-    Dilatant Dark Fluid (Fedi 2026)
+    Dilatant Dark Fluid is a quantum superhydrodynamic theory 
+    of quantum mechanics with psi and phi and GPE,
+    which has E_rel=0 against 1PN ({term}`GR` Gravity)
 
+  synonyms:
+  - Dilatant Dark Fluid
 
-  definedBy: TODO
+  definedBy: {cite:p}`fedi2026ddf`
 
 
 Madelung equations:
@@ -723,23 +977,55 @@ Madelung equations:
 
     - The Madelung equations are a quantum mechanical implementation of the Euler equations.
     - The Madelung equations are an alternative to the Schrödinger equation.
-    - The Madelung equations can be simulated with:
+    - The Madelung equations e:
+  synonyms:
+  - Euler's number
+  wikipedia: https://en.wikipedia.org/wiki/E_(mathematical_constant)
+
+Eulerian mechanics:
+  definition: |
+    - Compressible and incompressible fluid flows
+
+  synonyms:
+  - Euler equations
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)
+  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
+  - https://en.wikipedia.org/wiki/Continuum_mechanics#Eulerian_description
+
+Lagrangian mechanics:
+  definition: |
+
+
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Lagrangian_mechanics
+  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
+  - https://en.wikipedia.org/wiki/Continuum_mechanics#Lagrangian_description
+can be simulated with {term}`Euler equations <euler mechanics>`:
       - Runga-Kutta (RK) + Euler-Korteweg equations
       - [ ] TODO: wasn't it GrC(2,4) ? link to our paper(s), lean, rust for Madelung
+    - The {term}`Madelung equations` map the {term}`GPE` into Eulerian quantum hydrodynamic equations.
 
   wikpedia: https://en.wikipedia.org/wiki/Madelung_equations
 
-
-
 GPE:
   definition: |
-    Gross-Pitaevskii Equation; a nonlinear Schrödinger equation for simulating {term}`BEC` (Superfluids)
+    Gross-Pitaevskii Equation; a nonlinear Schrödinger equation for simulating {term}`BEC` ("superfluids")
 
+    - The {term}`Madelung equations` map the GPE into Eulerian quantum hydrodynamic equations.
+      - However, there is {term}`Bohmian blowup`.
+        - TODO: explain how our GrC(2,4) x GrC(2,4)^ overcomes {term}`Bohmian blowup` in calculating the {term}`GPE`.
 
   synonyms:
     Gross-Pitaevskii Equation
-  wikipedia:
+  wikipedia: https://en.wikipedia.org/wiki/Gross%E2%80%93Pitaevskii_equation
 
+iGPE:
+  definition: |
+
+
+  synonyms:
+  - inverse GPE
 
 
 Turner Models:
@@ -904,6 +1190,8 @@ Quantum simulator:
   wikipedia: https://en.wikipedia.org/wiki/Quantum_simulator
 
 Quantum computing:
+  synonyms:
+  - QC
   wikipedia: https://en.wikipedia.org/wiki/Quantum_computing
 
 Quantum circuit:
@@ -911,6 +1199,26 @@ Quantum circuit:
 
 Circuit QED:
   wikipedia: https://en.wikipedia.org/wiki/Circuit_quantum_electrodynamics
+
+Bohmian blowup:
+  definition: |
+    The blowup of Q and V as rho -> 0 in
+    {term}`de Broglie-Bohm` mechanics
+    which causes inaccuracy and numerical instability in quantum simulation.
+  
+    - [ ] https://www.google.com/search?=bohmian+blowup+as+rho+->+0
+    - [ ] https://www.google.com/search?=citations+for+bohmian+blowup+as+rho+->+0
+
+QTT:
+  definition: |
+
+    - QTT 
+  synonyms:
+  - Quantum Trajectory Theory
+  - quantum jump method
+  - Monte Carlo Wave Function method
+  - MCWF
+  wikipedia: https://en.wikipedia.org/wiki/Quantum_Trajectory_Theory
 
 Quantum state:
   wikipedia: https://en.wikipedia.org/wiki/Quantum_state
