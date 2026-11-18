@@ -416,6 +416,17 @@ The scalar Bohm expression $Q=-\frac{\hbar^2}{2m}\frac{\nabla^2\sqrt{\rho}}{\sqr
   - **Standalone Causal Classical Bit Transfer ($|p_{23}|^2 = 0$) vs. Unkeyed $\mathrm{ER}=\mathrm{EPR}$ No-Signaling ($|p_{23}|^2 > 0$)**: Above the Deborah shear-fracture threshold ($\mathrm{De} = \tau_{\mathrm{relax}}\dot\gamma > 1$), quantized plaquette phase-slip holonomy delivers standalone causal classical contrast $\Delta y = 2\kappa_{\mathrm{DDF}} q_{\mathrm{DDF}} > 0$ at $L_{\mathrm{path}} \le c_{\mathrm{emergent}} t_{\mathrm{arrival}}$ with zero entanglement ($|p_{23}|^2 = 0$) and passive energy efficiency $0 < \eta_{\mathrm{frac}}^{\mathrm{passive}} < 1$, whereas an unkeyed $\mathrm{ER}=\mathrm{EPR}$ wormhole has identically zero standalone signaling contrast (`erEprTransceiverDifferentialContrast 0 = 0`) and pinches off (`0 < wormholeNetNullDefocusingFlux 15 10`) under positive-energy Raychaudhuri overload.
   - **Dilatant Viscous Attenuation, Magnus Control Subtraction, Horodecki $2/3$ Qubit Ceiling, & Unconditionally Bounded $[0,1]$ Hybrid Bridge**: Incorporating exact DDF dilatant damping $\gamma_{\mathrm{damp}}(\eta_0, \alpha_{\mathrm{sh}}, k) = \eta_0 k^2(1 + \alpha_{\mathrm{sh}}k^2)$ (`ddfFractureDilatantDamping`) suppresses high-$k$ noise while preserving $>9{,}800\times$ low-$k$ 1D corridor advantage over 3D inverse-square decay at $r/w = 100$ (`ddfFractureAttenuatedCorridorGain`), subtracts classical Kutta–Joukowski Magnus lift $L' = \rho U \Gamma$ (`ddfFractureMagnusSubtractedResidual`), proves that zero entanglement ($\mathcal{C}_{\mathrm{EPR}}=0$) caps Haar-averaged 3D qubit teleportation fidelity at the Massar–Popescu / Horodecki $2/3$ classical bound (`horodeckiAverageTeleportationFidelity 0 = 2/3` and `2/3 < horodeckiAverageTeleportationFidelity C_EPR ↔ 0 < C_EPR`, {cite:p}`gjw2017`), and passes arbitrary overdrive $x \in \mathbb{R}$ (or dual-keyed $x_{\mathrm{around}} + x_{\mathrm{frac}}$) through the rational Cayley unitary phase map $\frac{2x}{1+x^2}$ (`hybridSaturatedFractureKeyedErEprRxProbability`, `triModalDualKeyedErEprRxProbability`) to guarantee $0 \le P_{\mathrm{RX}}^{\mathrm{sat}} \le 1$ unconditionally.
 
+### 2.12 Quantum Trajectories in Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k,n)$, Three-Channel Plücker–Madelung–QFIM ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$), Dual-Schubert `iGPE`, & `DDF`: Model Fitting, Check Figures, and Relative Comparisons (Paper 50) (`Signals.QuantumTrajectories`, `quantum_trajectories.rs`)
+
+- **Superconducting Qubit Diffusive & Jump Unravelings on $\mathrm{Gr}_{\mathbb{C}}(1,2)$ & $\mathrm{Gr}_{\mathbb{C}}(2,4)$ (`pluckerLindbladCompressionRatio`, `homodyneMeridianDriftZ`, `homodyneEquatorPhaseKickPhi`, `remoteTrajectoryConcurrenceSq`, `heterodyneDeterministicPurity`, `quantumJumpHeraldedGateFidelity`, [Paper 50](grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md))**:
+  Formalizes open-system trajectory state compression $\frac{2^{2n}}{\binom{n}{k}} = \frac{128}{3} \approx 42.67\times$ ($n=4, k=2$), phase-controlled homodyne measurement ($\phi_{\mathrm{LO}} = 0$ longitudinal meridian drift $\mu_z = -2\Gamma_m\eta z(1-z^2)$ vs. $\phi_{\mathrm{LO}} = \pi/2$ equatorial phase kick $d\phi_{\mathrm{eq}} = \sqrt{2\Gamma_m\eta}\,\frac{dW}{\sqrt{1-z^2}}$, {cite:p}`murch2013observing`), cascaded-cavity odd-parity remote entanglement trajectories ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 = 1$ at $\Delta\phi = \pi$, {cite:p}`roch2014observation`), bi-orthogonal heterodyne fluorescence purity preservation ($R^2 = x^2 + y^2 + z^2 = 1$, $\gamma = 295\text{ kHz}$, $\eta = 0.43$, {cite:p}`campagne2016observing`), and quantum-jump heralded 2-qubit gate post-selection fidelity $F_{\mathrm{post}} = \frac{F_{\mathrm{no\text{-}jump}}}{P_{\mathrm{surv}}} > F_{\mathrm{uncond}}$ ({cite:p}`santos2012quantum`).
+- **Evanescent Coupled-Waveguide Tunneling Speeds & Resolution of the Bohmian $v_B = 0$ Anomaly (`standardBohmEvanescentVelocity`, `evanescentOsmoticSpeed`, `coupledWaveguideClockSpeedSqFromFubiniStudy`, `klaersCoupledWaveguideSpeedSq`, `evanescentEntryProbability`)**:
+  Resolves the Sharoglazova et al. (*Nature* 643, 67–72 (2025), {cite:p}`sharoglazova_energyspeed_2025`) and Klaers et al. ({cite:p}`klaers2023particle`; {cite:p}`klaers2025reaffirming`) evanescent speed benchmark ($J_0 = 1.1\text{ ns}^{-1}$): whereas standard real-phase single-branch Bohmian mechanics predicts $v_B = \frac{\hbar}{m}\partial_x S = 0$ ($\varepsilon_{\mathrm{rel}} = 100\%$), the three-channel Plücker–Madelung–QFIM decomposition $\mathcal{T}_{\mathrm{Pl\ddot{u}cker}} = \frac{1}{2}m\rho(v_{\mathrm{conv}}^2 + u_{\mathrm{osm}}^2 + v_{\mathrm{FS}}^2)$ activates **Channel 2 (Osmotic / Bohm-Potential Velocity)** $u_{\mathrm{osm}} = -\frac{\hbar}{m}\frac{\partial_x\sqrt{\rho}}{\sqrt{\rho}} = \frac{\hbar\kappa}{m} = \sqrt{\frac{2|\Delta|}{m}}$ ($\varepsilon_{\mathrm{rel}} = 0\%$) and **Channel 3 (Fubini–Study / QFIM Inter-Waveguide Clock Speed)** $v_J^2 = \frac{J_0^2}{g_{xx}^{\mathrm{FS}}} = \frac{4 J_0^2}{F_{xx}}$, alongside the exact entry probability $a(k,\kappa) = \frac{2k\kappa}{k^2+\kappa^2} = \sqrt{1 - d_{\mathrm{bary}}^2} = \frac{1}{F}$, dwell-time relations $\tau_d = a\,\tau_s$, and the $4$th-power complex-potential loss scaling $\frac{v_{\mathrm{complex}}}{v_{\mathrm{osm}}} = \frac{m^2\gamma_0^2}{\hbar^2\kappa^4}$.
+- **Relativistic Weak-Value Photon Trajectories, ENZ ITO Temporal Double Slits, & Nonlinear Rydberg Photon Vortices (`relativisticWeakValueVelocity`, `relativisticVelocityAddition`, `timeDoubleSlitFringePeriod`, `saturatedBlockadeThreeBodyEnergy`, `connectedThreePhotonCorrelation`)**:
+  Proves subluminal Lorentz velocity addition $1 - (V')^2 = \frac{(1-v_{\mathrm{boost}}^2)(1-V^2)}{(1-v_{\mathrm{boost}}V)^2} > 0$ and equal-frequency CoM boosts $v_* = \frac{k_{0R}-k_{0L}}{k_{0R}+k_{0L}}$ ({cite:p}`foo_relativistic_2022`), temporal double-slit spectral fringe periodicity $\Delta f = 1/S$, finite rise-time $\operatorname{sinc}(\Omega\tau_r/2)$ bandwidth expansion, and $2\times$ SHG modulation in ENZ ITO ({cite:p}`tirole2023doubleslit`), and resolves the breakdown of linear superposition in strongly interacting Rydberg polaritons ({cite:p}`drori2023quantum`) by embedding $N=3$ photons on $\mathrm{Gr}_{\mathbb{C}}(3,6)$ where the single-excitation blockade constraint enforces $\phi_{\mathrm{sat}}^{(3)} = -2\pi$ (vs. $-3\pi$ pairwise Kerr, $50\%$ error), $E_3 = 3 E_2 = -\frac{\hbar^2}{m a_{\mathrm{eff}}^2}$ (vs. $9 E_2$ pairwise McGuire, $200\%$ error), $g^{(3)}(0) = 0$ at the vortex line, and $4\times$ Transmission Equality interaction enhancement ($\lambda_{\mathrm{TE}} = 4\lambda_{\mathrm{EIT}}$).
+- **Adversarial Critique & Gap-Closure Proofs (`QT-1`–`QT-7`, `quantum_trajectories_critique_and_gap_closure_identities`)**:
+  Machine-checks (`1`) master-equation unraveling gauge invariance (`unravelingMasterEquationGaugeResidual = 0`), (`2`) bidirectional Wronskian interference $2|A||B|\kappa\sin(\phi_B-\phi_A)$ vs. osmotic velocity and Fubini–Study $\kappa$-cancellation ($g_{xx}^{\mathrm{FS}}(0) = k_1^2$, quartic Rabi vs. imaginary-Rabi gap $P_{\mathrm{prop}}^{(4)} - P_{\mathrm{ev}}^{(4)} = \frac{4}{3}\tilde{x}^4$), (`3`) Fubini–Study Kähler nodal-pole regularization ($|v_{\mathrm{reg}}| \le \frac{\|J\|}{2\epsilon_{\mathrm{nodal}}}$), (`4`) Kramers–Kronig finite relaxation envelope, and (`5`) non-zero Rydberg vortex-core floor $g^{(n)}(0;\epsilon_{\mathrm{leak}}) > 0$.
+
 ---
 
 ## 3. Cross-Document Architecture: What Belongs in Which Document & Summary of Existing Plan Documents
@@ -454,6 +465,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 | **Plasma-Fluffed Chitosan–Alginate–Magnesium Hemostatic Gauze & `VEGF` Wound Sprays, `Sprout-Zero` Biodegradable Diapers, `Aero-Fleece` Thermal Liners, `CAM` Struvite Geotextiles, & `FJH` Quartzite Argon Plasma Tubes in KiCAD EDA (Paper 42)** | [grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md](grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md), [src/signals/Signals/SolitonBus.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/SolitonBus.lean) (Sec. 11), [src/signals/numerical_adapter/src/cannon_mask_cad.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/cannon_mask_cad.rs), `src/signals/kicad/semi_dirac/PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile.*` | `RhombohedralGrapheneSuperconductivityPendingHypothesis.plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_bounds` and `plasma_fluffed_bio_foundry_deep_gap_closure_bounds` in [src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean) |
 | **Lignolux Omni-Carbon Kinetic Batteries (`Al-LGBPC`, Dual-Ion `Iodine`, & `Na-Ion` Hard Carbon), `Q-Node` Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, `QCI-GXC` DFT Passivation, $\cdot\mathrm{OH}$ Cold Plasma Bast Activation, & Biodegradable/Recyclable Electrical Components in KiCAD EDA (Paper 41)** | [grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md](grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md), [src/signals/Signals/SolitonBus.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/SolitonBus.lean) (Sec. 10), [src/signals/numerical_adapter/src/cannon_mask_cad.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/cannon_mask_cad.rs), `src/signals/kicad/semi_dirac/OmniCarbon_Kinetic_Battery_QNode_Supercap_DFT_Storage.*` | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) and `RhombohedralGrapheneSuperconductivityPendingHypothesis.omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_bounds` / `omni_carbon_energy_storage_deep_gap_closure_bounds` in [src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean) |
 | **DDF Fracture-Based Communication vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement & Wormholes, Seven-Mode Multi-Path Taxonomy ($M_1, M_2, M_3$ & Composites), Dilatant Corridor Attenuation, Horodecki $2/3$ Qubit Fidelity, & AGC Cayley-Saturated Hybrid Quantum Bridges (Papers 45–47)** | [grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md](grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md), [grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md](grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md), [grassmannian-thermo-electro-magnetics-lord-shulman-paper.md](grassmannian-thermo-electro-magnetics-lord-shulman-paper.md), [src/signals/Signals/DFT.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/DFT.lean) (Secs. 23–25.2.1), [src/signals/numerical_adapter/src/dft_plabic_vrc.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/dft_plabic_vrc.rs) | {download}`DDF Fracture-Communication Validation Plan <ddf-fracture-communication-plan.md>` and `DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds` / `ddf_fracture_attenuation_cayley_saturation_horodecki_and_passivity_critique_bounds` / `seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_bounds` / `seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_bounds` in [src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean) |
+| **QFIM $= 4\,g^{\mathrm{FS}}$, Maxwell Electromagnetism Across Quaternions/Vectors/Tensors/Twistors, & Multi-Model Quantum Trajectories Across Superconducting Qubits, Evanescent Tunneling Speeds, Relativistic Weak Values, Time Diffraction, & Nonlinear Photon Vortices (Papers 48–50)** | [grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md), [grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md](grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md), [grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md](grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md), [src/signals/Signals/QuantumTrajectories.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/QuantumTrajectories.lean), [src/signals/numerical_adapter/src/quantum_trajectories.rs](https://github.com/westurner/sustainablefactory/blob/main/src/signals/numerical_adapter/src/quantum_trajectories.rs) | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md), [maxwell-electromagnetism-twistors-unification-plan.md](maxwell-electromagnetism-twistors-unification-plan.md), and `GrassmannianQuantumTrajectoriesSynthesisContract` in [src/signals/Signals/Pending.lean](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean) |
 
 ### 3.2 Concise Summary of All Fourteen Project Plan Documents
 
@@ -897,7 +909,15 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
       Signals.DFT.triModalAgcDualKeyedErEprRxProbability 1 1 10 100 (-1) = 1 ∧
     Signals.DFT.dualPathCorrelatedOutageProbability (1 / 10) (1 / 5) = 7 / 250 ∧
     Signals.DFT.wormholeNetNullDefocusingFlux
-      (Signals.DFT.triModalParasiticThroatLoad (1 / 1000) (1 / 1000) 1000 1000 4) 10 ≤ 0 := by
+      (Signals.DFT.triModalParasiticThroatLoad (1 / 1000) (1 / 1000) 1000 1000 4) 10 ≤ 0 ∧
+    -- (50) Paper 50 (Quantum Trajectories across Superconducting Qubits, Evanescent Tunneling Speeds, Relativistic Weak Values, Time Diffraction, Nonlinear Photon Vortices, & QT-1..QT-7 Critique Closures):
+    Signals.QuantumTrajectories.standardBohmEvanescentVelocity = 0 ∧
+    Signals.QuantumTrajectories.evanescentOsmoticSpeed 1 2 4 = 2 ∧
+    Signals.QuantumTrajectories.evanescentEntryProbability 3 4 = 24 / 25 ∧
+    Signals.QuantumTrajectories.relativisticVelocityAddition (3 / 5) (-3 / 5) = 15 / 17 ∧
+    Signals.QuantumTrajectories.saturatedBlockadeMultiPhotonPhase 3 (-Real.pi) = -2 * Real.pi ∧
+    Signals.QuantumTrajectories.rydbergPolaritonTeEnhancement 3 ((3 : ℝ) ^ 2 / (2 * 5)) 5 = 2 ∧
+    Signals.QuantumTrajectories.droriVortexCoreCorrelationFloor = 6 / 25 := by
   intro z1 z2 p_slit M_sheath W_orb Δϖ_GR P_GR splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F x_dg
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
@@ -1212,7 +1232,15 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
       Signals.DFT.hybridSaturatedFractureKeyedErEprRxProbability],
     by norm_num [Signals.DFT.dualPathCorrelatedOutageProbability],
     by norm_num [Signals.DFT.wormholeNetNullDefocusingFlux,
-      Signals.DFT.triModalParasiticThroatLoad]⟩
+      Signals.DFT.triModalParasiticThroatLoad],
+    by norm_num [Signals.QuantumTrajectories.standardBohmEvanescentVelocity],
+    by norm_num [Signals.QuantumTrajectories.evanescentOsmoticSpeed],
+    by norm_num [Signals.QuantumTrajectories.evanescentEntryProbability],
+    by norm_num [Signals.QuantumTrajectories.relativisticVelocityAddition],
+    by unfold Signals.QuantumTrajectories.saturatedBlockadeMultiPhotonPhase; ring,
+    by norm_num [Signals.QuantumTrajectories.rydbergPolaritonTeEnhancement],
+    by norm_num [Signals.QuantumTrajectories.droriVortexCoreCorrelationFloor,
+      Signals.QuantumTrajectories.connectedThreePhotonCorrelation]⟩
 
 end ArxivCapstoneThirtyPaperUnificationVerification
 ```
@@ -1579,6 +1607,14 @@ end ArxivCapstoneThirtyPaperUnificationVerification
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
+@unpublished{turner2026grassmannian_quantum_trajectories,
+  author  = {Turner, Wesley},
+  title   = {Quantum Trajectories in Complex {G}rassmannian {$\mathrm{Gr}_{\mathbb{C}}(k,n)$}, Three-Channel {P}l{\"u}cker--{M}adelung--{QFIM} ({$F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$}), Dual-{S}chubert {iGPE}, and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: Model Fitting, Check Figures, and Relative Comparisons Across Superconducting Qubits, Evanescent Tunneling Speeds, Relativistic Weak Values, Time Diffraction, and Nonlinear Photon Vortices in {L}ean 4 and {R}ust},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
+}
+
 @article{dean2025secondharmonic,
   author  = {Dean and others},
   title   = {Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance},
@@ -1638,6 +1674,7 @@ end ArxivCapstoneThirtyPaperUnificationVerification
     "Semi-Dirac Fermions (ZrSiS B^(2/3) Landau Scaling and Directional Sheath Jamming)",
     "SU(4), Witten Twistor String Theory, Cachazo-He-Yuan (CHY) Localization, and 5-Way Klein Quadric Unification",
     "Polaritons, Plasmons, Skyrmions, Majorana Zero Modes, and Non-Destructive Readout",
+    "Quantum Trajectories in Complex Grassmannian Gr_C(k,n), Three-Channel Plücker-Madelung-QFIM, Dual-Schubert iGPE, and DDF Mechanics",
     "Lean 4 Formal Verification"
   ],
   "isBasedOn": [
@@ -1688,6 +1725,9 @@ end ArxivCapstoneThirtyPaperUnificationVerification
     "docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md",
     "docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md",
     "docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md",
+    "docs/grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md",
+    "docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md",
+    "docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md",
     "docs/ddf-fracture-communication-plan.md",
     "docs/huygens-grassmannian-amplituhedron-plan.md",
     "docs/tuning-materials-with-light-plan.md",
