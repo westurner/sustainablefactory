@@ -7401,4 +7401,21 @@ example (l_i l_j alpha_lo rho_ij j_forward t_sq exp_decay det_w g_fs_ray kappa k
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
+/-! WS-2 & WS-8: Pending closed-cycle thermodynamic and textile observation contract checks. -/
+example (c : Signals.Pending.InferenceThermodynamicCycleContract)
+    (h_neg : c.conditionalEntropyBits < 0) :
+    c.singleShotErasureHeat.joules < 0 ∧
+      c.unentangledControlErasureHeat.joules ≤ c.totalClosedCycleHeatJoules ∧
+      0 < c.totalClosedCycleHeatJoules :=
+  ⟨(c.singleShot_vs_unentangled_control h_neg).1,
+    c.closedCycle_secondLaw_bound.1,
+    c.closedCycle_secondLaw_bound.2⟩
+
+example (t : Signals.Pending.TextileObservationContract) :
+    0 ≤ t.deborahNumber ∧
+      t.measuredCurlResidual ≤ t.curlResidualUncertainty ∧
+      3 ≤ t.sampleReplicates ∧
+      t.stitchFamily.layerGroupNumber ∈ ({7, 19, 37} : Set Nat) :=
+  t.calibrated_bounds
+
 end SignalsPendingTests

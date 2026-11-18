@@ -9217,4 +9217,158 @@ theorem DDFFractureCommunicationEvidence.quantum_trajectories_critique_and_gap_c
       rho0 kappa k1 x_tilde v_vel v_boost omega_rabi delta_probe gamma_e odb
       hv hjin hw hrho0 hmass hhbar hj0 hdenom_lor homega hdelta_p⟩
 
+/-! ### WS-2: Closed-Cycle Conditional Landauer & QFIM–Bures Inference Contract -/
+
+/-- Dimensioned QFIM–Bures action dissipation energy in joules:
+`ΔW_Bures = ℏ · L_QFIM² / (4 · τ_step)` (`J·s / s = J`, `L_QFIM` dimensionless). -/
+noncomputable def qfimBuresActionEnergyJoules
+    (hbarJoulesSec qfimLengthRad stepDurationSec : ℝ) : Signals.Units.Energy :=
+  ⟨hbarJoulesSec * qfimLengthRad ^ 2 / (4 * stepDurationSec)⟩
+
+lemma qfimBuresActionEnergyJoules_nonneg
+    (hbarJoulesSec qfimLengthRad stepDurationSec : ℝ)
+    (h_hbar : 0 < hbarJoulesSec) (h_tau : 0 < stepDurationSec) :
+    0 ≤ (qfimBuresActionEnergyJoules hbarJoulesSec qfimLengthRad stepDurationSec).joules := by
+  unfold qfimBuresActionEnergyJoules
+  positivity
+
+/-- Closed-cycle inference thermodynamic contract enforcing full accounting of
+single-shot conditional erasure (`del Rio et al., 2011`), observer-memory reset,
+dimensioned QFIM–Bures dissipation, controller/preparation work, and an
+unentangled `do(F = 0)` control. -/
+structure InferenceThermodynamicCycleContract where
+  temperature : Signals.Units.Temperature
+  temperature_pos : 0 < temperature.kelvin
+  kBln2JoulesPerKelvin : ℝ
+  kBln2_pos : 0 < kBln2JoulesPerKelvin
+  conditionalEntropyBits : ℝ
+  erasureBits : ℝ
+  erasureBits_pos : 0 < erasureBits
+  singleShotErasureHeat : Signals.Units.Energy
+  singleShotErasure_law :
+    singleShotErasureHeat.joules =
+      kBln2JoulesPerKelvin * temperature.kelvin * conditionalEntropyBits * erasureBits
+  memoryResetHeat : Signals.Units.Energy
+  memoryReset_secondLaw :
+    kBln2JoulesPerKelvin * temperature.kelvin * (1 - conditionalEntropyBits) * erasureBits ≤
+      memoryResetHeat.joules
+  hbarJoulesSec : ℝ
+  hbar_pos : 0 < hbarJoulesSec
+  qfimLengthRad : ℝ
+  stepDurationSec : ℝ
+  stepDuration_pos : 0 < stepDurationSec
+  controllerAndPrepWork : Signals.Units.Energy
+  controllerAndPrepWork_nonneg : 0 ≤ controllerAndPrepWork.joules
+  unentangledControlErasureHeat : Signals.Units.Energy
+  unentangledControl_law :
+    unentangledControlErasureHeat.joules =
+      kBln2JoulesPerKelvin * temperature.kelvin * erasureBits
+  calorimetryCalibrated : Prop
+  calorimetryCalibrated_hypothesis : calorimetryCalibrated
+
+/-- Total closed-cycle energy dissipation in joules across erasure, memory reset,
+QFIM–Bures action dissipation, and controller/preparation work. -/
+noncomputable def InferenceThermodynamicCycleContract.totalClosedCycleHeatJoules
+    (c : InferenceThermodynamicCycleContract) : ℝ :=
+  c.singleShotErasureHeat.joules + c.memoryResetHeat.joules +
+    (qfimBuresActionEnergyJoules c.hbarJoulesSec c.qfimLengthRad c.stepDurationSec).joules +
+    c.controllerAndPrepWork.joules
+
+/-- Even when single-shot conditional erasure is negative (`S(A|M) < 0`), closing the
+thermodynamic cycle by resetting the quantum memory obeys the Second Law
+(`totalClosedCycleHeatJoules ≥ k_B T ln 2 · N_bits > 0`). -/
+theorem InferenceThermodynamicCycleContract.closedCycle_secondLaw_bound
+    (c : InferenceThermodynamicCycleContract) :
+    c.unentangledControlErasureHeat.joules ≤ c.totalClosedCycleHeatJoules ∧
+      0 < c.totalClosedCycleHeatJoules := by
+  have h_bures :
+      0 ≤ (qfimBuresActionEnergyJoules c.hbarJoulesSec c.qfimLengthRad c.stepDurationSec).joules :=
+    qfimBuresActionEnergyJoules_nonneg c.hbarJoulesSec c.qfimLengthRad c.stepDurationSec
+      c.hbar_pos c.stepDuration_pos
+  have h_landauer_pos : 0 < c.unentangledControlErasureHeat.joules := by
+    rw [c.unentangledControl_law]
+    exact mul_pos (mul_pos c.kBln2_pos c.temperature_pos) c.erasureBits_pos
+  have h_sum_ge : c.unentangledControlErasureHeat.joules ≤ c.totalClosedCycleHeatJoules := by
+    unfold InferenceThermodynamicCycleContract.totalClosedCycleHeatJoules
+    rw [c.singleShotErasure_law, c.unentangledControl_law]
+    have h_reset := c.memoryReset_secondLaw
+    have h_ctrl := c.controllerAndPrepWork_nonneg
+    nlinarith
+  exact ⟨h_sum_ge, lt_of_lt_of_le h_landauer_pos h_sum_ge⟩
+
+/-- Negative conditional entropy makes single-shot erasure negative while the
+unentangled control remains strictly positive. -/
+theorem InferenceThermodynamicCycleContract.singleShot_vs_unentangled_control
+    (c : InferenceThermodynamicCycleContract)
+    (h_neg_entropy : c.conditionalEntropyBits < 0) :
+    c.singleShotErasureHeat.joules < 0 ∧ 0 < c.unentangledControlErasureHeat.joules := by
+  have h_scale : 0 < c.kBln2JoulesPerKelvin * c.temperature.kelvin :=
+    mul_pos c.kBln2_pos c.temperature_pos
+  have h_unent : 0 < c.unentangledControlErasureHeat.joules := by
+    rw [c.unentangledControl_law]
+    exact mul_pos h_scale c.erasureBits_pos
+  have h_single : c.singleShotErasureHeat.joules < 0 := by
+    rw [c.singleShotErasure_law]
+    have h1 : c.kBln2JoulesPerKelvin * c.temperature.kelvin * c.conditionalEntropyBits < 0 :=
+      mul_neg_of_pos_of_neg h_scale h_neg_entropy
+    exact mul_neg_of_neg_of_pos h1 c.erasureBits_pos
+  exact ⟨h_single, h_unent⟩
+
+/-! ### WS-8: Dimensioned Textile-Observation Contract (Knitting & Deborah Stick-Slip) -/
+
+/-- Canonical knitted stitch families referenced against exact International Tables Vol. E
+layer groups (`Signals.LayerGroups` / `layer_groups.rs`). -/
+inductive KnittedStitchFamily where
+  | stockinetteL7
+  | rib1x1L19
+  | garterL37
+  deriving DecidableEq, Repr
+
+/-- Layer-group number in International Tables Vol. E for each canonical stitch family. -/
+def KnittedStitchFamily.layerGroupNumber : KnittedStitchFamily → Nat
+  | .stockinetteL7 => 7
+  | .rib1x1L19 => 19
+  | .garterL37 => 37
+
+/-- Dimensioned observation and calibration gate for knitted textile mechanics.
+Separates verified abstract Plücker/Schubert identities (`Signals.GrassmannianEBR`) from
+measured yarn geometry, tensile loading, stiffness, uncertainty, and control-fabric residuals. -/
+structure TextileObservationContract where
+  stitchFamily : KnittedStitchFamily
+  yarnDiameter : Signals.Units.Length
+  yarnDiameter_pos : 0 < yarnDiameter.meters
+  loopCoursePitch : Signals.Units.Length
+  loopCoursePitch_pos : 0 < loopCoursePitch.meters
+  appliedTension : Signals.Units.Force
+  appliedTension_nonneg : 0 ≤ appliedTension.newtons
+  relaxationTime : Signals.Units.Duration
+  relaxationTime_pos : 0 < relaxationTime.seconds
+  strainRateHz : Signals.Units.Frequency
+  strainRate_nonneg : 0 ≤ strainRateHz.hz
+  measuredCurlResidual : ℝ
+  curlResidualUncertainty : ℝ
+  measuredCurlResidual_nonneg : 0 ≤ measuredCurlResidual
+  curlResidualWithinBound : measuredCurlResidual ≤ curlResidualUncertainty
+  sampleReplicates : Nat
+  minReplicates_ge_three : 3 ≤ sampleReplicates
+  controlFabricIncluded : Prop
+  controlFabricIncluded_hypothesis : controlFabricIncluded
+
+/-- Dimensionless Deborah number `De = τ_relax · γ̇` from dimensioned relaxation duration and strain rate. -/
+noncomputable def TextileObservationContract.deborahNumber (c : TextileObservationContract) : ℝ :=
+  c.relaxationTime.seconds * c.strainRateHz.hz
+
+lemma TextileObservationContract.deborahNumber_nonneg (c : TextileObservationContract) :
+    0 ≤ c.deborahNumber := by
+  unfold TextileObservationContract.deborahNumber
+  exact mul_nonneg (le_of_lt c.relaxationTime_pos) c.strainRate_nonneg
+
+lemma TextileObservationContract.calibrated_bounds (c : TextileObservationContract) :
+    0 ≤ c.deborahNumber ∧
+      c.measuredCurlResidual ≤ c.curlResidualUncertainty ∧
+      3 ≤ c.sampleReplicates ∧
+      c.stitchFamily.layerGroupNumber ∈ ({7, 19, 37} : Set Nat) := by
+  refine ⟨c.deborahNumber_nonneg, c.curlResidualWithinBound, c.minReplicates_ge_three, ?_⟩
+  cases c.stitchFamily <;> simp [KnittedStitchFamily.layerGroupNumber]
+
 end Signals.Pending

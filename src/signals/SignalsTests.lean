@@ -8902,4 +8902,36 @@ example (p e_id e_x e_y e_z overlap_sq grad_e re_amp im_amp chi3 : ℝ) :
     p e_id e_x e_y e_z (1 / 3) (2 / 3) overlap_sq grad_e 2 (1 / 100) re_amp im_amp chi3
     (by norm_num) (by norm_num) (by norm_num)
 
+/-! WS-1, WS-3, WS-4, WS-5, WS-9: GrassmannianEBR & LayerGroups regression checks. -/
+example (k : Signals.Proca.FourVector) :
+    Signals.GrassmannianEBR.pauliSpinorDet k = Signals.Proca.minkowskiDot k k :=
+  Signals.GrassmannianEBR.pauliSpinorDet_eq_minkowskiDot k
+
+example :
+    Signals.LayerGroups.opC6zHex.comp Signals.LayerGroups.opC6zHex =
+      Signals.LayerGroups.opC3zHex ∧
+      2 + 5 + 11 + 30 + 16 + 16 = 80 :=
+  ⟨Signals.LayerGroups.layerGroup_generator_relations.2.2.2.2.2.2.2.1,
+    Signals.LayerGroups.eighty_layer_groups_family_partition⟩
+
+example :
+    0 < Signals.GrassmannianEBR.gramDet2Reg 2 3 1 (1 / 10) ∧
+      Signals.GrassmannianEBR.gramDet2Reg 5 5 5 0 = 0 ∧
+      Signals.GrassmannianEBR.vrcPairExcitationSmooth 0 2 = 1 / 2 ∧
+      Signals.GrassmannianEBR.qngStepFromQfim 8 2 = (1 / 4) * (8 / 2) ∧
+      min (Signals.GrassmannianEBR.nociSymmetricEnergy (-1) (-1 / 2) (1 / 5))
+          (Signals.GrassmannianEBR.nociAntisymmetricEnergy (-1) (-1 / 2) (1 / 5)) < -1 ∧
+      Signals.GrassmannianEBR.iharaQuadraticDiscriminant 1 2 ≤ 0 ∧
+      Signals.GrassmannianEBR.iharaQuadraticDiscriminant (-2) 2 ≤ 0 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact Signals.GrassmannianEBR.gramDet2Reg_pos 2 3 1 (1 / 10)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  · exact Signals.GrassmannianEBR.gramDet2_duplicate_zero 5
+  · exact Signals.GrassmannianEBR.vrcPairExcitationSmooth_at_degeneracy 2 (by norm_num)
+  · exact Signals.GrassmannianEBR.qngStepFromQfim_eq_quarter_fubiniStudy 8 2 (by norm_num)
+  · exact Signals.GrassmannianEBR.nociTwoState_variational_lowering (-1) (-1 / 2) (1 / 5)
+      (by norm_num) (by norm_num) (by norm_num)
+  · exact Signals.GrassmannianEBR.petersen_graph_ramanujan_checkFigures.1
+  · exact Signals.GrassmannianEBR.petersen_graph_ramanujan_checkFigures.2
+
 end SignalsTests

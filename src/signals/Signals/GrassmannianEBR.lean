@@ -1,5 +1,7 @@
 import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
+import Signals.Proca
+import Signals.Units
 
 namespace Signals.GrassmannianEBR
 
@@ -394,6 +396,212 @@ theorem gr24DispersionInterval_pos_of_mass
     0 < gr24DispersionInterval mode := by
   unfold gr24DispersionInterval
   linarith
+
+/-! ### WS-1: Dimensioned Four-Vector, Hermitian Pauli Spinor Map, and Lorentz Boost Invariance -/
+
+/-- SI-dimensioned wavevector `(f / c, kx, ky, kz)` in cycles per metre (`m⁻¹`). -/
+structure DimensionedWavevector where
+  frequency : Signals.Units.Frequency
+  speedOfLight : Signals.Units.Speed
+  frequency_pos : 0 < frequency.hz
+  speedOfLight_pos : 0 < speedOfLight.metersPerSecond
+  kx : ℝ
+  ky : ℝ
+  kz : ℝ
+
+/-- Convert a dimensioned wavevector into a `Signals.Proca.FourVector` with signature `(+,-,-,-)`. -/
+def DimensionedWavevector.toFourVector (w : DimensionedWavevector) : Signals.Proca.FourVector :=
+  { time := w.frequency.hz / w.speedOfLight.metersPerSecond
+    x := w.kx
+    y := w.ky
+    z := w.kz }
+
+/-- Determinant of the Hermitian `2 × 2` Pauli spinor matrix
+`K(k) = [[k0 + kz, kx - i ky], [kx + i ky, k0 - kz]]`. -/
+def pauliSpinorDet (k : Signals.Proca.FourVector) : ℝ :=
+  (k.time + k.z) * (k.time - k.z) - (k.x ^ 2 + k.y ^ 2)
+
+/-- The Pauli spinor map preserves the `(+,-,-,-)` Minkowski quadratic form exactly. -/
+theorem pauliSpinorDet_eq_minkowskiDot (k : Signals.Proca.FourVector) :
+    pauliSpinorDet k = Signals.Proca.minkowskiDot k k := by
+  unfold pauliSpinorDet Signals.Proca.minkowskiDot
+  ring
+
+/-- A Lorentz boost along the `z`-axis parameterized by `(cosh η, sinh η)` with `c² - s² = 1`. -/
+def lorentzBoostZ (coshEta sinhEta : ℝ) (k : Signals.Proca.FourVector) :
+    Signals.Proca.FourVector :=
+  { time := coshEta * k.time + sinhEta * k.z
+    x := k.x
+    y := k.y
+    z := sinhEta * k.time + coshEta * k.z }
+
+/-- The Pauli spinor determinant (and hence dispersion sign sector) is Lorentz-boost invariant. -/
+theorem pauliSpinorDet_lorentzBoostZ
+    (coshEta sinhEta : ℝ) (h_hyper : coshEta ^ 2 - sinhEta ^ 2 = 1)
+    (k : Signals.Proca.FourVector) :
+    pauliSpinorDet (lorentzBoostZ coshEta sinhEta k) = pauliSpinorDet k := by
+  unfold pauliSpinorDet lorentzBoostZ
+  calc
+    (coshEta * k.time + sinhEta * k.z + (sinhEta * k.time + coshEta * k.z)) *
+        (coshEta * k.time + sinhEta * k.z - (sinhEta * k.time + coshEta * k.z)) -
+        (k.x ^ 2 + k.y ^ 2)
+        = (coshEta ^ 2 - sinhEta ^ 2) * (k.time ^ 2 - k.z ^ 2) - (k.x ^ 2 + k.y ^ 2) := by
+          ring
+    _ = 1 * (k.time ^ 2 - k.z ^ 2) - (k.x ^ 2 + k.y ^ 2) := by rw [h_hyper]
+    _ = (k.time + k.z) * (k.time - k.z) - (k.x ^ 2 + k.y ^ 2) := by ring
+
+/-- Exact equivalence between the dimensioned `(+,-,-,-)` Minkowski form and `gr24DispersionInterval`
+in the `(kx, kz)` incidence plane (`ky = 0`). -/
+theorem dimensionedWavevector_minkowski_eq_dispersionInterval
+    (w : DimensionedWavevector) (h_planar : w.ky = 0) :
+    pauliSpinorDet w.toFourVector =
+      gr24DispersionInterval ⟨w.frequency.hz / w.speedOfLight.metersPerSecond, w.kx, w.kz⟩ := by
+  unfold pauliSpinorDet DimensionedWavevector.toFourVector gr24DispersionInterval
+  rw [h_planar]
+  ring
+
+/-- A purely longitudinal `Signals.Proca.Mode` (`k_⊥ = 0`) maps to a strictly timelike Pauli spinor
+whose determinant equals the squared Proca mass. -/
+theorem procaMode_pauliSpinorDet_eq_mass_sq
+    {model : Signals.Proca.Model} (mode : Signals.Proca.Mode model)
+    (h_no_transverse : mode.transverseWaveNumber = 0) :
+    pauliSpinorDet mode.momentum = model.mass ^ 2 ∧ 0 < pauliSpinorDet mode.momentum := by
+  have h_disp := mode.dispersion
+  rw [h_no_transverse] at h_disp
+  have h_det : pauliSpinorDet mode.momentum = model.mass ^ 2 := by
+    unfold pauliSpinorDet Signals.Proca.Mode.momentum
+    nlinarith
+  exact ⟨h_det, by rw [h_det]; exact sq_pos_of_pos model.mass_pos⟩
+
+/-! ### WS-4: PSD-Verified Finite Slavnov–Gram DPP Kernel & Log-Det Identities -/
+
+/-- Determinant of a regularized `2 × 2` symmetric Gram matrix
+`G_ε = [[a + ε, c], [c, b + ε]]` where `a = ‖u‖²`, `b = ‖v‖²`, `c = ⟨u, v⟩`. -/
+def gramDet2Reg (a b c eps : ℝ) : ℝ :=
+  (a + eps) * (b + eps) - c ^ 2
+
+/-- Whenever Cauchy–Schwarz (`c² ≤ a·b`) holds with `a, b ≥ 0` and regularization `ε > 0`,
+the regularized `2 × 2` Gram determinant is strictly positive (`G_ε ≻ 0`). -/
+theorem gramDet2Reg_pos
+    (a b c eps : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b)
+    (h_cs : c ^ 2 ≤ a * b) (heps : 0 < eps) :
+    0 < gramDet2Reg a b c eps := by
+  unfold gramDet2Reg
+  nlinarith
+
+/-- Identical candidates (`a = b = c`) collapse the unregularized Gram determinant to zero
+(Pauli / DPP repulsion null). -/
+theorem gramDet2_duplicate_zero (a : ℝ) : gramDet2Reg a a a 0 = 0 := by
+  unfold gramDet2Reg
+  ring
+
+/-- Exact `2 × 2` inverse entries for `G_ε` and verification `G_ε · G_ε⁻¹ = I_2`,
+establishing the exact matrix factor of `∇_G log det(G_ε) = G_ε⁻¹`. -/
+theorem gram2Reg_inverse_identities
+    (a b c eps : ℝ) (hdet : gramDet2Reg a b c eps ≠ 0) :
+    let d := gramDet2Reg a b c eps
+    let inv00 := (b + eps) / d
+    let inv01 := -c / d
+    let inv10 := -c / d
+    let inv11 := (a + eps) / d
+    (a + eps) * inv00 + c * inv10 = 1 ∧
+      (a + eps) * inv01 + c * inv11 = 0 ∧
+      c * inv00 + (b + eps) * inv10 = 0 ∧
+      c * inv01 + (b + eps) * inv11 = 1 := by
+  dsimp only
+  unfold gramDet2Reg at hdet ⊢
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> field_simp [hdet] <;> ring
+
+/-! ### WS-5: VRC-3 Pair-Excitation Regularity, 1/4 QNG Step, and Exact 2-State NOCI Lowering -/
+
+/-- Homogeneous VRC pair-excitation amplitude `V / (Δε² + V²)` avoiding the perturbative
+`1 / Δε` pole at HOMO–LUMO degeneracy `Δε = 0`. -/
+def vrcPairExcitationSmooth (deltaEps coupling : ℝ) : ℝ :=
+  coupling / (deltaEps ^ 2 + coupling ^ 2)
+
+/-- At exact degeneracy `Δε = 0` with nonzero coupling `V ≠ 0`, the VRC pair amplitude
+evaluates smoothly to `1 / V` without division by zero. -/
+theorem vrcPairExcitationSmooth_at_degeneracy (coupling : ℝ) (hc : coupling ≠ 0) :
+    vrcPairExcitationSmooth 0 coupling = 1 / coupling := by
+  unfold vrcPairExcitationSmooth
+  field_simp [hc]
+  ring
+
+/-- Quantum Natural Gradient step using the QFIM `F = 4 g_FS` equals `1 / 4` of the
+Fubini–Study Riemannian gradient step. -/
+def qngStepFromQfim (grad fubiniStudy : ℝ) : ℝ :=
+  grad / (4 * fubiniStudy)
+
+theorem qngStepFromQfim_eq_quarter_fubiniStudy (grad fubiniStudy : ℝ) (hg : fubiniStudy ≠ 0) :
+    qngStepFromQfim grad fubiniStudy = (1 / 4) * (grad / fubiniStudy) := by
+  unfold qngStepFromQfim
+  field_simp [hg]
+
+/-- Symmetric Ritz eigenvalue `(E_BS + h) / (1 + s)` of the `2 × 2` symmetric NOCI
+generalized eigenproblem `H c = E S c` with `H_00 = H_11 = E_BS`, `H_01 = h`, `S_01 = s`. -/
+def nociSymmetricEnergy (eBS coupling overlap : ℝ) : ℝ :=
+  (eBS + coupling) / (1 + overlap)
+
+/-- Antisymmetric Ritz eigenvalue `(E_BS - h) / (1 - s)` of the `2 × 2` symmetric NOCI
+generalized eigenproblem `H c = E S c`. -/
+def nociAntisymmetricEnergy (eBS coupling overlap : ℝ) : ℝ :=
+  (eBS - coupling) / (1 - overlap)
+
+/-- Exact variational lowering for `2 × 2` symmetric NOCI: whenever the overlap matrix is
+strictly positive definite (`-1 < s < 1`) and the secular coupling is non-trivial
+(`h ≠ E_BS · s`), the lower Ritz eigenvalue strictly lowers the broken-symmetry energy `E_BS`. -/
+theorem nociTwoState_variational_lowering
+    (eBS coupling overlap : ℝ)
+    (hs_gt : -1 < overlap) (hs_lt : overlap < 1)
+    (h_nontrivial : coupling ≠ eBS * overlap) :
+    min (nociSymmetricEnergy eBS coupling overlap)
+      (nociAntisymmetricEnergy eBS coupling overlap) < eBS := by
+  have h_pos_plus : 0 < 1 + overlap := by linarith
+  have h_pos_minus : 0 < 1 - overlap := by linarith
+  rcases lt_or_gt_of_ne h_nontrivial with h_lt | h_gt
+  · apply lt_of_le_of_lt (min_le_left _ _)
+    unfold nociSymmetricEnergy
+    rw [div_lt_iff₀ h_pos_plus]
+    nlinarith
+  · apply lt_of_le_of_lt (min_le_right _ _)
+    unfold nociAntisymmetricEnergy
+    rw [div_lt_iff₀ h_pos_minus]
+    nlinarith
+
+/-! ### WS-9: Isolated Finite-Graph Ihara–Selberg Ramanujan Critical-Circle Equivalence
+
+This section formalizes **only** the established finite-graph Ramanujan quadratic-factor
+property of the Bass–Ihara graph zeta function `ζ_G(u)⁻¹ = (1 - u²)^(r - 1) det(I - u A + u² q I)`
+on a finite `(q + 1)`-regular graph. It makes **no claim** about the Riemann zeta function `ζ(s)`
+or the Riemann Hypothesis.
+-/
+
+/-- Discriminant `λ² - 4q` of one adjacency-eigenvalue quadratic factor `1 - λ u + q u²`
+in the Bass–Ihara determinant of a finite `(q + 1)`-regular graph. -/
+def iharaQuadraticDiscriminant (lambda q : ℝ) : ℝ :=
+  lambda ^ 2 - 4 * q
+
+/-- For a non-trivial eigenvalue `λ` satisfying the Ramanujan bound `λ² ≤ 4q` with `q > 0`,
+the complex-conjugate roots `u = (λ ± i √(4q - λ²)) / (2q)` of `1 - λ u + q u² = 0` satisfy
+`|u|² = u_re² + u_im² = 1 / q` (the Ramanujan critical circle). -/
+theorem ihara_ramanujan_critical_circle_modulus_sq
+    (lambda q : ℝ) (hq : 0 < q) (h_ramanujan : lambda ^ 2 ≤ 4 * q) :
+    let u_re := lambda / (2 * q)
+    let u_im_sq := (4 * q - lambda ^ 2) / (4 * q ^ 2)
+    0 ≤ u_im_sq ∧ u_re ^ 2 + u_im_sq = 1 / q := by
+  dsimp only
+  have h_nonneg : 0 ≤ 4 * q - lambda ^ 2 := by linarith
+  have h_den_pos : 0 < 4 * q ^ 2 := by positivity
+  refine ⟨div_nonneg h_nonneg (le_of_lt h_den_pos), ?_⟩
+  have hq_ne : q ≠ 0 := ne_of_gt hq
+  field_simp [hq_ne]
+  ring
+
+/-- Concrete check figures for the 10-vertex 3-regular Petersen graph (`q = 2`, non-trivial
+adjacency eigenvalues `λ ∈ {1, -2}`): both satisfy the Ramanujan bound `λ² ≤ 8 = 4q`. -/
+theorem petersen_graph_ramanujan_checkFigures :
+    iharaQuadraticDiscriminant 1 2 ≤ 0 ∧ iharaQuadraticDiscriminant (-2) 2 ≤ 0 := by
+  norm_num [iharaQuadraticDiscriminant]
 
 end
 

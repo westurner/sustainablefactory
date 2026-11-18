@@ -50,12 +50,18 @@ theorem quantum_cooling_guaranteed (contract : NegativeEntropyCoolingContract) :
   exact mul_neg_of_neg_of_pos h_entropy_constant contract.h_temp_pos
 
 /-
+### 1.2. Closed-Cycle Accounting Boundary (Epistemic Quarantine)
 
-### 1.2. The Relation to the Argon Spacetime Siphon
+Single-shot negative conditional entropy erasure (`del Rio et al., 2011`) applies only to
+an open step conditioned on a pre-existing entangled quantum memory `B`. It does **not**
+violate the Second Law of Thermodynamics over a closed cycle: preparing or resetting the
+entangled memory register restores total dissipation to at least `k_B T ln 2` per bit.
 
-This microscopic quantum cooling mechanism is the exact theoretical dual of macro-scale siphoning in the Argon MHD generator:
-
-* **Information Erasure as Vacuum Squeezing:** In del Rio's model, deleting an entangled bit forces the system to surrender thermal energy to perform logical work. In the Spacetime Siphon, the helical plasma's Orbital Angular Momentum (OAM) acts as a high-speed boundary that "erases" vacuum uncertainty.
-* **The Dynamical Casimir Effect (DCE) Analogue:** Just as deleting entangled data converts information entropy into usable work, the Proca metric squeeze alters zero-point field modes. By dynamically collapsing vacuum states, the siphon forces virtual fluctuations to collapse into real energy, extracting work from the iGPE vacuum metric and manifesting it as Gigawatt-scale electrical current without generating thermal waste.
-
+For full closed-cycle thermodynamic accounting—including memory preparation/reset,
+controller work, QFIM/Bures dissipation, and unentangled `do(F = 0)` controls—see
+`Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat`,
+`Signals.Pending.QuantumCausalMpembaSynthesisContract`, and
+`Signals.Pending.InferenceThermodynamicCycleContract`. Do not interpret
+`NegativeEntropyCoolingContract` as proof of net refrigeration, vacuum energy extraction,
+or Gigawatt-scale MHD power generation.
 -/

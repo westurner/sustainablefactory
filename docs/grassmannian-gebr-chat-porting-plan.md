@@ -276,21 +276,26 @@ focused domain modules (`Signals.Proca`, `Signals.QISM`, `Signals.QuantumCooling
 
 ## Validation
 
-- `make signals_build` passed under the Signals-pinned Lean toolchain (3,630
-  Lake jobs).
+- `make signals_build` passed under the Signals-pinned Lean toolchain (3,631
+  Lake jobs, covering `Signals.GrassmannianEBR`, `Signals.LayerGroups`,
+  `Signals.QuantumCooling`, `Signals.Pending`, `SignalsTests`, and
+  `SignalsPendingTests`).
 - `cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml` passed
-  all 110 Rust tests, including the finite-constraint-solver tests.
+  all 122 Rust tests (including `layer_groups`, `slavnov_dpp`,
+  `multi_reference_noci`, `ebr_benchmark`, `arc_dsl`, and
+  `finite_constraint_solvers`).
+- `maturin develop --release` built and installed the native PyO3 extension
+  `signals_numerical_adapter` exposing 19 functions and 2 classes.
+- `pytest -q tests/test_gebr_advancements_sympy_pyo3.py
+  tests/test_tequila_signals_backend.py` passed all 15 tests (SymPy symbolic
+  proofs, PyO3 bindings, and `Tequila` quantum simulator cross-checks).
 - `pytest -q src/transform_md/tests` passed all 72 tests, including extraction,
   interactive pause, failure resume, idempotency, and reapply-after-reset cases.
+- Companion MyST paper:
+  [Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, `Tequila`-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions](grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md).
 - `pytest -q tests/test_markdown_display_math_spacing.py
   tests/test_markdown_table_math_pipes.py` passed all 11 tests. The report-only
   audits found zero table-math pipe issues and zero display-math spacing issues.
-- `make -C docs html` succeeded with 30 warnings after adding the CLI and plan.
-  The log includes an unresolved
-  `search` document reference in `docs/index.md` and HTML section-extraction
-  diagnostics for aggregate pages; neither points to the new paper.
-- The generated paper was opened in the browser; it rendered with the expected
-  title/headings and zero MathJax error nodes.
 - `cargo fmt --check` could not run because `cargo-fmt` is not installed in the
   container. Rust formatting remains unverified.
 

@@ -17,6 +17,7 @@ import Signals.Huygens
 import Signals.IQ
 import Signals.DirectionalBroadbandAntenna
 import Signals.Lasers
+import Signals.LayerGroups
 import Signals.Maxwell
 import Signals.MHD
 import Signals.MultiArrayImaging

@@ -4,21 +4,260 @@
 
 use std::fmt;
 
+pub mod arc_dsl;
 pub mod cannon_mask_cad;
 pub mod finite_constraint_solvers;
 pub mod dft_plabic_vrc;
 pub mod double_slit;
+pub mod ebr_benchmark;
+pub mod layer_groups;
 pub mod madelung_lagrangian;
 pub mod multi_array_imaging;
+pub mod multi_reference_noci;
 pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
 pub mod quantum_trajectories;
+pub mod slavnov_dpp;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
 
 #[cfg(feature = "python")]
+use pyo3::exceptions::PyValueError;
+#[cfg(feature = "python")]
 use pyo3::prelude::*;
+#[cfg(feature = "python")]
+use pyo3::types::{PyDict, PyList};
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_verify_layer_group<'py>(py: Python<'py>, number: u8) -> PyResult<Bound<'py, PyDict>> {
+    let v = layer_groups::verify_layer_group(number)
+        .ok_or_else(|| PyValueError::new_err(format!("layer group number must be 1..=80, got {number}")))?;
+    let d = PyDict::new(py);
+    d.set_item("number", v.number)?;
+    d.set_item("symbol", v.symbol)?;
+    d.set_item("crystal_system", v.crystal_system)?;
+    d.set_item("wallpaper_projection", v.wallpaper_projection)?;
+    d.set_item("expected_order", v.expected_order)?;
+    d.set_item("actual_order", v.actual_order)?;
+    d.set_item("wallpaper_order", v.wallpaper_order)?;
+    d.set_item("has_identity", v.has_identity)?;
+    d.set_item("closed_under_composition", v.closed_under_composition)?;
+    d.set_item("all_have_inverses", v.all_have_inverses)?;
+    d.set_item("order_matches", v.order_matches)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_verify_all_80_layer_groups<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyList>> {
+    let list = PyList::empty(py);
+    for num in 1u8..=80 {
+        list.append(py_verify_layer_group(py, num)?)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_layer_group_orbit(number: u8, u: f64, v: f64, z: f64) -> PyResult<Vec<(f64, f64, f64)>> {
+    layer_groups::layer_group_orbit(number, u, v, z)
+        .ok_or_else(|| PyValueError::new_err(format!("layer group number must be 1..=80, got {number}")))
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_evaluate_gram_dpp<'py>(
+    py: Python<'py>,
+    features: Vec<Vec<f64>>,
+    eps: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let ev = slavnov_dpp::evaluate_gram_dpp(&features, eps)
+        .map_err(|e| PyValueError::new_err(format!("DPP error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("gram", ev.gram)?;
+    d.set_item("log_det", ev.log_det)?;
+    d.set_item("inverse", ev.inverse)?;
+    d.set_item("grad_features", ev.grad_features)?;
+    d.set_item("cholesky_diag_ratio_sq", ev.cholesky_diag_ratio_sq)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_nqueens_oracle_dpp_coverage<'py>(
+    py: Python<'py>,
+    size: usize,
+    select_k: usize,
+    eps: f64,
+    orbifold_quotient: bool,
+) -> PyResult<Bound<'py, PyDict>> {
+    let rep = if orbifold_quotient {
+        slavnov_dpp::nqueens_orbifold_dpp_coverage(size, select_k, eps)
+    } else {
+        slavnov_dpp::nqueens_oracle_dpp_coverage(size, select_k, eps)
+    }
+    .map_err(|e| PyValueError::new_err(format!("DPP error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("problem", rep.problem)?;
+    d.set_item("total_exact_solutions", rep.total_exact_solutions)?;
+    d.set_item("requested_k", rep.requested_k)?;
+    d.set_item("selected_distinct_solutions", rep.selected_distinct_solutions)?;
+    d.set_item("selected_distinct_d4_orbits", rep.selected_distinct_d4_orbits)?;
+    d.set_item("final_log_det", rep.final_log_det)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_solve_noci_generalized<'py>(
+    py: Python<'py>,
+    hamiltonian: Vec<Vec<f64>>,
+    overlap: Vec<Vec<f64>>,
+    overlap_cutoff: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let sol = multi_reference_noci::solve_noci_generalized(&hamiltonian, &overlap, overlap_cutoff)
+        .map_err(|e| PyValueError::new_err(format!("NOCI error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("eigenvalues", sol.eigenvalues)?;
+    d.set_item("eigenvectors", sol.eigenvectors)?;
+    d.set_item("overlap_eigenvalues", sol.overlap_eigenvalues)?;
+    d.set_item("retained_rank", sol.retained_rank)?;
+    d.set_item("overlap_condition_number", sol.overlap_condition_number)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_benchmark_stretched_h2_noci<'py>(
+    py: Python<'py>,
+    hopping_t: f64,
+    onsite_u: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let b = multi_reference_noci::benchmark_stretched_h2_noci(hopping_t, onsite_u)
+        .map_err(|e| PyValueError::new_err(format!("NOCI benchmark error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("hopping_t", b.hopping_t)?;
+    d.set_item("onsite_u", b.onsite_u)?;
+    d.set_item("rhf_energy", b.rhf_energy)?;
+    d.set_item("uhf_energy", b.uhf_energy)?;
+    d.set_item("uhf_s_squared", b.uhf_s_squared)?;
+    d.set_item("noci_2state_energy", b.noci_2state_energy)?;
+    d.set_item("noci_2state_s_squared", b.noci_2state_s_squared)?;
+    d.set_item("noci_3state_energy", b.noci_3state_energy)?;
+    d.set_item("noci_3state_s_squared", b.noci_3state_s_squared)?;
+    d.set_item("fci_ground_energy", b.fci_ground_energy)?;
+    d.set_item("noci_3state_minus_fci_error", b.noci_3state_minus_fci_error)?;
+    d.set_item("tequila_pauli_noci_energy", b.tequila_pauli_noci_energy)?;
+    d.set_item("overlap_s01", b.overlap_s01)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[pyo3(signature = (size, trajectories=12, max_steps=120, step_size=0.15, grad_tol=1e-4, dpp_weight=0.02, seed=42))]
+fn py_run_ebr_nqueens_benchmark<'py>(
+    py: Python<'py>,
+    size: usize,
+    trajectories: usize,
+    max_steps: usize,
+    step_size: f64,
+    grad_tol: f64,
+    dpp_weight: f64,
+    seed: u64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = ebr_benchmark::run_ebr_nqueens_benchmark(
+        size,
+        trajectories,
+        max_steps,
+        step_size,
+        grad_tol,
+        dpp_weight,
+        seed,
+    );
+    let d = PyDict::new(py);
+    d.set_item("problem", r.problem)?;
+    d.set_item("seed", r.seed)?;
+    d.set_item("trajectories", r.trajectories)?;
+    d.set_item("max_steps", r.max_steps)?;
+    d.set_item("dpp_weight", r.dpp_weight)?;
+    d.set_item("valid_trajectories", r.valid_trajectories)?;
+    d.set_item("pass_at_1", r.pass_at_1)?;
+    d.set_item("distinct_valid_solutions", r.distinct_valid_solutions)?;
+    d.set_item("distinct_d4_orbits", r.distinct_d4_orbits)?;
+    d.set_item("exact_oracle_solutions", r.exact_oracle_solutions)?;
+    d.set_item("mean_halting_steps", r.mean_halting_steps)?;
+    d.set_item("wall_time_ms", r.wall_time_ms)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_extract_grid_objects<'py>(
+    py: Python<'py>,
+    grid: Vec<Vec<u8>>,
+) -> PyResult<Bound<'py, PyList>> {
+    let objs = arc_dsl::extract_objects(&grid);
+    let list = PyList::empty(py);
+    for o in objs {
+        let d = PyDict::new(py);
+        d.set_item("color", o.color)?;
+        d.set_item("area", o.area())?;
+        d.set_item("min_row", o.min_row)?;
+        d.set_item("max_row", o.max_row)?;
+        d.set_item("min_col", o.min_col)?;
+        d.set_item("max_col", o.max_col)?;
+        d.set_item("aspect_ratio", o.aspect_ratio)?;
+        d.set_item("bbox_fill_density", o.bbox_fill_density)?;
+        d.set_item("cov_det_2d", o.cov_det_2d)?;
+        d.set_item("principal_angle_rad", o.principal_angle_rad)?;
+        list.append(d)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_apply_d4_grid_op_tequila(grid: Vec<Vec<u8>>, op_name: &str) -> PyResult<Vec<Vec<u16>>> {
+    let op = match op_name {
+        "rotate90" => arc_dsl::GridOp::Rotate90,
+        "rotate180" => arc_dsl::GridOp::Rotate180,
+        "rotate270" => arc_dsl::GridOp::Rotate270,
+        "flip_horizontal" => arc_dsl::GridOp::FlipHorizontal,
+        "flip_vertical" => arc_dsl::GridOp::FlipVertical,
+        "transpose" => arc_dsl::GridOp::Transpose,
+        other => {
+            return Err(PyValueError::new_err(format!(
+                "unsupported D4 op_name: {other}"
+            )))
+        }
+    };
+    let out = arc_dsl::apply_grid_op_via_tequila_circuit(&grid, &op).ok_or_else(|| {
+        PyValueError::new_err("grid must be a non-empty square power-of-two (2^m x 2^m) grid")
+    })?;
+    Ok(out
+        .into_iter()
+        .map(|row| row.into_iter().map(u16::from).collect())
+        .collect())
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_synthesize_grid_program(
+    train_pairs: Vec<(Vec<Vec<u8>>, Vec<Vec<u8>>)>,
+    test_input: Vec<Vec<u8>>,
+    max_depth: usize,
+) -> PyResult<(Vec<String>, Vec<Vec<u16>>)> {
+    let prog = arc_dsl::synthesize_grid_program(&train_pairs, max_depth)
+        .ok_or_else(|| PyValueError::new_err("no compositional program found within max_depth"))?;
+    let op_names: Vec<String> = prog.ops.iter().map(|op| format!("{op:?}")).collect();
+    let test_out = arc_dsl::apply_program(&test_input, &prog)
+        .into_iter()
+        .map(|row| row.into_iter().map(u16::from).collect())
+        .collect();
+    Ok((op_names, test_out))
+}
 
 #[cfg(feature = "python")]
 #[pymodule]
@@ -55,6 +294,17 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         tequila_simulator::py_simulate_quantum_trajectories_mcwf_msb,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(py_verify_layer_group, m)?)?;
+    m.add_function(wrap_pyfunction!(py_verify_all_80_layer_groups, m)?)?;
+    m.add_function(wrap_pyfunction!(py_layer_group_orbit, m)?)?;
+    m.add_function(wrap_pyfunction!(py_evaluate_gram_dpp, m)?)?;
+    m.add_function(wrap_pyfunction!(py_nqueens_oracle_dpp_coverage, m)?)?;
+    m.add_function(wrap_pyfunction!(py_solve_noci_generalized, m)?)?;
+    m.add_function(wrap_pyfunction!(py_benchmark_stretched_h2_noci, m)?)?;
+    m.add_function(wrap_pyfunction!(py_run_ebr_nqueens_benchmark, m)?)?;
+    m.add_function(wrap_pyfunction!(py_extract_grid_objects, m)?)?;
+    m.add_function(wrap_pyfunction!(py_apply_d4_grid_op_tequila, m)?)?;
+    m.add_function(wrap_pyfunction!(py_synthesize_grid_program, m)?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     Ok(())
