@@ -50,6 +50,10 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         tequila_simulator::py_simulate_noisy_density_msb,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_simulate_quantum_trajectories_mcwf_msb,
+        m
+    )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     Ok(())

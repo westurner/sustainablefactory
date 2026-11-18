@@ -8881,4 +8881,25 @@ example (l_i l_j alpha_lo rho_ij j_forward t_sq exp_decay det_w g_fs_ray kappa k
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
+example (p e_id e_x e_y e_z overlap_sq grad_e re_amp im_amp chi3 : ℝ) :
+    Signals.QuantumTrajectories.tequilaTrajectoryVsDensityCompressionRatio 16 64 = 1024 ∧
+      Signals.QuantumTrajectories.tequilaTrajectoryVsDensityCompressionRatio 20 64 = 16384 ∧
+      Signals.QuantumTrajectories.krausBitFlipUnravelingResidual p e_id e_x = 0 ∧
+      Signals.QuantumTrajectories.krausDepolarizingUnravelingResidual p e_id e_x e_y e_z = 0 ∧
+      Signals.QuantumTrajectories.krausAmplitudeDampNoJumpProb p (1 / 3) (2 / 3) +
+          Signals.QuantumTrajectories.krausAmplitudeDampJumpProb p (2 / 3) = 1 ∧
+      Signals.QuantumTrajectories.qfimFromParameterShiftOverlap overlap_sq =
+        4 * Signals.QuantumTrajectories.fubiniStudyMetricFromParameterShiftOverlap overlap_sq ∧
+      Signals.QuantumTrajectories.fubiniStudyMetricFromParameterShiftOverlap 1 = 0 ∧
+      Signals.QuantumTrajectories.fubiniStudyMetricFromParameterShiftOverlap 0 = 1 / 2 ∧
+      Signals.QuantumTrajectories.qfimFromParameterShiftOverlap 0 = 2 ∧
+      Signals.QuantumTrajectories.kahlerRegularizedNaturalGradientStep 0 2 (1 / 100) = 0 ∧
+      |Signals.QuantumTrajectories.kahlerRegularizedNaturalGradientStep grad_e 2 (1 / 100)| ≤
+        |grad_e| / (1 / 100) ∧
+      Signals.QuantumTrajectories.nonlinearKerrGateNormSq re_amp im_amp chi3 =
+        re_amp ^ 2 + im_amp ^ 2 :=
+  Signals.QuantumTrajectories.tequila_quantum_trajectory_mcwf_qng_and_nonlinear_gate_identities
+    p e_id e_x e_y e_z (1 / 3) (2 / 3) overlap_sq grad_e 2 (1 / 100) re_amp im_amp chi3
+    (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsTests

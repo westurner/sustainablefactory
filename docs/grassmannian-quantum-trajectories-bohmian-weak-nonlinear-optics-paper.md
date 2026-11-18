@@ -319,6 +319,23 @@ To subject our quantum trajectory formalization to the same adversarial scrutiny
 | **`QT-6`** | **Dimensional & Quartic Rabi Objection** (Beck et al. 2026 vs. {cite:p}`klaers2025reaffirming` §IV.3): Does the absence of Rabi oscillations for $\Delta < 0$ or the threshold crossover $\|\Delta\| = \hbar J_0$ break the waveguide clock? | `klaersCoupledWaveguideSpeedSq` is dimensionally exact ($[\hbar J_0 / m] = [\text{Speed}^2]$), continuous at $\|\Delta\| = \hbar J_0$, and reduces at $J_0 = 0$ to `mirrorSymmetricEnergySpeedSq`, while `waveguidePropPopQuartic x_tilde - waveguideEvPopQuartic x_tilde = (4/3) * x_tilde^4` proves that $p_a^{\mathrm{prop}}(\tilde{x})$ and $p_a^{\mathrm{ev}}(\tilde{x})$ share the exact same $\mathcal{O}(\tilde{x}^2)$ clock slope and differ only at fourth order $\mathcal{O}(\tilde{x}^4)$. |
 | **`QT-7`** | **Dissipative Loss in Rydberg Polariton Vortices** ({cite:p}`drori2023quantum` SI §I.2–I.3): Why doesn't two-level blockade absorption destroy the two- and three-photon vortices? | `rydbergPolaritonTeEnhancement` & `rydbergPolaritonInteractionLambda`: Operating at the **Transmission Equality (`TE`) detuning** $\delta_{\mathrm{TE}} = \frac{\Omega^2}{2\Delta}$ equalizes 2-level and 3-level transmission while doubling the dispersive factor from $q_0(0) = 1$ to $q_0(\delta_{\mathrm{TE}}) = 2$ and boosting $\lambda \propto q_0^2$ by **$4\times$** (`rydbergPolaritonInteractionLambda 2 = 4 * rydbergPolaritonInteractionLambda 1`). |
 
+### 8.1 Other Advantages, Cross-Domain Engineering Applications, and `Tequila` Rust/PyO3 Quantum Circuit Simulator Upgrades
+
+Beyond resolving the five experimental quantum-trajectory benchmarks in Sections 2–7, our Grassmannian Quantum Trajectory framework (`Signals.QuantumTrajectories` Section 8, [grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md](grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md)) provides six concrete computational and physical advantages across quantum simulation, nanoelectronics, and photonic engineering:
+
+1. **Breaking the $2^{2n}$ Open-System Density-Matrix Memory Wall via Multi-Unraveling `MCWF` Trajectories (`tequilaTrajectoryVsDensityCompressionRatio`, `simulate_quantum_trajectories_mcwf_msb`)**:
+   Full Lindblad/Kraus density-matrix evolution requires $2^{2n}$ complex entries ($4\text{ GiB}$ at $n = 14$ qubits). By evolving an ensemble of $N_{\mathrm{traj}}$ pure trajectory statevectors across `Rayon` threads (`c.simulate_quantum_trajectories` in [simulator_signals.py](../src/tequila/src/tequila/simulators/simulator_signals.py)), memory is compressed by $2^n / N_{\mathrm{traj}}$ ($1{,}024\times$ at $n = 16, N_{\mathrm{traj}} = 64$; $16{,}384\times$ at $n = 20, N_{\mathrm{traj}} = 64$) while supporting `"quantum_jump"`, `"homodyne_meridian"`, `"homodyne_equator"`, and `"heterodyne"` unravelings with exact Kraus completeness (`krausBitFlipUnravelingResidual = 0`, `krausDepolarizingUnravelingResidual = 0`).
+2. **Quantum-Jump Heralded Error Mitigation in Noisy VQE & Entangling Gates (`quantumJumpHeraldedGateFidelity`)**:
+   Conditioning on zero-jump trajectories (`heralded_no_jump_expectations` with survival probability $P_{\mathrm{surv}} = P_0 + (1-p)P_1$, `krausAmplitudeDampNoJumpProb`) separates coherent non-Hermitian drift $K_0|\psi\rangle$ from irreversible relaxation jumps $K_1|\psi\rangle$, restoring unit Bell-state parity $\langle Z_0 Z_1\rangle_{\mathrm{no\text{-}jump}} = 1.0$ without hardware post-processing overhead.
+3. **Parameter-Shift Fubini–Study / QFIM ($F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$) & Kähler-Regularized Quantum Natural Gradient (`compute_parameter_shift_fubini_study_qng`)**:
+   Combining the two-term parameter-shift gradient $\partial_\mu E$ with the shifted-state fidelity $|\langle\psi(\boldsymbol{\theta}) \mid \psi(\boldsymbol{\theta} + \frac{\pi}{2}\mathbf{e}_\mu)\rangle|^2$ yields the exact diagonal Fubini–Study metric $g_{\mu\mu}^{\mathrm{FS}} = \frac{1 - F_{\mathrm{ov}}}{2}$, the Quantum Fisher Information Metric $F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$ (`qfimFromParameterShiftOverlap`), and the nodal-regularized natural-gradient update $\Delta\theta_\mu^{\mathrm{QNG}} = \frac{\partial_\mu E}{g_{\mu\mu}^{\mathrm{FS}} + \epsilon_{\mathrm{nodal}}}$ (`kahlerRegularizedNaturalGradientStep`), preventing step-size blowup on barren plateaus.
+4. **Native Nonlinear Kerr & Blockade-Saturated Rydberg Multi-Photon Gates in Dense and 128-Bit Sparse Modes (`NonlinearKerr`, `RydbergBlockadePhase`)**:
+   Extends `Tequila` beyond linear unitaries to simulate norm-preserving self-Kerr optical phase shifts $\psi_x \leftarrow \exp(-i\chi^{(3)}|\psi_x|^2)\psi_x$ (`nonlinearKerrGateNormSq`) and $\mathrm{Gr}_{\mathbb{C}}(k,n)$ blockade-saturated multi-excitation phases $\phi_{\mathrm{sat}}^{(k)} = (k-1)\phi_2$ in $O(|\mathrm{supp}|)$ up to $n = 126$ qubits.
+5. **High-$\kappa$ Gate-Oxide Tunneling, Semi-Dirac Klein Transistors, & Josephson Crosstalk Diagnostics**:
+   Channel 2 osmotic speed $u_{\mathrm{osm}} = \frac{\hbar\kappa}{m} = \sqrt{\frac{2|\Delta|}{m}}$, entry probability $a(k,\kappa) = \frac{2k\kappa}{k^2+\kappa^2}$, and the quartic Rabi vs. imaginary-Rabi gap $\frac{4}{3}\tilde{x}^4$ directly calibrate leakage traversal times in $\mathrm{HfO_2/SiO_2/Si}$ stacks ([Paper 27](grassmannian-interfacial-electrical-properties-paper.md)), Semi-Dirac Klein rectifiers ([Paper 31](grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper.md)), and superconducting/photonic waveguide couplers.
+6. **Ultrafast Space–Time Metamaterial Modulators & Relativistic Weak-Value Velocimetry**:
+   The ENZ ITO temporal diffraction law $\Delta f = 1/S$ and $2\times$ SHG modulation govern `rGO-Vitrimer` active masks ([Paper 40](grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md)) and `LHAT` holographic tape pulses ([Paper 37](grassmannian-lhat-holographic-archival-tape-classical-quantum-kicad-paper.md)), while Lorentz-covariant weak-value addition $V' = \frac{V - v_{\mathrm{boost}}}{1 - v_{\mathrm{boost}}V}$ calibrates relativistic Sagnac/Fizeau fiber sensors and acoustic horizon analogs ([Paper 16](grassmannian-hawking-radiation-decoding-paper.md)).
+
 ---
 
 ## 9. Self-Contained Machine-Checked Lean 4 Verification Block
@@ -439,6 +456,27 @@ example (l_i l_j alpha_lo rho_ij j_forward t_sq exp_decay det_w g_fs_ray kappa k
     2 kappa k1 x_tilde (1 / 2) (1 / 4) 3 5 gamma_e odb
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+-- 3. Tequila Rust/PyO3 Quantum Trajectory (MCWF), Quantum Natural Gradient (QNG), & Nonlinear Gate verification
+example (p e_id e_x e_y e_z overlap_sq grad_e re_amp im_amp chi3 : ℝ) :
+    tequilaTrajectoryVsDensityCompressionRatio 16 64 = 1024 ∧
+      tequilaTrajectoryVsDensityCompressionRatio 20 64 = 16384 ∧
+      krausBitFlipUnravelingResidual p e_id e_x = 0 ∧
+      krausDepolarizingUnravelingResidual p e_id e_x e_y e_z = 0 ∧
+      krausAmplitudeDampNoJumpProb p (1 / 3) (2 / 3) +
+          krausAmplitudeDampJumpProb p (2 / 3) = 1 ∧
+      qfimFromParameterShiftOverlap overlap_sq =
+        4 * fubiniStudyMetricFromParameterShiftOverlap overlap_sq ∧
+      fubiniStudyMetricFromParameterShiftOverlap 1 = 0 ∧
+      fubiniStudyMetricFromParameterShiftOverlap 0 = 1 / 2 ∧
+      qfimFromParameterShiftOverlap 0 = 2 ∧
+      kahlerRegularizedNaturalGradientStep 0 2 (1 / 100) = 0 ∧
+      |kahlerRegularizedNaturalGradientStep grad_e 2 (1 / 100)| ≤
+        |grad_e| / (1 / 100) ∧
+      nonlinearKerrGateNormSq re_amp im_amp chi3 = re_amp ^ 2 + im_amp ^ 2 :=
+  tequila_quantum_trajectory_mcwf_qng_and_nonlinear_gate_identities
+    p e_id e_x e_y e_z (1 / 3) (2 / 3) overlap_sq grad_e 2 (1 / 100) re_amp im_amp chi3
+    (by norm_num) (by norm_num) (by norm_num)
 
 end QuantumTrajectoriesPaperVerification
 ```

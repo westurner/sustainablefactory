@@ -1008,6 +1008,172 @@ theorem quantum_trajectories_critique_and_gap_closure_identities
       unfold rydbergPolaritonInteractionLambda
       ring⟩
 
+/-!
+## 8. Tequila Rust/PyO3 Quantum Trajectory (`MCWF`), Quantum Natural Gradient (`QNG`), & Nonlinear Gate Identities
+
+To accelerate noisy open-system simulation, variational optimization, and nonlinear optical /
+Rydberg polariton circuits in our native Rust/PyO3 (`signals_numerical_adapter`) backend for
+`Tequila`, we formalize:
+1. The memory compression ratio of an $N_{\mathrm{traj}}$-trajectory Monte Carlo Wave Function
+   (`MCWF`) ensemble versus a dense $2^n \times 2^n$ Lindblad/Kraus density matrix;
+2. Exact Kraus trajectory unraveling completeness and expectation equivalence across
+   `bit flip`, `depolarizing`, and `amplitude damp` channels;
+3. The parameter-shift Fubini–Study metric $g_{\mu\mu}^{\mathrm{FS}} = \frac{1}{2}(1 - |\langle\psi(\theta)|\psi(\theta+\pi/2)\rangle|^2)$,
+   the exact identity $F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$, and the Kähler-regularized
+   Quantum Natural Gradient (`QNG`) step $\Delta\theta_\mu^{\mathrm{QNG}} = \frac{\partial_\mu E}{g_{\mu\mu}^{\mathrm{FS}} + \epsilon_{\mathrm{nodal}}}$;
+4. Exact norm preservation $|\exp(-i\chi^{(3)}|\psi_x|^2)\psi_x|^2 = |\psi_x|^2$ of the native
+   nonlinear Kerr phase gate (`TequilaGateOp::NonlinearKerr`).
+-/
+
+/-- **Tequila MCWF Trajectory-Ensemble vs. Dense Density-Matrix Memory Compression Ratio (`tequilaTrajectoryVsDensityCompressionRatio`)**:
+$$R_{\mathrm{MCWF}}(n, N_{\mathrm{traj}}) = \frac{2^{2n}}{N_{\mathrm{traj}} \cdot 2^n} = \frac{2^n}{N_{\mathrm{traj}}}.$$ -/
+@[blueprint "def:signals-qt-tequila-mcwf-compression-ratio"
+  (title := "Tequila MCWF trajectory ensemble vs. dense Lindblad density-matrix compression ratio")
+  (statement := /-- Define $\operatorname{tequilaTrajectoryVsDensityCompressionRatio}(n, N_{\mathrm{traj}}) = 2^{2n} / (N_{\mathrm{traj}} \cdot 2^n)$. -/)]
+def tequilaTrajectoryVsDensityCompressionRatio (n_qubits n_traj : ℕ) : ℝ :=
+  (lindbladDensityMatrixDim (2 ^ n_qubits) : ℝ) /
+    ((n_traj : ℝ) * (mcwfTrajectoryVectorDim (2 ^ n_qubits) : ℝ))
+
+/-- **Kraus Bit-Flip Trajectory Unraveling Residual (`krausBitFlipUnravelingResidual`)**:
+Difference between the trajectory ensemble average $(1-p)E_I + p E_X$ and the Kraus density-matrix expectation. -/
+@[blueprint "def:signals-qt-kraus-bit-flip-unraveling-residual"
+  (title := "Kraus bit-flip trajectory unraveling expectation residual")
+  (statement := /-- Define $\operatorname{krausBitFlipUnravelingResidual}(p, E_I, E_X) = ((1-p)E_I + p E_X) - (E_I - p(E_I - E_X))$. -/)]
+def krausBitFlipUnravelingResidual (p e_id e_x : ℝ) : ℝ :=
+  ((1 - p) * e_id + p * e_x) - (e_id - p * (e_id - e_x))
+
+/-- **Kraus Depolarizing Trajectory Unraveling Residual (`krausDepolarizingUnravelingResidual`)**:
+Difference between the 4-branch Pauli jump trajectory average $(1-p)E_I + \frac{p}{3}(E_X + E_Y + E_Z)$
+and the depolarizing Kraus channel expectation. -/
+@[blueprint "def:signals-qt-kraus-depolarizing-unraveling-residual"
+  (title := "Kraus depolarizing trajectory unraveling expectation residual")
+  (statement := /-- Define $\operatorname{krausDepolarizingUnravelingResidual}(p, E_I, E_X, E_Y, E_Z)$. -/)]
+def krausDepolarizingUnravelingResidual (p e_id e_x e_y e_z : ℝ) : ℝ :=
+  ((1 - p) * e_id + (p / 3) * e_x + (p / 3) * e_y + (p / 3) * e_z) -
+    (e_id - p * e_id + (p / 3) * (e_x + e_y + e_z))
+
+/-- **Amplitude-Damping No-Jump Survival Probability (`krausAmplitudeDampNoJumpProb`)**:
+$$P_{\mathrm{no\text{-}jump}}(p, P_0, P_1) = \|K_0|\psi\rangle\|^2 = P_0 + (1 - p)P_1.$$ -/
+@[blueprint "def:signals-qt-kraus-amplitude-damp-no-jump-prob"
+  (title := "Amplitude-damping no-jump survival probability P_0 + (1 - p) P_1")
+  (statement := /-- Define $\operatorname{krausAmplitudeDampNoJumpProb}(p, P_0, P_1) = P_0 + (1 - p)P_1$. -/)]
+def krausAmplitudeDampNoJumpProb (p pop0 pop1 : ℝ) : ℝ :=
+  pop0 + (1 - p) * pop1
+
+/-- **Amplitude-Damping Quantum-Jump Probability (`krausAmplitudeDampJumpProb`)**:
+$$P_{\mathrm{jump}}(p, P_1) = \|K_1|\psi\rangle\|^2 = p\,P_1.$$ -/
+@[blueprint "def:signals-qt-kraus-amplitude-damp-jump-prob"
+  (title := "Amplitude-damping quantum-jump probability p P_1")
+  (statement := /-- Define $\operatorname{krausAmplitudeDampJumpProb}(p, P_1) = p P_1$. -/)]
+def krausAmplitudeDampJumpProb (p pop1 : ℝ) : ℝ :=
+  p * pop1
+
+/-- **Parameter-Shift Fubini–Study Diagonal Metric (`fubiniStudyMetricFromParameterShiftOverlap`)**:
+For a generator with eigenvalue magnitude $r = 1/2$, the diagonal Fubini–Study metric tensor
+at parameter $\theta_\mu$ equals half the infidelity with the $\pi/2$-shifted state:
+$$g_{\mu\mu}^{\mathrm{FS}} = \frac{1 - |\langle\psi(\theta) \mid \psi(\theta + \pi/2)\rangle|^2}{2}.$$ -/
+@[blueprint "def:signals-qt-fubini-study-parameter-shift"
+  (title := "Parameter-shift Fubini-Study diagonal metric (1 - F_overlap) / 2")
+  (statement := /-- Define $\operatorname{fubiniStudyMetricFromParameterShiftOverlap}(F_{\mathrm{ov}}) = (1 - F_{\mathrm{ov}}) / 2$. -/)]
+def fubiniStudyMetricFromParameterShiftOverlap (overlap_sq : ℝ) : ℝ :=
+  (1 - overlap_sq) / 2
+
+/-- **Parameter-Shift Quantum Fisher Information Metric (`qfimFromParameterShiftOverlap`)**:
+$$F_{\mu\mu} = 2\bigl(1 - |\langle\psi(\theta) \mid \psi(\theta + \pi/2)\rangle|^2\bigr) = 4\,g_{\mu\mu}^{\mathrm{FS}}.$$ -/
+@[blueprint "def:signals-qt-qfim-parameter-shift"
+  (title := "Parameter-shift Quantum Fisher Information Metric 2(1 - F_overlap) = 4 g^FS")
+  (statement := /-- Define $\operatorname{qfimFromParameterShiftOverlap}(F_{\mathrm{ov}}) = 2(1 - F_{\mathrm{ov}})$. -/)]
+def qfimFromParameterShiftOverlap (overlap_sq : ℝ) : ℝ :=
+  2 * (1 - overlap_sq)
+
+/-- **Kähler-Regularized Quantum Natural Gradient Step (`kahlerRegularizedNaturalGradientStep`)**:
+$$\Delta\theta_\mu^{\mathrm{QNG}}(\partial_\mu E, g_{\mu\mu}^{\mathrm{FS}}, \epsilon_{\mathrm{nodal}}) = \frac{\partial_\mu E}{g_{\mu\mu}^{\mathrm{FS}} + \epsilon_{\mathrm{nodal}}}.$$ -/
+@[blueprint "def:signals-qt-kahler-regularized-qng-step"
+  (title := "Kahler-regularized Quantum Natural Gradient step grad_E / (g_FS + eps_nodal)")
+  (statement := /-- Define $\operatorname{kahlerRegularizedNaturalGradientStep}(\partial_\mu E, g_{\mu\mu}^{\mathrm{FS}}, \epsilon_{\mathrm{nodal}}) = \partial_\mu E / (g_{\mu\mu}^{\mathrm{FS}} + \epsilon_{\mathrm{nodal}})$. -/)]
+def kahlerRegularizedNaturalGradientStep (grad_e g_fs eps_nodal : ℝ) : ℝ :=
+  grad_e / (g_fs + eps_nodal)
+
+/-- **Nonlinear Kerr Phase Gate Norm-Square (`nonlinearKerrGateNormSq`)**:
+Squared modulus of $\psi_x' = \exp(-i\chi^{(3)}|\psi_x|^2)\psi_x$ for $\psi_x = a + i b$. -/
+@[blueprint "def:signals-qt-nonlinear-kerr-gate-norm-sq"
+  (title := "Nonlinear Kerr phase gate squared norm |exp(-i chi3 |psi|^2) psi|^2")
+  (statement := /-- Define $\operatorname{nonlinearKerrGateNormSq}(a, b, \chi^{(3)})$. -/)]
+def nonlinearKerrGateNormSq (re_amp im_amp chi3 : ℝ) : ℝ :=
+  let phi := chi3 * (re_amp ^ 2 + im_amp ^ 2)
+  (re_amp * Real.cos phi + im_amp * Real.sin phi) ^ 2 +
+    (im_amp * Real.cos phi - re_amp * Real.sin phi) ^ 2
+
+/-- **Master Theorem for Tequila Quantum Trajectory (`MCWF`), `QNG`, and Nonlinear Gate Upgrades (`tequila_quantum_trajectory_mcwf_qng_and_nonlinear_gate_identities`)** -/
+@[blueprint "thm:signals-qt-tequila-mcwf-qng-nonlinear-identities"
+  (title := "Master Tequila quantum trajectory MCWF, Quantum Natural Gradient, and nonlinear gate identities")
+  (statement := /-- Proves MCWF memory compression ($1024\times$ at $n=16, N_{\mathrm{traj}}=64$; $16384\times$ at $n=20, N_{\mathrm{traj}}=64$), Kraus bit-flip, depolarizing, and amplitude-damping trajectory unraveling completeness, $F_{\mu\mu} = 4 g_{\mu\mu}^{\mathrm{FS}}$ parameter-shift identity, Kähler-regularized QNG step bound, and exact norm conservation of the nonlinear Kerr phase gate. -/)
+  (proof := /-- By `norm_num`, `ring`, `Real.cos_sq_add_sin_sq`, and `div_le_div_of_nonneg_left`. -/)
+  (uses := ["def:signals-qt-tequila-mcwf-compression-ratio",
+            "def:signals-qt-kraus-bit-flip-unraveling-residual",
+            "def:signals-qt-kraus-depolarizing-unraveling-residual",
+            "def:signals-qt-kraus-amplitude-damp-no-jump-prob",
+            "def:signals-qt-kraus-amplitude-damp-jump-prob",
+            "def:signals-qt-fubini-study-parameter-shift",
+            "def:signals-qt-qfim-parameter-shift",
+            "def:signals-qt-kahler-regularized-qng-step",
+            "def:signals-qt-nonlinear-kerr-gate-norm-sq"])]
+theorem tequila_quantum_trajectory_mcwf_qng_and_nonlinear_gate_identities
+    (p e_id e_x e_y e_z pop0 pop1 overlap_sq grad_e g_fs eps_nodal re_amp im_amp chi3 : ℝ)
+    (hpop : pop0 + pop1 = 1) (hg_fs : 0 ≤ g_fs) (heps : 0 < eps_nodal) :
+    tequilaTrajectoryVsDensityCompressionRatio 16 64 = 1024 ∧
+      tequilaTrajectoryVsDensityCompressionRatio 20 64 = 16384 ∧
+      krausBitFlipUnravelingResidual p e_id e_x = 0 ∧
+      krausDepolarizingUnravelingResidual p e_id e_x e_y e_z = 0 ∧
+      krausAmplitudeDampNoJumpProb p pop0 pop1 + krausAmplitudeDampJumpProb p pop1 = 1 ∧
+      qfimFromParameterShiftOverlap overlap_sq =
+        4 * fubiniStudyMetricFromParameterShiftOverlap overlap_sq ∧
+      fubiniStudyMetricFromParameterShiftOverlap 1 = 0 ∧
+      fubiniStudyMetricFromParameterShiftOverlap 0 = 1 / 2 ∧
+      qfimFromParameterShiftOverlap 0 = 2 ∧
+      kahlerRegularizedNaturalGradientStep 0 g_fs eps_nodal = 0 ∧
+      |kahlerRegularizedNaturalGradientStep grad_e g_fs eps_nodal| ≤ |grad_e| / eps_nodal ∧
+      nonlinearKerrGateNormSq re_amp im_amp chi3 = re_amp ^ 2 + im_amp ^ 2 := by
+  have h_denom_pos : 0 < g_fs + eps_nodal := by linarith
+  have h_eps_le : eps_nodal ≤ g_fs + eps_nodal := by linarith
+  refine ⟨
+    by
+      unfold tequilaTrajectoryVsDensityCompressionRatio lindbladDensityMatrixDim
+        mcwfTrajectoryVectorDim
+      norm_num,
+    by
+      unfold tequilaTrajectoryVsDensityCompressionRatio lindbladDensityMatrixDim
+        mcwfTrajectoryVectorDim
+      norm_num,
+    by unfold krausBitFlipUnravelingResidual; ring,
+    by unfold krausDepolarizingUnravelingResidual; ring,
+    by
+      unfold krausAmplitudeDampNoJumpProb krausAmplitudeDampJumpProb
+      calc
+        pop0 + (1 - p) * pop1 + p * pop1 = pop0 + pop1 := by ring
+        _ = 1 := hpop,
+    by
+      unfold qfimFromParameterShiftOverlap fubiniStudyMetricFromParameterShiftOverlap
+      ring,
+    by unfold fubiniStudyMetricFromParameterShiftOverlap; norm_num,
+    by unfold fubiniStudyMetricFromParameterShiftOverlap; norm_num,
+    by unfold qfimFromParameterShiftOverlap; norm_num,
+    by unfold kahlerRegularizedNaturalGradientStep; simp,
+    by
+      unfold kahlerRegularizedNaturalGradientStep
+      rw [abs_div, abs_of_pos h_denom_pos]
+      exact div_le_div_of_nonneg_left (abs_nonneg grad_e) heps h_eps_le,
+    by
+      unfold nonlinearKerrGateNormSq
+      dsimp only
+      set phi := chi3 * (re_amp ^ 2 + im_amp ^ 2)
+      have h_trig : Real.cos phi ^ 2 + Real.sin phi ^ 2 = 1 := Real.cos_sq_add_sin_sq phi
+      calc
+        (re_amp * Real.cos phi + im_amp * Real.sin phi) ^ 2 +
+            (im_amp * Real.cos phi - re_amp * Real.sin phi) ^ 2 =
+          (re_amp ^ 2 + im_amp ^ 2) * (Real.cos phi ^ 2 + Real.sin phi ^ 2) := by ring
+        _ = re_amp ^ 2 + im_amp ^ 2 := by rw [h_trig, mul_one]⟩
+
 end
 
 end Signals.QuantumTrajectories

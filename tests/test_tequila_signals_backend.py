@@ -471,3 +471,69 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
         assert "DEBUG [tequila.simulators.simulator_signals]" in proc.stdout
         assert "Table 5: Grassmannian Plücker Fermionic Determinant" in proc.stdout
 
+
+def test_tequila_quantum_trajectories_mcwf_qng_and_nonlinear_gates():
+    ensure_tequila_signals_backend_registered()
+    # 1. Test Quantum Trajectory MCWF & Diffusive Unravelings + Heralded Zero-Jump Recovery
+    U_bell = tq.gates.H(target=0) + tq.gates.CNOT(control=0, target=1)
+    H_zz = tq.paulis.Z(0) * tq.paulis.Z(1)
+    c_bell = tq.compile(U_bell, backend="signals")
+    noise = [("amplitude damp", 0, 0.10)]
+    for mode in (
+        "quantum_jump",
+        "homodyne_meridian",
+        "homodyne_equator",
+        "heterodyne",
+    ):
+        traj = c_bell.simulate_quantum_trajectories(
+            hamiltonians=[H_zz],
+            noise_model=noise,
+            n_trajectories=512,
+            unraveling_mode=mode,
+            seed=42,
+        )
+        assert np.isclose(traj["mean_trajectory_purity"], 1.0, atol=1e-12)
+        assert np.isclose(traj["ensemble_expectations"][0], 0.90, atol=0.05)
+        if mode == "quantum_jump":
+            assert np.isclose(traj["heralded_no_jump_expectations"][0], 1.0, atol=1e-12)
+            assert 0.85 < traj["no_jump_survival_prob"] < 1.0
+
+    # 2. Test Nonlinear Kerr & Rydberg Blockade-Saturated 3-Photon Phase Gates
+    U_3 = tq.gates.X(target=[0, 1, 2])
+    c_sat = tq.compile(U_3, backend="signals")
+    c_sat.add_rydberg_blockade_gate([0, 1, 2], phi2=-np.pi, saturated=True)
+    wfn_sat = c_sat(variables={})
+    assert np.isclose(np.real(wfn_sat[7]), 1.0, atol=1e-12)
+
+    c_pair = tq.compile(U_3, backend="signals")
+    c_pair.add_rydberg_blockade_gate([0, 1, 2], phi2=-np.pi, saturated=False)
+    wfn_pair = c_pair(variables={})
+    assert np.isclose(np.real(wfn_pair[7]), -1.0, atol=1e-12)
+
+    c_kerr = tq.compile(tq.gates.H(target=0), backend="signals")
+    c_kerr.add_nonlinear_kerr_gate(target=0, chi3=1.2)
+    wfn_kerr = c_kerr(variables={})
+    assert np.isclose(np.sum(np.abs(wfn_kerr.to_array()) ** 2), 1.0, atol=1e-12)
+
+    # 3. Test Parameter-Shift Fubini-Study / QFIM (F = 4 g_FS) & Quantum Natural Gradient (QNG)
+    U_vqe = tq.gates.Ry(angle="a", target=0) + tq.gates.CNOT(control=0, target=1)
+    H_vqe = -1.0 * tq.paulis.Z(0) - 0.5 * tq.paulis.X(0) * tq.paulis.X(1)
+    E_vqe = tq.ExpectationValue(H=H_vqe, U=U_vqe)
+    c_E = tq.compile(E_vqe, backend="signals")
+    backend_exp = c_E.get_expectationvalues()[0]
+    a_val = 0.6
+    qng = backend_exp.compute_natural_gradient(variables={"a": a_val}, eps_nodal=1e-3)
+    assert np.isclose(qng["energy"], -np.cos(a_val) - 0.5 * np.sin(a_val), atol=1e-12)
+    assert np.isclose(
+        qng["euclidean_gradient"][0], np.sin(a_val) - 0.5 * np.cos(a_val), atol=1e-12
+    )
+    assert np.isclose(qng["fubini_study_diag"][0], 0.25, atol=1e-12)
+    assert np.isclose(qng["qfim_diag"][0], 1.0, atol=1e-12)
+    assert np.isclose(
+        qng["qfim_diag"][0], 4.0 * qng["fubini_study_diag"][0], atol=1e-12
+    )
+    assert np.isclose(
+        qng["natural_gradient_step"][0],
+        qng["euclidean_gradient"][0] / (0.25 + 1e-3),
+        atol=1e-12,
+    )

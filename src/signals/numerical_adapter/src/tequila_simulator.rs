@@ -58,6 +58,44 @@ pub enum TequilaGateOp {
         qubit: usize,
         bit_value: u8,
     },
+    /// Intensity-dependent self-Kerr / Gross–Pitaevskii nonlinear optical phase gate
+    /// $\psi_x \leftarrow \exp(-i \chi^{(3)} |\psi_x|^2)\psi_x$ on `target` qubit (`usize::MAX` for all basis states).
+    NonlinearKerr {
+        target: usize,
+        chi3: f64,
+    },
+    /// Multi-polariton / multi-qubit Rydberg blockade phase gate (Drori et al. *Science* 2023/2024):
+    /// for $k = \sum_{q \in \mathrm{targets}} b_q(x) \ge 2$ excitations, applies blockade-saturated phase
+    /// $\phi_{\mathrm{sat}}^{(k)} = (k - 1)\phi_2$ when `saturated = true` ($\mathrm{Gr}_{\mathbb{C}}(k, n)$ vortex regime)
+    /// or pairwise Kerr phase $\phi_{\mathrm{pair}}^{(k)} = \frac{k(k-1)}{2}\phi_2$ when `saturated = false`.
+    RydbergBlockadePhase {
+        targets: Vec<usize>,
+        phi2: f64,
+        saturated: bool,
+    },
+}
+
+/// Summary of an $N_{\mathrm{traj}}$-trajectory Monte Carlo Wave Function (`MCWF`) /
+/// Diffusive Homodyne / Heterodyne quantum trajectory simulation.
+#[derive(Clone, Debug, PartialEq)]
+pub struct TequilaTrajectoryResult {
+    pub ensemble_expectations: Vec<f64>,
+    pub heralded_no_jump_expectations: Vec<f64>,
+    pub no_jump_survival_prob: f64,
+    pub mean_trajectory_purity: f64,
+    pub memory_compression_ratio: f64,
+    pub total_jumps: usize,
+}
+
+/// Summary of a Parameter-Shift Fubini–Study / QFIM ($F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$)
+/// and Kähler-Regularized Quantum Natural Gradient (`QNG`) evaluation.
+#[derive(Clone, Debug, PartialEq)]
+pub struct TequilaNaturalGradientResult {
+    pub energy: f64,
+    pub euclidean_gradient: Vec<f64>,
+    pub fubini_study_diag: Vec<f64>,
+    pub qfim_diag: Vec<f64>,
+    pub natural_gradient_step: Vec<f64>,
 }
 
 /// One weighted Pauli string term `coeff * P` in a Tequila `QubitHamiltonian`.
@@ -1020,6 +1058,39 @@ pub fn simulate_circuit_msb(
                     }
                 }
             }
+            TequilaGateOp::NonlinearKerr { target, chi3 } => {
+                for (idx, amp) in state.iter_mut().enumerate() {
+                    if *target == usize::MAX
+                        || (*target < n_qubits && bit_at_msb(idx, *target, n_qubits) == 1)
+                    {
+                        let p = amp.norm_sq();
+                        if p > 1e-30 {
+                            let phi = *chi3 * p;
+                            let phase = C64::new(phi.cos(), -phi.sin());
+                            *amp = phase * (*amp);
+                        }
+                    }
+                }
+            }
+            TequilaGateOp::RydbergBlockadePhase {
+                targets,
+                phi2,
+                saturated,
+            } => {
+                let target_mask = controls_mask_msb(targets, n_qubits);
+                for (idx, amp) in state.iter_mut().enumerate() {
+                    let k = (idx & target_mask).count_ones() as usize;
+                    if k >= 2 {
+                        let phase_angle = if *saturated {
+                            ((k - 1) as f64) * (*phi2)
+                        } else {
+                            ((k * (k - 1) / 2) as f64) * (*phi2)
+                        };
+                        let phase = C64::new(phase_angle.cos(), phase_angle.sin());
+                        *amp = phase * (*amp);
+                    }
+                }
+            }
         }
     }
 
@@ -1892,6 +1963,387 @@ pub fn simulate_noisy_density_msb(
     rho
 }
 
+#[inline]
+fn splitmix64_next_u01(state: &mut u64) -> f64 {
+    *state = state.wrapping_add(0x9E3779B97F4A7C15);
+    let mut z = *state;
+    z = (z ^ (z >> 30)).wrapping_mul(0xBF58476D1CE4E5B9);
+    z = (z ^ (z >> 27)).wrapping_mul(0x94D049BB133111EB);
+    z ^= z >> 31;
+    ((z >> 11) as f64) * (1.0 / ((1u64 << 53) as f64))
+}
+
+#[inline]
+fn normalize_statevector_in_place(psi: &mut [C64]) -> f64 {
+    let mut norm_sq = 0.0;
+    for amp in psi.iter() {
+        norm_sq += amp.norm_sq();
+    }
+    if norm_sq > 1e-30 {
+        let inv = 1.0 / norm_sq.sqrt();
+        for amp in psi.iter_mut() {
+            *amp = C64::new(amp.re * inv, amp.im * inv);
+        }
+    }
+    norm_sq
+}
+
+/// Applies a single-qubit open-system noise step to a pure trajectory statevector `psi`
+/// according to `unraveling_mode` (`"quantum_jump"`, `"homodyne_meridian"`, `"homodyne_equator"`, or `"heterodyne"`).
+/// Every unraveling mode satisfies exact Kraus completeness $\sum_r M_r^\dagger M_r = I$ and
+/// ensemble master-equation gauge equivalence $\sum_r M_r \rho M_r^\dagger = \mathcal{E}(\rho)$ (`QT-1`).
+/// Returns `true` if a discrete quantum jump occurred during this step.
+pub fn apply_single_trajectory_noise_step_msb(
+    psi: &mut [C64],
+    n_qubits: usize,
+    kind: &str,
+    qubit: usize,
+    prob: f64,
+    unraveling_mode: &str,
+    rng_state: &mut u64,
+) -> bool {
+    let p = prob.clamp(0.0, 1.0);
+    if p <= 0.0 || qubit >= n_qubits {
+        return false;
+    }
+    let dim = 1usize << n_qubits;
+    let bit_mask = 1usize << (n_qubits - 1 - qubit);
+    let lower = kind.to_lowercase();
+    let mode_lower = unraveling_mode.to_lowercase();
+    let u = splitmix64_next_u01(rng_state);
+
+    if lower.contains("bit flip") {
+        if u < p {
+            for i in 0..dim {
+                if (i & bit_mask) == 0 {
+                    psi.swap(i, i | bit_mask);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    if lower.contains("phase flip") || lower.contains("phase damp") {
+        if mode_lower.contains("equator") {
+            // Diffusive phase-kick unraveling: M_± = (sqrt(1-p) I ∓ i sqrt(p) Z_q) / sqrt(2)
+            let c = (1.0 - p).sqrt();
+            let s = if u < 0.5 { -p.sqrt() } else { p.sqrt() };
+            let phase0 = C64::new(c, s);
+            let phase1 = C64::new(c, -s);
+            for (i, amp) in psi.iter_mut().enumerate() {
+                *amp = if (i & bit_mask) == 0 {
+                    phase0 * (*amp)
+                } else {
+                    phase1 * (*amp)
+                };
+            }
+            return false;
+        } else if mode_lower.contains("meridian") {
+            // Weak Z-quadrature meridian measurement: M_± = (sqrt(1-p) I ± sqrt(p) Z_q) / sqrt(2)
+            let c = (1.0 - p).sqrt();
+            let s = p.sqrt();
+            let w0_plus = (c + s) * std::f64::consts::FRAC_1_SQRT_2;
+            let w1_plus = (c - s) * std::f64::consts::FRAC_1_SQRT_2;
+            let mut p_plus = 0.0;
+            for (i, amp) in psi.iter().enumerate() {
+                let w = if (i & bit_mask) == 0 { w0_plus } else { w1_plus };
+                p_plus += (w * w) * amp.norm_sq();
+            }
+            let choose_plus = u < p_plus.clamp(0.0, 1.0);
+            let (w0, w1) = if choose_plus {
+                (w0_plus, w1_plus)
+            } else {
+                (
+                    (c - s) * std::f64::consts::FRAC_1_SQRT_2,
+                    (c + s) * std::f64::consts::FRAC_1_SQRT_2,
+                )
+            };
+            for (i, amp) in psi.iter_mut().enumerate() {
+                let w = if (i & bit_mask) == 0 { w0 } else { w1 };
+                *amp = C64::new(amp.re * w, amp.im * w);
+            }
+            normalize_statevector_in_place(psi);
+            return false;
+        } else {
+            // Standard quantum-jump phase flip
+            if u < p {
+                for (i, amp) in psi.iter_mut().enumerate() {
+                    if (i & bit_mask) != 0 {
+                        *amp = -*amp;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+    }
+
+    if lower.contains("depolarizing") {
+        if u < p {
+            let p3 = p / 3.0;
+            if u < p3 {
+                // X jump
+                for i in 0..dim {
+                    if (i & bit_mask) == 0 {
+                        psi.swap(i, i | bit_mask);
+                    }
+                }
+            } else if u < 2.0 * p3 {
+                // Y jump
+                let neg_i = C64::new(0.0, -1.0);
+                let pos_i = C64::new(0.0, 1.0);
+                for i in 0..dim {
+                    if (i & bit_mask) == 0 {
+                        let i1 = i | bit_mask;
+                        let a0 = psi[i];
+                        let a1 = psi[i1];
+                        psi[i] = neg_i * a1;
+                        psi[i1] = pos_i * a0;
+                    }
+                }
+            } else {
+                // Z jump
+                for (i, amp) in psi.iter_mut().enumerate() {
+                    if (i & bit_mask) != 0 {
+                        *amp = -*amp;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    if lower.contains("amplitude damp") {
+        let s1mp = (1.0 - p).sqrt();
+        let sp = p.sqrt();
+        if mode_lower.contains("meridian")
+            || mode_lower.contains("equator")
+            || mode_lower.contains("heterodyne")
+        {
+            // Diffusive homodyne/heterodyne Kraus unraveling:
+            // M_r = (K_0 + e^{-i phi_r} K_1) / sqrt(N_branches)
+            let (n_branches, phases): ( usize, &[C64] ) = if mode_lower.contains("heterodyne") {
+                (
+                    4,
+                    &[
+                        C64::new(1.0, 0.0),
+                        C64::new(0.0, 1.0),
+                        C64::new(-1.0, 0.0),
+                        C64::new(0.0, -1.0),
+                    ],
+                )
+            } else if mode_lower.contains("equator") {
+                (2, &[C64::new(0.0, 1.0), C64::new(0.0, -1.0)])
+            } else {
+                (2, &[C64::new(1.0, 0.0), C64::new(-1.0, 0.0)])
+            };
+            let inv_n = 1.0 / (n_branches as f64);
+            let mut cum = 0.0;
+            let mut chosen_phase = phases[n_branches - 1];
+            for &ph in phases {
+                // Compute branch probability ||M_ph |psi>||^2
+                let mut branch_norm = 0.0;
+                for i in 0..dim {
+                    if (i & bit_mask) == 0 {
+                        let i1 = i | bit_mask;
+                        let a0_new = psi[i] + ph * C64::new(sp, 0.0) * psi[i1];
+                        let a1_new = C64::new(s1mp, 0.0) * psi[i1];
+                        branch_norm += (a0_new.norm_sq() + a1_new.norm_sq()) * inv_n;
+                    }
+                }
+                cum += branch_norm;
+                if u <= cum {
+                    chosen_phase = ph;
+                    break;
+                }
+            }
+            for i in 0..dim {
+                if (i & bit_mask) == 0 {
+                    let i1 = i | bit_mask;
+                    let a0 = psi[i];
+                    let a1 = psi[i1];
+                    psi[i] = a0 + chosen_phase * C64::new(sp, 0.0) * a1;
+                    psi[i1] = C64::new(s1mp, 0.0) * a1;
+                }
+            }
+            normalize_statevector_in_place(psi);
+            return false;
+        } else {
+            // Photodetection quantum-jump unraveling (Dalibard-Castin-Molmer 1992; Santos 2012)
+            let mut pop1 = 0.0;
+            for (i, amp) in psi.iter().enumerate() {
+                if (i & bit_mask) != 0 {
+                    pop1 += amp.norm_sq();
+                }
+            }
+            let p_jump = (p * pop1).clamp(0.0, 1.0);
+            if u < p_jump && pop1 > 1e-30 {
+                // Quantum jump K_1 |psi> = sqrt(p) |0><1| |psi>
+                for i in 0..dim {
+                    if (i & bit_mask) == 0 {
+                        let i1 = i | bit_mask;
+                        psi[i] = psi[i1];
+                        psi[i1] = C64::ZERO;
+                    }
+                }
+                normalize_statevector_in_place(psi);
+                return true;
+            } else {
+                // Non-Hermitian no-jump drift K_0 |psi> = (|0><0| + sqrt(1-p)|1><1|)|psi>
+                for (i, amp) in psi.iter_mut().enumerate() {
+                    if (i & bit_mask) != 0 {
+                        *amp = C64::new(amp.re * s1mp, amp.im * s1mp);
+                    }
+                }
+                normalize_statevector_in_place(psi);
+                return false;
+            }
+        }
+    }
+
+    false
+}
+
+/// Simulates an ensemble of `n_trajectories` pure quantum trajectories (`MCWF`, diffusive
+/// homodyne meridian/equator, or bi-orthogonal heterodyne) under `gates` and `noise_channels`,
+/// evaluating both the unconditional ensemble expectation and the heralded zero-jump expectation
+/// (`quantumJumpHeraldedGateFidelity`, Santos et al. 2012) across `hamiltonians`.
+pub fn simulate_quantum_trajectories_mcwf_msb(
+    n_qubits: usize,
+    gates: &[TequilaGateOp],
+    noise_channels: &[(String, usize, f64)],
+    hamiltonians: &[Vec<PauliTerm>],
+    n_trajectories: usize,
+    unraveling_mode: &str,
+    seed: u64,
+) -> TequilaTrajectoryResult {
+    let n_traj = n_trajectories.max(1);
+    let base_psi = simulate_circuit_msb(n_qubits, &[], gates);
+    let compiled_hams: Vec<FastCompiledHamiltonian> = hamiltonians
+        .iter()
+        .map(|terms| {
+            let raw: Vec<(f64, f64, Vec<(usize, String)>)> = terms
+                .iter()
+                .map(|t| {
+                    (
+                        t.coeff_re,
+                        t.coeff_im,
+                        t.ops.iter().map(|&(q, c)| (q, c.to_string())).collect(),
+                    )
+                })
+                .collect();
+            FastCompiledHamiltonian::from_raw_terms(n_qubits, &raw)
+        })
+        .collect();
+
+    // Precompute the deterministic no-jump trajectory for exact heralded fallback
+    let mut no_jump_psi = base_psi.clone();
+    for (kind, qubit, prob) in noise_channels {
+        let p = prob.clamp(0.0, 1.0);
+        if p <= 0.0 || *qubit >= n_qubits {
+            continue;
+        }
+        if kind.to_lowercase().contains("amplitude damp") {
+            let s1mp = (1.0 - p).sqrt();
+            let bit_mask = 1usize << (n_qubits - 1 - *qubit);
+            for (i, amp) in no_jump_psi.iter_mut().enumerate() {
+                if (i & bit_mask) != 0 {
+                    *amp = C64::new(amp.re * s1mp, amp.im * s1mp);
+                }
+            }
+            normalize_statevector_in_place(&mut no_jump_psi);
+        }
+    }
+    let deterministic_no_jump_exps: Vec<f64> = compiled_hams
+        .iter()
+        .map(|h| h.expectation_dense(&no_jump_psi))
+        .collect();
+
+    let run_one_traj = |traj_idx: usize| -> (Vec<f64>, bool, usize, f64) {
+        let mut psi = base_psi.clone();
+        let mut rng = seed
+            .wrapping_add((traj_idx as u64).wrapping_mul(0x9E3779B97F4A7C15))
+            ^ 0xD1B54A32D192ED03;
+        let mut jumps = 0usize;
+        for (kind, qubit, prob) in noise_channels {
+            if apply_single_trajectory_noise_step_msb(
+                &mut psi,
+                n_qubits,
+                kind,
+                *qubit,
+                *prob,
+                unraveling_mode,
+                &mut rng,
+            ) {
+                jumps += 1;
+            }
+        }
+        let norm_sq: f64 = psi.iter().map(|c| c.norm_sq()).sum();
+        let purity = norm_sq * norm_sq;
+        let exps: Vec<f64> = compiled_hams
+            .iter()
+            .map(|h| h.expectation_dense(&psi))
+            .collect();
+        (exps, jumps == 0, jumps, purity)
+    };
+
+    #[cfg(feature = "python")]
+    let traj_results: Vec<(Vec<f64>, bool, usize, f64)> = {
+        use rayon::prelude::*;
+        if n_traj >= 8 {
+            (0..n_traj).into_par_iter().map(run_one_traj).collect()
+        } else {
+            (0..n_traj).map(run_one_traj).collect()
+        }
+    };
+    #[cfg(not(feature = "python"))]
+    let traj_results: Vec<(Vec<f64>, bool, usize, f64)> =
+        (0..n_traj).map(run_one_traj).collect();
+
+    let n_hams = compiled_hams.len();
+    let mut ensemble_sum = vec![0.0; n_hams];
+    let mut no_jump_sum = vec![0.0; n_hams];
+    let mut no_jump_count = 0usize;
+    let mut total_jumps = 0usize;
+    let mut purity_sum = 0.0;
+
+    for (exps, is_no_jump, jumps, purity) in traj_results {
+        for (k, val) in exps.iter().enumerate() {
+            ensemble_sum[k] += *val;
+            if is_no_jump {
+                no_jump_sum[k] += *val;
+            }
+        }
+        if is_no_jump {
+            no_jump_count += 1;
+        }
+        total_jumps += jumps;
+        purity_sum += purity;
+    }
+
+    let inv_traj = 1.0 / (n_traj as f64);
+    let ensemble_expectations = ensemble_sum.into_iter().map(|s| s * inv_traj).collect();
+    let heralded_no_jump_expectations = if no_jump_count > 0 {
+        let inv_nj = 1.0 / (no_jump_count as f64);
+        no_jump_sum.into_iter().map(|s| s * inv_nj).collect()
+    } else {
+        deterministic_no_jump_exps
+    };
+    let dim_f = (1usize << n_qubits) as f64;
+    let memory_compression_ratio = (dim_f * dim_f) / ((n_traj as f64) * dim_f);
+
+    TequilaTrajectoryResult {
+        ensemble_expectations,
+        heralded_no_jump_expectations,
+        no_jump_survival_prob: (no_jump_count as f64) * inv_traj,
+        mean_trajectory_purity: purity_sum * inv_traj,
+        memory_compression_ratio,
+        total_jumps,
+    }
+}
+
 #[cfg(feature = "python")]
 fn parse_py_gates(gates_list: &Bound<'_, PyList>) -> PyResult<Vec<TequilaGateOp>> {
     let mut ops = Vec::with_capacity(gates_list.len());
@@ -1970,6 +2422,29 @@ fn parse_py_gates(gates_list: &Bound<'_, PyList>) -> PyResult<Vec<TequilaGateOp>
                 let qubit: usize = d.get_item("qubit")?.unwrap().extract()?;
                 let bit_value: u8 = d.get_item("bit_value")?.unwrap().extract()?;
                 ops.push(TequilaGateOp::CausalDo { qubit, bit_value });
+            }
+            "nonlinear_kerr" => {
+                let target: usize = d
+                    .get_item("target")?
+                    .map(|v| v.extract())
+                    .transpose()?
+                    .unwrap_or(usize::MAX);
+                let chi3: f64 = d.get_item("chi3")?.unwrap().extract()?;
+                ops.push(TequilaGateOp::NonlinearKerr { target, chi3 });
+            }
+            "rydberg_blockade" => {
+                let targets: Vec<usize> = d.get_item("targets")?.unwrap().extract()?;
+                let phi2: f64 = d.get_item("phi2")?.unwrap().extract()?;
+                let saturated: bool = d
+                    .get_item("saturated")?
+                    .map(|v| v.extract())
+                    .transpose()?
+                    .unwrap_or(true);
+                ops.push(TequilaGateOp::RydbergBlockadePhase {
+                    targets,
+                    phi2,
+                    saturated,
+                });
             }
             _ => {}
         }
@@ -2131,6 +2606,58 @@ pub fn py_simulate_noisy_density_msb(
     Ok(rho.into_iter().map(|c| (c.re, c.im)).collect())
 }
 
+#[cfg(feature = "python")]
+#[pyfunction]
+#[pyo3(signature = (n_qubits, gates_list, noise_channels, raw_hamiltonians, n_trajectories=256, unraveling_mode="quantum_jump", seed=1337))]
+pub fn py_simulate_quantum_trajectories_mcwf_msb<'py>(
+    py: Python<'py>,
+    n_qubits: usize,
+    gates_list: &Bound<'_, PyList>,
+    noise_channels: Vec<(String, usize, f64)>,
+    raw_hamiltonians: Vec<Vec<(f64, f64, Vec<(usize, String)>)>>,
+    n_trajectories: usize,
+    unraveling_mode: &str,
+    seed: u64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let ops = parse_py_gates(gates_list)?;
+    let hams: Vec<Vec<PauliTerm>> = raw_hamiltonians
+        .into_iter()
+        .map(|terms| {
+            terms
+                .into_iter()
+                .map(|(cr, ci, paulis)| PauliTerm {
+                    coeff_re: cr,
+                    coeff_im: ci,
+                    ops: paulis
+                        .into_iter()
+                        .map(|(q, s)| (q, s.chars().next().unwrap_or('I')))
+                        .collect(),
+                })
+                .collect()
+        })
+        .collect();
+    let res = simulate_quantum_trajectories_mcwf_msb(
+        n_qubits,
+        &ops,
+        &noise_channels,
+        &hams,
+        n_trajectories,
+        unraveling_mode,
+        seed,
+    );
+    let dict = PyDict::new(py);
+    dict.set_item("ensemble_expectations", res.ensemble_expectations)?;
+    dict.set_item(
+        "heralded_no_jump_expectations",
+        res.heralded_no_jump_expectations,
+    )?;
+    dict.set_item("no_jump_survival_prob", res.no_jump_survival_prob)?;
+    dict.set_item("mean_trajectory_purity", res.mean_trajectory_purity)?;
+    dict.set_item("memory_compression_ratio", res.memory_compression_ratio)?;
+    dict.set_item("total_jumps", res.total_jumps)?;
+    Ok(dict)
+}
+
 /// Precompiled low-overhead `Copy` instruction for `RustFastCircuit`.
 #[derive(Clone, Copy, Debug)]
 pub enum FastGateInst {
@@ -2210,6 +2737,18 @@ pub enum FastGateInst {
     CausalDo {
         qubit: usize,
         bit_value: u8,
+    },
+    NonlinearKerr {
+        target: usize,
+        fixed_chi3: f64,
+        param_idx: Option<usize>,
+    },
+    RydbergBlockadePhase {
+        target_mask: usize,
+        target_mask_128: u128,
+        fixed_phi2: f64,
+        param_idx: Option<usize>,
+        saturated: bool,
     },
 }
 
@@ -2422,7 +2961,121 @@ pub fn execute_fast_instructions_msb(
                     }
                 }
             }
+            FastGateInst::NonlinearKerr {
+                target,
+                fixed_chi3,
+                param_idx,
+            } => {
+                let chi3 = param_idx.map_or(*fixed_chi3, |i| angles[i]);
+                if chi3.abs() < 1e-15 {
+                    continue;
+                }
+                for (idx, amp) in state.iter_mut().enumerate() {
+                    if *target == usize::MAX
+                        || (*target < n_qubits && bit_at_msb(idx, *target, n_qubits) == 1)
+                    {
+                        let p = amp.norm_sq();
+                        if p > 1e-30 {
+                            let phi = chi3 * p;
+                            let phase = C64::new(phi.cos(), -phi.sin());
+                            *amp = phase * (*amp);
+                        }
+                    }
+                }
+            }
+            FastGateInst::RydbergBlockadePhase {
+                target_mask,
+                fixed_phi2,
+                param_idx,
+                saturated,
+                ..
+            } => {
+                let phi2 = param_idx.map_or(*fixed_phi2, |i| angles[i]);
+                if phi2.abs() < 1e-15 {
+                    continue;
+                }
+                for (idx, amp) in state.iter_mut().enumerate() {
+                    let k = (idx & *target_mask).count_ones() as usize;
+                    if k >= 2 {
+                        let phase_angle = if *saturated {
+                            ((k - 1) as f64) * phi2
+                        } else {
+                            ((k * (k - 1) / 2) as f64) * phi2
+                        };
+                        let phase = C64::new(phase_angle.cos(), phase_angle.sin());
+                        *amp = phase * (*amp);
+                    }
+                }
+            }
         }
+    }
+}
+
+/// Evaluates the parameter-shift Euclidean gradient $\partial_\mu E(\boldsymbol{\theta})$,
+/// diagonal Fubini–Study metric $g_{\mu\mu}^{\mathrm{FS}} = \frac{1}{2}(1 - |\langle\psi(\boldsymbol{\theta})|\psi(\boldsymbol{\theta}+\frac{\pi}{2}\mathbf{e}_\mu)\rangle|^2)$,
+/// Quantum Fisher Information Metric $F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$, and
+/// Kähler-regularized Quantum Natural Gradient step $\Delta\theta_\mu^{\mathrm{QNG}} = \frac{\partial_\mu E}{g_{\mu\mu}^{\mathrm{FS}} + \epsilon_{\mathrm{nodal}}}$.
+pub fn compute_parameter_shift_fubini_study_qng(
+    n_qubits: usize,
+    instructions: &[FastGateInst],
+    angles: &[f64],
+    ham: &FastCompiledHamiltonian,
+    eps_nodal: f64,
+) -> TequilaNaturalGradientResult {
+    let dim = 1usize << n_qubits;
+    let mut base_state = vec![C64::ZERO; dim];
+    base_state[0] = C64::ONE;
+    execute_fast_instructions_msb(n_qubits, &mut base_state, instructions, angles);
+    let energy = ham.expectation_dense(&base_state);
+
+    let n_params = angles.len();
+    let mut euclidean_gradient = Vec::with_capacity(n_params);
+    let mut fubini_study_diag = Vec::with_capacity(n_params);
+    let mut qfim_diag = Vec::with_capacity(n_params);
+    let mut natural_gradient_step = Vec::with_capacity(n_params);
+
+    let shift = std::f64::consts::FRAC_PI_2;
+    let eps = eps_nodal.max(1e-12);
+    let mut shifted_angles = angles.to_vec();
+    let mut state_plus = vec![C64::ZERO; dim];
+    let mut state_minus = vec![C64::ZERO; dim];
+
+    for mu in 0..n_params {
+        shifted_angles[mu] = angles[mu] + shift;
+        state_plus.fill(C64::ZERO);
+        state_plus[0] = C64::ONE;
+        execute_fast_instructions_msb(n_qubits, &mut state_plus, instructions, &shifted_angles);
+        let e_plus = ham.expectation_dense(&state_plus);
+
+        shifted_angles[mu] = angles[mu] - shift;
+        state_minus.fill(C64::ZERO);
+        state_minus[0] = C64::ONE;
+        execute_fast_instructions_msb(n_qubits, &mut state_minus, instructions, &shifted_angles);
+        let e_minus = ham.expectation_dense(&state_minus);
+        shifted_angles[mu] = angles[mu];
+
+        let grad_mu = 0.5 * (e_plus - e_minus);
+        let mut inner = C64::ZERO;
+        for (a, b) in base_state.iter().zip(state_plus.iter()) {
+            inner = inner + a.conj() * (*b);
+        }
+        let overlap_sq = inner.norm_sq().clamp(0.0, 1.0);
+        let g_fs = 0.5 * (1.0 - overlap_sq);
+        let qfim = 4.0 * g_fs;
+        let qng_step = grad_mu / (g_fs + eps);
+
+        euclidean_gradient.push(grad_mu);
+        fubini_study_diag.push(g_fs);
+        qfim_diag.push(qfim);
+        natural_gradient_step.push(qng_step);
+    }
+
+    TequilaNaturalGradientResult {
+        energy,
+        euclidean_gradient,
+        fubini_study_diag,
+        qfim_diag,
+        natural_gradient_step,
     }
 }
 
@@ -2859,6 +3512,56 @@ impl RustFastCircuit {
                         );
                     }
                 }
+                FastGateInst::NonlinearKerr {
+                    target,
+                    fixed_chi3,
+                    param_idx,
+                } => {
+                    let chi3 = param_idx.map_or(*fixed_chi3, |i| angles[i]);
+                    if chi3.abs() < 1e-15 {
+                        continue;
+                    }
+                    let t_mask = if *target < self.n_qubits {
+                        1u128 << (self.n_qubits - 1 - *target)
+                    } else {
+                        0u128
+                    };
+                    for (idx, amp) in self.scratch_sparse.iter_mut() {
+                        if *target == usize::MAX || (*idx & t_mask) != 0 {
+                            let p = amp.norm_sq();
+                            if p > 1e-30 {
+                                let phi = chi3 * p;
+                                let phase = C64::new(phi.cos(), -phi.sin());
+                                *amp = phase * (*amp);
+                            }
+                        }
+                    }
+                }
+                FastGateInst::RydbergBlockadePhase {
+                    target_mask_128,
+                    fixed_phi2,
+                    param_idx,
+                    saturated,
+                    ..
+                } => {
+                    let phi2 = param_idx.map_or(*fixed_phi2, |i| angles[i]);
+                    if phi2.abs() < 1e-15 {
+                        continue;
+                    }
+                    let t_mask = *target_mask_128;
+                    for (idx, amp) in self.scratch_sparse.iter_mut() {
+                        let k = (*idx & t_mask).count_ones() as usize;
+                        if k >= 2 {
+                            let phase_angle = if *saturated {
+                                ((k - 1) as f64) * phi2
+                            } else {
+                                ((k * (k - 1) / 2) as f64) * phi2
+                            };
+                            let phase = C64::new(phase_angle.cos(), phase_angle.sin());
+                            *amp = phase * (*amp);
+                        }
+                    }
+                }
             }
         }
         None
@@ -3058,6 +3761,65 @@ impl RustFastCircuit {
             qubit,
             bit_value: bit_value & 1,
         });
+    }
+
+    pub fn add_nonlinear_kerr(
+        &mut self,
+        target: usize,
+        fixed_chi3: f64,
+        param_idx: Option<usize>,
+    ) {
+        self.instructions.push(FastGateInst::NonlinearKerr {
+            target,
+            fixed_chi3,
+            param_idx,
+        });
+    }
+
+    pub fn add_rydberg_blockade_phase(
+        &mut self,
+        targets: Vec<usize>,
+        fixed_phi2: f64,
+        param_idx: Option<usize>,
+        saturated: bool,
+    ) {
+        let target_mask = controls_mask_msb(&targets, self.n_qubits);
+        let target_mask_128 = controls_mask_msb_128(&targets, self.n_qubits);
+        self.instructions.push(FastGateInst::RydbergBlockadePhase {
+            target_mask,
+            target_mask_128,
+            fixed_phi2,
+            param_idx,
+            saturated,
+        });
+    }
+
+    /// Evaluates the parameter-shift Euclidean gradient $\partial_\mu E$, diagonal Fubini–Study
+    /// metric $g_{\mu\mu}^{\mathrm{FS}}$, Quantum Fisher Information Metric $F_{\mu\mu} = 4\,g_{\mu\mu}^{\mathrm{FS}}$,
+    /// and Kähler-regularized Quantum Natural Gradient step $\Delta\theta_\mu^{\mathrm{QNG}}$ for Hamiltonian index `ham_idx`.
+    pub fn natural_gradient_compiled<'py>(
+        &self,
+        py: Python<'py>,
+        angles: Vec<f64>,
+        ham_set: &RustFastHamiltonianSet,
+        ham_idx: usize,
+        eps_nodal: f64,
+    ) -> PyResult<Bound<'py, PyDict>> {
+        let idx = ham_idx.min(ham_set.hamiltonians.len().saturating_sub(1));
+        let res = compute_parameter_shift_fubini_study_qng(
+            self.n_qubits,
+            &self.instructions,
+            &angles,
+            &ham_set.hamiltonians[idx],
+            eps_nodal,
+        );
+        let dict = PyDict::new(py);
+        dict.set_item("energy", res.energy)?;
+        dict.set_item("euclidean_gradient", res.euclidean_gradient)?;
+        dict.set_item("fubini_study_diag", res.fubini_study_diag)?;
+        dict.set_item("qfim_diag", res.qfim_diag)?;
+        dict.set_item("natural_gradient_step", res.natural_gradient_step)?;
+        Ok(dict)
     }
 
     /// Simulates the circuit in 128-bit sparse Plücker mode (up to $n \le 126$ qubits) and returns
@@ -3264,5 +4026,130 @@ mod tests {
         );
         let tr: f64 = (0..4).map(|i| rho_noisy[i * 4 + i].re).sum();
         assert!((tr - 1.0).abs() < 1e-14);
+    }
+
+    #[test]
+    fn test_tequila_quantum_trajectories_mcwf_qng_and_nonlinear_gates() {
+        // 1. Nonlinear Kerr & Rydberg Blockade-Saturated 3-Photon Vortex Phase Gates
+        let mut rydberg_gates = vec![
+            TequilaGateOp::Basic {
+                name: "X".to_string(),
+                targets: vec![0, 1, 2],
+                controls: vec![],
+            },
+            TequilaGateOp::RydbergBlockadePhase {
+                targets: vec![0, 1, 2],
+                phi2: -std::f64::consts::PI,
+                saturated: true,
+            },
+        ];
+        let sat_state = simulate_circuit_msb(3, &[], &rydberg_gates);
+        // For k=3 and phi2 = -pi, saturated phase is -2*pi -> exp(-2*pi*i) = +1.0!
+        assert!((sat_state[7].re - 1.0).abs() < 1e-14 && sat_state[7].im.abs() < 1e-14);
+
+        // Pairwise Kerr approximation gives -3*pi -> exp(-3*pi*i) = -1.0!
+        rydberg_gates[1] = TequilaGateOp::RydbergBlockadePhase {
+            targets: vec![0, 1, 2],
+            phi2: -std::f64::consts::PI,
+            saturated: false,
+        };
+        let pair_state = simulate_circuit_msb(3, &[], &rydberg_gates);
+        assert!((pair_state[7].re + 1.0).abs() < 1e-14 && pair_state[7].im.abs() < 1e-14);
+
+        // Nonlinear Kerr preserves total statevector norm 1.0 while shifting phase by chi3 * |psi_x|^2
+        let kerr_gates = vec![
+            TequilaGateOp::Basic {
+                name: "H".to_string(),
+                targets: vec![0],
+                controls: vec![],
+            },
+            TequilaGateOp::NonlinearKerr {
+                target: 0,
+                chi3: 1.2,
+            },
+        ];
+        let kerr_state = simulate_circuit_msb(1, &[], &kerr_gates);
+        let kerr_norm: f64 = kerr_state.iter().map(|c| c.norm_sq()).sum();
+        assert!((kerr_norm - 1.0).abs() < 1e-14);
+
+        // 2. Quantum Trajectory MCWF across all 4 unraveling modes & heralded zero-jump recovery
+        let bell_gates = vec![
+            TequilaGateOp::Basic {
+                name: "H".to_string(),
+                targets: vec![0],
+                controls: vec![],
+            },
+            TequilaGateOp::Basic {
+                name: "X".to_string(),
+                targets: vec![1],
+                controls: vec![0],
+            },
+        ];
+        let z0z1 = vec![PauliTerm {
+            coeff_re: 1.0,
+            coeff_im: 0.0,
+            ops: vec![(0, 'Z'), (1, 'Z')],
+        }];
+        for mode in [
+            "quantum_jump",
+            "homodyne_meridian",
+            "homodyne_equator",
+            "heterodyne",
+        ] {
+            let res = simulate_quantum_trajectories_mcwf_msb(
+                2,
+                &bell_gates,
+                &[("amplitude damp".to_string(), 0, 0.10)],
+                &[z0z1.clone()],
+                512,
+                mode,
+                42,
+            );
+            assert!((res.mean_trajectory_purity - 1.0).abs() < 1e-12);
+            // Ensemble expectation <Z0 Z1> = 1 - p = 0.90, whereas heralded no-jump expectation = 1.0!
+            assert!((res.ensemble_expectations[0] - 0.90).abs() < 0.05);
+            if mode == "quantum_jump" {
+                assert!((res.heralded_no_jump_expectations[0] - 1.0).abs() < 1e-12);
+                assert!(res.no_jump_survival_prob > 0.85 && res.no_jump_survival_prob < 1.0);
+            }
+        }
+
+        // 3. Parameter-Shift Fubini-Study / QFIM (F_mu_mu = 4 g^FS_mu_mu) & Natural Gradient (QNG)
+        let insts = vec![
+            FastGateInst::RotY {
+                target: 0,
+                ctrl_mask: 0,
+                ctrl_mask_128: 0,
+                fixed_angle: 0.0,
+                param_idx: Some(0),
+            },
+            FastGateInst::PauliX {
+                target: 1,
+                ctrl_mask: 2,
+                ctrl_mask_128: 2,
+            },
+        ];
+        let ham = FastCompiledHamiltonian::from_raw_terms(
+            2,
+            &[
+                (-1.0, 0.0, vec![(0, "Z".to_string())]),
+                (-0.5, 0.0, vec![(0, "X".to_string()), (1, "X".to_string())]),
+            ],
+        );
+        let a = 0.6_f64;
+        let qng = compute_parameter_shift_fubini_study_qng(2, &insts, &[a], &ham, 1e-3);
+        let expected_e = -a.cos() - 0.5 * a.sin();
+        let expected_grad = a.sin() - 0.5 * a.cos();
+        assert!((qng.energy - expected_e).abs() < 1e-14);
+        assert!((qng.euclidean_gradient[0] - expected_grad).abs() < 1e-14);
+        // For single-parameter Ry(a),|<psi(a)|psi(a+pi/2)>|^2 = cos^2(pi/4) = 1/2 -> g_FS = 1/4, QFIM = 1.0!
+        assert!((qng.fubini_study_diag[0] - 0.25).abs() < 1e-14);
+        assert!((qng.qfim_diag[0] - 1.0).abs() < 1e-14);
+        assert!(
+            (qng.qfim_diag[0] - 4.0 * qng.fubini_study_diag[0]).abs() < 1e-14
+        );
+        assert!(
+            (qng.natural_gradient_step[0] - expected_grad / (0.25 + 1e-3)).abs() < 1e-14
+        );
     }
 }
