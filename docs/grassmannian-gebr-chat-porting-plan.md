@@ -1,6 +1,12 @@
+---
+title: "Grassmannian EBR Chat-Code Porting Ledger and Phased Implementation Plan"
+description: "Source-ordered audit of 64 code fences from Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md and phased implementation plan (WS-0 through WS-9) across Lean 4, Rust/PyO3 (maturin), Python/SymPy, and MyST documentation."
+---
+
+(grassmannian-gebr-chat-porting-plan)=
 # Grassmannian EBR Chat-Code Porting Ledger
 
-This engineering note records the ordered review and port of code fences in
+This engineering note and implementation plan records the ordered review and port of code fences in
 `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`.
 The source-line column points to each fence's opening line. The 64 blocks were
 extracted in source order to `.tmp/chat-code-blocks/` with a numbered filename
@@ -191,36 +197,82 @@ zero-backaction operation, or energy efficiency measurement.
 
 ## Deferred Objective Plan
 
-These are explicit incomplete objectives from the source chat, not results.
-Each milestone must pass its acceptance gate before its claim moves from
-proposal or Pending into a verified Signals statement.
+These are explicit incomplete objectives from the source chat, not verified physical
+results. Each workstream separates **(a) verified finite algebraic or numerical contracts**,
+**(b) `Signals.Pending` measurement/benchmark acceptance gates**, and
+**(c) explicit non-claims**. Per `docs/normative-language-plan.md`, new Lean workstreams
+must avoid bloating `Huygens.lean`, `DDF.lean`, or `DFT.lean`; instead, place finite math in
+focused domain modules (`Signals.Proca`, `Signals.QISM`, `Signals.QuantumCooling`,
+`Signals.GrassmannianEBR`, or dedicated modules such as `Signals.LayerGroups` and
+`Signals.MultiReferenceNOCI`) and place unvalidated physical/benchmark premises in
+`Signals.Pending` using dimensioned types from `Signals.Units`.
 
-| Objective | Current port status | Next implementation milestone | Acceptance gate and chat source |
-| --- | --- | --- | --- |
-| Knitting performance | The line-to-Pluecker identity and abstract Schubert ring are formalized; textile behavior is not. | Add a dimensioned textile-observation record for yarn geometry, tension, boundary conditions, material, and uncertainty. Compare measured loop/contact geometry against the model and a control fabric. | Repeated calibrated samples and residual/error bounds are required before claims about curl or stitch performance. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 9369 and 9011. |
-| Quantum cooling | Existing conditional Landauer arithmetic is reused; the proposed inference Landauer-Bures balance is not derived. | Add a `Signals.Pending` cycle contract with system/memory state, conditional entropy units, memory preparation/reset, controller work, heat reservoirs, and a no-entanglement control. | Derive the bound from an explicit operation and full cycle; report calibrated heat/work with uncertainty before claiming cooling. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 641 and 1086. |
-| EBR efficiency | The Rust additions are exact search references, not an EBR implementation or benchmark. | Pin an upstream EBR revision and benchmark data; implement its published objective and adaptive stopping separately from deterministic baselines. | Accuracy-matched runs must include pass@1, coverage, wall time, FLOPs, device/power data, seeds, and raw results. The chat's multiplied FLOP ledger is not empirical evidence. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 1767 and 5975. |
-| DPP diversity | No global Slavnov-Gram DPP solver or coverage guarantee was ported. | Specify the kernel, PSD/regularization conditions, stable log-determinant and gradient, and a deterministic small-instance oracle before integrating it with search. | Tests must prove kernel properties and show coverage on exhaustive instances; no 100% Cov@K claim without benchmark results. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 11221 and 11996. |
-| All 80 layer groups and G-MGS | Only p4m count arithmetic and an order product are checked; the group catalogue/actions and graphene measurements are absent. | Add the cited authoritative catalogue and affine actions for each group; test identity, closure, inverses, orbit-stabilizer, and known unit cells before application mappings. | Reproduce all 80 groups from the source catalogue and independently source Chern, gap, and transport data. Symmetry order alone cannot validate QAHE, zero resistance, or cooling. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 7167, 8096, and 8822. |
-| ARC-AGI | The finite Rust rule finder covers only 32 D4/glide/palette transforms; it is not an ARC-AGI solver. | Implement a compositional rule language and search procedure that handles object, color, count, and multi-step transformations; pin public task versions and split policy. | Evaluate held-out tasks with pass@1/pass@k, runtime, baselines, and exact task manifest. Continue to label the current implementation a finite symmetry-rule finder. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 9538 and 11996. |
-| QCI-GXC multi-reference | Only a conditional two-reference energy inequality is formalized; there is no NOCI or multi-reference SCF implementation. | Implement complex overlap/Hamiltonian matrices, rank and conditioning checks, a Hermitian generalized eigensolve, symmetry action, and explicit spin observables; compare with an independent chemistry code. | Reproduce named molecules/geometries and basis sets with convergence, energy, and spin-contamination tolerances. The two-state identity alone does not establish a ground state. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 1943 and 2104. |
-| RH locking | No RH-locking result is claimed; only finite reflection and polynomial identities are retained. | Treat positivity of the actual Jensen-Polya discriminant on the required domain as a separate analytic-number-theory problem. Formalize only independently established lemmas and assumptions. | Do not infer RH from a symmetric toy energy, finite determinant, analogy, or numerical zero search. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 2426, 2800, and 4841. |
-| Dispersion physics | The sign trichotomy and scalar check figures are now proved; the physical correspondence is not. | Add units and a correctly typed real four-vector/Pluecker map with a fixed metric convention; prove the map preserves the quadratic form before labeling physical modes. | Algebraic signs remain abstract until polarization, frequency, wavevector, and boundary-condition measurements support a Maxwell/Proca/evanescent interpretation. Chat: `data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md`, lines 1142 and 1240. |
+### Objective Summary Matrix
+
+| Workstream | Objective | Current port status | Companion papers & existing `Signals` owners | Acceptance gate and chat source |
+| --- | --- | --- | --- | --- |
+| **WS-0** | Submodule & CLI self-containment | `transform_md` commit `e0bd794` ready; root gitlink needs sync. | `tools/extract_chat_code_blocks.py`, `src/transform_md` | Fresh checkout runs `tools/extract_chat_code_blocks.py` cleanly. |
+| **WS-1** | Dispersion physics | Sign trichotomy and scalar witnesses proved; dimensioned 4-vector map pending. | [Thermo-EM](grassmannian-thermo-electro-magnetics-lord-shulman-paper.md), [Maxwell/Twistors](grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md), [Quantum Trajectories](grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md), [Flat Light Plan](flat-light-proca-nlig-validation-plan.md); `Signals.Proca`, `Signals.Units`, `CWProcaEmissionHypothesis` | Prove quadratic-form preservation with SI units and fixed `(+,-,-,-)` metric; physical Maxwell/Proca/evanescent labels remain gated on polarization/loss measurements. Chat: lines 623–770, 1110–1296. |
+| **WS-2** | Quantum cooling & Landauer–Bures | Conditional Landauer reused; `QuantumCooling.lean` vs. `Pending.lean` split; inference Landauer–Bures balance unverified. | [Quantum Causal & Mpemba](grassmannian-quantum-causal-inference-mpemba-paper.md), [QFIM $= 4 g^{\mathrm{FS}}$](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md); `Signals.QuantumCausalInference`, `Signals.QuantumCooling`, `QuantumCausalMpembaSynthesisContract` | Add dimensioned closed-cycle contract (prep, erasure, reset, controller work, reservoirs, `do(F=0)` control); prove closed-cycle Second Law; no cooling claim without calibrated calorimetry. Chat: lines 522–695, 1082–1221. |
+| **WS-3** | All 80 layer groups (decoupled from `G-MGS`) | Only `p4m` count arithmetic and `12 * 2 = 24` product checked; 80-group catalogue absent. | [Rhombohedral Graphene `G-MGS`](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md), [Graphene Plan](rhombohedral-graphene-superconductivity-plan.md); `RhombohedralGrapheneSuperconductivityPendingHypothesis` | Exact rational affine actions for all 80 groups (International Tables Vol. E) verified for identity, closure, inverses, orders, and 17-wallpaper projections; keep QAHE/transport claims decoupled. Chat: lines 7165–9010. |
+| **WS-4** | Slavnov–Gram DPP diversity | Exact N-Queens / Petersen oracles exist; no PSD-verified Gram DPP solver ported. | [QISM & Bethe Ansatz](grassmannian-qism-bethe-ansatz-paper.md); `Signals.QISM.slavnovDet2_pauli_exclusion`, `finite_constraint_solvers.rs` | Prove PSD + duplicate collapse + small-$K$ log-det gradient; implement Cholesky log-det/gradient in Rust + PyO3; evaluate empirical `Pass@1`/`Cov@K` with seeds (no universal 100% guarantee). Chat: lines 2901–2929, 10873–12155. |
+| **WS-5** | `QCI-GXC` multi-reference NOCI & VRC-3 | Only conditional 2-state secular inequality formalized; no complex NOCI or VRC-3 proof. | [Kohn–Sham DFT & VRC](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md), [Speed–Accuracy](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md), [MADNESS/Tequila](grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md), [Tequila PyO3](grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md); `Signals.Plabic`, `QuantumCausalGrassmannianDFTHypothesis`, `qci_grassmannian_dft.py` | Prove VRC-3 $\Delta\varepsilon=0$ regularity & $1/4$ QNG step; implement $M$-state Hermitian generalized eigensolve $H c = E S c$ with Löwdin conditioning & $\langle \hat{S}^2 \rangle$; cross-check against independent FCI/reference values. Chat: lines 1879–2343, 4449–4590. |
+| **WS-6** | EBR efficiency & benchmark harness | Exact search baselines exist; no EBR objective, Reverse-SXM, or accuracy-matched harness ported. | [Bundle-Transformer/VideoGen](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md), [Splat/GraphRAG](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md), [QCI-NCM](grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md), [Tuning with Light](grassmannian-tuning-materials-with-light-paper.md) | Reference Chen et al. (`arXiv:2611.08977`, `wwillchen/ebr`); separate energy/halting search from exact baselines; verify projector idempotency before complex descent; log wall time, `Pass@1`, `Cov@K`, seeds (no multiplied FLOP-ledger claims). Chat: lines 253–502, 785–1081, 1297–1878. |
+| **WS-7** | Compositional ARC-AGI rule DSL | 32-element finite D4/glide/palette symmetry finder only; not an ARC-AGI solver. | `finite_constraint_solvers.rs` (`GridTransform`, `score_grid_transforms`) | Build typed compositional grid DSL (objects, crop/tile/translate, color maps, counts, multi-step composition) with reproducible task manifest and held-out `Pass@1`/`Pass@2` metrics; keep 32-transform scorer labeled a symmetry finder. Chat: lines 9511–10463, 11992–12155. |
+| **WS-8** | Knitting & textile observation contract | Line-to-Plücker Klein identity and abstract Schubert ring formalized; no dimensioned textile contract. | [DDF Fracture vs. ER=EPR](grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md); `Signals.GrassmannianEBR`, `Signals.Units` | Add dimensioned `TextileObservationContract` in `Signals.Pending` tying Stockinette ($\mathcal{L}_7$), $1\times 1$ Rib ($\mathcal{L}_{19}$), and Garter ($\mathcal{L}_{37}$) to WS-3 layer groups, gauge, load, stiffness, uncertainty, and control-fabric residuals. Chat: lines 5729–5913, 7936–8072, 9308–9510. |
+| **WS-9** | Isolated analytic number theory (Ihara–Selberg / RH) | Reflection symmetry and Jensen–Pólya polynomial expansion retained; no RH claim. | `Signals.GrassmannianEBR`, `Signals.Plabic`, `Signals.QISM` | Keep strictly separate from performance/materials tracks; formalize only finite-graph Ihara–Selberg Bass determinant & Ramanujan critical-circle equivalence ($\lambda^2 \le 4q \iff \|u\|^2 = 1/q$), explicitly noting the missing bridge to $\zeta(s)$. Chat: lines 2344–3598, 4788–5728. |
+
+### Phased Execution Plan
+
+#### Phase A — Verified Formal Bridges on Existing Owners (WS-1 & WS-2)
+1. **WS-1 (Dimensioned Four-Vector / Plücker Dispersion Bridge)**:
+   - Extend `Signals.Proca` / `Signals.GrassmannianEBR` with SI-dimensioned wavevector conversion (`Signals.Units.Frequency`, `Signals.Units.Speed`, `Signals.Units.Length`) into `Proca.FourVector`, a Hermitian $2\times 2$ Pauli/spinor map $K(k)$ satisfying $\det K(k) = \operatorname{minkowskiDot}(k, k)$ in signature $(+,-,-,-)$, and direct equivalence with `gr24DispersionInterval`.
+   - Expose deterministic dispersion-sector classification in Rust (`finite_constraint_solvers.rs` / PyO3) and verify symbolically in SymPy.
+2. **WS-2 (Closed-Cycle Conditional Landauer & QFIM–Bures Audit)**:
+   - Update `Signals.QuantumCooling` to quarantine speculative vacuum-extraction commentary and cross-link `Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat`.
+   - Add `InferenceThermodynamicCycleContract` in `Signals.Pending` with `Units.Energy`, `Units.Temperature`, preparation/erasure/reset/controller work, explicit dimensional QFIM–Bures action dissipation, unentangled $\operatorname{do}(F=0)$ control, and a proved closed-cycle Second-Law bound ($Q_{\mathrm{closed}} \ge k_B T \ln 2 \cdot N_{\mathrm{reset}}$).
+   - Add Lean tests in `SignalsTests.lean` and `SignalsPendingTests.lean` plus SymPy dimensional checks.
+
+#### Phase B — Exact Group Theory & PSD-Verified Gram DPP (WS-3 & WS-4)
+3. **WS-3 (Exact 80 Crystallographic Layer Groups)**:
+   - Add `Signals.LayerGroups` (Lean 4) formalizing exact layer-group affine actions $(R, \mathbf{t})$ on $\mathbb{R}^3 / (\mathbb{Z}^2 \times \{0\})$, group axioms, order divisibility, and Stockinette ($\mathcal{L}_7$), $1\times 1$ Rib ($\mathcal{L}_{19}$), Garter ($\mathcal{L}_{37}$), `p4m` ($\mathcal{L}_{55}$), `p4/mmm` ($\mathcal{L}_{61}$), and `p6/mmm` ($\mathcal{L}_{80}$) check figures.
+   - Add `src/signals/numerical_adapter/src/layer_groups.rs` implementing all **80 crystallographic layer groups** ($\mathcal{L}_1\text{–}\mathcal{L}_{80}$, International Tables Vol. E) via exact rational generators (`i32` matrices + exact 12th-unit translation fractions modulo $\mathbb{Z}^2 \times \{0\}$), with exhaustive Rust tests verifying closure, identity, inverses, orders, and 17-wallpaper projections for every single group $1\text{..=}80$.
+   - Expose PyO3 bindings (`list_layer_groups`, `verify_layer_group`, `layer_group_orbit`) via `maturin`.
+4. **WS-4 (PSD-Verified Slavnov–Gram DPP)**:
+   - Extend `Signals.QISM` / `Signals.GrassmannianEBR` with finite $2\times 2$ Gram PSD positivity ($\det(X^\top X + \varepsilon I) > 0$), duplicate-column determinant collapse ($\det(X^\top X) = 0$), and exact $2\times 2$ log-det inverse-matrix derivative identities.
+   - Add `src/signals/numerical_adapter/src/slavnov_dpp.rs` with Cholesky-based regularized Gram log-determinant $\log\det(X^\top X + \varepsilon I)$, analytical gradient $2 X (X^\top X + \varepsilon I)^{-1}$, finite-difference gradient tests, and seeded empirical diversity trials against exact N-Queens and Petersen coloring oracles in `finite_constraint_solvers.rs` (logging actual `Pass@1` and `Cov@K`).
+   - Expose PyO3 bindings and verify symbolic gradients in SymPy.
+
+#### Phase C — Multi-Reference Chemistry, EBR Harness, & Compositional ARC DSL (WS-5, WS-6, WS-7)
+5. **WS-5 (`QCI-GXC` Multi-Reference NOCI & VRC-3 Regularity)**:
+   - Add Lean finite contracts in `Signals.GrassmannianEBR` (or a dedicated `Signals.MultiReferenceNOCI` module) for: (a) VRC-3 pair-excitation amplitude regularity at $\Delta\varepsilon = 0$ and the $1/4$ QNG step from $F_{\mu\nu} = 4 g_{\mu\nu}^{\mathrm{FS}}$, and (b) $2\times 2$ symmetric/Hermitian generalized eigenvalue lowering under positive-definite overlap ($S_{00}=S_{11}=1, |S_{01}| < 1$).
+   - Add a real/complex $M$-state NOCI solver with Löwdin canonical orthogonalization (condition-number diagnostics, rank cutoff), Hermitian generalized eigensolver $H c = E S c$, and spin-expectation $\langle \hat{S}^2 \rangle$ evaluation in Rust (`src/signals/numerical_adapter/src/multi_reference_noci.rs` + PyO3) and Python/SymPy, benchmarked on stretched $\mathrm{H}_2$ (minimal-basis exact FCI reference) with energy error and $\langle \hat{S}^2 \rangle$ tolerances.
+6. **WS-6 (EBR Energy/Halting Solver & Accuracy-Matched Benchmark Harness)**:
+   - Add a dedicated EBR-style continuous-relaxation + adaptive gradient-norm halting + optional DPP repulsion solver in Rust (`src/signals/numerical_adapter/src/ebr_benchmark.rs` + PyO3), cleanly separated from exact backtracking in `finite_constraint_solvers.rs`.
+   - Prove projector idempotency / retraction check figures ($P^2 = P$) and report reproducible seeded runs (`Pass@1`, `Cov@K`, halting steps, wall-clock ms) on 8-Queens, 10-Queens, Petersen 3-coloring, and 9x9 Sudoku puzzles (noting upstream reference `arXiv:2611.08977` / `wwillchen/ebr`).
+7. **WS-7 (Compositional ARC-AGI Grid DSL)**:
+   - Add `src/signals/numerical_adapter/src/arc_dsl.rs` (+ PyO3 bindings) implementing a typed compositional grid program language (connected-component objects, crop, recolor, flood/mirror/rotate/translate, tiling, overlay, multi-step beam search) with deterministic unit tests on compositional multi-step grid tasks, explicitly preserving the distinction between the 32-transform symmetry finder and general ARC-AGI evaluation.
+
+#### Phase D — Dimensioned Textile Contract & Isolated Finite-Graph Ihara–Selberg (WS-8 & WS-9)
+8. **WS-8 (Dimensioned Textile-Observation Contract)**:
+   - Add `TextileObservationContract` in `Signals.Pending` referencing `Units.Length`, `Units.Force`, stitch layer-group index ($\mathcal{L}_7, \mathcal{L}_{19}, \mathcal{L}_{37}$), uncertainty bounds, and control-fabric residual gates.
+   - Add a Python/SymPy discrete centerline Plücker audit verifying Klein residual $= 0$ across sampled 3D stitch splines without claiming mechanical performance validation.
+9. **WS-9 (Isolated Finite-Graph Ihara–Selberg / Ramanujan Equivalence)**:
+   - Add finite-graph Bass determinant & $(q+1)$-regular Ramanujan critical-circle equivalence ($\lambda^2 \le 4q \implies |u|^2 = 1/q$) in Lean (`Signals.GrassmannianEBR`) and exact SymPy/Rust checks on $K_4$ / Petersen ($q=2$, 3-regular Ramanujan graph with eigenvalues $\{3, 1, -2\}$, $\lambda^2 \le 4 < 8$), strictly isolating it from $\zeta(s)$ and RH claims.
+
+#### Phase E — Companion MyST Paper, PyO3/Maturin Build, & Cross-Document Sync
+10. Build and install `signals_numerical_adapter` with `maturin develop --release` in `.venv`, exposing all new Rust solvers to Python.
+11. Add comprehensive Python + SymPy + PyO3 test suites under `tests/` verifying symbolic identities against Lean check figures and Rust numerical outputs.
+12. Author companion MyST paper `docs/grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md` (with Lean 4, Rust/PyO3/`maturin`, Python/SymPy code & verified tables, explicit epistemic boundaries, and BibTeX/JSON-LD provenance) and link it alongside this plan in `docs/_toc.yml`, `docs/plan-index.md`, `docs/index.md`, and `docs/grassmannian-unification-applications-roadmap-paper.md`.
 
 ### Porting Order
 
-1. Keep chat extraction source-ordered and content-hashed; automatically apply
-  only reviewed unified-diff fences. Other code blocks remain artifacts until
-  an owner and test are selected.
-2. Reuse existing Signals APIs before adding types. Add finite algebra with
-  explicit assumptions to verified modules; put unvalidated physical premises
-  in `Signals.Pending` with units, uncertainty, controls, and provenance.
-3. Keep exact N-Queens, graph-coloring, Sudoku, and finite-grid solvers as
-  correctness baselines. Do not label their outputs EBR, DPP, 80-layer-group,
-  or ARC-AGI benchmark performance.
-4. Add performance claims only after reproducible, accuracy-matched benchmarks
-  on pinned datasets/hardware; add physical claims only after calibrated
-  measurements and full energy accounting.
+1. Commit this plan and sync `src/transform_md` (WS-0).
+2. Execute Phase A (WS-1 & WS-2) $\to$ run focused Lean, Rust, and SymPy tests.
+3. Execute Phase B (WS-3 & WS-4) $\to$ verify all 80 layer groups and Cholesky DPP gradients.
+4. Execute Phase C (WS-5, WS-6, WS-7) $\to$ verify NOCI vs. exact minimal-basis FCI, seeded EBR harness, and compositional ARC DSL.
+5. Execute Phase D (WS-8 & WS-9) $\to$ verify dimensioned textile contract and finite Ramanujan Ihara–Selberg checks.
+6. Build PyO3/maturin wheel, run full Lean + Rust + pytest/SymPy suites, author companion MyST paper, run math-hygiene audits, build Sphinx HTML, and inspect in browser.
 
 ## Validation
 
