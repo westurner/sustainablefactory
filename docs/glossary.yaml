@@ -446,13 +446,12 @@ Lagrangian mechanics:
 
 
 Newton's laws of motion:
-  definition:
+  definition: |
     Newton's laws:
 
+    1. inertia / conservation symmetry
     2. `F = ma` Force = mass \* acceleration
-    2. inertia / conservation symmetry
-    3.
-    4.  
+    3. equal and opposite forces
   synonyms:
     - Newton's laws
     - Newtonian mechanics
@@ -469,7 +468,7 @@ Classical mechanics:
   synonyms:
   - CM
   - NM
-  - Newtonian mechanics:
+  - Newtonian mechanics
   wikipedia: https://en.wikipedia.org/wiki/Classical_mechanics
 
 
@@ -516,7 +515,7 @@ GW:
   wikipedia: https://en.wikipedia.org/Gravitational_wave
 
 Post-Newtonian expansion:
-  definition:
+  definition: |
 
     - 1PN: {term}`GR` {term}`Gravity`
     - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
@@ -577,10 +576,8 @@ Grassmannian manifold:
   wikipedia: https://en.wikipedia.org/wiki/Exterior_algebra
 
 Gr>0:
-  definition:
-    The Positive Grassmannian
-
-    TODO: 
+  definition: |
+    The Positive Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ of real $k$-planes in $\mathbb{R}^n$ whose ordered $k \times k$ Plücker minors are all non-negative ($\Delta_I \ge 0$, {cite:p}`postnikov2006plabic,arkani2014amplituhedron`).
 
   synonyms:
   - Positive Grassmannian
@@ -588,21 +585,17 @@ Gr>0:
 
 
 GrC:
-  definition:
-    The Complex Grassmannian
-
-    TODO: 
+  definition: |
+    The Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n) = \mathrm{U}(n)/(\mathrm{U}(k)\times\mathrm{U}(n-k))$ of complex $k$-planes in $\mathbb{C}^n$, a compact Einstein–Kähler manifold of real dimension $2k(n-k)$, Plücker coordinate count $\binom{n}{k}$, and scalar curvature $R_{\mathrm{Gr}}(k, n) = n k (n - k)$.
 
   synonyms:
   - Complex Grassmannian
 
 GrC(2,4):
-  definition:
-  
+  definition: |
+    The Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5$ ($\dim_{\mathbb{R}} = 8$, $\binom{4}{2} = 6$ Plücker coordinates, $1$ quadratic Klein quadric relation $p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0$, Kähler scalar curvature $R_{\mathrm{Gr}}(2,4) = 16$).
 
-  TODO
-
-  TODO: link to table of grassmannian manifolds in paper TODO
+    See Section 2 (Master Taxonomy Table of Lower Grassmannians) in `docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`.
 
 
 ## Physics theories
@@ -656,7 +649,7 @@ SR:
   - https://en.wikipedia.org/wiki/Tests_of_special_relativity
   - https://en.wikipedia.org/wiki/Minkowski_spacetime
   definedBy:
-  - {cite:p}`einstein1905perihelion`
+  - "{cite:p}`Einstein1905`"
   - https://en.wikipedia.org/wiki/Annus_mirabilis_papers#Special_relativity
 
 Mass-energy equivalance:
@@ -669,7 +662,7 @@ Mass-energy equivalance:
     ```
 
     $$
-      E = mc^2$
+      E = mc^2
     $$
 
   wikipedia: https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence
@@ -686,7 +679,9 @@ Energy-momentum relation:
 
     $$
       E^2 = (pc)^2 + (mc^2)^2
+    $$
 
+    $$
       E  = ((pc)^2 + (mc^2)^2)^(1/2)
     $$
 
@@ -706,10 +701,10 @@ GR:
   - https://en.wikipedia.org/wiki/General_relativity
   - https://en.wikipedia.org/wiki/Tests_of_general_relativity
   definedBy:
-  - {cite:p}`einstein1915perihelion`
-  - {cite:p}`einstein1916grundlage`
-  - {cite:p}`einstein1917relativitat`
-  - {cite:p}`einstein1920relativity`
+  - "{cite:p}`einstein1915perihelion`"
+  - "{cite:p}`einstein1916grundlage`"
+  - "{cite:p}`einstein1917relativitat`"
+  - "{cite:p}`einstein1920relativity`"
   - https://en.wikipedia.org/wiki/Relativity:_The_Special_and_the_General_Theory
 
 BEC:
@@ -773,9 +768,9 @@ de Broglie-Bohm theory:
   - de Broglie-Bohm mechanics
   - Bohmian mechanics 
   definedBy:
-  - {cite:p}`bohm1952a`
-  - {cite:p}`bohm1952b`
-  - {cite:p}`bohm1982`
+  - "{cite:p}`bohm1952a`"
+  - "{cite:p}`bohm1952b`"
+  - "{cite:p}`bohm1982`"
   wikipedia:
   - https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory
 
@@ -809,8 +804,8 @@ SU(4):
 
     SU(4) is the R-symmetry group in 4D N=4 supersymmetric Yang-Mills theory.
 
-  wikipedia: 
-  - [ ] https://en.wikipedia.org/wiki/Special_unitary_group#SU(4)
+  wikipedia:
+  - https://en.wikipedia.org/wiki/Special_unitary_group#SU(4)
 
 SYM:
   definition: |
@@ -848,7 +843,7 @@ MZM:
   definition: |
     Majorana Zero Fermion; topologically protected quantum state
   synonyms:
-    Majorana near-zero Fermion
+  - Majorana near-zero Fermion
   wikipedia: 
   - https://en.wikipedia.org/wiki/Majorana_fermion
 
@@ -905,8 +900,10 @@ BCJ:
   wikipedia: https://en.wikipedia.org/wiki/Double_copy_theory
 
 Cachazo-Geyer gravity:
-
-  TODO: {cite:p}`su-cachazogeyer2012`
+  definition: |
+    1PN-equivalent gravity from SU(4) {term}`Twistor string theory`
+  definedBy:
+  - "{cite:p}`su4-cachazogeyer2012`"
 
 Amplituhedron:
   definition: |
@@ -914,8 +911,7 @@ Amplituhedron:
     calculating scattering amplitude path integrals
     (without Feynman diagrams).
 
-    - [ ] TODO: which Gr?
-      - `Gr_{>0}(2,4)` ?
+    - Tree-level $n$-point $\mathrm{N}^{k-2}\mathrm{MHV}$ amplitudes live in the positive Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ mapped into $\mathrm{Gr}(k, k+4)$ (with $k=2, n=4$ MHV amplitudes on $\mathrm{Gr}_{\ge 0}(2,4)$ and lifted to $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ for complex phase interference).
 
     Our work here (with the "Turner models" etc.)
     gratefully extends from the Amplituhedron
@@ -923,20 +919,20 @@ Amplituhedron:
 
     FWIU, Amplituhedron is integrated with B-model string theories,
     and our work with Witten {term}`Twistor string theory`
-    and TODO Cachazo's SU(4)-based models
-    seems logical because GrC(2,4) x GrC(2,4)^.
+    and Cachazo's $\mathrm{SU}(4)$-based models (`CSW`, `BCFW`, `Cachazo–Skinner`, `CHY`)
+    is unified via $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`).
 
   wikipedia: https://en.wikipedia.org/wiki/Amplituhedron
   definedBy:
-  - {cite:p}`arkani2014amplituhedron`
-  - {cite:p}`arkani-hamed-bai-lam2017`
-  - {cite:p}`su4-arkani2016`
+  - "{cite:p}`arkani2014amplituhedron`"
+  - "{cite:p}`arkani-hamed-bai-lam2017`"
+  - "{cite:p}`su4-arkani2016`"
 
 
 
 Plabic Graphs:
   author: Postnikov
-  definedBy: {cite:p}`postnikov2006plabic`
+  definedBy: "{cite:p}`postnikov2006plabic`"
   
 
 VRC:
@@ -944,11 +940,11 @@ VRC:
   name_full: Vector Relation Configuration
   description: Plabic graphs extended to Complex space
   appliedBy: docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
-  definedBy: {cite:p}`affolter2024vrc`
+  definedBy: "{cite:p}`affolter2024vrc`"
 
 SPH:
   definition: |
-
+    Smoothed-Particle Hydrodynamics — a meshfree Lagrangian particle method for simulating continuum fluid flows.
   wikipedia: https://en.wikipedia.org/wiki/Smoothed-particle_hydrodynamics
 
 SQG:
@@ -957,10 +953,12 @@ SQG:
 
     - Fedi's SQG (2016, 2017)
 
-  definedBy: TODO
+  definedBy:
+  - "{cite:p}`fedi2017darksuperfluid`"
+  - "{cite:p}`unif-fedi2017`"
 
 DDF:
-  definition:
+  definition: |
     Dilatant Dark Fluid is a quantum superhydrodynamic theory 
     of quantum mechanics with psi and phi and GPE,
     which has E_rel=0 against 1PN ({term}`GR` Gravity)
@@ -968,7 +966,7 @@ DDF:
   synonyms:
   - Dilatant Dark Fluid
 
-  definedBy: {cite:p}`fedi2026ddf`
+  definedBy: "{cite:p}`fedi2026ddf`"
 
 
 Madelung equations:
@@ -977,55 +975,32 @@ Madelung equations:
 
     - The Madelung equations are a quantum mechanical implementation of the Euler equations.
     - The Madelung equations are an alternative to the Schrödinger equation.
-    - The Madelung equations e:
-  synonyms:
-  - Euler's number
-  wikipedia: https://en.wikipedia.org/wiki/E_(mathematical_constant)
-
-Eulerian mechanics:
-  definition: |
-    - Compressible and incompressible fluid flows
-
-  synonyms:
-  - Euler equations
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)
-  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
-  - https://en.wikipedia.org/wiki/Continuum_mechanics#Eulerian_description
-
-Lagrangian mechanics:
-  definition: |
-
-
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Lagrangian_mechanics
-  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
-  - https://en.wikipedia.org/wiki/Continuum_mechanics#Lagrangian_description
-can be simulated with {term}`Euler equations <euler mechanics>`:
+    - The Madelung equations can be simulated with {term}`Euler equations <Eulerian mechanics>`:
       - Runga-Kutta (RK) + Euler-Korteweg equations
-      - [ ] TODO: wasn't it GrC(2,4) ? link to our paper(s), lean, rust for Madelung
+      - Lifted onto $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5$ in `docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md`, `docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`, `src/signals/Signals/DDF.lean`, and `src/signals/numerical_adapter/src/madelung_lagrangian.rs`.
     - The {term}`Madelung equations` map the {term}`GPE` into Eulerian quantum hydrodynamic equations.
 
-  wikpedia: https://en.wikipedia.org/wiki/Madelung_equations
+  wikipedia: https://en.wikipedia.org/wiki/Madelung_equations
 
 GPE:
   definition: |
     Gross-Pitaevskii Equation; a nonlinear Schrödinger equation for simulating {term}`BEC` ("superfluids")
 
     - The {term}`Madelung equations` map the GPE into Eulerian quantum hydrodynamic equations.
-      - However, there is {term}`Bohmian blowup`.
-        - TODO: explain how our GrC(2,4) x GrC(2,4)^ overcomes {term}`Bohmian blowup` in calculating the {term}`GPE`.
+      - However, in scalar representations there is {term}`Bohmian blowup` ($1/\rho$ divergence at $\rho \to 0$).
+      - Our Homogeneous Plücker $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ Kähler formulation (`det(I_2 + W W^\dagger) >= 1`) and Three-Channel Plücker–Madelung–QFIM decomposition ($F_{\mu\nu} = 4 g_{\mu\nu}^{\mathrm{FS}}$) regularize vortex cores and dark fringes (`docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`, `docs/grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md`, `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`).
 
   synonyms:
-    Gross-Pitaevskii Equation
+  - Gross-Pitaevskii Equation
   wikipedia: https://en.wikipedia.org/wiki/Gross%E2%80%93Pitaevskii_equation
 
 iGPE:
   definition: |
-
-
+    Four distinct formulations unified in `Signals`: (1) Interactive GPE (`InteractiveGPEPoint`), (2) Inhomogeneous GPE (`InhomogeneousGPEPoint`), (3) Inverse GPE (`InverseGPEPoint`, `pluckerInversePotentialReconstruction`), and (4) Coupled Dual-Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ iGPE (`CoupledDualGrassmannianState`).
   synonyms:
   - inverse GPE
+  - interactive GPE
+  - inhomogeneous GPE
 
 
 Turner Models:
@@ -1034,25 +1009,24 @@ Turner Models:
 
     These "Turner Models" are currently named
     according to the table row number in:
-    - docs/grassmannian-gravity-from-qed-scattering-paper.md 
-    - [ ] TODO: add a table deep link
+    - `docs/grassmannian-gravity-from-qed-scattering-paper.md` (Section 6.2 & Section 8.2, Models `1`–`13`, `14a`, & `14b`)
 
     They are further compared in, for example:
-
-    - docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md
+    - `docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md` (Section 3, `#sec-em-master-table`)
+    - `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md` (Section 2, `#sec-qt-master-comparison-table`)
 
 
 Turner Model 6:
   definition: |
-    Homogeneous Plücker Q_4 Madelung & Dual-iGPE Superposition)
-  definedBy: 
+    Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-`iGPE` Superposition (`Signals.DDF.pluckerMadelungSuperpositionOAMDoubleSlit`, `SlitModelKind::PluckerMadelungDualIgpe`).
+  definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
 
 Turner Model 12:
   definition: |
     Flat-Space GrC(2,4) BCJ Double Copy + Splats, No DDF
 
     Gimbal-lock-free spinor splat orientation + 3D GrC(3,6) focal E_z
-    definedBy: 
+  definedBy: docs/grassmannian-gravity-from-qed-scattering-paper.md
 
 Turner Model 13:
   definition: |
@@ -1060,7 +1034,7 @@ Turner Model 13:
 
     Combines 3D splat Bohm–Fisher core 
     1/2 Q_core(Σ) with nonlocal DDF tubular soliton stability
-  definedBy: 
+  definedBy: docs/grassmannian-gravity-from-qed-scattering-paper.md
 
 Turner Model 14a:
   definition: |
@@ -1069,19 +1043,16 @@ Turner Model 14a:
     Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
     ghost-free 2-derivative Kähler action,
     M1-M3 TRUE soft-photon bridge
-  definedBy: 
+  definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
 
 Turner Model 14b:
   definition: |
     Klein Quadric Q_4 Kähler (with DDF)
 
-      Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
-      ghost-free 2-derivative Kähler action,
-
-
-      M1-M3 TRUE soft-photon bridge
-
-  definedBy: 
+    Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
+    ghost-free 2-derivative Kähler action,
+    M1-M3 TRUE soft-photon bridge
+  definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
 
 Semilatus rectum:
   definition: |
@@ -1145,7 +1116,7 @@ QCI-NCM:
 QCI-G-NCM:
   name: QCI-G-NCM
   name_full: Quantum Causual Grassmannian Next Concept Modeling
-  definedBy
+  definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
 
 
 G-DDF-TEM:
@@ -1179,9 +1150,9 @@ Quantum superposition:
 Quantum mechanics:
   definition: |
 
-    - {term}`Scattering amplitude`
-    - {term}`Probability amplitde`
-    - {term}`Superposition`
+    - {term}`Scattering amplitudes`
+    - {term}`Probability_amplitude`
+    - {term}`Quantum superposition`
   wikipedia:
   - https://en.wikipedia.org/wiki/Quantum_mechanics
   - https://en.wikipedia.org/wiki/Mathematical_formulation_of_quantum_mechanics
@@ -1202,17 +1173,16 @@ Circuit QED:
 
 Bohmian blowup:
   definition: |
-    The blowup of Q and V as rho -> 0 in
-    {term}`de Broglie-Bohm` mechanics
-    which causes inaccuracy and numerical instability in quantum simulation.
-  
-    - [ ] https://www.google.com/search?=bohmian+blowup+as+rho+->+0
-    - [ ] https://www.google.com/search?=citations+for+bohmian+blowup+as+rho+->+0
+    The blowup of $Q = -\frac{\hbar^2}{2m}\frac{\nabla^2\sqrt{\rho}}{\sqrt{\rho}}$ and $V = j/\rho$ as $\rho \to 0$ in
+    {term}`de Broglie-Bohm theory` ({cite:p}`hirschfelder1974streamlines,hirschfelder1976vortices,philippidis1979quantum,wyatt1999quantum`),
+    which causes nodal singularities and numerical instability in quantum trajectory simulation,
+    alongside the vanishing of phase-gradient velocity $v_S = 0$ in stationary evanescent barriers ({cite:p}`sharoglazova_energyspeed_2025`).
+    Resolved in our Three-Channel Plücker–Madelung–QFIM and Dual-`iGPE` trajectory model (`docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`).
 
 QTT:
   definition: |
-
-    - QTT 
+    Quantum Trajectory Theory ({cite:p}`carmichael1993open,dalibard1992wave,plenio1998quantum,murch2013observing,roch2014observation,campagne2016observing,santos2012quantum,minev2019catch`).
+    See `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`.
   synonyms:
   - Quantum Trajectory Theory
   - quantum jump method

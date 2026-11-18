@@ -29,6 +29,7 @@ import Signals.QEDGravity
 import Signals.QISM
 import Signals.Quadrature
 import Signals.QuantumCausalInference
+import Signals.QuantumTrajectories
 import Signals.Propagation
 import Signals.RadioBasics
 import Signals.Sampling

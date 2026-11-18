@@ -12,6 +12,7 @@ pub mod multi_array_imaging;
 pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
+pub mod quantum_trajectories;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
 
