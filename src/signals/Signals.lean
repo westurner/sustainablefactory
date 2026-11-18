@@ -9,6 +9,7 @@ import Signals.EMT
 import Signals.FireSuppression
 import Signals.Applications
 import Signals.Fabrication
+import Signals.GrassmannianEBR
 import Signals.Geometry
 import Signals.HawkingRadiation
 import Signals.Homodyne

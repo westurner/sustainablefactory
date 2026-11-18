@@ -5,6 +5,7 @@
 use std::fmt;
 
 pub mod cannon_mask_cad;
+pub mod finite_constraint_solvers;
 pub mod dft_plabic_vrc;
 pub mod double_slit;
 pub mod madelung_lagrangian;
