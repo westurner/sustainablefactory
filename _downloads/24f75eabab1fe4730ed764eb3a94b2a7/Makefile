@@ -111,6 +111,10 @@ signals_build_e2e_build_image:
 	@echo "signals_e2e_image  #  Build the Lean-capable E2E image"
 	$(SIGNALS_CONTAINER_RUNTIME) build --security-opt=label=disable -f Dockerfile.e2e -t "$(SIGNALS_E2E_IMAGE)" .
 
+.PHONY: generate_acronyms
+generate_acronyms:
+	@echo "generate_acronyms  #  Regenerate docs/acronyms.txt"
+	$(PYTHON) tools/generate_acronym_lists.py
 
 .PHONY: generate_glossary
 generate_glossary:
@@ -122,6 +126,12 @@ generate_glossary:
 generate_software_citations:
 	@echo "generate_software_citations   #  Regenerate docs/software_citations.bib from repository manifests"
 	python ./tools/generate_software_citations.py
+
+
+.PHONY: generate_tables_and_figures
+generate_tables_and_figures:
+	@echo "generate_tables_and_figures  #  Regenerate docs/acronyms.txt"
+	$(PYTHON) ./manage.py aggregate --output .tmp/tables_and_figures.txt
 
 
 .PHONY: export_synonyms

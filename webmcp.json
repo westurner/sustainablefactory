@@ -17,7 +17,6 @@
       "cuprate-superconductivity-plan",
       "ddf-fracture-communication-plan",
       "dispersive-homodyne-plan",
-      "dispersive-homodyne-plan",
       "flat-light-nanolithography-scholarly",
       "flat-light-proca-nlig-validation-plan",
       "gaussian-splat-tensors-normed-paper",
@@ -54,6 +53,7 @@
       "grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper",
       "grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper",
       "grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper",
+      "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
       "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
       "grassmannian-rhombohedral-graphene-superconductivity-qc-paper",
       "grassmannian-riscv-holographic-nanolithography-kicad-paper",
@@ -79,6 +79,7 @@
       "maxwell-electromagnetism-twistors-unification-plan",
       "paper",
       "paper-model-review",
+      "papers",
       "plan-index",
       "readme",
       "references",
@@ -87,12 +88,14 @@
       "schema",
       "search",
       "signals-blueprint",
+      "software-plans",
       "soliton-bus",
       "sphinx-meilisearch-architecture",
       "tools",
       "tuning-materials-with-light-plan",
       "visualization",
       "water",
+      "wiki",
       "workflow-performance-plan"
     ],
     "root": "index"
@@ -204633,6 +204636,166 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "quantum-trajectories-in-complex-grassmannian-mathrm-gr-mathbb-c-k-n-three-channel-pluckermadelungqfim-f-mu-nu-4-g-mu-nu-mathrm-fs-dual-schubert-igpe-and-dilatant-dark-fluid-ddf-mechanics-model-fitting-check-figures-and-relative-comparisons-across-superconducting-qubits-evanescent-tunneling-speeds-relativistic-weak-values-time-diffraction-and-nonlinear-photon-vortices-in-lean-4-and-rust",
+              "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper"
+            ],
+            "level": 1,
+            "title": "Quantum Trajectories in Complex Grassmannian \\mathrm{Gr}_{\\mathbb{C}}(k,n), Three-Channel Pl\u00fccker\u2013Madelung\u2013QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}}), Dual-Schubert iGPE, and Dilatant Dark Fluid (DDF) Mechanics: Model Fitting, Check Figures, and Relative Comparisons Across Superconducting Qubits, Evanescent Tunneling Speeds, Relativistic Weak Values, Time Diffraction, and Nonlinear Photon Vortices in Lean 4 and Rust"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "executive-summary-how-do-our-methods-do-on-predicting-paths-of-actual-particles"
+            ],
+            "level": 2,
+            "title": "1. Executive Summary: How Do Our Methods Do on Predicting Paths of Actual Particles?"
+          },
+          {
+            "ids": [
+              "master-multi-model-relative-comparison-table-across-quantum-trajectory-theories"
+            ],
+            "level": 2,
+            "title": "2. Master Multi-Model Relative Comparison Table Across Quantum Trajectory Theories"
+          },
+          {
+            "ids": [
+              "quantitative-relative-comparison-across-ten-experimental-particle-trajectory-benchmarks",
+              "sec-qt-master-comparison-table"
+            ],
+            "level": 3,
+            "title": "2.1 Quantitative Relative Comparison Across Ten Experimental Particle-Trajectory Benchmarks"
+          },
+          {
+            "ids": [
+              "open-system-quantum-trajectory-theory-qtt-mcwf-superconducting-qubit-trajectories-on-mathbb-cp-1-mathrm-gr-mathbb-c-1-2-and-mathrm-gr-mathbb-c-2-4"
+            ],
+            "level": 2,
+            "title": "3. Open-System Quantum Trajectory Theory (QTT / MCWF) & Superconducting Qubit Trajectories on \\mathbb{CP}^1 = \\mathrm{Gr}_{\\mathbb{C}}(1,2) and \\mathrm{Gr}_{\\mathbb{C}}(2,4)"
+          },
+          {
+            "ids": [
+              "carmichaels-quantum-trajectory-theory-dalibardcastinmolmer-quantum-jumps-and-grassmannian-plucker-compression"
+            ],
+            "level": 3,
+            "title": "3.1 Carmichael\u2019s Quantum Trajectory Theory, Dalibard\u2013Castin\u2013M\u00f8lmer Quantum Jumps, and Grassmannian Pl\u00fccker Compression"
+          },
+          {
+            "ids": [
+              "check-figures-from-murch-et-al-2013-roch-et-al-2014-campagne-ibarcq-et-al-2016-and-santos-et-al-2012"
+            ],
+            "level": 3,
+            "title": "3.2 Check Figures from Murch et al. (2013), Roch et al. (2014), Campagne-Ibarcq et al. (2016), and Santos et al. (2012)"
+          },
+          {
+            "ids": [
+              "resolving-the-sharoglazovaklaers-nature-2025-challenge-to-bohmian-mechanics-via-the-three-channel-pluckermadelungqfim-decomposition-and-dual-schubert-igpe"
+            ],
+            "level": 2,
+            "title": "4. Resolving the Sharoglazova\u2013Klaers (Nature 2025) Challenge to Bohmian Mechanics via the Three-Channel Pl\u00fccker\u2013Madelung\u2013QFIM Decomposition and Dual-Schubert iGPE"
+          },
+          {
+            "ids": [
+              "the-experimental-paradox-why-standard-bohmian-mechanics-predicts-v-s-0-while-tunneling-particles-move-at-sim-2-000-text-km-s"
+            ],
+            "level": 3,
+            "title": "4.1 The Experimental Paradox: Why Standard Bohmian Mechanics Predicts v_S = 0 While Tunneling Particles Move at \\sim 2{,}000\\text{ km/s}"
+          },
+          {
+            "ids": [
+              "how-our-three-channel-pluckermadelungqfim-decomposition-f-mu-nu-4-g-mu-nu-mathrm-fs-and-dual-igpe-derive-the-exact-evanescent-speed-law"
+            ],
+            "level": 3,
+            "title": "4.2 How Our Three-Channel Pl\u00fccker\u2013Madelung\u2013QFIM Decomposition (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}}) and Dual-iGPE Derive the Exact Evanescent Speed Law"
+          },
+          {
+            "ids": [
+              "relativistic-weak-value-photon-trajectories-foo-et-al-20222025-vs-ddf-painlevegullstrand-klein-quadric-mathcal-q-4-regularization"
+            ],
+            "level": 2,
+            "title": "5. Relativistic Weak-Value Photon Trajectories (Foo et al. 2022\u20132025) vs. DDF Painlev\u00e9\u2013Gullstrand & Klein Quadric \\mathcal{Q}_4 Regularization"
+          },
+          {
+            "ids": [
+              "double-slit-time-diffraction-at-optical-frequencies-tirole-et-al-nature-physics-2023-spacetime-grassmannian-duality"
+            ],
+            "level": 2,
+            "title": "6. Double-Slit Time Diffraction at Optical Frequencies (Tirole et al., Nature Physics 2023) & Space\u2013Time Grassmannian Duality"
+          },
+          {
+            "ids": [
+              "quantum-vortices-of-strongly-interacting-photons-drori-et-al-science-2023-2024-nonlinear-optics-where-superposition-fails"
+            ],
+            "level": 2,
+            "title": "7. Quantum Vortices of Strongly Interacting Photons (Drori et al., Science 2023/2024) & Nonlinear Optics Where Superposition Fails"
+          },
+          {
+            "ids": [
+              "breakdown-of-the-superposition-principle-in-chi-2-and-chi-3-rydberg-eit-nonlinear-media"
+            ],
+            "level": 3,
+            "title": "7.1 Breakdown of the Superposition Principle in \\chi^{(2)} and \\chi^{(3)} / Rydberg-EIT Nonlinear Media"
+          },
+          {
+            "ids": [
+              "why-pairwise-kerr-3-pi-pairwise-mcguire-4-e-2-fail-for-three-photonsand-how-grassmannian-mathrm-gr-mathbb-c-n-2n-blockade-saturation-achieves-varepsilon-mathrm-rel-0"
+            ],
+            "level": 3,
+            "title": "7.2 Why Pairwise Kerr (-3\\pi) & Pairwise McGuire (4 E_2) Fail for Three Photons\u2014and How Grassmannian \\mathrm{Gr}_{\\mathbb{C}}(n, 2n) Blockade Saturation Achieves \\varepsilon_{\\mathrm{rel}} = 0"
+          },
+          {
+            "ids": [
+              "adversarial-critique-gap-closure-analysis-qt-1-through-qt-7"
+            ],
+            "level": 2,
+            "title": "8. Adversarial Critique & Gap-Closure Analysis (QT-1 Through QT-7)"
+          },
+          {
+            "ids": [
+              "other-advantages-cross-domain-engineering-applications-and-tequila-rust-pyo3-quantum-circuit-simulator-upgrades"
+            ],
+            "level": 3,
+            "title": "8.1 Other Advantages, Cross-Domain Engineering Applications, and Tequila Rust/PyO3 Quantum Circuit Simulator Upgrades"
+          },
+          {
+            "ids": [
+              "self-contained-machine-checked-lean-4-verification-block"
+            ],
+            "level": 2,
+            "title": "9. Self-Contained Machine-Checked Lean 4 Verification Block"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          },
+          {
+            "ids": [
+              "schema-org-metadata-json-ld"
+            ],
+            "level": 3,
+            "title": "Schema.org Metadata (JSON-LD)"
+          }
+        ]
+      },
+      "source": "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md",
+      "title": "Quantum Trajectories in Complex Grassmannian \\mathrm{Gr}_{\\mathbb{C}}(k,n), Three-Channel Pl\u00fccker\u2013Madelung\u2013QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}}), Dual-Schubert iGPE, and Dilatant Dark Fluid (DDF) Mechanics: Model Fitting, Check Figures, and Relative Comparisons Across Superconducting Qubits, Evanescent Tunneling Speeds, Relativistic Weak Values, Time Diffraction, and Nonlinear Photon Vortices in Lean 4 and Rust",
+      "url": "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
       "doctree": {
         "headings": [
@@ -206047,6 +206210,13 @@
           },
           {
             "ids": [
+              "quantum-trajectory-mcwf-homodyne-heterodyne-unravelings-heralded-zero-jump-post-selection-parameter-shift-fubinistudy-qfim-f-mu-mu-4-g-mu-mu-mathrm-fs-quantum-natural-gradient-qng-and-nonlinear-kerr-rydberg-blockade-gates"
+            ],
+            "level": 3,
+            "title": "2.5 Quantum Trajectory (MCWF / Homodyne / Heterodyne) Unravelings, Heralded Zero-Jump Post-Selection, Parameter-Shift Fubini\u2013Study / QFIM (F_{\\mu\\mu} = 4\\,g_{\\mu\\mu}^{\\mathrm{FS}}) Quantum Natural Gradient (QNG), and Nonlinear Kerr / Rydberg Blockade Gates"
+          },
+          {
+            "ids": [
               "high-performance-systems-engineering-high-n-scaling-architecture-n-4-126-qubits"
             ],
             "level": 2,
@@ -206673,6 +206843,13 @@
             ],
             "level": 3,
             "title": "2.11 \\mathrm{ER}=\\mathrm{EPR} Wormhole Transit (Paper 45), Grassmannian\u2013DDF Thermo-Electro-Magnetics vs. Lord\u2013Shulman (Paper 46), & DDF Fracture-Based Communication vs. \\mathrm{ER}=\\mathrm{EPR} Wormholes (Paper 47) (Signals.DFT Secs. 23\u201325.2, dft_plabic_vrc.rs)"
+          },
+          {
+            "ids": [
+              "quantum-trajectories-in-complex-grassmannian-mathrm-gr-mathbb-c-k-n-three-channel-pluckermadelungqfim-f-mu-nu-4-g-mu-nu-mathrm-fs-dual-schubert-igpe-ddf-model-fitting-check-figures-and-relative-comparisons-paper-50-signals-quantumtrajectories-quantum-trajectories-rs"
+            ],
+            "level": 3,
+            "title": "2.12 Quantum Trajectories in Complex Grassmannian \\mathrm{Gr}_{\\mathbb{C}}(k,n), Three-Channel Pl\u00fccker\u2013Madelung\u2013QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}}), Dual-Schubert iGPE, & DDF: Model Fitting, Check Figures, and Relative Comparisons (Paper 50) (Signals.QuantumTrajectories, quantum_trajectories.rs)"
           },
           {
             "ids": [
@@ -207372,7 +207549,6 @@
         "cuprate-superconductivity-plan",
         "ddf-fracture-communication-plan",
         "dispersive-homodyne-plan",
-        "dispersive-homodyne-plan",
         "flat-light-nanolithography-scholarly",
         "flat-light-proca-nlig-validation-plan",
         "gaussian-splat-tensors-normed-paper",
@@ -207409,6 +207585,7 @@
         "grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper",
         "grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper",
         "grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper",
+        "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
         "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
         "grassmannian-rhombohedral-graphene-superconductivity-qc-paper",
         "grassmannian-riscv-holographic-nanolithography-kicad-paper",
@@ -207434,6 +207611,7 @@
         "maxwell-electromagnetism-twistors-unification-plan",
         "paper",
         "paper-model-review",
+        "papers",
         "plan-index",
         "readme",
         "references",
@@ -207442,12 +207620,14 @@
         "schema",
         "search",
         "signals-blueprint",
+        "software-plans",
         "soliton-bus",
         "sphinx-meilisearch-architecture",
         "tools",
         "tuning-materials-with-light-plan",
         "visualization",
         "water",
+        "wiki",
         "workflow-performance-plan"
       ],
       "docname": "index",
@@ -207850,139 +208030,6 @@
             ],
             "level": 1,
             "title": "Theories"
-          },
-          {
-            "ids": [
-              "turner-models"
-            ],
-            "level": 2,
-            "title": "Turner Models"
-          },
-          {
-            "ids": [
-              "turner-model-6"
-            ],
-            "level": 3,
-            "title": "Turner Model 6"
-          },
-          {
-            "ids": [
-              "turner-model-12"
-            ],
-            "level": 3,
-            "title": "Turner Model 12"
-          },
-          {
-            "ids": [
-              "turner-model-13"
-            ],
-            "level": 3,
-            "title": "Turner Model 13"
-          },
-          {
-            "ids": [
-              "turner-model-14a"
-            ],
-            "level": 3,
-            "title": "Turner Model 14a"
-          },
-          {
-            "ids": [
-              "turner-model-14b"
-            ],
-            "level": 3,
-            "title": "Turner Model 14b"
-          },
-          {
-            "ids": [
-              "g-csc"
-            ],
-            "level": 2,
-            "title": "G-CSC"
-          },
-          {
-            "ids": [
-              "g-iep"
-            ],
-            "level": 2,
-            "title": "G-IEP"
-          },
-          {
-            "ids": [
-              "g-mgs"
-            ],
-            "level": 2,
-            "title": "G-MGS"
-          },
-          {
-            "ids": [
-              "g-gkba"
-            ],
-            "level": 2,
-            "title": "G-GKBA"
-          },
-          {
-            "ids": [
-              "g-tbc"
-            ],
-            "level": 2,
-            "title": "G-TBC"
-          },
-          {
-            "ids": [
-              "qci-gxc"
-            ],
-            "level": 2,
-            "title": "QCI-GXC"
-          },
-          {
-            "ids": [
-              "g-ncm"
-            ],
-            "level": 2,
-            "title": "G-NCM"
-          },
-          {
-            "ids": [
-              "qci-ncm"
-            ],
-            "level": 2,
-            "title": "QCI-NCM"
-          },
-          {
-            "ids": [
-              "qci-g-ncm"
-            ],
-            "level": 2,
-            "title": "QCI-G-NCM"
-          },
-          {
-            "ids": [
-              "g-ddf-tem"
-            ],
-            "level": 2,
-            "title": "G-DDF-TEM"
-          },
-          {
-            "ids": [
-              "existing-theories"
-            ],
-            "level": 1,
-            "title": "Existing Theories"
-          },
-          {
-            "ids": [
-              "plabic-graphs"
-            ],
-            "level": 2,
-            "title": "Plabic Graphs"
-          },
-          {
-            "ids": [
-              "vrc"
-            ],
-            "level": 2,
-            "title": "VRC"
           },
           {
             "ids": [
@@ -208707,6 +208754,24 @@
     },
     {
       "children": [],
+      "docname": "papers",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "sustainablefactory-papers"
+            ],
+            "level": 1,
+            "title": "sustainablefactory papers"
+          }
+        ]
+      },
+      "source": "papers.md",
+      "title": "sustainablefactory papers",
+      "url": "papers.html"
+    },
+    {
+      "children": [],
       "docname": "plan-index",
       "doctree": {
         "headings": [
@@ -209258,6 +209323,24 @@
       "source": "signals-blueprint.md",
       "title": "Signals Lean Blueprint",
       "url": "signals-blueprint.html"
+    },
+    {
+      "children": [],
+      "docname": "software-plans",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "software-plans"
+            ],
+            "level": 1,
+            "title": "Software plans"
+          }
+        ]
+      },
+      "source": "software-plans.md",
+      "title": "Software plans",
+      "url": "software-plans.html"
     },
     {
       "children": [],
@@ -209962,6 +210045,24 @@
       "source": "water.md",
       "title": "Water",
       "url": "water.html"
+    },
+    {
+      "children": [],
+      "docname": "wiki",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "wiki"
+            ],
+            "level": 1,
+            "title": "Wiki"
+          }
+        ]
+      },
+      "source": "wiki.md",
+      "title": "Wiki",
+      "url": "wiki.html"
     },
     {
       "children": [],

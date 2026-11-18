@@ -339,7 +339,7 @@ end SemiDiracFermionsPaperVerification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"banerjee2009", "dietl2008", "fedi2026relativity", "kim2015", "montambaux2009", "shao2024"}
+:filter: key in {"banerjee2009", "dietl2008", "fedi2026ddf", "kim2015", "montambaux2009", "shao2024"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

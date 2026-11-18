@@ -2014,3 +2014,109 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     assert tq_audit["has_gtensor_dot_typo"] is True
     assert tq_audit["corrected_virt_virt_pairs"] == [(2, 3), (4, 5)]
     assert tq_audit["upstream_buggy_entries"] == [(0, 2), (1, 4)]
+
+
+def test_quantum_trajectories_multi_model_relative_comparison_and_critique_fixes() -> None:
+    """
+    Verifies the Quantum Trajectories Lean 4 formalization (`Signals.QuantumTrajectories`),
+    Rust numerical adapter (`quantum_trajectories.rs`), and MyST paper check figures across:
+    1. Open-System QTT / MCWF & Superconducting Qubit Trajectories (Murch 2013, Roch 2014,
+       Campagne-Ibarcq 2016, Santos 2012);
+    2. Sharoglazova et al. (Nature 2025) & Klaers et al. (2023, 2025/2026) Evanescent
+       Energy-Speed Law and Three-Channel Plücker-Madelung-QFIM Resolution;
+    3. Foo et al. (Nat. Commun. 2022; 2024; 2025) Relativistic Weak-Value Photon Trajectories;
+    4. Tirole et al. (Nat. Phys. 2023; 2024) Optical Double-Slit Time Diffraction in ENZ ITO;
+    5. Drori et al. (Science 2023/2024) Quantum Vortices of Strongly Interacting Photons; and
+    6. All seven adversarial critique and gap-closure laws (QT-1 through QT-7).
+    """
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    lean_file = root / "src" / "signals" / "Signals" / "QuantumTrajectories.lean"
+    rust_file = (
+        root / "src" / "signals" / "numerical_adapter" / "src" / "quantum_trajectories.rs"
+    )
+    paper_file = (
+        root
+        / "docs"
+        / "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md"
+    )
+
+    assert lean_file.exists()
+    assert rust_file.exists()
+    assert paper_file.exists()
+
+    lean_text = lean_file.read_text(encoding="utf-8")
+    rust_text = rust_file.read_text(encoding="utf-8")
+    paper_text = paper_file.read_text(encoding="utf-8")
+
+    # Verify zero sorry axioms in Lean code
+    for line in lean_text.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith(("--", "/-", "*")):
+            assert "sorry" not in stripped
+
+    expected_lean_decls = [
+        "lindbladDensityMatrixDim",
+        "mcwfTrajectoryVectorDim",
+        "pluckerLindbladCompressionRatio",
+        "homodyneMeridianDriftZ",
+        "homodyneEquatorPhaseKickPhi",
+        "cascadedCavityParityPhaseShift",
+        "remoteTrajectoryConcurrenceSq",
+        "heterodyneDeterministicPurity",
+        "heterodyneExcitationIncrement",
+        "quantumJumpHeraldedGateFidelity",
+        "standardBohmEvanescentVelocity",
+        "pluckerThreeChannelSpeedSq",
+        "evanescentOsmoticSpeed",
+        "mirrorSymmetricEnergySpeedSq",
+        "coupledWaveguideClockSpeedSqFromFubiniStudy",
+        "coupledWaveguideClockSpeedSqFromQfim",
+        "klaersCoupledWaveguideSpeedSq",
+        "klaersBackactionQuadraticFactor",
+        "evanescentEntryProbability",
+        "dwellTimeCorrectionFactor",
+        "conditionalResidenceTime",
+        "unconditionalQuantumDwellTime",
+        "complexPotentialFourthPowerSpeedRatio",
+        "relativisticWeakValueVelocity",
+        "relativisticVelocityAddition",
+        "equalFrequencyBoostVelocity",
+        "schwarzschildAlcubierreCoordVelocity",
+        "twoPhotonEnergyNormalizedDensity",
+        "timeDoubleSlitFringePeriod",
+        "timeSlitBandwidthEnvelope",
+        "timeVaryingShgModulation",
+        "nonlinearKerrSuperpositionResidual",
+        "chi2SecondHarmonicSuperpositionResidual",
+        "pairwiseKerrMultiPhotonPhase",
+        "saturatedBlockadeMultiPhotonPhase",
+        "pairwiseMcGuireThreeBodyEnergy",
+        "saturatedBlockadeThreeBodyEnergy",
+        "connectedThreePhotonCorrelation",
+        "evanescentWaveguideDirectionalJet",
+        "waveguidePropPopQuartic",
+        "waveguideEvPopQuartic",
+        "rydbergPolaritonTeEnhancement",
+        "rydbergPolaritonInteractionLambda",
+        "quantum_trajectories_multi_model_relative_comparison_and_check_figures_identities",
+        "quantum_trajectories_critique_and_gap_closure_identities",
+    ]
+    for decl in expected_lean_decls:
+        assert decl in lean_text, f"Missing {decl} in QuantumTrajectories.lean"
+
+    assert "parametric_evanescent_waveguide_three_channel_and_lorentz_invariance" in rust_text
+    for cite_key in [
+        "murch2013observing",
+        "roch2014observation",
+        "campagne2016observing",
+        "santos2012quantum",
+        "sharoglazova_energyspeed_2025",
+        "klaers2023particle",
+        "klaers2025reaffirming",
+        "foo_relativistic_2022",
+        "tirole2023doubleslit",
+        "drori2023quantum",
+    ]:
+        assert cite_key in paper_text, f"Missing citation {cite_key} in paper"

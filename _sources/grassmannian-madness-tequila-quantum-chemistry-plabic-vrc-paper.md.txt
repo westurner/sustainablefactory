@@ -476,7 +476,7 @@ end MadnessTequilaPlabicVRCVerification
 
 ```{bibliography}
 :list: bullet
-:filter: key in {"affolter2024vrc", "goerigk2017gmtkn55", "mcweeny1960densityMatrix", "mt-harrison2016", "mt-kottmann2020pno", "kottmann2021direct", "tequila2021", "mt-kottmann2022spa", "postnikov2006"}
+:filter: key in {"affolter2024vrc", "goerigk2017gmtkn55", "mcweeny1960densityMatrix", "mt-harrison2016", "mt-kottmann2020pno", "kottmann2021direct", "tequila2021", "mt-kottmann2022spa", "postnikov2006plabic"}
 ```
 
 ### Schema.org Metadata (JSON-LD)

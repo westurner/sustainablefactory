@@ -362,7 +362,7 @@ Specifically, while implementing `QEC.Stabilizer.Codes.Layer`:
 2. **Star-Hub Syndrome Routing Without Unverified Planar Disk Assumptions (`RotationSystem`, `plabicStar`)**:
    To route syndromes and optical OAM/soliton ancilla modes around 3-leg boundary stars, 4-leg surface stars, and 5-leg Z-line stars (`gridZLineFiveLegXStar`, `plabicStar`) without assuming an unproved genus-zero disk embedding, we formulated `RotationSystem` in [`Signals.Plabic`](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Plabic.lean#L56-L469), proving from finite permutation periodicity (`dartTurn_period`) that every boundary start reaches a unique first exit within $\le \mathrm{card}(\mathrm{DirectedEdge})$ steps (`boundary_firstExit_exists`, `boundaryExit_injective`), inducing a derived bijective boundary permutation (`RotationSystem.boundaryPerm`).
 3. **Acyclic Inter-Layer Transfer & Lindström–Gessel–Viennot Disjoint-Path Positivity (`WeightedAcyclicNetwork`, `lgv_multiLayer_det_positive`)**:
-   Propagating syndrome/optical weights across $h$ laminated vitrimer layers led directly to `WeightedAcyclicNetwork` ($W^{h+1} = 0$, $T = \sum_{\ell=0}^h W^\ell = 1 + W T$) and the multi-layer and 3-channel LGV theorems ({cite:p}`postnikov2006`; {cite:p}`lindstrom1973lgv`; {cite:p}`gessel1985`).
+   Propagating syndrome/optical weights across $h$ laminated vitrimer layers led directly to `WeightedAcyclicNetwork` ($W^{h+1} = 0$, $T = \sum_{\ell=0}^h W^\ell = 1 + W T$) and the multi-layer and 3-channel LGV theorems ({cite:p}`postnikov2006plabic`; {cite:p}`lindstrom1973lgv`; {cite:p}`gessel1985`).
 
 ### 6.2 How Every Component of `Signals.Plabic` Applies to Hubble, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, and $< 1\text{ nm}$ Nanolithography
 
@@ -593,8 +593,8 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 <a id="williamson2024layer"></a>
 12. Williamson, D. J., & Baspin, N. (2024). Layer Codes. *Nature Communications*, 15(1), 9528. DOI: `10.1038/s41467-024-53881-3`; `arXiv:2309.16503`. [https://doi.org/10.1038/s41467-024-53881-3](https://doi.org/10.1038/s41467-024-53881-3).
 
-(postnikov2006plabic)=
-<a id="postnikov2006plabic"></a>
+(postnikov2006plabicplabic)=
+<a id="postnikov2006plabicplabic"></a>
 13. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`. [https://arxiv.org/abs/math/0609764](https://arxiv.org/abs/math/0609764).
 
 (lindstrom1973lgv)=

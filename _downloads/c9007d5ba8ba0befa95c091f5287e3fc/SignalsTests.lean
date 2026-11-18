@@ -8759,4 +8759,147 @@ example (x1 x2 sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta : ℝ) :
     3 sigma_mu dchi g_ijab gamma_vrc eta grad_theta g_fs_theta
     (by norm_num) (by norm_num)
 
+example (n_hilbert : ℕ) (g_meas z chi gamma_dec delta_energy v_tort sigma_dir psi_m_sq delta_chi1_rel : ℝ) :
+    Signals.QuantumTrajectories.lindbladDensityMatrixDim n_hilbert =
+        n_hilbert * Signals.QuantumTrajectories.mcwfTrajectoryVectorDim n_hilbert ∧
+      Signals.QuantumTrajectories.pluckerLindbladCompressionRatio 4 2 = 128 / 3 ∧
+      Signals.QuantumTrajectories.homodyneMeridianDriftZ g_meas z 0 = 0 ∧
+      Signals.QuantumTrajectories.homodyneEquatorPhaseKickPhi g_meas (Real.pi / 2) = 0 ∧
+      Signals.QuantumTrajectories.cascadedCavityParityPhaseShift chi 1 (-1) = 0 ∧
+      Signals.QuantumTrajectories.cascadedCavityParityPhaseShift chi (-1) 1 = 0 ∧
+      Signals.QuantumTrajectories.remoteTrajectoryConcurrenceSq (1 / 4) = 1 ∧
+      Signals.Huygens.relativePredictiveError
+          (Signals.QuantumTrajectories.remoteTrajectoryConcurrenceSq 0) 1 = 1 ∧
+      Signals.QuantumTrajectories.heterodyneDeterministicPurity 1 (1 / 2) (1 - 1 / 2) = 1 ∧
+      0 < Signals.QuantumTrajectories.heterodyneExcitationIncrement 1 (1 / 2) 1 1 ∧
+      Signals.QuantumTrajectories.quantumJumpHeraldedGateFidelity gamma_dec 1 = 1 ∧
+      Signals.Huygens.relativePredictiveError
+          Signals.QuantumTrajectories.standardBohmEvanescentVelocity
+          (Signals.QuantumTrajectories.evanescentOsmoticSpeed 1 2 4) = 1 ∧
+      Signals.Huygens.relativePredictiveError 30 2000 = 197 / 200 ∧
+      Signals.QuantumTrajectories.evanescentOsmoticSpeed 1 2 4 = 1 * 4 / 2 ∧
+      Signals.Huygens.relativePredictiveError
+          (Signals.QuantumTrajectories.pluckerThreeChannelSpeedSq 0
+            (Signals.QuantumTrajectories.evanescentOsmoticSpeed 1 2 4) 0)
+          ((1 * 4 / (2 : ℝ)) ^ 2) = 0 ∧
+      Signals.QuantumTrajectories.mirrorSymmetricEnergySpeedSq 2 (-delta_energy) =
+        Signals.QuantumTrajectories.mirrorSymmetricEnergySpeedSq 2 delta_energy ∧
+      Signals.QuantumTrajectories.klaersCoupledWaveguideSpeedSq 1 2 3 (-delta_energy) =
+        Signals.QuantumTrajectories.klaersCoupledWaveguideSpeedSq 1 2 3 delta_energy ∧
+      0 < Signals.QuantumTrajectories.klaersCoupledWaveguideSpeedSq 1 2 3 0 ∧
+      Signals.QuantumTrajectories.klaersBackactionQuadraticFactor 1 3 (-delta_energy) =
+        Signals.QuantumTrajectories.klaersBackactionQuadraticFactor 1 3 delta_energy ∧
+      Signals.QuantumTrajectories.coupledWaveguideClockSpeedSqFromQfim 3 (4 * 5) =
+        Signals.QuantumTrajectories.coupledWaveguideClockSpeedSqFromFubiniStudy 3 5 ∧
+      Signals.QuantumTrajectories.evanescentEntryProbability 3 4 *
+          Signals.QuantumTrajectories.dwellTimeCorrectionFactor 3 4 = 1 ∧
+      Signals.QuantumTrajectories.evanescentEntryProbability 3 4 ≤ 1 ∧
+      1 ≤ Signals.QuantumTrajectories.dwellTimeCorrectionFactor 3 4 ∧
+      Signals.QuantumTrajectories.evanescentEntryProbability 3 3 = 1 ∧
+      Signals.QuantumTrajectories.dwellTimeCorrectionFactor 3 3 = 1 ∧
+      (((3 : ℝ) ^ 2 - 4 ^ 2) / (3 ^ 2 + 4 ^ 2)) ^ 2 +
+          (Signals.QuantumTrajectories.evanescentEntryProbability 3 4) ^ 2 = 1 ∧
+      Signals.QuantumTrajectories.evanescentEntryProbability 3 4 *
+          Signals.QuantumTrajectories.conditionalResidenceTime 1 2 4 =
+        Signals.QuantumTrajectories.unconditionalQuantumDwellTime 1 2 3 4 ∧
+      1 < Signals.QuantumTrajectories.complexPotentialFourthPowerSpeedRatio 2 1 ∧
+      Signals.QuantumTrajectories.relativisticWeakValueVelocity
+          (Signals.QuantumTrajectories.lorentzBoostedCurrent 2 (1 / 4) 1 2)
+          (Signals.QuantumTrajectories.lorentzBoostedDensity 2 (1 / 4) 1 2) =
+        Signals.QuantumTrajectories.relativisticVelocityAddition
+          (Signals.QuantumTrajectories.relativisticWeakValueVelocity 1 2) (1 / 4) ∧
+      (1 - Signals.QuantumTrajectories.equalFrequencyBoostVelocity 3 1) * (3 + 1) = 2 * 1 ∧
+      (1 + Signals.QuantumTrajectories.equalFrequencyBoostVelocity 3 1) * (3 + 1) = 2 * 3 ∧
+      Signals.QuantumTrajectories.schwarzschildAlcubierreCoordVelocity
+          (3 / 4) (v_tort - sigma_dir) sigma_dir = (3 / 4) * v_tort ∧
+      Signals.QuantumTrajectories.twoPhotonEnergyNormalizedDensity
+          (2 * 3 * psi_m_sq) (2 * 3 * psi_m_sq) 3 3 = psi_m_sq ∧
+      (5 : ℝ) * Signals.QuantumTrajectories.timeDoubleSlitFringePeriod 5 = 1 ∧
+      Signals.QuantumTrajectories.timeSlitBandwidthEnvelope 1 110 <
+        Signals.QuantumTrajectories.timeSlitBandwidthEnvelope 1 (44 / 10) ∧
+      Signals.QuantumTrajectories.timeVaryingShgModulation delta_chi1_rel = 2 * delta_chi1_rel ∧
+      Signals.QuantumTrajectories.nonlinearKerrSuperpositionResidual 2 3 4 =
+        3 * 2 * 3 * 4 * (3 + 4) ∧
+      0 < Signals.QuantumTrajectories.nonlinearKerrSuperpositionResidual 2 3 4 ∧
+      Signals.QuantumTrajectories.chi2SecondHarmonicSuperpositionResidual 2 3 4 = 2 * 2 * 3 * 4 ∧
+      0 < Signals.QuantumTrajectories.chi2SecondHarmonicSuperpositionResidual 2 3 4 ∧
+      Signals.Huygens.relativePredictiveError 0 (-Real.pi) = 1 ∧
+      Signals.Huygens.relativePredictiveError
+          (Signals.QuantumTrajectories.pairwiseKerrMultiPhotonPhase 3 (-Real.pi))
+          (-2 * Real.pi) = 1 / 2 ∧
+      Signals.Huygens.relativePredictiveError
+          (Signals.QuantumTrajectories.saturatedBlockadeMultiPhotonPhase 3 (-Real.pi))
+          (-2 * Real.pi) = 0 ∧
+      Signals.Huygens.relativePredictiveError
+          (Signals.QuantumTrajectories.pairwiseMcGuireThreeBodyEnergy 5)
+          (Signals.QuantumTrajectories.saturatedBlockadeThreeBodyEnergy 5) = 1 / 3 ∧
+      Signals.Huygens.relativePredictiveError
+          (Signals.QuantumTrajectories.saturatedBlockadeThreeBodyEnergy 5) (3 * 5) = 0 ∧
+      Signals.QuantumTrajectories.connectedThreePhotonCorrelation
+          (74 / 10) (119 / 30) (119 / 30) (119 / 30) = -5 / 2 ∧
+      Signals.QuantumTrajectories.connectedThreePhotonCorrelation
+          (39 / 10) (5 / 3) (5 / 3) (5 / 3) = 9 / 10 :=
+  Signals.QuantumTrajectories.quantum_trajectories_multi_model_relative_comparison_and_check_figures_identities
+    n_hilbert g_meas z chi (1 / 2) 1 1 1 gamma_dec 1 2 4 delta_energy 3 5 3 1 2 1 2 2 (1 / 4) 3 1
+    (3 / 4) v_tort sigma_dir psi_m_sq 5 1 delta_chi1_rel 2 2 3 4 5
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+
+example (l_i l_j alpha_lo rho_ij j_forward t_sq exp_decay det_w g_fs_ray kappa k1 x_tilde gamma_e odb : ℝ) :
+    let d_wg := Signals.QuantumTrajectories.evanescentWaveguideDirectionalJet 2 kappa k1
+    Signals.QuantumTrajectories.unravelingMasterEquationGaugeResidual l_i l_j alpha_lo rho_ij = 0 ∧
+      Signals.QuantumTrajectories.bidirectionalEvanescentNetCurrent j_forward = 0 ∧
+      Signals.QuantumTrajectories.bidirectionalDensityMatchResidual t_sq 2 3 exp_decay = 0 ∧
+      1 ≤ 1 + (4 : ℝ) + det_w ^ 2 ∧
+      Signals.QuantumTrajectories.kahlerRegularizedWeakVelocity 0 4 det_w = 0 ∧
+      0 < Signals.QuantumTrajectories.droriVortexCoreCorrelationFloor ∧
+      Signals.QuantumTrajectories.droriVortexCoreCorrelationFloor = 6 / 25 ∧
+      Signals.DFT.projectiveQfimEnergyFromRayMetric 1 2 0 g_fs_ray = 0 ∧
+      Signals.DFT.hydroFlowDir 1 2 d_wg = 0 ∧
+      Signals.DFT.scalarBohmDensityDir 1 2 d_wg =
+        (1 / 2) * 2 * 2 * (Signals.QuantumTrajectories.evanescentOsmoticSpeed 1 2 kappa) ^ 2 ∧
+      Signals.DFT.fubiniStudyDiag d_wg = k1 ^ 2 ∧
+      Signals.DFT.qfimDiag d_wg = 4 * k1 ^ 2 ∧
+      Signals.QuantumTrajectories.klaersCoupledWaveguideSpeedSq 1 2 2 (1 * 2) = 1 * 2 / 2 ∧
+      ((|1 * (2 : ℝ)| + Real.sqrt ((1 * 2) ^ 2 - (1 * 2) ^ 2)) / 2 = 1 * 2 / 2) ∧
+      Signals.QuantumTrajectories.klaersCoupledWaveguideSpeedSq 1 2 0 1 =
+        Signals.QuantumTrajectories.mirrorSymmetricEnergySpeedSq 2 1 ∧
+      Signals.QuantumTrajectories.waveguidePropPopQuartic x_tilde -
+          Signals.QuantumTrajectories.waveguideEvPopQuartic x_tilde =
+        (4 / 3) * x_tilde ^ 4 ∧
+      1 - (Signals.QuantumTrajectories.relativisticVelocityAddition (1 / 2) (1 / 4)) ^ 2 =
+        (1 - (1 / 4) ^ 2) * (1 - (1 / 2) ^ 2) / (1 - (1 / 4) * (1 / 2)) ^ 2 ∧
+      Signals.QuantumTrajectories.rydbergPolaritonTeEnhancement 3 0 5 = 1 ∧
+      Signals.QuantumTrajectories.rydbergPolaritonTeEnhancement 3 ((3 : ℝ) ^ 2 / (2 * 5)) 5 = 2 ∧
+      Signals.QuantumTrajectories.rydbergPolaritonInteractionLambda 2 gamma_e 5 odb =
+        4 * Signals.QuantumTrajectories.rydbergPolaritonInteractionLambda 1 gamma_e 5 odb :=
+  Signals.QuantumTrajectories.quantum_trajectories_critique_and_gap_closure_identities
+    l_i l_j alpha_lo rho_ij j_forward t_sq 2 3 exp_decay 4 det_w 1 2 g_fs_ray
+    2 kappa k1 x_tilde (1 / 2) (1 / 4) 3 5 gamma_e odb
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+example (p e_id e_x e_y e_z overlap_sq grad_e re_amp im_amp chi3 : ℝ) :
+    Signals.QuantumTrajectories.tequilaTrajectoryVsDensityCompressionRatio 16 64 = 1024 ∧
+      Signals.QuantumTrajectories.tequilaTrajectoryVsDensityCompressionRatio 20 64 = 16384 ∧
+      Signals.QuantumTrajectories.krausBitFlipUnravelingResidual p e_id e_x = 0 ∧
+      Signals.QuantumTrajectories.krausDepolarizingUnravelingResidual p e_id e_x e_y e_z = 0 ∧
+      Signals.QuantumTrajectories.krausAmplitudeDampNoJumpProb p (1 / 3) (2 / 3) +
+          Signals.QuantumTrajectories.krausAmplitudeDampJumpProb p (2 / 3) = 1 ∧
+      Signals.QuantumTrajectories.qfimFromParameterShiftOverlap overlap_sq =
+        4 * Signals.QuantumTrajectories.fubiniStudyMetricFromParameterShiftOverlap overlap_sq ∧
+      Signals.QuantumTrajectories.fubiniStudyMetricFromParameterShiftOverlap 1 = 0 ∧
+      Signals.QuantumTrajectories.fubiniStudyMetricFromParameterShiftOverlap 0 = 1 / 2 ∧
+      Signals.QuantumTrajectories.qfimFromParameterShiftOverlap 0 = 2 ∧
+      Signals.QuantumTrajectories.kahlerRegularizedNaturalGradientStep 0 2 (1 / 100) = 0 ∧
+      |Signals.QuantumTrajectories.kahlerRegularizedNaturalGradientStep grad_e 2 (1 / 100)| ≤
+        |grad_e| / (1 / 100) ∧
+      Signals.QuantumTrajectories.nonlinearKerrGateNormSq re_amp im_amp chi3 =
+        re_amp ^ 2 + im_amp ^ 2 :=
+  Signals.QuantumTrajectories.tequila_quantum_trajectory_mcwf_qng_and_nonlinear_gate_identities
+    p e_id e_x e_y e_z (1 / 3) (2 / 3) overlap_sq grad_e 2 (1 / 100) re_amp im_amp chi3
+    (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsTests

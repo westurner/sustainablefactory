@@ -45,7 +45,7 @@ We prove that while an unphased crossing-minor proxy restricted to the real posi
 
 ## 1. Introduction & Epistemic Verification Boundary
 
-Evaluating multi-aperture wave superposition across classical optics, positive geometry ({cite:p}`postnikov2006`; {cite:p}`arkani2014amplituhedron`; {cite:p}`arkani-hamed-bai-lam2017`), quantum coherence theory {cite:p}`qian2023`, Bohmian hydrodynamics, and Wigner phase-space tomography raises a precise quantitative question: **what is the exact pointwise and dark-fringe relative predictive error between these formulations, and what geometric data are required for a Grassmannian minor evaluator to match coherent interferometry without ad-hoc fitting?**
+Evaluating multi-aperture wave superposition across classical optics, positive geometry ({cite:p}`postnikov2006plabic`; {cite:p}`arkani2014amplituhedron`; {cite:p}`arkani-hamed-bai-lam2017`), quantum coherence theory {cite:p}`qian2023`, Bohmian hydrodynamics, and Wigner phase-space tomography raises a precise quantitative question: **what is the exact pointwise and dark-fringe relative predictive error between these formulations, and what geometric data are required for a Grassmannian minor evaluator to match coherent interferometry without ad-hoc fitting?**
 
 *(Note: The companion application of the same verified $2 \times n$ Grassmannian Plücker kernel `Signals.Geometry.twoRowMinor_pluecker` to Baxter's $QQ$-system, $TQ$ Wronskians, and the Quantum Inverse Scattering Method is presented in the companion paper [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md).)*
 
@@ -457,7 +457,7 @@ popd
 <a id="qian2023"></a>
 1. Qian, X.-F., and Izadi, M. (2023). *Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation*. Physical Review Research 5(3), 033110. [DOI: 10.1103/PhysRevResearch.5.033110](https://doi.org/10.1103/PhysRevResearch.5.033110). ({download}`Local PDF, pp. 1-6 <../data/papers/PhysRevResearch.5.033110.pdf>`).
 
-<a id="postnikov2006"></a>
+<a id="postnikov2006plabic"></a>
 2. Postnikov, A. (2006). *Total Positivity, Grassmannians, and Networks*. [arXiv:math/0609764](https://arxiv.org/abs/math/0609764).
 
 <a id="arkani-hamed-trnka2014"></a>

@@ -1848,7 +1848,7 @@ Source type: mathematical/theoretical framework for positive geometries,
 canonical forms, and recursive boundary residues.
 
 (scholarly-postnikov-networks)=
-<a id="postnikov2006"></a>
+<a id="postnikov2006plabic"></a>
 Postnikov, A. (2006). *Total positivity, Grassmannians, and networks*.
 [arXiv:math/0609764](https://arxiv.org/abs/math/0609764);
 [DOI: 10.48550/arXiv.math/0609764](https://doi.org/10.48550/arXiv.math/0609764).
