@@ -8989,4 +8989,25 @@ example :
   · exact (Signals.RiemannSpectral.heawood_graph_ramanujan_critical_circle
       (Real.sqrt 2) (Real.sq_sqrt (by norm_num))).1
 
+example (b1 b2 b3 : ℝ) :
+    Signals.RiemannSpectral.jensenCubicDiscriminant 1 0 (-3) 0 = 108 ∧
+      0 < Signals.RiemannSpectral.jensenCubicDiscriminant 1 0 (-3) (1 / 7) ∧
+      0 < Signals.RiemannSpectral.weilQuadForm2 2 1 3 1 (-1) ∧
+      Signals.RiemannSpectral.weilQuadForm2 1 2 1 (-2) 1 < 0 ∧
+      Signals.RiemannSpectral.dbnQuadraticHeatSolution (4 / 1000) (-22) (-(4 / 1000) / 22) 0 = 0 ∧
+      b3 = Signals.RiemannSpectral.keiperLi3 b1 b2 b3 / 3 -
+        Signals.RiemannSpectral.keiperLi2 b1 b2 + Signals.RiemannSpectral.keiperLi1 b1 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact (Signals.RiemannSpectral.depressedCubic_hermite3_discriminant 0).2.2
+  · exact ((Signals.RiemannSpectral.depressedCubic_hermite3_discriminant (1 / 7)).2.1).mpr
+      (by norm_num)
+  · exact Signals.RiemannSpectral.weilQuadForm2_pos_of_sylvester 2 1 3 1 (-1)
+      (by norm_num) (by norm_num) (Or.inl (by norm_num))
+  · exact (Signals.RiemannSpectral.weilQuadForm2_neg_witness_of_neg_det 1 2 1
+      (by norm_num) (by norm_num)).2
+  · have h := Signals.RiemannSpectral.dbnQuadraticHeat_collides_and_leaves_real_axis
+      (4 / 1000) (-22) (by norm_num) (by norm_num)
+    simpa [div_neg, neg_div] using h.2.1
+  · exact (Signals.RiemannSpectral.keiperLi_binomial_inversion_123 b1 b2 b3).2.2
+
 end SignalsTests

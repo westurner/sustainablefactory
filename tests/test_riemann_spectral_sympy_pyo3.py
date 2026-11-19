@@ -199,3 +199,47 @@ def test_pyo3_li_partial_coefficients_critical_vs_off_line_quartet():
     off_li = sna.py_li_partial_coefficients(gammas, 5000, 0.20, gammas[0])
     neg_indices = [i + 1 for i, v in enumerate(off_li) if v < 0.0]
     assert len(neg_indices) > 0
+
+
+def test_sympy_rh_analytical_bridges_gorz_keiper_li_weil_and_dbn():
+    from sustainablefactory.riemann_rh_bridges import (
+        audit_gorz_jensen_hyperbolicity,
+        audit_lehmer_dbn_backward_heat,
+        audit_weil_gaussian_gram_matrix,
+        compute_exact_keiper_li_coefficients,
+        verify_symbolic_rh_bridge_identities,
+    )
+
+    # 1. All 7 SymPy symbolic RH-bridge identities hold identically
+    sym_res = verify_symbolic_rh_bridge_identities()
+    assert all(sym_res.values()), f"Failed symbolic checks: {sym_res}"
+
+    # 2. GORZ (PNAS 2019) positive-integral Jensen polynomials J^{d,n}(X) for d = 2..6
+    gorz = audit_gorz_jensen_hyperbolicity(degrees=(2, 3, 4, 5, 6), n_max=10, dps=65)
+    assert gorz["xi_half_moment_error"] < 1e-50
+    for row in gorz["per_degree"]:
+        assert row["all_real"], f"Non-real root found for degree {row['degree']}"
+        assert row["max_imag"] == 0.0
+        assert row["min_root_gap"] > 0.0
+    assert all(r["strictly_hyperbolic"] for r in gorz["hermite3_residuals"])
+
+    # 3. Exact infinite-zero Keiper–Li coefficients lambda_1..lambda_15
+    kli = compute_exact_keiper_li_coefficients(max_n=15, dps=60)
+    assert kli["all_positive"]
+    assert kli["lambda_1_analytic_error"] < 1e-50
+    assert abs(kli["lambdas"][0] - 0.023095708966121034) < 1e-15
+    assert abs(kli["lambdas"][9] - 2.279339363193158) < 1e-12
+
+    # 4. Exact 50-digit Weil Explicit-Formula 4x4 Gaussian Gram matrix (Prime+Arch vs Zero)
+    weil = audit_weil_gaussian_gram_matrix(
+        alphas=(40.0, 80.0, 160.0, 320.0), num_zeros=120, n_max=500, dps=50
+    )
+    assert weil["max_prime_vs_zero_diff"] < 1e-45
+    assert weil["strictly_positive_definite"]
+    assert min(weil["eigenvalues_prime_arch"]) > 3.4e-5
+
+    # 5. De Bruijn–Newman backward heat collision on Lehmer's 1956 pair
+    dbn = audit_lehmer_dbn_backward_heat(dps=40)
+    assert dbn["t_heat"] < 0.0 and dbn["t_calogero_moser"] < 0.0
+    assert abs(dbn["t_heat"] - (-0.0001775410)) < 1e-8
+    assert abs(dbn["ratio_t_heat_over_t_cm"] - 0.999403) < 1e-4

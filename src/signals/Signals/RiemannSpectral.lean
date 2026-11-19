@@ -462,6 +462,161 @@ theorem heawood_graph_ramanujan_critical_circle (lam : ℝ) (h_sq : lam ^ 2 = 2)
     linarith
   · simpa [show (2 : ℝ) * 2 = 4 by norm_num] using h_circ.2
 
+/-! ### 7. Griffin–Ono–Rolen–Zagier (PNAS 2019) Jensen Polynomial Hyperbolicity (Degrees 2 & 3) -/
+
+/-- Exact discriminant `Δ₃ = 18abcd - 4b³d + b²c² - 4ac³ - 27a²d²` of a cubic polynomial
+`a X³ + b X² + c X + d` (including degree-3 Jensen polynomials `J^{3,n}(X)`). -/
+def jensenCubicDiscriminant (a b c d : ℝ) : ℝ :=
+  18 * a * b * c * d - 4 * b ^ 3 * d + b ^ 2 * c ^ 2 - 4 * a * c ^ 3 - 27 * a ^ 2 * d ^ 2
+
+/-- **Factored Cubic Discriminant Identity**:
+For any cubic `a (X - r₁)(X - r₂)(X - r₃)`, the discriminant equals
+`a⁴ (r₁ - r₂)² (r₁ - r₃)² (r₂ - r₃)²`, which is strictly positive whenever `a ≠ 0`
+and all three roots are distinct real numbers (`r₁ < r₂ < r₃`). -/
+theorem jensenCubicDiscriminant_factored_roots (a r1 r2 r3 : ℝ) :
+    let b := -a * (r1 + r2 + r3)
+    let c := a * (r1 * r2 + r1 * r3 + r2 * r3)
+    let d := -a * r1 * r2 * r3
+    jensenCubicDiscriminant a b c d =
+      a ^ 4 * (r1 - r2) ^ 2 * (r1 - r3) ^ 2 * (r2 - r3) ^ 2 ∧
+      (a ≠ 0 → r1 < r2 → r2 < r3 → 0 < jensenCubicDiscriminant a b c d) := by
+  dsimp only
+  have h_eq :
+      jensenCubicDiscriminant a (-a * (r1 + r2 + r3))
+        (a * (r1 * r2 + r1 * r3 + r2 * r3)) (-a * r1 * r2 * r3) =
+          a ^ 4 * (r1 - r2) ^ 2 * (r1 - r3) ^ 2 * (r2 - r3) ^ 2 := by
+    unfold jensenCubicDiscriminant
+    ring
+  refine ⟨h_eq, ?_⟩
+  intro ha h12 h23
+  rw [h_eq]
+  have ha4 : 0 < a ^ 4 := by
+    have : 0 < a ^ 2 := sq_pos_of_ne_zero ha
+    have h4 : a ^ 4 = (a ^ 2) ^ 2 := by ring
+    rw [h4]
+    exact sq_pos_of_pos this
+  have h1 : 0 < (r1 - r2) ^ 2 := sq_pos_of_ne_zero (ne_of_lt (sub_neg.mpr h12))
+  have h2 : 0 < (r1 - r3) ^ 2 := sq_pos_of_ne_zero (ne_of_lt (sub_neg.mpr (lt_trans h12 h23)))
+  have h3 : 0 < (r2 - r3) ^ 2 := sq_pos_of_ne_zero (ne_of_lt (sub_neg.mpr h23))
+  positivity
+
+/-- **Hermite-Normalized Degree-3 Jensen Hyperbolicity Criterion**:
+For the depressed Hermite-normalized cubic `Z³ - 3 Z + c`, `Δ₃ = 27 (4 - c²)`, so
+strict hyperbolicity (`Δ₃ > 0`, three distinct real roots) holds iff `c² < 4` (`|c| < 2`).
+At the Griffin–Ono–Rolen–Zagier probabilists' Hermite limit `He₃(Z) = Z³ - 3Z` (`c = 0`),
+`Δ₃ = 108 > 0`. -/
+theorem depressedCubic_hermite3_discriminant (c : ℝ) :
+    jensenCubicDiscriminant 1 0 (-3) c = 27 * (4 - c ^ 2) ∧
+      (0 < jensenCubicDiscriminant 1 0 (-3) c ↔ c ^ 2 < 4) ∧
+      jensenCubicDiscriminant 1 0 (-3) 0 = 108 := by
+  have h_id : jensenCubicDiscriminant 1 0 (-3) c = 27 * (4 - c ^ 2) := by
+    unfold jensenCubicDiscriminant
+    ring
+  refine ⟨h_id, ?_, ?_⟩
+  · rw [h_id]
+    constructor <;> intro h <;> linarith
+  · unfold jensenCubicDiscriminant
+    norm_num
+
+/-! ### 8. Weil Explicit-Formula Quadratic Form Positivity & Disproof Witness Gate -/
+
+/-- `2 × 2` symmetric Weil quadratic form `vᵀ W v = w₀₀ v₀² + 2 w₀₁ v₀ v₁ + w₁₁ v₁²`. -/
+def weilQuadForm2 (w00 w01 w11 v0 v1 : ℝ) : ℝ :=
+  w00 * v0 ^ 2 + 2 * w01 * v0 * v1 + w11 * v1 ^ 2
+
+/-- **Sylvester Positivity Gate for Finite-Dimensional Weil Subspaces**:
+Whenever `w₀₀ > 0` and `det W = w₀₀ w₁₁ - w₀₁² > 0`, the Weil quadratic form is strictly
+positive for every nonzero test vector `(v₀, v₁) ≠ (0, 0)`. -/
+theorem weilQuadForm2_pos_of_sylvester
+    (w00 w01 w11 v0 v1 : ℝ)
+    (h00 : 0 < w00)
+    (hdet : 0 < w00 * w11 - w01 ^ 2)
+    (hne : v0 ≠ 0 ∨ v1 ≠ 0) :
+    0 < weilQuadForm2 w00 w01 w11 v0 v1 := by
+  have h_sq_id :
+      w00 * weilQuadForm2 w00 w01 w11 v0 v1 =
+        (w00 * v0 + w01 * v1) ^ 2 + (w00 * w11 - w01 ^ 2) * v1 ^ 2 := by
+    unfold weilQuadForm2
+    ring
+  have h_prod_pos : 0 < w00 * weilQuadForm2 w00 w01 w11 v0 v1 := by
+    rw [h_sq_id]
+    rcases eq_or_ne v1 0 with hv1 | hv1
+    · subst hv1
+      have hv0 : v0 ≠ 0 := hne.resolve_right (by simp)
+      have h1 : 0 < (w00 * v0) ^ 2 := sq_pos_of_ne_zero (mul_ne_zero (ne_of_gt h00) hv0)
+      nlinarith
+    · have hv1sq : 0 < v1 ^ 2 := sq_pos_of_ne_zero hv1
+      have h2 : 0 < (w00 * w11 - w01 ^ 2) * v1 ^ 2 := mul_pos hdet hv1sq
+      nlinarith [sq_nonneg (w00 * v0 + w01 * v1)]
+  exact (mul_pos_iff_of_pos_left h00).mp h_prod_pos
+
+/-- **Weil Disproof Witness Criterion**:
+If a symmetric Weil Gram matrix has `w₀₀ > 0` and a strictly negative `2 × 2` principal minor
+`w₀₀ w₁₁ - w₀₁² < 0`, then the explicit test vector `v = (-w₀₁, w₀₀)` violates Weil positivity
+(`vᵀ W v = w₀₀ (w₀₀ w₁₁ - w₀₁²) < 0`). -/
+theorem weilQuadForm2_neg_witness_of_neg_det
+    (w00 w01 w11 : ℝ) (h00 : 0 < w00) (hdet : w00 * w11 - w01 ^ 2 < 0) :
+    weilQuadForm2 w00 w01 w11 (-w01) w00 = w00 * (w00 * w11 - w01 ^ 2) ∧
+      weilQuadForm2 w00 w01 w11 (-w01) w00 < 0 := by
+  have h_eq : weilQuadForm2 w00 w01 w11 (-w01) w00 = w00 * (w00 * w11 - w01 ^ 2) := by
+    unfold weilQuadForm2
+    ring
+  exact ⟨h_eq, by rw [h_eq]; nlinarith⟩
+
+/-! ### 9. De Bruijn–Newman Quadratic Backward-Heat Collision & Keiper–Li Binomial Identity -/
+
+/-- Local quadratic solution of the de Bruijn–Newman backward heat equation
+`∂_t H_t = -∂_z² H_t` near a Lehmer extremum `Z(γ*) = z0, Z'(γ*) = 0, Z''(γ*) = z2`. -/
+def dbnQuadraticHeatSolution (z0 z2 t dz : ℝ) : ℝ :=
+  (z0 - z2 * t) + (1 / 2) * z2 * dz ^ 2
+
+/-- **De Bruijn–Newman Lehmer Collision Theorem**:
+At an extremum peak (`z0 > 0, z2 < 0`), the local heat-flow peak hits zero at
+`t_crit = z0 / z2 < 0` (where the two real roots merge into a double root at `dz = 0`),
+and for any strictly earlier backward heat time `t < t_crit`, `H_t(dz) < 0` for EVERY
+real `dz`, proving that both real zeros have bifurcated off the real axis. -/
+theorem dbnQuadraticHeat_collides_and_leaves_real_axis
+    (z0 z2 : ℝ) (hz0 : 0 < z0) (hz2 : z2 < 0) :
+    let tCrit := z0 / z2
+    tCrit < 0 ∧
+      dbnQuadraticHeatSolution z0 z2 tCrit 0 = 0 ∧
+      ∀ t dz : ℝ, t < tCrit → dbnQuadraticHeatSolution z0 z2 t dz < 0 := by
+  dsimp only
+  have hz2_ne : z2 ≠ 0 := ne_of_lt hz2
+  refine ⟨div_neg_of_pos_of_neg hz0 hz2, ?_, ?_⟩
+  · unfold dbnQuadraticHeatSolution
+    field_simp [hz2_ne]
+    ring
+  · intro t dz ht
+    unfold dbnQuadraticHeatSolution
+    have h_peak_neg : z0 - z2 * t < 0 := by
+      have h_mul : z2 * (z0 / z2) < z2 * t := mul_lt_mul_of_neg_left ht hz2
+      have h_simp : z2 * (z0 / z2) = z0 := mul_div_cancel₀ z0 hz2_ne
+      linarith
+    have h_quad_nonpos : (1 / 2) * z2 * dz ^ 2 ≤ 0 := by
+      nlinarith [sq_nonneg dz]
+    linarith
+
+/-- First three exact Keiper–Li binomial relations `λ_n = n ∑_{k=1}^n C(n-1, k-1) b_k`
+expressing the infinite-zero Li coefficients directly in terms of Taylor coefficients `b_k`
+of `ln(2 ξ(1 + z)) = ∑_{k≥1} b_k z^k`. -/
+def keiperLi1 (b1 : ℝ) : ℝ := b1
+def keiperLi2 (b1 b2 : ℝ) : ℝ := 2 * (b1 + b2)
+def keiperLi3 (b1 b2 b3 : ℝ) : ℝ := 3 * (b1 + 2 * b2 + b3)
+
+/-- Exact inverse recovery of the Taylor coefficients `b_1, b_2, b_3` of `ln(2 ξ(1 + z))`
+from the first three Keiper–Li coefficients `λ_1, λ_2, λ_3`. -/
+theorem keiperLi_binomial_inversion_123 (b1 b2 b3 : ℝ) :
+    let l1 := keiperLi1 b1
+    let l2 := keiperLi2 b1 b2
+    let l3 := keiperLi3 b1 b2 b3
+    b1 = l1 ∧
+      b2 = l2 / 2 - l1 ∧
+      b3 = l3 / 3 - l2 + l1 := by
+  dsimp only
+  unfold keiperLi1 keiperLi2 keiperLi3
+  refine ⟨rfl, by ring, by ring⟩
+
 end
 
 end Signals.RiemannSpectral
