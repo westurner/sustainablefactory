@@ -331,6 +331,15 @@ $$
 Here $p_t$ is the vector of $k\times k$ minors, so it represents the transported $k$-plane. The quartic implementation is this recipe in a selected finite coefficient chart, with a row-frame convention. A dBN-to-Hilbert bridge would still need a justified Hilbert space, the unbounded generator $A=-\partial_z^2$ with domain and boundary conditions, a convergent sequence of finite sections, and a proof that the limiting spectral data are the zeta-zero ordinates. None of those infinite-dimensional ingredients is supplied by the quartic jet.
 
 #### Native Rust `f64` Cross-Check Plan
+Separately, `Signals.RiemannSpectral` defines the affine normalization
+`riemannSpectralNormalizedDimension(s) = 2s` and the parameter and dimension
+shadow reflections. It proves that both reflections are involutions, that
+$2-\Delta(s)=\Delta(1-s)$, and that
+$\operatorname{Re}(\Delta(s))=1$ iff $\operatorname{Re}(s)=1/2$. These are
+exact algebraic normalization identities only: they do not establish a
+functional equation for $\zeta$, identify any zeros, or imply self-adjointness
+or the Riemann Hypothesis.
+
 
 `audit_dbn_quartic_heat_gr24` accepts $(z_0,z_2,z_4,t,h_1,h_2,\Delta z)$ and returns `finite_inputs`, `chart_has_nonzero_minor`, `heat_step_max_abs`, `polynomial_reconstruction_abs`, `generator_intertwining_max_abs`, `plucker_relation_max_abs`, `ambient_semigroup_max_abs`, and `ambient_inverse_max_abs`; `max_abs_residual()` aggregates the six numeric residuals. The native test checks a deterministic nonzero fixture with `finite_inputs = true`, `chart_has_nonzero_minor = true`, and `max_abs_residual() < 10^{-10}`. A second all-zero fixture must have `chart_has_nonzero_minor = false` and residual below $10^{-12}$. The test also checks the generator update against right multiplication by $U_h$.
 

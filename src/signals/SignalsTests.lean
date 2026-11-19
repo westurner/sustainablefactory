@@ -9093,6 +9093,28 @@ example :
         Signals.RiemannSpectral.dbnQuarticHeatGr24Generator j i :=
   Signals.RiemannSpectral.dbnQuarticHeatGr24Generator_not_symmetric
 
+example (s : ℂ) :
+    Signals.RiemannSpectral.riemannSpectralShadowParameter
+        (Signals.RiemannSpectral.riemannSpectralShadowParameter s) = s :=
+  Signals.RiemannSpectral.riemannSpectralShadowParameter_involutive s
+
+example (dimension : ℂ) :
+    Signals.RiemannSpectral.riemannSpectralShadowDimension
+        (Signals.RiemannSpectral.riemannSpectralShadowDimension dimension) = dimension :=
+  Signals.RiemannSpectral.riemannSpectralShadowDimension_involutive dimension
+
+example (s : ℂ) :
+    Signals.RiemannSpectral.riemannSpectralShadowDimension
+        (Signals.RiemannSpectral.riemannSpectralNormalizedDimension s) =
+      Signals.RiemannSpectral.riemannSpectralNormalizedDimension
+        (Signals.RiemannSpectral.riemannSpectralShadowParameter s) :=
+  Signals.RiemannSpectral.riemannSpectralShadowDimension_eq_dimension_reflected s
+
+example (s : ℂ) :
+    (Signals.RiemannSpectral.riemannSpectralNormalizedDimension s).re = 1 ↔
+      s.re = (1 / 2 : ℝ) :=
+  Signals.RiemannSpectral.riemannSpectralNormalizedDimension_re_eq_one_iff s
+
 example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State)
     (h_nonzero : state.a2 ≠ 0) :
     ∃ i j : Fin 4,

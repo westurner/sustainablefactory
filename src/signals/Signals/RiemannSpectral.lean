@@ -1,4 +1,5 @@
 import Mathlib.Basic.Real.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.Tactic
 import Signals.GrassmannianEBR
 import Signals.Plabic
@@ -7,6 +8,43 @@ import Signals.QuantumCausalInference
 namespace Signals.RiemannSpectral
 
 noncomputable section
+
+/-! ### Exact Shadow-Normalization Identities -/
+/-! ### Exact Shadow-Normalization Identities -/
+
+/-- Normalized complex dimension associated with a parameter `s`, given by `Δ(s) = 2s`. -/
+def riemannSpectralNormalizedDimension (s : ℂ) : ℂ := 2 * s
+
+/-- Shadow reflection on normalized dimensions, `Δ ↦ 2 - Δ`. -/
+def riemannSpectralShadowDimension (dimension : ℂ) : ℂ := 2 - dimension
+
+/-- Parameter reflection corresponding to normalized-dimension shadow reflection. -/
+def riemannSpectralShadowParameter (s : ℂ) : ℂ := 1 - s
+
+/-- The parameter shadow reflection is an involution. -/
+theorem riemannSpectralShadowParameter_involutive (s : ℂ) :
+    riemannSpectralShadowParameter (riemannSpectralShadowParameter s) = s := by
+  simp [riemannSpectralShadowParameter]
+
+/-- The normalized-dimension shadow reflection is an involution. -/
+theorem riemannSpectralShadowDimension_involutive (dimension : ℂ) :
+    riemannSpectralShadowDimension (riemannSpectralShadowDimension dimension) = dimension := by
+  simp [riemannSpectralShadowDimension]
+
+/-- The normalized dimension intertwines parameter reflection with dimension shadow reflection:
+`2 - Δ(s) = Δ(1 - s)`. -/
+theorem riemannSpectralShadowDimension_eq_dimension_reflected (s : ℂ) :
+    riemannSpectralShadowDimension (riemannSpectralNormalizedDimension s) =
+      riemannSpectralNormalizedDimension (riemannSpectralShadowParameter s) := by
+  simp [riemannSpectralShadowDimension, riemannSpectralNormalizedDimension,
+    riemannSpectralShadowParameter]
+  ring
+
+/-- The normalized dimension has real part one exactly on the parameter critical line. -/
+theorem riemannSpectralNormalizedDimension_re_eq_one_iff (s : ℂ) :
+    (riemannSpectralNormalizedDimension s).re = 1 ↔ s.re = (1 / 2 : ℝ) := by
+  simp [riemannSpectralNormalizedDimension, Complex.mul_re]
+  constructor <;> intro h <;> linarith
 
 /-!
 # Finite Spectral & Algebraic Contracts Related to Riemann Hypothesis Approaches
