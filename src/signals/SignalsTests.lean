@@ -9023,4 +9023,36 @@ example (t dz x0 x1 : ℝ) :
   · exact (Signals.RiemannSpectral.dbnFourZero_symmetric_neighbor_squeeze
       (1 / 50) 1 (by norm_num) (by norm_num)).2
 
+/-! Finite RB-6 proxies: bounded local heat flow, diagonal transfer residual,
+finite Li prefix positivity, and an exact finite diagonal eigenpair model. -/
+example :
+    |Signals.RiemannSpectral.dbnQuarticHeatSolution 1 2 3 1 0| ≤
+      1 + 2 * 1 + 3 * 1 ^ 2 / 2 := by
+  exact Signals.RiemannSpectral.dbnQuarticHeat_peak_abs_le
+    1 2 3 1 1 2 3 1 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+
+example :
+    Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance
+      (fun _ : Fin 2 => (1 : ℝ)) (fun _ => 0) ≤ (2 : ℝ) := by
+  simpa using Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance_le
+    (fun _ : Fin 2 => (1 : ℝ)) (fun _ => 0) 1 (by intro i; norm_num)
+
+example (li : Nat → ℝ)
+    (h : Signals.RiemannSpectral.finiteLiPositivePrefix 25 li) :
+    0 ≤ Signals.RiemannSpectral.finiteLiPrefixSum 25 li :=
+  Signals.RiemannSpectral.finiteLiPrefixSum_nonneg 25 li h
+
+example (eigenvalues : Fin 3 → ℝ) (i : Fin 3) :
+    Signals.RiemannSpectral.finiteDiagonalEigenvalue eigenvalues (eigenvalues i) := by
+  exact (Signals.RiemannSpectral.finiteDiagonalEigenvalue_iff_mem_range
+    eigenvalues (eigenvalues i)).2 ⟨i, rfl⟩
+
+example (eigenvalues x y : Fin 3 → ℝ) :
+    Signals.RiemannSpectral.finiteEuclideanInner
+        (Signals.RiemannSpectral.finiteDiagonalOperator eigenvalues x) y =
+      Signals.RiemannSpectral.finiteEuclideanInner x
+        (Signals.RiemannSpectral.finiteDiagonalOperator eigenvalues y) :=
+  Signals.RiemannSpectral.finiteDiagonalOperator_symmetric eigenvalues x y
+
 end SignalsTests

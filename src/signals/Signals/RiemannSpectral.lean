@@ -739,6 +739,166 @@ theorem dbnFourZero_symmetric_neighbor_squeeze
   have h_sqz : 0 < (8 * delta) / (outerD ^ 2 - delta ^ 2) := by positivity
   linarith
 
+/-! ### 11. Finite, Bounded Proxies for RB-6 (Not Global Bridge Closures)
+
+These theorems cover only explicit finite cutoffs, diagonal operators, and the local quartic
+heat polynomial. They do not establish any of the four infinite-dimensional RH bridges. -/
+
+/-- Bound the quartic heat polynomial's peak value on `|t| ≤ timeBound` from coefficient
+bounds. This controls a finite local model only; it is not a global de Bruijn-Newman bound. -/
+theorem dbnQuarticHeat_peak_abs_le
+    (z0 z2 z4 t bound0 bound2 bound4 timeBound : ℝ)
+    (h_z0 : |z0| ≤ bound0)
+    (h_z2 : |z2| ≤ bound2)
+    (h_z4 : |z4| ≤ bound4)
+    (h_t : |t| ≤ timeBound)
+    (h_bound2 : 0 ≤ bound2)
+    (h_bound4 : 0 ≤ bound4) :
+    |dbnQuarticHeatSolution z0 z2 z4 t 0| ≤
+      bound0 + bound2 * timeBound + bound4 * timeBound ^ 2 / 2 := by
+  have h_peak :
+      dbnQuarticHeatSolution z0 z2 z4 t 0 =
+        z0 + (-(z2 * t)) + ((1 / 2 : ℝ) * z4 * t ^ 2) := by
+    unfold dbnQuarticHeatSolution
+    ring
+  have h_z2_term : |z2 * t| ≤ bound2 * timeBound := by
+    calc
+      |z2 * t| = |z2| * |t| := abs_mul _ _
+      _ ≤ bound2 * timeBound :=
+        mul_le_mul h_z2 h_t (abs_nonneg t) h_bound2
+  have h_time_sq : t ^ 2 ≤ timeBound ^ 2 := by
+    rcases abs_le.mp h_t with ⟨h_lower, h_upper⟩
+    have h_left : 0 ≤ timeBound - t := sub_nonneg.mpr h_upper
+    have h_right : 0 ≤ timeBound + t := by linarith
+    have h_product := mul_nonneg h_left h_right
+    nlinarith
+  have h_z4_product : |z4| * t ^ 2 ≤ bound4 * timeBound ^ 2 :=
+    mul_le_mul h_z4 h_time_sq (sq_nonneg t) h_bound4
+  have h_z4_term :
+      |(1 / 2 : ℝ) * z4 * t ^ 2| ≤ bound4 * timeBound ^ 2 / 2 := by
+    calc
+      |(1 / 2 : ℝ) * z4 * t ^ 2| = (1 / 2 : ℝ) * (|z4| * t ^ 2) := by
+        rw [abs_mul, abs_mul]
+        rw [abs_of_nonneg (by norm_num : 0 ≤ (1 / 2 : ℝ)),
+          abs_of_nonneg (sq_nonneg t)]
+        ring
+      _ ≤ (1 / 2 : ℝ) * (bound4 * timeBound ^ 2) :=
+        mul_le_mul_of_nonneg_left h_z4_product (by norm_num)
+      _ = bound4 * timeBound ^ 2 / 2 := by ring
+  rw [h_peak]
+  apply abs_le.mpr
+  obtain ⟨h0_lower, h0_upper⟩ := abs_le.mp h_z0
+  obtain ⟨h2_lower, h2_upper⟩ := abs_le.mp h_z2_term
+  obtain ⟨h4_lower, h4_upper⟩ := abs_le.mp h_z4_term
+  constructor <;> linarith
+
+/-- Finite diagonal transfer residual, the sum of absolute coordinate errors. This is the
+trace-norm proxy only for real diagonal matrices, not an adelic operator convergence claim. -/
+def finiteDiagonalTransferTraceDistance {n : Nat}
+    (approx target : Fin n → ℝ) : ℝ :=
+  ∑ i : Fin n, |approx i - target i|
+
+/-- A uniform coordinate error `ε` bounds the finite diagonal residual by `n ε`. -/
+theorem finiteDiagonalTransferTraceDistance_le {n : Nat}
+    (approx target : Fin n → ℝ) (epsilon : ℝ)
+    (h_error : ∀ i, |approx i - target i| ≤ epsilon) :
+    finiteDiagonalTransferTraceDistance approx target ≤ (n : ℝ) * epsilon := by
+  unfold finiteDiagonalTransferTraceDistance
+  calc
+    (∑ i : Fin n, |approx i - target i|) ≤ ∑ _i : Fin n, epsilon :=
+      Finset.sum_le_sum (fun i _ => h_error i)
+    _ = (n : ℝ) * epsilon := by simp
+
+/-- If a finite target diagonal has spectral values bounded by `radius`, an approximation with
+coordinate error at most `epsilon` stays within `radius + epsilon`. -/
+theorem finiteDiagonalTransfer_radius_le {n : Nat}
+    (approx target : Fin n → ℝ) (radius epsilon : ℝ)
+    (h_target : ∀ i, |target i| ≤ radius)
+    (h_error : ∀ i, |approx i - target i| ≤ epsilon) :
+    ∀ i, |approx i| ≤ radius + epsilon := by
+  intro i
+  have h_decomp : approx i = (approx i - target i) + target i := by ring
+  rw [h_decomp]
+  apply abs_le.mpr
+  obtain ⟨h_error_lower, h_error_upper⟩ := abs_le.mp (h_error i)
+  obtain ⟨h_target_lower, h_target_upper⟩ := abs_le.mp (h_target i)
+  constructor <;> linarith
+
+/-- Positivity of the first `cutoff` Li-like entries; this is a finite prefix condition only. -/
+def finiteLiPositivePrefix (cutoff : Nat) (li : Nat → ℝ) : Prop :=
+  ∀ n, 1 ≤ n → n ≤ cutoff → 0 ≤ li n
+
+/-- Sum of the Li-like entries in the explicit finite index interval `[1, cutoff]`. -/
+def finiteLiPrefixSum (cutoff : Nat) (li : Nat → ℝ) : ℝ :=
+  ∑ n ∈ Finset.Icc 1 cutoff, li n
+
+/-- Nonnegative entries through a finite cutoff give a nonnegative finite prefix sum. -/
+theorem finiteLiPrefixSum_nonneg
+    (cutoff : Nat) (li : Nat → ℝ)
+    (h_positive : finiteLiPositivePrefix cutoff li) :
+    0 ≤ finiteLiPrefixSum cutoff li := by
+  unfold finiteLiPrefixSum
+  apply Finset.sum_nonneg
+  intro n hn
+  exact h_positive n (Finset.mem_Icc.mp hn).1 (Finset.mem_Icc.mp hn).2
+
+/-- Real diagonal operator on the finite Euclidean space `Fin n → ℝ`. -/
+def finiteDiagonalOperator {n : Nat}
+    (eigenvalues : Fin n → ℝ) (x : Fin n → ℝ) : Fin n → ℝ :=
+  fun i => eigenvalues i * x i
+
+/-- Standard finite Euclidean inner product on coordinate vectors. -/
+def finiteEuclideanInner {n : Nat} (x y : Fin n → ℝ) : ℝ :=
+  ∑ i : Fin n, x i * y i
+
+/-- A finite diagonal real operator is symmetric with respect to the finite Euclidean inner
+product. This does not construct an essentially self-adjoint infinite-dimensional operator. -/
+theorem finiteDiagonalOperator_symmetric {n : Nat}
+    (eigenvalues x y : Fin n → ℝ) :
+    finiteEuclideanInner (finiteDiagonalOperator eigenvalues x) y =
+      finiteEuclideanInner x (finiteDiagonalOperator eigenvalues y) := by
+  unfold finiteEuclideanInner finiteDiagonalOperator
+  apply Finset.sum_congr rfl
+  intro i hi
+  ring
+
+/-- Finite eigenpair relation for a real diagonal operator. -/
+def finiteDiagonalEigenvalue {n : Nat}
+    (eigenvalues : Fin n → ℝ) (lambda : ℝ) : Prop :=
+  ∃ x : Fin n → ℝ,
+    x ≠ (fun _ => 0) ∧
+      finiteDiagonalOperator eigenvalues x = (fun i => lambda * x i)
+
+/-- The eigenvalues of the finite diagonal model are exactly the supplied finite list,
+in the elementary eigenpair sense. This is not a claim about the zeta zero spectrum. -/
+theorem finiteDiagonalEigenvalue_iff_mem_range {n : Nat}
+    (eigenvalues : Fin n → ℝ) (lambda : ℝ) :
+    finiteDiagonalEigenvalue eigenvalues lambda ↔ ∃ i, eigenvalues i = lambda := by
+  constructor
+  · rintro ⟨x, hx, h_eigen⟩
+    by_contra h_not_exists
+    apply hx
+    funext i
+    have h_ne : eigenvalues i - lambda ≠ 0 := by
+      intro h_eq
+      apply h_not_exists
+      exact ⟨i, by linarith⟩
+    have h_eq := congrFun h_eigen i
+    have h_mul : (eigenvalues i - lambda) * x i = 0 := by
+      dsimp [finiteDiagonalOperator] at h_eq
+      nlinarith [h_eq]
+    exact (mul_eq_zero.mp h_mul).resolve_left h_ne
+  · rintro ⟨j, h_j⟩
+    refine ⟨(fun i => if i = j then 1 else 0), ?_, ?_⟩
+    · intro h_zero
+      have h_at := congrFun h_zero j
+      simp at h_at
+    · funext i
+      by_cases h_ij : i = j
+      · subst i
+        simp [finiteDiagonalOperator, h_j]
+      · simp [finiteDiagonalOperator, h_ij]
+
 end
 
 end Signals.RiemannSpectral
