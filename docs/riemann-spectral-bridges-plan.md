@@ -99,3 +99,43 @@ To discharge `Signals.Pending.RiemannHypothesisPendingBoundary.allFourBridgesClo
 2. **Bridge 2 (Adelic Sato Trace-Norm Convergence):** Prove that finite-prime Bass–Ihara / Plabic VRC transfer operators converge in trace norm on $\mathrm{Gr}_{\mathrm{Sato}}(\mathbb{A}_{\mathbb{Q}}/\mathbb{Q}^\times)$ to a Ramanujan-bounded operator without introducing off-circle spectral leakage.
 3. **Bridge 3 (Global Positivity Across All Degrees/Dimensions):** Prove $J^{d,n}(X)$ is hyperbolic for **all** $(d, n)$ (beyond fixed-$d$ large-$n$ GORZ), equivalently $\lambda_n \ge 0$ for **all** $n \ge 1$, equivalently $W(g \ast \tilde{g}) \ge 0$ on the full Schwartz–Bruhat space.
 4. **Bridge 4 (Self-Adjoint Spectral Operator Closure):** Construct a Hilbert space and essentially self-adjoint domain closure whose spectrum is the exact set of imaginary parts $\{\gamma_k\}$ of the nontrivial zeros of $\zeta(s)$.
+
+## 5. RB-6 Finite Contract Problem Definitions
+
+The following finite problems make the four bridges testable at bounded scale. Each uses supplied finite data and proves only a consequence of those inputs. None provides evidence that its assumptions hold for the zeta function, proves convergence of an infinite family, or closes the corresponding global bridge.
+
+### Contract 1: Bounded Quartic Heat Center Value
+
+**Instance:** Real coefficients $z_0,z_2,z_4$, a time bound $T$, coefficient bounds $B_0,B_2,B_4$, and a time $t$ satisfying $|z_j|\le B_j$ for $j\in\{0,2,4\}$, $|t|\le T$, and $B_2,B_4\ge 0$.
+
+**Finite claim:** For the quartic heat polynomial at its center, $H_t(0)=z_0-z_2t+\frac{1}{2}z_4t^2$, prove $|H_t(0)|\le B_0+B_2T+\frac{1}{2}B_4T^2$. The Lean contract is `dbnQuarticHeat_peak_abs_le`.
+
+**What remains to define:** This bounds one value of a supplied polynomial, not a maximum over the spatial coordinate and not the de Bruijn–Newman constant. A finite approximation to the analytic problem must specify the height interval, how the coefficients are obtained from the relevant zeta-derived function, and a uniform remainder bound relating the quartic polynomial to the actual heat flow on the chosen time/space region. The global bridge additionally requires control uniformly over all heights.
+
+### Contract 2: Finite Diagonal Transfer Error and Spectral Margin
+
+**Instance:** Two real diagonal $N\times N$ matrices $A_N=\operatorname{diag}(a_i)$ and $B_N=\operatorname{diag}(b_i)$, with coordinate error $|a_i-b_i|\le\varepsilon$ for each $i\in\{1,\ldots,N\}$.
+
+**Finite claim:** Since the trace norm of a diagonal matrix is the sum of the absolute values of its diagonal entries, prove $\|A_N-B_N\|_1=\sum_i|a_i-b_i|\le N\varepsilon$. If also $|b_i|\le R$ for each coordinate, prove $|a_i|\le R+\varepsilon$. The Lean contracts are `finiteDiagonalTransferTraceDistance_le` and `finiteDiagonalTransfer_radius_le`.
+
+**What remains to define:** The proxy has no prime index, graph/plabic transfer construction, adelic state space, or limiting operator. The finite-prime problem must first define the operators and their common normed space, the truncation/index parameter, and a computable trace-norm residual. A limit claim then needs a Cauchy or explicit tail bound in that norm and a separate argument that the limiting spectrum obeys the required Ramanujan bound without off-circle leakage. Coordinatewise error in an arbitrary diagonal model is not that argument.
+
+### Contract 3: Positivity of a Finite Li Prefix
+
+**Instance:** A real sequence $c_n$ and a fixed integer cutoff $N\ge 1$.
+
+**Finite claim:** Assume $c_n\ge 0$ for every $1\le n\le N$; prove both the finite-prefix predicate and its consequence $\sum_{n=1}^{N}c_n\ge 0$. The Lean contracts are `finiteLiPositivePrefix` and `finiteLiPrefixSum_nonneg`; the sequence is generic and is not yet identified in Lean with the Keiper–Li coefficients.
+
+**What remains to define:** A nontrivial finite audit must instantiate $c_n$ with exact Li coefficients and supply proof-grade values or rational intervals whose lower endpoints are nonnegative for each index through $N$. Jensen-polynomial hyperbolicity and finite Weil-form positivity require their own bounded degree/dimension and test-function inputs. Even a certified prefix for a chosen $N$ says nothing about $n>N$ or positivity on the full Schwartz–Bruhat space.
+
+### Contract 4: Finite Diagonal Spectral Model
+
+**Instance:** A finite-dimensional real space $V_N=\mathbb{R}^N$ with its coordinate inner product and a supplied real list $d_1,\ldots,d_N$; define $D_Nx=(d_i x_i)_i$.
+
+**Finite claim:** Prove $D_N$ is symmetric and that $\lambda$ is an eigenvalue exactly when $\lambda=d_i$ for some coordinate. The Lean contracts are `finiteDiagonalOperator_symmetric` and `finiteDiagonalEigenvalue_iff_mem_range`.
+
+**What remains to define:** This model supplies its own spectrum by construction and has no unbounded operator, dense domain, or boundary conditions. A finite-section approximation to Bridge 4 must define matrices from a specified candidate operator and basis, preserve multiplicities, and provide a convergence criterion (for example, a resolvent comparison) that relates the finite spectra to the operator on a common Hilbert space. Essential self-adjointness and exact correspondence with all nontrivial zeta-zero ordinates remain separate global obligations.
+
+### Finite-to-Global Promotion Gate
+
+For all four contracts, record the finite input, cutoff, assumptions, and proof separately from any proposed global limit. Promotion requires a proved approximation theorem with explicit error control and a justified limit argument; increasing a numerical cutoff, checking more zeros, or compiling the finite Lean statements does not by itself satisfy that gate.
