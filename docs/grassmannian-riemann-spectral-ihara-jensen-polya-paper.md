@@ -1,29 +1,33 @@
 ---
-title: "Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Li's Unit-Circle Criterion, and High-Precision Euler–Maclaurin / Riemann–Siegel C_2(p) Audits in Lean 4, Rust/PyO3, and SymPy"
-description: "An arXiv-ready MyST Markdown formal verification and numerical audit paper reviewing all five Riemann Hypothesis approaches from the Grassmannian monograph chat, formally proving the finite-graph Bass–Ihara Ramanujan dichotomy (including a 14-vertex 3-regular connected non-Ramanujan counterexample), Jensen–Pólya/Madelung–Bohm equivalence, Sato Hirota Plücker identity, and Li's unit-circle criterion in Lean 4, benchmarking Euler–Maclaurin, Riemann–Siegel (C_0, C_1, C_2), and Borwein evaluators in Rust/PyO3 against 35-digit mpmath, and isolating the four open analytical RH bridges in Signals.Pending."
+title: "Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower & 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel C_4(p) Tests in Lean 4, Rust/PyO3, and SymPy"
+description: "An arXiv-ready MyST Markdown formal verification and numerical audit paper reviewing all five Riemann Hypothesis approaches from the Grassmannian monograph chat, formally proving the finite-graph Bass–Ihara Ramanujan dichotomy (including a 14-vertex 3-regular connected non-Ramanujan counterexample), Jensen–Pólya/Madelung–Bohm equivalence, quartic de Bruijn–Newman backward-heat collision, Strong Mpemba slow-mode Weil projection, and Li's unit-circle criterion in Lean 4, benchmarking Euler–Maclaurin, Riemann–Siegel (C_0..C_4 with exact 2-jets), and Borwein evaluators in Rust/PyO3 against 35–80 digit mpmath, and isolating the four open analytical RH bridges in Signals.Pending."
 ---
 
 (grassmannian-riemann-spectral-ihara-jensen-polya-paper)=
-# Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Li's Unit-Circle Criterion, and High-Precision Euler–Maclaurin / Riemann–Siegel $C_2(p)$ Audits in Lean 4, Rust/PyO3, and SymPy
+# Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower & 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel $C_4(p)$ Jet Audits in Lean 4, Rust/PyO3, and SymPy
 
 - **Authors:** Wes Turner
 - **Subjects:**
   - Number Theory (`math.NT`); Spectral Theory (`math.SP`); Combinatorics (`math.CO`); Mathematical Physics (`math-ph`); Logic & Formal Verification (`cs.LO`)
 - **Epistemic Status & Scope Declaration:**
-  - **Solved & Machine-Checked (Finite Graph RH):** Both directions of the finite-graph Bass–Ihara Ramanujan dichotomy are proved in Lean 4 (`Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq` and `Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle`), including an existential, floating-point-free Lean 4 proof that the **14-vertex 3-regular connected Barbell graph $G_{14}$** ($q = 2$) exceeds the Ramanujan bound $2\sqrt{2}$ and splits two real Bass–Ihara roots strictly off the critical circle $\lvert u \rvert^2 = 1/2$, contrasted with the Ramanujan 10-vertex Petersen and 14-vertex Heawood graphs.
-  - **Open Millennium Problem (Classical RH for $\zeta(s)$):** This paper does **not** prove or disprove the classical Riemann Hypothesis for $\zeta(s)$. Instead, `Signals.Pending.RiemannHypothesisPendingBoundary` and `Signals.Pending.finite_zero_audit_does_not_close_rh_bridges` formally isolate the four open infinite-dimensional analytical bridges (de Bruijn–Newman $\Lambda_{\mathrm{dBN}} \le 0$, adelic Sato trace-norm convergence, global Li/Jensen–Pólya positivity, and Berry–Keating/Connes self-adjoint operator closure) and prove that no finite zero scan closes them.
+  - **Solved & Machine-Checked (Finite Graph RH):** Both directions of the finite-graph Bass–Ihara Ramanujan dichotomy {cite:p}`bass1992ihara` are proved in Lean 4 (`Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq` and `Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle`), including an existential, floating-point-free Lean 4 proof that the **14-vertex 3-regular connected Barbell graph $G_{14}$** ($q = 2$) exceeds the Ramanujan bound $2\sqrt{2}$ and splits two real Bass–Ihara roots strictly off the critical circle $\lvert u \rvert^2 = 1/2$, contrasted across a 5-graph 3-regular tower ($K_{3,3}$, Petersen, Heawood, Möbius–Kantor $GP(8,3)$, and Barbell $G_{14}$).
+  - **Open Millennium Problem (Classical RH for $\zeta(s)$):** This paper does **not** prove or disprove the classical Riemann Hypothesis for $\zeta(s)$ {cite:p}`bombieri2000rh`. Instead, `Signals.Pending.RiemannHypothesisPendingBoundary` and `Signals.Pending.finite_zero_audit_does_not_close_rh_bridges` formally isolate the four open infinite-dimensional analytical bridges (de Bruijn–Newman $\Lambda_{\mathrm{dBN}} \le 0$ {cite:p}`rodgers2020debruijn`, adelic Sato trace-norm convergence, global Li/Jensen–Pólya/Weil positivity {cite:p}`polya1927algeb,weil1952explicit,li1997positivity`, and Berry–Keating/Connes self-adjoint operator closure) and prove that no finite zero scan closes them.
 - **Source Provenance & Verification Artifacts:**
   - AI Chat Source (design provenance only; audited and corrected below): {download}`data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md <../data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md>` (lines `2348–3600`, `4433–4946`, `4979–5728`)
-  - Companion Commit & Porting Paper: [Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions](grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md) and [Grassmannian EBR Chat-Code Porting Ledger](grassmannian-gebr-chat-porting-plan.md)
+  - Companion Papers & Engineering Plan:
+    - [Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (`RB-1`–`RB-6`)](riemann-spectral-bridges-plan.md)
+    - [Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions](grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md) and [Grassmannian EBR Chat-Code Porting Ledger](grassmannian-gebr-chat-porting-plan.md)
+    - [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md)
+    - [Quantum Trajectories in Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k,n)$, Three-Channel Plücker–Madelung–QFIM ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$), Dual-Schubert `iGPE`, and Dilatant Dark Fluid (`DDF`) Mechanics](grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md)
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, zero `sorry` axioms):
-    - {download}`src/signals/Signals/RiemannSpectral.lean <../src/signals/Signals/RiemannSpectral.lean>`
-    - {download}`src/signals/Signals/GrassmannianEBR.lean <../src/signals/Signals/GrassmannianEBR.lean>`
+    - {download}`src/signals/Signals/RiemannSpectral.lean <../src/signals/Signals/RiemannSpectral.lean>` (Sections 1–10)
+    - {download}`src/signals/Signals/GrassmannianEBR.lean <../src/signals/Signals/GrassmannianEBR.lean>` & {download}`src/signals/Signals/QuantumCausalInference.lean <../src/signals/Signals/QuantumCausalInference.lean>`
     - {download}`src/signals/Signals/Pending.lean <../src/signals/Signals/Pending.lean>` (`RiemannHypothesisPendingBoundary`, `finite_zero_audit_does_not_close_rh_bridges`)
     - {download}`src/signals/SignalsTests.lean <../src/signals/SignalsTests.lean>` & {download}`src/signals/SignalsPendingTests.lean <../src/signals/SignalsPendingTests.lean>`
   - `signals-numerical-adapter` Rust + PyO3 (`maturin`) Extension (`126` passing unit tests):
     - {download}`src/signals/numerical_adapter/src/riemann_spectral.rs <../src/signals/numerical_adapter/src/riemann_spectral.rs>`
     - {download}`src/signals/numerical_adapter/src/lib.rs <../src/signals/numerical_adapter/src/lib.rs>`
-  - Python + SymPy + 35-digit `mpmath` + PyO3 Verification Suite:
+  - Python + SymPy + 35–80 digit `mpmath` + PyO3 Verification Suite:
     - {download}`sustainablefactory/riemann_rh_bridges.py <../sustainablefactory/riemann_rh_bridges.py>`
     - {download}`tests/test_riemann_spectral_sympy_pyo3.py <../tests/test_riemann_spectral_sympy_pyo3.py>`
 
@@ -31,12 +35,12 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical aud
 
 ## Abstract
 
-We audit all five Riemann Hypothesis (RH) approaches explored in the Grassmannian monograph dialogue ({download}`data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md <../data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md>`, lines `2348–5728`) and consolidate every defensible finite algebraic, spectral, and numerical contract across **Lean 4**, **Rust/PyO3 (`maturin`)**, and **Python/SymPy + 35-digit `mpmath`**.
+We audit all five Riemann Hypothesis (RH) approaches explored in the Grassmannian monograph dialogue ({download}`data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md <../data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md>`, lines `2348–5728`) and consolidate every defensible finite algebraic, spectral, and numerical contract across **Lean 4**, **Rust/PyO3 (`maturin`)**, and **Python/SymPy + 35–80 digit `mpmath`**.
 
-1. **Complete Finite-Graph Bass–Ihara Ramanujan Dichotomy (Solved in Lean 4, SymPy, and Rust):** Pairing `Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq` ($\lambda^2 \le 4q \implies \lvert u \rvert^2 = 1/q$) with `Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle` ($\lambda^2 > 4q \implies$ two real roots $u_+ \ne u_-$ with $u_+ u_- = 1/q$ and $u_\pm^2 \ne 1/q$), we construct an explicit **14-vertex 3-regular connected non-Ramanujan Barbell graph $G_{14}$** ($q = 2$) whose $3 \times 3$ antisymmetric equitable quotient matrix has exact characteristic polynomial $p(\lambda) = \lambda^3 - \lambda^2 - 6\lambda + 2$. Using Lean 4's Intermediate Value Theorem (`nonRamanujan14_exists_super_ramanujan_off_circle_roots`), we prove without floating-point assumptions that $G_{14}$ possesses an eigenvalue $\lambda_2 \in (57/20, 143/50)$ ($\lambda_2 \approx 2.8557725066 > 2\sqrt{2} \approx 2.8284271247$) whose Bass–Ihara roots $u_+ \approx 0.8125068$ and $u_- \approx 0.6153795$ split strictly off the critical circle $\lvert u \rvert = 1/\sqrt{2}$, contrasting directly with the 14-vertex 3-regular Ramanujan **Heawood graph** ($\lambda = \pm\sqrt{2}$) and 10-vertex **Petersen graph** ($\lambda \in \{1, -2\}$).
-2. **High-Precision Rust/PyO3 Evaluators (Euler–Maclaurin, Riemann–Siegel $C_0 + C_1 + C_2$, and Borwein Diagnosis):** We implement self-contained `f64` Euler–Maclaurin summation, singularity-free Chebyshev Riemann–Siegel remainder terms $C_0(p), C_1(p), C_2(p)$, and Borwein Algorithm 2 in `riemann_spectral.rs`. Cross-checked against 35-digit `mpmath`, Euler–Maclaurin locates all **first 30 nontrivial zeros** with maximum height error **$2.84 \times 10^{-14}$** and maximum $\lvert \zeta(\tfrac{1}{2} + i\gamma_k) \rvert = 5.94 \times 10^{-14}$, while explaining why `f64` Borwein ($n=22$) degrades from $2.98 \times 10^{-9}$ at $\gamma_1$ to $\sim 10^{-1}\text{–}1$ by $\gamma_{10}\text{–}\gamma_{30}$ due to $(3 + 2\sqrt{2})^n$ conditioning against $\cosh(\pi t / 2)$.
-3. **Correction of Chat Check Figures for Gram's Law Violations ($g_{126}, g_{134}$) and Lehmer's 1956 Pair (#6709–#6710):** Auditing the chat's uncomputed check-figure table ({download}`lines 5718–5725 <../data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md>`) against 35-digit `mpmath` and Rust Riemann–Siegel ($C_0, C_1, C_2$) exposes substantial numerical discrepancies in the chat table—including a sign reversal at Lehmer's 1956 pair extremum $\gamma_* \approx 7005.0818551$, where the true value is a **positive peak** $Z(\gamma_*) = +0.0039673575$ with $Z''(\gamma_*) = -22.346154$ (giving Bohm curvature rescue $J_{\mathrm{bohm}}(\gamma_*) = \mathcal{J}(\gamma_*) = +0.0886552 > 0$, $\eta_{\mathrm{Bohm}} = 1.0000$), and negative $J_{\mathrm{bohm}}$ at $g_{126}$ and $g_{134}$ themselves (where osmotic $(Z')^2$ keeps $\mathcal{J} > 0$).
-4. **Finite Algebraic Equivalences & Strict Epistemic Boundary:** Lean 4 proves the Cauchy–Riemann transverse QFIM $\equiv$ Jensen–Pólya identity, Laguerre–Pólya multiplicative closure $\mathcal{J}(fg) = g^2 \mathcal{J}(f) + f^2 \mathcal{J}(g)$, the Lehmer bifurcation witness, de Bruijn–Newman 2-zero repulsion and 3-zero center-of-mass conservation, $2\times 2$ GUE and $3\times 3$ Vandermonde repulsion, Sato Wronskian Hirota Plücker identity, and Li's unit-circle characterization ($\lvert 1 - 1/\rho \rvert^2 = 1 \iff \operatorname{Re}(\rho) = 1/2$) alongside its off-line splitting theorem. All four open analytical bridges for classical RH remain explicitly gated in `Signals.Pending.RiemannHypothesisPendingBoundary`.
+1. **Complete Finite-Graph Bass–Ihara Ramanujan Dichotomy Across a 5-Graph Tower (Solved in Lean 4, SymPy, and Rust):** Pairing `Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq` ($\lambda^2 \le 4q \implies \lvert u \rvert^2 = 1/q$) with `Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle` ($\lambda^2 > 4q \implies$ two real roots $u_+ \ne u_-$ with $u_+ u_- = 1/q$ and $u_\pm^2 \ne 1/q$) {cite:p}`bass1992ihara`, we construct an explicit **14-vertex 3-regular connected non-Ramanujan Barbell graph $G_{14}$** ($q = 2$) whose $3 \times 3$ antisymmetric equitable quotient matrix has exact characteristic polynomial $p(\lambda) = \lambda^3 - \lambda^2 - 6\lambda + 2$. Using Lean 4's Intermediate Value Theorem (`nonRamanujan14_exists_super_ramanujan_off_circle_roots`), we prove without floating-point assumptions that $G_{14}$ possesses an eigenvalue $\lambda_2 \in (57/20, 143/50)$ ($\lambda_2 \approx 2.8557725066 > 2\sqrt{2} \approx 2.8284271247$) whose Bass–Ihara roots $u_+ \approx 0.8125068$ and $u_- \approx 0.6153795$ split strictly off the critical circle $\lvert u \rvert = 1/\sqrt{2}$, while simultaneously collapsing the Markov relaxation gap from $\gamma_{\mathrm{gap}} \in [0.3333, 1.0000]$ across the Ramanujan tower ($K_{3,3}$, Petersen, Heawood, Möbius–Kantor $GP(8,3)$) down to $\gamma_{\mathrm{gap}} = 0.0481$.
+2. **High-Precision Rust/PyO3 Evaluators (Euler–Maclaurin, Riemann–Siegel $C_0\text{..}C_4$ with Exact `Jet2`/`CJet2` Analytic Derivatives, and Borwein Diagnosis):** We implement self-contained `f64` Euler–Maclaurin summation, singularity-free Chebyshev Riemann–Siegel remainder terms $C_0(p)$ through $C_4(p)$ {cite:p}`gabcke1979riemann`, 2nd-order forward-mode automatic differentiation (`Jet2`/`CJet2`) for exact $Z'(t), Z''(t)$, and Borwein Algorithm 2 {cite:p}`borwein2000zeta` in `riemann_spectral.rs`. Cross-checked against 35–45 digit `mpmath`, Euler–Maclaurin locates all **first 30 nontrivial zeros** with maximum height error **$2.84 \times 10^{-14}$**, extending Riemann–Siegel from $C_2$ to $C_4$ reduces Lehmer-pair evaluation error by **$198.5\times$** (`1.25e-09` $\to$ `6.31e-12`, reaching the IEEE-754 `f64` phase-rounding floor), and replacing finite differences with `Jet2` analytic differentiation reduces $\mathcal{J}(g_{125})$ error by **$2.87 \times 10^7\times$** (`1.93e-04` $\to$ `6.72e-12`).
+3. **Correction of Chat Check Figures for Gram's Law Violations ($g_{126}, g_{134}$) and Lehmer's 1956 Pair (#6709–#6710):** Auditing the chat's uncomputed check-figure table ({download}`lines 5718–5725 <../data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md>`) against 35-digit `mpmath` and Rust Riemann–Siegel ($C_0\text{..}C_4$) exposes substantial numerical discrepancies in the chat table—including a sign reversal at Lehmer's 1956 pair extremum $\gamma_* \approx 7005.0818551$ {cite:p}`lehmer1956extended,csordas1994lehmer`, where the true value is a **positive peak** $Z(\gamma_*) = +0.0039673575$ with $Z''(\gamma_*) = -22.346154$ (giving Channel B Bohm curvature rescue $J_{\mathrm{bohm}}(\gamma_*) = \mathcal{J}(\gamma_*) = +0.0886552 > 0$, $\eta_{\mathrm{Bohm}} = 1.0000$, directly dual to the osmotic/Bohm velocity split of {cite:p}`sharoglazova_energyspeed_2025`), and negative $J_{\mathrm{bohm}}$ at $g_{126}$ and $g_{134}$ themselves (where osmotic $(Z')^2$ keeps $\mathcal{J} > 0$).
+4. **Mpemba–Trajectory–dBN Synthesis, Analytical-Bridge Probes, & Strict Epistemic Boundary:** Extending `Signals.RiemannSpectral` (Sections 7–10) and `riemann_rh_bridges.py`, we prove exact quartic de Bruijn–Newman backward-heat closure (`dbnQuarticHeat_pde_and_shift`), 4-zero/10-zero Calogero–Moser neighbor squeezing (`dbnFourZero_symmetric_neighbor_squeeze`, {cite:p}`mcguire1964study,drori2023quantum`), and Strong Mpemba slow-mode annihilation (`mpemba_projection_eliminates_slow_weil_mode`, {cite:p}`holtzman2022landau,summer2026resource`)—which collapses the $6\times 6$ orthonormal Hermite–Gaussian Weil Gram condition number by **$429.4\times$** ($\kappa = 1{,}389.36 \to 3.24$) with $< 3.35 \times 10^{-50}$ prime-vs-zero discrepancy {cite:p}`weil1952explicit,bombieri2000rh`, alongside strict real-rootedness of Griffin–Ono–Rolen–Zagier Jensen polynomials for $d = 2\text{..}8$ {cite:p}`polya1927algeb,griffin2019jensen` and exact infinite-zero Keiper–Li positivity $\lambda_1\text{..}\lambda_{25} > 0$ {cite:p}`keiper1992power,li1997positivity,bombieri1999li`. All four open analytical bridges for classical RH remain explicitly gated in `Signals.Pending.RiemannHypothesisPendingBoundary`.
 
 ---
 
@@ -117,58 +121,73 @@ $$
 Q_{\mathrm{anti}} = \begin{pmatrix} -1 & 2 & 0 \\ 1 & 0 & 2 \\ 0 & 1 & 2 \end{pmatrix}, \qquad \det\!\left(\lambda I_3 - Q_{\mathrm{anti}}\right) = \lambda^3 - \lambda^2 - 6\lambda + 2.
 $$
 
-SymPy computes the exact factored characteristic polynomials for all three 3-regular ($q = 2$) graphs:
+SymPy computes the exact factored characteristic polynomials across the 5-graph 3-regular ($q = 2$) tower (`RB-4`):
 
 $$
 \begin{aligned}
+\chi_{K_{3,3}}(x) &= x^4 (x - 3)(x + 3), \\
 \chi_{\mathrm{Petersen}}(x) &= (x - 3)(x - 1)^5 (x + 2)^4, \\
 \chi_{\mathrm{Heawood}}(x) &= (x - 3)(x + 3)(x^2 - 2)^6, \\
+\chi_{\mathrm{M\ddot{o}bius\text{--}Kantor}}(x) &= (x - 3)(x + 3)(x^2 - 1)^3 (x^2 - 3)^4, \\
 \chi_{G_{14}}(x) &= x^2 (x - 3)(x + 2)^2 (x^2 - 2)^3 \left(x^3 - x^2 - 6x + 2\right).
 \end{aligned}
 $$
 
-In Lean 4, `nonRamanujan14_equitable_eigenvector` verifies the exact eigenvector $(a, b, c) = (2, \lambda + 1, (\lambda^2 + \lambda - 2)/2)$ for any root of $p(\lambda) = \lambda^3 - \lambda^2 - 6\lambda + 2$, `nonRamanujan14_bracket_sign_change` evaluates $p(57/20) = -587/8000 < 0 < 6757/125000 = p(143/50)$ with $(57/20)^2 = 3249/400 > 8$, and `nonRamanujan14_exists_super_ramanujan_off_circle_roots` invokes `intermediate_value_Icc` to prove the existence of $\lambda_2 \in (2.85, 2.86)$ strictly exceeding $2\sqrt{2}$ with two real Bass–Ihara roots splitting off $\lvert u \rvert^2 = 1/2$.
+In Lean 4, `nonRamanujan14_equitable_eigenvector` verifies the exact eigenvector $(a, b, c) = (2, \lambda + 1, (\lambda^2 + \lambda - 2)/2)$ for any root of $p(\lambda) = \lambda^3 - \lambda^2 - 6\lambda + 2$, `nonRamanujan14_bracket_sign_change` evaluates $p(57/20) = -587/8000 < 0 < 6757/125000 = p(143/50)$ with $(57/20)^2 = 3249/400 > 8$, and `nonRamanujan14_exists_super_ramanujan_off_circle_roots` invokes `intermediate_value_Icc` to prove the existence of $\lambda_2 \in (2.85, 2.86)$ strictly exceeding $2\sqrt{2}$ with two real Bass–Ihara roots splitting off $\lvert u \rvert^2 = 1/2$ {cite:p}`bass1992ihara`. Simultaneously, `py_audit_regular_graphs_bass_ihara()` links the Graph RH directly to Markov/Mpemba relaxation speed via $\gamma_{\mathrm{gap}} = 1 - \max\lvert\lambda_{\mathrm{nt}}\rvert / 3$ and the Ramanujan margin $2\sqrt{2} - \max\lvert\lambda_{\mathrm{nt}}\rvert$ {cite:p}`holtzman2022landau`:
 
-| 3-Regular Connected Graph ($q = 2$) | Vertices | Ramanujan Bound $2\sqrt{2}$ | $\max \lvert \lambda_{\mathrm{nt}} \rvert$ | Ramanujan? | Off-Circle Non-Trivial Roots | Real Off-Circle Roots $(u_+, u_-)$ and $\lvert u_\pm \rvert^2$ |
-| :--- | ---: | ---: | ---: | :---: | ---: | :--- |
-| **Petersen** | 10 | `2.8284271247` | `2.0000000000` | Yes | `0` | None (all 18 non-trivial roots have $\lvert u \rvert^2 = 0.5$) |
-| **Heawood** (Fano Levi) | 14 | `2.8284271247` | `1.4142135624` | Yes | `0` | None (all 24 non-trivial roots have $\lvert u \rvert^2 = 0.5$) |
-| **Barbell $G_{14}$** | 14 | `2.8284271247` | **`2.8557725066`** | **No** | **`2`** | $u_+ = 0.8125068$ ($u_+^2 = 0.6601672$), $u_- = 0.6153795$ ($u_-^2 = 0.3786919$), $u_+ u_- = 0.5000000$ |
+| 3-Regular Connected Graph ($q = 2$) | Vertices | $\max \lvert \lambda_{\mathrm{nt}} \rvert$ | Markov Gap $\gamma_{\mathrm{gap}}$ | Margin $2\sqrt{2} - \max\lvert\lambda_{\mathrm{nt}}\rvert$ | Ramanujan? | Off-Circle Roots | Real Off-Circle Roots $(u_+, u_-)$ |
+| :--- | ---: | ---: | ---: | ---: | :---: | ---: | :--- |
+| **Complete Bipartite $K_{3,3}$** | 6 | `0.0000000000` | `1.000000` | `+2.828427` | Yes | `0` | None ($\lvert u \rvert^2 = 0.5$) |
+| **Petersen** | 10 | `2.0000000000` | `0.333333` | `+0.828427` | Yes | `0` | None (all 18 non-trivial roots have $\lvert u \rvert^2 = 0.5$) |
+| **Heawood** (Fano Levi) | 14 | `1.4142135624` | `0.528595` | `+1.414214` | Yes | `0` | None (all 24 non-trivial roots have $\lvert u \rvert^2 = 0.5$) |
+| **Möbius–Kantor $GP(8,3)$** | 16 | `1.7320508076` | `0.422650` | `+1.096376` | Yes | `0` | None (all 28 non-trivial roots have $\lvert u \rvert^2 = 0.5$) |
+| **Barbell $G_{14}$** | 14 | **`2.8557725066`** | **`0.048076`** | **`-0.027345`** | **No** | **`2`** | $u_+ = 0.8125068$ ($u_+^2 = 0.6601672$), $u_- = 0.6153795$ ($u_-^2 = 0.3786919$) |
 
-In spectral $s$-coordinates ($u = 2^{-s}$), the two non-Ramanujan roots of $G_{14}$ sit symmetrically off the critical line at $s_- = -\log_2 u_+ \approx 0.299548$ and $s_+ = -\log_2 u_- \approx 0.700452$ ($s_+ + s_- = 1$, $\sigma_{\mathrm{dev}} = \pm 0.200452$), providing a concrete finite-graph realization of a Coulson–Fischer off-axis bifurcation.
+In spectral $s$-coordinates ($u = 2^{-s}$), the two non-Ramanujan roots of $G_{14}$ sit symmetrically off the critical line at $s_- = -\log_2 u_+ \approx 0.299548$ and $s_+ = -\log_2 u_- \approx 0.700452$ ($s_+ + s_- = 1$, $\sigma_{\mathrm{dev}} = \pm 0.200452$), providing a concrete finite-graph realization of a Coulson–Fischer off-axis bifurcation alongside a $10.99\times$ collapse in Markov relaxation rate relative to the 14-vertex Ramanujan Heawood graph.
 
 ---
 
-## 3. High-Precision Rust/PyO3 Evaluators: Euler–Maclaurin, Riemann–Siegel $C_2(p)$, and Borwein Conditioning
+## 3. High-Precision Rust/PyO3 Evaluators & `RB-1` Error Minimization (`Jet2`/`CJet2` + Riemann–Siegel $C_0\text{..}C_4$)
 
 ### 3.1 Algorithmic Design (`src/signals/numerical_adapter/src/riemann_spectral.rs`)
 
-Three complementary evaluators are implemented in pure Rust (`std` only) and exposed via PyO3 (`signals_numerical_adapter`):
+Three complementary evaluators and a 2nd-order forward-mode automatic differentiation algebra (`Jet2` / `CJet2`) are implemented in pure Rust (`std` only) and exposed via PyO3 (`signals_numerical_adapter`):
 
-1. **Euler–Maclaurin Analytic Continuation (`zeta_euler_maclaurin`):** Uses adaptive cutoff $N = \max(18, \lceil 1.2 \lvert t \rvert + 18 \rceil)$ with 9 Bernoulli ratios $B_{2k}/(2k)!$ ($k = 1\text{..}9$). Because $\lvert s + 2k \rvert / (2\pi N) < 0.14$, the remainder stays below $3 \times 10^{-14}$ across the critical strip for $\lvert t \rvert \le 400$ in plain IEEE-754 `f64`.
-2. **Riemann–Siegel with Exact Chebyshev $C_0(p), C_1(p), C_2(p)$ (`hardy_z_riemann_siegel`):** Evaluates the Stirling-shifted phase $\vartheta(t)$ ($< 10^{-15}$ error) plus the $O(\sqrt{t})$ main sum and Gabcke remainder terms
+1. **Euler–Maclaurin Analytic Continuation + Exact Complex 2-Jets (`zeta_euler_maclaurin`, `hardy_z_jet`):** Uses adaptive cutoff $N = \max(18, \lceil 1.2 \lvert t \rvert + 18 \rceil)$ with 9 Bernoulli ratios $B_{2k}/(2k)!$ ($k = 1\text{..}9$). Propagating `CJet2` through $n^{-s}$, the Euler–Maclaurin tail, and $\vartheta(t)$ delivers exact machine-precision $(Z(t), Z'(t), Z''(t))$ with zero finite-difference step-size cancellation.
+2. **Riemann–Siegel with Exact Chebyshev $C_0(p)$ Through $C_4(p)$ (`hardy_z_riemann_siegel_c4_jet`):** Evaluates the Stirling-shifted phase $\vartheta(t)$ ($< 10^{-15}$ error) plus the $O(\sqrt{t})$ main sum and five Gabcke remainder terms {cite:p}`gabcke1979riemann`:
 
 $$
-Z(t) = 2\sum_{n=1}^{\lfloor a \rfloor} n^{-1/2}\cos\!\left(\vartheta(t) - t \ln n\right) + (-1)^{\lfloor a \rfloor - 1} a^{-1/2}\!\left(C_0(p) + a^{-1} C_1(p) + a^{-2} C_2(p)\right), \qquad a = \sqrt{\frac{t}{2\pi}}, \quad p = a - \lfloor a \rfloor.
+Z(t) = 2\sum_{n=1}^{\lfloor a \rfloor} n^{-1/2}\cos\!\left(\vartheta(t) - t \ln n\right) + (-1)^{\lfloor a \rfloor - 1} a^{-1/2}\sum_{r=0}^{4} a^{-r} C_r(p), \qquad a = \sqrt{\frac{t}{2\pi}}, \quad p = a - \lfloor a \rfloor.
 $$
 
-Because $C_0(p), C_1(p), C_2(p)$ are entire functions whose apparent poles at $p = 1/4, 3/4$ cancel analytically, expanding $C_0, C_2$ in even Chebyshev polynomials $T_{2k}(2p - 1)$ and $C_1$ in odd Chebyshev polynomials $T_{2k+1}(2p - 1)$ (derived at 100-digit `mpmath` precision) eliminates removable-singularity cancellation completely ($< 10^{-15}$ approximation error across $[0, 1]$).
-3. **Borwein Algorithm 2 (`zeta_borwein`):** Included explicitly to diagnose why `f64` Borwein ($n = 22$) matches $\zeta(2) = \pi^2/6$ to $< 10^{-13}$ and reaches $2.98 \times 10^{-9}$ at $\gamma_1 \approx 14.1347$, yet degrades to $2.83 \times 10^{-1}$ at $\gamma_{10} \approx 49.7738$ and $1.07$ at $\gamma_{30} \approx 101.3179$: its error scales as $\cosh(\pi t / 2) / (3 + 2\sqrt{2})^n$, requiring $n \gtrsim 100$ (and $\sim 80$-digit arbitrary precision) at $t = 101.3$.
+Because $C_0(p)\text{..}C_4(p)$ are entire functions whose apparent poles at $p = 1/4, 3/4$ cancel analytically, expanding $C_0, C_2, C_4$ in even Chebyshev polynomials $T_{2k}(2p - 1)$ and $C_1, C_3$ in odd Chebyshev polynomials $T_{2k+1}(2p - 1)$ (derived at 120-digit `mpmath` precision) and propagating `Jet2` through Clenshaw recurrence eliminates both removable-singularity cancellation and finite-difference noise across $[0, 1]$.
+3. **Borwein Algorithm 2 (`zeta_borwein`):** Included explicitly to diagnose why `f64` Borwein ($n = 22$) {cite:p}`borwein2000zeta` matches $\zeta(2) = \pi^2/6$ to $< 10^{-13}$ and reaches $2.98 \times 10^{-9}$ at $\gamma_1 \approx 14.1347$, yet degrades to $2.83 \times 10^{-1}$ at $\gamma_{10} \approx 49.7738$ and $1.07$ at $\gamma_{30} \approx 101.3179$: its error scales as $\cosh(\pi t / 2) / (3 + 2\sqrt{2})^n$, requiring $n \gtrsim 100$ (and $\sim 80$-digit arbitrary precision) at $t = 101.3$.
 
-### 3.2 First 30 Nontrivial Zeros Cross-Checked Against 35-Digit `mpmath`
+### 3.2 `RB-1` Before/After Error-Minimization Benchmarks (`py_compare_rs_c2_vs_c4`)
+
+Upgrading from $C_2(p)$ + 4th-order finite differences ($h = 5\times 10^{-4}$) to $C_4(p)$ + exact `Jet2`/`CJet2` automatic differentiation drives every `f64` observable down to the fundamental IEEE-754 phase-argument rounding floor $\varepsilon_{\mathrm{phase}} \sim t \ln(\lfloor a \rfloor) \cdot \varepsilon_{\mathrm{mach}} \approx 6 \times 10^{-12}$ at $t \approx 7{,}005$:
+
+| Benchmark Observable | Baseline (`RS-C2` / FD) Error | Upgraded (`RS-C4` + `Jet2`) Error | Error Reduction Factor | Limiting `f64` Mechanism |
+| :--- | ---: | ---: | ---: | :--- |
+| **$Z(\gamma_{30})$ at $\gamma_{30} = 101.31785101$** | `1.502e-06` | **`3.539e-08`** | **`42.4×`** | Asymptotic $O(a^{-11/2})$ at small $a = 4.016$ (Euler–Maclaurin gives `2.42e-14`) |
+| **$Z(\gamma_*)$ at Lehmer $\gamma_* = 7005.08185510$** | `1.252e-09` | **`6.311e-12`** | **`198.5×`** | IEEE-754 `f64` phase rounding $t \ln n \cdot 2^{-53}$ ($a = 33.39$) |
+| **$Z''(\gamma_*)$ at Lehmer $\gamma_* = 7005.08185510$** | `~1.10e-05` | **`1.350e-10`** | **`> 81,000×`** | Exact `Jet2` Clenshaw + main-sum differentiation |
+| **$\mathcal{J}(g_{125})$ at $g_{125} = 280.80242938$** | `1.932e-04` | **`6.722e-12`** | **`2.87e7×`** | Zero step-size cancellation via `CJet2` Euler–Maclaurin |
+
+### 3.3 First 30 Nontrivial Zeros Cross-Checked Against 35-Digit `mpmath`
 
 Across all **30 first nontrivial zeros** (`py_find_first_n_riemann_zeros(30)` vs. 35-digit `mpmath.zetazero`), the Rust Euler–Maclaurin root finder achieves **maximum zero-height error $2.84 \times 10^{-14}$** and **maximum $\lvert \zeta(\tfrac{1}{2} + i\gamma_k) \rvert = 5.94 \times 10^{-14}$**:
 
-| Zero Index $k$ | Rust Height $\gamma_k$ | Error vs. 35-Digit `mpmath` | $\lvert \zeta_{\mathrm{EM}}(\tfrac{1}{2} + i\gamma_k) \rvert$ | $\lvert Z_{\mathrm{RS}, C_2}(\gamma_k) \rvert$ | $\lvert \zeta_{\mathrm{Borwein}, 22} \rvert$ | $\mathcal{J}(\gamma_k) = (Z'(\gamma_k))^2$ |
-| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | `14.1347251417` | `1.78e-15` | `7.92e-16` | `7.76e-05` | `2.98e-09` | `0.629103` |
-| 2 | `21.0220396388` | `3.55e-15` | `3.38e-15` | `2.79e-06` | `2.76e-05` | `1.292403` |
-| 3 | `25.0108575801` | `0.00e+00` | `3.39e-15` | `1.91e-05` | `5.65e-04` | `1.881619` |
-| 10 | `49.7738324777` | `1.42e-14` | `2.22e-14` | `1.32e-06` | `2.83e-01` | `2.013369` |
-| 20 | `77.1448400689` | `0.00e+00` | `2.70e-14` | `1.52e-06` | `5.90e-01` | `2.124430` |
-| 27 | `94.6513440405` | `2.84e-14` | `1.55e-14` | `7.74e-07` | `5.96e-01` | `2.188631` |
-| 28 | `95.8706342282` | `1.42e-14` | `2.43e-14` | `1.15e-06` | `6.03e-01` | `2.868145` |
-| 30 | `101.3178510057` | `1.42e-14` | `2.42e-14` | `1.50e-06` | `1.07e+00` | `9.951800` |
+| Zero Index $k$ | Rust Height $\gamma_k$ | Error vs. 35-Digit `mpmath` | $\lvert \zeta_{\mathrm{EM}}(\tfrac{1}{2} + i\gamma_k) \rvert$ | $\lvert Z_{\mathrm{RS}, C_2}(\gamma_k) \rvert$ | $\lvert Z_{\mathrm{RS}, C_4}(\gamma_k) \rvert$ | $\lvert \zeta_{\mathrm{Borwein}, 22} \rvert$ | $\mathcal{J}(\gamma_k) = (Z'(\gamma_k))^2$ |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | `14.1347251417` | `1.78e-15` | `7.92e-16` | `7.76e-05` | `2.65e-05` | `2.98e-09` | `0.629103` |
+| 2 | `21.0220396388` | `3.55e-15` | `3.38e-15` | `2.79e-06` | `1.44e-06` | `2.76e-05` | `1.292403` |
+| 3 | `25.0108575801` | `0.00e+00` | `3.39e-15` | `1.91e-05` | `3.15e-06` | `5.65e-04` | `1.881619` |
+| 10 | `49.7738324777` | `1.42e-14` | `2.22e-14` | `1.32e-06` | `9.89e-08` | `2.83e-01` | `2.013369` |
+| 20 | `77.1448400689` | `0.00e+00` | `2.70e-14` | `1.52e-06` | `5.63e-08` | `5.90e-01` | `2.124430` |
+| 27 | `94.6513440405` | `2.84e-14` | `1.55e-14` | `7.74e-07` | `2.15e-08` | `5.96e-01` | `2.188631` |
+| 28 | `95.8706342282` | `1.42e-14` | `2.43e-14` | `1.15e-06` | `2.86e-08` | `6.03e-01` | `2.868145` |
+| 30 | `101.3178510057` | `1.42e-14` | `2.42e-14` | `1.50e-06` | `3.54e-08` | `1.07e+00` | `9.951800` |
 
 ---
 

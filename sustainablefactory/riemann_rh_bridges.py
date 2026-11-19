@@ -79,11 +79,23 @@ def verify_symbolic_rh_bridge_identities() -> Dict[str, bool]:
         == 0
     )
 
-    # 3. De Bruijn–Newman backward heat PDE d_t H_t = -d_z^2 H_t on quadratic Lehmer peak
-    z0, z2, t, dz = sp.symbols("z0 z2 t dz", real=True)
+    # 3. De Bruijn–Newman backward heat PDE d_t H_t = -d_z^2 H_t (quadratic & quartic)
+    z0, z2, z4, t, dz = sp.symbols("z0 z2 z4 t dz", real=True)
     H_t = (z0 - z2 * t) + sp.Rational(1, 2) * z2 * dz**2
     dbn_pde_ok = sp.simplify(sp.diff(H_t, t) + sp.diff(H_t, dz, 2)) == 0
     dbn_collision_ok = sp.simplify(H_t.subs({t: z0 / z2, dz: 0})) == 0
+    H_q = (
+        (z0 - z2 * t + sp.Rational(1, 2) * z4 * t**2)
+        + sp.Rational(1, 2) * (z2 - z4 * t) * dz**2
+        + sp.Rational(1, 24) * z4 * dz**4
+    )
+    dbn_quartic_pde_ok = sp.simplify(sp.diff(H_q, t) + sp.diff(H_q, dz, 2)) == 0
+    dbn_quartic_shift_ok = (
+        sp.simplify(
+            H_q.subs({t: z0 / z2, dz: 0}) - sp.Rational(1, 2) * z4 * (z0 / z2) ** 2
+        )
+        == 0
+    )
 
     # 4. Keiper–Li binomial map & exact inversion for n = 1, 2, 3
     b1, b2, b3 = sp.symbols("b1 b2 b3", real=True)
@@ -96,6 +108,14 @@ def verify_symbolic_rh_bridge_identities() -> Dict[str, bool]:
         and sp.simplify(l3 / 3 - l2 + l1 - b3) == 0
     )
 
+    # 5. 4-zero Calogero–Moser symmetric neighbor-squeezing identity
+    delta, outer_d = sp.symbols("delta outer_d", positive=True)
+    v3 = 2 / (2 * delta) + 2 / (delta + outer_d) + 2 / (delta - outer_d)
+    v2 = 2 / (-2 * delta) + 2 / (-delta + outer_d) + 2 / (-delta - outer_d)
+    cm4_squeeze_ok = (
+        sp.simplify((v3 - v2) - (2 / delta - 8 * delta / (outer_d**2 - delta**2))) == 0
+    )
+
     return {
         "cubic_discriminant_factored": cubic_factored_ok,
         "hermite3_discriminant": hermite3_ok,
@@ -103,7 +123,10 @@ def verify_symbolic_rh_bridge_identities() -> Dict[str, bool]:
         "weil_disproof_witness": disproof_ok,
         "dbn_quadratic_heat_pde": dbn_pde_ok,
         "dbn_collision_time": dbn_collision_ok,
+        "dbn_quartic_heat_pde": dbn_quartic_pde_ok,
+        "dbn_quartic_collision_shift": dbn_quartic_shift_ok,
         "keiper_li_inversion_123": keiper_inv_ok,
+        "cm4_symmetric_neighbor_squeeze": cm4_squeeze_ok,
     }
 
 
@@ -361,4 +384,188 @@ def audit_lehmer_dbn_backward_heat(dps: int = 40) -> Dict[str, float]:
             "t_heat": float(t_heat),
             "t_calogero_moser": float(t_cm),
             "ratio_t_heat_over_t_cm": float(t_heat / t_cm),
+        }
+
+
+def _build_hermite_conv_poly_coeffs(j: int, k: int) -> List[sp.Rational]:
+    """Symbolic SymPy polynomial `P_{jk}(w)` for the convolution of even Hermite–Gaussians."""
+    s, w = sp.symbols("s w")
+    prod = sp.Poly(sp.expand(sp.hermite(2 * j, s) * sp.hermite(2 * k, s)), s)
+    poly_w = sp.Integer(0)
+    for (deg,), coeff in prod.terms():
+        r = deg // 2
+        poly_w += coeff * ((-1) ** r) * sp.Rational(1, 4**r) * sp.hermite(2 * r, w / 2)
+    return sp.Poly(sp.expand(poly_w), w).all_coeffs()
+
+
+def _eval_rat_poly(coeffs: Sequence[sp.Rational], xval: mp.mpf | mp.mpc) -> mp.mpf | mp.mpc:
+    acc = mp.mpf(0)
+    for c in coeffs:
+        acc = acc * xval + mp.mpf(int(c.p)) / mp.mpf(int(c.q))
+    return acc
+
+
+def audit_weil_hermite_gaussian_gram_matrix(
+    dimension: int = 6,
+    alpha: float = 100.0,
+    num_zeros: int = 120,
+    n_max: int = 500,
+    dps: int = 50,
+) -> Dict[str, object]:
+    """Build the `d x d` Weil Explicit-Formula Gram matrix in the orthonormal even
+    Hermite–Gaussian basis `phi_k(x) = N_k H_{2k}(sqrt(2 alpha) x) exp(-alpha x^2)`
+    using exact SymPy convolution polynomials, verifying Prime+Archimedean vs. Zero
+    parity, strict positive-definiteness, full condition number `kappa(W)`, and
+    Strong-Mpemba slow-mode-projected condition number `kappa_{perp v_1}(W) = lambda_max / lambda_2`.
+    """
+    p_polys = [
+        [_build_hermite_conv_poly_coeffs(j, k) for k in range(dimension)]
+        for j in range(dimension)
+    ]
+    s_sym = sp.Symbol("s")
+    h_polys = [
+        sp.Poly(sp.hermite(2 * k, s_sym), s_sym).all_coeffs() for k in range(dimension)
+    ]
+
+    with mp.workdps(dps):
+        alpha_v = mp.mpf(str(alpha))
+        sq2a = mp.sqrt(2 * alpha_v)
+        zeros_list = [mp.im(mp.zetazero(k)) for k in range(1, num_zeros + 1)]
+        primes = _sieve_primes(n_max)
+        c_norm = [
+            ((-1) ** k)
+            * mp.power(2 * mp.pi / alpha_v, mp.mpf("0.25"))
+            / mp.sqrt(mp.power(2, 2 * k) * mp.factorial(2 * k))
+            for k in range(dimension)
+        ]
+
+        w_zero = mp.matrix(dimension, dimension)
+        w_prime = mp.matrix(dimension, dimension)
+
+        for j in range(dimension):
+            for k in range(j, dimension):
+                zs = mp.mpf(0)
+                for g in zeros_list:
+                    s_val = g / sq2a
+                    zs += (
+                        _eval_rat_poly(h_polys[j], s_val)
+                        * _eval_rat_poly(h_polys[k], s_val)
+                        * mp.exp(-(s_val**2))
+                    )
+                w_zero[j, k] = w_zero[k, j] = 2 * c_norm[j] * c_norm[k] * zs
+
+                pref_f = c_norm[j] * c_norm[k] * sq2a / (2 * mp.sqrt(mp.pi))
+                s_pole = mp.mpc(0, mp.mpf("0.5") / sq2a)
+                pole = (
+                    2
+                    * c_norm[j]
+                    * c_norm[k]
+                    * mp.re(
+                        _eval_rat_poly(h_polys[j], s_pole)
+                        * _eval_rat_poly(h_polys[k], s_pole)
+                        * mp.exp(-(s_pole**2))
+                    )
+                )
+                psum = mp.mpf(0)
+                for p in primes:
+                    lnp = mp.log(p)
+                    pm = p
+                    m = 1
+                    while pm <= n_max:
+                        xv = m * lnp
+                        fval = (
+                            pref_f
+                            * _eval_rat_poly(p_polys[j][k], sq2a * xv)
+                            * mp.exp(-mp.mpf("0.5") * alpha_v * xv * xv)
+                        )
+                        psum += (lnp / mp.sqrt(pm)) * fval
+                        pm *= p
+                        m += 1
+
+                f0 = pref_f * _eval_rat_poly(p_polys[j][k], mp.mpf(0))
+                arch_int = (c_norm[j] * c_norm[k] / mp.pi) * mp.quad(
+                    lambda tv: _eval_rat_poly(h_polys[j], tv / sq2a)
+                    * _eval_rat_poly(h_polys[k], tv / sq2a)
+                    * mp.exp(-(tv**2) / (2 * alpha_v))
+                    * mp.re(mp.digamma(mp.mpc(mp.mpf("0.25"), tv / 2))),
+                    [0, 15, 50, 150, mp.inf],
+                )
+                w_prime[j, k] = w_prime[k, j] = (
+                    pole - 2 * psum + arch_int - f0 * mp.log(mp.pi)
+                )
+
+        max_diff = max(
+            abs(w_prime[i, j] - w_zero[i, j])
+            for i in range(dimension)
+            for j in range(dimension)
+        )
+        evals_p, _ = mp.eigsy(w_prime)
+        evals_list = sorted(float(evals_p[i]) for i in range(dimension))
+        cond_full = evals_list[-1] / evals_list[0]
+        cond_mpemba_fast = (
+            evals_list[-1] / evals_list[1] if dimension >= 2 else 1.0
+        )
+        return {
+            "dimension": dimension,
+            "alpha": alpha,
+            "max_prime_vs_zero_diff": float(max_diff),
+            "eigenvalues_prime_arch": evals_list,
+            "strictly_positive_definite": all(e > 0.0 for e in evals_list),
+            "condition_number_full": cond_full,
+            "condition_number_mpemba_fast_subspace": cond_mpemba_fast,
+            "mpemba_conditioning_gain": cond_full / cond_mpemba_fast,
+        }
+
+
+def audit_lehmer_quartic_heat_and_neighbor_pressure(
+    dps: int = 45,
+) -> Dict[str, float]:
+    """Audit the 4th-order quartic de Bruijn–Newman heat collision root `t_quartic`
+    and the 10-zero Calogero–Moser neighbor-squeezing correction on Lehmer's 1956 pair
+    (#6709 & #6710 flanked by #6705..#6714).
+    """
+    with mp.workdps(dps):
+        zeros_window = [mp.im(mp.zetazero(k)) for k in range(6705, 6715)]
+        g_left, g_right = zeros_window[4], zeros_window[5]
+        g_mid = mp.findroot(
+            lambda y: mp.diff(mp.siegelz, y, 1), (g_left + g_right) / 2
+        )
+        z0 = mp.siegelz(g_mid)
+        z2 = mp.diff(mp.siegelz, g_mid, 2)
+        z4 = mp.diff(mp.siegelz, g_mid, 4)
+        gap = g_right - g_left
+
+        t_quad = z0 / z2
+        disc = z2**2 - 2 * z0 * z4
+        t_quartic = (z2 + mp.sqrt(disc)) / z4
+        quartic_res = z0 - z2 * t_quartic + mp.mpf("0.5") * z4 * t_quartic**2
+        t_cm2 = -(gap**2) / 8
+
+        # Repulsive Calogero–Moser velocities: v_k = sum_{j != k} 2 / (z_k - z_j)
+        rate_2 = 4 / gap
+        v_left_10 = sum(
+            2 / (g_left - zeros_window[j])
+            for j in range(len(zeros_window))
+            if j != 4
+        )
+        v_right_10 = sum(
+            2 / (g_right - zeros_window[j])
+            for j in range(len(zeros_window))
+            if j != 5
+        )
+        rate_10 = v_right_10 - v_left_10
+        return {
+            "extremum_gamma": float(g_mid),
+            "gap": float(gap),
+            "z0": float(z0),
+            "z2": float(z2),
+            "z4": float(z4),
+            "t_quad": float(t_quad),
+            "t_quartic": float(t_quartic),
+            "quartic_residual": float(abs(quartic_res)),
+            "t_cm2": float(t_cm2),
+            "rate_2zero": float(rate_2),
+            "rate_10zero": float(rate_10),
+            "neighbor_squeeze_delta": float(rate_10 - rate_2),
+            "neighbor_squeeze_pct": float((rate_10 / rate_2 - 1) * 100),
         }

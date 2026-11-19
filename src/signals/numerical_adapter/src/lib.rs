@@ -274,6 +274,7 @@ fn py_find_first_n_riemann_zeros<'py>(
         d.set_item("gamma", z.gamma)?;
         d.set_item("hardy_z_exact", z.hardy_z_exact)?;
         d.set_item("hardy_z_riemann_siegel_c2", z.hardy_z_riemann_siegel_c2)?;
+        d.set_item("hardy_z_riemann_siegel_c4", z.hardy_z_riemann_siegel_c4)?;
         d.set_item("zeta_abs", z.zeta_abs)?;
         d.set_item("borwein_zeta_abs", z.borwein_zeta_abs)?;
         d.set_item("z_prime", z.z_prime)?;
@@ -343,10 +344,26 @@ fn py_audit_gram_law_and_lehmer<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyD
 
 #[cfg(feature = "python")]
 #[pyfunction]
+fn py_compare_rs_c2_vs_c4<'py>(py: Python<'py>, t: f64) -> PyResult<Bound<'py, PyDict>> {
+    let c2 = riemann_spectral::hardy_z_riemann_siegel(t);
+    let c4_jet = riemann_spectral::hardy_z_riemann_siegel_c4_jet(t);
+    let d = PyDict::new(py);
+    d.set_item("t", t)?;
+    d.set_item("z_rs_c2", c2)?;
+    d.set_item("z_rs_c4", c4_jet.v)?;
+    d.set_item("z_prime_rs_c4", c4_jet.d1)?;
+    d.set_item("z_double_prime_rs_c4", c4_jet.d2)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
 fn py_audit_regular_graphs_bass_ihara<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyList>> {
     let graphs = [
+        riemann_spectral::k33_graph_6(),
         riemann_spectral::petersen_graph_10(),
         riemann_spectral::heawood_graph_14(),
+        riemann_spectral::mobius_kantor_graph_16(),
         riemann_spectral::barbell_non_ramanujan_14(),
     ];
     let list = PyList::empty(py);
@@ -365,6 +382,8 @@ fn py_audit_regular_graphs_bass_ihara<'py>(py: Python<'py>) -> PyResult<Bound<'p
             "max_nontrivial_abs_eigenvalue",
             rep.max_nontrivial_abs_eigenvalue,
         )?;
+        d.set_item("markov_spectral_gap", rep.markov_spectral_gap)?;
+        d.set_item("ramanujan_margin", rep.ramanujan_margin)?;
         d.set_item("is_ramanujan", rep.is_ramanujan)?;
         d.set_item("nontrivial_off_circle_count", rep.nontrivial_off_circle_count)?;
         let roots_list = PyList::empty(py);
@@ -447,6 +466,7 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_apply_d4_grid_op_tequila, m)?)?;
     m.add_function(wrap_pyfunction!(py_synthesize_grid_program, m)?)?;
     m.add_function(wrap_pyfunction!(py_find_first_n_riemann_zeros, m)?)?;
+    m.add_function(wrap_pyfunction!(py_compare_rs_c2_vs_c4, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_madelung_bohm_jensen_polya, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_gram_law_and_lehmer, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_regular_graphs_bass_ihara, m)?)?;

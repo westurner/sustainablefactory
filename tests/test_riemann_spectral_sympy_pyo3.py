@@ -112,10 +112,15 @@ def test_sympy_and_pyo3_bass_ihara_ramanujan_vs_barbell_14():
     res = sp.resultant(x**3 - x**2 - 6 * x + 2, 2 * u**2 - x * u + 1, x)
     assert sp.simplify(sp.rem(det_bar, sp.Poly(res, u), u)) == 0
 
-    # Cross-check with Rust/PyO3
+    # Cross-check 5-graph 3-regular Ramanujan tower vs. Barbell G_14 with Rust/PyO3
     audits = sna.py_audit_regular_graphs_bass_ihara()
-    assert len(audits) == 3
-    pet, hea, bar = audits
+    assert len(audits) == 5
+    k33, pet, hea, mk16, bar = audits
+
+    assert k33["is_regular"] and k33["is_connected"] and k33["is_ramanujan"]
+    assert k33["max_nontrivial_abs_eigenvalue"] < 1e-11
+    assert abs(k33["markov_spectral_gap"] - 1.0) < 1e-11
+    assert k33["nontrivial_off_circle_count"] == 0
 
     assert pet["is_regular"] and pet["is_connected"] and pet["is_ramanujan"]
     assert pet["nontrivial_off_circle_count"] == 0
@@ -124,9 +129,15 @@ def test_sympy_and_pyo3_bass_ihara_ramanujan_vs_barbell_14():
     assert abs(hea["max_nontrivial_abs_eigenvalue"] - math.sqrt(2.0)) < 1e-11
     assert hea["nontrivial_off_circle_count"] == 0
 
+    assert mk16["is_regular"] and mk16["is_connected"] and mk16["is_ramanujan"]
+    assert abs(mk16["max_nontrivial_abs_eigenvalue"] - math.sqrt(3.0)) < 1e-11
+    assert mk16["nontrivial_off_circle_count"] == 0
+
     assert bar["is_regular"] and bar["is_connected"] and (not bar["is_ramanujan"])
     assert bar["max_nontrivial_abs_eigenvalue"] > 2.0 * math.sqrt(2.0)
     assert abs(bar["max_nontrivial_abs_eigenvalue"] - 2.8557725066) < 1e-8
+    assert bar["ramanujan_margin"] < 0.0
+    assert bar["markov_spectral_gap"] < pet["markov_spectral_gap"]
     assert bar["nontrivial_off_circle_count"] == 2
 
     off_roots = [r for r in bar["roots"] if (not r["is_trivial"]) and (not r["on_critical_circle"])]
@@ -152,13 +163,21 @@ def test_pyo3_first_30_zeros_match_35digit_mpmath():
 
     assert max_gamma_err < 1e-11
     assert max_rs_c2_res < 1e-4
+    # RB-1: Verify RS-C4 reaches the f64 phase-rounding floor (< 1e-11, > 150x lower error than RS-C2)
+    leh_t = 7005.08185509661
+    cmp_leh = sna.py_compare_rs_c2_vs_c4(leh_t)
+    z_ref = float(mp.siegelz(mp.mpf(leh_t)))
+    err_c2 = abs(cmp_leh["z_rs_c2"] - z_ref)
+    err_c4 = abs(cmp_leh["z_rs_c4"] - z_ref)
+    assert err_c4 < 1e-11
+    assert err_c2 / err_c4 > 150.0
 
 
 def test_pyo3_gram_violations_and_lehmer_1956_match_35digit_mpmath():
     mp.mp.dps = 35
     rep = sna.py_audit_gram_law_and_lehmer()
 
-    # Cross-check Gram window against 35-digit mpmath
+    # Cross-check Gram window against 35-digit mpmath (RB-1 exact Jet2 derivatives < 1e-8!)
     for row in rep["gram_window"]:
         m = row["gram_index"]
         gm_ref = mp.grampoint(m)
@@ -167,9 +186,11 @@ def test_pyo3_gram_violations_and_lehmer_1956_match_35digit_mpmath():
         z2_ref = float(mp.diff(mp.siegelz, gm_ref, 2))
         j_ref = z1_ref**2 - z0_ref * z2_ref
 
-        assert abs(row["gamma"] - float(gm_ref)) < 1e-9
-        assert abs(row["z0"] - z0_ref) < 1e-9
-        assert abs(row["j_total"] - j_ref) < 1e-4
+        assert abs(row["gamma"] - float(gm_ref)) < 1e-10
+        assert abs(row["z0"] - z0_ref) < 1e-10
+        assert abs(row["z_prime"] - z1_ref) < 1e-9
+        assert abs(row["z_double_prime"] - z2_ref) < 1e-8
+        assert abs(row["j_total"] - j_ref) < 1e-7
         assert row["j_total"] > 0.0
         if m in (126, 134):
             assert not row["gram_holds"]
@@ -180,13 +201,13 @@ def test_pyo3_gram_violations_and_lehmer_1956_match_35digit_mpmath():
     leh = rep["lehmer_1956"]
     g6709_ref = float(mp.im(mp.zetazero(6709)))
     g6710_ref = float(mp.im(mp.zetazero(6710)))
-    assert abs(leh["gamma_left"] - g6709_ref) < 1e-6
-    assert abs(leh["gamma_right"] - g6710_ref) < 1e-6
-    assert abs(leh["gap"] - (g6710_ref - g6709_ref)) < 1e-6
+    assert abs(leh["gamma_left"] - g6709_ref) < 1e-9
+    assert abs(leh["gamma_right"] - g6710_ref) < 1e-9
+    assert abs(leh["gap"] - (g6710_ref - g6709_ref)) < 1e-9
     # Verify corrected sign: positive peak Z(g*) > 0, Z''(g*) < 0, J_bohm = -Z Z'' > 0
     assert leh["z0"] > 0.0039 and leh["z_double_prime"] < -22.0
-    assert abs(leh["j_bohm"] - 0.088655) < 5e-4
-    assert abs(leh["bohm_ratio"] - 1.0) < 1e-4
+    assert abs(leh["j_bohm"] - 0.0886551841) < 1e-7
+    assert abs(leh["bohm_ratio"] - 1.0) < 1e-9
 
 
 def test_pyo3_li_partial_coefficients_critical_vs_off_line_quartet():
@@ -205,41 +226,65 @@ def test_sympy_rh_analytical_bridges_gorz_keiper_li_weil_and_dbn():
     from sustainablefactory.riemann_rh_bridges import (
         audit_gorz_jensen_hyperbolicity,
         audit_lehmer_dbn_backward_heat,
+        audit_lehmer_quartic_heat_and_neighbor_pressure,
         audit_weil_gaussian_gram_matrix,
+        audit_weil_hermite_gaussian_gram_matrix,
         compute_exact_keiper_li_coefficients,
         verify_symbolic_rh_bridge_identities,
     )
 
-    # 1. All 7 SymPy symbolic RH-bridge identities hold identically
+    # 1. All 10 SymPy symbolic RH-bridge identities hold identically
     sym_res = verify_symbolic_rh_bridge_identities()
+    assert len(sym_res) == 10
     assert all(sym_res.values()), f"Failed symbolic checks: {sym_res}"
 
-    # 2. GORZ (PNAS 2019) positive-integral Jensen polynomials J^{d,n}(X) for d = 2..6
-    gorz = audit_gorz_jensen_hyperbolicity(degrees=(2, 3, 4, 5, 6), n_max=10, dps=65)
-    assert gorz["xi_half_moment_error"] < 1e-50
+    # 2. GORZ (PNAS 2019) positive-integral Jensen polynomials J^{d,n}(X) for d = 2..8
+    gorz = audit_gorz_jensen_hyperbolicity(
+        degrees=(2, 3, 4, 5, 6, 7, 8), n_max=10, dps=70
+    )
+    assert gorz["xi_half_moment_error"] < 1e-55
     for row in gorz["per_degree"]:
         assert row["all_real"], f"Non-real root found for degree {row['degree']}"
         assert row["max_imag"] == 0.0
         assert row["min_root_gap"] > 0.0
     assert all(r["strictly_hyperbolic"] for r in gorz["hermite3_residuals"])
 
-    # 3. Exact infinite-zero Keiper–Li coefficients lambda_1..lambda_15
-    kli = compute_exact_keiper_li_coefficients(max_n=15, dps=60)
+    # 3. Exact infinite-zero Keiper–Li coefficients lambda_1..lambda_20
+    kli = compute_exact_keiper_li_coefficients(max_n=20, dps=65)
     assert kli["all_positive"]
-    assert kli["lambda_1_analytic_error"] < 1e-50
+    assert kli["lambda_1_analytic_error"] < 1e-55
     assert abs(kli["lambdas"][0] - 0.023095708966121034) < 1e-15
     assert abs(kli["lambdas"][9] - 2.279339363193158) < 1e-12
+    assert abs(kli["lambdas"][19] - 8.769276872093215) < 1e-11
 
-    # 4. Exact 50-digit Weil Explicit-Formula 4x4 Gaussian Gram matrix (Prime+Arch vs Zero)
-    weil = audit_weil_gaussian_gram_matrix(
+    # 4. Exact 50-digit Weil Explicit-Formula 4x4 raw Gaussian vs 6x6 Orthonormal Hermite–Gaussian
+    weil_raw = audit_weil_gaussian_gram_matrix(
         alphas=(40.0, 80.0, 160.0, 320.0), num_zeros=120, n_max=500, dps=50
     )
-    assert weil["max_prime_vs_zero_diff"] < 1e-45
-    assert weil["strictly_positive_definite"]
-    assert min(weil["eigenvalues_prime_arch"]) > 3.4e-5
+    assert weil_raw["max_prime_vs_zero_diff"] < 1e-45
+    assert weil_raw["strictly_positive_definite"]
+    raw_cond = max(weil_raw["eigenvalues_prime_arch"]) / min(weil_raw["eigenvalues_prime_arch"])
 
-    # 5. De Bruijn–Newman backward heat collision on Lehmer's 1956 pair
+    weil_herm = audit_weil_hermite_gaussian_gram_matrix(
+        dimension=6, alpha=100.0, num_zeros=120, n_max=500, dps=50
+    )
+    assert weil_herm["max_prime_vs_zero_diff"] < 1e-45
+    assert weil_herm["strictly_positive_definite"]
+    # Higher-dimensional (6x6) orthonormal Hermite-Gaussian beats 4x4 raw Gaussian conditioning,
+    # and Strong Mpemba slow-mode projection collapses kappa from ~1,389 down to ~3.24 (>400x gain)!
+    assert weil_herm["condition_number_full"] < raw_cond
+    assert weil_herm["condition_number_mpemba_fast_subspace"] < 5.0
+    assert weil_herm["mpemba_conditioning_gain"] > 400.0
+
+    # 5. De Bruijn–Newman quadratic vs quartic backward heat & 10-zero Calogero–Moser squeeze
     dbn = audit_lehmer_dbn_backward_heat(dps=40)
     assert dbn["t_heat"] < 0.0 and dbn["t_calogero_moser"] < 0.0
     assert abs(dbn["t_heat"] - (-0.0001775410)) < 1e-8
     assert abs(dbn["ratio_t_heat_over_t_cm"] - 0.999403) < 1e-4
+
+    dbn_q = audit_lehmer_quartic_heat_and_neighbor_pressure(dps=45)
+    assert dbn_q["z4"] > 200.0
+    assert dbn_q["t_quartic"] < dbn_q["t_quad"] < 0.0
+    assert dbn_q["quartic_residual"] < 1e-40
+    assert dbn_q["neighbor_squeeze_delta"] < 0.0
+    assert abs(dbn_q["neighbor_squeeze_pct"] - (-0.1373)) < 1e-3

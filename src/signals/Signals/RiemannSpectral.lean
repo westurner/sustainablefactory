@@ -1,6 +1,7 @@
 import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
 import Signals.GrassmannianEBR
+import Signals.QuantumCausalInference
 
 namespace Signals.RiemannSpectral
 
@@ -616,6 +617,127 @@ theorem keiperLi_binomial_inversion_123 (b1 b2 b3 : ℝ) :
   dsimp only
   unfold keiperLi1 keiperLi2 keiperLi3
   refine ⟨rfl, by ring, by ring⟩
+
+/-! ### 10. RB-2: Quartic de Bruijn–Newman Heat Flow, Mpemba Weil Projection, & 4-Zero Squeezing -/
+
+/-- Exact 4th-order (quartic) polynomial solution of the de Bruijn–Newman backward heat
+equation `∂_t H_t = -∂_z² H_t` near an even extremum `Z(γ*) = z0, Z''(γ*) = z2, Z⁽⁴⁾(γ*) = z4`:
+`H_t(dz) = (z0 - z2 t + (1/2) z4 t²) + (1/2) (z2 - z4 t) dz² + (1/24) z4 dz⁴`. -/
+def dbnQuarticHeatSolution (z0 z2 z4 t dz : ℝ) : ℝ :=
+  (z0 - z2 * t + (1 / 2) * z4 * t ^ 2) +
+    (1 / 2) * (z2 - z4 * t) * dz ^ 2 +
+    (1 / 24) * z4 * dz ^ 4
+
+/-- Exact `∂_t H_t` and `∂_dz² H_t` of `dbnQuarticHeatSolution`, proving `∂_t H_t + ∂_dz² H_t = 0`
+identically and exact peak residual `H_{z0/z2}(0) = (1/2) z4 (z0 / z2)²` at the quadratic collision
+time `t_quad = z0 / z2`. -/
+theorem dbnQuarticHeat_pde_and_shift
+    (z0 z2 z4 t dz : ℝ) (hz2 : z2 ≠ 0) :
+    let dtH := (-z2 + z4 * t) - (1 / 2) * z4 * dz ^ 2
+    let dzzH := (z2 - z4 * t) + (1 / 2) * z4 * dz ^ 2
+    dtH + dzzH = 0 ∧
+      dbnQuarticHeatSolution z0 z2 z4 (z0 / z2) 0 = (1 / 2) * z4 * (z0 / z2) ^ 2 ∧
+      (0 < z4 → z0 ≠ 0 → 0 < dbnQuarticHeatSolution z0 z2 z4 (z0 / z2) 0) := by
+  dsimp only
+  have h_peak :
+      dbnQuarticHeatSolution z0 z2 z4 (z0 / z2) 0 = (1 / 2) * z4 * (z0 / z2) ^ 2 := by
+    unfold dbnQuarticHeatSolution
+    field_simp [hz2]
+    ring
+  refine ⟨by ring, h_peak, ?_⟩
+  intro hz4 hz0
+  rw [h_peak]
+  have h_sq : 0 < (z0 / z2) ^ 2 := sq_pos_of_ne_zero (div_ne_zero hz0 hz2)
+  positivity
+
+/-- Symmetric `2 × 2` spectral Weil operator `W = λ_slow v_slow v_slowᵀ + λ_fast v_fast v_fastᵀ`
+with orthonormal eigenbasis `v_slow = (c, s)`, `v_fast = (-s, c)` (`c² + s² = 1`). -/
+def weilSpectralForm2 (lamSlow lamFast c s x0 x1 : ℝ) : ℝ :=
+  lamSlow * (c * x0 + s * x1) ^ 2 + lamFast * (-s * x0 + c * x1) ^ 2
+
+/-- **Strong Mpemba Projection Lifts Weil Spectral Conditioning**:
+Reusing `Signals.QuantumCausalInference.mpembaProjector00..11`, projecting any test vector
+`x = (x0, x1)` onto `y = P_{⊥ v_slow} x` annihilates the slow mode identically and yields
+`yᵀ W y = λ_fast ‖y‖²`, strictly raising the Rayleigh quotient whenever `0 < λ_slow < λ_fast`
+and `y ≠ 0`. -/
+theorem mpemba_projection_eliminates_slow_weil_mode
+    (lamSlow lamFast c s x0 x1 : ℝ)
+    (h_unit : c ^ 2 + s ^ 2 = 1) :
+    let y0 := Signals.QuantumCausalInference.mpembaProjector00 c s * x0 +
+      Signals.QuantumCausalInference.mpembaProjector01 c s * x1
+    let y1 := Signals.QuantumCausalInference.mpembaProjector01 c s * x0 +
+      Signals.QuantumCausalInference.mpembaProjector11 c s * x1
+    Signals.QuantumCausalInference.mpembaProjectedSlowOverlap c s x0 x1 = 0 ∧
+      weilSpectralForm2 lamSlow lamFast c s y0 y1 = lamFast * (y0 ^ 2 + y1 ^ 2) ∧
+      (lamSlow < lamFast → 0 < y0 ^ 2 + y1 ^ 2 →
+        lamSlow * (y0 ^ 2 + y1 ^ 2) < weilSpectralForm2 lamSlow lamFast c s y0 y1) := by
+  dsimp only
+  have h_zero : Signals.QuantumCausalInference.mpembaProjectedSlowOverlap c s x0 x1 = 0 := by
+    unfold Signals.QuantumCausalInference.mpembaProjectedSlowOverlap
+      Signals.QuantumCausalInference.mpembaProjector00
+      Signals.QuantumCausalInference.mpembaProjector01
+      Signals.QuantumCausalInference.mpembaProjector11
+    ring
+  have h_quad :
+      weilSpectralForm2 lamSlow lamFast c s
+        (Signals.QuantumCausalInference.mpembaProjector00 c s * x0 +
+          Signals.QuantumCausalInference.mpembaProjector01 c s * x1)
+        (Signals.QuantumCausalInference.mpembaProjector01 c s * x0 +
+          Signals.QuantumCausalInference.mpembaProjector11 c s * x1) =
+        lamFast *
+          ((Signals.QuantumCausalInference.mpembaProjector00 c s * x0 +
+            Signals.QuantumCausalInference.mpembaProjector01 c s * x1) ^ 2 +
+           (Signals.QuantumCausalInference.mpembaProjector01 c s * x0 +
+            Signals.QuantumCausalInference.mpembaProjector11 c s * x1) ^ 2) := by
+    unfold weilSpectralForm2
+      Signals.QuantumCausalInference.mpembaProjector00
+      Signals.QuantumCausalInference.mpembaProjector01
+      Signals.QuantumCausalInference.mpembaProjector11
+    have h_alg :
+        lamSlow * (c * (s ^ 2 * x0 + -(c * s) * x1) + s * (-(c * s) * x0 + c ^ 2 * x1)) ^ 2 +
+          lamFast * (-s * (s ^ 2 * x0 + -(c * s) * x1) + c * (-(c * s) * x0 + c ^ 2 * x1)) ^ 2 -
+          lamFast * ((s ^ 2 * x0 + -(c * s) * x1) ^ 2 + (-(c * s) * x0 + c ^ 2 * x1) ^ 2) =
+        lamFast * (c ^ 2 + s ^ 2 - 1) * (c ^ 2 + s ^ 2) * (s * x0 - c * x1) ^ 2 := by
+      ring
+    have h_diff_zero : c ^ 2 + s ^ 2 - 1 = 0 := by linarith
+    rw [h_diff_zero] at h_alg
+    linarith
+  refine ⟨h_zero, h_quad, ?_⟩
+  intro h_lt h_norm
+  rw [h_quad]
+  exact mul_lt_mul_of_pos_right h_lt h_norm
+
+/-- **4-Zero Calogero–Moser Symmetric Neighbor-Squeezing Theorem**:
+For an inner Lehmer pair at `(-δ, +δ)` flanked by symmetric outer neighbors at `(-D, +D)`
+with `0 < δ < D`, the inner pair's forward separation rate `d(z₃ - z₂)/dt` equals the
+2-zero repulsion `2 / δ` reduced by the exact inward squeezing term `8 δ / (D² - δ²) > 0`. -/
+def dbnFourZeroSymmetricInnerRate (delta outerD : ℝ) : ℝ :=
+  let v3 := 2 / (2 * delta) + 2 / (delta + outerD) + 2 / (delta - outerD)
+  let v2 := 2 / (-2 * delta) + 2 / (-delta + outerD) + 2 / (-delta - outerD)
+  v3 - v2
+
+theorem dbnFourZero_symmetric_neighbor_squeeze
+    (delta outerD : ℝ) (hd : 0 < delta) (hD : delta < outerD) :
+    dbnFourZeroSymmetricInnerRate delta outerD =
+      2 / delta - (8 * delta) / (outerD ^ 2 - delta ^ 2) ∧
+      dbnFourZeroSymmetricInnerRate delta outerD < 2 / delta := by
+  have hd_ne : delta ≠ 0 := ne_of_gt hd
+  have h_sum_ne : delta + outerD ≠ 0 := ne_of_gt (by linarith)
+  have h_diff_ne : delta - outerD ≠ 0 := ne_of_lt (by linarith)
+  have h_neg_sum_ne : -delta - outerD ≠ 0 := ne_of_lt (by linarith)
+  have h_pos_diff_ne : -delta + outerD ≠ 0 := ne_of_gt (by linarith)
+  have h_sq_diff_pos : 0 < outerD ^ 2 - delta ^ 2 := by nlinarith
+  have h_sq_diff_ne : outerD ^ 2 - delta ^ 2 ≠ 0 := ne_of_gt h_sq_diff_pos
+  have h_id :
+      dbnFourZeroSymmetricInnerRate delta outerD =
+        2 / delta - (8 * delta) / (outerD ^ 2 - delta ^ 2) := by
+    unfold dbnFourZeroSymmetricInnerRate
+    field_simp [hd_ne, h_sum_ne, h_diff_ne, h_neg_sum_ne, h_pos_diff_ne, h_sq_diff_ne]
+    ring
+  refine ⟨h_id, ?_⟩
+  rw [h_id]
+  have h_sqz : 0 < (8 * delta) / (outerD ^ 2 - delta ^ 2) := by positivity
+  linarith
 
 end
 

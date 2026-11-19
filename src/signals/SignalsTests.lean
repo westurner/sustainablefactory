@@ -9010,4 +9010,17 @@ example (b1 b2 b3 : ℝ) :
     simpa [div_neg, neg_div] using h.2.1
   · exact (Signals.RiemannSpectral.keiperLi_binomial_inversion_123 b1 b2 b3).2.2
 
+example (t dz x0 x1 : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatSolution (4 / 1000) (-22) 1000 ((4 / 1000) / (-22)) 0 =
+        (1 / 2) * 1000 * ((4 / 1000) / (-22)) ^ 2 ∧
+      Signals.QuantumCausalInference.mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x0 x1 = 0 ∧
+      Signals.RiemannSpectral.dbnFourZeroSymmetricInnerRate (1 / 50) 1 < 2 / (1 / 50) := by
+  refine ⟨?_, ?_, ?_⟩
+  · exact (Signals.RiemannSpectral.dbnQuarticHeat_pde_and_shift
+      (4 / 1000) (-22) 1000 t dz (by norm_num)).2.1
+  · exact (Signals.RiemannSpectral.mpemba_projection_eliminates_slow_weil_mode
+      (1 / 100) 1 (3 / 5) (4 / 5) x0 x1 (by norm_num)).1
+  · exact (Signals.RiemannSpectral.dbnFourZero_symmetric_neighbor_squeeze
+      (1 / 50) 1 (by norm_num) (by norm_num)).2
+
 end SignalsTests

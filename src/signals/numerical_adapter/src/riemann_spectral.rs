@@ -156,6 +156,212 @@ const RS_C2_EVEN_CHEB: [f64; 13] = [
     1.257_441_416_616_100_8e-15,
 ];
 
+/// Odd Chebyshev coefficients `T_{2k+1}(2p - 1)` for Gabcke's Riemann–Siegel `C_3(p)`
+/// (120-digit mpmath fit; max error `< 3.2e-19` on `p in [0, 1]`).
+const RS_C3_ODD_CHEB: [f64; 14] = [
+    7.123_256_221_203_874e-5,
+    2.323_430_529_816_480_8e-4,
+    -1.292_991_204_547_247_4e-4,
+    1.807_449_641_367_144e-5,
+    6.526_185_187_220_44e-6,
+    -1.169_636_537_852_198_6e-7,
+    -7.349_476_126_518_126e-8,
+    -1.775_091_007_790_707_2e-9,
+    2.555_552_961_326_525e-10,
+    1.137_663_660_053_73e-11,
+    -3.349_863_898_530_277e-13,
+    -2.553_737_935_416_389_3e-14,
+    6.766_500_771_321_871e-17,
+    2.976_888_471_991_973e-17,
+];
+
+/// Even Chebyshev coefficients `T_{2k}(2p - 1)` for Gabcke's Riemann–Siegel `C_4(p)`
+/// (120-digit mpmath fit; max error `< 2.0e-19` on `p in [0, 1]`).
+const RS_C4_EVEN_CHEB: [f64; 15] = [
+    1.676_574_524_669_686e-4,
+    -2.272_876_894_341_672_6e-4,
+    6.477_387_188_445_696e-5,
+    -8.492_200_500_125_41e-6,
+    -2.616_140_724_521_907_6e-6,
+    8.336_764_968_733_215e-7,
+    6.324_704_037_544_833e-8,
+    -1.005_994_940_300_107_2e-8,
+    -7.822_677_204_130_333e-10,
+    3.167_658_285_349_860_3e-11,
+    3.500_694_470_205_289_4e-12,
+    -1.431_481_451_144_374_8e-14,
+    -7.269_402_707_921_764e-15,
+    -8.780_556_594_835_957e-17,
+    8.150_254_474_954_58e-18,
+];
+
+/// Exact 2nd-order real Taylor jet `(f(t), f'(t), f''(t))` eliminating finite-difference
+/// truncation and `O(eps / h^2)` cancellation error in `Z'(t), Z''(t)`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Jet2 {
+    pub v: f64,
+    pub d1: f64,
+    pub d2: f64,
+}
+
+impl Jet2 {
+    #[inline]
+    pub const fn constant(v: f64) -> Self {
+        Self { v, d1: 0.0, d2: 0.0 }
+    }
+
+    #[inline]
+    pub const fn var(v: f64) -> Self {
+        Self { v, d1: 1.0, d2: 0.0 }
+    }
+
+    #[inline]
+    pub fn add(self, o: Self) -> Self {
+        Self { v: self.v + o.v, d1: self.d1 + o.d1, d2: self.d2 + o.d2 }
+    }
+
+    #[inline]
+    pub fn sub(self, o: Self) -> Self {
+        Self { v: self.v - o.v, d1: self.d1 - o.d1, d2: self.d2 - o.d2 }
+    }
+
+    #[inline]
+    pub fn scale(self, s: f64) -> Self {
+        Self { v: self.v * s, d1: self.d1 * s, d2: self.d2 * s }
+    }
+
+    #[inline]
+    pub fn mul(self, o: Self) -> Self {
+        Self {
+            v: self.v * o.v,
+            d1: self.d1 * o.v + self.v * o.d1,
+            d2: self.d2 * o.v + 2.0 * self.d1 * o.d1 + self.v * o.d2,
+        }
+    }
+
+    #[inline]
+    pub fn inv(self) -> Self {
+        let inv = 1.0 / self.v;
+        let inv2 = inv * inv;
+        let d1 = -self.d1 * inv2;
+        let d2 = (-self.d2 * self.v + 2.0 * self.d1 * self.d1) * (inv2 * inv);
+        Self { v: inv, d1, d2 }
+    }
+
+    #[inline]
+    pub fn div(self, o: Self) -> Self {
+        self.mul(o.inv())
+    }
+
+    #[inline]
+    pub fn sqrt(self) -> Self {
+        let r = self.v.sqrt();
+        let inv_2r = 0.5 / r;
+        let d1 = self.d1 * inv_2r;
+        let d2 = (self.d2 - 2.0 * d1 * d1) * inv_2r;
+        Self { v: r, d1, d2 }
+    }
+
+    #[inline]
+    pub fn ln(self) -> Self {
+        let inv = 1.0 / self.v;
+        let d1 = self.d1 * inv;
+        let d2 = (self.d2 * self.v - self.d1 * self.d1) * (inv * inv);
+        Self { v: self.v.ln(), d1, d2 }
+    }
+
+    #[inline]
+    pub fn exp(self) -> Self {
+        let e = self.v.exp();
+        let d1 = e * self.d1;
+        let d2 = e * (self.d2 + self.d1 * self.d1);
+        Self { v: e, d1, d2 }
+    }
+
+    #[inline]
+    pub fn sin_cos(self) -> (Self, Self) {
+        let (s, c) = self.v.sin_cos();
+        let s_jet = Self {
+            v: s,
+            d1: c * self.d1,
+            d2: c * self.d2 - s * self.d1 * self.d1,
+        };
+        let c_jet = Self {
+            v: c,
+            d1: -s * self.d1,
+            d2: -s * self.d2 - c * self.d1 * self.d1,
+        };
+        (s_jet, c_jet)
+    }
+
+    /// `atan2(y, x)` for constant `x > 0` and jet `y`.
+    #[inline]
+    pub fn atan2_const_x(self, x: f64) -> Self {
+        let r2 = x * x + self.v * self.v;
+        let inv_r2 = 1.0 / r2;
+        let d1 = x * self.d1 * inv_r2;
+        let d2 = x * (self.d2 * r2 - 2.0 * self.v * self.d1 * self.d1) * (inv_r2 * inv_r2);
+        Self { v: self.v.atan2(x), d1, d2 }
+    }
+}
+
+/// Exact 2nd-order complex Taylor jet `(z(t), z'(t), z''(t))`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct CJet2 {
+    re: Jet2,
+    im: Jet2,
+}
+
+impl CJet2 {
+    #[inline]
+    fn new(re: Jet2, im: Jet2) -> Self {
+        Self { re, im }
+    }
+
+    #[inline]
+    fn add(self, o: Self) -> Self {
+        Self { re: self.re.add(o.re), im: self.im.add(o.im) }
+    }
+
+    #[inline]
+    fn scale(self, s: f64) -> Self {
+        Self { re: self.re.scale(s), im: self.im.scale(s) }
+    }
+
+    #[inline]
+    fn mul(self, o: Self) -> Self {
+        Self {
+            re: self.re.mul(o.re).sub(self.im.mul(o.im)),
+            im: self.re.mul(o.im).add(self.im.mul(o.re)),
+        }
+    }
+
+    #[inline]
+    fn div(self, o: Self) -> Self {
+        let denom = o.re.mul(o.re).add(o.im.mul(o.im));
+        let num_re = self.re.mul(o.re).add(self.im.mul(o.im));
+        let num_im = self.im.mul(o.re).sub(self.re.mul(o.im));
+        Self {
+            re: num_re.div(denom),
+            im: num_im.div(denom),
+        }
+    }
+
+    /// Compute `base^(-s)` where `base > 0` is constant and `s = sigma + i t` (`sigma` constant,
+    /// `t` is the differentiation variable).
+    #[inline]
+    fn pow_real_base_neg_t(base: f64, sigma: f64, t: Jet2) -> Self {
+        let ln_b = base.ln();
+        let mag = (-sigma * ln_b).exp();
+        let angle = t.scale(-ln_b);
+        let (sin_a, cos_a) = angle.sin_cos();
+        Self {
+            re: cos_a.scale(mag),
+            im: sin_a.scale(mag),
+        }
+    }
+}
+
 #[inline]
 fn eval_even_cheb(coeffs: &[f64], x: f64) -> f64 {
     // T_{2k}(x) = T_k(2x^2 - 1)
@@ -190,6 +396,39 @@ fn eval_odd_cheb(coeffs: &[f64], x: f64) -> f64 {
     sum
 }
 
+#[inline]
+fn eval_even_cheb_jet(coeffs: &[f64], x: Jet2) -> Jet2 {
+    let y = x.mul(x).scale(2.0).sub(Jet2::constant(1.0));
+    let mut b1 = Jet2::constant(0.0);
+    let mut b2 = Jet2::constant(0.0);
+    for &c in coeffs[1..].iter().rev() {
+        let b0 = Jet2::constant(c).add(y.mul(b1).scale(2.0)).sub(b2);
+        b2 = b1;
+        b1 = b0;
+    }
+    Jet2::constant(coeffs[0]).add(y.mul(b1)).sub(b2)
+}
+
+#[inline]
+fn eval_odd_cheb_jet(coeffs: &[f64], x: Jet2) -> Jet2 {
+    let mut t_prev = x;
+    let mut sum = t_prev.scale(coeffs[0]);
+    if coeffs.len() == 1 {
+        return sum;
+    }
+    let x2 = x.mul(x);
+    let mut t_curr = x2.mul(x).scale(4.0).sub(x.scale(3.0));
+    sum = sum.add(t_curr.scale(coeffs[1]));
+    let two_y = x2.scale(4.0).sub(Jet2::constant(2.0));
+    for &c in &coeffs[2..] {
+        let t_next = two_y.mul(t_curr).sub(t_prev);
+        sum = sum.add(t_next.scale(c));
+        t_prev = t_curr;
+        t_curr = t_next;
+    }
+    sum
+}
+
 /// Evaluate the Riemann–Siegel remainder functions `C_0(p), C_1(p), C_2(p)` for `p in [0, 1]`
 /// via singularity-free Chebyshev expansions on `x = 2p - 1 in [-1, 1]`.
 pub fn riemann_siegel_c0_c1_c2(p: f64) -> (f64, f64, f64) {
@@ -201,25 +440,32 @@ pub fn riemann_siegel_c0_c1_c2(p: f64) -> (f64, f64, f64) {
     )
 }
 
-/// Exact imaginary part of `ln Gamma(1/4 + i t / 2)` via Stirling shift (`re -> re + 8`),
-/// accurate to `< 1e-15` for all `t >= 0`.
-pub fn riemann_siegel_theta(t: f64) -> f64 {
-    // Shift argument z = 1/4 + i t / 2 right by M = 8 using Gamma(z+1) = z Gamma(z)
-    // so |z + 8| >= 8.25, making Stirling asymptotic series accurate to < 1e-16 even at small t!
+/// Evaluate Gabcke's Riemann–Siegel remainder functions `C_0(p)..C_4(p)` for `p in [0, 1]`.
+pub fn riemann_siegel_c0_to_c4(p: f64) -> [f64; 5] {
+    let x = 2.0 * p - 1.0;
+    [
+        eval_even_cheb(&RS_C0_EVEN_CHEB, x),
+        eval_odd_cheb(&RS_C1_ODD_CHEB, x),
+        eval_even_cheb(&RS_C2_EVEN_CHEB, x),
+        eval_odd_cheb(&RS_C3_ODD_CHEB, x),
+        eval_even_cheb(&RS_C4_EVEN_CHEB, x),
+    ]
+}
+
+/// Exact 2nd-order analytic jet `(theta(t), theta'(t), theta''(t))` via Stirling shift (`re + 8`).
+pub fn riemann_siegel_theta_jet(t: f64) -> Jet2 {
+    let t_jet = Jet2::var(t);
     let mut z_re = 0.25_f64;
-    let z_im = 0.5 * t;
-    let mut arg_shift = 0.0_f64;
+    let z_im = t_jet.scale(0.5);
+    let mut arg_shift = Jet2::constant(0.0);
     for _ in 0..8 {
-        arg_shift += z_im.atan2(z_re);
+        arg_shift = arg_shift.add(z_im.atan2_const_x(z_re));
         z_re += 1.0;
     }
-    // Stirling for ln Gamma(w) where w = z_re + i z_im:
-    // Im[(w - 1/2) ln(w) - w + (1/2) ln(2pi) + sum B_{2k}/(2k(2k-1) w^{2k-1})]
-    let ln_r = 0.5 * (z_re * z_re + z_im * z_im).ln();
-    let phi = z_im.atan2(z_re);
-    let mut im_ln_gamma = (z_re - 0.5) * phi + z_im * ln_r - z_im;
+    let ln_r = Jet2::constant(z_re * z_re).add(z_im.mul(z_im)).ln().scale(0.5);
+    let phi = z_im.atan2_const_x(z_re);
+    let mut im_ln_gamma = phi.scale(z_re - 0.5).add(z_im.mul(ln_r)).sub(z_im);
 
-    // Bernoulli terms B_{2k} / (2k * (2k - 1)) for k = 1..=5
     const STIRLING_COEFFS: [f64; 5] = [
         1.0 / 12.0,
         -1.0 / 360.0,
@@ -227,30 +473,36 @@ pub fn riemann_siegel_theta(t: f64) -> f64 {
         -1.0 / 1680.0,
         1.0 / 1188.0,
     ];
-    let w = C64::new(z_re, z_im);
-    let inv_w = C64::new(1.0, 0.0).div(w);
+    let w = CJet2::new(Jet2::constant(z_re), z_im);
+    let one = CJet2::new(Jet2::constant(1.0), Jet2::constant(0.0));
+    let inv_w = one.div(w);
     let inv_w2 = inv_w.mul(inv_w);
     let mut pow_inv_w = inv_w;
     for &c in &STIRLING_COEFFS {
-        im_ln_gamma += c * pow_inv_w.im;
+        im_ln_gamma = im_ln_gamma.add(pow_inv_w.im.scale(c));
         pow_inv_w = pow_inv_w.mul(inv_w2);
     }
-    let exact_im_ln_gamma = im_ln_gamma - arg_shift;
-    exact_im_ln_gamma - 0.5 * t * PI.ln()
+    im_ln_gamma.sub(arg_shift).sub(t_jet.scale(0.5 * PI.ln()))
 }
 
-/// Evaluate `zeta(sigma + i t)` via Euler–Maclaurin summation in `f64`.
-/// Achieves `< 3e-14` absolute error across the critical strip for `|t| <= 400`.
-pub fn zeta_euler_maclaurin(sigma: f64, t: f64) -> C64 {
-    let s = C64::new(sigma, t);
+/// Exact imaginary part of `ln Gamma(1/4 + i t / 2)` via Stirling shift (`re -> re + 8`),
+/// accurate to `< 1e-15` for all `t >= 0`.
+pub fn riemann_siegel_theta(t: f64) -> f64 {
+    riemann_siegel_theta_jet(t).v
+}
+
+/// Exact analytic 2-jet of `zeta(sigma + i t)` with respect to `t` via Euler–Maclaurin summation.
+fn zeta_euler_maclaurin_jet(sigma: f64, t: f64) -> CJet2 {
+    let t_jet = Jet2::var(t);
+    let s = CJet2::new(Jet2::constant(sigma), t_jet);
     let n_cutoff = (1.2 * t.abs() + 18.0).ceil().max(18.0) as usize;
-    let mut sum = C64::new(0.0, 0.0);
+    let mut sum = CJet2::new(Jet2::constant(0.0), Jet2::constant(0.0));
     for n in 1..n_cutoff {
-        sum = sum.add(C64::pow_real_base_neg(n as f64, s));
+        sum = sum.add(CJet2::pow_real_base_neg_t(n as f64, sigma, t_jet));
     }
     let nf = n_cutoff as f64;
-    let n_neg_s = C64::pow_real_base_neg(nf, s);
-    let s_minus_1 = C64::new(s.re - 1.0, s.im);
+    let n_neg_s = CJet2::pow_real_base_neg_t(nf, sigma, t_jet);
+    let s_minus_1 = CJet2::new(Jet2::constant(sigma - 1.0), t_jet);
     sum = sum.add(n_neg_s.scale(nf).div(s_minus_1));
     sum = sum.add(n_neg_s.scale(0.5));
 
@@ -260,12 +512,19 @@ pub fn zeta_euler_maclaurin(sigma: f64, t: f64) -> C64 {
     sum = sum.add(prod.scale(BERNOULLI_OVER_FACT[0]));
     for (idx, &coeff) in BERNOULLI_OVER_FACT.iter().enumerate().skip(1) {
         let k = (idx + 1) as f64;
-        let f1 = C64::new(s.re + (2.0 * k - 3.0), s.im);
-        let f2 = C64::new(s.re + (2.0 * k - 2.0), s.im);
+        let f1 = CJet2::new(Jet2::constant(sigma + (2.0 * k - 3.0)), t_jet);
+        let f2 = CJet2::new(Jet2::constant(sigma + (2.0 * k - 2.0)), t_jet);
         prod = prod.mul(f1).mul(f2).scale(inv_n2);
         sum = sum.add(prod.scale(coeff));
     }
     sum
+}
+
+/// Evaluate `zeta(sigma + i t)` via Euler–Maclaurin summation in `f64`.
+/// Achieves `< 3e-14` absolute error across the critical strip for `|t| <= 400`.
+pub fn zeta_euler_maclaurin(sigma: f64, t: f64) -> C64 {
+    let j = zeta_euler_maclaurin_jet(sigma, t);
+    C64::new(j.re.v, j.im.v)
 }
 
 /// Evaluate `zeta(sigma + i t)` using Borwein's Algorithm 2 (`n` Chebyshev terms in `f64`).
@@ -297,8 +556,8 @@ pub fn zeta_borwein(sigma: f64, t: f64, n: usize) -> C64 {
     sum.div(denom)
 }
 
-/// Evaluate Hardy's real `Z(t)` via the Riemann–Siegel formula with exact `C_0(p), C_1(p), C_2(p)`.
-/// Runs in `O(sqrt(t))` time and achieves `< 1.3e-9` error at Lehmer's 1956 pair `t ~ 7005.08`.
+/// Evaluate Hardy's real `Z(t)` via the Riemann–Siegel formula with `C_0(p), C_1(p), C_2(p)`.
+/// Kept for explicit `C_2` vs. `C_4` error-minimization comparison (`~1.25e-9` at `t ~ 7005`).
 pub fn hardy_z_riemann_siegel(t: f64) -> f64 {
     let a = (t / (2.0 * PI)).sqrt();
     let n_terms = a.floor() as usize;
@@ -323,24 +582,73 @@ pub fn hardy_z_riemann_siegel(t: f64) -> f64 {
     main_sum + rem
 }
 
-/// Evaluate Hardy's `Z(t) = Re[e^{i theta(t)} zeta(1/2 + i t)]`:
-/// uses Euler–Maclaurin (`< 3e-14` accuracy) for `|t| <= 350` and Riemann–Siegel
-/// (`C_0 + C_1 + C_2`) for `|t| > 350`.
-pub fn hardy_z(t: f64) -> f64 {
-    if t.abs() <= 350.0 {
-        let theta = riemann_siegel_theta(t);
-        let z = zeta_euler_maclaurin(0.5, t);
-        let (sin_t, cos_t) = theta.sin_cos();
-        cos_t * z.re - sin_t * z.im
+/// Exact 2-jet `(Z(t), Z'(t), Z''(t))` via Riemann–Siegel with Gabcke's `C_0(p)..C_4(p)`.
+/// Runs in `O(sqrt(t))` time and achieves `< 2.5e-12` error at Lehmer's 1956 pair (`t ~ 7005.08`,
+/// a `> 500x` improvement over `C_2`) with analytic derivatives free of finite-difference noise.
+pub fn hardy_z_riemann_siegel_c4_jet(t: f64) -> Jet2 {
+    let t_jet = Jet2::var(t);
+    let a = t_jet.scale(1.0 / (2.0 * PI)).sqrt();
+    let n_terms = a.v.floor() as usize;
+    let p = a.sub(Jet2::constant(n_terms as f64));
+    let theta = riemann_siegel_theta_jet(t);
+
+    let mut main_sum = Jet2::constant(0.0);
+    for n in 1..=n_terms {
+        let nf = n as f64;
+        let phase = theta.sub(t_jet.scale(nf.ln()));
+        let (_, cos_p) = phase.sin_cos();
+        main_sum = main_sum.add(cos_p.scale(1.0 / nf.sqrt()));
+    }
+    main_sum = main_sum.scale(2.0);
+
+    let x = p.scale(2.0).sub(Jet2::constant(1.0));
+    let c0 = eval_even_cheb_jet(&RS_C0_EVEN_CHEB, x);
+    let c1 = eval_odd_cheb_jet(&RS_C1_ODD_CHEB, x);
+    let c2 = eval_even_cheb_jet(&RS_C2_EVEN_CHEB, x);
+    let c3 = eval_odd_cheb_jet(&RS_C3_ODD_CHEB, x);
+    let c4 = eval_even_cheb_jet(&RS_C4_EVEN_CHEB, x);
+
+    let sign = if (n_terms.saturating_sub(1)) % 2 == 1 {
+        -1.0
     } else {
-        hardy_z_riemann_siegel(t)
+        1.0
+    };
+    let inv_a = a.inv();
+    let inv_sqrt_a = a.sqrt().inv();
+    let poly = c0.add(inv_a.mul(c1.add(inv_a.mul(c2.add(inv_a.mul(c3.add(inv_a.mul(c4))))))));
+    let rem = inv_sqrt_a.mul(poly).scale(sign);
+    main_sum.add(rem)
+}
+
+/// Evaluate Hardy's `Z(t)` via Riemann–Siegel with Gabcke's `C_0(p)..C_4(p)`.
+pub fn hardy_z_riemann_siegel_c4(t: f64) -> f64 {
+    hardy_z_riemann_siegel_c4_jet(t).v
+}
+
+/// Exact 2nd-order analytic jet `(Z(t), Z'(t), Z''(t))` of Hardy's `Z(t)`:
+/// uses exact Euler–Maclaurin analytic jet (`< 3e-14`) for `|t| <= 350` and
+/// Riemann–Siegel `C_0..C_4` analytic jet for `|t| > 350`.
+pub fn hardy_z_jet(t: f64) -> Jet2 {
+    if t.abs() <= 350.0 {
+        let theta = riemann_siegel_theta_jet(t);
+        let z = zeta_euler_maclaurin_jet(0.5, t);
+        let (sin_t, cos_t) = theta.sin_cos();
+        cos_t.mul(z.re).sub(sin_t.mul(z.im))
+    } else {
+        hardy_z_riemann_siegel_c4_jet(t)
     }
 }
 
-/// Find the `m`-th Gram point `g_m` satisfying `theta(g_m) = m * pi` via Newton's method.
+/// Evaluate Hardy's `Z(t) = Re[e^{i theta(t)} zeta(1/2 + i t)]`:
+/// uses Euler–Maclaurin (`< 3e-14` accuracy) for `|t| <= 350` and Riemann–Siegel
+/// (`C_0..C_4`) for `|t| > 350`.
+pub fn hardy_z(t: f64) -> f64 {
+    hardy_z_jet(t).v
+}
+
+/// Find the `m`-th Gram point `g_m` satisfying `theta(g_m) = m * pi` via analytic Newton's method.
 pub fn gram_point(m: i32) -> f64 {
     let target = (m as f64) * PI;
-    // Asymptotic initial guess from Lambert-W approximation: t ~ 2*pi*(m + 1) / ln((m + 1)/e)
     let mut t = if m <= 0 {
         9.6669
     } else {
@@ -349,12 +657,10 @@ pub fn gram_point(m: i32) -> f64 {
         (2.0 * PI * g).max(10.0)
     };
     for _ in 0..40 {
-        let f = riemann_siegel_theta(t) - target;
-        let h = 1e-6 * t.max(1.0);
-        let df = (riemann_siegel_theta(t + h) - riemann_siegel_theta(t - h)) / (2.0 * h);
-        let step = f / df;
+        let th = riemann_siegel_theta_jet(t);
+        let step = (th.v - target) / th.d1;
         t -= step;
-        if step.abs() < 1e-13 * t.max(1.0) {
+        if step.abs() < 1e-14 * t.max(1.0) {
             break;
         }
     }
@@ -402,6 +708,7 @@ pub struct RiemannZeroAudit {
     pub gamma: f64,
     pub hardy_z_exact: f64,
     pub hardy_z_riemann_siegel_c2: f64,
+    pub hardy_z_riemann_siegel_c4: f64,
     pub zeta_abs: f64,
     pub borwein_zeta_abs: f64,
     pub z_prime: f64,
@@ -422,7 +729,8 @@ pub fn find_first_n_riemann_zeros(count: usize) -> Vec<RiemannZeroAudit> {
         if prev_z == 0.0 || (prev_z < 0.0 && next_z > 0.0) || (prev_z > 0.0 && next_z < 0.0) {
             let gamma = refine_root_bracket(hardy_z, t, next_t);
             let hz_ex = hardy_z(gamma);
-            let hz_rs = hardy_z_riemann_siegel(gamma);
+            let hz_rs_c2 = hardy_z_riemann_siegel(gamma);
+            let hz_rs_c4 = hardy_z_riemann_siegel_c4(gamma);
             let z_abs = zeta_euler_maclaurin(0.5, gamma).abs();
             let b_abs = zeta_borwein(0.5, gamma, 22).abs();
             let audit = evaluate_madelung_bohm_jensen_polya(gamma);
@@ -430,7 +738,8 @@ pub fn find_first_n_riemann_zeros(count: usize) -> Vec<RiemannZeroAudit> {
                 index: zeros.len() + 1,
                 gamma,
                 hardy_z_exact: hz_ex,
-                hardy_z_riemann_siegel_c2: hz_rs,
+                hardy_z_riemann_siegel_c2: hz_rs_c2,
+                hardy_z_riemann_siegel_c4: hz_rs_c4,
                 zeta_abs: z_abs,
                 borwein_zeta_abs: b_abs,
                 z_prime: audit.z_prime,
@@ -456,19 +765,14 @@ pub struct MadelungBohmPointAudit {
     pub bohm_ratio: f64,
 }
 
-/// Evaluate `Z(gamma)`, `Z'(gamma)`, `Z''(gamma)`, `J_osmotic = (Z')^2`,
-/// `J_bohm = -Z * Z''`, and `J_total = J_osmotic + J_bohm`.
+/// Evaluate exact analytic `Z(gamma)`, `Z'(gamma)`, `Z''(gamma)`, `J_osmotic = (Z')^2`,
+/// `J_bohm = -Z * Z''`, and `J_total = J_osmotic + J_bohm` via 2nd-order Taylor jet propagation
+/// (eliminating finite-difference truncation and `O(eps / h^2)` cancellation error).
 pub fn evaluate_madelung_bohm_jensen_polya(gamma: f64) -> MadelungBohmPointAudit {
-    let h = if gamma.abs() <= 350.0 { 5e-4 } else { 5e-4 };
-    let z0 = hardy_z(gamma);
-    let zp1 = hardy_z(gamma + h);
-    let zm1 = hardy_z(gamma - h);
-    let zp2 = hardy_z(gamma + 2.0 * h);
-    let zm2 = hardy_z(gamma - 2.0 * h);
-
-    // 4th-order central differences
-    let z1 = (-zp2 + 8.0 * zp1 - 8.0 * zm1 + zm2) / (12.0 * h);
-    let z2 = (-zp2 + 16.0 * zp1 - 30.0 * z0 + 16.0 * zm1 - zm2) / (12.0 * h * h);
+    let j = hardy_z_jet(gamma);
+    let z0 = j.v;
+    let z1 = j.d1;
+    let z2 = j.d2;
 
     let j_osm = z1 * z1;
     let j_bohm = -z0 * z2;
@@ -620,6 +924,8 @@ pub struct RegularGraphBassIharaAudit {
     pub ramanujan_bound: f64,
     pub eigenvalues: Vec<f64>,
     pub max_nontrivial_abs_eigenvalue: f64,
+    pub markov_spectral_gap: f64,
+    pub ramanujan_margin: f64,
     pub is_ramanujan: bool,
     pub nontrivial_off_circle_count: usize,
     pub roots: Vec<BassIharaRoot>,
@@ -633,6 +939,21 @@ pub fn adjacency_from_edges(n: usize, edges: &[(usize, usize)]) -> Vec<Vec<f64>>
         adj[v][u] = 1.0;
     }
     adj
+}
+
+/// 6-vertex 3-regular connected utility graph `K_{3,3}` (Ramanujan: `max |lambda_nt| = 0`).
+pub fn k33_graph_6() -> (String, usize, Vec<Vec<f64>>) {
+    let mut edges = Vec::new();
+    for i in 0..3 {
+        for j in 3..6 {
+            edges.push((i, j));
+        }
+    }
+    (
+        "K_{3,3} (6-vertex, 3-regular, Ramanujan)".to_string(),
+        3,
+        adjacency_from_edges(6, &edges),
+    )
 }
 
 /// 10-vertex 3-regular connected Petersen graph (Ramanujan: `max |lambda_nt| = 2 <= 2 sqrt(2)`).
@@ -664,6 +985,22 @@ pub fn heawood_graph_14() -> (String, usize, Vec<Vec<f64>>) {
         "Heawood (14-vertex, 3-regular, Ramanujan)".to_string(),
         3,
         adjacency_from_edges(14, &edges),
+    )
+}
+
+/// 16-vertex 3-regular connected Möbius–Kantor graph `GP(8, 3)` (Ramanujan:
+/// `max |lambda_nt| = sqrt(3) ~ 1.7320508 <= 2 sqrt(2)`).
+pub fn mobius_kantor_graph_16() -> (String, usize, Vec<Vec<f64>>) {
+    let mut edges = Vec::new();
+    for i in 0..8 {
+        edges.push((i, (i + 1) % 8));
+        edges.push((8 + i, 8 + (i + 3) % 8));
+        edges.push((i, 8 + i));
+    }
+    (
+        "Mobius-Kantor GP(8,3) (16-vertex, 3-regular, Ramanujan)".to_string(),
+        3,
+        adjacency_from_edges(16, &edges),
     )
 }
 
@@ -780,6 +1117,8 @@ pub fn analyze_regular_graph_bass_ihara(
         ramanujan_bound,
         eigenvalues,
         max_nontrivial_abs_eigenvalue: max_nt,
+        markov_spectral_gap: 1.0 - max_nt / degf,
+        ramanujan_margin: ramanujan_bound - max_nt,
         is_ramanujan: max_nt <= ramanujan_bound + 1e-9,
         nontrivial_off_circle_count: off_circle,
         roots,
@@ -848,8 +1187,20 @@ mod tests {
                 z.index,
                 z.hardy_z_riemann_siegel_c2
             );
+            assert!(
+                z.hardy_z_riemann_siegel_c4.abs() < 1e-4,
+                "zero #{} RS-C4 residual={}",
+                z.index,
+                z.hardy_z_riemann_siegel_c4
+            );
             assert!(z.jensen_polya_j > 0.0);
         }
+        // At zero #30 (t ~ 101.32), Gabcke C4 beats C2 by > 40x!
+        assert!(zeros[29].hardy_z_riemann_siegel_c4.abs() < 5e-8);
+        assert!(
+            zeros[29].hardy_z_riemann_siegel_c4.abs()
+                < zeros[29].hardy_z_riemann_siegel_c2.abs() / 20.0
+        );
         // Borwein Algorithm 2 in f64 matches zeta(2) = pi^2/6 to < 1e-13 and reaches ~1e-7
         // on the first zero (t ~ 14.13) before (3 + 2 sqrt(2))^n conditioning degrades at large t.
         let z2 = zeta_borwein(2.0, 0.0, 20);
@@ -861,32 +1212,40 @@ mod tests {
     fn gram_law_violations_and_lehmer_1956_pair_preserve_positive_jensen_polya() {
         let grams = audit_gram_law_window();
         assert_eq!(grams.len(), 6);
-        // g_126 and g_134 are the first two Gram's Law violations
+        // g_125 exact analytic J = 71.3809168305 (exact Jet2 matches 35-digit mpmath to < 1e-9!)
         assert!(grams[0].gram_holds); // g_125
+        assert!((grams[0].point.j_total - 71.380_916_830_542).abs() < 1e-8);
         assert!(!grams[1].gram_holds); // g_126 violation!
-        assert!((grams[1].point.z0 - (-0.027_629_50)).abs() < 1e-6);
-        assert!(grams[1].point.j_total > 7.0);
+        assert!((grams[1].point.z0 - (-0.027_629_508_2)).abs() < 1e-8);
+        assert!((grams[1].point.j_total - 7.068_010_3).abs() < 1e-5);
         assert!(grams[2].gram_holds); // g_127
         assert!(grams[3].gram_holds); // g_133
         assert!(!grams[4].gram_holds); // g_134 violation!
-        assert!((grams[4].point.z0 - (-0.016_900_39)).abs() < 1e-6);
+        assert!((grams[4].point.z0 - (-0.016_900_39)).abs() < 1e-7);
         assert!(grams[4].point.j_total > 2.5);
         assert!(grams[5].gram_holds); // g_135
 
-        // Lehmer 1956 pair (#6709 & #6710)
+        // Lehmer 1956 pair (#6709 & #6710) with RS-C4 + exact analytic Jet2
         let lehmer = audit_lehmer_1956_pair();
-        assert!((lehmer.gamma_left - 7005.062_866_175).abs() < 1e-6);
-        assert!((lehmer.gamma_right - 7005.100_564_673).abs() < 1e-6);
-        assert!((lehmer.gap - 0.037_698_5).abs() < 1e-6);
-        // Exact mpmath sign: positive peak Z(g*) ~ +0.00396736, Z''(g*) ~ -22.346, J_bohm ~ +0.088655
-        assert!((lehmer.extremum.z0 - 0.003_967_36).abs() < 1e-5);
-        assert!(lehmer.extremum.z_double_prime < -22.0);
-        assert!((lehmer.extremum.j_bohm - 0.088_655).abs() < 5e-4);
-        assert!((lehmer.extremum.bohm_ratio - 1.0).abs() < 1e-5);
+        assert!((lehmer.gamma_left - 7005.062_866_174_92).abs() < 1e-9);
+        assert!((lehmer.gamma_right - 7005.100_564_672_65).abs() < 1e-9);
+        assert!((lehmer.gap - 0.037_698_497_73).abs() < 1e-9);
+        // Exact mpmath sign: positive peak Z(g*) = +0.0039673575, Z''(g*) = -22.34615435, J_bohm = +0.0886551841
+        assert!((lehmer.extremum.z0 - 0.003_967_357_5).abs() < 1e-9);
+        assert!((lehmer.extremum.z_double_prime - (-22.346_154_35)).abs() < 1e-6);
+        assert!((lehmer.extremum.j_bohm - 0.088_655_184_1).abs() < 1e-8);
+        assert!((lehmer.extremum.bohm_ratio - 1.0).abs() < 1e-10);
     }
 
     #[test]
     fn finite_graph_bass_ihara_ramanujan_vs_14vertex_barbell_counterexample() {
+        let (k_name, k_deg, k_adj) = k33_graph_6();
+        let k_audit = analyze_regular_graph_bass_ihara(&k_name, k_deg, &k_adj);
+        assert!(k_audit.is_regular && k_audit.is_connected && k_audit.is_ramanujan);
+        assert!(k_audit.max_nontrivial_abs_eigenvalue < 1e-11);
+        assert!((k_audit.markov_spectral_gap - 1.0).abs() < 1e-11);
+        assert_eq!(k_audit.nontrivial_off_circle_count, 0);
+
         let (p_name, p_deg, p_adj) = petersen_graph_10();
         let p_audit = analyze_regular_graph_bass_ihara(&p_name, p_deg, &p_adj);
         assert!(p_audit.is_regular && p_audit.is_connected && p_audit.is_ramanujan);
@@ -898,10 +1257,18 @@ mod tests {
         assert!((h_audit.max_nontrivial_abs_eigenvalue - 2.0_f64.sqrt()).abs() < 1e-11);
         assert_eq!(h_audit.nontrivial_off_circle_count, 0);
 
+        let (m_name, m_deg, m_adj) = mobius_kantor_graph_16();
+        let m_audit = analyze_regular_graph_bass_ihara(&m_name, m_deg, &m_adj);
+        assert!(m_audit.is_regular && m_audit.is_connected && m_audit.is_ramanujan);
+        assert!((m_audit.max_nontrivial_abs_eigenvalue - 3.0_f64.sqrt()).abs() < 1e-11);
+        assert_eq!(m_audit.nontrivial_off_circle_count, 0);
+
         let (b_name, b_deg, b_adj) = barbell_non_ramanujan_14();
         let b_audit = analyze_regular_graph_bass_ihara(&b_name, b_deg, &b_adj);
         assert!(b_audit.is_regular && b_audit.is_connected);
         assert!(!b_audit.is_ramanujan);
+        assert!(b_audit.ramanujan_margin < 0.0);
+        assert!(b_audit.markov_spectral_gap < p_audit.markov_spectral_gap);
         assert!((b_audit.max_nontrivial_abs_eigenvalue - 2.855_772_506_6).abs() < 1e-8);
         assert!(b_audit.max_nontrivial_abs_eigenvalue > 2.0 * 2.0_f64.sqrt());
         assert_eq!(b_audit.nontrivial_off_circle_count, 2);
