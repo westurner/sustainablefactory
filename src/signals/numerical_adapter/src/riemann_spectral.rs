@@ -752,6 +752,222 @@ pub fn find_first_n_riemann_zeros(count: usize) -> Vec<RiemannZeroAudit> {
     zeros
 }
 
+/// Finite quartic de Bruijn-Newman heat jet, represented in a Gr(2, 4) coefficient chart.
+///
+/// This is an f64 implementation of the finite polynomial contract only. It does not
+/// approximate the full Riemann xi heat flow or establish any global RH statement.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct DbnQuarticHeatGr24State {
+    pub a0: f64,
+    pub a2: f64,
+    pub a4: f64,
+}
+
+impl DbnQuarticHeatGr24State {
+    /// Extract the quartic Taylor coefficients at deformation time `t`.
+    pub fn from_taylor_jet(z0: f64, z2: f64, z4: f64, t: f64) -> Self {
+        Self {
+            a0: z0 - z2 * t + 0.5 * z4 * t * t,
+            a2: 0.5 * (z2 - z4 * t),
+            a4: z4 / 24.0,
+        }
+    }
+
+    /// Evaluate the supplied quartic polynomial at a spatial displacement `dz`.
+    pub fn evaluate(self, dz: f64) -> f64 {
+        let dz2 = dz * dz;
+        self.a0 + self.a2 * dz2 + self.a4 * dz2 * dz2
+    }
+
+    /// Apply the finite-time solution map for `d_t H = -d_z^2 H` on quartic coefficients.
+    pub fn heat_step(self, delta_time: f64) -> Self {
+        Self {
+            a0: self.a0 - 2.0 * self.a2 * delta_time
+                + 12.0 * self.a4 * delta_time * delta_time,
+            a2: self.a2 - 12.0 * self.a4 * delta_time,
+            a4: self.a4,
+        }
+    }
+
+    /// Plucker coordinates in `(p12, p13, p14, p23, p24, p34)` order.
+    pub fn plucker_coordinates(self) -> [f64; 6] {
+        [0.0, 0.0, self.a0, 0.0, self.a2, self.a4]
+    }
+
+    /// Klein-quadric residual `p12 p34 - p13 p24 + p14 p23` for this chart.
+    pub fn plucker_relation_residual(self) -> f64 {
+        let [p12, p13, p14, p23, p24, p34] = self.plucker_coordinates();
+        p12 * p34 - p13 * p24 + p14 * p23
+    }
+
+    /// Generator rows for `span((a0, a2, a4, 0), (0, 0, 0, 1))`.
+    pub fn generator_matrix(self) -> [[f64; 4]; 2] {
+        [[self.a0, self.a2, self.a4, 0.0], [0.0, 0.0, 0.0, 1.0]]
+    }
+
+    /// Lower-triangular ambient shear inducing the heat step by right multiplication.
+    pub fn ambient_heat_action(delta_time: f64) -> [[f64; 4]; 4] {
+        [
+            [1.0, 0.0, 0.0, 0.0],
+            [-2.0 * delta_time, 1.0, 0.0, 0.0],
+            [12.0 * delta_time * delta_time, -12.0 * delta_time, 1.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0],
+        ]
+    }
+
+    /// Numerically multiply the generator by the ambient heat action on the right.
+    pub fn generator_after_ambient_heat_action(self, delta_time: f64) -> [[f64; 4]; 2] {
+        let generator = self.generator_matrix();
+        let action = Self::ambient_heat_action(delta_time);
+        std::array::from_fn(|row| {
+            std::array::from_fn(|column| {
+                (0..4)
+                    .map(|inner| generator[row][inner] * action[inner][column])
+                    .sum::<f64>()
+            })
+        })
+    }
+}
+
+/// Residual summary for native `f64` checks of the finite quartic heat/Gr(2, 4) chart.
+///
+/// These diagnostics test only the supplied finite polynomial and matrix identities. They are
+/// not a certificate for the analytic xi heat flow or a global de Bruijn-Newman bound.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct DbnQuarticHeatGr24CrossCheck {
+    pub finite_inputs: bool,
+    pub chart_has_nonzero_minor: bool,
+    pub heat_step_max_abs: f64,
+    pub polynomial_reconstruction_abs: f64,
+    pub generator_intertwining_max_abs: f64,
+    pub plucker_relation_max_abs: f64,
+    pub ambient_semigroup_max_abs: f64,
+    pub ambient_inverse_max_abs: f64,
+}
+
+impl DbnQuarticHeatGr24CrossCheck {
+    /// Largest reported absolute residual across the finite identities.
+    pub fn max_abs_residual(self) -> f64 {
+        [
+            self.heat_step_max_abs,
+            self.polynomial_reconstruction_abs,
+            self.generator_intertwining_max_abs,
+            self.plucker_relation_max_abs,
+            self.ambient_semigroup_max_abs,
+            self.ambient_inverse_max_abs,
+        ]
+        .into_iter()
+        .fold(0.0, f64::max)
+    }
+}
+
+fn max_abs_matrix_difference<const ROWS: usize, const COLUMNS: usize>(
+    left: &[[f64; COLUMNS]; ROWS],
+    right: &[[f64; COLUMNS]; ROWS],
+) -> f64 {
+    let mut maximum = 0.0_f64;
+    for row in 0..ROWS {
+        for column in 0..COLUMNS {
+            maximum = maximum.max((left[row][column] - right[row][column]).abs());
+        }
+    }
+    maximum
+}
+
+/// Compare direct coefficient extraction with finite heat steps and the induced Gr(2, 4)
+/// ambient action. Inputs should be finite; the returned flag makes that precondition visible.
+pub fn audit_dbn_quartic_heat_gr24(
+    z0: f64,
+    z2: f64,
+    z4: f64,
+    time: f64,
+    delta_time1: f64,
+    delta_time2: f64,
+    delta_z: f64,
+) -> DbnQuarticHeatGr24CrossCheck {
+    let inputs = [z0, z2, z4, time, delta_time1, delta_time2, delta_z];
+    let initial = DbnQuarticHeatGr24State::from_taylor_jet(z0, z2, z4, time);
+    let state_after_first = initial.heat_step(delta_time1);
+    let direct_after_first =
+        DbnQuarticHeatGr24State::from_taylor_jet(z0, z2, z4, time + delta_time1);
+    let state_after_two = state_after_first.heat_step(delta_time2);
+    let direct_after_two = DbnQuarticHeatGr24State::from_taylor_jet(
+        z0,
+        z2,
+        z4,
+        time + delta_time1 + delta_time2,
+    );
+
+    let coefficient_difference = |left: DbnQuarticHeatGr24State, right: DbnQuarticHeatGr24State| {
+        [
+            (left.a0 - right.a0).abs(),
+            (left.a2 - right.a2).abs(),
+            (left.a4 - right.a4).abs(),
+        ]
+        .into_iter()
+        .fold(0.0_f64, f64::max)
+    };
+    let heat_step_max_abs = coefficient_difference(state_after_first, direct_after_first)
+        .max(coefficient_difference(state_after_two, direct_after_two));
+
+    let direct_polynomial = z0 - z2 * (time + delta_time1)
+        + 0.5 * z4 * (time + delta_time1).powi(2)
+        + 0.5 * (z2 - z4 * (time + delta_time1)) * delta_z.powi(2)
+        + (z4 / 24.0) * delta_z.powi(4);
+    let polynomial_reconstruction_abs =
+        (direct_after_first.evaluate(delta_z) - direct_polynomial).abs();
+
+    let generator_intertwining_max_abs = max_abs_matrix_difference(
+        &initial.generator_after_ambient_heat_action(delta_time1),
+        &state_after_first.generator_matrix(),
+    );
+
+    let plucker_relation_max_abs = initial
+        .plucker_relation_residual()
+        .abs()
+        .max(state_after_first.plucker_relation_residual().abs());
+
+    let ambient1 = DbnQuarticHeatGr24State::ambient_heat_action(delta_time1);
+    let ambient2 = DbnQuarticHeatGr24State::ambient_heat_action(delta_time2);
+    let ambient_sum = DbnQuarticHeatGr24State::ambient_heat_action(delta_time1 + delta_time2);
+    let mut ambient_product = [[0.0; 4]; 4];
+    for row in 0..4 {
+        for column in 0..4 {
+            ambient_product[row][column] = (0..4)
+                .map(|inner| ambient1[row][inner] * ambient2[inner][column])
+                .sum();
+        }
+    }
+    let ambient_semigroup_max_abs = max_abs_matrix_difference(&ambient_product, &ambient_sum);
+
+    let ambient_reverse = DbnQuarticHeatGr24State::ambient_heat_action(-delta_time1);
+    let mut ambient_inverse_product = [[0.0; 4]; 4];
+    for row in 0..4 {
+        for column in 0..4 {
+            ambient_inverse_product[row][column] = (0..4)
+                .map(|inner| ambient1[row][inner] * ambient_reverse[inner][column])
+                .sum();
+        }
+    }
+    let mut identity = [[0.0; 4]; 4];
+    for index in 0..4 {
+        identity[index][index] = 1.0;
+    }
+    let ambient_inverse_max_abs =
+        max_abs_matrix_difference(&ambient_inverse_product, &identity);
+
+    DbnQuarticHeatGr24CrossCheck {
+        finite_inputs: inputs.into_iter().all(f64::is_finite),
+        chart_has_nonzero_minor: initial.a0 != 0.0 || initial.a2 != 0.0 || initial.a4 != 0.0,
+        heat_step_max_abs,
+        polynomial_reconstruction_abs,
+        generator_intertwining_max_abs,
+        plucker_relation_max_abs,
+        ambient_semigroup_max_abs,
+        ambient_inverse_max_abs,
+    }
+}
+
 /// Three-Channel Madelung–Bohm–QFIM / Jensen–Pólya discriminant evaluation at height `gamma`.
 #[derive(Clone, Debug, PartialEq)]
 pub struct MadelungBohmPointAudit {
@@ -1171,6 +1387,73 @@ pub fn li_partial_coefficients(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn finite_dbn_quartic_heat_gr24_chart_matches_coefficient_and_plucker_contracts() {
+        let initial = DbnQuarticHeatGr24State::from_taylor_jet(0.004, -22.0, 1000.0, 0.125);
+        let delta_time = 0.25;
+        let stepped = initial.heat_step(delta_time);
+        let direct = DbnQuarticHeatGr24State::from_taylor_jet(
+            0.004,
+            -22.0,
+            1000.0,
+            0.125 + delta_time,
+        );
+
+        assert!((stepped.a0 - direct.a0).abs() < 1e-12);
+        assert!((stepped.a2 - direct.a2).abs() < 1e-12);
+        assert!((stepped.a4 - direct.a4).abs() < 1e-12);
+
+        let delta_time2 = 0.5;
+        let sequential = stepped.heat_step(delta_time2);
+        let combined = initial.heat_step(delta_time + delta_time2);
+        assert!((sequential.a0 - combined.a0).abs() < 1e-11);
+        assert!((sequential.a2 - combined.a2).abs() < 1e-12);
+        assert!((sequential.a4 - combined.a4).abs() < 1e-12);
+        assert!((initial.plucker_relation_residual()).abs() < 1e-12);
+        assert!((stepped.evaluate(0.3) - direct.evaluate(0.3)).abs() < 1e-11);
+
+        let generator = initial.generator_matrix();
+        let left = DbnQuarticHeatGr24State::ambient_heat_action(delta_time);
+        let action2 = DbnQuarticHeatGr24State::ambient_heat_action(delta_time2);
+        let action_sum = DbnQuarticHeatGr24State::ambient_heat_action(delta_time + delta_time2);
+        for row in 0..4 {
+            for column in 0..4 {
+                let product: f64 = (0..4)
+                    .map(|inner| left[row][inner] * action2[inner][column])
+                    .sum();
+                assert!((product - action_sum[row][column]).abs() < 1e-11);
+            }
+        }
+
+        let transformed = initial.generator_after_ambient_heat_action(delta_time);
+        let stepped_generator = stepped.generator_matrix();
+        for row in 0..2 {
+            for column in 0..4 {
+                assert!((transformed[row][column] - stepped_generator[row][column]).abs() < 1e-11);
+            }
+        }
+        assert_eq!(generator[1], [0.0, 0.0, 0.0, 1.0]);
+
+        let reverse = DbnQuarticHeatGr24State::ambient_heat_action(-delta_time);
+        for row in 0..4 {
+            for column in 0..4 {
+                let product: f64 = (0..4)
+                    .map(|inner| left[row][inner] * reverse[inner][column])
+                    .sum();
+                let expected = if row == column { 1.0 } else { 0.0 };
+                assert!((product - expected).abs() < 1e-12);
+            }
+        }
+
+        let audit = audit_dbn_quartic_heat_gr24(0.004, -22.0, 1000.0, 0.125, 0.25, 0.5, 0.3);
+        assert!(audit.finite_inputs && audit.chart_has_nonzero_minor);
+        assert!(audit.max_abs_residual() < 1e-10, "audit={audit:?}");
+
+        let zero_chart = audit_dbn_quartic_heat_gr24(0.0, 0.0, 0.0, 0.0, 0.25, 0.5, 0.3);
+        assert!(!zero_chart.chart_has_nonzero_minor);
+        assert!(zero_chart.max_abs_residual() < 1e-12, "zero_chart={zero_chart:?}");
+    }
 
     #[test]
     fn first_30_riemann_zeros_match_high_precision_and_cross_check_rs_c2() {

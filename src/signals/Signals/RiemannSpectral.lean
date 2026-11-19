@@ -1,6 +1,7 @@
 import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
 import Signals.GrassmannianEBR
+import Signals.Plabic
 import Signals.QuantumCausalInference
 
 namespace Signals.RiemannSpectral
@@ -901,6 +902,209 @@ theorem dbnQuarticHeat_abs_le_on_box
   obtain ⟨h2dz_lower, h2dz_upper⟩ := abs_le.mp h_spatial_quadratic
   obtain ⟨h4dz_lower, h4dz_upper⟩ := abs_le.mp h_spatial_quartic
   constructor <;> nlinarith
+
+/-! ### Finite Gr(2,4) Plucker Lift of the Quartic Heat Jet
+
+This is the real Grassmannian chart of the finite quartic coefficient state (and hence a point
+of the real locus inside `Gr_C(2,4)` after scalar extension). It is not the Sato Grassmannian,
+and it does not identify the zeta zero set with a Grassmannian spectrum. -/
+
+/-- Coefficients of an even quartic polynomial `a0 + a2 z^2 + a4 z^4`. -/
+structure DBNQuarticHeatGr24State where
+  a0 : ℝ
+  a2 : ℝ
+  a4 : ℝ
+
+/-- Exact finite-time action of `∂_t H = -∂_z^2 H` on even quartic coefficients. -/
+def DBNQuarticHeatGr24State.heatStep
+    (state : DBNQuarticHeatGr24State) (deltaTime : ℝ) : DBNQuarticHeatGr24State :=
+  { a0 := state.a0 - 2 * state.a2 * deltaTime + 12 * state.a4 * deltaTime ^ 2
+    a2 := state.a2 - 12 * state.a4 * deltaTime
+    a4 := state.a4 }
+
+/-- Unipotent ambient-coordinate action inducing the quartic heat step on the lifted plane. -/
+def dbnQuarticHeatGr24AmbientAction (deltaTime : ℝ) : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![1, 0, 0, 0;
+     -2 * deltaTime, 1, 0, 0;
+     12 * deltaTime ^ 2, -12 * deltaTime, 1, 0;
+     0, 0, 0, 1]
+
+/-- Nilpotent finite generator of the quartic coefficient heat action. -/
+def dbnQuarticHeatGr24Generator : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![0, 0, 0, 0;
+     -2, 0, 0, 0;
+     0, -12, 0, 0;
+     0, 0, 0, 0]
+
+/-- The finite heat shear is the degree-two exponential polynomial of its nilpotent generator. -/
+theorem dbnQuarticHeatGr24AmbientAction_eq_generator_polynomial (deltaTime : ℝ) :
+    dbnQuarticHeatGr24AmbientAction deltaTime =
+      1 + deltaTime • dbnQuarticHeatGr24Generator +
+        (deltaTime ^ 2 / 2) •
+          (dbnQuarticHeatGr24Generator * dbnQuarticHeatGr24Generator) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [dbnQuarticHeatGr24AmbientAction, dbnQuarticHeatGr24Generator] <;> ring
+
+/-- The coefficient-space heat generator is nilpotent of order at most three. -/
+theorem dbnQuarticHeatGr24Generator_cube_eq_zero :
+    dbnQuarticHeatGr24Generator * dbnQuarticHeatGr24Generator *
+      dbnQuarticHeatGr24Generator = 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [dbnQuarticHeatGr24Generator]
+
+/-- The finite coefficient generator is not symmetric in the Euclidean coordinate inner
+product, so this chart alone is not a finite self-adjoint spectral model. -/
+theorem dbnQuarticHeatGr24Generator_not_symmetric :
+    ∃ i j : Fin 4,
+      dbnQuarticHeatGr24Generator i j ≠ dbnQuarticHeatGr24Generator j i := by
+  refine ⟨0, 1, ?_⟩
+  norm_num [dbnQuarticHeatGr24Generator]
+
+/-- Ambient heat actions compose by addition of their deformation times. -/
+theorem dbnQuarticHeatGr24AmbientAction_comp (deltaTime1 deltaTime2 : ℝ) :
+    dbnQuarticHeatGr24AmbientAction deltaTime1 *
+        dbnQuarticHeatGr24AmbientAction deltaTime2 =
+      dbnQuarticHeatGr24AmbientAction (deltaTime1 + deltaTime2) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [dbnQuarticHeatGr24AmbientAction] <;> ring
+
+theorem dbnQuarticHeatGr24AmbientAction_zero :
+    dbnQuarticHeatGr24AmbientAction 0 = 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [dbnQuarticHeatGr24AmbientAction]
+
+/-- The ambient heat shear is invertible, with reverse-time action as its inverse. -/
+theorem dbnQuarticHeatGr24AmbientAction_mul_reverse (deltaTime : ℝ) :
+    dbnQuarticHeatGr24AmbientAction deltaTime *
+        dbnQuarticHeatGr24AmbientAction (-deltaTime) = 1 ∧
+      dbnQuarticHeatGr24AmbientAction (-deltaTime) *
+        dbnQuarticHeatGr24AmbientAction deltaTime = 1 := by
+  constructor
+  · calc
+      dbnQuarticHeatGr24AmbientAction deltaTime *
+          dbnQuarticHeatGr24AmbientAction (-deltaTime) =
+            dbnQuarticHeatGr24AmbientAction (deltaTime + -deltaTime) :=
+        dbnQuarticHeatGr24AmbientAction_comp deltaTime (-deltaTime)
+      _ = 1 := by rw [show deltaTime + -deltaTime = 0 by ring]; exact dbnQuarticHeatGr24AmbientAction_zero
+  · calc
+      dbnQuarticHeatGr24AmbientAction (-deltaTime) *
+          dbnQuarticHeatGr24AmbientAction deltaTime =
+            dbnQuarticHeatGr24AmbientAction (-deltaTime + deltaTime) :=
+        dbnQuarticHeatGr24AmbientAction_comp (-deltaTime) deltaTime
+      _ = 1 := by rw [show -deltaTime + deltaTime = 0 by ring]; exact dbnQuarticHeatGr24AmbientAction_zero
+
+/-- The quartic Taylor jet used by `dbnQuarticHeatSolution` at deformation time `t`. -/
+def dbnQuarticHeatGr24StateAt
+    (z0 z2 z4 t : ℝ) : DBNQuarticHeatGr24State :=
+  { a0 := dbnQuarticHeatSolution z0 z2 z4 t 0
+    a2 := (1 / 2 : ℝ) * (z2 - z4 * t)
+    a4 := (1 / 24 : ℝ) * z4 }
+
+/-- The finite heat steps form an additive semigroup on quartic coefficient states. -/
+theorem DBNQuarticHeatGr24State.heatStep_comp
+    (state : DBNQuarticHeatGr24State) (deltaTime1 deltaTime2 : ℝ) :
+    (state.heatStep deltaTime1).heatStep deltaTime2 =
+      state.heatStep (deltaTime1 + deltaTime2) := by
+  cases state with
+  | mk a0 a2 a4 =>
+      simp [DBNQuarticHeatGr24State.heatStep]; ring_nf; simp
+
+/-- The coefficients extracted from `dbnQuarticHeatSolution` reconstruct that polynomial. -/
+theorem dbnQuarticHeatGr24StateAt_reconstructs
+    (z0 z2 z4 t dz : ℝ) :
+    dbnQuarticHeatSolution z0 z2 z4 t dz =
+      (dbnQuarticHeatGr24StateAt z0 z2 z4 t).a0 +
+        (dbnQuarticHeatGr24StateAt z0 z2 z4 t).a2 * dz ^ 2 +
+        (dbnQuarticHeatGr24StateAt z0 z2 z4 t).a4 * dz ^ 4 := by
+  simp [dbnQuarticHeatGr24StateAt, dbnQuarticHeatSolution]
+
+/-- The quartic heat PDE evolution agrees exactly with the finite coefficient heat step. -/
+theorem dbnQuarticHeatGr24StateAt_heatStep
+    (z0 z2 z4 t deltaTime : ℝ) :
+    dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime) =
+      (dbnQuarticHeatGr24StateAt z0 z2 z4 t).heatStep deltaTime := by
+  simp [dbnQuarticHeatGr24StateAt, DBNQuarticHeatGr24State.heatStep,
+    dbnQuarticHeatSolution]; ring_nf; simp
+
+/-- Generator matrix whose row span is the plane spanned by the quartic coefficient vector
+`(a0, a2, a4, 0)` and the fixed reference vector `(0, 0, 0, 1)`. -/
+def dbnQuarticHeatGr24GeneratorMatrix
+    (state : DBNQuarticHeatGr24State) : Matrix (Fin 2) (Fin 4) ℝ :=
+  !![state.a0, state.a2, state.a4, 0;
+     0, 0, 0, 1]
+
+/-- The finite heat step acts on the Grassmannian generator by right multiplication with the
+ambient shear; thus it transports the represented 2-plane by a finite-dimensional GL(4) action. -/
+theorem dbnQuarticHeatGr24GeneratorMatrix_heatStep
+    (state : DBNQuarticHeatGr24State) (deltaTime : ℝ) :
+    dbnQuarticHeatGr24GeneratorMatrix (state.heatStep deltaTime) =
+      dbnQuarticHeatGr24GeneratorMatrix state *
+        dbnQuarticHeatGr24AmbientAction deltaTime := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [dbnQuarticHeatGr24GeneratorMatrix, DBNQuarticHeatGr24State.heatStep,
+      dbnQuarticHeatGr24AmbientAction] <;> ring
+
+/-- The six Plucker coordinates of the finite quartic coefficient plane. -/
+def dbnQuarticHeatGr24PluckerCoordinates
+    (state : DBNQuarticHeatGr24State) : Signals.GrassmannianEBR.PluckerCoordinatesGr24 :=
+  { p12 := 0
+    p13 := 0
+    p14 := state.a0
+    p23 := 0
+    p24 := state.a2
+    p34 := state.a4 }
+
+/-- Each stored coordinate is the corresponding minor of the explicit `2 x 4` generator. -/
+theorem dbnQuarticHeatGr24_generator_minors
+    (state : DBNQuarticHeatGr24State) :
+    Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) 0 1 =
+        (dbnQuarticHeatGr24PluckerCoordinates state).p12 ∧
+      Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) 0 2 =
+        (dbnQuarticHeatGr24PluckerCoordinates state).p13 ∧
+      Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) 0 3 =
+        (dbnQuarticHeatGr24PluckerCoordinates state).p14 ∧
+      Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) 1 2 =
+        (dbnQuarticHeatGr24PluckerCoordinates state).p23 ∧
+      Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) 1 3 =
+        (dbnQuarticHeatGr24PluckerCoordinates state).p24 ∧
+      Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) 2 3 =
+        (dbnQuarticHeatGr24PluckerCoordinates state).p34 := by
+  simp [dbnQuarticHeatGr24GeneratorMatrix, dbnQuarticHeatGr24PluckerCoordinates,
+    Signals.Plabic.plucker2x4Minor]
+
+/-- The coefficient lift lies on the Klein quadric, as every `Gr(2,4)` Plucker point must. -/
+theorem dbnQuarticHeatGr24_plucker_relation
+    (state : DBNQuarticHeatGr24State) :
+    Signals.GrassmannianEBR.pluckerQuadraticResidual
+      (dbnQuarticHeatGr24PluckerCoordinates state) = 0 := by
+  simp [Signals.GrassmannianEBR.pluckerQuadraticResidual,
+    dbnQuarticHeatGr24PluckerCoordinates]
+
+/-- A nonzero quartic coefficient vector yields a nonzero Plucker minor, so the generator has
+rank two and determines an actual point of the projective Grassmannian. -/
+theorem dbnQuarticHeatGr24_has_nonzero_minor
+    (state : DBNQuarticHeatGr24State)
+    (h_nonzero : state.a0 ≠ 0 ∨ state.a2 ≠ 0 ∨ state.a4 ≠ 0) :
+    ∃ i j : Fin 4,
+      i ≠ j ∧
+        Signals.Plabic.plucker2x4Minor (dbnQuarticHeatGr24GeneratorMatrix state) i j ≠ 0 := by
+  have h_minors := dbnQuarticHeatGr24_generator_minors state
+  rcases h_nonzero with h_a0 | h_a2 | h_a4
+  · exact ⟨0, 3, by decide, by rw [h_minors.2.2.1]; exact h_a0⟩
+  · exact ⟨1, 3, by decide, by rw [h_minors.2.2.2.2.1]; exact h_a2⟩
+  · exact ⟨2, 3, by decide, by rw [h_minors.2.2.2.2.2]; exact h_a4⟩
+
+/-- The Grassmannian generator for a Taylor jet follows the same finite heat orbit. -/
+theorem dbnQuarticHeatGr24StateAt_generator_heatStep
+    (z0 z2 z4 t deltaTime : ℝ) :
+    dbnQuarticHeatGr24GeneratorMatrix (dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)) =
+      dbnQuarticHeatGr24GeneratorMatrix
+        ((dbnQuarticHeatGr24StateAt z0 z2 z4 t).heatStep deltaTime) := by
+  rw [dbnQuarticHeatGr24StateAt_heatStep]
 
 /-- Finite diagonal transfer residual, the sum of absolute coordinate errors. This is the
 trace-norm proxy only for real diagonal matrices, not an adelic operator convergence claim. -/

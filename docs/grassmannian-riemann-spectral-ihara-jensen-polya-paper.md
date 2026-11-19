@@ -41,6 +41,7 @@ We audit all five Riemann Hypothesis (RH) approaches explored in the Grassmannia
 2. **High-Precision Rust/PyO3 Evaluators (Euler–Maclaurin, Riemann–Siegel $C_0\text{..}C_4$ with Exact `Jet2`/`CJet2` Analytic Derivatives, and Borwein Diagnosis):** We implement self-contained `f64` Euler–Maclaurin summation, singularity-free Chebyshev Riemann–Siegel remainder terms $C_0(p)$ through $C_4(p)$ {cite:p}`gabcke1979riemann`, 2nd-order forward-mode automatic differentiation (`Jet2`/`CJet2`) for exact $Z'(t), Z''(t)$, and Borwein Algorithm 2 {cite:p}`borwein2000zeta` in `riemann_spectral.rs`. Cross-checked against 35–45 digit `mpmath`, Euler–Maclaurin locates all **first 30 nontrivial zeros** with maximum height error **$2.84 \times 10^{-14}$**, extending Riemann–Siegel from $C_2$ to $C_4$ reduces Lehmer-pair evaluation error by **$198.5\times$** (`1.25e-09` $\to$ `6.31e-12`, reaching the IEEE-754 `f64` phase-rounding floor), and replacing finite differences with `Jet2` analytic differentiation reduces $\mathcal{J}(g_{125})$ error by **$2.87 \times 10^7\times$** (`1.93e-04` $\to$ `6.72e-12`).
 3. **Correction of Chat Check Figures for Gram's Law Violations ($g_{126}, g_{134}$) and Lehmer's 1956 Pair (#6709–#6710):** Auditing the chat's uncomputed check-figure table ({download}`lines 5718–5725 <../data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md>`) against 35-digit `mpmath` and Rust Riemann–Siegel ($C_0\text{..}C_4$) exposes substantial numerical discrepancies in the chat table—including a sign reversal at Lehmer's 1956 pair extremum $\gamma_* \approx 7005.0818551$ {cite:p}`lehmer1956extended,csordas1994lehmer`, where the true value is a **positive peak** $Z(\gamma_*) = +0.0039673575$ with $Z''(\gamma_*) = -22.346154$ (giving Channel B Bohm curvature rescue $J_{\mathrm{bohm}}(\gamma_*) = \mathcal{J}(\gamma_*) = +0.0886552 > 0$, $\eta_{\mathrm{Bohm}} = 1.0000$, directly dual to the osmotic/Bohm velocity split of {cite:p}`sharoglazova_energyspeed_2025`), and negative $J_{\mathrm{bohm}}$ at $g_{126}$ and $g_{134}$ themselves (where osmotic $(Z')^2$ keeps $\mathcal{J} > 0$).
 4. **Mpemba–Trajectory–dBN Synthesis, Analytical-Bridge Probes, & Strict Epistemic Boundary:** Extending `Signals.RiemannSpectral` (Sections 7–10) and `riemann_rh_bridges.py`, we prove exact quartic de Bruijn–Newman backward-heat closure (`dbnQuarticHeat_pde_and_shift`), 4-zero/10-zero Calogero–Moser neighbor squeezing (`dbnFourZero_symmetric_neighbor_squeeze`, {cite:p}`mcguire1964study,drori2023quantum`), and Strong Mpemba slow-mode annihilation (`mpemba_projection_eliminates_slow_weil_mode`, {cite:p}`holtzman2022landau,summer2026resource`)—which collapses the $6\times 6$ orthonormal Hermite–Gaussian Weil Gram condition number by **$429.4\times$** ($\kappa = 1{,}389.36 \to 3.24$) with $< 3.35 \times 10^{-50}$ prime-vs-zero discrepancy {cite:p}`weil1952explicit,bombieri2000rh`, alongside strict real-rootedness of Griffin–Ono–Rolen–Zagier Jensen polynomials for $d = 2\text{..}8$ {cite:p}`polya1927algeb,griffin2019jensen` and exact infinite-zero Keiper–Li positivity $\lambda_1\text{..}\lambda_{25} > 0$ {cite:p}`keiper1992power,li1997positivity,bombieri1999li`. All four open analytical bridges for classical RH remain explicitly gated in `Signals.Pending.RiemannHypothesisPendingBoundary`.
+5. **Finite Grassmannian Lift of the Quartic Heat Jet (Lean 4 and Rust):** The even quartic coefficient state $(a_0,a_2,a_4)$ is augmented by a fixed reference direction to give a real $\mathrm{Gr}_{\mathbb R}(2,4)$ chart with Plücker coordinates $(0,0,a_0,0,a_2,a_4)$. Lean proves the Klein relation and the additive-time ambient shear; Rust cross-checks the same finite formulas in `f64`. This is a finite coefficient-plane encoding, not a canonical Hilbert-space embedding, or a closure of any global RH bridge.
 
 ---
 
@@ -289,6 +290,58 @@ t_{\mathrm{heat}} = \frac{Z(\gamma_*)}{Z''(\gamma_*)} = -0.0001775410, \qquad t_
 $$
 
 confirming to $0.06\%$ that local backward heat collision matches the 2-zero Calogero–Moser exact merge time and quantitatively illustrating why Rodgers–Tao (2020) proved $\Lambda_{\mathrm{dBN}} \ge 0$ while the remaining open half of RH is $\Lambda_{\mathrm{dBN}} \le 0$.
+
+### 6.5 Finite Grassmannian Lift of the Quartic de Bruijn–Newman Heat Jet
+
+The quartic truncation has coefficient state $a(t)=(a_0(t),a_2(t),a_4(t))$ for
+$H_t(\Delta z)=a_0(t)+a_2(t)(\Delta z)^2+a_4(t)(\Delta z)^4$. Its finite heat step is
+
+$$
+a(t+h)=a(t)S_h,\qquad
+S_h=\begin{pmatrix}1&0&0\\-2h&1&0\\12h^2&-12h&1\end{pmatrix},\qquad S_{h_1}S_{h_2}=S_{h_1+h_2}.
+$$
+
+This makes the coefficient orbit a three-dimensional linear representation of the additive heat-time parameter. To obtain a Grassmannian point, augment the coefficient row by a fixed reference direction $e_4$:
+
+$$
+C(a)=\begin{pmatrix}a_0&a_2&a_4&0\\0&0&0&1\end{pmatrix},\qquad
+(p_{12},p_{13},p_{14},p_{23},p_{24},p_{34})=(0,0,a_0,0,a_2,a_4).
+$$
+
+Interpret $(a_0,a_2,a_4)$ as coordinates in the finite Euclidean coefficient Hilbert space $\mathbb R^3$ with the selected basis $\{1,(\Delta z)^2,(\Delta z)^4\}$. A nonzero vector determines a ray in $\mathrm{Gr}_{\mathbb R}(1,3)\cong\mathbb{RP}^2$; adjoining the fixed reference direction $e_4$ embeds that ray as the 2-plane
+
+$$
+\iota([a])=\operatorname{span}\{(a_0,a_2,a_4,0),(0,0,0,1)\}\in\mathrm{Gr}_{\mathbb R}(2,4)\subset\mathrm{Gr}_{\mathbb C}(2,4).
+$$
+
+The Lean and Rust implementations store the finite coefficient vector and this explicit frame; they do not supply a continuum $L^2$ basis or a canonical map from an unspecified Hilbert space. For $a\ne0$, the row span is a real 2-plane in $\mathrm{Gr}_{\mathbb R}(2,4)$, hence in its complexification $\mathrm{Gr}_{\mathbb C}(2,4)$. The Plücker relation is automatic for this decomposable bivector. The ambient shear
+
+$$
+U_h=\begin{pmatrix}1&0&0&0\\-2h&1&0&0\\12h^2&-12h&1&0\\0&0&0&1\end{pmatrix},\qquad C(a(t+h))=C(a(t))U_h,
+$$
+
+is lower triangular with unit diagonal, fixes the reference row, has reverse-time inverse $U_{-h}$, and composes as $U_{h_1}U_{h_2}=U_{h_1+h_2}$. More explicitly, $U_h=I+hN+\frac{h^2}{2}N^2$ for a fixed nilpotent generator $N$ with $N^3=0$; $N$ is not symmetric in the coefficient-space Euclidean inner product. Thus this finite flow generator is not itself a self-adjoint Hilbert–Pólya operator. The Lean implementation (`DBNQuarticHeatGr24State`, `dbnQuarticHeatGr24Generator`, `dbnQuarticHeatGr24AmbientAction`, and `dbnQuarticHeatGr24GeneratorMatrix_heatStep`) proves these finite polynomial identities and the nonzero-minor condition; the Rust implementation (`DbnQuarticHeatGr24State`) checks the same formulas numerically in `f64`. The zero coefficient vector maps to the zero Plücker vector and is not a point of the projective Grassmannian.
+
+This construction is a chosen coefficient chart, not a canonical embedding of an infinite-dimensional Hilbert space and not a spectral model for the zeta zeros. A generic finite Hilbert-to-Grassmannian construction starts with an isometric frame $E_N:\mathbb{C}^N\to\mathcal{H}$ whose range lies in the domain of a specified operator $A$. Compress to $A_N=E_N^*AE_N$, choose a full-rank $N\times k$ frame $X_0$, and evolve
+
+$$
+X_t=e^{tA_N}X_0,\qquad p_t=\bigwedge^k X_t.
+$$
+
+Here $p_t$ is the vector of $k\times k$ minors, so it represents the transported $k$-plane. The quartic implementation is this recipe in a selected finite coefficient chart, with a row-frame convention. A dBN-to-Hilbert bridge would still need a justified Hilbert space, the unbounded generator $A=-\partial_z^2$ with domain and boundary conditions, a convergent sequence of finite sections, and a proof that the limiting spectral data are the zeta-zero ordinates. None of those infinite-dimensional ingredients is supplied by the quartic jet.
+
+#### Native Rust `f64` Cross-Check Plan
+
+`audit_dbn_quartic_heat_gr24` accepts $(z_0,z_2,z_4,t,h_1,h_2,\Delta z)$ and returns `finite_inputs`, `chart_has_nonzero_minor`, `heat_step_max_abs`, `polynomial_reconstruction_abs`, `generator_intertwining_max_abs`, `plucker_relation_max_abs`, `ambient_semigroup_max_abs`, and `ambient_inverse_max_abs`; `max_abs_residual()` aggregates the six numeric residuals. The native test checks a deterministic nonzero fixture with `finite_inputs = true`, `chart_has_nonzero_minor = true`, and `max_abs_residual() < 10^{-10}`. A second all-zero fixture must have `chart_has_nonzero_minor = false` and residual below $10^{-12}$. The test also checks the generator update against right multiplication by $U_h$.
+
+This is a numerical consistency audit in IEEE-754 `f64`, not interval certification: the thresholds validate the implementation on the selected fixture, not a uniform floating-point error bound over all inputs. A proof-grade numerical certificate would need outward-rounded intervals and explicit input ranges. Neither that certificate nor the analytic Taylor remainder is part of the current Lean/Rust contract.
+
+| Model | Grassmannian state | Lean 4 implementation | Rust implementation | Status relative to Bridge 4 |
+| --- | --- | --- | --- | --- |
+| Finite quartic dBN chart | $\mathrm{Gr}_{\mathbb R}(2,4)\subset\mathrm{Gr}_{\mathbb C}(2,4)$; coefficient ray plus fixed $e_4$ | `DBNQuarticHeatGr24State`, Plücker chart, Klein relation, $U_h$ composition/inverse, generator intertwining | `DbnQuarticHeatGr24State` and `audit_dbn_quartic_heat_gr24` in `riemann_spectral.rs`; native `f64` residual checks | Implemented finite polynomial model; no unbounded domain, Hilbert-space closure, or global-$\Lambda$ conclusion |
+| Generic Hilbert finite section | $\mathrm{Gr}_{\mathbb C}(k,N)$ from a rank-$k$ subspace of a finite projection | Not implemented: the operator/domain and convergence theorem are unspecified | Not implemented for dBN | Requires a defined candidate operator and a proved $N\to\infty$ spectral-convergence result |
+
+G-MGS superconductivity, the Turner dual-Grassmannian/iGPE product, and DDF second sound are omitted from this comparison because no state map from those models to $H_t(z)$ has been specified. In particular, an ideal superconductor does not realize the auxiliary de Bruijn–Newman heat flow.
 
 ---
 

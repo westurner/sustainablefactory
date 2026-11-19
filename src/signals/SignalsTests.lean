@@ -9041,6 +9041,85 @@ example :
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num)
 
+example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State) :
+    Signals.GrassmannianEBR.pluckerQuadraticResidual
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24PluckerCoordinates state) = 0 ∧
+      (state.heatStep 1).heatStep 2 = state.heatStep 3 := by
+  constructor
+  · exact Signals.RiemannSpectral.dbnQuarticHeatGr24_plucker_relation state
+  · calc
+      (state.heatStep 1).heatStep 2 = state.heatStep (1 + 2) :=
+        Signals.RiemannSpectral.DBNQuarticHeatGr24State.heatStep_comp state 1 2
+      _ = state.heatStep 3 := by
+        congr 1
+        norm_num
+
+example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State) (deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix (state.heatStep deltaTime) =
+      Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix state *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix_heatStep state deltaTime
+
+example (deltaTime1 deltaTime2 : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime1 *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime2 =
+      Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction (deltaTime1 + deltaTime2) :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction_comp deltaTime1 deltaTime2
+
+example (deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction (-deltaTime) = 1 ∧
+      Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction (-deltaTime) *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime = 1 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction_mul_reverse deltaTime
+
+example (deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime =
+      1 + deltaTime • Signals.RiemannSpectral.dbnQuarticHeatGr24Generator +
+        (deltaTime ^ 2 / 2) •
+          (Signals.RiemannSpectral.dbnQuarticHeatGr24Generator *
+            Signals.RiemannSpectral.dbnQuarticHeatGr24Generator) :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction_eq_generator_polynomial deltaTime
+
+example :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24Generator *
+      Signals.RiemannSpectral.dbnQuarticHeatGr24Generator *
+      Signals.RiemannSpectral.dbnQuarticHeatGr24Generator = 0 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24Generator_cube_eq_zero
+
+example :
+    ∃ i j : Fin 4,
+      Signals.RiemannSpectral.dbnQuarticHeatGr24Generator i j ≠
+        Signals.RiemannSpectral.dbnQuarticHeatGr24Generator j i :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24Generator_not_symmetric
+
+example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State)
+    (h_nonzero : state.a2 ≠ 0) :
+    ∃ i j : Fin 4,
+      i ≠ j ∧
+        Signals.Plabic.plucker2x4Minor
+            (Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix state) i j ≠ 0 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24_has_nonzero_minor state (Or.inr (Or.inl h_nonzero))
+
+example :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24PluckerCoordinates
+        ({ a0 := 0, a2 := 0, a4 := 0 } : Signals.RiemannSpectral.DBNQuarticHeatGr24State) =
+      { p12 := 0, p13 := 0, p14 := 0, p23 := 0, p24 := 0, p34 := 0 } := rfl
+
+example (z0 z2 z4 t deltaTime dz : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatSolution z0 z2 z4 (t + deltaTime) dz =
+      (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)).a0 +
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)).a2 * dz ^ 2 +
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)).a4 * dz ^ 4 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt_reconstructs z0 z2 z4 (t + deltaTime) dz
+
+example (z0 z2 z4 t deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)) =
+      Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix
+        ((Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 t).heatStep deltaTime) :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt_generator_heatStep z0 z2 z4 t deltaTime
+
 example :
     Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance
       (fun _ : Fin 2 => (1 : ℝ)) (fun _ => 0) ≤ (2 : ℝ) := by
