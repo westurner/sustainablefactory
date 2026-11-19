@@ -100,7 +100,68 @@ To discharge `Signals.Pending.RiemannHypothesisPendingBoundary.allFourBridgesClo
 3. **Bridge 3 (Global Positivity Across All Degrees/Dimensions):** Prove $J^{d,n}(X)$ is hyperbolic for **all** $(d, n)$ (beyond fixed-$d$ large-$n$ GORZ), equivalently $\lambda_n \ge 0$ for **all** $n \ge 1$, equivalently $W(g \ast \tilde{g}) \ge 0$ on the full Schwartz–Bruhat space.
 4. **Bridge 4 (Self-Adjoint Spectral Operator Closure):** Construct a Hilbert space and essentially self-adjoint domain closure whose spectrum is the exact set of imaginary parts $\{\gamma_k\}$ of the nontrivial zeros of $\zeta(s)$.
 
-## 5. RB-6 Finite Contract Problem Definitions
+## 5. Literature Status and Existing Partial Results (Reviewed 2026-11-19)
+
+This is a targeted literature check, not a proof review. Primary papers and source records were checked for the four RB-6 claims. Targeted arXiv searches on 2026-11-19 for `adelic Sato Grassmannian trace norm`, `Plabic transfer operators trace norm Ramanujan`, and `trace-norm adelic Grassmannian` returned no exact results. That limited search is not evidence that no related work exists; the relevant finite graph and planar-network results below do not by themselves establish the proposed adelic limit.
+
+| Bridge | Existing results and evidence status | Exact remaining gap |
+| --- | --- | --- |
+| 1. de Bruijn-Newman upper bound | Rodgers and Tao prove $\Lambda_{\mathrm{dBN}}\ge 0$ and state that RH is equivalent to $\Lambda_{\mathrm{dBN}}\le 0$ [Rodgers and Tao (2020)](#ref-rodgers-tao2020). The peer-reviewed Polymath15 work proves the positive upper bound $\Lambda_{\mathrm{dBN}}\le 0.22$ [Polymath (2019)](#ref-polymath2019). A newer arXiv preprint claims $\Lambda_{\mathrm{dBN}}<0.156821$ [Planat and Raymond (2026)](#ref-planat-raymond2026); separate 2026 Zenodo preprints claim $\Lambda_{\mathrm{dBN}}\le0.1811918082$ and $\Lambda_{\mathrm{dBN}}\le0.1875$ [Kornaus (2026)](#ref-kornaus2026), [Mosaic Intelligence (2026)](#ref-mosaic2026). These recent deposits are not peer-reviewed results in the records checked; this review has not independently validated their certificates. | All listed upper bounds are positive. None establishes $\Lambda_{\mathrm{dBN}}\le0$, so none proves RH or closes Bridge 1. The latest arXiv record itself distinguishes its claim from other unrefereed computational bounds. The Clay Mathematics Institute still lists RH as unsolved [Clay Mathematics Institute](#ref-clay-rh). |
+| 2. Adelic Sato trace-norm limit | Bass develops the finite Ihara-Selberg zeta/determinant theory for tree lattices [Bass (1992)](#ref-bass1992). Postnikov shows how planar-network boundary measurements parametrize cells of the totally nonnegative Grassmannian [Postnikov (2006)](#ref-postnikov2006). These are relevant finite ingredients, not the proposed operator family or limit. | The targeted search found no source proving trace-norm convergence of finite-prime Bass-Ihara or Plabic VRC operators on the stated adelic Sato Grassmannian, with a Ramanujan-bounded limit and no off-circle leakage. The operator sequence, common trace-class space, norm estimates, and spectral convergence statement still need precise definitions and proofs. |
+| 3. Global Li/Jensen-Polya/Weil positivity | Li's criterion characterizes RH by nonnegativity of every Li coefficient [Li (1997)](#ref-li1997). Pólya's Jensen-polynomial criterion is restated in the modern GORZ work [Pólya (1927)](#ref-polya1927), [Griffin et al. (2019)](#ref-griffin2019). The 2019 paper proves cases through degree 8 and density-one shift results; the later xi-function paper proves hyperbolicity for every fixed degree once the shift is sufficiently large, with an effective threshold [Griffin et al. (2022)](#ref-griffin2022). Farmer cautions that these asymptotic Hermite limits do not by themselves justify an RH proof strategy; this is a critique of that inference, not a disproof of the criterion [Farmer (2020)](#ref-farmer2020). | The criteria still require all Li indices, all Jensen degrees and shifts (including any finite exceptional shifts), or Weil's explicit-formula positivity on the full test-function space [Weil (1952)](#ref-weil1952). Finite prefixes and fixed-degree asymptotics do not establish those universal quantifiers. |
+| 4. Self-adjoint spectral operator | Berry and Keating develop the spectral analogy and the $xp$ classical model, but describe the corresponding Hermitian operator as unknown [Berry and Keating (1999)](#ref-berrykeating1999). Connes gives a spectral interpretation in which critical zeros appear as an absorption spectrum and formulates a trace formula on the adele class space [Connes (1999)](#ref-connes1999). | These are candidate frameworks, not a construction of an essentially self-adjoint operator with domain closure and point spectrum exactly the zeta-zero ordinates. A trace-formula or absorption-spectrum interpretation is not that operator theorem. RH remains listed as unsolved by the Clay Mathematics Institute [Clay Mathematics Institute](#ref-clay-rh). |
+
+### Scholarly References
+
+(ref-rodgers-tao2020)=
+<a id="rodgers-tao2020"></a> Rodgers, Brad and Terence Tao (2020). “The de Bruijn-Newman Constant Is Non-Negative.” *Forum of Mathematics, Pi* 8, e6. [DOI](https://doi.org/10.1017/fmp.2020.6); [arXiv:1801.05914](https://arxiv.org/abs/1801.05914).
+
+(ref-polymath2019)=
+<a id="polymath2019"></a> D. H. J. Polymath (2019). “Effective approximation of heat flow evolution of the Riemann xi function, and a new upper bound for the de Bruijn-Newman constant.” *Research in the Mathematical Sciences* 6(3). [DOI](https://doi.org/10.1007/s40687-019-0193-1); [arXiv:1904.12438](https://arxiv.org/abs/1904.12438).
+
+(ref-planat-raymond2026)=
+<a id="planat-raymond2026"></a> Michel Planat and Dale James Raymond (2026). “Certified Collision Exclusion and an Unconditional Upper Bound $\Lambda<0.156821$ for the de Bruijn-Newman Constant.” arXiv preprint, submitted 2026-11-04; no journal reference is listed on the arXiv record as of this review. [arXiv:2611.06245](https://arxiv.org/abs/2611.06245).
+
+(ref-kornaus2026)=
+<a id="kornaus2026"></a> Daniel Martin Kornaus (2026). “A certified upper bound of 0.1811918082 for the de Bruijn-Newman constant.” Zenodo preprint, released for independent verification and peer review. [Record](https://doi.org/10.5281/zenodo.21866666).
+
+(ref-mosaic2026)=
+<a id="mosaic2026"></a> Mosaic Intelligence (2026). “A certified unconditional upper bound $\Lambda\le0.1875$ for the de Bruijn-Newman constant.” Zenodo deposit; the record describes the work as fully AI-derived. [Record](https://doi.org/10.5281/zenodo.21175533).
+
+(ref-bass1992)=
+<a id="bass1992"></a> Bass, Hyman (1992). “The Ihara-Selberg Zeta Function of a Tree Lattice.” *International Journal of Mathematics* 3(6), 717-797. [DOI](https://doi.org/10.1142/S0129167X92000357).
+
+(ref-postnikov2006)=
+<a id="postnikov2006"></a> Postnikov, Alexander (2006). “Total Positivity, Grassmannians, and Networks.” [arXiv:math/0609764](https://arxiv.org/abs/math/0609764).
+
+(ref-li1997)=
+<a id="li1997"></a> Li, Xian-Jin (1997). “The Positivity of a Sequence of Numbers and the Riemann Hypothesis.” *Journal of Number Theory* 65(2), 325-333. [DOI](https://doi.org/10.1006/jnth.1997.2137).
+
+(ref-polya1927)=
+<a id="polya1927"></a> Pólya, George (1927). “Über die algebraisch-funktionentheoretischen Untersuchungen von J. L. W. V. Jensen.” *Kongelige Danske Videnskabernes Selskab, Mathematisk-Fysiske Meddelelser* 7, 3-33.
+
+(ref-griffin2019)=
+<a id="griffin2019"></a> Griffin, Michael, Ken Ono, Larry Rolen, and Don Zagier (2019). “Jensen Polynomials for the Riemann Zeta Function and Other Sequences.” *Proceedings of the National Academy of Sciences* 116(23), 11103-11110. [DOI](https://doi.org/10.1073/pnas.1902572116); [arXiv:1902.07321](https://arxiv.org/abs/1902.07321).
+
+(ref-griffin2022)=
+<a id="griffin2022"></a> Griffin, Michael, Ken Ono, Larry Rolen, Jesse Thorner, Zachary Tripp, and Ian Wagner (2022). “Jensen Polynomials for the Riemann Xi Function.” *Advances in Mathematics* 397, 108186. [DOI](https://doi.org/10.1016/j.aim.2022.108186); [arXiv:1910.01227](https://arxiv.org/abs/1910.01227).
+
+(ref-farmer2020)=
+<a id="farmer2020"></a> Farmer, David W. (2020). “Jensen Polynomials Are Not a Plausible Route to Proving the Riemann Hypothesis.” [arXiv:2008.07206](https://arxiv.org/abs/2008.07206).
+
+(ref-weil1952)=
+<a id="weil1952"></a> Weil, André (1952). “Sur les ‘formules explicites’ de la théorie des nombres premiers.” *Communications du Séminaire Mathématique de l'Université de Lund*, supplementary volume, 252-265.
+
+(ref-berrykeating1999)=
+<a id="berrykeating1999"></a> Berry, Michael V. and Jonathan P. Keating (1999). “The Riemann Zeros and Eigenvalue Asymptotics.” *SIAM Review* 41(2), 236-266. [DOI](https://doi.org/10.1137/S0036144598347497).
+
+(ref-connes1999)=
+<a id="connes1999"></a> Connes, Alain (1999). “Trace Formula in Noncommutative Geometry and the Zeros of the Riemann Zeta Function.” *Selecta Mathematica* 5, 29-106. [DOI](https://doi.org/10.1007/s000290050042); [arXiv:math/9811068](https://arxiv.org/abs/math/9811068).
+
+(ref-clay-rh)=
+<a id="clay-rh"></a> Clay Mathematics Institute. “The Riemann Hypothesis.” [Millennium Prize Problem status](https://www.claymath.org/millennium/riemann-hypothesis/), accessed 2026-11-19.
+
+## 6. RB-6 Finite Contract Problem Definitions
 
 The following finite problems make the four bridges testable at bounded scale. Each uses supplied finite data and proves only a consequence of those inputs. None provides evidence that its assumptions hold for the zeta function, proves convergence of an infinite family, or closes the corresponding global bridge.
 
