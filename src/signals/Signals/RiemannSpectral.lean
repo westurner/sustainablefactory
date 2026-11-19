@@ -792,6 +792,116 @@ theorem dbnQuarticHeat_peak_abs_le
   obtain ⟨h4_lower, h4_upper⟩ := abs_le.mp h_z4_term
   constructor <;> linarith
 
+/-- Bound the quartic heat polynomial uniformly on a finite time/space box. This is a
+polynomial estimate from supplied coefficient bounds, not a remainder estimate for the actual
+de Bruijn-Newman heat flow. -/
+theorem dbnQuarticHeat_abs_le_on_box
+    (z0 z2 z4 t dz bound0 bound2 bound4 timeBound spaceBound : ℝ)
+    (h_z0 : |z0| ≤ bound0)
+    (h_z2 : |z2| ≤ bound2)
+    (h_z4 : |z4| ≤ bound4)
+    (h_t : |t| ≤ timeBound)
+    (h_dz : |dz| ≤ spaceBound)
+    (h_bound2 : 0 ≤ bound2)
+    (h_bound4 : 0 ≤ bound4) :
+    |dbnQuarticHeatSolution z0 z2 z4 t dz| ≤
+      bound0 + bound2 * timeBound + bound4 * timeBound ^ 2 / 2 +
+        (bound2 + bound4 * timeBound) * spaceBound ^ 2 / 2 +
+        bound4 * spaceBound ^ 4 / 24 := by
+  have h_timeBound : 0 ≤ timeBound := le_trans (abs_nonneg t) h_t
+  have h_spaceBound : 0 ≤ spaceBound := le_trans (abs_nonneg dz) h_dz
+  have h_z2_time : |z2 * t| ≤ bound2 * timeBound := by
+    calc
+      |z2 * t| = |z2| * |t| := abs_mul _ _
+      _ ≤ bound2 * timeBound :=
+        mul_le_mul h_z2 h_t (abs_nonneg t) h_bound2
+  have h_time_sq : t ^ 2 ≤ timeBound ^ 2 := by
+    rcases abs_le.mp h_t with ⟨h_lower, h_upper⟩
+    have h_left : 0 ≤ timeBound - t := sub_nonneg.mpr h_upper
+    have h_right : 0 ≤ timeBound + t := by linarith
+    have h_product := mul_nonneg h_left h_right
+    nlinarith
+  have h_z4_time_product : |z4| * t ^ 2 ≤ bound4 * timeBound ^ 2 :=
+    mul_le_mul h_z4 h_time_sq (sq_nonneg t) h_bound4
+  have h_z4_time :
+      |(1 / 2 : ℝ) * z4 * t ^ 2| ≤ bound4 * timeBound ^ 2 / 2 := by
+    calc
+      |(1 / 2 : ℝ) * z4 * t ^ 2| = (1 / 2 : ℝ) * (|z4| * t ^ 2) := by
+        rw [abs_mul, abs_mul]
+        rw [abs_of_nonneg (by norm_num : 0 ≤ (1 / 2 : ℝ)),
+          abs_of_nonneg (sq_nonneg t)]
+        ring
+      _ ≤ (1 / 2 : ℝ) * (bound4 * timeBound ^ 2) :=
+        mul_le_mul_of_nonneg_left h_z4_time_product (by norm_num)
+      _ = bound4 * timeBound ^ 2 / 2 := by ring
+  have h_space_sq : dz ^ 2 ≤ spaceBound ^ 2 := by
+    rcases abs_le.mp h_dz with ⟨h_lower, h_upper⟩
+    have h_left : 0 ≤ spaceBound - dz := sub_nonneg.mpr h_upper
+    have h_right : 0 ≤ spaceBound + dz := by linarith
+    have h_product := mul_nonneg h_left h_right
+    nlinarith
+  have h_z4_time_abs : |z4 * t| ≤ bound4 * timeBound := by
+    calc
+      |z4 * t| = |z4| * |t| := abs_mul _ _
+      _ ≤ bound4 * timeBound :=
+        mul_le_mul h_z4 h_t (abs_nonneg t) h_bound4
+  have h_spatial_coefficient : |z2 - z4 * t| ≤ bound2 + bound4 * timeBound := by
+    apply abs_le.mpr
+    obtain ⟨h2_lower, h2_upper⟩ := abs_le.mp h_z2
+    obtain ⟨h4t_lower, h4t_upper⟩ := abs_le.mp h_z4_time_abs
+    constructor <;> linarith
+  have h_coefficient_bound : 0 ≤ bound2 + bound4 * timeBound := by positivity
+  have h_spatial_product :
+      |z2 - z4 * t| * dz ^ 2 ≤ (bound2 + bound4 * timeBound) * spaceBound ^ 2 :=
+    mul_le_mul h_spatial_coefficient h_space_sq (sq_nonneg dz) h_coefficient_bound
+  have h_spatial_quadratic :
+      |(1 / 2 : ℝ) * (z2 - z4 * t) * dz ^ 2| ≤
+        (bound2 + bound4 * timeBound) * spaceBound ^ 2 / 2 := by
+    calc
+      |(1 / 2 : ℝ) * (z2 - z4 * t) * dz ^ 2| =
+          (1 / 2 : ℝ) * (|z2 - z4 * t| * dz ^ 2) := by
+        rw [abs_mul, abs_mul]
+        rw [abs_of_nonneg (by norm_num : 0 ≤ (1 / 2 : ℝ)),
+          abs_of_nonneg (sq_nonneg dz)]
+        ring
+      _ ≤ (1 / 2 : ℝ) *
+          ((bound2 + bound4 * timeBound) * spaceBound ^ 2) :=
+        mul_le_mul_of_nonneg_left h_spatial_product (by norm_num)
+      _ = (bound2 + bound4 * timeBound) * spaceBound ^ 2 / 2 := by ring
+  have h_space_fourth : dz ^ 4 ≤ spaceBound ^ 4 := by
+    have h_sum_nonneg : 0 ≤ spaceBound ^ 2 + dz ^ 2 := by positivity
+    have h_product := mul_nonneg (sub_nonneg.mpr h_space_sq) h_sum_nonneg
+    nlinarith
+  have h_dz_fourth_nonneg : 0 ≤ dz ^ 4 := by positivity
+  have h_z4_space_product : |z4| * dz ^ 4 ≤ bound4 * spaceBound ^ 4 :=
+    mul_le_mul h_z4 h_space_fourth h_dz_fourth_nonneg h_bound4
+  have h_spatial_quartic :
+      |(1 / 24 : ℝ) * z4 * dz ^ 4| ≤ bound4 * spaceBound ^ 4 / 24 := by
+    calc
+      |(1 / 24 : ℝ) * z4 * dz ^ 4| = (1 / 24 : ℝ) * (|z4| * dz ^ 4) := by
+        rw [abs_mul, abs_mul]
+        rw [abs_of_nonneg (by norm_num : 0 ≤ (1 / 24 : ℝ)),
+          abs_of_nonneg h_dz_fourth_nonneg]
+        ring
+      _ ≤ (1 / 24 : ℝ) * (bound4 * spaceBound ^ 4) :=
+        mul_le_mul_of_nonneg_left h_z4_space_product (by norm_num)
+      _ = bound4 * spaceBound ^ 4 / 24 := by ring
+  have h_expand :
+      dbnQuarticHeatSolution z0 z2 z4 t dz =
+        z0 + (-(z2 * t)) + ((1 / 2 : ℝ) * z4 * t ^ 2) +
+          ((1 / 2 : ℝ) * (z2 - z4 * t) * dz ^ 2) +
+          ((1 / 24 : ℝ) * z4 * dz ^ 4) := by
+    unfold dbnQuarticHeatSolution
+    ring
+  rw [h_expand]
+  apply abs_le.mpr
+  obtain ⟨h0_lower, h0_upper⟩ := abs_le.mp h_z0
+  obtain ⟨h2t_lower, h2t_upper⟩ := abs_le.mp h_z2_time
+  obtain ⟨h4t_lower, h4t_upper⟩ := abs_le.mp h_z4_time
+  obtain ⟨h2dz_lower, h2dz_upper⟩ := abs_le.mp h_spatial_quadratic
+  obtain ⟨h4dz_lower, h4dz_upper⟩ := abs_le.mp h_spatial_quartic
+  constructor <;> nlinarith
+
 /-- Finite diagonal transfer residual, the sum of absolute coordinate errors. This is the
 trace-norm proxy only for real diagonal matrices, not an adelic operator convergence claim. -/
 def finiteDiagonalTransferTraceDistance {n : Nat}

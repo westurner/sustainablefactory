@@ -9033,6 +9033,15 @@ example :
     (by norm_num) (by norm_num)
 
 example :
+    |Signals.RiemannSpectral.dbnQuarticHeatSolution 1 2 3 1 1| ≤
+      1 + 2 * 1 + 3 * 1 ^ 2 / 2 +
+        (2 + 3 * 1) * 1 ^ 2 / 2 + 3 * 1 ^ 4 / 24 := by
+  exact Signals.RiemannSpectral.dbnQuarticHeat_abs_le_on_box
+    1 2 3 1 1 1 2 3 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+
+example :
     Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance
       (fun _ : Fin 2 => (1 : ℝ)) (fun _ => 0) ≤ (2 : ℝ) := by
   simpa using Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance_le

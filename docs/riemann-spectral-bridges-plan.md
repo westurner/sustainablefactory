@@ -165,13 +165,19 @@ This is a targeted literature check, not a proof review. Primary papers and sour
 
 The following finite problems make the four bridges testable at bounded scale. Each uses supplied finite data and proves only a consequence of those inputs. None provides evidence that its assumptions hold for the zeta function, proves convergence of an infinite family, or closes the corresponding global bridge.
 
-### Contract 1: Bounded Quartic Heat Center Value
+### Contract 1: Bounded Quartic Heat on a Finite Box
 
-**Instance:** Real coefficients $z_0,z_2,z_4$, a time bound $T$, coefficient bounds $B_0,B_2,B_4$, and a time $t$ satisfying $|z_j|\le B_j$ for $j\in\{0,2,4\}$, $|t|\le T$, and $B_2,B_4\ge 0$.
+**Instance:** Real coefficients $z_0,z_2,z_4$, time and spatial bounds $T,X$, coefficient bounds $B_0,B_2,B_4$, and a point $(t,\Delta z)$ satisfying $|z_j|\le B_j$ for $j\in\{0,2,4\}$, $|t|\le T$, $|\Delta z|\le X$, and $B_2,B_4\ge 0$.
 
-**Finite claim:** For the quartic heat polynomial at its center, $H_t(0)=z_0-z_2t+\frac{1}{2}z_4t^2$, prove $|H_t(0)|\le B_0+B_2T+\frac{1}{2}B_4T^2$. The Lean contract is `dbnQuarticHeat_peak_abs_le`.
+**Finite claim:** At the center, prove $|H_t(0)|\le B_0+B_2T+\frac{1}{2}B_4T^2$. Uniformly over the full box $|t|\le T$, $|\Delta z|\le X$, prove
 
-**What remains to define:** This bounds one value of a supplied polynomial, not a maximum over the spatial coordinate and not the de Bruijn–Newman constant. A finite approximation to the analytic problem must specify the height interval, how the coefficients are obtained from the relevant zeta-derived function, and a uniform remainder bound relating the quartic polynomial to the actual heat flow on the chosen time/space region. The global bridge additionally requires control uniformly over all heights.
+$$
+|H_t(\Delta z)|\le B_0+B_2T+\frac{1}{2}B_4T^2+\frac{1}{2}(B_2+B_4T)X^2+\frac{1}{24}B_4X^4.
+$$
+
+The Lean contracts are `dbnQuarticHeat_peak_abs_le` and `dbnQuarticHeat_abs_le_on_box`.
+
+**What remains to define:** This bounds a supplied quartic polynomial on a compact box, not the actual analytic heat flow or the de Bruijn-Newman constant. A finite approximation to the analytic problem must specify the height interval, how the coefficients are obtained from the relevant zeta-derived function, and a uniform Taylor-remainder bound relating the polynomial to the actual heat flow on that box. The global bridge additionally requires control uniformly over all heights.
 
 ### Contract 2: Finite Diagonal Transfer Error and Spectral Margin
 
