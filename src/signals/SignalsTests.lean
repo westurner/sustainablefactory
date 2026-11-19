@@ -8934,4 +8934,59 @@ example :
   · exact Signals.GrassmannianEBR.petersen_graph_ramanujan_checkFigures.1
   · exact Signals.GrassmannianEBR.petersen_graph_ramanujan_checkFigures.2
 
+/-! Signals.RiemannSpectral regression checks. -/
+example (f1 f2 f3 f4 df1 df2 df3 df4 f0 g0 f1p g1p f2p g2p c du : ℝ) :
+    Signals.RiemannSpectral.wronskianMinor f1 f2 df1 df2 *
+        Signals.RiemannSpectral.wronskianMinor f3 f4 df3 df4 -
+      Signals.RiemannSpectral.wronskianMinor f1 f3 df1 df3 *
+        Signals.RiemannSpectral.wronskianMinor f2 f4 df2 df4 +
+      Signals.RiemannSpectral.wronskianMinor f1 f4 df1 df4 *
+        Signals.RiemannSpectral.wronskianMinor f2 f3 df2 df3 = 0 ∧
+      Signals.RiemannSpectral.gueSineKernel2x2Det c du = c * du ^ 2 - (c ^ 2 / 4) * du ^ 4 ∧
+      Signals.GrassmannianEBR.jensenPolyaDiscriminant
+        (f0 * g0) (f1p * g0 + f0 * g1p) (f2p * g0 + 2 * f1p * g1p + f0 * g2p) =
+          g0 ^ 2 * Signals.GrassmannianEBR.jensenPolyaDiscriminant f0 f1p f2p +
+            f0 ^ 2 * Signals.GrassmannianEBR.jensenPolyaDiscriminant g0 g1p g2p ∧
+      (Signals.RiemannSpectral.liTransformModulusSq 0 14 = 1) ∧
+      (0 < Signals.RiemannSpectral.dbnTwoZeroForwardSeparationRate 14 21) := by
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · exact Signals.RiemannSpectral.sato_hirota_bilinear_plucker_identity f1 f2 f3 f4 df1 df2 df3 df4
+  · exact (Signals.RiemannSpectral.slavnov_gue_2x2_quadratic_level_repulsion c du).2
+  · exact Signals.RiemannSpectral.jensenPolyaDiscriminant_mul_product_rule f0 f1p f2p g0 g1p g2p
+  · exact (Signals.RiemannSpectral.liTransformModulusSq_eq_one_iff_critical_line 0 14
+      (by norm_num)).mpr rfl
+  · exact (Signals.RiemannSpectral.dbnTwoZeroForwardSeparationRate_pos 14 21 (by norm_num)).2
+
+example :
+    let uP := Signals.RiemannSpectral.iharaRealRootPlus 2 3 1
+    let uM := Signals.RiemannSpectral.iharaRealRootMinus 2 3 1
+    2 * uP ^ 2 - 3 * uP + 1 = 0 ∧ uP * uM = 1 / 2 ∧ uP ^ 2 ≠ 1 / 2 ∧
+      Signals.RiemannSpectral.liTransformModulusSq (1 / 4) 14 < 1 ∧
+      1 < Signals.RiemannSpectral.liTransformModulusSq (-(1 / 4)) 14 ∧
+      Signals.RiemannSpectral.dbnThreeZeroVelocitySum 14 21 25 = 0 ∧
+      0 < Signals.RiemannSpectral.vandermondeDet3 14 21 25 := by
+  have h := Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle 2 3 1
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_li := Signals.RiemannSpectral.liTransformModulusSq_off_line_splits (1 / 4) 14
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_cm := Signals.RiemannSpectral.dbnThreeZero_center_of_mass_conserved 14 21 25
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_v := (Signals.RiemannSpectral.vandermondeDet3_factorization_and_pos 14 21 25).2
+    (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.2.1, h.2.2.2.2.1, h_li.1, h_li.2, h_cm, h_v⟩
+
+example :
+    (∃ lam2 discSqrt : ℝ,
+      (57 / 20 : ℝ) < lam2 ∧ lam2 < (143 / 50 : ℝ) ∧
+      Signals.RiemannSpectral.nonRamanujan14CharPoly lam2 = 0 ∧
+      (8 : ℝ) < lam2 ^ 2 ∧
+      (Signals.RiemannSpectral.iharaRealRootPlus 2 lam2 discSqrt) ^ 2 ≠ 1 / 2) ∧
+    (Signals.GrassmannianEBR.iharaQuadraticDiscriminant (Real.sqrt 2) 2 ≤ 0) := by
+  constructor
+  · obtain ⟨lam2, d, h1, h2, h3, h4, _, _, _, _, _, _, h5, _⟩ :=
+      Signals.RiemannSpectral.nonRamanujan14_exists_super_ramanujan_off_circle_roots
+    exact ⟨lam2, d, h1, h2, h3, h4, h5⟩
+  · exact (Signals.RiemannSpectral.heawood_graph_ramanujan_critical_circle
+      (Real.sqrt 2) (Real.sq_sqrt (by norm_num))).1
+
 end SignalsTests

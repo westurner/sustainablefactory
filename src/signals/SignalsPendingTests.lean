@@ -7418,4 +7418,17 @@ example (t : Signals.Pending.TextileObservationContract) :
       t.stitchFamily.layerGroupNumber ∈ ({7, 19, 37} : Set Nat) :=
   t.calibrated_bounds
 
+/-! WS-9 Extended: Epistemic gate showing finite zero audits do not close the 4 RH bridges. -/
+example :
+    ¬ ({ verifiedHeightBound := 7006
+         verifiedHeightBound_pos := by norm_num
+         auditedZeroCount := 100
+         auditedGramViolations := 2
+         deBruijnNewmanUpperBound := False
+         adelicSatoTraceLimit := False
+         globalLiAndJensenPolyaPositivity := False
+         selfAdjointSpectralOperatorClosure := False } :
+      Signals.Pending.RiemannHypothesisPendingBoundary).allFourBridgesClosed :=
+  Signals.Pending.finite_zero_audit_does_not_close_rh_bridges 7006 (by norm_num) 100 2
+
 end SignalsPendingTests

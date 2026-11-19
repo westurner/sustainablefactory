@@ -18,6 +18,7 @@ pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
 pub mod quantum_trajectories;
+pub mod riemann_spectral;
 pub mod slavnov_dpp;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
@@ -260,6 +261,146 @@ fn py_synthesize_grid_program(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_find_first_n_riemann_zeros<'py>(
+    py: Python<'py>,
+    count: usize,
+) -> PyResult<Bound<'py, PyList>> {
+    let zeros = riemann_spectral::find_first_n_riemann_zeros(count);
+    let list = PyList::empty(py);
+    for z in zeros {
+        let d = PyDict::new(py);
+        d.set_item("index", z.index)?;
+        d.set_item("gamma", z.gamma)?;
+        d.set_item("hardy_z_exact", z.hardy_z_exact)?;
+        d.set_item("hardy_z_riemann_siegel_c2", z.hardy_z_riemann_siegel_c2)?;
+        d.set_item("zeta_abs", z.zeta_abs)?;
+        d.set_item("borwein_zeta_abs", z.borwein_zeta_abs)?;
+        d.set_item("z_prime", z.z_prime)?;
+        d.set_item("jensen_polya_j", z.jensen_polya_j)?;
+        list.append(d)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_madelung_bohm_jensen_polya<'py>(
+    py: Python<'py>,
+    gamma: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = riemann_spectral::evaluate_madelung_bohm_jensen_polya(gamma);
+    let d = PyDict::new(py);
+    d.set_item("gamma", a.gamma)?;
+    d.set_item("z0", a.z0)?;
+    d.set_item("z_prime", a.z_prime)?;
+    d.set_item("z_double_prime", a.z_double_prime)?;
+    d.set_item("j_osmotic", a.j_osmotic)?;
+    d.set_item("j_bohm", a.j_bohm)?;
+    d.set_item("j_total", a.j_total)?;
+    d.set_item("bohm_ratio", a.bohm_ratio)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_gram_law_and_lehmer<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let grams = riemann_spectral::audit_gram_law_window();
+    let gram_list = PyList::empty(py);
+    for g in grams {
+        let gd = PyDict::new(py);
+        gd.set_item("gram_index", g.gram_index)?;
+        gd.set_item("gram_holds", g.gram_holds)?;
+        gd.set_item("gamma", g.point.gamma)?;
+        gd.set_item("z0", g.point.z0)?;
+        gd.set_item("z_prime", g.point.z_prime)?;
+        gd.set_item("z_double_prime", g.point.z_double_prime)?;
+        gd.set_item("j_osmotic", g.point.j_osmotic)?;
+        gd.set_item("j_bohm", g.point.j_bohm)?;
+        gd.set_item("j_total", g.point.j_total)?;
+        gd.set_item("bohm_ratio", g.point.bohm_ratio)?;
+        gram_list.append(gd)?;
+    }
+    let lehmer = riemann_spectral::audit_lehmer_1956_pair();
+    let ld = PyDict::new(py);
+    ld.set_item("gamma_left", lehmer.gamma_left)?;
+    ld.set_item("gamma_right", lehmer.gamma_right)?;
+    ld.set_item("gap", lehmer.gap)?;
+    ld.set_item("extremum_gamma", lehmer.extremum.gamma)?;
+    ld.set_item("z0", lehmer.extremum.z0)?;
+    ld.set_item("z_prime", lehmer.extremum.z_prime)?;
+    ld.set_item("z_double_prime", lehmer.extremum.z_double_prime)?;
+    ld.set_item("j_osmotic", lehmer.extremum.j_osmotic)?;
+    ld.set_item("j_bohm", lehmer.extremum.j_bohm)?;
+    ld.set_item("j_total", lehmer.extremum.j_total)?;
+    ld.set_item("bohm_ratio", lehmer.extremum.bohm_ratio)?;
+
+    let out = PyDict::new(py);
+    out.set_item("gram_window", gram_list)?;
+    out.set_item("lehmer_1956", ld)?;
+    Ok(out)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_regular_graphs_bass_ihara<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyList>> {
+    let graphs = [
+        riemann_spectral::petersen_graph_10(),
+        riemann_spectral::heawood_graph_14(),
+        riemann_spectral::barbell_non_ramanujan_14(),
+    ];
+    let list = PyList::empty(py);
+    for (name, deg, adj) in &graphs {
+        let rep = riemann_spectral::analyze_regular_graph_bass_ihara(name, *deg, adj);
+        let d = PyDict::new(py);
+        d.set_item("name", rep.name)?;
+        d.set_item("vertices", rep.vertices)?;
+        d.set_item("degree", rep.degree)?;
+        d.set_item("q", rep.q)?;
+        d.set_item("is_regular", rep.is_regular)?;
+        d.set_item("is_connected", rep.is_connected)?;
+        d.set_item("ramanujan_bound", rep.ramanujan_bound)?;
+        d.set_item("eigenvalues", rep.eigenvalues)?;
+        d.set_item(
+            "max_nontrivial_abs_eigenvalue",
+            rep.max_nontrivial_abs_eigenvalue,
+        )?;
+        d.set_item("is_ramanujan", rep.is_ramanujan)?;
+        d.set_item("nontrivial_off_circle_count", rep.nontrivial_off_circle_count)?;
+        let roots_list = PyList::empty(py);
+        for r in rep.roots {
+            let rd = PyDict::new(py);
+            rd.set_item("eigenvalue", r.eigenvalue)?;
+            rd.set_item("u_re", r.u_re)?;
+            rd.set_item("u_im", r.u_im)?;
+            rd.set_item("modulus_sq", r.modulus_sq)?;
+            rd.set_item("is_trivial", r.is_trivial)?;
+            rd.set_item("on_critical_circle", r.on_critical_circle)?;
+            roots_list.append(rd)?;
+        }
+        d.set_item("roots", roots_list)?;
+        list.append(d)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[pyo3(signature = (critical_gammas, max_n, off_line_sigma_dev=None, off_line_gamma=None))]
+fn py_li_partial_coefficients(
+    critical_gammas: Vec<f64>,
+    max_n: usize,
+    off_line_sigma_dev: Option<f64>,
+    off_line_gamma: Option<f64>,
+) -> Vec<f64> {
+    let quartet = match (off_line_sigma_dev, off_line_gamma) {
+        (Some(s), Some(g)) => Some((s, g)),
+        _ => None,
+    };
+    riemann_spectral::li_partial_coefficients(&critical_gammas, max_n, quartet)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -305,6 +446,11 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_extract_grid_objects, m)?)?;
     m.add_function(wrap_pyfunction!(py_apply_d4_grid_op_tequila, m)?)?;
     m.add_function(wrap_pyfunction!(py_synthesize_grid_program, m)?)?;
+    m.add_function(wrap_pyfunction!(py_find_first_n_riemann_zeros, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_madelung_bohm_jensen_polya, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_gram_law_and_lehmer, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_regular_graphs_bass_ihara, m)?)?;
+    m.add_function(wrap_pyfunction!(py_li_partial_coefficients, m)?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     Ok(())

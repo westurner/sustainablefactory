@@ -34,6 +34,7 @@ import Signals.QuantumCausalInference
 import Signals.QuantumTrajectories
 import Signals.Propagation
 import Signals.RadioBasics
+import Signals.RiemannSpectral
 import Signals.Sampling
 import Signals.Scattering
 import Signals.Saser

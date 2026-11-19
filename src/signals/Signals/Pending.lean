@@ -9371,4 +9371,55 @@ lemma TextileObservationContract.calibrated_bounds (c : TextileObservationContra
   refine ⟨c.deborahNumber_nonneg, c.curlResidualWithinBound, c.minReplicates_ge_three, ?_⟩
   cases c.stitchFamily <;> simp [KnittedStitchFamily.layerGroupNumber]
 
+/-! ### WS-9 Extended: Open Analytical Bridges for the Riemann Hypothesis (Epistemic Boundary) -/
+
+/-- Explicit Pending contract isolating the four open infinite-dimensional analytical bridges
+that separate finite machine-checked identities (`Signals.RiemannSpectral`, `Signals.GrassmannianEBR`)
+from a proof or disproof of the Riemann Hypothesis for `ζ(s)`.
+Finite zero scans, finite Dirichlet truncations, and finite Ramanujan graphs **never**
+discharge these global hypotheses. -/
+structure RiemannHypothesisPendingBoundary where
+  /-- Audited height `T_max > 0` up to which numerical zero checks were performed. -/
+  verifiedHeightBound : ℝ
+  verifiedHeightBound_pos : 0 < verifiedHeightBound
+  /-- Count of distinct simple critical-line zeros audited below `verifiedHeightBound`. -/
+  auditedZeroCount : Nat
+  /-- Count of Gram-point violations audited (`g_126`, `g_134`, etc.) where `J(γ) > 0` held. -/
+  auditedGramViolations : Nat
+  /-- Open Bridge 1: de Bruijn–Newman upper bound `Λ_dBN ≤ 0` (paired with Rodgers–Tao 2020 `Λ_dBN ≥ 0`). -/
+  deBruijnNewmanUpperBound : Prop
+  /-- Open Bridge 2: trace-norm convergence of finite Plabic VRC transfers on adelic `Gr_Sato`. -/
+  adelicSatoTraceLimit : Prop
+  /-- Open Bridge 3: global positivity of all Li coefficients `λ_n ≥ 0` (`∀ n ≥ 1`) and `J(γ) ≥ 0` (`∀ γ`). -/
+  globalLiAndJensenPolyaPositivity : Prop
+  /-- Open Bridge 4: self-adjoint domain closure of a Berry–Keating / Connes spectral operator. -/
+  selfAdjointSpectralOperatorClosure : Prop
+
+/-- Predicate asserting that all four open analytical bridges hold simultaneously. -/
+def RiemannHypothesisPendingBoundary.allFourBridgesClosed
+    (b : RiemannHypothesisPendingBoundary) : Prop :=
+  b.deBruijnNewmanUpperBound ∧
+    b.adelicSatoTraceLimit ∧
+    b.globalLiAndJensenPolyaPositivity ∧
+    b.selfAdjointSpectralOperatorClosure
+
+/-- Finite numerical audits alone leave the open bridges unproven: a concrete witness with
+arbitrarily many audited zeros (`verifiedHeightBound > 0`) still fails `allFourBridgesClosed`
+when any of the four open global propositions is unestablished (e.g., `False` placeholder). -/
+theorem finite_zero_audit_does_not_close_rh_bridges
+    (height : ℝ) (h_pos : 0 < height) (nZeros nGram : Nat) :
+    let finiteAudit : RiemannHypothesisPendingBoundary :=
+      { verifiedHeightBound := height
+        verifiedHeightBound_pos := h_pos
+        auditedZeroCount := nZeros
+        auditedGramViolations := nGram
+        deBruijnNewmanUpperBound := False
+        adelicSatoTraceLimit := False
+        globalLiAndJensenPolyaPositivity := False
+        selfAdjointSpectralOperatorClosure := False }
+    ¬ finiteAudit.allFourBridgesClosed := by
+  dsimp only
+  intro h
+  exact h.1
+
 end Signals.Pending
