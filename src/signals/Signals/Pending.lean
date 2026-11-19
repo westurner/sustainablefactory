@@ -9376,8 +9376,9 @@ lemma TextileObservationContract.calibrated_bounds (c : TextileObservationContra
 /-- Explicit Pending contract isolating the four open infinite-dimensional analytical bridges
 that separate finite machine-checked identities (`Signals.RiemannSpectral`, `Signals.GrassmannianEBR`)
 from a proof or disproof of the Riemann Hypothesis for `ζ(s)`.
-Finite zero scans, finite Dirichlet truncations, and finite Ramanujan graphs **never**
-discharge these global hypotheses. -/
+The fields carry abstract propositions, not formalizations of the underlying global analytic
+objects. Finite zero scans, finite Dirichlet truncations, and finite Ramanujan graphs **never**
+discharge these global obligations. -/
 structure RiemannHypothesisPendingBoundary where
   /-- Audited height `T_max > 0` up to which numerical zero checks were performed. -/
   verifiedHeightBound : ℝ
@@ -9388,11 +9389,15 @@ structure RiemannHypothesisPendingBoundary where
   auditedGramViolations : Nat
   /-- Open Bridge 1: de Bruijn–Newman upper bound `Λ_dBN ≤ 0` (paired with Rodgers–Tao 2020 `Λ_dBN ≥ 0`). -/
   deBruijnNewmanUpperBound : Prop
-  /-- Open Bridge 2: trace-norm convergence of finite Plabic VRC transfers on adelic `Gr_Sato`. -/
+  /-- Open Bridge 2: finite-prime Bass-Ihara / Plabic VRC transfers converge in trace norm on
+  adelic `Gr_Sato` to a Ramanujan-bounded operator without off-circle spectral leakage. -/
   adelicSatoTraceLimit : Prop
-  /-- Open Bridge 3: global positivity of all Li coefficients `λ_n ≥ 0` (`∀ n ≥ 1`) and `J(γ) ≥ 0` (`∀ γ`). -/
+  /-- Open Bridge 3: global positivity across all degrees and dimensions, including hyperbolicity
+  of every `J^{d,n}`, nonnegativity of every Li coefficient, and Weil positivity on the full
+  Schwartz-Bruhat space. -/
   globalLiAndJensenPolyaPositivity : Prop
-  /-- Open Bridge 4: self-adjoint domain closure of a Berry–Keating / Connes spectral operator. -/
+  /-- Open Bridge 4: an essentially self-adjoint Berry-Keating / Connes operator whose spectrum
+  is exactly the imaginary parts of the nontrivial zeta zeros. -/
   selfAdjointSpectralOperatorClosure : Prop
 
 /-- Predicate asserting that all four open analytical bridges hold simultaneously. -/
@@ -9403,9 +9408,28 @@ def RiemannHypothesisPendingBoundary.allFourBridgesClosed
     b.globalLiAndJensenPolyaPositivity ∧
     b.selfAdjointSpectralOperatorClosure
 
+/-- A refutation of any one supplied bridge proposition rules out closure of the conjunction.
+This is conditional bookkeeping: it neither asserts that a bridge is false nor treats lack of a
+proof as evidence of its negation. -/
+theorem RiemannHypothesisPendingBoundary.not_allFourBridgesClosed_of_bridge_refuted
+    (b : RiemannHypothesisPendingBoundary)
+    (h_refuted : ¬ b.deBruijnNewmanUpperBound ∨
+      ¬ b.adelicSatoTraceLimit ∨
+      ¬ b.globalLiAndJensenPolyaPositivity ∨
+      ¬ b.selfAdjointSpectralOperatorClosure) :
+    ¬ b.allFourBridgesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h_dbn, h_sato, h_global, h_operator⟩
+  rcases h_refuted with h_refuted | h_refuted | h_refuted | h_refuted
+  · exact h_refuted h_dbn
+  · exact h_refuted h_sato
+  · exact h_refuted h_global
+  · exact h_refuted h_operator
+
 /-- Finite numerical audits alone leave the open bridges unproven: a concrete witness with
 arbitrarily many audited zeros (`verifiedHeightBound > 0`) still fails `allFourBridgesClosed`
-when any of the four open global propositions is unestablished (e.g., `False` placeholder). -/
+when all four proposition fields are set to `False` as unresolved placeholders for this test.
+This witness is not a claim that the actual analytical bridges are false. -/
 theorem finite_zero_audit_does_not_close_rh_bridges
     (height : ℝ) (h_pos : 0 < height) (nZeros nGram : Nat) :
     let finiteAudit : RiemannHypothesisPendingBoundary :=

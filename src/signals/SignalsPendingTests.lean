@@ -7419,6 +7419,26 @@ example (t : Signals.Pending.TextileObservationContract) :
   t.calibrated_bounds
 
 /-! WS-9 Extended: Epistemic gate showing finite zero audits do not close the 4 RH bridges. -/
+example (b : Signals.Pending.RiemannHypothesisPendingBoundary)
+    (h : ¬ b.deBruijnNewmanUpperBound) : ¬ b.allFourBridgesClosed :=
+  Signals.Pending.RiemannHypothesisPendingBoundary.not_allFourBridgesClosed_of_bridge_refuted
+    b (Or.inl h)
+
+example (b : Signals.Pending.RiemannHypothesisPendingBoundary)
+    (h : ¬ b.adelicSatoTraceLimit) : ¬ b.allFourBridgesClosed :=
+  Signals.Pending.RiemannHypothesisPendingBoundary.not_allFourBridgesClosed_of_bridge_refuted
+    b (Or.inr (Or.inl h))
+
+example (b : Signals.Pending.RiemannHypothesisPendingBoundary)
+    (h : ¬ b.globalLiAndJensenPolyaPositivity) : ¬ b.allFourBridgesClosed :=
+  Signals.Pending.RiemannHypothesisPendingBoundary.not_allFourBridgesClosed_of_bridge_refuted
+    b (Or.inr (Or.inr (Or.inl h)))
+
+example (b : Signals.Pending.RiemannHypothesisPendingBoundary)
+    (h : ¬ b.selfAdjointSpectralOperatorClosure) : ¬ b.allFourBridgesClosed :=
+  Signals.Pending.RiemannHypothesisPendingBoundary.not_allFourBridgesClosed_of_bridge_refuted
+    b (Or.inr (Or.inr (Or.inr h)))
+
 example :
     ¬ ({ verifiedHeightBound := 7006
          verifiedHeightBound_pos := by norm_num
