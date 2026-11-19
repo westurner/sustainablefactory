@@ -9446,4 +9446,89 @@ theorem finite_zero_audit_does_not_close_rh_bridges
   intro h
   exact h.1
 
+/-- Explicit Pending epistemic boundary for the celestial-holographic Millennium-Problem
+claims in Daniel Toupin (2025/2026, `TOUQGA-2.pdf`).
+Separates the machine-checked mathematical identities (`Δ = 2s` canonical dictionary,
+`Gr(2,4)(𝔽_q)` Hasse–Weil polynomial, Plancherel–Unruh bare loop weights `M_1 = 1/8, M_2 = 1/90`,
+and symmetric Cesàro identity at `σ = 1/2`) from the open infinite-dimensional analytical
+bridges required for the Riemann Hypothesis, Birch and Swinnerton-Dyer Conjecture at higher rank,
+and 4D continuum Yang–Mills Osterwalder–Schrader reconstruction. -/
+structure ToupinCelestialMillenniumPendingBoundary where
+  /-- Embedded 4-bridge Riemann Hypothesis boundary (`RB-6`). -/
+  rhBoundary : RiemannHypothesisPendingBoundary
+  /-- Verified canonical dictionary slope `α = 2` (`Δ = 2s`) in `d = 4` spacetime dimensions. -/
+  canonicalDictionarySlopeTwo : ℝ
+  canonicalDictionarySlope_eq_two : canonicalDictionarySlopeTwo = 2
+  /-- Verified 1-loop and 2-loop bare Plancherel weights `M_1 = 1/8` and `M_2 = 1/90`. -/
+  bareLoopM1 : ℝ
+  bareLoopM2 : ℝ
+  bareLoopM1_eq : bareLoopM1 = 1 / 8
+  bareLoopM2_eq : bareLoopM2 = 1 / 90
+  /-- Open Meyer Fréchet-to-Hilbert bridge: proving that every zero `ρ` of `ζ(s)` in Meyer's
+  nuclear Fréchet distribution space descends to a normalizable eigenstate in the unitary
+  GNS Hilbert space `L²(𝔸×/ℚ×)` without assuming `Re(ρ) = 1/2`. -/
+  meyerFrechetToGnsHilbertBridge : Prop
+  /-- Open BSD higher-rank Euler-system bridge (`ord_{s=1} L(E,s) ≥ 2`). -/
+  bsdHigherRankEulerSystemBridge : Prop
+  /-- Open 4D Yang–Mills continuum OS reconstruction & Spectral Transfer Conjecture 11.32 bridge. -/
+  yangMillsContinuumSpectralTransferBridge : Prop
+
+/-- Predicate asserting that all celestial-holographic Millennium bridges are simultaneously closed. -/
+def ToupinCelestialMillenniumPendingBoundary.allMillenniumBridgesClosed
+    (b : ToupinCelestialMillenniumPendingBoundary) : Prop :=
+  b.rhBoundary.allFourBridgesClosed ∧
+    b.meyerFrechetToGnsHilbertBridge ∧
+    b.bsdHigherRankEulerSystemBridge ∧
+    b.yangMillsContinuumSpectralTransferBridge
+
+/-- Refuting any one of the four global analytical bridges (`rhBoundary.allFourBridgesClosed`,
+`meyerFrechetToGnsHilbertBridge`, `bsdHigherRankEulerSystemBridge`, or
+`yangMillsContinuumSpectralTransferBridge`) rules out `allMillenniumBridgesClosed`. -/
+theorem ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
+    (b : ToupinCelestialMillenniumPendingBoundary)
+    (h_refuted : ¬ b.rhBoundary.allFourBridgesClosed ∨
+      ¬ b.meyerFrechetToGnsHilbertBridge ∨
+      ¬ b.bsdHigherRankEulerSystemBridge ∨
+      ¬ b.yangMillsContinuumSpectralTransferBridge) :
+    ¬ b.allMillenniumBridgesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h_rh, h_meyer, h_bsd, h_ym⟩
+  rcases h_refuted with h_r | h_r | h_r | h_r
+  · exact h_r h_rh
+  · exact h_r h_meyer
+  · exact h_r h_bsd
+  · exact h_r h_ym
+
+/-- Certifying the finite/algebraic celestial identities (`Δ = 2s`, `M_1 = 1/8`, `M_2 = 1/90 < M_1²`,
+and finite zero scans) does not discharge `allMillenniumBridgesClosed` when the global analytical
+bridge propositions remain unresolved. -/
+theorem celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges
+    (height : ℝ) (h_pos : 0 < height) (nZeros nGram : Nat) :
+    let b : ToupinCelestialMillenniumPendingBoundary :=
+      { rhBoundary :=
+          { verifiedHeightBound := height
+            verifiedHeightBound_pos := h_pos
+            auditedZeroCount := nZeros
+            auditedGramViolations := nGram
+            deBruijnNewmanUpperBound := False
+            adelicSatoTraceLimit := False
+            globalLiAndJensenPolyaPositivity := False
+            selfAdjointSpectralOperatorClosure := False }
+        canonicalDictionarySlopeTwo := 2
+        canonicalDictionarySlope_eq_two := rfl
+        bareLoopM1 := 1 / 8
+        bareLoopM2 := 1 / 90
+        bareLoopM1_eq := rfl
+        bareLoopM2_eq := rfl
+        meyerFrechetToGnsHilbertBridge := False
+        bsdHigherRankEulerSystemBridge := False
+        yangMillsContinuumSpectralTransferBridge := False }
+    b.canonicalDictionarySlopeTwo = 2 ∧
+      b.bareLoopM2 < b.bareLoopM1 ^ 2 ∧
+      ¬ b.allMillenniumBridgesClosed := by
+  dsimp only
+  refine ⟨rfl, by norm_num, ?_⟩
+  intro h
+  exact h.1.1
+
 end Signals.Pending

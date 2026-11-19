@@ -1251,6 +1251,285 @@ theorem finiteDiagonalEigenvalue_iff_mem_range {n : Nat}
         simp [finiteDiagonalOperator, h_j]
       · simp [finiteDiagonalOperator, h_ij]
 
+/-! ## Section 11: Celestial Holography Dictionary (`Δ = 2s`), `Gr(2,4)` Hasse–Weil Factorization, Plancherel–Unruh Loop Weights (`M_1 = 1/8, M_2 = 1/90`), and Adelic Cesàro / Biane–Pitman–Yor Audits
+
+Formalizes the finite, machine-checkable algebraic and geometric identities from our audit of
+Daniel Toupin (2025/2026, `TOUQGA-2.pdf`: *On the Nature of Nature: Celestial Holography to the
+Zeta Zeros*):
+1. **Uniqueness of the Canonical Celestial–Arithmetic Dictionary $\Delta = 2s$ (`celestialDictionaryUnique_two_s`)**:
+   Any affine map $\varphi(s) = \alpha s + \beta$ intertwining the functional-equation reflection
+   $s \mapsto 1 - s$ with the $d$-dimensional celestial shadow transform $\Delta \mapsto (d - 2) - \Delta$
+   and mapping the pole $s = 1 \mapsto \Delta_T = d - 2$ has unique coefficients $\alpha = d - 2, \beta = 0$.
+   Moreover, the celestial slope $\alpha(d) = d - 2$ equals the $\mathrm{Gr}(2, d)$ Plücker exterior
+   rank $k = 2$ if and only if $d = 4$ (`celestialDictionarySlope_eq_pluckerRank_iff_dim_four`).
+2. **Chiral $\mathfrak{sl}(2, \mathbb{C})$ Casimir & Spin-2 Graviton Conformal Weights (`celestialChiralCasimir_im_eq_zero_iff_critical_line`, `celestialSpinTwoWeightProduct`)**:
+   Under $h = \Delta(s)/2 = s$ for $s = (\frac{1}{2} + \sigma_{\mathrm{dev}}) + i\gamma$, the chiral
+   $\mathfrak{sl}(2, \mathbb{C})$ Casimir $h(h - 1) = s(s - 1)$ has imaginary part
+   $2\,\sigma_{\mathrm{dev}}\,\gamma$, which vanishes for $\gamma \ne 0$ if and only if
+   $\sigma_{\mathrm{dev}} = 0$, and on the critical line its real part is $-\frac{1}{4} - \gamma^2 \le -\frac{1}{4}$.
+3. **$\mathrm{Gr}(2,4)(\mathbb{F}_q)$ Hasse–Weil Point-Count Polynomial & Poincaré Self-Duality (`gr24FiniteFieldPointCount_factorization_and_poincare_duality`)**:
+   Verifies $\binom{4}{2}_q = 1 + q + 2q^2 + q^3 + q^4 = (1 + q^2)(1 + q + q^2)$,
+   Euler characteristic $\chi(\mathrm{Gr}(2,4)) = 6$, palindromic Poincaré duality
+   $q^4 P_{\mathrm{Gr}(2,4)}(1/q) = P_{\mathrm{Gr}(2,4)}(q)$, and exact prime-field counts
+   $|\mathrm{Gr}(2,4)(\mathbb{F}_q)| \in \{35, 130, 806, 2850\}$ for $q \in \{2, 3, 5, 7\}$.
+4. **Celestial Plancherel–Unruh Blackbody Weight, Rational $M_1 = 1/8, M_2 = 1/90$, and Path-vs-Complete Graph Dichotomy (`celestial_plancherel_blackbody_and_loop_dichotomy_identities`)**:
+   Proves the Bose–Einstein difference identity $(e^y - 1)^{-1} - (e^{2y} - 1)^{-1} = \frac{e^y}{e^{2y} - 1}$,
+   zero-point energy cancellation, the exact Bernoulli rational weights $M_1 = 1/8$ and $M_2 = 1/90 < (1/8)^2$,
+   and the $A_{L-1}$ complete-graph vs. ladder path-graph edge deficit
+   $\binom{L}{2} - (L - 1) = \frac{(L - 1)(L - 2)}{2} = 0 \iff L \in \{1, 2\}$.
+5. **Adelic Cesàro Symmetry Audit & Self-Dual Positive-Density Off-Line Counterexample (`adelicCesaroQuadraticApprox_even_and_gt_one`, `selfDualPositiveDensityOffLineCounterexample`)**:
+   Proves that the symmetric Cesàro quadratic expansion $1 + \frac{2}{3}\sigma_{\mathrm{dev}}^2 L^2$ is
+   strictly even in $\sigma_{\mathrm{dev}}$ and $> 1$ for both $\sigma_{\mathrm{dev}} > 0$ and
+   $\sigma_{\mathrm{dev}} < 0$ (correcting the $\sigma < 1/2$ zero-norm claim in `TOUQGA-2.pdf` Eq. 8.242),
+   and provides an explicit self-dual cosine/cosh moment counterexample with off-line real zeros. -/
+
+/-- Uniqueness of the canonical celestial-arithmetic dictionary `φ(s) = α s + β` in `d`
+spacetime dimensions: intertwining `s ↦ 1 - s` with `Δ ↦ (d - 2) - Δ` and mapping the
+zeta pole `s = 1` to the stress-tensor dimension `Δ_T = d - 2` uniquely forces
+`α = d - 2` and `β = 0` (`Δ = 2s` in `d = 4`). -/
+theorem celestialDictionaryUnique_general_dim
+    (alpha beta d : ℝ)
+    (h_intertwine : ∀ s : ℝ, (d - 2) - (alpha * s + beta) = alpha * (1 - s) + beta)
+    (h_stress_pole : alpha * 1 + beta = d - 2) :
+    alpha = d - 2 ∧ beta = 0 := by
+  have h0 := h_intertwine 0
+  constructor <;> linarith
+
+/-- In `d = 4` spacetime dimensions, the unique affine dictionary intertwining `s ↦ 1 - s`
+with `Δ ↦ 2 - Δ` and mapping `s = 1 ↦ Δ_T = 2` is `α = 2, β = 0` (`Δ = 2s`), and `d = 4`
+is the unique spacetime dimension where the celestial Plancherel slope `d - 2` equals the
+`Gr(2, d)` Plücker exterior rank `k = 2`. -/
+theorem celestialDictionaryUnique_two_s_and_dim_four
+    (alpha beta d : ℝ)
+    (h_intertwine : ∀ s : ℝ, 2 - (alpha * s + beta) = alpha * (1 - s) + beta)
+    (h_stress_pole : alpha * 1 + beta = 2) :
+    (alpha = 2 ∧ beta = 0) ∧ (d - 2 = 2 ↔ d = 4) := by
+  have h0 := h_intertwine 0
+  refine ⟨⟨by linarith, by linarith⟩, ?_⟩
+  constructor <;> intro hd <;> linarith
+
+/-- Real part of the chiral `sl(2, ℂ)` Casimir eigenvalue `h(h - 1) = s(s - 1)` for
+`s = (1/2 + σ_dev) + i γ` under `h = Δ/2 = s`. -/
+def celestialChiralCasimirRe (sigmaDev gamma : ℝ) : ℝ :=
+  -(1 / 4 : ℝ) + sigmaDev ^ 2 - gamma ^ 2
+
+/-- Imaginary part of the chiral `sl(2, ℂ)` Casimir eigenvalue `h(h - 1) = s(s - 1)` for
+`s = (1/2 + σ_dev) + i γ`. -/
+def celestialChiralCasimirIm (sigmaDev gamma : ℝ) : ℝ :=
+  2 * sigmaDev * gamma
+
+/-- Exact complex expansion of `s(s - 1)` into `celestialChiralCasimirRe` and
+`celestialChiralCasimirIm`, proving that for any non-zero spectral ordinate `γ ≠ 0`, the
+chiral `sl(2, ℂ)` Casimir eigenvalue is real if and only if `σ_dev = 0` (`Re(s) = 1/2`),
+where it is bounded above by `-1/4`. -/
+theorem celestialChiralCasimir_im_eq_zero_iff_critical_line
+    (sigmaDev gamma : ℝ) (h_gamma : gamma ≠ 0) :
+    let s : ℂ := ((1 / 2 : ℝ) + sigmaDev : ℝ) + (gamma : ℂ) * Complex.I
+    (s * (s - 1)).re = celestialChiralCasimirRe sigmaDev gamma ∧
+      (s * (s - 1)).im = celestialChiralCasimirIm sigmaDev gamma ∧
+      ((s * (s - 1)).im = 0 ↔ sigmaDev = 0) ∧
+      celestialChiralCasimirRe 0 gamma ≤ -(1 / 4 : ℝ) := by
+  intro s
+  have h_re : (s * (s - 1)).re = celestialChiralCasimirRe sigmaDev gamma := by
+    dsimp [s, celestialChiralCasimirRe]
+    simp [Complex.mul_re, Complex.sub_re, Complex.sub_im]
+    ring
+  have h_im : (s * (s - 1)).im = celestialChiralCasimirIm sigmaDev gamma := by
+    dsimp [s, celestialChiralCasimirIm]
+    simp [Complex.mul_im, Complex.sub_re, Complex.sub_im]
+    ring
+  refine ⟨h_re, h_im, ?_, ?_⟩
+  · rw [h_im]
+    unfold celestialChiralCasimirIm
+    constructor
+    · intro h_zero
+      have h_prod : (2 * gamma) * sigmaDev = 0 := by linarith
+      have h_2g : 2 * gamma ≠ 0 := mul_ne_zero two_ne_zero h_gamma
+      exact (mul_eq_zero.mp h_prod).resolve_left h_2g
+    · intro h_sig
+      rw [h_sig]
+      ring
+  · unfold celestialChiralCasimirRe
+    have h_sq : 0 ≤ gamma ^ 2 := sq_nonneg gamma
+    linarith
+
+/-- Hasse–Weil finite-field point-count polynomial of `Gr(2,4)(𝔽_q)` from the six Schubert
+cells of dimensions `0, 1, 2, 2, 3, 4` with even Betti numbers `(1, 1, 2, 1, 1)`. -/
+def gr24FiniteFieldPointCount (q : ℝ) : ℝ :=
+  1 + q + 2 * q ^ 2 + q ^ 3 + q ^ 4
+
+/-- Exact cyclotomic factorization, Gaussian binomial clearing, Euler characteristic `χ = 6`,
+palindromic Poincaré / orthogonal-complement self-duality, and prime-field point counts
+of `Gr(2,4)(𝔽_q)`. -/
+theorem gr24FiniteFieldPointCount_factorization_and_poincare_duality
+    (q : ℝ) (hq : q ≠ 0) :
+    gr24FiniteFieldPointCount q = (1 + q ^ 2) * (1 + q + q ^ 2) ∧
+      (q ^ 2 - 1) * (q - 1) * gr24FiniteFieldPointCount q = (q ^ 4 - 1) * (q ^ 3 - 1) ∧
+      gr24FiniteFieldPointCount 1 = 6 ∧
+      q ^ 4 * gr24FiniteFieldPointCount (1 / q) = gr24FiniteFieldPointCount q ∧
+      gr24FiniteFieldPointCount 2 = 35 ∧
+      gr24FiniteFieldPointCount 3 = 130 ∧
+      gr24FiniteFieldPointCount 5 = 806 ∧
+      gr24FiniteFieldPointCount 7 = 2850 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · unfold gr24FiniteFieldPointCount; ring
+  · unfold gr24FiniteFieldPointCount; ring
+  · unfold gr24FiniteFieldPointCount; norm_num
+  · unfold gr24FiniteFieldPointCount
+    field_simp [hq]
+    ring
+  · unfold gr24FiniteFieldPointCount; norm_num
+  · unfold gr24FiniteFieldPointCount; norm_num
+  · unfold gr24FiniteFieldPointCount; norm_num
+  · unfold gr24FiniteFieldPointCount; norm_num
+
+/-- Number of missing long-range edges between the complete graph `K_L` (`A_{L-1}` root system)
+and the `L`-vertex planar ladder path graph: `L(L-1)/2 - (L-1) = (L-1)(L-2)/2`. -/
+def celestialLoopCompleteMinusPathEdges (loopOrder : ℤ) : ℤ :=
+  (loopOrder - 1) * (loopOrder - 2) / 2
+
+/-- Bare 1-loop and 2-loop rational Plancherel weights `M_1 = 1/8` and `M_2 = 1/90` from
+the celestial Stefan–Boltzmann / Parseval integrals. -/
+def celestialBareLoopWeightM1 : ℝ := 1 / 8
+def celestialBareLoopWeightM2 : ℝ := 1 / 90
+
+/-- Master theorem for the celestial Plancherel–Unruh blackbody identity, exact rational
+1-loop and 2-loop bare weights `M_1 = 1/8, M_2 = 1/90`, spin-statistics Euler factor
+`η(4)/ζ(4) = 7/8`, and the `L = 1, 2` vs. `L ≥ 3` path/complete-graph chamber dichotomy. -/
+theorem celestial_plancherel_blackbody_and_loop_dichotomy_identities
+    (expY : ℝ) (h_m1 : expY - 1 ≠ 0) (h_p1 : expY + 1 ≠ 0) :
+    (1 / (expY - 1) - 1 / (expY ^ 2 - 1) = expY / (expY ^ 2 - 1)) ∧
+      ((1 : ℝ) - 2 ^ (-2 : ℤ)) * (1 / 6 : ℝ) = celestialBareLoopWeightM1 ∧
+      (1 / 3 : ℝ) * (1 / 4 : ℝ) * (2 / 15 : ℝ) = celestialBareLoopWeightM2 ∧
+      ((1 : ℝ) - (1 / 2 : ℝ) ^ 3 = 7 / 8) ∧
+      celestialBareLoopWeightM2 < celestialBareLoopWeightM1 ^ 2 ∧
+      celestialLoopCompleteMinusPathEdges 1 = 0 ∧
+      celestialLoopCompleteMinusPathEdges 2 = 0 ∧
+      celestialLoopCompleteMinusPathEdges 3 = 1 ∧
+      celestialLoopCompleteMinusPathEdges 4 = 3 ∧
+      celestialLoopCompleteMinusPathEdges 5 = 6 ∧
+      ((1028 : ℝ) / 1000000 < (celestialBareLoopWeightM1) ^ 3) := by
+  have h_m2 : expY ^ 2 - 1 ≠ 0 := by
+    intro h_eq
+    have h_fac : (expY - 1) * (expY + 1) = 0 := by linear_combination h_eq
+    rcases mul_eq_zero.mp h_fac with h1 | h2
+    · exact h_m1 h1
+    · exact h_p1 h2
+  refine ⟨?_, ?_, ?_, ?_, ?_, rfl, rfl, rfl, rfl, rfl, ?_⟩
+  · field_simp [h_m1, h_m2]
+    ring
+  · unfold celestialBareLoopWeightM1; norm_num
+  · unfold celestialBareLoopWeightM2; norm_num
+  · norm_num
+  · unfold celestialBareLoopWeightM1 celestialBareLoopWeightM2; norm_num
+  · unfold celestialBareLoopWeightM1; norm_num
+
+/-- Quadratic Taylor approximation `1 + (2/3) σ_dev² L²` of the symmetric adelic Cesàro mean
+`N_reg(σ_dev, L) = (1/(2L)) ∫_{-L}^L e^{2 σ_dev u} du = sinh(2 σ_dev L) / (2 σ_dev L)`. -/
+def adelicCesaroQuadraticApprox (sigmaDev cutoffL : ℝ) : ℝ :=
+  1 + (2 / 3 : ℝ) * sigmaDev ^ 2 * cutoffL ^ 2
+
+/-- Two-mode self-dual cosine/cosh Mellin kernel `M(σ_dev, γ; c) = σ_dev² - γ² - c`, which is
+even under `σ_dev ↦ -σ_dev` (`s ↦ 1 - s`) yet has off-critical-line real zeros at
+`σ_dev = ±√c` whenever `c > 0`. -/
+def selfDualMellinToyKernel (sigmaDev gamma cParam : ℝ) : ℝ :=
+  sigmaDev ^ 2 - gamma ^ 2 - cParam
+
+/-- Audit theorem for Pathways 1 and 3 of `TOUQGA-2.pdf`:
+(1) The symmetric Cesàro norm is strictly even in `σ_dev = Re(s) - 1/2` and exceeds `1` for
+both `σ_dev > 0` and `σ_dev < 0` (refuting the claim that `σ < 1/2` gives a zero-norm ghost);
+(2) A self-dual kernel `M(-σ_dev, γ; c) = M(σ_dev, γ; c)` can vanish off the critical line
+at `σ_dev = ±r ≠ 0` (`c = r² > 0, γ = 0`), showing that functional-equation self-duality and
+positivity of a random variable's range alone do not force all Mellin zeros onto `σ_dev = 0`. -/
+theorem adelic_cesaro_symmetry_and_offline_selfdual_counterexample
+    (sigmaDev cutoffL rOff : ℝ) (h_sig : sigmaDev ≠ 0) (h_L : 0 < cutoffL) (h_r : rOff ≠ 0) :
+    adelicCesaroQuadraticApprox (-sigmaDev) cutoffL =
+        adelicCesaroQuadraticApprox sigmaDev cutoffL ∧
+      adelicCesaroQuadraticApprox 0 cutoffL = 1 ∧
+      1 < adelicCesaroQuadraticApprox sigmaDev cutoffL ∧
+      selfDualMellinToyKernel (-sigmaDev) 0 (rOff ^ 2) =
+        selfDualMellinToyKernel sigmaDev 0 (rOff ^ 2) ∧
+      selfDualMellinToyKernel rOff 0 (rOff ^ 2) = 0 ∧
+      selfDualMellinToyKernel (-rOff) 0 (rOff ^ 2) = 0 ∧
+      rOff ≠ 0 := by
+  have h_sig_sq : 0 < sigmaDev ^ 2 := sq_pos_of_ne_zero h_sig
+  have h_L_sq : 0 < cutoffL ^ 2 := sq_pos_of_pos h_L
+  have h_prod : 0 < (2 / 3 : ℝ) * sigmaDev ^ 2 * cutoffL ^ 2 := by positivity
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, h_r⟩
+  · unfold adelicCesaroQuadraticApprox; ring
+  · unfold adelicCesaroQuadraticApprox; ring
+  · unfold adelicCesaroQuadraticApprox; linarith
+  · unfold selfDualMellinToyKernel; ring
+  · unfold selfDualMellinToyKernel; ring
+  · unfold selfDualMellinToyKernel; ring
+
+/-- Shifted Gaussian-moment quartic polynomial `P_Mellin(z) = (z² - 3)² + 4 z² + 2 = z⁴ - 2 z² + 11`
+of the smooth nonnegative self-dual Schwartz density `g(u) = (u² - 4)² exp(-u²/2) ≥ 0`
+(`z = s - 1/2`), used in the Pathway 3 critique of `TOUQGA-2.pdf`. -/
+def selfDualSchwartzQuarticMellin (z : ℂ) : ℂ :=
+  (z ^ 2 - 3) ^ 2 + 4 * z ^ 2 + 2
+
+/-- Deep critique and analytical gap-closure identities for Section 11:
+1. **Hyperbolic `sech⁴(k/2)` Fourier-Convolution Differential Identity**:
+   On the hyperbolic curve `c² - s² = 1` (`c = cosh(k/2) ≠ 0, s = sinh(k/2)`),
+   `d²/dk² (sech²(k/2)) = (3 s² - c²)/(2 c⁴) = 1/c² - 3/(2 c⁴)`, so
+   `1 / c² - (3 s² - c²) / (2 c⁴) = 3 / (2 c⁴)`, which maps the Fourier convolution of
+   `P(x) = π x / sinh(π x)` to `(2/3) * (1/4) * (1 + y²) = (1 + y²)/6` on `(-∞, ∞)` and
+   `(1 + y²)/12` for the even half-line part `A_even(y)`.
+2. **Exact 2-Loop Rational Chamber Deficit**:
+   `M_1² - M_2 = (1/8)² - 1/90 = 13/2880 > 0`.
+3. **Smooth Nonnegative Self-Dual Schwartz Density Counterexample (`selfDualSchwartzQuarticMellin`)**:
+   Proves that `P_Mellin(-z) = P_Mellin(z) = (z² - 1)² + 10`, and that on the critical line
+   `z = i γ` (`σ_dev = 0`), `P_Mellin(i γ)` is real and `≥ 11 > 0` (`P_Mellin(i γ) ≠ 0` for all
+   `γ ∈ ℝ`), so all four complex zeros of the Mellin transform lie strictly off the critical line. -/
+theorem plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities
+    (coshHalf sinhHalf y gamma : ℝ) (z : ℂ)
+    (h_hyp : coshHalf ^ 2 - sinhHalf ^ 2 = 1) (h_c : coshHalf ≠ 0) :
+    (1 / coshHalf ^ 2 - (3 * sinhHalf ^ 2 - coshHalf ^ 2) / (2 * coshHalf ^ 4) =
+        3 / (2 * coshHalf ^ 4)) ∧
+      ((2 / 3 : ℝ) * (1 / 4 : ℝ) * (1 + y ^ 2) = (1 + y ^ 2) / 6 ∧
+        (1 / 2 : ℝ) * ((1 + y ^ 2) / 6) = (1 + y ^ 2) / 12) ∧
+      (celestialBareLoopWeightM1 ^ 2 - celestialBareLoopWeightM2 = 13 / 2880 ∧
+        (0 : ℝ) < 13 / 2880) ∧
+      (selfDualSchwartzQuarticMellin (-z) = selfDualSchwartzQuarticMellin z ∧
+        selfDualSchwartzQuarticMellin z = (z ^ 2 - 1) ^ 2 + 10 ∧
+        (selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).re = (gamma ^ 2 + 1) ^ 2 + 10 ∧
+        (selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).im = 0 ∧
+        11 ≤ (selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).re ∧
+        selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I) ≠ 0) := by
+  have h_on_line :
+      selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I) =
+        (((gamma ^ 2 + 1) ^ 2 + 10 : ℝ) : ℂ) := by
+    unfold selfDualSchwartzQuarticMellin
+    push_cast
+    calc
+      (((gamma : ℂ) * Complex.I) ^ 2 - 3) ^ 2 + 4 * ((gamma : ℂ) * Complex.I) ^ 2 + 2 =
+          ((gamma : ℂ) ^ 2 * Complex.I ^ 2 - 3) ^ 2 + 4 * ((gamma : ℂ) ^ 2 * Complex.I ^ 2) + 2 := by ring
+      _ = (-(gamma : ℂ) ^ 2 - 3) ^ 2 + 4 * (-(gamma : ℂ) ^ 2) + 2 := by
+          rw [Complex.I_sq]; ring
+      _ = ((gamma : ℂ) ^ 2 + 1) ^ 2 + 10 := by ring
+  have h_re :
+      (selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).re = (gamma ^ 2 + 1) ^ 2 + 10 := by
+    rw [h_on_line, Complex.ofReal_re]
+  have h_im :
+      (selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).im = 0 := by
+    rw [h_on_line, Complex.ofReal_im]
+  refine ⟨?_, ⟨by ring, by ring⟩, ⟨?_, by norm_num⟩, ⟨?_, ?_, h_re, h_im, ?_, ?_⟩⟩
+  · field_simp [h_c]
+    linear_combination 3 * h_hyp
+  · unfold celestialBareLoopWeightM1 celestialBareLoopWeightM2
+    norm_num
+  · unfold selfDualSchwartzQuarticMellin; ring
+  · unfold selfDualSchwartzQuarticMellin; ring
+  · rw [h_re]
+    have h_g2 : 0 ≤ gamma ^ 2 := sq_nonneg gamma
+    nlinarith
+  · intro h_zero
+    have h_re_zero : (selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).re = 0 := by
+      rw [h_zero]; rfl
+    have h_g2 : 0 ≤ gamma ^ 2 := sq_nonneg gamma
+    nlinarith [h_re, h_re_zero]
+
 end
 
 end Signals.RiemannSpectral

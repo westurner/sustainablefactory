@@ -9165,4 +9165,105 @@ example (eigenvalues x y : Fin 3 → ℝ) :
         (Signals.RiemannSpectral.finiteDiagonalOperator eigenvalues y) :=
   Signals.RiemannSpectral.finiteDiagonalOperator_symmetric eigenvalues x y
 
+/-! Section 11 of Signals.RiemannSpectral & Section 30.7 of Signals.DDF:
+Celestial Holography dictionary Δ = 2s, Gr(2,4)(𝔽_q) Hasse–Weil point counts,
+Plancherel–Unruh loop weights M_1 = 1/8, M_2 = 1/90, Cesàro/BPY audits, and
+Integrated Turner Models 15a & 15b. -/
+example :
+    Signals.RiemannSpectral.gr24FiniteFieldPointCount 1 = 6 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 2 = 35 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 3 = 130 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 5 = 806 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 7 = 2850 ∧
+      Signals.RiemannSpectral.celestialLoopCompleteMinusPathEdges 1 = 0 ∧
+      Signals.RiemannSpectral.celestialLoopCompleteMinusPathEdges 2 = 0 ∧
+      Signals.RiemannSpectral.celestialLoopCompleteMinusPathEdges 3 = 1 ∧
+      Signals.RiemannSpectral.celestialBareLoopWeightM2 <
+        Signals.RiemannSpectral.celestialBareLoopWeightM1 ^ 2 ∧
+      1 < Signals.RiemannSpectral.adelicCesaroQuadraticApprox (1 / 4) 10 ∧
+      Signals.RiemannSpectral.selfDualMellinToyKernel (1 / 4) 0 ((1 / 4 : ℝ) ^ 2) = 0 := by
+  have h_hw := Signals.RiemannSpectral.gr24FiniteFieldPointCount_factorization_and_poincare_duality
+    2 (by norm_num)
+  have h_pl := Signals.RiemannSpectral.celestial_plancherel_blackbody_and_loop_dichotomy_identities
+    2 (by norm_num) (by norm_num)
+  have h_ces := Signals.RiemannSpectral.adelic_cesaro_symmetry_and_offline_selfdual_counterexample
+    (1 / 4) 10 (1 / 4) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_hw.2.2.1, h_hw.2.2.2.2.1, h_hw.2.2.2.2.2.1, h_hw.2.2.2.2.2.2.1,
+    h_hw.2.2.2.2.2.2.2, h_pl.2.2.2.2.2.1, h_pl.2.2.2.2.2.2.1, h_pl.2.2.2.2.2.2.2.1,
+    h_pl.2.2.2.2.1, h_ces.2.2.1, h_ces.2.2.2.2.1⟩
+
+example (sigmaDev : ℝ) :
+    let s : ℂ := ((1 / 2 : ℝ) + sigmaDev : ℝ) + (14 : ℂ) * Complex.I
+    ((s * (s - 1)).im = 0 ↔ sigmaDev = 0) ∧
+      Signals.RiemannSpectral.celestialChiralCasimirRe 0 14 ≤ -(1 / 4 : ℝ) := by
+  have h := Signals.RiemannSpectral.celestialChiralCasimir_im_eq_zero_iff_critical_line
+    sigmaDev 14 (by norm_num)
+  exact ⟨h.2.2.1, h.2.2.2⟩
+
+example (s : Signals.DDF.MovingSheath toyDDFSubstrate)
+    (s_pl : Signals.DDF.PluckerMadelungState) (orbitalPhase deltaVarpi : ℝ) :
+    let Δϖ_GR := toyRiverExterior.perihelionPrecessionRad toyMercuryOrbit
+    let P_GR := toyRiverExterior.petersMathewsLuminosity toyMercuryOrbit 1
+    Signals.DDF.celestialSpinTwoShadowNormFactor 0 = 1 ∧
+      Signals.DDF.celestialSpinTwoShadowNormFactor (1 / 4) < 1 ∧
+      1 < Signals.DDF.celestialPlancherelLoopCorrectionFactor (1 / 10) ∧
+      Signals.DDF.PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+          toyMercuryOrbit toyRiverExterior.G_phi toyRiverExterior.sourceMass
+          toyDDFSubstrate.c deltaVarpi 0 0 0 = Δϖ_GR ∧
+      toyRiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+          toyMercuryOrbit deltaVarpi 0 0 0 = Δϖ_GR ∧
+      Signals.DDF.PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+          toyMercuryOrbit toyRiverExterior.G_phi toyRiverExterior.sourceMass
+          1 toyDDFSubstrate.c orbitalPhase deltaVarpi 0 0 0 = P_GR ∧
+      toyRiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity
+          toyMercuryOrbit 1 0 0 0 = P_GR := by
+  have h := Signals.DDF.turner_model_15_celestial_plucker_ddf_graviton_unification
+    s toyRiverExterior toyMercuryOrbit s_pl
+    orbitalPhase deltaVarpi 1 (1 / 4) (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1.1, h.1.2.1, h.2.1.2.1, h.2.2.1.1, h.2.2.1.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1⟩
+
+example (y gamma : ℝ) (z : ℂ) :
+    (1 / (5 / 4 : ℝ) ^ 2 - (3 * (3 / 4 : ℝ) ^ 2 - (5 / 4 : ℝ) ^ 2) / (2 * (5 / 4 : ℝ) ^ 4) =
+        3 / (2 * (5 / 4 : ℝ) ^ 4)) ∧
+      ((2 / 3 : ℝ) * (1 / 4 : ℝ) * (1 + y ^ 2) = (1 + y ^ 2) / 6 ∧
+        (1 / 2 : ℝ) * ((1 + y ^ 2) / 6) = (1 + y ^ 2) / 12) ∧
+      Signals.RiemannSpectral.celestialBareLoopWeightM1 ^ 2 -
+        Signals.RiemannSpectral.celestialBareLoopWeightM2 = 13 / 2880 ∧
+      Signals.RiemannSpectral.selfDualSchwartzQuarticMellin (-z) =
+        Signals.RiemannSpectral.selfDualSchwartzQuarticMellin z ∧
+      11 ≤ (Signals.RiemannSpectral.selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).re ∧
+      Signals.RiemannSpectral.selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I) ≠ 0 := by
+  have h := Signals.RiemannSpectral.plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities
+    (5 / 4) (3 / 4) y gamma z (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1.1, h.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩
+
+example (sigmaDev deltaVarpi : ℝ) :
+    let Δθ_GR := 4 * toyRiverExterior.G_phi * toyRiverExterior.sourceMass /
+      (toyDDFSubstrate.c ^ 2 * 1)
+    Signals.DDF.celestialSpinTwoShadowNormFactor (1 / 2) = 0 ∧
+      Signals.DDF.celestialSpinTwoShadowNormFactor 1 = -3 ∧
+      Signals.DDF.celestialSpinTwoCayleyShadowFactor (1 / 2) = 1 / 2 ∧
+      Signals.DDF.celestialSpinTwoCayleyShadowFactor 1 = 1 / 5 ∧
+      0 < Signals.DDF.celestialSpinTwoCayleyShadowFactor sigmaDev ∧
+      Signals.DDF.celestialSpinTwoCayleyShadowFactor sigmaDev ≤ 1 ∧
+      0 ≤ Signals.DDF.celestialSpinTwoCayleyShadowFactor sigmaDev -
+        Signals.DDF.celestialSpinTwoShadowNormFactor sigmaDev ∧
+      Signals.DDF.celestialPlancherelLoopCorrectionFactor (1 / 10) <
+        Signals.DDF.celestialPlancherelAllLoopGeometricEnvelope (1 / 10) ∧
+      Signals.DDF.PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection
+          toyMercuryOrbit Δθ_GR deltaVarpi 0 0 0 = Δθ_GR ∧
+      toyRiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection
+          toyMercuryOrbit 1 deltaVarpi 0 0 0 = Δθ_GR ∧
+      0 < Signals.DDF.mutualPhotonDeflection Signals.DDF.ActiveRadiationSourcing.generalRelativity
+            toyRiverExterior.G_phi toyDDFSubstrate.c 1 1 1 ∧
+      Signals.DDF.mutualPhotonDeflection Signals.DDF.ActiveRadiationSourcing.dilatantDarkFluid
+        toyRiverExterior.G_phi toyDDFSubstrate.c 1 1 1 = 0 := by
+  have h := Signals.DDF.turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities
+    toyRiverExterior toyMercuryOrbit sigmaDev (1 / 10) deltaVarpi 1 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1.1, h.1.2.2.1, h.1.2.2.2.2.1, h.1.2.2.2.2.2.1,
+    h.1.2.2.2.2.2.2.2.1, h.1.2.2.2.2.2.2.2.2.1, h.1.2.2.2.2.2.2.2.2.2.2,
+    h.2.1.2.2, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2⟩
+
 end SignalsTests

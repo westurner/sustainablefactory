@@ -7451,4 +7451,49 @@ example :
       Signals.Pending.RiemannHypothesisPendingBoundary).allFourBridgesClosed :=
   Signals.Pending.finite_zero_audit_does_not_close_rh_bridges 7006 (by norm_num) 100 2
 
+example :
+    (1 / 90 : ℝ) < (1 / 8 : ℝ) ^ 2 ∧
+      ¬ ({ rhBoundary :=
+             { verifiedHeightBound := 7006
+               verifiedHeightBound_pos := by norm_num
+               auditedZeroCount := 100
+               auditedGramViolations := 2
+               deBruijnNewmanUpperBound := False
+               adelicSatoTraceLimit := False
+               globalLiAndJensenPolyaPositivity := False
+               selfAdjointSpectralOperatorClosure := False }
+           canonicalDictionarySlopeTwo := 2
+           canonicalDictionarySlope_eq_two := rfl
+           bareLoopM1 := 1 / 8
+           bareLoopM2 := 1 / 90
+           bareLoopM1_eq := rfl
+           bareLoopM2_eq := rfl
+           meyerFrechetToGnsHilbertBridge := False
+           bsdHigherRankEulerSystemBridge := False
+           yangMillsContinuumSpectralTransferBridge := False } :
+        Signals.Pending.ToupinCelestialMillenniumPendingBoundary).allMillenniumBridgesClosed := by
+  have h := Signals.Pending.celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges
+    7006 (by norm_num) 100 2
+  exact ⟨h.2.1, h.2.2⟩
+
+example (b : Signals.Pending.ToupinCelestialMillenniumPendingBoundary)
+    (h : ¬ b.rhBoundary.allFourBridgesClosed) : ¬ b.allMillenniumBridgesClosed :=
+  Signals.Pending.ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
+    b (Or.inl h)
+
+example (b : Signals.Pending.ToupinCelestialMillenniumPendingBoundary)
+    (h : ¬ b.meyerFrechetToGnsHilbertBridge) : ¬ b.allMillenniumBridgesClosed :=
+  Signals.Pending.ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
+    b (Or.inr (Or.inl h))
+
+example (b : Signals.Pending.ToupinCelestialMillenniumPendingBoundary)
+    (h : ¬ b.bsdHigherRankEulerSystemBridge) : ¬ b.allMillenniumBridgesClosed :=
+  Signals.Pending.ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
+    b (Or.inr (Or.inr (Or.inl h)))
+
+example (b : Signals.Pending.ToupinCelestialMillenniumPendingBoundary)
+    (h : ¬ b.yangMillsContinuumSpectralTransferBridge) : ¬ b.allMillenniumBridgesClosed :=
+  Signals.Pending.ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
+    b (Or.inr (Or.inr (Or.inr h)))
+
 end SignalsPendingTests

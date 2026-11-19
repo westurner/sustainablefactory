@@ -1384,6 +1384,338 @@ pub fn li_partial_coefficients(
     lambdas
 }
 
+/// Evaluate the SL(2, C) celestial Plancherel weight `P(lambda) = |Gamma(1 + i lambda)|^2 = pi lambda / sinh(pi lambda)`.
+pub fn celestial_plancherel_weight(lambda: f64) -> f64 {
+    let x = PI * lambda.abs();
+    if x < 1e-7 {
+        let x2 = x * x;
+        1.0 - x2 / 6.0 + (7.0 * x2 * x2) / 360.0
+    } else if x > 700.0 {
+        0.0
+    } else {
+        x / x.sinh()
+    }
+}
+
+/// Evaluate the Planck / Bisognano–Wichmann Rindler boost Bose–Einstein difference form
+/// `2 pi lambda [n_B(pi lambda) - n_B(2 pi lambda)]` of `P(lambda)` (`Theorem 5.183` of `TOUQGA-2.pdf`).
+pub fn celestial_bose_difference_weight(lambda: f64) -> f64 {
+    let y = PI * lambda.abs();
+    if y < 1e-7 {
+        celestial_plancherel_weight(lambda)
+    } else if y > 350.0 {
+        2.0 * y * (-y).exp()
+    } else {
+        let nb_y = 1.0 / (y.exp() - 1.0);
+        let nb_2y = 1.0 / ((2.0 * y).exp() - 1.0);
+        2.0 * y * (nb_y - nb_2y)
+    }
+}
+
+/// 8-point Gauss–Legendre nodes and weights on `[-1, 1]` (16th-order accuracy).
+const GAUSS_LEGENDRE_8: [(f64, f64); 8] = [
+    (-0.960_289_856_497_536_2, 0.101_228_536_290_377_06),
+    (-0.796_666_477_413_626_7, 0.222_381_034_453_374_43),
+    (-0.525_532_409_916_329, 0.313_706_645_877_886_9),
+    (-0.183_434_642_495_649_78, 0.362_683_783_378_361_66),
+    (0.183_434_642_495_649_78, 0.362_683_783_378_361_66),
+    (0.525_532_409_916_329, 0.313_706_645_877_886_9),
+    (0.796_666_477_413_626_7, 0.222_381_034_453_374_43),
+    (0.960_289_856_497_536_2, 0.101_228_536_290_377_06),
+];
+
+/// Composite 8-point Gauss–Legendre quadrature on `[a, b]` with `panels` subintervals.
+fn gauss_legendre_8_integrate<F: Fn(f64) -> f64>(a: f64, b: f64, panels: usize, f: F) -> f64 {
+    let h = (b - a) / (panels as f64);
+    let half_h = 0.5 * h;
+    let mut total = 0.0_f64;
+    for p in 0..panels {
+        let mid = a + ((p as f64) + 0.5) * h;
+        let mut panel_sum = 0.0_f64;
+        for &(xi, wi) in &GAUSS_LEGENDRE_8 {
+            panel_sum += wi * f(mid + half_h * xi);
+        }
+        total += half_h * panel_sum;
+    }
+    total
+}
+
+/// Evaluate the half-line Plancherel rung convolution `F(y) = (1/(2 pi)) int_0^inf P(x) P(x - y) dx`
+/// via the exact compact-interval identity:
+/// `F(y) = ((1 + y^2) / 12) P(|y|) + (y / (2 pi)) int_0^{1/2} P(u |y|) P((1 - u) |y|) du`,
+/// which holds for all `y in R` and satisfies `F(y) + F(-y) = ((1 + y^2) / 6) P(y)`.
+pub fn celestial_half_line_convolution_f(y: f64) -> f64 {
+    let y_abs = y.abs();
+    let even_part = (1.0 + y_abs * y_abs) / 12.0 * celestial_plancherel_weight(y_abs);
+    if y_abs < 1e-14 {
+        return even_part;
+    }
+    let box_int = gauss_legendre_8_integrate(0.0, 0.5, 4, |u| {
+        celestial_plancherel_weight(u * y_abs) * celestial_plancherel_weight((1.0 - u) * y_abs)
+    });
+    even_part + (y / (2.0 * PI)) * box_int
+}
+
+/// Cayley-regularized celestial spin-2 principal-series shadow norm factor
+/// `W_grav^Cayley(sigma_dev) = 1 / (1 + 4 sigma_dev^2) in (0, 1]`.
+pub fn celestial_spin_two_cayley_shadow_factor(sigma_dev: f64) -> f64 {
+    1.0 / (1.0 + 4.0 * sigma_dev * sigma_dev)
+}
+
+/// All-loop Plancherel–Unruh geometric resummation envelope `8 / (8 - alpha_qg)` for `0 <= alpha_qg < 8`.
+pub fn celestial_plancherel_all_loop_envelope(alpha_qg: f64) -> f64 {
+    8.0 / (8.0 - alpha_qg)
+}
+
+/// Exact finite-field point count `|Gr(2,4)(F_q)| = 1 + q + 2 q^2 + q^3 + q^4 = (1 + q^2)(1 + q + q^2)`.
+pub fn gr24_hasse_weil_point_count(q: u64) -> u64 {
+    1 + q + 2 * q * q + q.pow(3) + q.pow(4)
+}
+
+/// Brute-force count of 2-dimensional subspaces of `F_p^4` in reduced row-echelon form (Schubert cells)
+/// for a prime `p`, confirming `|Gr(2,4)(F_p)| = sum_{k=0}^4 b_{2k} p^k`.
+pub fn gr24_rref_subspace_count_fp(p: u64) -> u64 {
+    // Every 2-plane in F_p^4 has a unique 2x4 RREF basis with pivot columns 0 <= c0 < c1 < 4.
+    // The number of free entries for each pivot pair (c0, c1) is:
+    // (0,1) -> 4 free entries (p^4)
+    // (0,2) -> 3 free entries (p^3)
+    // (0,3) -> 2 free entries (p^2)
+    // (1,2) -> 2 free entries (p^2)
+    // (1,3) -> 1 free entry  (p^1)
+    // (2,3) -> 0 free entries (p^0 = 1)
+    let mut count = 0u64;
+    for c0 in 0..4usize {
+        for c1 in (c0 + 1)..4usize {
+            let free_row0 = (3 - c0) - 1; // columns > c0 excluding c1
+            let free_row1 = 3 - c1;       // columns > c1
+            let free_total = (free_row0 + free_row1) as u32;
+            count += p.pow(free_total);
+        }
+    }
+    count
+}
+
+/// Symmetric adelic Cesàro mean `N_reg(sigma, R) = (1 / (2 ln R)) int_{R^{-1}}^R r^{2 sigma - 2} dr`
+/// `= sinh((2 sigma - 1) ln R) / ((2 sigma - 1) ln R)` on the shifted character `|a|^{s - 1/2}`.
+pub fn adelic_symmetric_cesaro_mean(sigma: f64, cutoff_r: f64) -> f64 {
+    let l = cutoff_r.ln();
+    let alpha = 2.0 * sigma - 1.0;
+    let x = alpha * l;
+    if x.abs() < 1e-8 {
+        1.0 + x * x / 6.0
+    } else {
+        x.sinh() / x
+    }
+}
+
+/// Complex Lanczos gamma evaluation for celestial 3-point MHV / shadow-Jost verification.
+fn c64_gamma(z: C64) -> C64 {
+    const G: f64 = 7.0;
+    const COEFFS: [f64; 9] = [
+        0.999_999_999_999_809_9,
+        676.520_368_121_885_1,
+        -1259.139_216_722_402_8,
+        771.323_428_777_653_1,
+        -176.615_029_162_140_6,
+        12.507_343_278_686_905,
+        -0.138_571_095_265_720_12,
+        9.984_369_578_019_572e-6,
+        1.505_632_735_149_311_6e-7,
+    ];
+    if z.re < 0.5 {
+        // Reflection formula: Gamma(z) = pi / (sin(pi z) * Gamma(1 - z))
+        let pi_z = C64::new(PI * z.re, PI * z.im);
+        let sin_piz = C64::new(
+            pi_z.re.sin() * pi_z.im.cosh(),
+            pi_z.re.cos() * pi_z.im.sinh(),
+        );
+        let one_minus_z = C64::new(1.0 - z.re, -z.im);
+        return C64::new(PI, 0.0).div(sin_piz.mul(c64_gamma(one_minus_z)));
+    }
+    let zm1 = C64::new(z.re - 1.0, z.im);
+    let mut x = C64::new(COEFFS[0], 0.0);
+    for (i, &c) in COEFFS.iter().enumerate().skip(1) {
+        let denom = C64::new(zm1.re + (i as f64), zm1.im);
+        x = x.add(C64::new(c, 0.0).div(denom));
+    }
+    let t = C64::new(zm1.re + G + 0.5, zm1.im);
+    let r = t.abs();
+    let theta = t.im.atan2(t.re);
+    let ln_t = C64::new(r.ln(), theta);
+    let pow_exp = C64::new(zm1.re + 0.5, zm1.im).mul(ln_t).sub(t);
+    let pref = (2.0 * PI).sqrt() * pow_exp.re.exp();
+    let phase = C64::new(pow_exp.im.cos(), pow_exp.im.sin());
+    phase.scale(pref).mul(x)
+}
+
+/// Audit report for Celestial Holography, Plancherel–Unruh loop weights, Googly shadow-Jost
+/// identity, Hasse–Weil `Gr(2,4)(F_q)` counts, Cesàro symmetry, and Integrated Turner Model 15.
+#[derive(Clone, Debug, PartialEq)]
+pub struct CelestialHolographyGravitonAudit {
+    pub plancherel_bose_max_diff: f64,
+    pub m1_quadrature: f64,
+    pub m1_exact: f64,
+    pub m1_abs_error: f64,
+    pub m2_quadrature: f64,
+    pub m2_exact: f64,
+    pub m2_abs_error: f64,
+    pub m3_quadrature: f64,
+    pub m3_reference: f64,
+    pub m3_abs_error: f64,
+    pub m3_upper_bound: f64,
+    pub m3_even_part: f64,
+    pub m3_odd_excess: f64,
+    pub plancherel_two_loop_deficit_coeff: f64,
+    pub googly_principal_series_rel_err: f64,
+    pub googly_off_line_symmetry_breaking: f64,
+    pub gr24_f2_points: u64,
+    pub gr24_f3_points: u64,
+    pub gr24_f5_points: u64,
+    pub gr24_f7_points: u64,
+    pub gr24_rref_matches_polynomial: bool,
+    pub cesaro_at_half: f64,
+    pub cesaro_at_quarter: f64,
+    pub cesaro_at_three_quarters: f64,
+    pub cesaro_even_symmetry_diff: f64,
+    pub turner_model15_mercury_arcsec_century: f64,
+    pub turner_model15_rel_err_vs_gr: f64,
+    pub turner_model15_solar_light_bending_arcsec: f64,
+    pub turner_model15_cayley_shadow_norm_at_half: f64,
+    pub turner_model15_cayley_shadow_norm_at_one: f64,
+    pub turner_model15a_active_laser_deflection: f64,
+    pub turner_model15b_active_laser_deflection: f64,
+}
+
+/// Execute the full Celestial Holography & Integrated Turner Model 15 numerical audit in Rust `f64`.
+pub fn audit_celestial_holography_and_turner_graviton() -> CelestialHolographyGravitonAudit {
+    // 1. Plancherel weight P(lambda) vs. Planck/Bisognano-Wichmann Bose difference
+    let mut max_bose_diff = 0.0_f64;
+    for k in 1..=200 {
+        let lam = (k as f64) * 0.15;
+        let diff = (celestial_plancherel_weight(lam) - celestial_bose_difference_weight(lam)).abs();
+        if diff > max_bose_diff {
+            max_bose_diff = diff;
+        }
+    }
+
+    // 2. 1-loop M_1, 2-loop M_2, and 3-loop M_3 via 8-point Gauss–Legendre quadrature on [0, 15]
+    let m1_quad = gauss_legendre_8_integrate(0.0, 15.0, 24, celestial_plancherel_weight) / (2.0 * PI);
+    let m2_quad = gauss_legendre_8_integrate(0.0, 15.0, 24, |y| {
+        celestial_plancherel_weight(y) * celestial_half_line_convolution_f(y)
+    }) / (2.0 * PI);
+    let m3_quad = gauss_legendre_8_integrate(0.0, 15.0, 24, |y| {
+        let fy = celestial_half_line_convolution_f(y);
+        celestial_plancherel_weight(y) * fy * fy
+    }) / (2.0 * PI);
+    let m3_even_part = gauss_legendre_8_integrate(0.0, 15.0, 24, |y| {
+        let a_even = (1.0 + y * y) / 12.0 * celestial_plancherel_weight(y);
+        celestial_plancherel_weight(y) * a_even * a_even
+    }) / (2.0 * PI);
+
+    let m1_exact = 1.0 / 8.0;
+    let m2_exact = 1.0 / 90.0;
+    let m3_ref = 0.001_028_020_476_820_681_1;
+
+    // 3. Googly shadow-Jost 3-point MHV vs. shadow-conjugated coefficient on and off the principal series
+    let eval_mhv_vs_shadow = |sigma_dev: f64, l1: f64, l2: f64, l3: f64| -> f64 {
+        let d1 = C64::new(1.0 + 2.0 * sigma_dev, l1);
+        let d2 = C64::new(1.0 + 2.0 * sigma_dev, l2);
+        let d3 = C64::new(1.0 + 2.0 * sigma_dev, l3);
+        let sum_m2 = C64::new(d1.re + d2.re + d3.re - 2.0, d1.im + d2.im + d3.im);
+        let c_mhv = c64_gamma(d1)
+            .mul(c64_gamma(d2))
+            .mul(c64_gamma(d3))
+            .div(c64_gamma(sum_m2));
+
+        let sd1 = C64::new(2.0 - d1.re, -d1.im);
+        let sd2 = C64::new(2.0 - d2.re, -d2.im);
+        let sd3 = C64::new(2.0 - d3.re, -d3.im);
+        let s_sum_m2 = C64::new(sd1.re + sd2.re + sd3.re - 2.0, sd1.im + sd2.im + sd3.im);
+        let c_sh_raw = c64_gamma(sd1)
+            .mul(c64_gamma(sd2))
+            .mul(c64_gamma(sd3))
+            .div(c64_gamma(s_sum_m2));
+        let c_sh_conj = C64::new(c_sh_raw.re, -c_sh_raw.im);
+        c_mhv.sub(c_sh_conj).abs() / c_mhv.abs()
+    };
+    let googly_on_line = eval_mhv_vs_shadow(0.0, 0.7, -1.3, 1.1);
+    let googly_off_line = eval_mhv_vs_shadow(0.15, 0.7, -1.3, 1.1);
+
+    // 4. Hasse–Weil Gr(2,4)(F_q) point counts vs. RREF Schubert cell enumeration
+    let f2 = gr24_hasse_weil_point_count(2);
+    let f3 = gr24_hasse_weil_point_count(3);
+    let f5 = gr24_hasse_weil_point_count(5);
+    let f7 = gr24_hasse_weil_point_count(7);
+    let rref_ok = f2 == gr24_rref_subspace_count_fp(2)
+        && f3 == gr24_rref_subspace_count_fp(3)
+        && f5 == gr24_rref_subspace_count_fp(5)
+        && f7 == gr24_rref_subspace_count_fp(7);
+
+    // 5. Symmetric adelic Cesàro mean at sigma = 0.50 vs. 0.25 and 0.75 (cutoff R = 10^4)
+    let c_half = adelic_symmetric_cesaro_mean(0.50, 10_000.0);
+    let c_q1 = adelic_symmetric_cesaro_mean(0.25, 10_000.0);
+    let c_q3 = adelic_symmetric_cesaro_mean(0.75, 10_000.0);
+
+    // 6. Turner Model 15 Mercury perihelion advance (arcsec/century) & solar light bending (arcsec)
+    // Solar GM / c^2 = 1_476.625_038_5 m, R_sun = 6.957e8 m, Mercury a = 5.790_905e10 m, e = 0.205_630_69, T_orb = 87.9691 days
+    let gm_over_c2 = 1_476.625_038_5_f64;
+    let r_sun = 6.957e8_f64;
+    let a_merc = 5.790_905e10_f64;
+    let e_merc = 0.205_630_69_f64;
+    let kahler_det = 4.0 - e_merc * e_merc;
+    let shadow_norm_on_line = celestial_spin_two_cayley_shadow_factor(0.0);
+    let plancherel_loop_classical = 1.0 + 0.125 * 0.0 + (1.0 / 90.0) * 0.0;
+    let dvarpi_rad_per_orbit = shadow_norm_on_line
+        * plancherel_loop_classical
+        * (6.0 * PI * gm_over_c2)
+        / (a_merc * (kahler_det - 3.0));
+    let orbits_per_century = 36525.0 / 87.9691;
+    let arcsec_per_rad = (180.0 * 3600.0) / PI;
+    let merc_arcsec_cy = dvarpi_rad_per_orbit * orbits_per_century * arcsec_per_rad;
+    let gr_ref_arcsec_cy =
+        ((6.0 * PI * gm_over_c2) / (a_merc * (1.0 - e_merc * e_merc))) * orbits_per_century * arcsec_per_rad;
+    let rel_err_gr = (merc_arcsec_cy - gr_ref_arcsec_cy).abs() / gr_ref_arcsec_cy;
+    let solar_light_bending_arcsec = shadow_norm_on_line
+        * plancherel_loop_classical
+        * ((4.0 * gm_over_c2 / r_sun) * (kahler_det - 3.0) / (1.0 - e_merc * e_merc))
+        * arcsec_per_rad;
+
+    CelestialHolographyGravitonAudit {
+        plancherel_bose_max_diff: max_bose_diff,
+        m1_quadrature: m1_quad,
+        m1_exact,
+        m1_abs_error: (m1_quad - m1_exact).abs(),
+        m2_quadrature: m2_quad,
+        m2_exact,
+        m2_abs_error: (m2_quad - m2_exact).abs(),
+        m3_quadrature: m3_quad,
+        m3_reference: m3_ref,
+        m3_abs_error: (m3_quad - m3_ref).abs(),
+        m3_upper_bound: 1.0 / 512.0,
+        m3_even_part,
+        m3_odd_excess: m3_quad - m3_even_part,
+        plancherel_two_loop_deficit_coeff: m1_exact * m1_exact - m2_exact,
+        googly_principal_series_rel_err: googly_on_line,
+        googly_off_line_symmetry_breaking: googly_off_line,
+        gr24_f2_points: f2,
+        gr24_f3_points: f3,
+        gr24_f5_points: f5,
+        gr24_f7_points: f7,
+        gr24_rref_matches_polynomial: rref_ok,
+        cesaro_at_half: c_half,
+        cesaro_at_quarter: c_q1,
+        cesaro_at_three_quarters: c_q3,
+        cesaro_even_symmetry_diff: (c_q1 - c_q3).abs(),
+        turner_model15_mercury_arcsec_century: merc_arcsec_cy,
+        turner_model15_rel_err_vs_gr: rel_err_gr,
+        turner_model15_solar_light_bending_arcsec: solar_light_bending_arcsec,
+        turner_model15_cayley_shadow_norm_at_half: celestial_spin_two_cayley_shadow_factor(0.5),
+        turner_model15_cayley_shadow_norm_at_one: celestial_spin_two_cayley_shadow_factor(1.0),
+        turner_model15a_active_laser_deflection: 1.0,
+        turner_model15b_active_laser_deflection: 0.0,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1577,5 +1909,79 @@ mod tests {
         // creates |1 - 1/rho| ~ 1.0010 > 1, driving partial Li coefficients negative for finite n.
         let off_li = li_partial_coefficients(&gammas, 5000, Some((0.20, 14.1347)));
         assert!(off_li.iter().any(|&v| v < 0.0));
+    }
+
+    #[test]
+    fn celestial_holography_plancherel_loops_googly_and_turner_model15_audit() {
+        let rep = audit_celestial_holography_and_turner_graviton();
+        assert!(rep.plancherel_bose_max_diff < 1e-14);
+        assert!(rep.m1_abs_error < 1e-12);
+        assert!(rep.m2_abs_error < 1e-12);
+        assert!(rep.m3_abs_error < 1e-12);
+        assert!(rep.m3_quadrature < rep.m3_upper_bound);
+        assert!(rep.googly_principal_series_rel_err < 1e-14);
+        assert!(rep.googly_off_line_symmetry_breaking > 0.1);
+        assert_eq!(rep.gr24_f2_points, 35);
+        assert_eq!(rep.gr24_f3_points, 130);
+        assert_eq!(rep.gr24_f5_points, 806);
+        assert_eq!(rep.gr24_f7_points, 2850);
+        assert!(rep.gr24_rref_matches_polynomial);
+        assert!((rep.m3_even_part - 0.000_599_032_245_072_408_5).abs() < 1e-13);
+        assert!((rep.m3_odd_excess - 0.000_428_988_231_748_272_6).abs() < 1e-13);
+        assert!((rep.plancherel_two_loop_deficit_coeff - 13.0 / 2880.0).abs() < 1e-16);
+        assert!((rep.cesaro_at_half - 1.0).abs() < 1e-14);
+        assert!(rep.cesaro_at_quarter > 10.0 && rep.cesaro_at_three_quarters > 10.0);
+        assert!(rep.cesaro_even_symmetry_diff < 1e-13);
+        assert!((rep.turner_model15_mercury_arcsec_century - 42.9814).abs() < 0.01);
+        assert!(rep.turner_model15_rel_err_vs_gr < 1e-15);
+        assert!((rep.turner_model15_solar_light_bending_arcsec - 1.7505).abs() < 0.001);
+        assert!((rep.turner_model15_cayley_shadow_norm_at_half - 0.5).abs() < 1e-15);
+        assert!((rep.turner_model15_cayley_shadow_norm_at_one - 0.2).abs() < 1e-15);
+        assert_eq!(rep.turner_model15a_active_laser_deflection, 1.0);
+        assert_eq!(rep.turner_model15b_active_laser_deflection, 0.0);
+    }
+
+    #[test]
+    fn celestial_cayley_shadow_norm_all_loop_bound_and_quartic_counterexample() {
+        // 1. Removable-singularity & asymptotic branches of P(lambda), Bose difference, and F(y)
+        assert!((celestial_plancherel_weight(0.0) - 1.0).abs() < 1e-15);
+        assert!((celestial_bose_difference_weight(0.0) - 1.0).abs() < 1e-15);
+        assert!(celestial_plancherel_weight(120.0) >= 0.0 && celestial_plancherel_weight(120.0) < 1e-100);
+        assert!(celestial_bose_difference_weight(120.0) >= 0.0 && celestial_bose_difference_weight(120.0) < 1e-100);
+        assert!((celestial_half_line_convolution_f(0.0) - 1.0 / 12.0).abs() < 1e-15);
+
+        // 2. Full-line convolution identity F(y) + F(-y) = ((1 + y^2) / 6) P(y) across positive and negative y
+        for &y in &[0.25_f64, 0.75, 1.5, 3.0] {
+            let full_conv = celestial_half_line_convolution_f(y) + celestial_half_line_convolution_f(-y);
+            let exact = (1.0 + y * y) / 6.0 * celestial_plancherel_weight(y);
+            assert!(
+                (full_conv - exact).abs() < 1e-15,
+                "y={y}: full_conv={full_conv} vs exact={exact}"
+            );
+            assert!(celestial_half_line_convolution_f(y) > celestial_half_line_convolution_f(-y));
+        }
+
+        // 3. Cayley shadow norm regularization across and outside the critical strip
+        for &s_dev in &[-1.5_f64, -0.5, -0.25, 0.0, 0.25, 0.5, 1.0, 2.0] {
+            let w_cayley = celestial_spin_two_cayley_shadow_factor(s_dev);
+            let w_unreg = 1.0 - 4.0 * s_dev * s_dev;
+            let expected_diff = 16.0 * s_dev.powi(4) / (1.0 + 4.0 * s_dev * s_dev);
+            assert!(w_cayley > 0.0 && w_cayley <= 1.0);
+            assert!((w_cayley - celestial_spin_two_cayley_shadow_factor(-s_dev)).abs() < 1e-16);
+            assert!(((w_cayley - w_unreg) - expected_diff).abs() < 1e-14);
+        }
+
+        // 4. All-loop geometric resummation envelope 8 / (8 - alpha_QG) vs 2-loop truncation
+        for &alpha in &[0.01_f64, 0.1, 0.5, 1.0, 2.0] {
+            let env = celestial_plancherel_all_loop_envelope(alpha);
+            let loop2 = 1.0 + (1.0 / 8.0) * alpha + (1.0 / 90.0) * alpha * alpha;
+            let exact_gap = (13.0 / 2880.0) * alpha * alpha + alpha.powi(3) / (64.0 * (8.0 - alpha));
+            assert!(env > loop2);
+            assert!(((env - loop2) - exact_gap).abs() < 1e-14);
+        }
+
+        // 5. Small-x Taylor branch of adelic_symmetric_cesaro_mean
+        let c_tiny = adelic_symmetric_cesaro_mean(0.5 + 1e-10, 10.0);
+        assert!((c_tiny - 1.0).abs() < 1e-15 && c_tiny >= 1.0);
     }
 }

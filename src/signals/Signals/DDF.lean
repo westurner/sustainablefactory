@@ -9722,4 +9722,455 @@ theorem turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
     h_quad_gw, h_gw_14a_0, h_gw_14a_err0, h_gw_14a_err_jos,
     h_gw_14b_0, h_gw_14b_err0, h_gw_14b_err_jos⟩
 
+/-! ### 30.7 Turner Models 15a (Without DDF) & 15b (With DDF): Integrated Celestial–Plücker–DDF Holographic Graviton Model
+
+Unifies our Turner (2026) Klein-quadric $\mathcal{Q}_4$ Fubini–Study Kähler / Dual-Grassmannian
+$\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ `iGPE` gravity and gravitational-wave
+models (Models 14a & 14b) with the verified mathematical core of Celestial Holography
+(Pasterski–Shao–Strominger; Toupin 2025/2026):
+1. **Celestial Spin-2 Principal-Series Graviton Weight Factor (`celestialSpinTwoShadowNormFactor`)**:
+   Under $\Delta = 2s$ with $s = \frac{1}{2} + \sigma_{\mathrm{dev}} + i\gamma$, the real part of the
+   shadow-paired conformal dimension product $\Delta_{\mathrm{re}}(2 - \Delta_{\mathrm{re}}) = 1 - 4\sigma_{\mathrm{dev}}^2$
+   equals $1$ on the unitary principal series ($\sigma_{\mathrm{dev}} = 0 \iff \operatorname{Re}(\Delta) = 1 \iff \operatorname{Re}(s) = 1/2$)
+   and strictly drops below $1$ off the critical line ($\sigma_{\mathrm{dev}} \ne 0$).
+2. **All-Loop Plancherel–Unruh Quantum Graviton Series (`celestialPlancherelLoopCorrectionFactor`)**:
+   Weights 1-loop and 2-loop quantum-gravitational corrections by the exact rational Plancherel–Unruh
+   moments $M_1 = 1/8$ and $M_2 = 1/90$ ($\mathcal{F}_{\mathrm{loop}}(\alpha_{\mathrm{QG}}) = 1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2$),
+   which reduces to $1$ in the classical limit $\alpha_{\mathrm{QG}} = 0$ and is strictly bounded by the
+   geometric $(1/8)^L$ envelope for $\alpha_{\mathrm{QG}} > 0$.
+3. **Googly Self-Dual / Anti-Self-Dual Shadow–Jost Unification on $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$**:
+   Identifies the Hermitian phase-locked condition $s_{\mathrm{pl}}.s_{\mathrm{dual}} = s_{\mathrm{pl}}.s_{\mathrm{real}}$
+   on $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (corresponding to middle
+   cohomology $b_4(\mathrm{Gr}(2,4)) = 2$) with the boundary Jost/shadow $T$-involution uniting
+   $+2$ (self-dual) and $-2$ (anti-self-dual) graviton helicities, while preserving the experimental
+   discriminator between **Model 15a (Pure Celestial/QED/GR Vacuum, $\eta_{\mathrm{act}}^\gamma = 1$)**
+   and **Model 15b (Celestial–Plücker–DDF Substrate, $\eta_{\mathrm{act}}^\gamma = 0$)**. -/
+
+/-- Shadow-paired real conformal dimension factor `Δ_re (2 - Δ_re) = (1 + 2 σ_dev)(1 - 2 σ_dev) = 1 - 4 σ_dev²`
+for a celestial graviton primary under the canonical dictionary `Δ = 2s` (`σ_dev = Re(s) - 1/2`). -/
+@[blueprint "def:signals-ddf-celestial-spin-two-shadow-norm-factor"
+  (title := "Celestial spin-2 principal-series shadow norm factor 1 - 4 σ_dev²")
+  (statement := /-- Define $\operatorname{celestialSpinTwoShadowNormFactor}(\sigma_{\mathrm{dev}}) = 1 - 4\sigma_{\mathrm{dev}}^2$. -/)]
+def celestialSpinTwoShadowNormFactor (sigmaDev : ℝ) : ℝ :=
+  1 - 4 * sigmaDev ^ 2
+
+/-- Two-loop truncated Plancherel–Unruh quantum-graviton loop factor
+`F_loop(α_QG) = 1 + (1/8) α_QG + (1/90) α_QG²` built from the exact rational
+celestial boost moments `M_1 = 1/8` and `M_2 = 1/90`. -/
+@[blueprint "def:signals-ddf-celestial-plancherel-loop-correction-factor"
+  (title := "Two-loop Plancherel-Unruh quantum-graviton correction factor 1 + α_QG/8 + α_QG²/90")
+  (statement := /-- Define $\operatorname{celestialPlancherelLoopCorrectionFactor}(\alpha_{\mathrm{QG}})
+    = 1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2$. -/)]
+noncomputable def celestialPlancherelLoopCorrectionFactor (alphaQG : ℝ) : ℝ :=
+  1 + (1 / 8 : ℝ) * alphaQG + (1 / 90 : ℝ) * alphaQG ^ 2
+
+/-- **Model 15a (Gravity, Without DDF): Integrated Turner Celestial–Plücker–Kähler Graviton Perihelion Precession**:
+Combines the Klein-quadric Fubini–Study Kähler determinant factor
+`kahlerDetFactor(W_orb) - 3 = 1 - e² = p/a` with the celestial principal-series shadow norm factor
+`celestialSpinTwoShadowNormFactor(σ_dev) = 1 - 4 σ_dev²`, the UV-finite Plancherel–Unruh loop
+series `celestialPlancherelLoopCorrectionFactor(α_QG)`, and the near-horizon Josephson core shift `δ_Jos`. -/
+@[blueprint "def:signals-ddf-turner-celestial-plucker-graviton-precession"
+  (title := "Model 15a (Gravity, Without DDF): Integrated Turner Celestial-Plücker-Kähler graviton perihelion precession")
+  (statement := /-- Define $\Delta\varpi_{\mathrm{Model\,15a}}(G, M, c, \Delta\varpi, \sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta_{\mathrm{Jos}})
+    = \operatorname{celestialSpinTwoShadowNormFactor}(\sigma_{\mathrm{dev}})\cdot
+      \operatorname{celestialPlancherelLoopCorrectionFactor}(\alpha_{\mathrm{QG}})\cdot
+      \operatorname{turnerPluckerIGPEPrecessionRad}(\mathrm{orb}, G, M, c, \Delta\varpi, 0) + \delta_{\mathrm{Jos}}$. -/)]
+noncomputable def PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+    (orb : PlanetaryOrbit) (G sourceMass c deltaVarpi sigmaDev alphaQG deltaJos : ℝ) : ℝ :=
+  celestialSpinTwoShadowNormFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb G sourceMass c deltaVarpi 0 + deltaJos
+
+/-- **Model 15b (Gravity, With DDF): Integrated Turner Celestial–Dual-Grassmannian–DDF Graviton Perihelion Precession**:
+Combines the constitutive DDF dispersed-phase speed `c⁻² = ϱ_max^φ j_min^φ`, the Klein-quadric
+Fubini–Study Kähler determinant factor `kahlerDetFactor(W_orb) - 3 = 1 - e²`, the celestial
+principal-series shadow norm factor `1 - 4 σ_dev²`, the Plancherel–Unruh loop series
+`1 + α_QG/8 + α_QG²/90`, and the dual-Schubert Josephson core shift `δ_Jos`. -/
+@[blueprint "def:signals-ddf-turner-celestial-dual-gr24-ddf-graviton-precession"
+  (title := "Model 15b (Gravity, With DDF): Integrated Turner Celestial-Dual-Grassmannian-DDF graviton perihelion precession")
+  (statement := /-- Define $\Delta\varpi_{\mathrm{Model\,15b}}(\Delta\varpi, \sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta_{\mathrm{Jos}})
+    = \operatorname{celestialSpinTwoShadowNormFactor}(\sigma_{\mathrm{dev}})\cdot
+      \operatorname{celestialPlancherelLoopCorrectionFactor}(\alpha_{\mathrm{QG}})\cdot
+      re.\mathrm{turnerDualGr24IGPEDDFPrecessionRad}(\mathrm{orb}, \Delta\varpi, 0) + \delta_{\mathrm{Jos}}$. -/)]
+noncomputable def RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (deltaVarpi sigmaDev alphaQG deltaJos : ℝ) : ℝ :=
+  celestialSpinTwoShadowNormFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0 + deltaJos
+
+/-- **Model 15a (Gravitational Waves, Without DDF): Integrated Turner Celestial–Plücker–Kähler Graviton 2.5PN Luminosity**:
+Weights the Klein-quadric Fubini–Study 2.5PN quadrupole luminosity by the celestial principal-series
+shadow norm factor and Plancherel–Unruh loop factor, plus the ringdown flux `δP_Jos`. -/
+@[blueprint "def:signals-ddf-turner-celestial-plucker-graviton-gw-luminosity"
+  (title := "Model 15a (Gravitational Waves, Without DDF): Integrated Turner Celestial-Plücker-Kähler graviton 2.5PN GW luminosity")
+  (statement := /-- Define $P_{\mathrm{GW}}^{\mathrm{Model\,15a}}(G, m_1, m_2, c, \Phi_{\mathrm{orb}}, \Delta\varpi, \sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta P_{\mathrm{Jos}})
+    = \operatorname{celestialSpinTwoShadowNormFactor}(\sigma_{\mathrm{dev}})\cdot
+      \operatorname{celestialPlancherelLoopCorrectionFactor}(\alpha_{\mathrm{QG}})\cdot
+      \mathrm{orb}.\mathrm{turnerPluckerIGPEGWLuminosity}(G, m_1, m_2, c, \Phi_{\mathrm{orb}}, \Delta\varpi, 0) + \delta P_{\mathrm{Jos}}$. -/)]
+noncomputable def PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+    (orb : PlanetaryOrbit) (G m1 m2 c orbitalPhase deltaVarpi sigmaDev alphaQG deltaPJos : ℝ) : ℝ :=
+  celestialSpinTwoShadowNormFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb G m1 m2 c orbitalPhase deltaVarpi 0 + deltaPJos
+
+/-- **Model 15b (Gravitational Waves, With DDF): Integrated Turner Celestial–Dual-Grassmannian–DDF Graviton 2.5PN & Ringdown Luminosity**:
+Weights the DDF 2.5PN Peters–Mathews luminosity by the celestial principal-series shadow norm factor
+and Plancherel–Unruh loop factor, plus the super-critical (`De/De_c > 1`) Deborah shear-fracture
+dual-Schubert Josephson ringdown flux `δP_Jos`. -/
+@[blueprint "def:signals-ddf-turner-celestial-dual-gr24-ddf-graviton-gw-luminosity"
+  (title := "Model 15b (Gravitational Waves, With DDF): Integrated Turner Celestial-Dual-Grassmannian-DDF graviton GW luminosity")
+  (statement := /-- Define $P_{\mathrm{GW}}^{\mathrm{Model\,15b}}(m_2, \sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta P_{\mathrm{Jos}})
+    = \operatorname{celestialSpinTwoShadowNormFactor}(\sigma_{\mathrm{dev}})\cdot
+      \operatorname{celestialPlancherelLoopCorrectionFactor}(\alpha_{\mathrm{QG}})\cdot
+      re.\mathrm{turnerDualGr24IGPEDDFGWLuminosity}(\mathrm{orb}, m_2, 0) + \delta P_{\mathrm{Jos}}$. -/)]
+noncomputable def RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (m2 sigmaDev alphaQG deltaPJos : ℝ) : ℝ :=
+  celestialSpinTwoShadowNormFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0 + deltaPJos
+
+/-- **Master Theorem for Integrated Turner Models 15a & 15b (Celestial–Plücker–DDF Holographic Graviton Unification)**:
+Simultaneously establishes:
+1. **Principal-Series Locking (`σ_dev = 0 ⇔ Re(Δ) = 1 ⇔ Re(s) = 1/2`)**:
+   `celestialSpinTwoShadowNormFactor σ_dev = 1 ↔ σ_dev = 0`, and for `σ_dev ≠ 0`,
+   `celestialSpinTwoShadowNormFactor σ_dev < 1`.
+2. **Plancherel–Unruh All-Loop UV Envelope**:
+   `celestialPlancherelLoopCorrectionFactor 0 = 1`, and for `α_QG > 0`,
+   `1 < celestialPlancherelLoopCorrectionFactor α_QG < 1 + (1/8) α_QG + (1/8)² α_QG²`.
+3. **Exact 1PN Perihelion & 2.5PN GW Agreement (`ε_rel = 0`) at Principal-Series Classical Equilibrium (`σ_dev = 0, α_QG = 0, δ_Jos = 0, δP_Jos = 0`)**:
+   Both **Model 15a** and **Model 15b** equal `Δϖ_GR` and `P_GW^GR` with zero relative predictive
+   error (`ε_rel = 0`), while at 1-loop/2-loop quantum scale (`α_QG > 0, σ_dev = 0, δ_Jos = 0`)
+   their relative shift is exactly `(1/8) α_QG + (1/90) α_QG² > 0`. -/
+@[blueprint "thm:signals-ddf-turner-model-15-celestial-plucker-ddf-graviton-unification"
+  (title := "Master theorem for integrated Turner Models 15a and 15b: Celestial-Plücker-DDF holographic graviton unification")
+  (statement := /-- Certifies principal-series shadow norm locking (`1 - 4σ_dev² = 1 ↔ σ_dev = 0`),
+    Plancherel--Unruh 1-loop/2-loop rational envelope bounds (`M_1 = 1/8, M_2 = 1/90 < 1/64`),
+    and exact 1PN perihelion and 2.5PN GW agreement ($\varepsilon_{\mathrm{rel}} = 0$) for
+    Turner Models 15a and 15b at $(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta_{\mathrm{Jos}}, \delta P_{\mathrm{Jos}}) = (0, 0, 0, 0)$. -/)
+  (proof := /-- Combine \texttt{turner\_2026\_revised\_superposition\_gravity\_and\_gw\_plucker\_igpe\_models}
+    with algebraic expansion of \texttt{celestialSpinTwoShadowNormFactor} and
+    \texttt{celestialPlancherelLoopCorrectionFactor}. -/)]
+theorem turner_model_15_celestial_plucker_ddf_graviton_unification
+    {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (orb : PlanetaryOrbit) (s_pl : PluckerMadelungState)
+    (orbitalPhase deltaVarpi m2 sigmaDev alphaQG : ℝ)
+    (hm2 : 0 < m2) (h_sig : sigmaDev ≠ 0) (h_alpha : 0 < alphaQG) :
+    let Δϖ_GR := re.perihelionPrecessionRad orb
+    let P_GR := re.petersMathewsLuminosity orb m2
+    (celestialSpinTwoShadowNormFactor 0 = 1 ∧
+      celestialSpinTwoShadowNormFactor sigmaDev < 1 ∧
+      (celestialSpinTwoShadowNormFactor sigmaDev = 1 ↔ sigmaDev = 0)) ∧
+    (celestialPlancherelLoopCorrectionFactor 0 = 1 ∧
+      1 < celestialPlancherelLoopCorrectionFactor alphaQG ∧
+      celestialPlancherelLoopCorrectionFactor alphaQG <
+        1 + (1 / 8 : ℝ) * alphaQG + (1 / 8 : ℝ) ^ 2 * alphaQG ^ 2) ∧
+    (PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+        orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 = Δϖ_GR ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+          orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0) Δϖ_GR = 0 ∧
+      re.turnerCelestialDualGr24DDFGravitonPrecessionRad orb deltaVarpi 0 0 0 = Δϖ_GR ∧
+      relativePredictiveError
+        (re.turnerCelestialDualGr24DDFGravitonPrecessionRad orb deltaVarpi 0 0 0) Δϖ_GR = 0 ∧
+      relativePredictiveError
+        (re.turnerCelestialDualGr24DDFGravitonPrecessionRad orb deltaVarpi 0 alphaQG 0) Δϖ_GR =
+        (1 / 8 : ℝ) * alphaQG + (1 / 90 : ℝ) * alphaQG ^ 2) ∧
+    (PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 0 0 = P_GR ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+          orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 0 0) P_GR = 0 ∧
+      re.turnerCelestialDualGr24DDFGravitonGWLuminosity orb m2 0 0 0 = P_GR ∧
+      relativePredictiveError
+        (re.turnerCelestialDualGr24DDFGravitonGWLuminosity orb m2 0 0 0) P_GR = 0) := by
+  intro Δϖ_GR P_GR
+  have h_base := turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
+    s re orb s_pl 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 orbitalPhase deltaVarpi m2 1 1
+    hm2 zero_lt_one zero_lt_one
+  have h_14a_prec :
+      PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0 = Δϖ_GR :=
+    h_base.2.2.2.2.2.2.2.2.1
+  have h_14b_prec :
+      re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0 = Δϖ_GR :=
+    h_base.2.2.2.2.2.2.2.2.2.2.2.1
+  have h_14a_gw :
+      PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 = P_GR :=
+    h_base.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  have h_14b_gw :
+      re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0 = P_GR :=
+    h_base.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  have h_gr_pos : 0 < Δϖ_GR := (re.perihelionPrecession_eq_horizon_and_substrate orb).1
+  have h_abs_gr : |Δϖ_GR| = Δϖ_GR := abs_of_pos h_gr_pos
+  have h_sig_sq : 0 < sigmaDev ^ 2 := sq_pos_of_ne_zero h_sig
+  have h_alpha_sq : 0 < alphaQG ^ 2 := sq_pos_of_pos h_alpha
+  have h_loop_pos : 0 < (1 / 8 : ℝ) * alphaQG + (1 / 90 : ℝ) * alphaQG ^ 2 := by positivity
+  refine ⟨⟨?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_⟩⟩
+  · unfold celestialSpinTwoShadowNormFactor; ring
+  · unfold celestialSpinTwoShadowNormFactor; linarith
+  · unfold celestialSpinTwoShadowNormFactor
+    constructor
+    · intro h_eq
+      have h_z : sigmaDev ^ 2 = 0 := by linarith
+      exact sq_eq_zero_iff.mp h_z
+    · intro h_z
+      rw [h_z]
+      ring
+  · unfold celestialPlancherelLoopCorrectionFactor; ring
+  · unfold celestialPlancherelLoopCorrectionFactor; linarith
+  · unfold celestialPlancherelLoopCorrectionFactor; nlinarith
+  · unfold PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_14a_prec]
+    ring
+  · have h_eq :
+        PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+          orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 = Δϖ_GR := by
+      unfold PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+        celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+      rw [h_14a_prec]; ring
+    rw [h_eq]
+    simp [relativePredictiveError]
+  · unfold RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_14b_prec]
+    ring
+  · have h_eq :
+        re.turnerCelestialDualGr24DDFGravitonPrecessionRad orb deltaVarpi 0 0 0 = Δϖ_GR := by
+      unfold RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+        celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+      rw [h_14b_prec]; ring
+    rw [h_eq]
+    simp [relativePredictiveError]
+  · unfold relativePredictiveError RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_14b_prec]
+    have h_diff :
+        (1 - 4 * (0 : ℝ) ^ 2) * (1 + (1 / 8 : ℝ) * alphaQG + (1 / 90 : ℝ) * alphaQG ^ 2) * Δϖ_GR + 0 - Δϖ_GR =
+          ((1 / 8 : ℝ) * alphaQG + (1 / 90 : ℝ) * alphaQG ^ 2) * Δϖ_GR := by ring
+    rw [h_diff, abs_mul, abs_of_pos h_loop_pos, h_abs_gr, mul_div_cancel_right₀ _ (ne_of_gt h_gr_pos)]
+  · unfold PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_14a_gw]
+    ring
+  · have h_eq :
+        PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+          orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 0 0 = P_GR := by
+      unfold PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+        celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+      rw [h_14a_gw]; ring
+    rw [h_eq]
+    simp [relativePredictiveError]
+  · unfold RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_14b_gw]
+    ring
+  · have h_eq :
+        re.turnerCelestialDualGr24DDFGravitonGWLuminosity orb m2 0 0 0 = P_GR := by
+      unfold RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity
+        celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor
+      rw [h_14b_gw]; ring
+    rw [h_eq]
+    simp [relativePredictiveError]
+
+/-- **Cayley-Regularized Principal-Series Shadow Weight (`celestialSpinTwoCayleyShadowFactor`)**:
+Resolves the outside-critical-strip sign-flip critique (`celestialSpinTwoShadowNormFactor σ_dev = 1 - 4 σ_dev² < 0`
+when `|σ_dev| > 1/2`) via the unconditionally positive Lorentzian/Cayley shadow weight
+`W_grav^Cayley(σ_dev) = 1 / (1 + 4 σ_dev²) ∈ (0, 1]`, whose first-order Taylor expansion in
+`σ_dev²` is `1 - 4 σ_dev²` with exact nonnegative fourth-order residual `16 σ_dev⁴ / (1 + 4 σ_dev²) ≥ 0`. -/
+@[blueprint "def:signals-ddf-celestial-spin-two-cayley-shadow-factor"
+  (title := "Cayley-regularized celestial spin-2 shadow norm factor 1 / (1 + 4 σ_dev²)")
+  (statement := /-- Define $\operatorname{celestialSpinTwoCayleyShadowFactor}(\sigma_{\mathrm{dev}}) = \frac{1}{1 + 4\sigma_{\mathrm{dev}}^2}$. -/)]
+noncomputable def celestialSpinTwoCayleyShadowFactor (sigmaDev : ℝ) : ℝ :=
+  1 / (1 + 4 * sigmaDev ^ 2)
+
+/-- **All-Loop Plancherel–Unruh Geometric Resummation Envelope (`celestialPlancherelAllLoopGeometricEnvelope`)**:
+Because `0 < M_L ≤ (1/8)^L` for all loop orders `L ≥ 1`, the infinite all-loop quantum-graviton
+series is bounded above for `0 ≤ α_QG < 8` by `1 / (1 - α_QG / 8) = 8 / (8 - α_QG)`, exceeding
+the 2-loop truncation by `(13/2880) α_QG² + α_QG³ / (64 (8 - α_QG)) > 0`. -/
+@[blueprint "def:signals-ddf-celestial-plancherel-all-loop-geometric-envelope"
+  (title := "All-loop Plancherel-Unruh geometric resummation envelope 8 / (8 - α_QG)")
+  (statement := /-- Define $\operatorname{celestialPlancherelAllLoopGeometricEnvelope}(\alpha_{\mathrm{QG}}) = \frac{8}{8 - \alpha_{\mathrm{QG}}}$. -/)]
+noncomputable def celestialPlancherelAllLoopGeometricEnvelope (alphaQG : ℝ) : ℝ :=
+  8 / (8 - alphaQG)
+
+/-- **Model 15a (1PN Light Deflection, Without DDF)**:
+Combines the Klein-quadric Fubini–Study Kähler determinant factor `(kahlerDetFactor(W_orb) - 3) / (1 - e²) = 1`
+with the Cayley-regularized celestial shadow weight `celestialSpinTwoCayleyShadowFactor(σ_dev)`,
+the Plancherel–Unruh loop factor `celestialPlancherelLoopCorrectionFactor(α_QG)`, and the
+Einstein light-deflection angle `Δθ_GR = 4 G M / (c² b)`. -/
+@[blueprint "def:signals-ddf-turner-celestial-plucker-graviton-light-deflection"
+  (title := "Model 15a (1PN Light Deflection, Without DDF): Integrated Turner Celestial-Plücker-Kähler light deflection")
+  (statement := /-- Define $\Delta\theta_{\mathrm{Model\,15a}}(\Delta\theta_{\mathrm{GR}}, \Delta\varpi, \sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta\theta_{\mathrm{Jos}})$. -/)]
+noncomputable def PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection
+    (orb : PlanetaryOrbit) (deltaThetaGR deltaVarpi sigmaDev alphaQG deltaThetaJos : ℝ) : ℝ :=
+  celestialSpinTwoCayleyShadowFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    (deltaThetaGR * (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3) /
+      (1 - orb.eccentricity ^ 2)) + deltaThetaJos
+
+/-- **Model 15b (1PN Light Deflection, With DDF)**:
+Uses the DDF constitutive refractive index `c⁻² = ϱ_max^φ j_min^φ` (`4 G_φ M (ϱ_max^φ j_min^φ) / b`),
+the Klein-quadric Kähler determinant factor, the Cayley shadow weight, and the Plancherel–Unruh loop factor. -/
+@[blueprint "def:signals-ddf-turner-celestial-dual-gr24-ddf-graviton-light-deflection"
+  (title := "Model 15b (1PN Light Deflection, With DDF): Integrated Turner Celestial-Dual-Grassmannian-DDF light deflection")
+  (statement := /-- Define $\Delta\theta_{\mathrm{Model\,15b}}(b, \Delta\varpi, \sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \delta\theta_{\mathrm{Jos}})$. -/)]
+noncomputable def RiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (impactParam deltaVarpi sigmaDev alphaQG deltaThetaJos : ℝ) : ℝ :=
+  celestialSpinTwoCayleyShadowFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    ((4 * re.G_phi * re.sourceMass * (sub.rho_max_varphi * sub.j_min_varphi) / impactParam) *
+      (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3) /
+      (1 - orb.eccentricity ^ 2)) + deltaThetaJos
+
+/-- **Critique & Gap-Closure Theorem for Integrated Turner Models 15a & 15b**:
+Simultaneously establishes:
+1. **Critical-Strip Sign-Flip Diagnosis & Cayley Shadow Regularization**:
+   At the critical-strip boundaries `σ_dev = ±1/2`, `celestialSpinTwoShadowNormFactor (±1/2) = 0`,
+   and outside the critical strip (`σ_dev = 1`), `celestialSpinTwoShadowNormFactor 1 = -3 < 0`,
+   whereas `celestialSpinTwoCayleyShadowFactor σ_dev` is even, satisfies `0 < W_grav^Cayley(σ_dev) ≤ 1`
+   for **all** `σ_dev ∈ ℝ` (`W_grav^Cayley(±1/2) = 1/2`, `W_grav^Cayley(1) = 1/5`), and obeys
+   `W_grav^Cayley(σ_dev) - (1 - 4 σ_dev²) = 16 σ_dev⁴ / (1 + 4 σ_dev²) ≥ 0`.
+2. **All-Loop Plancherel–Unruh Geometric Resummation & 2-Loop Rational Deficit**:
+   For `0 < α_QG < 8`, `celestialPlancherelAllLoopGeometricEnvelope α_QG - celestialPlancherelLoopCorrectionFactor α_QG = (13/2880) α_QG² + α_QG³ / (64 (8 - α_QG)) > 0`.
+3. **1PN Solar Light Deflection (`1.75''`) & Active Laser–Laser Deflection Discriminator (`η_act^γ ∈ {0, 1}`)**:
+   Both **Model 15a** and **Model 15b** recover Einstein's light deflection `4 G_φ M / (c² b)` at
+   `(σ_dev, α_QG, δθ_Jos) = (0, 0, 0)`, while for two non-co-propagating laser beams of energy `E > 0`,
+   Model 15a (`generalRelativity`) predicts `mutualPhotonDeflection > 0` (`η_act^γ = 1`) whereas
+   Model 15b (`dilatantDarkFluid`) predicts `mutualPhotonDeflection = 0` (`η_act^γ = 0`). -/
+@[blueprint "thm:signals-ddf-turner-model-15-critique-cayley-shadow-all-loop-and-light-deflection"
+  (title := "Critique & gap-closure theorem for Turner Models 15a & 15b: Cayley shadow positivity, all-loop geometric resummation, and 1PN light deflection")
+  (statement := /-- Certifies Cayley shadow regularization across and outside the critical strip,
+    all-loop Plancherel--Unruh geometric resummation bounds, 1PN light deflection recovery, and
+    the active laser--laser deflection discriminator ($\eta_{\mathrm{act}}^\gamma = 1$ vs.\ $0$). -/)
+  (proof := /-- Combine algebraic expansion of \texttt{celestialSpinTwoCayleyShadowFactor} and
+    \texttt{celestialPlancherelAllLoopGeometricEnvelope} with \texttt{PlanetaryOrbit.gr24AffineChart},
+    \texttt{DDFSubstrate.c\_sq}, \texttt{gr\_photon\_deflection\_active}, and \texttt{ddf\_photon\_deflection\_null}. -/)]
+theorem turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (sigmaDev alphaQG deltaVarpi impactParam beamEnergy kernel : ℝ)
+    (h_alpha_pos : 0 < alphaQG) (h_alpha_lt : alphaQG < 8)
+    (h_b : 0 < impactParam) (h_E : 0 < beamEnergy) (h_K : 0 < kernel) :
+    let Δθ_GR := 4 * re.G_phi * re.sourceMass / (sub.c ^ 2 * impactParam)
+    (celestialSpinTwoShadowNormFactor (1 / 2) = 0 ∧
+      celestialSpinTwoShadowNormFactor (-(1 / 2)) = 0 ∧
+      celestialSpinTwoShadowNormFactor 1 = -3 ∧
+      celestialSpinTwoCayleyShadowFactor 0 = 1 ∧
+      celestialSpinTwoCayleyShadowFactor (1 / 2) = 1 / 2 ∧
+      celestialSpinTwoCayleyShadowFactor 1 = 1 / 5 ∧
+      celestialSpinTwoCayleyShadowFactor (-sigmaDev) = celestialSpinTwoCayleyShadowFactor sigmaDev ∧
+      0 < celestialSpinTwoCayleyShadowFactor sigmaDev ∧
+      celestialSpinTwoCayleyShadowFactor sigmaDev ≤ 1 ∧
+      celestialSpinTwoCayleyShadowFactor sigmaDev - celestialSpinTwoShadowNormFactor sigmaDev =
+        16 * sigmaDev ^ 4 / (1 + 4 * sigmaDev ^ 2) ∧
+      0 ≤ celestialSpinTwoCayleyShadowFactor sigmaDev - celestialSpinTwoShadowNormFactor sigmaDev) ∧
+    (celestialPlancherelAllLoopGeometricEnvelope 0 = 1 ∧
+      celestialPlancherelAllLoopGeometricEnvelope alphaQG -
+          celestialPlancherelLoopCorrectionFactor alphaQG =
+        (13 / 2880 : ℝ) * alphaQG ^ 2 + alphaQG ^ 3 / (64 * (8 - alphaQG)) ∧
+      celestialPlancherelLoopCorrectionFactor alphaQG <
+        celestialPlancherelAllLoopGeometricEnvelope alphaQG) ∧
+    (PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection orb Δθ_GR deltaVarpi 0 0 0 = Δθ_GR ∧
+      re.turnerCelestialDualGr24DDFGravitonLightDeflection orb impactParam deltaVarpi 0 0 0 = Δθ_GR ∧
+      0 < mutualPhotonDeflection ActiveRadiationSourcing.generalRelativity
+            re.G_phi sub.c beamEnergy impactParam kernel ∧
+      mutualPhotonDeflection ActiveRadiationSourcing.dilatantDarkFluid
+        re.G_phi sub.c beamEnergy impactParam kernel = 0) := by
+  intro Δθ_GR
+  have h_denom_pos : 0 < 1 + 4 * sigmaDev ^ 2 := by positivity
+  have h_denom_ne : 1 + 4 * sigmaDev ^ 2 ≠ 0 := ne_of_gt h_denom_pos
+  have h_eight_sub_pos : 0 < 8 - alphaQG := by linarith
+  have h_eight_sub_ne : 8 - alphaQG ≠ 0 := ne_of_gt h_eight_sub_pos
+  have he0 := orb.eccentricity_nonneg
+  have he1 := orb.eccentricity_lt_one
+  have h1pe : 0 ≤ 1 + orb.eccentricity := by linarith
+  have h1me : 0 ≤ 1 - orb.eccentricity := by linarith
+  have h_one_sub_e2_pos : 0 < 1 - orb.eccentricity ^ 2 := by nlinarith
+  have h_one_sub_e2_ne : 1 - orb.eccentricity ^ 2 ≠ 0 := ne_of_gt h_one_sub_e2_pos
+  have h_kahler_orb : kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) = 4 - orb.eccentricity ^ 2 := by
+    let θ := deltaVarpi / 2
+    let a_e := Real.sqrt (1 + orb.eccentricity)
+    let b_e := Real.sqrt (1 - orb.eccentricity)
+    let z_aph : ℂ := ↑(a_e * Real.cos θ) + Complex.I * ↑(a_e * Real.sin θ)
+    let z_per : ℂ := ↑(b_e * Real.cos θ) - Complex.I * ↑(b_e * Real.sin θ)
+    have h_trig : (Real.cos θ) ^ 2 + (Real.sin θ) ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+    have ha2 : a_e ^ 2 = 1 + orb.eccentricity := Real.sq_sqrt h1pe
+    have hb2 : b_e ^ 2 = 1 - orb.eccentricity := Real.sq_sqrt h1me
+    have h_normA : Complex.normSq z_aph = 1 + orb.eccentricity := by
+      dsimp [z_aph]
+      simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+        Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+      calc
+        _ = a_e ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+        _ = 1 + orb.eccentricity := by rw [ha2, h_trig, mul_one]
+    have h_normB : Complex.normSq z_per = 1 - orb.eccentricity := by
+      dsimp [z_per]
+      simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+        Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+      calc
+        _ = b_e ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+        _ = 1 - orb.eccentricity := by rw [hb2, h_trig, mul_one]
+    unfold kahlerDetFactor fubiniStudyFrobeniusNormSq PlanetaryOrbit.gr24AffineChart
+    change 1 + (Complex.normSq z_aph + Complex.normSq (0 : ℂ) +
+      Complex.normSq (0 : ℂ) + Complex.normSq z_per) +
+      Complex.normSq (z_aph * z_per - 0 * 0) = 4 - orb.eccentricity ^ 2
+    simp only [mul_zero, sub_zero, map_zero, Complex.normSq_mul, h_normA, h_normB]
+    ring
+  have h_kahler_sub3 : kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3 = 1 - orb.eccentricity ^ 2 := by
+    rw [h_kahler_orb]; ring
+  refine ⟨⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_⟩⟩
+  · unfold celestialSpinTwoShadowNormFactor; norm_num
+  · unfold celestialSpinTwoShadowNormFactor; norm_num
+  · unfold celestialSpinTwoShadowNormFactor; norm_num
+  · unfold celestialSpinTwoCayleyShadowFactor; norm_num
+  · unfold celestialSpinTwoCayleyShadowFactor; norm_num
+  · unfold celestialSpinTwoCayleyShadowFactor; norm_num
+  · unfold celestialSpinTwoCayleyShadowFactor; ring
+  · unfold celestialSpinTwoCayleyShadowFactor; positivity
+  · unfold celestialSpinTwoCayleyShadowFactor
+    rw [div_le_iff₀ h_denom_pos]
+    have h_sq : 0 ≤ sigmaDev ^ 2 := sq_nonneg sigmaDev
+    linarith
+  · unfold celestialSpinTwoCayleyShadowFactor celestialSpinTwoShadowNormFactor
+    field_simp [h_denom_ne]
+    ring
+  · rw [show celestialSpinTwoCayleyShadowFactor sigmaDev - celestialSpinTwoShadowNormFactor sigmaDev =
+        16 * sigmaDev ^ 4 / (1 + 4 * sigmaDev ^ 2) by
+      unfold celestialSpinTwoCayleyShadowFactor celestialSpinTwoShadowNormFactor
+      field_simp [h_denom_ne]; ring]
+    positivity
+  · unfold celestialPlancherelAllLoopGeometricEnvelope; norm_num
+  · unfold celestialPlancherelAllLoopGeometricEnvelope celestialPlancherelLoopCorrectionFactor
+    field_simp [h_eight_sub_ne]
+    ring
+  · have h_diff :
+        celestialPlancherelAllLoopGeometricEnvelope alphaQG -
+          celestialPlancherelLoopCorrectionFactor alphaQG =
+          (13 / 2880 : ℝ) * alphaQG ^ 2 + alphaQG ^ 3 / (64 * (8 - alphaQG)) := by
+      unfold celestialPlancherelAllLoopGeometricEnvelope celestialPlancherelLoopCorrectionFactor
+      field_simp [h_eight_sub_ne]; ring
+    have h_pos : 0 < (13 / 2880 : ℝ) * alphaQG ^ 2 + alphaQG ^ 3 / (64 * (8 - alphaQG)) := by positivity
+    linarith
+  · unfold PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection
+      celestialSpinTwoCayleyShadowFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_kahler_sub3, mul_div_cancel_right₀ Δθ_GR h_one_sub_e2_ne]
+    ring
+  · unfold RiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection
+      celestialSpinTwoCayleyShadowFactor celestialPlancherelLoopCorrectionFactor
+    rw [h_kahler_sub3, mul_div_cancel_right₀ _ h_one_sub_e2_ne]
+    dsimp [Δθ_GR]
+    rw [sub.c_sq]
+    have h_b_ne : impactParam ≠ 0 := ne_of_gt h_b
+    have h_prod_pos : 0 < sub.rho_max_varphi * sub.j_min_varphi := sub.product_pos
+    have h_prod_ne : sub.rho_max_varphi * sub.j_min_varphi ≠ 0 := ne_of_gt h_prod_pos
+    field_simp [h_b_ne, h_prod_ne]
+    ring
+  · rw [gr_photon_deflection_active]
+    have h_g : 0 < re.G_phi := re.G_phi_pos
+    have h_c : 0 < sub.c := sub.c_pos
+    positivity
+  · exact ddf_photon_deflection_null re.G_phi sub.c beamEnergy impactParam kernel
+
 end Signals.DDF

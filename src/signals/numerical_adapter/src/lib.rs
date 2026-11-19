@@ -420,6 +420,75 @@ fn py_li_partial_coefficients(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_celestial_holography_and_turner_graviton<'py>(
+    py: Python<'py>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let rep = riemann_spectral::audit_celestial_holography_and_turner_graviton();
+    let d = PyDict::new(py);
+    d.set_item("plancherel_bose_max_diff", rep.plancherel_bose_max_diff)?;
+    d.set_item("m1_quadrature", rep.m1_quadrature)?;
+    d.set_item("m1_exact", rep.m1_exact)?;
+    d.set_item("m1_abs_error", rep.m1_abs_error)?;
+    d.set_item("m2_quadrature", rep.m2_quadrature)?;
+    d.set_item("m2_exact", rep.m2_exact)?;
+    d.set_item("m2_abs_error", rep.m2_abs_error)?;
+    d.set_item("m3_quadrature", rep.m3_quadrature)?;
+    d.set_item("m3_reference", rep.m3_reference)?;
+    d.set_item("m3_abs_error", rep.m3_abs_error)?;
+    d.set_item("m3_upper_bound", rep.m3_upper_bound)?;
+    d.set_item("m3_even_part", rep.m3_even_part)?;
+    d.set_item("m3_odd_excess", rep.m3_odd_excess)?;
+    d.set_item(
+        "plancherel_two_loop_deficit_coeff",
+        rep.plancherel_two_loop_deficit_coeff,
+    )?;
+    d.set_item(
+        "googly_principal_series_rel_err",
+        rep.googly_principal_series_rel_err,
+    )?;
+    d.set_item(
+        "googly_off_line_symmetry_breaking",
+        rep.googly_off_line_symmetry_breaking,
+    )?;
+    d.set_item("gr24_f2_points", rep.gr24_f2_points)?;
+    d.set_item("gr24_f3_points", rep.gr24_f3_points)?;
+    d.set_item("gr24_f5_points", rep.gr24_f5_points)?;
+    d.set_item("gr24_f7_points", rep.gr24_f7_points)?;
+    d.set_item("gr24_rref_matches_polynomial", rep.gr24_rref_matches_polynomial)?;
+    d.set_item("cesaro_at_half", rep.cesaro_at_half)?;
+    d.set_item("cesaro_at_quarter", rep.cesaro_at_quarter)?;
+    d.set_item("cesaro_at_three_quarters", rep.cesaro_at_three_quarters)?;
+    d.set_item("cesaro_even_symmetry_diff", rep.cesaro_even_symmetry_diff)?;
+    d.set_item(
+        "turner_model15_mercury_arcsec_century",
+        rep.turner_model15_mercury_arcsec_century,
+    )?;
+    d.set_item("turner_model15_rel_err_vs_gr", rep.turner_model15_rel_err_vs_gr)?;
+    d.set_item(
+        "turner_model15_solar_light_bending_arcsec",
+        rep.turner_model15_solar_light_bending_arcsec,
+    )?;
+    d.set_item(
+        "turner_model15_cayley_shadow_norm_at_half",
+        rep.turner_model15_cayley_shadow_norm_at_half,
+    )?;
+    d.set_item(
+        "turner_model15_cayley_shadow_norm_at_one",
+        rep.turner_model15_cayley_shadow_norm_at_one,
+    )?;
+    d.set_item(
+        "turner_model15a_active_laser_deflection",
+        rep.turner_model15a_active_laser_deflection,
+    )?;
+    d.set_item(
+        "turner_model15b_active_laser_deflection",
+        rep.turner_model15b_active_laser_deflection,
+    )?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -471,6 +540,10 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_gram_law_and_lehmer, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_regular_graphs_bass_ihara, m)?)?;
     m.add_function(wrap_pyfunction!(py_li_partial_coefficients, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_celestial_holography_and_turner_graviton,
+        m
+    )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     Ok(())

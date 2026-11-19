@@ -288,3 +288,61 @@ def test_sympy_rh_analytical_bridges_gorz_keiper_li_weil_and_dbn():
     assert dbn_q["quartic_residual"] < 1e-40
     assert dbn_q["neighbor_squeeze_delta"] < 0.0
     assert abs(dbn_q["neighbor_squeeze_pct"] - (-0.1373)) < 1e-3
+
+
+def test_celestial_holography_toupin_and_turner_model15_sympy_mpmath_pyo3():
+    from sustainablefactory.riemann_rh_bridges import (
+        audit_celestial_holography_toupin_and_turner_graviton,
+    )
+
+    # 1. Rust/PyO3 native celestial holography & Turner Model 15 audit
+    rust_cel = sna.py_audit_celestial_holography_and_turner_graviton()
+    assert rust_cel["plancherel_bose_max_diff"] < 1e-14
+    assert rust_cel["m1_abs_error"] < 1e-12
+    assert rust_cel["m2_abs_error"] < 1e-12
+    assert rust_cel["m3_abs_error"] < 1e-12
+    assert rust_cel["m3_quadrature"] < rust_cel["m3_upper_bound"]
+    assert rust_cel["googly_principal_series_rel_err"] < 1e-14
+    assert rust_cel["googly_off_line_symmetry_breaking"] > 0.1
+    assert rust_cel["gr24_f2_points"] == 35
+    assert rust_cel["gr24_f3_points"] == 130
+    assert rust_cel["gr24_f5_points"] == 806
+    assert rust_cel["gr24_f7_points"] == 2850
+    assert rust_cel["gr24_rref_matches_polynomial"]
+    assert abs(rust_cel["plancherel_two_loop_deficit_coeff"] - 13.0 / 2880.0) < 1e-16
+    assert abs(rust_cel["cesaro_at_half"] - 1.0) < 1e-14
+    assert rust_cel["cesaro_at_quarter"] > 10.0
+    assert rust_cel["cesaro_at_three_quarters"] > 10.0
+    assert rust_cel["cesaro_even_symmetry_diff"] < 1e-13
+    assert abs(rust_cel["turner_model15_mercury_arcsec_century"] - 42.9814) < 0.01
+    assert rust_cel["turner_model15_rel_err_vs_gr"] < 1e-15
+    assert abs(rust_cel["turner_model15_solar_light_bending_arcsec"] - 1.7505) < 0.001
+    assert abs(rust_cel["turner_model15_cayley_shadow_norm_at_half"] - 0.5) < 1e-15
+    assert abs(rust_cel["turner_model15_cayley_shadow_norm_at_one"] - 0.2) < 1e-15
+    assert rust_cel["turner_model15a_active_laser_deflection"] == 1.0
+    assert rust_cel["turner_model15b_active_laser_deflection"] == 0.0
+
+    # 2. SymPy + 45-digit mpmath celestial & Turner graviton audit
+    py_cel = audit_celestial_holography_toupin_and_turner_graviton(dps=45)
+    assert py_cel["dict_unique_ok"]
+    assert py_cel["casimir_ok"]
+    assert py_cel["hasse_weil_sym_ok"]
+    assert py_cel["edge_deficit_ok"]
+    assert py_cel["pathway3_counterexample_ok"]
+    assert py_cel["sech4_fourier_ode_ok"]
+    assert py_cel["cayley_and_all_loop_sym_ok"]
+    assert abs(py_cel["b2_leading_pole_coeff"] - 8.0) < 1e-12
+    assert py_cel["max_hasse_weil_euler_err"] < 1e-38
+    assert py_cel["m1_error"] < 1e-40
+    assert py_cel["m2_error"] < 1e-20
+    assert py_cel["m3_error_vs_toupin_44digit"] < 1e-20
+    assert py_cel["m3_even_chamber_part"] > 0.0
+    assert py_cel["m3_odd_chamber_excess"] > 0.0
+    assert py_cel["f_zero_err"] < 1e-20
+    assert py_cel["full_line_conv_err"] < 1e-20
+    assert py_cel["toupin_eq8281_discrepancy_s2"] > 0.9
+    assert py_cel["bpy_err_s2"] < 1e-40
+    assert py_cel["bpy_err_s3"] < 1e-40
+    assert abs(rust_cel["m3_quadrature"] - py_cel["m3_value"]) < 1e-12
+    assert abs(rust_cel["m3_even_part"] - py_cel["m3_even_chamber_part"]) < 1e-12
+    assert abs(rust_cel["m3_odd_excess"] - py_cel["m3_odd_chamber_excess"]) < 1e-12
