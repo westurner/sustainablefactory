@@ -14,6 +14,7 @@ pub mod layer_groups;
 pub mod madelung_lagrangian;
 pub mod multi_array_imaging;
 pub mod multi_reference_noci;
+pub mod navier_stokes;
 pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
@@ -683,6 +684,218 @@ fn py_audit_riemann_spectral_bridge<'py>(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_schubert_chart_transition_vortex<'py>(
+    py: Python<'py>,
+    eps: f64,
+    x: f64,
+    y: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_schubert_chart_transition_vortex(eps, x, y);
+    let d = PyDict::new(py);
+    d.set_item("p01_abs", a.p01_abs)?;
+    d.set_item("p02_abs", a.p02_abs)?;
+    d.set_item("klein_quadric_residual", a.klein_quadric_residual)?;
+    d.set_item("cancellation_residual", a.cancellation_residual)?;
+    d.set_item("omega02_u01_abs", a.omega02_u01_abs)?;
+    d.set_item("omega02_u13_identity_residual", a.omega02_u13_identity_residual)?;
+    d.set_item("qfim_regularized_at_node", a.qfim_regularized_at_node)?;
+    d.set_item("chart_switched_to_omega02", a.chart_switched_to_omega02)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_bateman_vs_chat_heff<'py>(
+    py: Python<'py>,
+    e_val: f64,
+    hbar: f64,
+    nu: f64,
+    k: f64,
+    psi_re: f64,
+    psi_im: f64,
+    psit_re: f64,
+    psit_im: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_bateman_vs_chat_heff(
+        e_val, hbar, nu, k, psi_re, psi_im, psit_re, psit_im,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("chat_hermiticity_residual", a.chat_hermiticity_residual)?;
+    d.set_item("chat_total_norm_rate", a.chat_total_norm_rate)?;
+    d.set_item("bateman_primal_norm_rate", a.bateman_primal_norm_rate)?;
+    d.set_item("bateman_expected_primal_rate", a.bateman_expected_primal_rate)?;
+    d.set_item("bateman_dual_norm_rate", a.bateman_dual_norm_rate)?;
+    d.set_item("bateman_pairing_rate_abs", a.bateman_pairing_rate_abs)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_clebsch_spinor_vorticity<'py>(
+    py: Python<'py>,
+    hbar: f64,
+    mass: f64,
+    theta: f64,
+    dtheta_x: f64,
+    dtheta_y: f64,
+    dphi1_x: f64,
+    dphi1_y: f64,
+    dphi2_x: f64,
+    dphi2_y: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_clebsch_spinor_vorticity(
+        hbar, mass, theta, dtheta_x, dtheta_y, dphi1_x, dphi1_y, dphi2_x, dphi2_y,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("unit_norm_residual", a.unit_norm_residual)?;
+    d.set_item("berry_velocity_x", a.berry_velocity_x)?;
+    d.set_item("berry_velocity_y", a.berry_velocity_y)?;
+    d.set_item("qfim_xx", a.qfim_xx)?;
+    d.set_item("fubini_study_xx", a.fubini_study_xx)?;
+    d.set_item("qfim_identity_residual", a.qfim_identity_residual)?;
+    d.set_item("vorticity_z", a.vorticity_z)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_taylor_green_2d<'py>(
+    py: Python<'py>,
+    rho0: f64,
+    u0: f64,
+    nu: f64,
+    k: f64,
+    x: f64,
+    y: f64,
+    t: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_taylor_green_2d(rho0, u0, nu, k, x, y, t)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("u", a.u)?;
+    d.set_item("v", a.v)?;
+    d.set_item("pressure", a.pressure)?;
+    d.set_item("vorticity", a.vorticity)?;
+    d.set_item("div_residual", a.div_residual)?;
+    d.set_item("mom_x_residual", a.mom_x_residual)?;
+    d.set_item("mom_y_residual", a.mom_y_residual)?;
+    d.set_item("energy", a.energy)?;
+    d.set_item("enstrophy", a.enstrophy)?;
+    d.set_item("energy_enstrophy_decay_residual", a.energy_enstrophy_decay_residual)?;
+    d.set_item("ch2_osmotic_energy", a.ch2_osmotic_energy)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_lamb_oseen_2d<'py>(
+    py: Python<'py>,
+    gamma: f64,
+    nu: f64,
+    x: f64,
+    y: f64,
+    t: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_lamb_oseen_2d(gamma, nu, x, y, t)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("vorticity", a.vorticity)?;
+    d.set_item("peak_core_vorticity", a.peak_core_vorticity)?;
+    d.set_item("heat_pde_residual", a.heat_pde_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_beltrami_abc_3d<'py>(
+    py: Python<'py>,
+    rho0: f64,
+    a_amp: f64,
+    b_amp: f64,
+    c_amp: f64,
+    nu: f64,
+    k: f64,
+    x: f64,
+    y: f64,
+    z: f64,
+    t: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_beltrami_abc_3d(rho0, a_amp, b_amp, c_amp, nu, k, x, y, z, t)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("eigen_curl_residual", a.eigen_curl_residual)?;
+    d.set_item("laplacian_residual", a.laplacian_residual)?;
+    d.set_item("momentum_max_residual", a.momentum_max_residual)?;
+    d.set_item("helicity", a.helicity)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_viscous_burgers_cole_hopf<'py>(
+    py: Python<'py>,
+    c: f64,
+    a_amp: f64,
+    nu: f64,
+    x: f64,
+    t: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_viscous_burgers_cole_hopf(c, a_amp, nu, x, t)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("velocity", a.velocity)?;
+    d.set_item("burgers_pde_residual", a.burgers_pde_residual)?;
+    d.set_item("cole_hopf_tau_heat_residual", a.cole_hopf_tau_heat_residual)?;
+    d.set_item("cole_hopf_velocity_residual", a.cole_hopf_velocity_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_compressible_nsk_korteweg_bd<'py>(
+    py: Python<'py>,
+    hbar: f64,
+    mass: f64,
+    mu: f64,
+    zeta: f64,
+    rho: f64,
+    rho_x: f64,
+    rho_xx: f64,
+    rho_xxx: f64,
+    s11: f64,
+    s22: f64,
+    s33: f64,
+    s12: f64,
+    s13: f64,
+    s23: f64,
+    v: f64,
+    cs: f64,
+    k: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_compressible_nsk_korteweg_bd(
+        hbar, mass, mu, zeta, rho, rho_x, rho_xx, rho_xxx, s11, s22, s33, s12, s13, s23, v, cs, k,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("viscous_dissipation", a.viscous_dissipation)?;
+    d.set_item("dissipation_split_residual", a.dissipation_split_residual)?;
+    d.set_item("korteweg_force_residual", a.korteweg_force_residual)?;
+    d.set_item("bd_dual_schubert_residual", a.bd_dual_schubert_residual)?;
+    d.set_item("stokes_omega_re", a.stokes_omega_re)?;
+    d.set_item("stokes_omega_im", a.stokes_omega_im)?;
+    d.set_item("stokes_dispersion_residual", a.stokes_dispersion_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -749,10 +962,25 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_weil_gaussian_quad_form, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_segal_wilson_gr24_tau, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_riemann_spectral_bridge, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_schubert_chart_transition_vortex,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(py_audit_bateman_vs_chat_heff, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_clebsch_spinor_vorticity, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_taylor_green_2d, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_lamb_oseen_2d, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_beltrami_abc_3d, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_viscous_burgers_cole_hopf, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_compressible_nsk_korteweg_bd, m)?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;
     m.add_class::<sato_grassmannian::PlabicGr24Solver>()?;
+    m.add_class::<navier_stokes::IncompressibleSnapshot2D>()?;
+    m.add_class::<navier_stokes::IncompressibleDualSchubertSolver2D>()?;
+    m.add_class::<navier_stokes::CompressibleSnapshot1D>()?;
+    m.add_class::<navier_stokes::CompressibleNskDualSchubertSolver1D>()?;
     Ok(())
 }
 
