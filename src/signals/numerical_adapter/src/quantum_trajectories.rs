@@ -418,6 +418,39 @@ pub fn rydberg_polariton_interaction_lambda(
     (q0 * gamma_e * odb / (2.0 * delta_probe)).powi(2)
 }
 
+/// Section 9: Kähler-regularized off-shell Bohmian throat cushion on `Q_4 = Gr_C(2,4)`,
+/// `im_action_sq / (1 + w_hs_sq + det_w^2)^2`, eliminating the `1 / rho_0^2 -> inf` nodal blowup.
+#[must_use]
+pub fn kahler_regularized_bohm_cushion(im_action_sq: f64, w_hs_sq: f64, det_w: f64) -> f64 {
+    im_action_sq / (1.0 + w_hs_sq + det_w.powi(2)).powi(2)
+}
+
+/// Section 9: Six-channel Dual-Schubert Plücker-QFIM + GJW wormhole stabilization cushion
+/// `B_Bohm_QFIM = B_osm_reg + (hbar^2 / (8 m)) * (rho_+ F_+ + rho_- F_-) + 2 |lambda_GJW| sqrt(rho_+ rho_-) C_EPR`.
+#[must_use]
+#[allow(clippy::too_many_arguments)]
+pub fn dual_schubert_qfim_wormhole_cushion(
+    b_osm_reg: f64,
+    hbar: f64,
+    mass: f64,
+    rho_plus: f64,
+    f_qfim_plus: f64,
+    rho_minus: f64,
+    f_qfim_minus: f64,
+    lambda_gjw: f64,
+    c_epr: f64,
+) -> f64 {
+    b_osm_reg
+        + (hbar.powi(2) / (8.0 * mass)) * (rho_plus * f_qfim_plus + rho_minus * f_qfim_minus)
+        + 2.0 * lambda_gjw * (rho_plus * rho_minus).sqrt() * c_epr
+}
+
+/// Section 9: Evanescent wormhole throat steady-state residence energy load `p_in * (l_throat / v_eff)`.
+#[must_use]
+pub fn evanescent_throat_stored_energy(p_in: f64, l_throat: f64, v_eff: f64) -> f64 {
+    p_in * (l_throat / v_eff)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -643,5 +676,23 @@ mod tests {
         let lambda_eit = rydberg_polariton_interaction_lambda(1.0, gamma_e, delta_probe, odb);
         let lambda_te = rydberg_polariton_interaction_lambda(2.0, gamma_e, delta_probe, odb);
         assert!((lambda_te - 4.0 * lambda_eit).abs() < 1e-12);
+    }
+
+    #[test]
+    fn test_er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion() {
+        let b_reg = kahler_regularized_bohm_cushion(10.0, 0.5, 0.25);
+        assert!((0.0..=10.0).contains(&b_reg));
+        let b_saddle =
+            dual_schubert_qfim_wormhole_cushion(0.0, 2.0, 1.0, 1.0, 6.0, 1.0, 4.0, 0.5, 1.0);
+        assert!(b_saddle > 0.0);
+        let b_qfim =
+            dual_schubert_qfim_wormhole_cushion(10.0, 2.0, 1.0, 1.0, 6.0, 1.0, 4.0, 0.5, 0.0);
+        assert!((b_qfim - 15.0).abs() < 1e-15);
+        assert!(evanescent_throat_stored_energy(1.0, 1.0, 0.01) > b_qfim);
+        assert!(evanescent_throat_stored_energy(1.0, 1.0, 2.0) <= b_qfim);
+        assert!(
+            saturated_blockade_three_body_energy(4.0) <= b_qfim
+                && b_qfim < pairwise_mcguire_three_body_energy(4.0)
+        );
     }
 }

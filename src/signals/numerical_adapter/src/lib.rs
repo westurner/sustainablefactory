@@ -19,6 +19,7 @@ pub mod polariton_spp;
 pub mod quantum_causal_inference;
 pub mod quantum_trajectories;
 pub mod riemann_spectral;
+pub mod sato_grassmannian;
 pub mod slavnov_dpp;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
@@ -489,6 +490,173 @@ fn py_audit_celestial_holography_and_turner_graviton<'py>(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_ba_lax_pair<'py>(
+    py: Python<'py>,
+    k: f64,
+    z_re: f64,
+    z_im: f64,
+    x: f64,
+    y: f64,
+    t: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_ba_lax_pair(k, z_re, z_im, x, y, t);
+    let d = PyDict::new(py);
+    d.set_item("u", a.u)?;
+    d.set_item("psi_re", a.psi_re)?;
+    d.set_item("psi_im", a.psi_im)?;
+    d.set_item("b2_residual_abs", a.b2_residual_abs)?;
+    d.set_item("b3_residual_abs", a.b3_residual_abs)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_akns_solitons<'py>(
+    py: Python<'py>,
+    amp: f64,
+    x: f64,
+    t: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_akns_solitons(amp, x, t);
+    let d = PyDict::new(py);
+    d.set_item("bright_abs", a.bright_abs)?;
+    d.set_item("bright_nls_residual_abs", a.bright_nls_residual_abs)?;
+    d.set_item("dark_abs", a.dark_abs)?;
+    d.set_item("dark_gpe_residual_abs", a.dark_gpe_residual_abs)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_dual_schubert_qfim<'py>(
+    py: Python<'py>,
+    rho_fwd: [f64; 6],
+    drho_fwd: [f64; 6],
+    dphi_fwd: [f64; 6],
+    rho_dual: [f64; 6],
+    drho_dual: [f64; 6],
+    dphi_dual: [f64; 6],
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_dual_schubert_qfim(
+        rho_fwd, drho_fwd, dphi_fwd, rho_dual, drho_dual, dphi_dual,
+    );
+    let d = PyDict::new(py);
+    d.set_item("fq_forward", a.fq_forward)?;
+    d.set_item("bohm_forward", a.bohm_forward)?;
+    d.set_item("phase_forward", a.phase_forward)?;
+    d.set_item("geometric_forward", a.geometric_forward)?;
+    d.set_item("forward_identity_residual", a.forward_identity_residual)?;
+    d.set_item("fq_dual", a.fq_dual)?;
+    d.set_item("bohm_dual", a.bohm_dual)?;
+    d.set_item("phase_dual", a.phase_dual)?;
+    d.set_item("geometric_dual", a.geometric_dual)?;
+    d.set_item("fq_total_six_channel", a.fq_total_six_channel)?;
+    d.set_item("total_identity_residual", a.total_identity_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_carleman_euler_products<'py>(
+    py: Python<'py>,
+    sigma: f64,
+    t: f64,
+    prime_limit: usize,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_carleman_euler_products(sigma, t, prime_limit);
+    let d = PyDict::new(py);
+    d.set_item("prime_count", a.prime_count)?;
+    d.set_item("det1_abs", a.det1_abs)?;
+    d.set_item("det2_abs", a.det2_abs)?;
+    d.set_item("det3_abs", a.det3_abs)?;
+    d.set_item("det3_re", a.det3_re)?;
+    d.set_item("det3_im", a.det3_im)?;
+    d.set_item("sum_p_neg_2sigma", a.sum_p_neg_2sigma)?;
+    d.set_item("sum_p_neg_3sigma", a.sum_p_neg_3sigma)?;
+    d.set_item(
+        "det2_multiplicative_anomaly_residual",
+        a.det2_multiplicative_anomaly_residual,
+    )?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_weil_gaussian_quad_form<'py>(
+    py: Python<'py>,
+    zeros: Vec<(f64, f64, u32)>,
+    coeffs: Vec<f64>,
+    shifts: Vec<f64>,
+    off_line_gamma: f64,
+    off_line_eta: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_weil_gaussian_quad_form(
+        &zeros,
+        &coeffs,
+        &shifts,
+        off_line_gamma,
+        off_line_eta,
+    );
+    let d = PyDict::new(py);
+    d.set_item("quad_form_re", a.quad_form_re)?;
+    d.set_item("quad_form_im", a.quad_form_im)?;
+    d.set_item("off_line_witness_value", a.off_line_witness_value)?;
+    d.set_item("theoretical_neg_4pi_bound", a.theoretical_neg_4pi_bound)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_segal_wilson_gr24_tau<'py>(
+    py: Python<'py>,
+    v: [f64; 4],
+    w: [f64; 4],
+    t1: f64,
+    t2: f64,
+    t3: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_segal_wilson_gr24_tau(v, w, t1, t2, t3)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("det_fredholm_re", a.det_fredholm_re)?;
+    d.set_item("det_fredholm_im", a.det_fredholm_im)?;
+    d.set_item("tau_u_over_p23_re", a.tau_u_over_p23_re)?;
+    d.set_item("tau_u_over_p23_im", a.tau_u_over_p23_im)?;
+    d.set_item("mismatch_abs", a.mismatch_abs)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_riemann_spectral_bridge<'py>(
+    py: Python<'py>,
+    sigma_dev: f64,
+    gamma: f64,
+    z0: f64,
+    t: f64,
+    dz: f64,
+    a0: f64,
+    a1: f64,
+    a2: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_riemann_spectral_bridge(
+        sigma_dev, gamma, z0, t, dz, a0, a1, a2,
+    );
+    let d = PyDict::new(py);
+    d.set_item("li_modulus_sq", a.li_modulus_sq)?;
+    d.set_item("cayley_norm_sq", a.cayley_norm_sq)?;
+    d.set_item("li_cayley_mismatch", a.li_cayley_mismatch)?;
+    d.set_item("dbn_quad_heat", a.dbn_quad_heat)?;
+    d.set_item("neg_local_double_zero_re", a.neg_local_double_zero_re)?;
+    d.set_item("dbn_mismatch", a.dbn_mismatch)?;
+    d.set_item("jensen_turan", a.jensen_turan)?;
+    d.set_item("madelung_osmotic_plus_bohm", a.madelung_osmotic_plus_bohm)?;
+    d.set_item("jensen_mismatch", a.jensen_mismatch)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -544,8 +712,17 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         py_audit_celestial_holography_and_turner_graviton,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(py_audit_ba_lax_pair, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_akns_solitons, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_dual_schubert_qfim, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_carleman_euler_products, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_weil_gaussian_quad_form, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_segal_wilson_gr24_tau, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_riemann_spectral_bridge, m)?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
+    m.add_class::<sato_grassmannian::Kp2Jet>()?;
+    m.add_class::<sato_grassmannian::PlabicGr24Solver>()?;
     Ok(())
 }
 
