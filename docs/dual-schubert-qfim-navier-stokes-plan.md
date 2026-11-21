@@ -7,7 +7,7 @@ description: "Phased implementation and formal verification plan uniting incompr
 # Written Plan: Compressible & Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$)
 
 - **Author:** Wes Turner
-- **Planned Owning Paper:** `docs/grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.md` (Paper 53)
+- **Owning Paper:** [Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$)](grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.md) (Paper 53)
 - **Companion Papers Reused:**
   - [Formalizing the Infinite-Dimensional Sato Grassmannian $\mathrm{Gr}_p(H)$, Plabic $\mathrm{Gr}_{\ge 0}(2,4)$ KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy](grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md)
   - [Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$)](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md)
