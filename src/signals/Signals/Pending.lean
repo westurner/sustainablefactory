@@ -9668,4 +9668,85 @@ theorem sato_infinite_dim_and_pde_stack_do_not_close_rh_or_physical_claims
   intro h
   exact h.1.1
 
+/-! ### Dual-Schubert QFIM Compressible & Incompressible Navier–Stokes Pending Boundary -/
+
+/-- Epistemic boundary isolating the machine-checked Dual-Schubert QFIM Navier–Stokes
+formalization (`Signals.NavierStokes.*`) from open Clay Millennium 3D global regularity,
+3D Hirota linearization overclaims, turbulence closures, and physical laboratory validation. -/
+structure DualSchubertNavierStokesPendingBoundary where
+  /-- Verified shear viscosity nonnegativity (`μ ≥ 0`) for the fluid regime. -/
+  shearViscosity : DynamicViscosity
+  shearViscosity_nonneg : 0 ≤ shearViscosity.pascalSeconds
+  /-- Verified bulk viscosity nonnegativity (`ζ ≥ 0`, `ζ = 0` under Stokes' hypothesis). -/
+  bulkViscosity : DynamicViscosity
+  bulkViscosity_nonneg : 0 ≤ bulkViscosity.pascalSeconds
+  /-- Embedded classical finite control-volume conservation record. -/
+  controlVolume : ClassicalControlVolume
+  /-- Embedded boundary pressure / heat-flux / velocity record. -/
+  boundaryCondition : FlowBoundaryCondition
+  /-- Open Clay Millennium Problem gate: proving global smooth regularity (or finite-time
+  blowup) of unforced 3D incompressible or compressible Navier–Stokes on `ℝ³` / `𝕋³`. -/
+  millennium3DGlobalRegularityProved : Prop
+  /-- Open integrability gate: general 3D Navier–Stokes is NOT globally linearized into a
+  constant-coefficient Hirota equation (unlike 1D Cole–Hopf Burgers or KP-II). -/
+  global3DHirotaLinearizationEstablished : Prop
+  /-- Open turbulence / subgrid closure gate: finite-grid or low-rank Plücker closures do
+  not establish universal turbulent energy-cascade closure without empirical calibration. -/
+  turbulenceSubgridClosureValidated : Prop
+  /-- Open physical experiment gate: connecting Dual-Schubert QFIM / DDF dilatant viscosity
+  or evanescent hydrodynamic channels to calibrated laboratory velocimetry / PIV data. -/
+  experimentalFluidTelemetryValidated : Prop
+
+/-- Predicate asserting that every open analytical, closure, and experimental gate in the
+Dual-Schubert QFIM Navier–Stokes stack is simultaneously closed. -/
+def DualSchubertNavierStokesPendingBoundary.allNavierStokesGatesClosed
+    (b : DualSchubertNavierStokesPendingBoundary) : Prop :=
+  b.millennium3DGlobalRegularityProved ∧
+    b.global3DHirotaLinearizationEstablished ∧
+    b.turbulenceSubgridClosureValidated ∧
+    b.experimentalFluidTelemetryValidated
+
+/-- Refuting any single open gate rules out `allNavierStokesGatesClosed`. -/
+theorem DualSchubertNavierStokesPendingBoundary.not_allNavierStokesGatesClosed_of_any_refuted
+    (b : DualSchubertNavierStokesPendingBoundary)
+    (h_refuted : ¬ b.millennium3DGlobalRegularityProved ∨
+      ¬ b.global3DHirotaLinearizationEstablished ∨
+      ¬ b.turbulenceSubgridClosureValidated ∨
+      ¬ b.experimentalFluidTelemetryValidated) :
+    ¬ b.allNavierStokesGatesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h1, h2, h3, h4⟩
+  rcases h_refuted with hr | hr | hr | hr
+  · exact hr h1
+  · exact hr h2
+  · exact hr h3
+  · exact hr h4
+
+/-- Machine-checked Plücker chart transitions (`Ω₀ ↔ Ω₀₂`), 2D Taylor–Green / Lamb–Oseen /
+Poiseuille, 3D Beltrami / ABC, Korteweg capillary stress, Bresch–Desjardins Dual-Schubert
+QFIM splits, and Cole–Hopf viscous Burgers identities do **not** close the 3D Clay Millennium
+Navier–Stokes problem, general 3D Hirota linearization, turbulence closure, or laboratory
+validation. -/
+theorem dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims
+    (μ ζ : DynamicViscosity) (hμ : 0 ≤ μ.pascalSeconds) (hζ : 0 ≤ ζ.pascalSeconds)
+    (cv : ClassicalControlVolume) (bc : FlowBoundaryCondition) :
+    let b : DualSchubertNavierStokesPendingBoundary :=
+      { shearViscosity := μ
+        shearViscosity_nonneg := hμ
+        bulkViscosity := ζ
+        bulkViscosity_nonneg := hζ
+        controlVolume := cv
+        boundaryCondition := bc
+        millennium3DGlobalRegularityProved := False
+        global3DHirotaLinearizationEstablished := False
+        turbulenceSubgridClosureValidated := False
+        experimentalFluidTelemetryValidated := False }
+    0 ≤ b.shearViscosity.pascalSeconds ∧
+      0 ≤ b.bulkViscosity.pascalSeconds ∧
+      ¬ b.allNavierStokesGatesClosed := by
+  dsimp only
+  refine ⟨hμ, hζ, ?_⟩
+  intro h
+  exact h.1
+
 end Signals.Pending

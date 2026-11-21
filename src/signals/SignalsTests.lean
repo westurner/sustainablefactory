@@ -9384,4 +9384,85 @@ example (im_sq w_hs_sq det_w rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_
     (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
     him hw hrp hfp hrm hfm hlg hc
 
+/-! ### Regression Tests: `Signals.NavierStokes` (Dual-Schubert QFIM Compressible & Incompressible) -/
+
+example (Z : Signals.NavierStokes.PluckerFrame.Stiefel4x2)
+    (h01 : Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 1 ≠ 0)
+    (h02 : Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 2 ≠ 0)
+    (θ φ₁ φ₂ dθ dφ₁ dφ₂ E ℏ ν k : ℝ) (hℏ : 0 < ℏ) (ψ ψt : ℂ) :
+    Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 1 *
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 2 3 -
+      Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 2 *
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 1 3 +
+      Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 3 *
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 1 2 = 0 ∧
+    (Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 2 *
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 1 3 -
+      Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 3 *
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 1 2) /
+      Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 1 ^ 2 =
+      Signals.NavierStokes.PluckerFrame.pluckerMinor Z 2 3 /
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 1 ∧
+    (Signals.NavierStokes.PluckerFrame.pluckerMinor Z 2 3 /
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 2) /
+      (Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 1 /
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 2) =
+      Signals.NavierStokes.PluckerFrame.pluckerMinor Z 2 3 /
+        Signals.NavierStokes.PluckerFrame.pluckerMinor Z 0 1 ∧
+    Signals.SatoGrassmannian.DualSchubertQFIM.qfim
+      (Signals.NavierStokes.PluckerFrame.clebschSpinor θ φ₁ φ₂)
+      (Signals.NavierStokes.PluckerFrame.clebschSpinorDeriv θ φ₁ φ₂ dθ dφ₁ dφ₂) =
+      dθ ^ 2 + Real.sin θ ^ 2 * (dφ₁ - dφ₂) ^ 2 ∧
+    0 < Signals.NavierStokes.PluckerFrame.clebschBerryVorticityZ ℏ 1 (Real.pi / 2) 1 0 0 1 ∧
+    Signals.NavierStokes.PluckerFrame.twoChannelNormRateScaled
+      (Signals.NavierStokes.PluckerFrame.chatOffdiagViscousMatrix E ℏ ν k) ψ ψt = 0 :=
+  ⟨Signals.NavierStokes.PluckerFrame.stiefel4x2_klein_quadric Z,
+   Signals.NavierStokes.PluckerFrame.jetFrame_klein_quadric_cancellation Z h01,
+   (Signals.NavierStokes.PluckerFrame.schubert_chart_transition_omega0_to_omega02 Z h02).2.2 h01,
+   (Signals.NavierStokes.PluckerFrame.clebsch_spinor_berry_and_qfim θ φ₁ φ₂ dθ dφ₁ dφ₂).2.2.2.2,
+   (Signals.NavierStokes.PluckerFrame.clebsch_berry_vorticity_nonzero hℏ (by norm_num)).2,
+   Signals.NavierStokes.PluckerFrame.chat_heff_conserves_norm_zero_dissipation E ℏ ν k ψ ψt⟩
+
+example (U₀ ν k x y z t Γ G μ h A B C c a : ℝ) (hν : 0 < ν) (ht : 0 < t) (hμ : μ ≠ 0) :
+    (deriv (fun s => Signals.NavierStokes.Incompressible.taylorGreenU U₀ ν k s y t) x +
+      deriv (fun s => Signals.NavierStokes.Incompressible.taylorGreenV U₀ ν k x s t) y = 0) ∧
+    (deriv (fun s => Signals.NavierStokes.Incompressible.lambOseenVorticity Γ ν x y s) t =
+      ν * (iteratedDeriv 2 (fun s => Signals.NavierStokes.Incompressible.lambOseenVorticity Γ ν s y t) x +
+           iteratedDeriv 2 (fun s => Signals.NavierStokes.Incompressible.lambOseenVorticity Γ ν x s t) y)) ∧
+    (μ * iteratedDeriv 2 (fun s => Signals.NavierStokes.Incompressible.poiseuilleU G μ h s) y + G = 0) ∧
+    (deriv (fun s => Signals.NavierStokes.Incompressible.abcW B C ν k x s t) y -
+      deriv (fun s => Signals.NavierStokes.Incompressible.abcV A B ν k x s t) z =
+      k * Signals.NavierStokes.Incompressible.abcU A C ν k y z t) ∧
+    (deriv (fun s => Signals.NavierStokes.Compressible.burgersTanhShock c a ν x s) t +
+      Signals.NavierStokes.Compressible.burgersTanhShock c a ν x t *
+        deriv (fun s => Signals.NavierStokes.Compressible.burgersTanhShock c a ν s t) x -
+      ν * iteratedDeriv 2 (fun s => Signals.NavierStokes.Compressible.burgersTanhShock c a ν s t) x = 0) :=
+  ⟨(Signals.NavierStokes.Incompressible.taylorGreen2D_solves_incompressible_ns (ρ₀ := 1)
+      (by norm_num) U₀ ν k x y t).1,
+   (Signals.NavierStokes.Incompressible.lambOseen2D_vorticity_heat_pde hν ht x y).1,
+   (Signals.NavierStokes.Incompressible.poiseuille_solves_incompressible_ns hμ G h y).2.2,
+   (Signals.NavierStokes.Incompressible.beltramiABC_solves_3d_incompressible_ns (ρ₀ := 1)
+      (by norm_num) A B C ν k x y z t).1.1,
+   Signals.NavierStokes.Compressible.burgers_tanh_shock_solves_pde hν.ne' c a x t⟩
+
+example (μ ζ s11 s22 s33 s12 s13 s23 ℏ ρ ρ_x ρ_xx ρ_xxx ν v c_s δ k : ℝ)
+    (hμ : 0 ≤ μ) (hζ : 0 ≤ ζ) (hℏ : 0 < ℏ) (hρ : 0 < ρ) (hδ : 0 ≤ δ)
+    (hunder : δ ^ 2 * k ^ 4 / 4 ≤ c_s ^ 2 * k ^ 2) :
+    0 ≤ Signals.NavierStokes.Compressible.compressibleViscousDissipation μ ζ s11 s22 s33 s12 s13 s23 ∧
+    -(ρ / 1) * Signals.NavierStokes.Compressible.bohmQuantumPotentialGrad1D ℏ 1 ρ ρ_x ρ_xx ρ_xxx =
+      Signals.NavierStokes.Compressible.kortewegStressDiv1D ℏ 1 ρ ρ_x ρ_xx ρ_xxx ∧
+    (1 / 2 : ℝ) * ρ * (Signals.NavierStokes.Compressible.bdVelocityPlus v ν ρ ρ_x ^ 2 +
+        Signals.NavierStokes.Compressible.bdVelocityMinus v ν ρ ρ_x ^ 2) =
+      ρ * v ^ 2 + ν ^ 2 * (ρ_x ^ 2 / ρ) ∧
+    (Signals.NavierStokes.Compressible.stokesAcousticOmega c_s δ k).im ≤ 0 :=
+  ⟨(Signals.NavierStokes.Compressible.compressible_viscous_dissipation_nonneg hμ hζ s11 s22 s33 s12 s13 s23).2.1,
+   Signals.NavierStokes.Compressible.korteweg_stress_div_eq_quantum_force (by norm_num) hρ.ne' ℏ ρ_x ρ_xx ρ_xxx,
+   (Signals.NavierStokes.Compressible.breschDesjardins_dual_schubert_qfim_split
+      (m := 1) hℏ (by norm_num) hρ ν v
+      (p := Signals.NavierStokes.PluckerFrame.clebschSpinor 0 0 0)
+      (dp := Signals.NavierStokes.PluckerFrame.clebschSpinorDeriv 0 0 0 0 0 0)
+      (Signals.NavierStokes.PluckerFrame.clebsch_spinor_berry_and_qfim 0 0 0 0 0 0).1
+      (Signals.NavierStokes.PluckerFrame.clebsch_spinor_berry_and_qfim 0 0 0 0 0 0).2.1).1,
+   (Signals.NavierStokes.Compressible.stokes_acoustic_attenuation_dispersion hδ hunder).2.2.1⟩
+
 end SignalsTests
