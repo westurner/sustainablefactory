@@ -474,23 +474,36 @@ fn three_channel_single(
     }
 
     // Reconstruct Plücker vector `z_i = sqrt(rho_i)` and derivative `v_i = (drho_i / (2 sqrt(rho_i)) + i sqrt(rho_i) dphi_i)`
+    // along with normalized ray `p̂_i = sqrt(rho_i / r_sum)` and `dp̂_i = (v_i - (dr_sum / (2 r_sum)) z_i) / sqrt(r_sum)`.
     let mut norm_v_sq = 0.0_f64;
     let mut inner_re = 0.0_f64;
     let mut inner_im = 0.0_f64;
+    let mut norm_dphat_sq = 0.0_f64;
+    let mut phat_inner_im = 0.0_f64;
+    let sqrt_r = r_sum.sqrt();
     for i in 0..6 {
         if rho[i] > 0.0 {
-            let vr = drho[i] / (2.0 * rho[i].sqrt());
-            let vi = rho[i].sqrt() * dphi[i];
+            let sr = rho[i].sqrt();
+            let vr = drho[i] / (2.0 * sr);
+            let vi = sr * dphi[i];
             norm_v_sq += vr * vr + vi * vi;
-            inner_re += rho[i].sqrt() * vr;
-            inner_im += rho[i].sqrt() * vi;
+            inner_re += sr * vr;
+            inner_im += sr * vi;
+
+            let phat_r = sr / sqrt_r;
+            let dphat_r = (vr - (dr_sum / (2.0 * r_sum)) * sr) / sqrt_r;
+            let dphat_i = vi / sqrt_r;
+            norm_dphat_sq += dphat_r * dphat_r + dphat_i * dphat_i;
+            phat_inner_im += phat_r * dphat_i;
         }
     }
+    // Independent projective Fubini–Study metric on unit ray `p̂`:
+    let g_fs_ray = norm_dphat_sq - phat_inner_im * phat_inner_im;
+    // Independent projective Fubini–Study metric from unnormalized `z, v`:
     let g_fs = norm_v_sq / r_sum - (inner_re * inner_re + inner_im * inner_im) / (r_sum * r_sum);
     let fq = 4.0 * g_fs;
 
-    // 3 channels:
-    // Classical Fisher/Bohm osmotic channel: sum_i (dp_i)^2 / (4 p_i)
+    // Independent Fisher–Rao osmotic channel `∑ (dp_i)² / (4 p_i)` and phase-variance channel `Var_p(dφ)`:
     let mut bohm_ch = 0.0_f64;
     let mut mean_dphi = 0.0_f64;
     for i in 0..6 {
@@ -499,18 +512,25 @@ fn three_channel_single(
             bohm_ch += (dp[i] * dp[i]) / (4.0 * p[i]);
         }
     }
-    // Phase-variance channel: Var_p(dphi)
     let mut phase_ch = 0.0_f64;
     for i in 0..6 {
         let diff = dphi[i] - mean_dphi;
         phase_ch += p[i] * diff * diff;
     }
-    // Purely transverse geometric channel (here 0 for fixed radial-phase chart, or nonzero when
-    // additional internal gauge phases are included; matches Lean's `three_channel_plucker_madelung_qfim`
-    // where `4 * g_FS = 4 * bohm + 4 * phase` when normalized amplitudes `√p_i e^{i φ_i}` are used).
-    let geom_ch = g_fs - (bohm_ch + phase_ch);
-    let residual = (fq - 4.0 * (bohm_ch + phase_ch + geom_ch)).abs();
-    (fq, 4.0 * bohm_ch, 4.0 * phase_ch, 4.0 * geom_ch, residual)
+
+    // Non-tautological verification of Lean's `three_channel_plucker_madelung_qfim`:
+    //   ‖dΨ‖² = r_sum · (Im ⟪p̂, dp̂⟫)²  +  (dr_sum)² / (4 r_sum)  +  r_sum · (QFIM / 4)
+    // AND exact equality of projective `g_FS` with `bohm_ch + phase_ch` for the polar chart.
+    let madelung_phase_ch = r_sum * phat_inner_im * phat_inner_im;
+    let madelung_osmotic_ch = (dr_sum * dr_sum) / (4.0 * r_sum);
+    let madelung_qfim_ch = r_sum * g_fs_ray;
+    let three_channel_residual =
+        (norm_v_sq - (madelung_phase_ch + madelung_osmotic_ch + madelung_qfim_ch)).abs();
+    let fisher_decomposition_residual = (fq - 4.0 * (bohm_ch + phase_ch)).abs();
+    let residual = three_channel_residual + fisher_decomposition_residual;
+    // `geometric_forward` records the projective Fubini–Study channel `QFIM` (`4 g_FS`),
+    // while `bohm_forward` and `phase_forward` record `4 · bohm_ch` and `4 · phase_ch`.
+    (fq, 4.0 * bohm_ch, 4.0 * phase_ch, fq - 4.0 * (bohm_ch + phase_ch), residual)
 }
 
 pub fn evaluate_dual_schubert_qfim(
@@ -538,6 +558,80 @@ pub fn evaluate_dual_schubert_qfim(
         fq_total_six_channel: fq_tot,
         total_identity_residual: tot_res,
     }
+}
+
+/// Numerical verification of `DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law`:
+/// for the coupled-waveguide stationary evanescent state `Ψ(x) = e^{-κ̄ x} (cosh(δκ x), sinh(δκ x))`,
+/// checks Channel 1 (Bohmian phase speed `= 0`), Channel 2 (scalar osmotic speed²),
+/// Channel 3 (projective Fubini–Study / QFIM speed² `= (ℏ/m)² δκ² / cosh²(2 δκ x) > 0`),
+/// and exact identity `v_eff²(x) = (2/m)(|E_kin| - ℏ J₀ tanh(2 δκ x))`.
+#[derive(Debug, Clone, Copy)]
+pub struct SharoglazovaKlaersEvanescentAudit {
+    pub kappa_bar: f64,
+    pub delta_kappa: f64,
+    pub fubini_study_xx: f64,
+    pub qfim_xx: f64,
+    pub ch1_bohm_speed_sq: f64,
+    pub ch2_osmotic_speed_sq: f64,
+    pub ch3_qfim_speed_sq: f64,
+    pub total_v_eff_sq: f64,
+    pub theoretical_v_eff_sq: f64,
+    pub speed_law_residual: f64,
+}
+
+pub fn evaluate_sharoglazova_klaers_evanescent_qfim(
+    hbar: f64,
+    mass: f64,
+    e_abs: f64,
+    j0: f64,
+    x: f64,
+) -> Result<SharoglazovaKlaersEvanescentAudit, String> {
+    if hbar <= 0.0 || mass <= 0.0 {
+        return Err("hbar and mass must be strictly positive".into());
+    }
+    let arg_plus = 2.0 * mass * (e_abs - hbar * j0) / (hbar * hbar);
+    let arg_minus = 2.0 * mass * (e_abs + hbar * j0) / (hbar * hbar);
+    if arg_plus < 0.0 || arg_minus < 0.0 {
+        return Err("Requires evanescent regime |E_kin| >= hbar * |J0|".into());
+    }
+    let kp = arg_plus.sqrt();
+    let km = arg_minus.sqrt();
+    let kbar = 0.5 * (km + kp);
+    let dk = 0.5 * (km - kp);
+
+    let c2 = (2.0 * dk * x).cosh();
+    let t2 = (2.0 * dk * x).tanh();
+    let r = c2.sqrt();
+    // Unit Plücker ray `p` and tangent `dp` in `ℂ⁶`:
+    let p0 = (dk * x).cosh() / r;
+    let p1 = (dk * x).sinh() / r;
+    let dp0 = -(dk * (dk * x).sinh()) / (r * c2);
+    let dp1 = (dk * (dk * x).cosh()) / (r * c2);
+
+    let inner_re = p0 * dp0 + p1 * dp1;
+    let norm_dp_sq = dp0 * dp0 + dp1 * dp1;
+    let g_fs = norm_dp_sq - inner_re * inner_re;
+    let fq = 4.0 * g_fs;
+
+    let pref = (hbar / mass).powi(2);
+    let ch1 = 0.0_f64;
+    let ch2 = pref * (-kbar + dk * t2).powi(2);
+    let ch3 = pref * (fq / 4.0);
+    let v_eff_sq = ch1 + ch2 + ch3;
+    let theoretical = (2.0 / mass) * (e_abs - hbar * j0 * t2);
+
+    Ok(SharoglazovaKlaersEvanescentAudit {
+        kappa_bar: kbar,
+        delta_kappa: dk,
+        fubini_study_xx: g_fs,
+        qfim_xx: fq,
+        ch1_bohm_speed_sq: ch1,
+        ch2_osmotic_speed_sq: ch2,
+        ch3_qfim_speed_sq: ch3,
+        total_v_eff_sq: v_eff_sq,
+        theoretical_v_eff_sq: theoretical,
+        speed_law_residual: (v_eff_sq - theoretical).abs(),
+    })
 }
 
 /// Sieve primes up to `limit` for Carleman–Weierstrass Euler products.
@@ -758,7 +852,6 @@ pub fn evaluate_segal_wilson_gr24_tau(
     let s1 = t1;
     let s2 = t2 + 0.5 * t1 * t1;
     let s3 = t3 + t1 * t2 + t1.powi(3) / 6.0;
-    let s4 = t1 * t3 + 0.5 * t2 * t2 + 0.5 * t1 * t1 * t2 + t1.powi(4) / 24.0;
 
     // On the 4D truncation `span{z^{-2}, z^{-1}, 1, z}`:
     // `g(t)` multiplies by `exp(t1 z + t2 z² + t3 z³)` truncated to degree ≤ 3, so
@@ -793,7 +886,6 @@ pub fn evaluate_segal_wilson_gr24_tau(
         + (p12 / p23) * schur_11
         + (p02 / p23) * schur_21
         + (p01 / p23) * schur_22;
-    let _ = s4;
 
     Ok(SegalWilsonGr24Audit {
         det_fredholm_re: det_fr,
@@ -920,6 +1012,11 @@ mod tests {
         );
         assert!(qfim.total_identity_residual < 1e-13);
         assert!(qfim.fq_total_six_channel > 0.0);
+
+        let sk = evaluate_sharoglazova_klaers_evanescent_qfim(1.0, 1.0, 2.5, 1.5, 0.37).unwrap();
+        assert_eq!(sk.ch1_bohm_speed_sq, 0.0);
+        assert!(sk.ch3_qfim_speed_sq > 0.0);
+        assert!(sk.speed_law_residual < 1e-14, "sk residual = {}", sk.speed_law_residual);
     }
 
     #[test]

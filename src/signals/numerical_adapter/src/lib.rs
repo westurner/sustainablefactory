@@ -558,6 +558,32 @@ fn py_audit_dual_schubert_qfim<'py>(
 
 #[cfg(feature = "python")]
 #[pyfunction]
+fn py_audit_sharoglazova_klaers_evanescent_qfim<'py>(
+    py: Python<'py>,
+    hbar: f64,
+    mass: f64,
+    e_abs: f64,
+    j0: f64,
+    x: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_sharoglazova_klaers_evanescent_qfim(hbar, mass, e_abs, j0, x)
+        .map_err(pyo3::exceptions::PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("kappa_bar", a.kappa_bar)?;
+    d.set_item("delta_kappa", a.delta_kappa)?;
+    d.set_item("fubini_study_xx", a.fubini_study_xx)?;
+    d.set_item("qfim_xx", a.qfim_xx)?;
+    d.set_item("ch1_bohm_speed_sq", a.ch1_bohm_speed_sq)?;
+    d.set_item("ch2_osmotic_speed_sq", a.ch2_osmotic_speed_sq)?;
+    d.set_item("ch3_qfim_speed_sq", a.ch3_qfim_speed_sq)?;
+    d.set_item("total_v_eff_sq", a.total_v_eff_sq)?;
+    d.set_item("theoretical_v_eff_sq", a.theoretical_v_eff_sq)?;
+    d.set_item("speed_law_residual", a.speed_law_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
 fn py_audit_carleman_euler_products<'py>(
     py: Python<'py>,
     sigma: f64,
@@ -715,6 +741,10 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_ba_lax_pair, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_akns_solitons, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_dual_schubert_qfim, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_sharoglazova_klaers_evanescent_qfim,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(py_audit_carleman_euler_products, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_weil_gaussian_quad_form, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_segal_wilson_gr24_tau, m)?)?;

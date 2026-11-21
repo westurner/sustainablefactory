@@ -9266,4 +9266,106 @@ example (sigmaDev deltaVarpi : ℝ) :
     h.1.2.2.2.2.2.2.2.1, h.1.2.2.2.2.2.2.2.2.1, h.1.2.2.2.2.2.2.2.2.2.2,
     h.2.1.2.2, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2⟩
 
+/-! Sato Grassmannian (`Signals.SatoGrassmannian.*`), KP-II / Lax / AKNS / Dual-Schubert QFIM,
+Carleman–Weierstrass `det₃`, Schwinger 2-cocycle `ω(S⁻¹, S) = -1`, Segal–Wilson `Gr(2,4)`
+Fredholm determinant, `L¹(ℝ)` shifted-Gaussian Weil positivity, & `RiemannSpectralBridge`
+regression checks. -/
+example (v w : Signals.SatoGrassmannian.Gr24Truncation.C4) (t₁ t₂ t₃ : ℂ) :
+    Signals.SatoGrassmannian.HirotaKP.hirotaKP
+      (Signals.SatoGrassmannian.HirotaKP.tauU v w) t₁ t₂ t₃ = 0 :=
+  Signals.SatoGrassmannian.HirotaKP.hirotaKP_tauU_eq_zero v w t₁ t₂ t₃
+
+example (k : ℝ) (z : ℂ) (x y t : ℝ) :
+    let ψ := Signals.SatoGrassmannian.LaxPair.baWave k z
+    let u : ℂ := (Signals.SatoGrassmannian.PDESolver.kdvOneSoliton k x t : ℂ)
+    let w : ℂ := ((-3 * k ^ 3 * Real.tanh (k * x + k ^ 3 * t) /
+      Real.cosh (k * x + k ^ 3 * t) ^ 2 : ℝ) : ℂ)
+    deriv (fun s : ℝ => ψ x s t) y =
+      iteratedDeriv 2 (fun r : ℝ => ψ r y t) x + u * ψ x y t ∧
+    deriv (fun s : ℝ => ψ x y s) t =
+      iteratedDeriv 3 (fun r : ℝ => ψ r y t) x +
+      (3 / 2 : ℂ) * u * deriv (fun r : ℝ => ψ r y t) x + w * ψ x y t :=
+  Signals.SatoGrassmannian.LaxPair.baWave_lax_equations k z x y t
+
+example (A x t : ℝ) :
+    Complex.I * deriv (fun s : ℝ => Signals.SatoGrassmannian.AKNS.brightSoliton A x s) t +
+      iteratedDeriv 2 (fun r : ℝ => Signals.SatoGrassmannian.AKNS.brightSoliton A r t) x +
+      2 * ((‖Signals.SatoGrassmannian.AKNS.brightSoliton A x t‖ ^ 2 : ℝ) : ℂ) *
+        Signals.SatoGrassmannian.AKNS.brightSoliton A x t = 0 ∧
+    Complex.I * deriv (fun s : ℝ => Signals.SatoGrassmannian.AKNS.darkSoliton A x s) t +
+      iteratedDeriv 2 (fun r : ℝ => Signals.SatoGrassmannian.AKNS.darkSoliton A r t) x -
+      2 * ((‖Signals.SatoGrassmannian.AKNS.darkSoliton A x t‖ ^ 2 : ℝ) : ℂ) *
+        Signals.SatoGrassmannian.AKNS.darkSoliton A x t = 0 :=
+  ⟨Signals.SatoGrassmannian.AKNS.brightSoliton_nls_pde A x t,
+   Signals.SatoGrassmannian.AKNS.darkSoliton_gpe_pde A x t⟩
+
+example (x : ℝ) :
+    let kp : ℝ := Real.sqrt 2
+    let km : ℝ := Real.sqrt 8
+    let δκ : ℝ := (km - kp) / 2
+    let r : ℝ := Real.sqrt (Real.cosh (2 * δκ * x))
+    let p : Signals.SatoGrassmannian.DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+      if i = 0 then ((Real.cosh (δκ * x) / r : ℝ) : ℂ)
+      else if i = 1 then ((Real.sinh (δκ * x) / r : ℝ) : ℂ)
+      else 0)
+    let dp : Signals.SatoGrassmannian.DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+      if i = 0 then ((-(δκ * Real.sinh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+      else if i = 1 then (((δκ * Real.cosh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+      else 0)
+    Signals.SatoGrassmannian.DualSchubertQFIM.fubiniStudy p dp =
+      δκ ^ 2 / Real.cosh (2 * δκ * x) ^ 2 := by
+  have h := Signals.SatoGrassmannian.DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law
+    (ℏ := 1) (m := 1) (E_abs := 5 / 2) (J₀ := 3 / 2)
+    (κ_plus := Real.sqrt 2) (κ_minus := Real.sqrt 8)
+    (by norm_num) (by norm_num)
+    (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
+    (by rw [Real.sq_sqrt (by norm_num)]; norm_num) x
+  exact h.2.2.1
+
+example (t : ℝ) :
+    let s : ℂ := (1 / 2 : ℂ) + (t : ℂ) * Complex.I
+    let lam : Nat.Primes → ℂ := fun p => -(((p : ℕ) : ℂ) ^ (-s))
+    Signals.SatoGrassmannian.SchwingerCocycle.schwingerCocycle
+      Signals.SatoGrassmannian.CircleL2.hardyPolarization
+      Signals.SatoGrassmannian.SchwingerCocycle.hardyPlusBasis
+      (Signals.SatoGrassmannian.CircleL2.shiftCLE.symm :
+        Signals.SatoGrassmannian.CircleL2.HCircle →L[ℂ] Signals.SatoGrassmannian.CircleL2.HCircle)
+      (Signals.SatoGrassmannian.CircleL2.shiftCLE :
+        Signals.SatoGrassmannian.CircleL2.HCircle →L[ℂ] Signals.SatoGrassmannian.CircleL2.HCircle) = -1 ∧
+    Signals.SatoGrassmannian.CarlemanWeierstrass.detKDiag 3 lam ≠ 0 ∧
+    (∀ f df : Fin 4 → ℝ, ∀ t₁ t₂ t₃ : ℂ,
+      Signals.SatoGrassmannian.HirotaKP.hirotaKP
+        (Signals.SatoGrassmannian.HirotaKP.tauU (fun k => (f k : ℂ)) (fun k => (df k : ℂ)))
+        t₁ t₂ t₃ = 0) :=
+  ⟨Signals.SatoGrassmannian.SchwingerCocycle.schwingerCocycle_shiftInv_shift,
+   (Signals.SatoGrassmannian.CarlemanWeierstrass.det3_eulerPrimes_critical_line t).2,
+   fun f df t₁ t₂ t₃ =>
+     (Signals.SatoGrassmannian.RiemannSpectralBridge.riemannSpectral_wronskian_solves_hirotaKP
+       f df t₁ t₂ t₃).2⟩
+
+example (sigmaDev gamma : ℝ) (h_gamma : gamma ≠ 0) :
+    let ρ : ℂ := ⟨sigmaDev + 1 / 2, gamma⟩
+    (Signals.RiemannSpectral.celestialChiralCasimirIm sigmaDev gamma = 0 ↔
+        ‖Signals.SatoGrassmannian.RHGaps.cayley ρ‖ ^ 2 = 1) ∧
+    (‖Signals.SatoGrassmannian.RHGaps.cayley ρ‖ ^ 2 = 1 ↔ sigmaDev = 0) :=
+  Signals.SatoGrassmannian.RiemannSpectralBridge.celestialChiralCasimir_and_cayley_critical_line_equiv
+    sigmaDev gamma h_gamma
+
+example (im_sq w_hs_sq det_w rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr : ℝ)
+    (him : 0 ≤ im_sq) (hw : 0 ≤ w_hs_sq)
+    (hrp : 0 < rho_plus) (hfp : 0 < f_qfim_plus)
+    (hrm : 0 ≤ rho_minus) (hfm : 0 ≤ f_qfim_minus) (hlg : 0 ≤ lambda_gjw) (hc : 0 ≤ c_epr) :
+    0 ≤ Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ∧
+    Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ≤ im_sq ∧
+    0 < Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 0 1 1
+          rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr := by
+  have h := Signals.QuantumTrajectories.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities
+    1 1 (5 / 2) (3 / 2) (Real.sqrt 2) (Real.sqrt 8)
+    im_sq w_hs_sq det_w rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr
+    (by norm_num) (by norm_num)
+    (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
+    (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
+    him hw hrp hfp hrm hfm hlg hc
+  exact ⟨h.2.1, h.2.2.1, h.2.2.2.1⟩
+
 end SignalsTests

@@ -2507,4 +2507,26 @@ theorem quantum_trajectories_critique_and_gap_closure_bounds
     rho0 kappa k1 x_tilde v_vel v_boost omega_rabi delta_probe gamma_e odb
     hv hjin hw hrho0 hmass hhbar hj0 hdenom_lor homega hdelta_p
 
+/-- Summary lemma: in a Pending Sato Grassmannian / Adelic Carleman–Weierstrass / Weil `L¹`
+boundary, refuting any of the four open gates (the four `RB-6` RH bridges, Mathlib Lidskii
+`FredholmDetTheory` construction, global infinite-zero Weil convergence, or experimental
+evanescent-QFIM calibration) rules out `allSatoGatesClosed`. -/
+@[blueprint "lem:pending-sato-riemann-spectral-gate-boundary"
+  (title := "Pending Sato Grassmannian and Riemann spectral gate boundary")
+  (statement := /-- Certifying the 21-module \texttt{Signals.SatoGrassmannian} stack,
+    $\omega(S^{-1}, S) = -1$, critical-line $\det_3 \ne 0$, and finite-zero Weil $L^1(\mathbb{R})$
+    positivity does not discharge the four open \texttt{RB-6} RH bridges, upstream Mathlib Lidskii
+    trace-class determinant construction, global infinite-zero Weil convergence, or laboratory
+    evanescent-QFIM validation. -/)
+  (proof := /-- Apply \texttt{SatoRiemannSpectralPendingBoundary.not\_allSatoGatesClosed\_of\_any\_gate\_refuted}. -/)
+  (latexEnv := "lemma")]
+lemma pending_sato_riemann_spectral_gate_boundary
+    (b : SatoRiemannSpectralPendingBoundary)
+    (h_refuted : ¬ b.rhBoundary.allFourBridgesClosed ∨
+      ¬ b.mathlibLidskiiFredholmDetConstructed ∨
+      ¬ b.globalInfiniteZeroWeilBridge ∨
+      ¬ b.evanescentQfimExperimentalValidation) :
+    ¬ b.allSatoGatesClosed :=
+  b.not_allSatoGatesClosed_of_any_gate_refuted h_refuted
+
 end SignalsPending

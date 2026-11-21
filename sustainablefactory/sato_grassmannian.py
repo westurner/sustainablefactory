@@ -180,6 +180,46 @@ def verify_symbolic_sato_pde_identities() -> Dict[str, bool]:
         sp.simplify((a1s**2 - a0s * a2s) - (a1s**2 + (-a0s * a2s))) == 0
     )
 
+    # 8. DualSchubertQFIM: 3-channel Plücker–Madelung–QFIM identity (`three_channel_plucker_madelung_qfim`)
+    #    For `Ψ(x) = √ρ(x) p̂(x)` with `‖p̂‖² = 1` (implemented here for general 2-component complex
+    #    Plücker ray `p̂ = (cos θ e^{i φ₁}, sin θ e^{i φ₂})`):
+    #      ‖dΨ‖² = ρ (Im ⟪p̂, dp̂⟫)² + (dρ)² / (4 ρ) + ρ · (QFIM / 4).
+    rho_s = sp.Symbol("rho_s", positive=True)
+    drho_s = sp.Symbol("drho_s", real=True)
+    th, dth, ph1, ph2, dph1, dph2 = sp.symbols("th dth ph1 ph2 dph1 dph2", real=True)
+    p0 = sp.cos(th) * sp.exp(sp.I * ph1)
+    p1 = sp.sin(th) * sp.exp(sp.I * ph2)
+    dp0 = (-sp.sin(th) * dth + sp.I * sp.cos(th) * dph1) * sp.exp(sp.I * ph1)
+    dp1 = (sp.cos(th) * dth + sp.I * sp.sin(th) * dph2) * sp.exp(sp.I * ph2)
+    dpsi0 = (drho_s / (2 * sp.sqrt(rho_s))) * p0 + sp.sqrt(rho_s) * dp0
+    dpsi1 = (drho_s / (2 * sp.sqrt(rho_s))) * p1 + sp.sqrt(rho_s) * dp1
+    lhs_dpsi_sq = sp.simplify(
+        sp.expand(dpsi0 * sp.conjugate(dpsi0) + dpsi1 * sp.conjugate(dpsi1))
+    )
+    inner_p_dp = sp.simplify(sp.conjugate(p0) * dp0 + sp.conjugate(p1) * dp1)
+    im_inner = sp.simplify(sp.im(inner_p_dp))
+    norm_dp_sq = sp.simplify(dp0 * sp.conjugate(dp0) + dp1 * sp.conjugate(dp1))
+    g_fs_sym = sp.simplify(norm_dp_sq - inner_p_dp * sp.conjugate(inner_p_dp))
+    rhs_3ch = rho_s * im_inner**2 + drho_s**2 / (4 * rho_s) + rho_s * g_fs_sym
+    results["dual_schubert_three_channel_plucker_madelung_qfim"] = (
+        sp.simplify(sp.trigsimp(lhs_dpsi_sq - rhs_3ch)) == 0
+    )
+
+    # 9. DualSchubertQFIM Theorem 4.3 (`sharoglazova_klaers_evanescent_speed_law`):
+    #    For `κ_+² = 2m(E_abs - ℏ J₀)/ℏ²`, `κ_-² = 2m(E_abs + ℏ J₀)/ℏ²`,
+    #    `(ℏ/m)² ( (-κ̄ + δκ tanh(2 δκ x))² + δκ² / cosh²(2 δκ x) ) = (2/m)(E_abs - ℏ J₀ tanh(2 δκ x))`.
+    hb, ms, E_a, J0_s, x_s = sp.symbols("hb ms E_a J0_s x_s", positive=True)
+    kp_s = sp.sqrt(2 * ms * (E_a - hb * J0_s) / hb**2)
+    km_s = sp.sqrt(2 * ms * (E_a + hb * J0_s) / hb**2)
+    kbar_s = (km_s + kp_s) / 2
+    dk_s = (km_s - kp_s) / 2
+    u2 = 2 * dk_s * x_s
+    veff_lhs = (hb / ms) ** 2 * ((-kbar_s + dk_s * sp.tanh(u2)) ** 2 + dk_s**2 / sp.cosh(u2) ** 2)
+    veff_rhs = (2 / ms) * (E_a - hb * J0_s * sp.tanh(u2))
+    results["sharoglazova_klaers_evanescent_speed_law"] = (
+        sp.simplify(sp.expand(veff_lhs.rewrite(sp.exp) - veff_rhs.rewrite(sp.exp))) == 0
+    )
+
     return results
 
 
@@ -201,7 +241,7 @@ def audit_carleman_mpmath_vs_rust(
         lam = -mp.power(p, -s)
         det1 *= 1 + lam
         det2 *= (1 + lam) * mp.exp(-lam)
-        det3 *= (1 + lam) * mp.exp(-lam + sp.Rational(1, 2) * lam**2 if False else -lam + mp.mpf("0.5") * lam**2)
+        det3 *= (1 + lam) * mp.exp(-lam + mp.mpf("0.5") * lam**2)
 
     rust = sna.py_audit_carleman_euler_products(sigma, t, prime_limit)
     out = {

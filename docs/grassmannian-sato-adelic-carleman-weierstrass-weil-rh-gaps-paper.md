@@ -199,4 +199,5 @@ In accordance with the repository's evidence-modeling discipline, `Signals.Pendi
 
 ```{bibliography}
 :filter: docname in docnames
+:list: bullet
 ```

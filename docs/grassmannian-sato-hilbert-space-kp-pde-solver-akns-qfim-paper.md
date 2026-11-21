@@ -163,15 +163,22 @@ is strictly positive on all of $\mathbb{R}^3$, guaranteeing global smooth, blowu
 
 ---
 
-## 5. Three-Channel Plücker–Madelung & Six-Channel Dual-Schubert QFIM
+## 5. Three-Channel Plücker–Madelung, Six-Channel Dual-Schubert QFIM, & Evanescent Speed Law
 
 In `DualSchubertQFIM.lean` (chat lines 13049–13254), we lift the projective geometry of $\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathbb{P}^5(\mathbb{C})$ into a machine-checked quantum-metrology identity connecting directly to our companion paper [Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md):
 
 $$
-F_Q(p, v) = 4\,g_{\mathrm{FS}}(p, v) = 4\left(\frac{\|v\|^2}{\|p\|^2} - \frac{|\langle p, v\rangle|^2}{\|p\|^4}\right) = F_{\mathrm{Bohm}} + F_{\mathrm{phase}} + F_{\mathrm{geom}}.
+\|\partial_x \Psi\|^2 = \rho\,\bigl(\operatorname{Im}\langle\hat{p}, \partial_x\hat{p}\rangle\bigr)^2 + \frac{(\partial_x\rho)^2}{4\rho} + \rho\,\frac{F_Q(\hat{p}, \partial_x\hat{p})}{4},
+\qquad F_Q(p, v) = 4\,g_{\mathrm{FS}}(p, v) = 4\left(\frac{\|v\|^2}{\|p\|^2} - \frac{|\langle p, v\rangle|^2}{\|p\|^4}\right).
 $$
 
-On the dual-Schubert product $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$, `dual_schubert_six_channel_decomposition` proves that the total QFIM splits additively into six nonnegative channels (three forward Plücker channels plus three dual-Schubert channels). As recorded in `Signals.Pending.SatoRiemannSpectralPendingBoundary`, these exact geometric identities do not by themselves establish experimental tunneling speeds in coupled-waveguide cavities {cite:p}`sharoglazova_energyspeed_2025`.
+On the dual-Schubert product $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$, `dual_schubert_six_channel_decomposition` proves that the total QFIM splits additively into six nonnegative channels (three forward Plücker channels plus three dual-Schubert channels). Furthermore, **Theorem 4.3** (`sharoglazova_klaers_evanescent_speed_law` in `DualSchubertQFIM.lean`, linked to `er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities` in `Signals.QuantumTrajectories` Section 9) formalizes the stationary coupled-waveguide evanescent state $\Psi(x) = e^{-\bar{\kappa} x}(\cosh(\delta\kappa\,x), \sinh(\delta\kappa\,x))$ where $\kappa_{\pm}^2 = 2m(|E_{\mathrm{kin}}| \mp \hbar J_0)/\hbar^2$:
+
+$$
+v_{\mathrm{Bohm}}^2 = 0, \qquad g_{\mathrm{FS}}(\hat{p}, \partial_x\hat{p}) = \frac{\delta\kappa^2}{\cosh^2(2\delta\kappa\,x)}, \qquad \left(\frac{\hbar}{m}\right)^2\left[0 + \left(\frac{\partial_x\rho}{2\rho}\right)^2 + \frac{F_Q}{4}\right] = \frac{2}{m}\bigl(|E_{\mathrm{kin}}| - \hbar J_0\tanh(2\delta\kappa\,x)\bigr).
+$$
+
+Thus Channel 1 (Bohmian phase velocity) vanishes identically while Channel 2 (scalar osmotic gradient) and Channel 3 (projective Fubini–Study / QFIM) jointly recover the exact evanescent speed law without singularity. As recorded in `Signals.Pending.SatoRiemannSpectralPendingBoundary`, these exact geometric identities do not by themselves establish experimental tunneling speeds in coupled-waveguide cavities {cite:p}`sharoglazova_energyspeed_2025` or physical wormhole-throat stabilization.
 
 ---
 
@@ -195,7 +202,8 @@ $$
 | KdV 2-soliton $y$-invariance | $k_1=0.6, k_2=1.3$, $y=0$ vs. $y=17.5$ | `kdv2Soliton_y_invariant_and_smooth` | Exact $\beta_r$ symmetry | $\|u(y=0)-u(y=17.5)\| < 10^{-13}$ |
 | Baker–Akhiezer $B_2$ & $B_3$ Lax pair | $k=0.8, z=0.3+1.1i$, $(0.4,-0.2,0.5)$ | `baWave_lax_equations` | `ba_lax_b2_exact`, `ba_lax_b3_exact` | $B_2$: $1.11 \times 10^{-16}$; $B_3$: $4.97 \times 10^{-16}$ |
 | AKNS bright NLS & dark GPE solitons | $A=1.3$, $(x,t)=(0.7,-0.4)$ | `brightSoliton_nls_pde`, `darkSoliton_gpe_pde` | `akns_bright_nls_exact`, `akns_dark_gpe_exact` | NLS: $2.48 \times 10^{-16}$; GPE: $2.29 \times 10^{-16}$ |
-| 6-channel Dual-Schubert QFIM | Normalized 6+6 Plücker densities | `dual_schubert_six_channel_decomposition` | Exact Kähler identity | $F_Q^{\mathrm{tot}} = 0.988767$, residual $0.0$ |
+| 6-channel Dual-Schubert QFIM | Normalized 6+6 Plücker densities | `dual_schubert_six_channel_decomposition` | `dual_schubert_three_channel_plucker_madelung_qfim` | $F_Q^{\mathrm{tot}} = 0.988767$, residual $< 10^{-15}$ |
+| Sharoglazova–Klaers evanescent speed law | $\hbar=m=1$, $E_{\mathrm{abs}}=2.5$, $J_0=1.5$, $x=0.37$ | `sharoglazova_klaers_evanescent_speed_law` | `sharoglazova_klaers_evanescent_speed_law` | $v_{\mathrm{Bohm}}^2 = 0$, residual $< 10^{-14}$ |
 
 ---
 
@@ -209,7 +217,7 @@ make signals_build
 cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml sato_grassmannian
 maturin develop --manifest-path src/signals/numerical_adapter/Cargo.toml --release --features extension-module
 
-# 3. Run the SymPy + mpmath + PyO3 cross-verification test suite
+# 3. Run the SymPy + mpmath + PyO3 cross-verification test suite (15 symbolic proofs + PyO3/mpmath)
 pytest -q tests/test_sato_grassmannian_sympy_pyo3.py
 ```
 
@@ -219,4 +227,5 @@ pytest -q tests/test_sato_grassmannian_sympy_pyo3.py
 
 ```{bibliography}
 :filter: docname in docnames
+:list: bullet
 ```

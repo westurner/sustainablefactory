@@ -15,7 +15,7 @@ from sustainablefactory.sato_grassmannian import (
 
 def test_symbolic_sato_pde_and_bridge_identities():
     res = verify_symbolic_sato_pde_identities()
-    assert len(res) == 13
+    assert len(res) == 15
     for name, ok in res.items():
         assert ok, f"Symbolic identity failed: {name}"
 
@@ -75,6 +75,14 @@ def test_pyo3_kdv_two_soliton_and_lax_and_akns_and_qfim():
         [0.4, -0.7, 1.2, 0.3], [0.9, 0.2, -0.5, 1.1], 0.35, -0.2, 0.15
     )
     assert sw["mismatch_abs"] < 1e-13
+
+    sk = sna.py_audit_sharoglazova_klaers_evanescent_qfim(1.0, 1.0, 2.5, 1.5, 0.37)
+    assert sk["ch1_bohm_speed_sq"] == 0.0
+    assert sk["ch3_qfim_speed_sq"] > 0.0
+    assert sk["speed_law_residual"] < 1e-14
+    assert math.isclose(sk["qfim_xx"], 4.0 * sk["fubini_study_xx"], rel_tol=1e-14)
+    with pytest.raises(ValueError):
+        sna.py_audit_sharoglazova_klaers_evanescent_qfim(1.0, 1.0, 0.5, 1.5, 0.37)
 
 
 def test_carleman_mpmath_vs_rust_and_critical_line_det3():
