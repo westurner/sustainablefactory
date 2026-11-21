@@ -2915,6 +2915,7 @@ pub fn vrc_quantum_natural_gradient_step(eta: f64, grad_theta: f64, f_theta: f64
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[test]
     fn test_complex_plabic_vrc_and_sympy_check_figures() {
@@ -4327,6 +4328,322 @@ mod tests {
                 - 0.25 * vrc_quantum_natural_gradient_step(0.1, 0.8, 0.25))
                 .abs()
                 < 1e-15
+        );
+    }
+
+    #[rstest]
+    #[case::air_cylinder_piv(1.225, 4.5, 0.35, 2.1, 0.4, 0.75)]
+    #[case::superfluid_helium_vortex(145.0, 0.12, 9.97e-8, -0.8, 0.85, 0.6)]
+    #[case::polycbd_ultrasonic_corridor(1180.0, 15.0, 0.02, 12.5, 0.5, 0.5)]
+    #[case::cryogenic_nlig_substrate(1850.0, 2.0, 0.004, 0.0, 0.95, 0.9)]
+    fn test_ddf_fracture_vs_er_epr_h0_magnus_deborah_and_four_discriminators(
+        #[case] rho_f: f64,
+        #[case] u_inflow: f64,
+        #[case] gamma_circ: f64,
+        #[case] y_acoustic: f64,
+        #[case] kappa_ddf: f64,
+        #[case] q_ddf: f64,
+    ) {
+        let magnus_lift = rho_f * u_inflow * gamma_circ;
+        let y_cl = y_acoustic + magnus_lift;
+
+        // 1. Preregistered H0 vs. HDDF signal ledger & Kutta-Joukowski Magnus subtraction:
+        assert!((ddf_fracture_total_channel_signal(y_cl, 0.0, q_ddf) - y_cl).abs() < 1e-12);
+        assert!(
+            ddf_fracture_magnus_subtracted_residual(y_cl, y_acoustic, rho_f, u_inflow, gamma_circ)
+                .abs()
+                < 1e-12
+        );
+        let y_hddf = ddf_fracture_total_channel_signal(y_cl, kappa_ddf, q_ddf);
+        assert!(
+            (ddf_fracture_magnus_subtracted_residual(
+                y_hddf, y_acoustic, rho_f, u_inflow, gamma_circ
+            ) - kappa_ddf * q_ddf)
+                .abs()
+                < 1e-12
+        );
+
+        // 2. Deborah shear-fracture transition (De < 1 subcritical, De = 1 critical, De > 1 fracture)
+        //    and discrete 2D plaquette coboundary (0 vs. 2*pi*n phase-slip holonomy):
+        assert!(ddf_fracture_deborah_ratio(1e-5, 1e3) < 1.0);
+        assert!((ddf_fracture_deborah_ratio(1e-5, 1e5) - 1.0).abs() < 1e-15);
+        assert!(ddf_fracture_deborah_ratio(1e-5, 1e8) > 1.0);
+        let (s00, s10, s11, s01) = (0.3_f64, -1.1_f64, 2.4_f64, 0.7_f64);
+        let coboundary_smooth = (s10 - s00) + (s11 - s10) + (s01 - s11) + (s00 - s01);
+        assert!(coboundary_smooth.abs() < 1e-15);
+        for n_slip in [-2_i32, -1, 1, 3] {
+            let jump = f64::from(n_slip) * 2.0 * std::f64::consts::PI;
+            let coboundary_slip = (s10 - s00) + (s11 - s10) + (s01 - s11 + jump) + (s00 - s01);
+            assert!((coboundary_slip - jump).abs() < 1e-14);
+        }
+
+        // 3. Causal transverse-phonon arrival margin (>= 0 causal, = 0 lightlike/sonic, < 0 FTL rejected):
+        assert!(ddf_fracture_causal_transit_margin(1.5, 2.0, 2.0) > 0.0);
+        assert!(ddf_fracture_causal_transit_margin(1.5, 2.0, 3.0).abs() < 1e-15);
+        assert!(ddf_fracture_causal_transit_margin(1.5, 1.0, 2.0) < 0.0);
+
+        // 4. Discriminator A (Entanglement C_EPR^2 & RT throat area across p23 sweep):
+        assert!(er_epr_plucker_concurrence_sq(0.0).abs() < 1e-15);
+        assert!(er_epr_throat_area_from_plucker(1.0, 10.0, 0.0).abs() < 1e-15);
+        for &p23_sq in &[0.01_f64, 0.0625, 0.16, 0.25] {
+            let c_sq = er_epr_plucker_concurrence_sq(p23_sq);
+            let area = er_epr_throat_area_from_plucker(1.0, 10.0, p23_sq);
+            assert!(c_sq > 0.0 && c_sq <= 1.0);
+            assert!((area - 40.0 * c_sq).abs() < 1e-13 && area > 0.0);
+        }
+
+        // 5. Discriminator B (Standalone bit contrast > 0 for fracture vs. identically 0 for unkeyed ER=EPR):
+        let delta_y = ddf_fracture_total_channel_signal(y_cl, kappa_ddf, q_ddf)
+            - ddf_fracture_total_channel_signal(y_cl, kappa_ddf, -q_ddf);
+        let c_frac = ddf_fracture_standalone_bit_contrast(kappa_ddf, q_ddf);
+        assert!((delta_y - c_frac).abs() < 1e-12 && c_frac > 0.0);
+        assert!(
+            (ddf_fracture_standalone_bit_contrast(-kappa_ddf, q_ddf) + c_frac).abs() < 1e-12
+        );
+        assert!(er_epr_transceiver_differential_contrast(0.0).abs() < 1e-15);
+        for theta_b in [-1.7_f64, 0.0, 0.85, std::f64::consts::PI] {
+            assert!(
+                (er_epr_no_signaling_marginal_a(0.5, 0.0, theta_b) - 0.5).abs() < 1e-15
+            );
+        }
+
+        // 6. Discriminator C (Quantum state fidelity floor 1/2 & Horodecki 2/3 ceiling at p23 = 0 vs. 1 at Bell):
+        for sin_2theta in [-1.0_f64, -0.3, 0.0, 0.5, 1.0] {
+            assert!((ddf_fracture_vs_wormhole_quantum_fidelity(0.0, sin_2theta) - 0.5).abs() < 1e-15);
+        }
+        assert!((ddf_fracture_vs_wormhole_quantum_fidelity(0.25, 1.0) - 1.0).abs() < 1e-15);
+        assert!((horodecki_average_teleportation_fidelity(0.0) - 2.0 / 3.0).abs() < 1e-15);
+        assert!((horodecki_average_teleportation_fidelity(1.0) - 1.0).abs() < 1e-15);
+
+        // 7. Discriminator D (Opposite high-power overload response: fracture widening vs. throat collapse):
+        let b_qfim = crate::quantum_trajectories::dual_schubert_qfim_wormhole_cushion(
+            10.0, 2.0, 1.0, 1.0, 6.0, 1.0, 4.0, 0.5, 0.0,
+        );
+        assert!((b_qfim - 15.0).abs() < 1e-15);
+        assert!(ddf_fracture_overload_excess_shear(20.0, 10.0) > 0.0);
+        assert!(wormhole_net_null_defocusing_flux(12.0, b_qfim) <= 0.0);
+        assert!(wormhole_net_null_defocusing_flux(20.0, b_qfim) > 0.0);
+    }
+
+    #[rstest]
+    #[case::zero_drive(0.0, 0.0)]
+    #[case::weak_positive(0.25, 8.0 / 17.0)]
+    #[case::unit_optimal(1.0, 1.0)]
+    #[case::overdrive_three(3.0, 0.6)]
+    #[case::extreme_overdrive(1000.0, 2000.0 / 1_000_001.0)]
+    #[case::unit_negative(-1.0, -1.0)]
+    #[case::negative_overdrive(-3.0, -0.6)]
+    fn test_ddf_fracture_vs_er_epr_cayley_saturation_attenuation_and_passivity_invariants(
+        #[case] x_drive: f64,
+        #[case] expected_contrast: f64,
+    ) {
+        // 1. Cayley unitary saturation: unconditional [0, 1] probability bounds, normalization,
+        //    bit-flip antisymmetry, and global contrast optimum |Delta P| <= 1 at x_drive = +/-1:
+        let p_plus = hybrid_saturated_fracture_keyed_er_epr_rx_probability(x_drive, 1.0);
+        let p_minus = hybrid_saturated_fracture_keyed_er_epr_rx_probability(x_drive, -1.0);
+        assert!((0.0..=1.0).contains(&p_plus) && (0.0..=1.0).contains(&p_minus));
+        assert!((p_plus + p_minus - 1.0).abs() < 1e-15);
+        assert!(((p_plus - p_minus) - expected_contrast).abs() < 1e-14);
+        assert!((p_plus - p_minus).abs() <= 1.0 + 1e-15);
+        let p_neg_drive = hybrid_saturated_fracture_keyed_er_epr_rx_probability(-x_drive, 1.0);
+        assert!((p_neg_drive - p_minus).abs() < 1e-15);
+
+        // Raw linear formula overflows [0, 1] whenever |x_drive| > 1:
+        if x_drive.abs() > 1.0 {
+            let p_raw = hybrid_fracture_keyed_er_epr_rx_probability(x_drive, 1.0, 1.0);
+            assert!(!(0.0..=1.0).contains(&p_raw));
+        }
+
+        // 2. Dilatant shear-thickening corridor attenuation: lossless limit & strict k-monotonicity:
+        assert!(
+            (ddf_fracture_attenuated_corridor_gain(100.0, 1.0, 0.0, 10.0)
+                - ddf_fracture_corridor_guiding_gain(100.0, 1.0))
+                .abs()
+                < 1e-12
+        );
+        let k_grid = [0.5_f64, 1.0, 2.0, 5.0, 10.0];
+        for pair in k_grid.windows(2) {
+            let damp_lo = ddf_fracture_dilatant_damping(1e-3, 1.0, pair[0]);
+            let damp_hi = ddf_fracture_dilatant_damping(1e-3, 1.0, pair[1]);
+            assert!(0.0 < damp_lo && damp_lo < damp_hi);
+            let gain_lo = ddf_fracture_attenuated_corridor_gain(100.0, 1.0, damp_lo, 10.0);
+            let gain_hi = ddf_fracture_attenuated_corridor_gain(100.0, 1.0, damp_hi, 10.0);
+            assert!(gain_hi < gain_lo);
+        }
+
+        // 3. Strict passive energy closure (0 < eta < 1 whenever nucleation + dissipation > 0):
+        for (p_out, p_frac, p_diss) in [(0.1, 1.0, 0.5), (1.0, 2.0, 3.0), (50.0, 0.01, 0.02)] {
+            let eta = ddf_fracture_passive_power_efficiency(p_out, p_frac, p_diss);
+            assert!(eta > 0.0 && eta < 1.0);
+        }
+    }
+
+    #[test]
+    fn test_ddf_fracture_vs_er_epr_seven_mode_multipath_agc_skew_and_crosstalk() {
+        let gamma_k1 = ddf_fracture_dilatant_damping(1e-3, 1.0, 1.0);
+        let eta_m1 = exterior_photon_inverse_square_efficiency(1.0, 100.0);
+        let eta_m2 = fracture_guided_corridor_transmission(gamma_k1, 10.0);
+        let eta_bethe = subwavelength_photon_aperture_efficiency(1.0, 10.0);
+        let b_qfim = crate::quantum_trajectories::dual_schubert_qfim_wormhole_cushion(
+            10.0, 2.0, 1.0, 1.0, 6.0, 1.0, 4.0, 0.5, 0.0,
+        );
+
+        // 1. Elementary channels M1, M2, M3:
+        assert!((eta_m1 - 1e-4).abs() < 1e-16);
+        assert!(
+            (eta_m2 / eta_m1 - ddf_fracture_attenuated_corridor_gain(100.0, 1.0, gamma_k1, 10.0))
+                .abs()
+                < 1e-10
+        );
+        assert!(eta_m2 / eta_m1 > 9800.0);
+        assert!(eta_bethe < 1e-4 && 1.0 / eta_bethe > 10_000.0);
+        // M3 standalone unkeyed contrast is identically zero:
+        assert!(
+            (trimodal_dual_keyed_er_epr_rx_probability(0.0, 0.0, 1.0)
+                - trimodal_dual_keyed_er_epr_rx_probability(0.0, 0.0, -1.0))
+                .abs()
+                < 1e-15
+        );
+
+        // 2. Composite M4 (M1+M3) vs. M5 (M2+M3) single-shot GJW contrast at r/w = 100:
+        let c_m4 = trimodal_dual_keyed_er_epr_rx_probability(0.01, 0.0, 1.0)
+            - trimodal_dual_keyed_er_epr_rx_probability(0.01, 0.0, -1.0);
+        let c_m5 = trimodal_dual_keyed_er_epr_rx_probability(0.0, 1.0, 1.0)
+            - trimodal_dual_keyed_er_epr_rx_probability(0.0, 1.0, -1.0);
+        assert!(c_m4 < 0.021 && (c_m5 - 1.0).abs() < 1e-15);
+
+        // 3. Composite M6 (M1+M2): live common-mode subtraction, MRC SNR, & correlated outage sweep:
+        assert!((dual_path_common_mode_subtraction(87.3, 0.65, -1.0) - (-0.65)).abs() < 1e-14);
+        assert!((dual_path_mrc_combined_snr(12.5, 100.0) - 112.5).abs() < 1e-15);
+        let p_single = 0.1_f64;
+        assert!(
+            (dual_path_correlated_outage_probability(p_single, 0.0)
+                - dual_path_outage_probability(p_single, p_single))
+                .abs()
+                < 1e-15
+        );
+        assert!((dual_path_correlated_outage_probability(p_single, 1.0) - p_single).abs() < 1e-15);
+        let rho_grid = [0.0_f64, 0.1, 0.2, 0.5, 0.8, 0.99];
+        for pair in rho_grid.windows(2) {
+            let p_lo = dual_path_correlated_outage_probability(p_single, pair[0]);
+            let p_hi = dual_path_correlated_outage_probability(p_single, pair[1]);
+            assert!(p_single * p_single <= p_lo && p_lo < p_hi && p_hi < p_single);
+        }
+
+        // 4. Composite M7 (M1+M2+M3) Critique Fix 1: AGC dual-key convex normalization eliminates
+        //    the 4/5 over-rotation when both M1 and M2 are active AND survives single-path blackout:
+        let c_unnorm_both = trimodal_dual_keyed_er_epr_rx_probability(1.0, 1.0, 1.0)
+            - trimodal_dual_keyed_er_epr_rx_probability(1.0, 1.0, -1.0);
+        assert!((c_unnorm_both - 0.8).abs() < 1e-15);
+        for (w1, w2) in [(1.0, 1.0), (10.0, 100.0), (0.25, 9.75), (10.0, 0.0), (0.0, 100.0)] {
+            let x1 = if w1 > 0.0 { 1.0 } else { 0.0 };
+            let x2 = if w2 > 0.0 { 1.0 } else { 0.0 };
+            let p_hi = trimodal_agc_dual_keyed_er_epr_rx_probability(x1, x2, w1, w2, 1.0);
+            let p_lo = trimodal_agc_dual_keyed_er_epr_rx_probability(x1, x2, w1, w2, -1.0);
+            assert!((p_hi - p_lo - 1.0).abs() < 1e-15);
+            assert!((p_hi + p_lo - 1.0).abs() < 1e-15);
+        }
+        for x1 in [-5.0_f64, -1.0, 0.0, 0.5, 4.0] {
+            for x2 in [-3.0_f64, 0.0, 1.0, 8.0] {
+                let p = trimodal_agc_dual_keyed_er_epr_rx_probability(x1, x2, 10.0, 100.0, 1.0);
+                assert!((0.0..=1.0).contains(&p));
+            }
+        }
+
+        // 5. Critique Fix 2: Arrival-time skew non-negativity & CROW/FIFO drift cancellation:
+        let dt_skew = dual_path_propagation_skew(10.0, 12.0, 1.0, 0.5);
+        assert!(dt_skew >= 0.0 && (dt_skew - 14.0).abs() < 1e-15);
+        for y_drift in [-0.45_f64, 0.0, 0.2, 1.75] {
+            let unbuf = dual_path_skew_compensated_clutter_residual(
+                5.0, y_drift, 3.0, dt_skew, 0.0, 0.75, -1.0,
+            );
+            let buf = dual_path_skew_compensated_clutter_residual(
+                5.0, y_drift, 3.0, dt_skew, dt_skew, 0.75, -1.0,
+            );
+            assert!((unbuf - (-0.75 + y_drift * dt_skew)).abs() < 1e-14);
+            assert!((buf - (-0.75)).abs() < 1e-14);
+        }
+
+        // 6. Critique Fix 4 + Section 3.3.5: Parasitic mouth crosstalk threshold against B_Bohm_QFIM = 15:
+        //    With E1 = E2 = 1000 and E_wormhole = 4, exact threshold is eps_crit = (15 - 4) / 2000 = 5.5e-3.
+        assert!((trimodal_parasitic_throat_load(0.0, 0.0, 1000.0, 1000.0, 4.0) - 4.0).abs() < 1e-15);
+        for &eps in &[0.0_f64, 1e-4, 1e-3, 5e-3, 5.5e-3] {
+            let e_load = trimodal_parasitic_throat_load(eps, eps, 1000.0, 1000.0, 4.0);
+            assert!(wormhole_net_null_defocusing_flux(e_load, b_qfim) <= 1e-12);
+        }
+        for &eps_bad in &[6e-3_f64, 1e-2, 5e-2] {
+            let e_load = trimodal_parasitic_throat_load(eps_bad, eps_bad, 1000.0, 1000.0, 4.0);
+            assert!(wormhole_net_null_defocusing_flux(e_load, b_qfim) > 0.0);
+        }
+    }
+
+    #[rstest]
+    #[case::separable_product(1.0, 0.0, 0.0, 0.0, 0.0)]
+    #[case::partially_entangled(0.8, 0.0, 0.0, 0.6, 0.9216)]
+    #[case::maximally_entangled_bell(
+        std::f64::consts::FRAC_1_SQRT_2,
+        0.0,
+        0.0,
+        std::f64::consts::FRAC_1_SQRT_2,
+        1.0
+    )]
+    #[case::singlet_bell(
+        0.0,
+        std::f64::consts::FRAC_1_SQRT_2,
+        -std::f64::consts::FRAC_1_SQRT_2,
+        0.0,
+        1.0
+    )]
+    fn test_er_epr_su4_plucker_semi_dirac_and_qism_wormhole_transit(
+        #[case] psi00: f64,
+        #[case] psi01: f64,
+        #[case] psi10: f64,
+        #[case] psi11: f64,
+        #[case] expected_concurrence_sq: f64,
+    ) {
+        // 1. SU(4) 3-term Plücker identity === Costello-Gaiotto deformed conifold throat equation:
+        let p23 = psi00 * psi11 - psi01 * psi10;
+        assert!(
+            universal_plucker_three_term_residual(1.0, p23, psi00, psi11, psi01, psi10).abs()
+                < 1e-15
+        );
+        assert!(
+            twisted_holography_deformed_conifold_residual(psi00, psi11, psi01, psi10, p23).abs()
+                < 1e-15
+        );
+        assert!(
+            (er_epr_plucker_concurrence_sq(p23.powi(2)) - expected_concurrence_sq).abs() < 1e-14
+        );
+
+        // 2. Massive DDF sheath-jamming blow-up as beta^2 -> 1^- vs. massless & Semi-Dirac (k_x = 0) immunity:
+        for &beta_sq in &[0.0_f64, 0.36, 0.9, 0.999] {
+            assert!((wormhole_transit_jammed_energy(0.0, beta_sq, 4.0) - 4.0).abs() < 1e-15);
+            assert!((semi_dirac_wormhole_transit_energy_sq(0.0, 2.0, beta_sq) - 4.0).abs() < 1e-15);
+            if beta_sq > 0.0 {
+                assert!(
+                    wormhole_transit_jammed_energy(1.0, 0.0, 4.0)
+                        < wormhole_transit_jammed_energy(1.0, beta_sq, 4.0)
+                );
+                assert!(
+                    semi_dirac_wormhole_transit_energy_sq(1.0, 2.0, 0.0)
+                        < semi_dirac_wormhole_transit_energy_sq(1.0, 2.0, beta_sq)
+                );
+            }
+        }
+        assert!(wormhole_transit_jammed_energy(1.0, 0.999, 4.0) > 1e5);
+
+        // 3. Sub-wavelength Bethe diffraction recovery via TRUE phase conjugation & QISM Yang/Slavnov matching:
+        let eta_bethe = subwavelength_photon_aperture_efficiency(1.0, 10.0);
+        let eta_true_tagged = subwavelength_true_tagged_conjugate_coupling(eta_bethe, 0.1, 1_000_100.0);
+        let t_yang_soft = qism_impedance_matched_yang_transmission(1.0, 100.0, 10_000.0);
+        let p_l1 = transceiver_dist3_logical_error(0.01);
+        assert!(eta_bethe < 1e-4 && eta_true_tagged > 0.9 && t_yang_soft > 0.999);
+        assert!(
+            transceiver_qec_net_efficiency(
+                transceiver_uncorrected_link_efficiency(0.98, 1.0, 0.95),
+                0.9,
+                p_l1
+            ) > 0.83
         );
     }
 }

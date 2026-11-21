@@ -201142,10 +201142,10 @@
           },
           {
             "ids": [
-              "rust-implementation-and-unit-test-verification-dft-plabic-vrc-rs"
+              "rust-implementation-and-unit-test-verification-dft-plabic-vrc-rs-quantum-trajectories-rs"
             ],
             "level": 2,
-            "title": "6. Rust Implementation and Unit Test Verification (dft_plabic_vrc.rs)"
+            "title": "6. Rust Implementation and Unit Test Verification (dft_plabic_vrc.rs & quantum_trajectories.rs)"
           },
           {
             "ids": [

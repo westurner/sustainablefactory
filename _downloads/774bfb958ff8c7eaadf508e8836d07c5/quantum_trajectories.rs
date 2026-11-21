@@ -456,7 +456,7 @@ mod tests {
     use super::*;
     use crate::dft_plabic_vrc::{
         fubini_study_diag, gpe_kinetic_dir, hydro_flow_dir, projective_qfim_energy_from_ray_metric,
-        qfim_diag, scalar_bohm_density_dir,
+        qfim_diag, scalar_bohm_density_dir, wormhole_net_null_defocusing_flux,
     };
     use rstest::rstest;
     use std::f64::consts::{FRAC_PI_2, PI};
@@ -678,21 +678,98 @@ mod tests {
         assert!((lambda_te - 4.0 * lambda_eit).abs() < 1e-12);
     }
 
-    #[test]
-    fn test_er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion() {
-        let b_reg = kahler_regularized_bohm_cushion(10.0, 0.5, 0.25);
-        assert!((0.0..=10.0).contains(&b_reg));
-        let b_saddle =
-            dual_schubert_qfim_wormhole_cushion(0.0, 2.0, 1.0, 1.0, 6.0, 1.0, 4.0, 0.5, 1.0);
-        assert!(b_saddle > 0.0);
+    #[rstest]
+    #[case::canonical_coupled_throat(1.0, 1.0, 2.5, 1.5)]
+    #[case::heavy_polariton_throat(2.0, 0.5, 5.0, 1.2)]
+    #[case::weakly_split_saddle(1.0, 2.0, 3.0, 0.25)]
+    #[case::degenerate_single_mode_limit(1.0, 1.0, 2.0, 0.0)]
+    fn test_er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion(
+        #[case] hbar: f64,
+        #[case] mass: f64,
+        #[case] e_abs: f64,
+        #[case] j0: f64,
+    ) {
+        // 1. Regime 1 (Sharoglazova–Klaers evanescent throat transit across spatial profile x):
+        //    Verify Channel 1 = 0 while Channel 2 (Fisher osmotic) + Channel 3 (QFIM = 4 g_FS)
+        //    sum identically to (2 / m) * (|E_kin| - hbar * J0 * tanh(2 * dk * x)), keeping
+        //    v_eff(0) = sqrt(2 |E_kin| / m) > 0, dwell time finite, and stored throat energy bounded.
+        let kappa_plus = (2.0 * mass * (e_abs - hbar * j0) / hbar.powi(2)).sqrt();
+        let kappa_minus = (2.0 * mass * (e_abs + hbar * j0) / hbar.powi(2)).sqrt();
+        let k_bar = 0.5 * (kappa_minus + kappa_plus);
+        let dk = 0.5 * (kappa_minus - kappa_plus);
+
+        for &x in &[-1.5_f64, -0.6, 0.0, 0.4, 1.2] {
+            let env = (-2.0 * k_bar * x).exp();
+            let rho_x = env * (2.0 * dk * x).cosh();
+            let drho_over_2rho = -k_bar + dk * (2.0 * dk * x).tanh();
+            let v_osm_sq = (hbar / mass).powi(2) * drho_over_2rho.powi(2);
+
+            // Direct ray Fubini–Study & QFIM from normalized state p(x) = (cosh(dk x), sinh(dk x)) / sqrt(cosh(2 dk x)):
+            let g_fs_xx = dk.powi(2) / (2.0 * dk * x).cosh().powi(2);
+            let f_qfim_xx = 4.0 * g_fs_xx;
+            if dk > 0.0 {
+                assert!(g_fs_xx > 0.0 && f_qfim_xx > 0.0);
+            }
+            let v_qfim_sq = (hbar / mass).powi(2) * 0.25 * f_qfim_xx;
+            let v_eff_sq = plucker_three_channel_speed_sq(0.0, v_osm_sq.sqrt(), v_qfim_sq.sqrt());
+            let rhs_klaers = (2.0 / mass) * (e_abs - hbar * j0 * (2.0 * dk * x).tanh());
+            assert!((v_eff_sq - rhs_klaers).abs() < 1e-12 && v_eff_sq > 0.0);
+            assert!(rho_x > 0.0);
+        }
+        let v_eff_0 = ((hbar / mass).powi(2) * (k_bar.powi(2) + dk.powi(2))).sqrt();
+        assert!((v_eff_0.powi(2) - 2.0 * e_abs / mass).abs() < 1e-13 && v_eff_0 > 0.0);
+        assert!(
+            (evanescent_entry_probability(1.5, k_bar)
+                * conditional_residence_time(hbar, mass, k_bar)
+                - unconditional_quantum_dwell_time(hbar, mass, 1.5, k_bar))
+                .abs()
+                < 1e-13
+        );
+
+        // 2. Regime 2 (Nodal pinch / vortex core rho_0 -> 0^+ regularization on Q_4 = Gr_C(2,4)):
+        //    Unregularized scalar N_im / rho_0^2 blows up to +inf as rho_0 -> 0^+, whereas
+        //    kahler_regularized_bohm_cushion stays strictly within [0, N_im] and decreases with ||W||_HS^2,
+        //    and Channel 3 projective QFIM energy vanishes smoothly at rho = 0.
+        let n_im = 10.0_f64;
+        let scalar_unreg_at_node = n_im / (1e-6_f64).powi(2);
+        assert!(scalar_unreg_at_node >= 1e13);
+        assert!((kahler_regularized_bohm_cushion(n_im, 0.0, 0.0) - n_im).abs() < 1e-15);
+        let w_grid = [0.0_f64, 0.25, 1.0, 10.0, 1e4];
+        for pair in w_grid.windows(2) {
+            let b_lo = kahler_regularized_bohm_cushion(n_im, pair[0], 0.5);
+            let b_hi = kahler_regularized_bohm_cushion(n_im, pair[1], 0.5);
+            assert!(0.0 < b_hi && b_hi < b_lo && b_lo <= n_im);
+        }
+        assert!(projective_qfim_energy_from_ray_metric(hbar, mass, 0.0, 4.0 * dk.powi(2)).abs() < 1e-15);
+
+        // 3. Regime 3 (Symmetric throat waist partial_u rho = 0 => B_osm_reg = 0 protection & safe window):
+        //    Scalar 1-channel cushion drops to 0 at waist (false collapse for any E > 0), whereas
+        //    dual_schubert_qfim_wormhole_cushion remains > 0 and widens the safe window (10 < 12 <= 15 < 20).
+        let b_waist_only_qfim =
+            dual_schubert_qfim_wormhole_cushion(0.0, hbar, mass, 1.0, 6.0, 1.0, 4.0, 0.5, 1.0);
+        assert!(b_waist_only_qfim > 0.0);
+        assert!(wormhole_net_null_defocusing_flux(0.5, 0.0) > 0.0);
+        assert!(wormhole_net_null_defocusing_flux(0.5, b_waist_only_qfim) <= 0.0);
+
         let b_qfim =
             dual_schubert_qfim_wormhole_cushion(10.0, 2.0, 1.0, 1.0, 6.0, 1.0, 4.0, 0.5, 0.0);
         assert!((b_qfim - 15.0).abs() < 1e-15);
-        assert!(evanescent_throat_stored_energy(1.0, 1.0, 0.01) > b_qfim);
-        assert!(evanescent_throat_stored_energy(1.0, 1.0, 2.0) <= b_qfim);
-        assert!(
-            saturated_blockade_three_body_energy(4.0) <= b_qfim
-                && b_qfim < pairwise_mcguire_three_body_energy(4.0)
-        );
+        assert!(wormhole_net_null_defocusing_flux(12.0, 10.0) > 0.0);
+        assert!(wormhole_net_null_defocusing_flux(12.0, b_qfim) <= 0.0);
+        assert!(wormhole_net_null_defocusing_flux(20.0, b_qfim) > 0.0);
+
+        // Stalled 1-channel Bohmian velocity (v -> 0^+) causes pile-up collapse even at soft input power,
+        // whereas Sharoglazova–Klaers 3-channel v_eff(0) keeps throat residence energy below B_Bohm_QFIM:
+        let e_stalled = evanescent_throat_stored_energy(1.0, 1.0, 1e-3);
+        let e_flowing = evanescent_throat_stored_energy(1.0, 1.0, v_eff_0);
+        assert!(wormhole_net_null_defocusing_flux(e_stalled, b_qfim) > 0.0);
+        assert!(wormhole_net_null_defocusing_flux(e_flowing, b_qfim) <= 0.0);
+
+        // 4. Regime 4 (Multi-symbol Kähler blockade linear burst saturation vs. pairwise McGuire blowup):
+        let e3_sat = saturated_blockade_three_body_energy(4.0);
+        let e3_pair = pairwise_mcguire_three_body_energy(4.0);
+        assert!((e3_sat - 12.0).abs() < 1e-15 && (e3_pair - 16.0).abs() < 1e-15);
+        assert!(wormhole_net_null_defocusing_flux(e3_sat, b_qfim) <= 0.0);
+        assert!(wormhole_net_null_defocusing_flux(e3_pair, b_qfim) > 0.0);
     }
 }

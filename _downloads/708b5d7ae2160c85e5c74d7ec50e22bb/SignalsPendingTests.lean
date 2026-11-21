@@ -7543,4 +7543,36 @@ example (b : Signals.Pending.SatoRiemannSpectralPendingBoundary)
   Signals.Pending.SatoRiemannSpectralPendingBoundary.not_allSatoGatesClosed_of_any_gate_refuted
     b (Or.inr (Or.inr (Or.inr h)))
 
+example (im_sq w_hs_sq det_w : ℝ) (him : 0 ≤ im_sq) (hw : 0 ≤ w_hs_sq) :
+    (toyDDFFractureEvidence.propagationMode ≠
+        Signals.Pending.DDFCommunicationMode.transversePhonon →
+      ¬toyDDFFractureEvidence.supportsDDFHypothesis) ∧
+      ((((1 : ℝ) / 1) ^ 2 *
+          (((Real.sqrt 8 + Real.sqrt 2) / 2) ^ 2 + ((Real.sqrt 8 - Real.sqrt 2) / 2) ^ 2) =
+        2 * (5 / 2 : ℝ) / 1) ∧
+        0 ≤ Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ∧
+        Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ≤ im_sq ∧
+        0 < Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 0 1 1 1 6 1 4 (1 / 2) 1 ∧
+        Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0 = 15 ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux 12 10 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux 12
+          (Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ≤ 0 ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux 20
+          (Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.evanescentThroatStoredEnergy 1 1 (1 / 100)) 15 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.evanescentThroatStoredEnergy 1 1 2) 15 ≤ 0 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.saturatedBlockadeThreeBodyEnergy 4) 15 ≤ 0 ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.pairwiseMcGuireThreeBodyEnergy 4) 15) :=
+  SignalsPending.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_bounds
+    toyDDFFractureEvidence 1 1 (5 / 2) (3 / 2) (Real.sqrt 2) (Real.sqrt 8)
+    im_sq w_hs_sq det_w 1 6 1 4 (1 / 2) 1
+    (by norm_num) (by norm_num)
+    (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
+    (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
+    him hw (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsPendingTests

@@ -9217,6 +9217,57 @@ theorem DDFFractureCommunicationEvidence.quantum_trajectories_critique_and_gap_c
       rho0 kappa k1 x_tilde v_vel v_boost omega_rabi delta_probe gamma_e odb
       hv hjin hw hrho0 hmass hhbar hj0 hdenom_lor homega hdelta_p⟩
 
+/-- **Pending Boundary: $\mathrm{ER}=\mathrm{EPR}$ Wormhole Throat Stability Under Kähler Node-Blowup Regularization and the Sharoglazova–Klaers QFIM Evanescent Speed Law (`er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_bounds`)** -/
+@[blueprint "thm:signals-pending-er-epr-wormhole-bohm-blowup-and-sharoglazova-klaers-qfim-cushion-bounds"
+  (title := "Pending boundary for ER=EPR wormhole Kähler node-blowup regularization and Sharoglazova-Klaers QFIM throat speed")
+  (statement := /-- Pairs the causal-evidence exclusion boundary with
+    \texttt{Signals.QuantumTrajectories.er\_epr\_wormhole\_bohm\_blowup\_and\_sharoglazova\_klaers\_qfim\_cushion\_identities},
+    certifying finite evanescent throat transit speed $v_{\mathrm{eff}}^2(0) = 2|E_{\mathrm{kin}}|/m > 0$,
+    bounded Kähler cushion $0 \le \mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}} \le \mathcal{N}_{\mathrm{im}}$,
+    symmetric-waist QFIM protection, and blockade-saturated 3-body linear burst scaling while keeping
+    physical wormhole realization and non-causal modes gated behind \texttt{Signals.Pending}. -/)
+  (proof := /-- Combine \texttt{not\_supported\_by\_noncausal\_mode} with
+    \texttt{Signals.QuantumTrajectories.er\_epr\_wormhole\_bohm\_blowup\_and\_sharoglazova\_klaers\_qfim\_cushion\_identities}. -/)]
+theorem DDFFractureCommunicationEvidence.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (hbar mass e_abs j0 kappa_plus kappa_minus im_sq w_hs_sq det_w
+      rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr : ℝ)
+    (hhbar : 0 < hbar) (hmass : 0 < mass)
+    (hkp : kappa_plus ^ 2 = 2 * mass * (e_abs - hbar * j0) / hbar ^ 2)
+    (hkm : kappa_minus ^ 2 = 2 * mass * (e_abs + hbar * j0) / hbar ^ 2)
+    (him : 0 ≤ im_sq) (hw : 0 ≤ w_hs_sq)
+    (hrp : 0 < rho_plus) (hfp : 0 < f_qfim_plus)
+    (hrm : 0 ≤ rho_minus) (hfm : 0 ≤ f_qfim_minus)
+    (hlam : 0 ≤ lambda_gjw) (hcepr : 0 ≤ c_epr) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      (((hbar / mass) ^ 2 *
+          (((kappa_minus + kappa_plus) / 2) ^ 2 + ((kappa_minus - kappa_plus) / 2) ^ 2) =
+        2 * e_abs / mass) ∧
+        0 ≤ Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ∧
+        Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ≤ im_sq ∧
+        0 < Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 0 hbar mass rho_plus f_qfim_plus
+          rho_minus f_qfim_minus lambda_gjw c_epr ∧
+        Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0 = 15 ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux 12 10 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux 12
+          (Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ≤ 0 ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux 20
+          (Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.evanescentThroatStoredEnergy 1 1 (1 / 100)) 15 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.evanescentThroatStoredEnergy 1 1 2) 15 ≤ 0 ∧
+        Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.saturatedBlockadeThreeBodyEnergy 4) 15 ≤ 0 ∧
+        0 < Signals.DFT.wormholeNetNullDefocusingFlux
+          (Signals.QuantumTrajectories.pairwiseMcGuireThreeBodyEnergy 4) 15) :=
+  ⟨evidence.not_supported_by_noncausal_mode,
+    Signals.QuantumTrajectories.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities
+      hbar mass e_abs j0 kappa_plus kappa_minus im_sq w_hs_sq det_w
+      rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr
+      hhbar hmass hkp hkm him hw hrp hfp hrm hfm hlam hcepr⟩
+
 /-! ### WS-2: Closed-Cycle Conditional Landauer & QFIM–Bures Inference Contract -/
 
 /-- Dimensioned QFIM–Bures action dissipation energy in joules:

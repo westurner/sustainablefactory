@@ -11,7 +11,7 @@ description: "An arXiv-ready MyST Markdown formal verification and theoretical p
   - High Energy Physics - Theory (`hep-th`); General Relativity and Quantum Cosmology (`gr-qc`); Quantum Physics (`quant-ph`); Mathematical Physics (`math-ph`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, {download}`src/signals/Signals/DFT.lean, lines 5473–6427 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/QuantumTrajectories.lean, lines 1180–1335 <../src/signals/Signals/QuantumTrajectories.lean>`, {download}`src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean, lines 108–199 <../src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean>`, {download}`src/signals/Signals/QISM.lean, lines 1–755 <../src/signals/Signals/QISM.lean>`, {download}`src/signals/Signals/Scattering.lean, lines 430–585 <../src/signals/Signals/Scattering.lean>`, {download}`src/signals/Signals/MultiArrayImaging.lean, lines 1–850 <../src/signals/Signals/MultiArrayImaging.lean>`, {download}`src/signals/Signals/DDF.lean, lines 8346–9620 <../src/signals/Signals/DDF.lean>`, {download}`src/signals/Signals/QuantumCausalInference.lean, lines 1–250 <../src/signals/Signals/QuantumCausalInference.lean>`, {download}`src/signals/Signals/Pending.lean, lines 7965–8281 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 1500–1747 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8005–8183 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 6515–6727 <../src/signals/SignalsPendingTests.lean>`)
-  - `signals-numerical-adapter` Rust/WASM Crate ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1690–1940 and 2470–2839 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, {download}`src/signals/numerical_adapter/src/quantum_trajectories.rs, lines 421–455 and 630–698 <../src/signals/numerical_adapter/src/quantum_trajectories.rs>`)
+  - `signals-numerical-adapter` Rust/WASM Crate ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1544–1949 and 4579–4649 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, {download}`src/signals/numerical_adapter/src/quantum_trajectories.rs, lines 421–453 and 681–775 <../src/signals/numerical_adapter/src/quantum_trajectories.rs>`)
 - **Companion Papers:**
   - [Quantum Trajectories, Bohmian Mechanics (Including the Sharoglazova–Klaers *Nature* 2025 Evanescent Speed Law), Weak Measurements, and Strong Single-Photon Nonlinear Optics in Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dual-Schubert `iGPE` Mechanics](grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md)
   - [DDF Fracture Waveguides vs. $\mathrm{ER}=\mathrm{EPR}$ Wormhole Bridges and Seven-Mode Multi-Path Transceivers in Lean 4 and Rust](grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md)
@@ -910,9 +910,9 @@ end ArxivErEprSu4PluckerVerification
 
 ---
 
-## 6. Rust Implementation and Unit Test Verification (`dft_plabic_vrc.rs`)
+## 6. Rust Implementation and Unit Test Verification (`dft_plabic_vrc.rs` & `quantum_trajectories.rs`)
 
-In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1690–1940 and 2470–2839 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, we implement the numerical evaluators matching `Signals.DFT` Sections 23, 23.1, 23.2, 23.3, 23.4, and 23.4.1:
+In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1544–1949 and 4579–4649 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>` and {download}`src/signals/numerical_adapter/src/quantum_trajectories.rs, lines 421–453 and 681–775 <../src/signals/numerical_adapter/src/quantum_trajectories.rs>`, we implement the numerical evaluators and parameterized `rstest` unit tests matching `Signals.DFT` Sections 23–23.4.1 and `Signals.QuantumTrajectories` Section 9:
 - `er_epr_plucker_concurrence_sq(p23_norm_sq: f64) -> f64`
 - `er_epr_throat_area_from_plucker(l_planck_sq: f64, s_max: f64, p23_norm_sq: f64) -> f64`
 - `off_shell_bohm_stress_tensor_uu(rho_grad_term: f64, im_action_grad_sq: f64) -> f64`
@@ -941,12 +941,16 @@ In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1690–
 - `qism_slavnov_full_pipeline_speedup(m_fact: f64, m_packets: f64, c_kernel: f64) -> f64`
 - `qism_impedance_matched_yang_transmission(delta_soft: f64, eta_raw: f64, g_match: f64) -> f64`
 - `subwavelength_true_tagged_conjugate_coupling(eta_bethe: f64, eta_tag: f64, g_true: f64) -> f64`
+- `kahler_regularized_bohm_cushion(im_action_sq: f64, w_hs_sq: f64, det_w: f64) -> f64` (`quantum_trajectories.rs`)
+- `dual_schubert_qfim_wormhole_cushion(b_osm_reg: f64, hbar: f64, mass: f64, rho_plus: f64, f_qfim_plus: f64, rho_minus: f64, f_qfim_minus: f64, lambda_gjw: f64, c_epr: f64) -> f64` (`quantum_trajectories.rs`)
+- `evanescent_throat_stored_energy(p_in: f64, l_throat: f64, v_eff: f64) -> f64` (`quantum_trajectories.rs`)
 
 Reproducible build and test commands:
 
 ```bash
-pushd src/signals && lake build Signals.DFT SignalsTests SignalsPendingTests && popd
-cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml test_rhombohedral_graphene_superconductivity_qc_check_figures
+make signals_build
+cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml test_er_epr_su4_plucker_semi_dirac_
+cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml test_er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion
 ```
 
 ---

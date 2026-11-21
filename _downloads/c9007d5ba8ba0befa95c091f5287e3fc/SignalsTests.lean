@@ -9355,17 +9355,33 @@ example (im_sq w_hs_sq det_w rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_
     (him : 0 ≤ im_sq) (hw : 0 ≤ w_hs_sq)
     (hrp : 0 < rho_plus) (hfp : 0 < f_qfim_plus)
     (hrm : 0 ≤ rho_minus) (hfm : 0 ≤ f_qfim_minus) (hlg : 0 ≤ lambda_gjw) (hc : 0 ≤ c_epr) :
+    (((1 : ℝ) / 1) ^ 2 *
+        (((Real.sqrt 8 + Real.sqrt 2) / 2) ^ 2 + ((Real.sqrt 8 - Real.sqrt 2) / 2) ^ 2) =
+      2 * (5 / 2 : ℝ) / 1) ∧
     0 ≤ Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ∧
     Signals.QuantumTrajectories.kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ≤ im_sq ∧
     0 < Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 0 1 1
-          rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr := by
-  have h := Signals.QuantumTrajectories.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities
+          rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr ∧
+    Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0 = 15 ∧
+    0 < Signals.DFT.wormholeNetNullDefocusingFlux 12 10 ∧
+    Signals.DFT.wormholeNetNullDefocusingFlux 12
+      (Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ≤ 0 ∧
+    0 < Signals.DFT.wormholeNetNullDefocusingFlux 20
+      (Signals.QuantumTrajectories.dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ∧
+    0 < Signals.DFT.wormholeNetNullDefocusingFlux
+      (Signals.QuantumTrajectories.evanescentThroatStoredEnergy 1 1 (1 / 100)) 15 ∧
+    Signals.DFT.wormholeNetNullDefocusingFlux
+      (Signals.QuantumTrajectories.evanescentThroatStoredEnergy 1 1 2) 15 ≤ 0 ∧
+    Signals.DFT.wormholeNetNullDefocusingFlux
+      (Signals.QuantumTrajectories.saturatedBlockadeThreeBodyEnergy 4) 15 ≤ 0 ∧
+    0 < Signals.DFT.wormholeNetNullDefocusingFlux
+      (Signals.QuantumTrajectories.pairwiseMcGuireThreeBodyEnergy 4) 15 :=
+  Signals.QuantumTrajectories.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities
     1 1 (5 / 2) (3 / 2) (Real.sqrt 2) (Real.sqrt 8)
     im_sq w_hs_sq det_w rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr
     (by norm_num) (by norm_num)
     (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
     (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
     him hw hrp hfp hrm hfm hlg hc
-  exact ⟨h.2.1, h.2.2.1, h.2.2.2.1⟩
 
 end SignalsTests
