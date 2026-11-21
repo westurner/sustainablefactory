@@ -5,7 +5,7 @@ Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM `F_μν = 4
 
 Cross-verifies all three Lean 4 modules (`PluckerFrame.lean`, `Incompressible.lean`,
 `Compressible.lean`) and the compiled Rust/PyO3 `signals_numerical_adapter` solvers:
-1. **16 Exact Symbolic SymPy Proofs (`verify_symbolic_navier_stokes_qfim_identities`):**
+1. **20 Exact Symbolic SymPy Proofs (`verify_symbolic_navier_stokes_qfim_identities`):**
    - `4 × 2` jet-frame Klein quadric & `1/p₀₁²` Madelung denominator cancellation.
    - Schubert divisor `Σ₁ = {p₀₁ = 0}` cross-balance & smooth `Ω₀ ↔ Ω₀₂` transition.
    - 2-component Clebsch spinor unit norm, Berry connection, `QFIM = 4 g_FS`, and
@@ -248,6 +248,49 @@ def verify_symbolic_navier_stokes_qfim_identities() -> Dict[str, bool]:
         sp.simplify(om_st**2 + sp.I * delta_s * k**2 * om_st - cs_s**2 * k**2) == 0
     )
 
+    # 12. Grassmannian Riccati tangent orthogonality Z† (H Z - Z (Z† H Z)) = 0 for orthonormal Z
+    ang = sp.Symbol("ang", real=True)
+    Z_or = sp.Matrix(
+        [[sp.cos(ang), 0], [sp.I * sp.sin(ang), 0], [0, sp.sin(ang)], [0, sp.cos(ang)]]
+    )
+    H_nh = sp.Matrix(4, 4, lambda i, j: sp.Symbol(f"h{i}{j}"))
+    proj_Z = H_nh * Z_or - Z_or * (Z_or.H * H_nh * Z_or)
+    z_dag_proj = sp.trigsimp(sp.expand(Z_or.H * proj_Z))
+    res["riccati_grassmann_projection_orthogonal_exact"] = z_dag_proj == sp.zeros(2, 2)
+
+    # 13. Lamb–Oseen cylindrical curl recovery (1/r) ∂_r(r u_θ(r, t)) = ω(r, 0, t)
+    r_s = sp.Symbol("r_s", real=True, positive=True)
+    u_th = (Gamma / (2 * sp.pi * r_s)) * (1 - sp.exp(-(r_s**2) / (4 * nu_p * t)))
+    om_r = (Gamma / (4 * sp.pi * nu_p * t)) * sp.exp(-(r_s**2) / (4 * nu_p * t))
+    res["lamb_oseen_azimuthal_curl_recovery_exact"] = (
+        sp.simplify(sp.diff(r_s * u_th, r_s) / r_s - om_r) == 0
+    )
+
+    # 14. Unified Bogoliubov–Korteweg–Stokes dispersion & inviscid Signals.DDF bridge
+    kap_s, g0_s = sp.symbols("kap_s g0_s", real=True, positive=True)
+    om_bs = sp.sqrt(cs_s**2 * k**2 + kap_s * k**4 - delta_s**2 * k**4 / 4) - sp.I * delta_s * k**2 / 2
+    bs_disp_ok = (
+        sp.simplify(om_bs**2 + sp.I * delta_s * k**2 * om_bs - (cs_s**2 * k**2 + kap_s * k**4)) == 0
+    )
+    vp_ddf_ok = (
+        sp.simplify(
+            ((g0_s * rho0 / m) * k**2 + (hbar**2 / (4 * m**2)) * k**4) / k**2
+            - (hbar**2 * k**2 / (4 * m**2) + g0_s * rho0 / m)
+        )
+        == 0
+    )
+    res["bogoliubov_korteweg_stokes_and_ddf_bridge_exact"] = bs_disp_ok and vp_ddf_ok
+
+    # 15. 1D Compressible Rankine–Hugoniot shock-frame mass & momentum jump
+    rL, rR, uL, uR, PL, PR = sp.symbols("rL rR uL uR PL PR", real=True)
+    s_rh = (rR * uR - rL * uL) / (rR - rL)
+    rh_mass_ok = sp.simplify(rR * (uR - s_rh) - rL * (uL - s_rh)) == 0
+    rh_mom_equiv = sp.simplify(
+        (rR * (uR - s_rh) ** 2 + PR - (rL * (uL - s_rh) ** 2 + PL))
+        - ((rR * uR**2 + PR) - (rL * uL**2 + PL) - s_rh * (rR * uR - rL * uL))
+    ) == 0
+    res["rankine_hugoniot_compressible_jump_exact"] = rh_mass_ok and rh_mom_equiv
+
     return res
 
 
@@ -263,10 +306,17 @@ def run_pyo3_navier_stokes_benchmark_suite() -> Dict[str, float]:
     nsk = sna.py_audit_compressible_nsk_korteweg_bd(
         1.0, 1.0, 0.08, 0.02, 1.5, 0.3, -0.4, 0.2, 0.5, -0.2, 0.1, 0.3, -0.1, 0.2, 0.7, 2.0, 1.2
     )
+    riccati = sna.py_audit_riccati_grassmann_projection(1.3, 1.0, 0.07, 2.5, 0.6)
+    bs_rh = sna.py_audit_bogoliubov_korteweg_stokes_and_rh(
+        1.0, 1.0, 1.5, 1.2, 0.06, 0.02, 1.4, 2.5, 0.7, 0.4, 0.3, 1.0, 0.8, 1.6, 0.2
+    )
 
     incomp = sna.IncompressibleDualSchubertSolver2D.from_taylor_green(16, 1.0, 0.1, 1.0)
     incomp_s1 = incomp.step_rk2(0.01, 50)
     tg_l2_err = incomp.taylor_green_l2_error(1.0, 1.0)
+
+    mm = sna.IncompressibleDualSchubertSolver2D.from_multimode_vortex_pair(16, 0.8, 0.05)
+    mm_s1 = mm.step_rk2(0.01, 40)
 
     comp = sna.CompressibleNskDualSchubertSolver1D.from_acoustic_wave(
         64, 2.0 * math.pi, 1.0, 0.05, 1.0, 0.2, 0.05, 0.01, 0.002
@@ -274,15 +324,31 @@ def run_pyo3_navier_stokes_benchmark_suite() -> Dict[str, float]:
     comp_s0 = comp.snapshot()
     comp_s1 = comp.step_rk2(0.002, 100)
 
+    # Zero-artificial-diffusion quantitative Stokes–Korteweg physical damping check
+    nu_c, zeta_c, kap_c = 0.08, 0.02, 0.002
+    delta_c = (4.0 / 3.0) * nu_c + zeta_c
+    om_r = math.sqrt(1.0 + kap_c - 0.25 * delta_c * delta_c)
+    comp_lin = sna.CompressibleNskDualSchubertSolver1D.from_acoustic_wave(
+        64, 2.0 * math.pi, 1.0, 1e-3, 1.0, 0.0, nu_c, zeta_c, kap_c
+    )
+    cl0 = comp_lin.snapshot()
+    cl1 = comp_lin.step_central_rk2((2.0 * math.pi / om_r) / 2000.0, 2000)
+    exp_amp = math.exp(-0.5 * delta_c * cl1.time)
+    meas_amp = math.sqrt(cl1.acoustic_capillary_energy / cl0.acoustic_capillary_energy)
+    stokes_rel_err = abs(meas_amp - exp_amp) / exp_amp
+
     return {
         "schubert_klein_res": schubert["klein_quadric_residual"],
         "schubert_node_qfim": schubert["qfim_regularized_at_node"],
         "chat_hermitian_norm_rate": abs(bateman["chat_total_norm_rate"]),
         "bateman_pairing_res": bateman["bateman_pairing_rate_abs"],
+        "riccati_horiz_res": riccati["horizontal_orthogonality_residual"],
+        "riccati_gram_res": riccati["gram_rate_residual"],
         "clebsch_vorticity_z": clebsch["vorticity_z"],
         "clebsch_qfim_res": clebsch["qfim_identity_residual"],
         "tg_max_res": max(tg["div_residual"], tg["mom_x_residual"], tg["mom_y_residual"]),
         "lo_heat_res": lo["heat_pde_residual"],
+        "lo_curl_res": bs_rh["lamb_oseen_curl_residual"],
         "abc_max_res": max(abc["eigen_curl_residual"], abc["laplacian_residual"], abc["momentum_max_residual"]),
         "burgers_max_res": max(
             burg["burgers_pde_residual"],
@@ -295,11 +361,21 @@ def run_pyo3_navier_stokes_benchmark_suite() -> Dict[str, float]:
             nsk["bd_dual_schubert_residual"],
             nsk["stokes_dispersion_residual"],
         ),
+        "bs_ddf_rh_max_res": max(
+            bs_rh["bogoliubov_stokes_dispersion_residual"],
+            bs_rh["ddf_bogoliubov_bridge_residual"],
+            bs_rh["rh_mass_flux_residual"],
+            bs_rh["rh_momentum_flux_residual"],
+        ),
         "incomp_2d_max_div": incomp_s1.max_divergence,
         "incomp_2d_tg_l2_err": tg_l2_err,
         "incomp_2d_ch2_osmotic": incomp_s1.ch2_osmotic_energy,
+        "incomp_2d_qfim_fs_res": incomp_s1.qfim_fs_ratio_residual,
+        "incomp_2d_multimode_max_div": mm_s1.max_divergence,
+        "incomp_2d_multimode_high_k_energy": mm_s1.high_mode_energy,
         "comp_1d_mass_drift": abs(comp_s1.total_mass - comp_s0.total_mass),
         "comp_1d_mom_drift": abs(comp_s1.total_momentum - comp_s0.total_momentum),
         "comp_1d_bd_res": comp_s1.bd_identity_residual,
         "comp_1d_amp_ratio": comp_s1.wave_amplitude / comp_s0.wave_amplitude,
+        "comp_1d_central_stokes_damping_rel_err": stokes_rel_err,
     }

@@ -896,6 +896,70 @@ fn py_audit_compressible_nsk_korteweg_bd<'py>(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_riccati_grassmann_projection<'py>(
+    py: Python<'py>,
+    e_val: f64,
+    hbar: f64,
+    nu: f64,
+    k: f64,
+    theta: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_riccati_grassmann_projection(e_val, hbar, nu, k, theta)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("orthonormality_residual", a.orthonormality_residual)?;
+    d.set_item(
+        "horizontal_orthogonality_residual",
+        a.horizontal_orthogonality_residual,
+    )?;
+    d.set_item("gram_rate_residual", a.gram_rate_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_bogoliubov_korteweg_stokes_and_rh<'py>(
+    py: Python<'py>,
+    hbar: f64,
+    mass: f64,
+    g0: f64,
+    rho0: f64,
+    nu: f64,
+    zeta: f64,
+    k: f64,
+    gamma_vort: f64,
+    r_vort: f64,
+    t_vort: f64,
+    div_f_qfim: f64,
+    rho_l: f64,
+    u_l: f64,
+    rho_r: f64,
+    u_r: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = navier_stokes::evaluate_bogoliubov_korteweg_stokes_and_rh(
+        hbar, mass, g0, rho0, nu, zeta, k, gamma_vort, r_vort, t_vort, div_f_qfim, rho_l, u_l,
+        rho_r, u_r,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("bogoliubov_stokes_omega_re", a.bogoliubov_stokes_omega_re)?;
+    d.set_item("bogoliubov_stokes_omega_im", a.bogoliubov_stokes_omega_im)?;
+    d.set_item(
+        "bogoliubov_stokes_dispersion_residual",
+        a.bogoliubov_stokes_dispersion_residual,
+    )?;
+    d.set_item("ddf_bogoliubov_bridge_residual", a.ddf_bogoliubov_bridge_residual)?;
+    d.set_item("lamb_oseen_curl_residual", a.lamb_oseen_curl_residual)?;
+    d.set_item("isf_spin_tension_gap", a.isf_spin_tension_gap)?;
+    d.set_item("rh_shock_speed", a.rh_shock_speed)?;
+    d.set_item("rh_mass_flux_residual", a.rh_mass_flux_residual)?;
+    d.set_item("rh_momentum_flux_residual", a.rh_momentum_flux_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -973,6 +1037,14 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_beltrami_abc_3d, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_viscous_burgers_cole_hopf, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_compressible_nsk_korteweg_bd, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_riccati_grassmann_projection,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_bogoliubov_korteweg_stokes_and_rh,
+        m
+    )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;

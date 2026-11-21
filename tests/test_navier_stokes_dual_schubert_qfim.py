@@ -14,7 +14,7 @@ from sustainablefactory.navier_stokes import (
 
 def test_symbolic_navier_stokes_dual_schubert_qfim_identities():
     res = verify_symbolic_navier_stokes_qfim_identities()
-    assert len(res) == 16
+    assert len(res) == 20
     for name, ok in res.items():
         assert ok, f"Symbolic identity failed: {name}"
 
@@ -54,21 +54,29 @@ def test_pyo3_incompressible_and_compressible_solvers_and_benchmarks():
     assert bench["schubert_node_qfim"] > 0.0
     assert bench["chat_hermitian_norm_rate"] < 1e-15
     assert bench["bateman_pairing_res"] < 1e-14
+    assert bench["riccati_horiz_res"] < 1e-14
+    assert bench["riccati_gram_res"] < 1e-14
     assert bench["clebsch_qfim_res"] < 1e-14
     assert bench["tg_max_res"] < 1e-14
     assert bench["lo_heat_res"] < 1e-14
+    assert bench["lo_curl_res"] < 1e-14
     assert bench["abc_max_res"] < 1e-14
     assert bench["burgers_max_res"] < 1e-14
     assert bench["nsk_max_res"] < 1e-14
-    # Incompressible 2D spectral solver
+    assert bench["bs_ddf_rh_max_res"] < 1e-14
+    # Incompressible 2D spectral solver (Taylor–Green + multi-mode nonlinear + true projective QFIM)
     assert bench["incomp_2d_max_div"] < 1e-13
     assert bench["incomp_2d_tg_l2_err"] < 1e-4
     assert bench["incomp_2d_ch2_osmotic"] == 0.0
-    # Compressible 1D NSK finite-volume solver
+    assert bench["incomp_2d_qfim_fs_res"] < 1e-14
+    assert bench["incomp_2d_multimode_max_div"] < 1e-13
+    assert bench["incomp_2d_multimode_high_k_energy"] > 0.0
+    # Compressible 1D NSK finite-volume solver (Rusanov + zero-artificial-diffusion central Stokes law)
     assert bench["comp_1d_mass_drift"] < 1e-12
     assert bench["comp_1d_mom_drift"] < 1e-12
     assert bench["comp_1d_bd_res"] < 1e-14
     assert 0.0 < bench["comp_1d_amp_ratio"] < 1.0
+    assert bench["comp_1d_central_stokes_damping_rel_err"] < 0.005
 
 
 def test_pyo3_incompressible_rk2_time_convergence_order():

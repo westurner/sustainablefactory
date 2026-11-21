@@ -9465,4 +9465,36 @@ example (μ ζ s11 s22 s33 s12 s13 s23 ℏ ρ ρ_x ρ_xx ρ_xxx ν v c_s δ k : 
       (Signals.NavierStokes.PluckerFrame.clebsch_spinor_berry_and_qfim 0 0 0 0 0 0).2.1).1,
    (Signals.NavierStokes.Compressible.stokes_acoustic_attenuation_dispersion hδ hunder).2.2.1⟩
 
+example (H : Matrix (Fin 4) (Fin 4) ℂ) (Z : Signals.NavierStokes.PluckerFrame.Stiefel4x2)
+    (hortho : Matrix.conjTranspose Z * Z = 1) (c : ℂ) (ℏ m θ θ_x θ_y φ₁_x φ₁_y φ₂_x φ₂_y φ₁_xy φ₂_xy : ℝ)
+    (Γ ν r t ρ₀ gradP lapV divF c_s κ_K δ k ρ_L ρ_R u_L u_R P_L P_R : ℝ)
+    (hℏ : 0 < ℏ) (hm : 0 < m) (hρ₀ : 0 < ρ₀) (hν : 0 < ν) (hr : 0 < r) (ht : 0 < t)
+    (hδ : 0 ≤ δ) (hunder : δ ^ 2 * k ^ 4 / 4 ≤ c_s ^ 2 * k ^ 2 + κ_K * k ^ 4)
+    (hdiff : ρ_R - ρ_L ≠ 0)
+    (ρ ρ' ρ'' ρ''' : ℝ → ℝ) (hρ_ne : ρ r ≠ 0)
+    (hd1 : HasDerivAt ρ (ρ' r) r) (hd2 : HasDerivAt ρ' (ρ'' r) r) (hd3 : HasDerivAt ρ'' (ρ''' r) r) :
+    (Matrix.conjTranspose Z * (c • Signals.NavierStokes.PluckerFrame.riccatiTangentProj H Z) = 0) ∧
+    ((ℏ / m) *
+      (((-Real.cos (θ / 2) * Real.sin (θ / 2) * θ_x) * φ₁_y + Real.cos (θ / 2) ^ 2 * φ₁_xy +
+        (Real.sin (θ / 2) * Real.cos (θ / 2) * θ_x) * φ₂_y + Real.sin (θ / 2) ^ 2 * φ₂_xy) -
+       ((-Real.cos (θ / 2) * Real.sin (θ / 2) * θ_y) * φ₁_x + Real.cos (θ / 2) ^ 2 * φ₁_xy +
+        (Real.sin (θ / 2) * Real.cos (θ / 2) * θ_y) * φ₂_x + Real.sin (θ / 2) ^ 2 * φ₂_xy)) =
+      Signals.NavierStokes.PluckerFrame.clebschBerryVorticityZ ℏ m θ θ_x θ_y (φ₂_x - φ₁_x) (φ₂_y - φ₁_y)) ∧
+    ((1 / r) * deriv (fun s => s * Signals.NavierStokes.Incompressible.lambOseenAzimuthalVelocity Γ ν s t) r =
+      Signals.NavierStokes.Incompressible.lambOseenVorticity Γ ν r 0 t) ∧
+    ((-gradP + ν * lapV - (ℏ ^ 2 / (4 * m ^ 2)) * ρ₀ * divF = -gradP + ν * lapV) ↔ divF = 0) ∧
+    (-(ρ r / m) * deriv (fun s => Signals.NavierStokes.Compressible.bohmQuantumPotential1D ℏ m (ρ s) (ρ' s) (ρ'' s)) r =
+      deriv (fun s => Signals.NavierStokes.Compressible.kortewegStress1D ℏ m (ρ s) (ρ' s) (ρ'' s)) r) ∧
+    ((Signals.NavierStokes.Compressible.bogoliubovStokesOmega c_s κ_K δ k).im = -(δ * k ^ 2 / 2)) ∧
+    (ρ_R * (u_R - (ρ_R * u_R - ρ_L * u_L) / (ρ_R - ρ_L)) =
+      ρ_L * (u_L - (ρ_R * u_R - ρ_L * u_L) / (ρ_R - ρ_L))) :=
+  ⟨(Signals.NavierStokes.PluckerFrame.riccati_grassmann_projection_orthogonal H Z hortho c).1,
+   Signals.NavierStokes.PluckerFrame.clebsch_berry_curl_eq_vorticityZ
+     ℏ m θ θ_x θ_y φ₁_x φ₁_y φ₂_x φ₂_y φ₁_xy φ₂_xy,
+   Signals.NavierStokes.Incompressible.lambOseen_velocity_recovers_vorticity hν hr ht,
+   (Signals.NavierStokes.Incompressible.isf_spin_tension_vs_classical_incompressible_ns hℏ hm hρ₀ gradP ν lapV divF).2,
+   (Signals.NavierStokes.Compressible.korteweg_stress_div_eq_quantum_force_calculus hm.ne' hρ_ne hd1 hd2 hd3).2.2,
+   (Signals.NavierStokes.Compressible.compressible_nsk_bogoliubov_stokes_dispersion hδ hunder).2.1,
+   (Signals.NavierStokes.Compressible.rankine_hugoniot_compressible_jump hdiff u_L u_R P_L P_R).1⟩
+
 end SignalsTests

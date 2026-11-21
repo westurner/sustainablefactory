@@ -218,7 +218,32 @@ theorem clebsch_spinor_berry_and_qfim (θ φ₁ φ₂ dθ dφ₁ dφ₂ : ℝ) :
   rw [qfim, hgfs]
   ring
 
-/-- **Theorem 2.2 (Nonzero Continuous Clebsch Vorticity Witness):**
+/-- **Theorem 2.2 (Calculus Derivation of Clebsch Berry Curvature `ω_z = (ℏ/m)(∂_x A_y - ∂_y A_x)`):**
+Differentiating `A_μ = cos²(θ/2) ∂_μ φ₁ + sin²(θ/2) ∂_μ φ₂` with smooth mixed-partial symmetry
+(`φ₁_xy = φ₁_yx`, `φ₂_xy = φ₂_yx`) cancels all second-order phase derivatives identically and
+yields the exact continuous vorticity `clebschBerryVorticityZ`:
+`(ℏ / m) (∂_x A_y - ∂_y A_x) = (ℏ / (2 m)) sin θ (∂_x θ ∂_y(φ₂ - φ₁) - ∂_y θ ∂_x(φ₂ - φ₁))`. -/
+theorem clebsch_berry_curl_eq_vorticityZ
+    (ℏ m θ θ_x θ_y φ₁_x φ₁_y φ₂_x φ₂_y φ₁_xy φ₂_xy : ℝ) :
+    let dA_y_dx : ℝ :=
+      (-Real.cos (θ / 2) * Real.sin (θ / 2) * θ_x) * φ₁_y + Real.cos (θ / 2) ^ 2 * φ₁_xy +
+      (Real.sin (θ / 2) * Real.cos (θ / 2) * θ_x) * φ₂_y + Real.sin (θ / 2) ^ 2 * φ₂_xy
+    let dA_x_dy : ℝ :=
+      (-Real.cos (θ / 2) * Real.sin (θ / 2) * θ_y) * φ₁_x + Real.cos (θ / 2) ^ 2 * φ₁_xy +
+      (Real.sin (θ / 2) * Real.cos (θ / 2) * θ_y) * φ₂_x + Real.sin (θ / 2) ^ 2 * φ₂_xy
+    (ℏ / m) * (dA_y_dx - dA_x_dy) =
+      clebschBerryVorticityZ ℏ m θ θ_x θ_y (φ₂_x - φ₁_x) (φ₂_y - φ₁_y) := by
+  intro dA_y_dx dA_x_dy
+  have hsin2 : Real.sin θ = 2 * Real.sin (θ / 2) * Real.cos (θ / 2) := by
+    have h := Real.sin_two_mul (θ / 2)
+    have h2 : 2 * (θ / 2) = θ := by ring
+    rwa [h2] at h
+  dsimp only [dA_y_dx, dA_x_dy]
+  unfold clebschBerryVorticityZ
+  rw [hsin2]
+  ring
+
+/-- **Theorem 2.3 (Nonzero Continuous Clebsch Vorticity Witness):**
 Unlike scalar Madelung flow (which is irrotational wherever `ρ > 0`), a smooth Clebsch
 spinor with non-collinear `(∇θ, ∇(φ₂ - φ₁))` carries strictly positive vorticity
 `ω_z = ℏ / (2 m) > 0` at `θ = π/2`. -/
@@ -230,6 +255,36 @@ theorem clebsch_berry_vorticity_nonzero {ℏ m : ℝ} (hℏ : 0 < ℏ) (hm : 0 <
   have hval : ℏ / (2 * m) * 1 * (1 * 1 - 0 * 0) = ℏ / (2 * m) := by ring
   rw [hval]
   exact ⟨rfl, div_pos hℏ (by linarith)⟩
+
+/-- Grassmannian Riccati tangent-space projection `P_Z(H Z) = H Z - Z (Z† H Z)` for an
+orthonormal `4 × 2` Stiefel frame `Z` (`Z† Z = I₂`), matching the gauge-fixing connection
+`Z Λ(Z)` in `data/chats/bohmian-mechanics-and-navier-stokes-and-nonlinearity.md` (lines 102–104). -/
+def riccatiTangentProj (H : Matrix (Fin 4) (Fin 4) ℂ) (Z : Stiefel4x2) : Stiefel4x2 :=
+  H * Z - Z * (Zᴴ * H * Z)
+
+/-- **Theorem 2.4 (Grassmannian Riccati Tangent Orthogonality & Orthonormality Preservation):**
+For any orthonormal `4 × 2` Stiefel frame `Z` (`Z† Z = 1`) and **any** `4 × 4` operator `H`
+(Hermitian or non-Hermitian), the Riccati-projected tangent vector `Ż = c • (H Z - Z (Z† H Z))`
+satisfies exact horizontal orthogonality `Z† Ż = 0` and identically preserves the Gram matrix
+`d/dt (Z† Z) = Ż† Z + Z† Ż = 0`. -/
+theorem riccati_grassmann_projection_orthogonal
+    (H : Matrix (Fin 4) (Fin 4) ℂ) (Z : Stiefel4x2) (hortho : Zᴴ * Z = 1) (c : ℂ) :
+    let dZ : Stiefel4x2 := c • riccatiTangentProj H Z
+    Zᴴ * dZ = 0 ∧
+    dZᴴ * Z + Zᴴ * dZ = 0 := by
+  intro dZ
+  have h1 : Zᴴ * riccatiTangentProj H Z = 0 := by
+    unfold riccatiTangentProj
+    rw [Matrix.mul_sub, ← Matrix.mul_assoc, ← Matrix.mul_assoc, hortho, Matrix.one_mul,
+        Matrix.mul_assoc, sub_self]
+  have hz_dz : Zᴴ * dZ = 0 := by
+    dsimp only [dZ]
+    rw [Matrix.mul_smul, h1, smul_zero]
+  have hdz_z : dZᴴ * Z = 0 := by
+    have hconj : (Zᴴ * dZ)ᴴ = dZᴴ * Z := by
+      rw [Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose]
+    rw [← hconj, hz_dz, Matrix.conjTranspose_zero]
+  exact ⟨hz_dz, by rw [hdz_z, hz_dz, add_zero]⟩
 
 /-! ### Section 3: Audit of Chat Defect #2 — Hermitian `H_chat` vs. Bateman Viscous Operator -/
 

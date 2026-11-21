@@ -4,6 +4,7 @@ import Mathlib.Analysis.Calculus.Deriv.Mul
 import Mathlib.Analysis.Calculus.Deriv.Comp
 import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Signals.DDF
 import Signals.SatoGrassmannian.DualSchubertQFIM
 import Signals.NavierStokes.PluckerFrame
 
@@ -108,6 +109,49 @@ theorem korteweg_stress_div_eq_quantum_force
       kortewegStressDiv1D ℏ m ρ ρ_x ρ_xx ρ_xxx := by
   unfold bohmQuantumPotentialGrad1D kortewegStressDiv1D
   field_simp [hm, hρ]
+
+/-- **Theorem 2.2 (Full Calculus Proof of Korteweg Stress Divergence via `deriv`):**
+For any smooth positive density field `ρ : ℝ → ℝ` with `HasDerivAt ρ (ρ' x) x`,
+`HasDerivAt ρ' (ρ'' x) x`, and `HasDerivAt ρ'' (ρ''' x) x` (`ρ x ≠ 0, m ≠ 0`):
+1. `deriv (Q ∘ ρ) x = bohmQuantumPotentialGrad1D ℏ m (ρ x) (ρ' x) (ρ'' x) (ρ''' x)`;
+2. `deriv (K_{xx} ∘ ρ) x = kortewegStressDiv1D ℏ m (ρ x) (ρ' x) (ρ'' x) (ρ''' x)`;
+3. `-(ρ x / m) * deriv (Q ∘ ρ) x = deriv (K_{xx} ∘ ρ) x` identically. -/
+theorem korteweg_stress_div_eq_quantum_force_calculus
+    {ℏ m x : ℝ} (hm : m ≠ 0)
+    {ρ ρ' ρ'' ρ''' : ℝ → ℝ} (hρ_ne : ρ x ≠ 0)
+    (h1 : HasDerivAt ρ (ρ' x) x)
+    (h2 : HasDerivAt ρ' (ρ'' x) x)
+    (h3 : HasDerivAt ρ'' (ρ''' x) x) :
+    deriv (fun s => bohmQuantumPotential1D ℏ m (ρ s) (ρ' s) (ρ'' s)) x =
+      bohmQuantumPotentialGrad1D ℏ m (ρ x) (ρ' x) (ρ'' x) (ρ''' x) ∧
+    deriv (fun s => kortewegStress1D ℏ m (ρ s) (ρ' s) (ρ'' s)) x =
+      kortewegStressDiv1D ℏ m (ρ x) (ρ' x) (ρ'' x) (ρ''' x) ∧
+    -(ρ x / m) * deriv (fun s => bohmQuantumPotential1D ℏ m (ρ s) (ρ' s) (ρ'' s)) x =
+      deriv (fun s => kortewegStress1D ℏ m (ρ s) (ρ' s) (ρ'' s)) x := by
+  have h2ρ2_ne : 2 * ρ x ^ 2 ≠ 0 := mul_ne_zero two_ne_zero (pow_ne_zero 2 hρ_ne)
+  have hd_q : HasDerivAt (fun s => bohmQuantumPotential1D ℏ m (ρ s) (ρ' s) (ρ'' s))
+      (bohmQuantumPotentialGrad1D ℏ m (ρ x) (ρ' x) (ρ'' x) (ρ''' x)) x := by
+    unfold bohmQuantumPotential1D bohmQuantumPotentialGrad1D
+    have hterm1 : HasDerivAt (fun s => ρ'' s / ρ s)
+        ((ρ''' x * ρ x - ρ'' x * ρ' x) / ρ x ^ 2) x := h3.div h1 hρ_ne
+    have hnum2 : HasDerivAt (fun s => ρ' s ^ 2) ((2 : ℕ) * ρ' x ^ (2 - 1) * ρ'' x) x := h2.pow 2
+    have hden2 : HasDerivAt (fun s => 2 * ρ s ^ 2) (2 * ((2 : ℕ) * ρ x ^ (2 - 1) * ρ' x)) x :=
+      (h1.pow 2).const_mul 2
+    have hterm2 := hnum2.div hden2 h2ρ2_ne
+    convert (hterm1.sub hterm2).const_mul (-(ℏ ^ 2 / (4 * m))) using 1
+    field_simp [hm, hρ_ne]
+    ring
+  have hd_k : HasDerivAt (fun s => kortewegStress1D ℏ m (ρ s) (ρ' s) (ρ'' s))
+      (kortewegStressDiv1D ℏ m (ρ x) (ρ' x) (ρ'' x) (ρ''' x)) x := by
+    unfold kortewegStress1D kortewegStressDiv1D
+    have hnum : HasDerivAt (fun s => ρ' s ^ 2) ((2 : ℕ) * ρ' x ^ (2 - 1) * ρ'' x) x := h2.pow 2
+    have hterm := hnum.div h1 hρ_ne
+    convert (h3.sub hterm).const_mul (ℏ ^ 2 / (4 * m ^ 2)) using 1
+    field_simp [hm, hρ_ne]
+    ring
+  refine ⟨hd_q.deriv, hd_k.deriv, ?_⟩
+  rw [hd_q.deriv, hd_k.deriv]
+  exact korteweg_stress_div_eq_quantum_force hm hρ_ne ℏ (ρ' x) (ρ'' x) (ρ''' x)
 
 /-! ### Section 3: Bresch–Desjardins (BD) Dual-Schubert Velocity & QFIM Equivalence -/
 
@@ -290,5 +334,104 @@ theorem stokes_acoustic_attenuation_dispersion
   simp only [zero_pow two_ne_zero, zero_mul, zero_div, sub_zero, Complex.ofReal_zero]
   have hmul : c_s ^ 2 * k ^ 2 = (c_s * k) ^ 2 := by ring
   rw [hmul, Real.sqrt_sq_eq_abs]
+
+/-! ### Section 6: Unified Bogoliubov–Korteweg–Stokes Dispersion (`Signals.DDF` Bridge) & Rankine–Hugoniot Jump -/
+
+/-- Underdamped complex acoustic-capillary frequency for compressible Navier–Stokes–Korteweg (NSK):
+`ω₊(k) = √(c_s² k² + κ_K k⁴ - δ² k⁴ / 4) - i (δ k² / 2)`. -/
+noncomputable def bogoliubovStokesOmega (c_s κ_K δ k : ℝ) : ℂ :=
+  ((Real.sqrt (c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4) : ℝ) : ℂ) -
+    ((δ * k ^ 2 / 2 : ℝ) : ℂ) * Complex.I
+
+/-- **Theorem 6.1 (Unified Bogoliubov–Korteweg–Stokes Dispersion & `Signals.DDF` Bridge):**
+For a compressible NSK fluid with sound speed `c_s`, Korteweg capillarity `κ_K ≥ 0`, and
+sound diffusivity `δ ≥ 0` in the underdamped regime `δ² k⁴ / 4 ≤ c_s² k² + κ_K k⁴`:
+1. `ω₊` solves the exact coupled NSK dispersion relation
+   `ω₊² + i δ k² ω₊ - (c_s² k² + κ_K k⁴) = 0`;
+2. Setting `κ_K = 0` recovers `stokesAcousticOmega c_s δ k` identically;
+3. Setting `δ = 0`, `κ_K = ℏ² / (4 m²)`, and `c_s² = g₀ ρ₀ / m` (`k ≠ 0`) recovers the exact
+   `Signals.DDF.standardBogoliubovPhaseVelSq m g₀ ρ₀ ℏ k` squared phase velocity;
+4. Positive Korteweg capillarity (`κ_K > 0`, `k ≠ 0`) strictly increases the underdamped
+   stability discriminant over pure Stokes acoustics (`κ_K = 0`). -/
+theorem compressible_nsk_bogoliubov_stokes_dispersion
+    {c_s κ_K δ k : ℝ} (hδ : 0 ≤ δ) (hunder : δ ^ 2 * k ^ 4 / 4 ≤ c_s ^ 2 * k ^ 2 + κ_K * k ^ 4) :
+    let ω := bogoliubovStokesOmega c_s κ_K δ k
+    ω ^ 2 + ((δ * k ^ 2 : ℝ) : ℂ) * Complex.I * ω -
+      ((c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 : ℝ) : ℂ) = 0 ∧
+    ω.im = -(δ * k ^ 2 / 2) ∧
+    ω.im ≤ 0 ∧
+    (κ_K = 0 → bogoliubovStokesOmega c_s κ_K δ k = stokesAcousticOmega c_s δ k) ∧
+    (∀ m g₀ ρ₀ ℏ : ℝ, k ≠ 0 → δ = 0 → κ_K = ℏ ^ 2 / (4 * m ^ 2) → c_s ^ 2 = g₀ * ρ₀ / m →
+      (bogoliubovStokesOmega c_s κ_K δ k).re ^ 2 / k ^ 2 =
+        Signals.DDF.standardBogoliubovPhaseVelSq m g₀ ρ₀ ℏ k) ∧
+    (0 < κ_K → k ≠ 0 →
+      c_s ^ 2 * k ^ 2 - δ ^ 2 * k ^ 4 / 4 < c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4) := by
+  intro ω
+  have hdisc : 0 ≤ c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4 := by linarith
+  have hsq : Real.sqrt (c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4) ^ 2 =
+      c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4 := Real.sq_sqrt hdisc
+  have hI2 : Complex.I ^ 2 = -1 := Complex.I_sq
+  have hdisp : ω ^ 2 + ((δ * k ^ 2 : ℝ) : ℂ) * Complex.I * ω -
+      ((c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 : ℝ) : ℂ) = 0 := by
+    dsimp only [ω, bogoliubovStokesOmega]
+    have hsqC : ((Real.sqrt (c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4) : ℝ) : ℂ) ^ 2 =
+        ((c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4 : ℝ) : ℂ) := by
+      norm_cast
+    push_cast at hsqC ⊢
+    linear_combination hsqC + (((δ : ℂ) ^ 2 * (k : ℂ) ^ 4 / 4) - ((δ : ℂ) * (k : ℂ) ^ 2) *
+      ((δ : ℂ) * (k : ℂ) ^ 2 / 2)) * hI2
+  have him : ω.im = -(δ * k ^ 2 / 2) := by
+    dsimp only [ω, bogoliubovStokesOmega]
+    simp only [Complex.sub_im, Complex.ofReal_im, Complex.mul_im, Complex.ofReal_re,
+      Complex.I_re, Complex.I_im, mul_one, mul_zero, add_zero, zero_sub]
+  have hnonpos : ω.im ≤ 0 := by
+    rw [him]
+    have : 0 ≤ δ * k ^ 2 / 2 := by positivity
+    linarith
+  refine ⟨hdisp, him, hnonpos, ?_, ?_, ?_⟩
+  · intro hκ0
+    unfold bogoliubovStokesOmega stokesAcousticOmega
+    rw [hκ0, zero_mul, add_zero]
+  · intro m g₀ ρ₀ ℏ hk hδ0 hκ hcs
+    have hre : (bogoliubovStokesOmega c_s κ_K δ k).re =
+        Real.sqrt (c_s ^ 2 * k ^ 2 + κ_K * k ^ 4 - δ ^ 2 * k ^ 4 / 4) := by
+      unfold bogoliubovStokesOmega
+      simp only [Complex.sub_re, Complex.ofReal_re, Complex.mul_re, Complex.ofReal_im,
+        Complex.I_re, Complex.I_im, mul_zero]
+      ring
+    rw [hre, hsq, hδ0, hκ, hcs]
+    unfold Signals.DDF.standardBogoliubovPhaseVelSq
+    have hk2 : k ^ 2 ≠ 0 := pow_ne_zero 2 hk
+    field_simp [hk2]
+    ring
+  · intro hκ_pos hk
+    have hk4 : 0 < k ^ 4 := by positivity
+    nlinarith
+
+/-- **Theorem 6.2 (1D Compressible Rankine–Hugoniot Mass & Momentum Shock Jump):**
+Across a 1D shock moving at speed `s = (ρ_R u_R - ρ_L u_L) / (ρ_R - ρ_L)` (`ρ_R ≠ ρ_L`),
+the shock-frame mass flux `J = ρ_L (u_L - s) = ρ_R (u_R - s)` is conserved identically,
+and lab-frame momentum jump `s (ρ_R u_R - ρ_L u_L) = (ρ_R u_R² + P_R) - (ρ_L u_L² + P_L)`
+is equivalent to shock-frame total momentum-flux balance
+`ρ_R (u_R - s)² + P_R = ρ_L (u_L - s)² + P_L`. -/
+theorem rankine_hugoniot_compressible_jump
+    {ρ_L ρ_R : ℝ} (hdiff : ρ_R - ρ_L ≠ 0) (u_L u_R P_L P_R : ℝ) :
+    let s : ℝ := (ρ_R * u_R - ρ_L * u_L) / (ρ_R - ρ_L)
+    ρ_R * (u_R - s) = ρ_L * (u_L - s) ∧
+    (s * (ρ_R * u_R - ρ_L * u_L) = (ρ_R * u_R ^ 2 + P_R) - (ρ_L * u_L ^ 2 + P_L) ↔
+      ρ_R * (u_R - s) ^ 2 + P_R = ρ_L * (u_L - s) ^ 2 + P_L) := by
+  intro s
+  have hmass : ρ_R * (u_R - s) = ρ_L * (u_L - s) := by
+    dsimp only [s]
+    field_simp [hdiff]
+    ring
+  have hs_mass : s * (ρ_R - ρ_L) = ρ_R * u_R - ρ_L * u_L := by
+    dsimp only [s]
+    field_simp [hdiff]
+  refine ⟨hmass, ?_⟩
+  have hdiff_id : (ρ_R * (u_R - s) ^ 2 + P_R) - (ρ_L * (u_L - s) ^ 2 + P_L) =
+      ((ρ_R * u_R ^ 2 + P_R) - (ρ_L * u_L ^ 2 + P_L)) - s * (ρ_R * u_R - ρ_L * u_L) := by
+    linear_combination s * hs_mass
+  constructor <;> intro h <;> linarith
 
 end Signals.NavierStokes.Compressible

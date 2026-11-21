@@ -361,6 +361,71 @@ theorem lambOseen2D_vorticity_heat_pde
     rw [h0, Real.exp_zero, mul_one]
     exact div_pos hΓ (by positivity)
 
+/-- 2D Lamb–Oseen azimuthal velocity `u_θ(r, t) = (Γ / (2 π r)) (1 - exp(-r² / (4 ν t)))`,
+which smoothly removes the `1 / r` inviscid point-vortex singularity at `r → 0`. -/
+noncomputable def lambOseenAzimuthalVelocity (Γ ν r t : ℝ) : ℝ :=
+  (Γ / (2 * Real.pi * r)) * (1 - Real.exp (-(r ^ 2) / (4 * ν * t)))
+
+/-- **Theorem 3.2 (Lamb–Oseen Cylindrical Curl Recovery `(1/r) ∂_r(r u_θ) = ω(r, 0, t)`):**
+For all `r > 0, ν > 0, t > 0`, the exact radial derivative of circulation `2 π r u_θ(r, t)`
+recovers the Lamb–Oseen Gaussian vorticity `lambOseenVorticity Γ ν r 0 t` via `deriv`. -/
+theorem lambOseen_velocity_recovers_vorticity
+    {Γ ν r t : ℝ} (hν : 0 < ν) (hr : 0 < r) (ht : 0 < t) :
+    (1 / r) * deriv (fun s => s * lambOseenAzimuthalVelocity Γ ν s t) r =
+      lambOseenVorticity Γ ν r 0 t := by
+  have h4ne : 4 * ν * t ≠ 0 := by positivity
+  have h2pi_ne : 2 * Real.pi ≠ 0 := by positivity
+  have hloc : ∀ᶠ s in nhds r,
+      s * lambOseenAzimuthalVelocity Γ ν s t =
+        (Γ / (2 * Real.pi)) * (1 - Real.exp (-(s ^ 2) / (4 * ν * t))) := by
+    filter_upwards [eventually_ne_nhds hr.ne'] with s hs
+    unfold lambOseenAzimuthalVelocity
+    field_simp [hs, h2pi_ne]
+  have hd_rhs : HasDerivAt
+      (fun s => (Γ / (2 * Real.pi)) * (1 - Real.exp (-(s ^ 2) / (4 * ν * t))))
+      ((Γ / (2 * Real.pi)) * ((r / (2 * ν * t)) * Real.exp (-(r ^ 2) / (4 * ν * t)))) r := by
+    have harg : HasDerivAt (fun s => -(s ^ 2) / (4 * ν * t)) (-r / (2 * ν * t)) r := by
+      have hsq : HasDerivAt (fun s => -(s ^ 2)) (-(2 * r)) r := by
+        convert (hasDerivAt_pow 2 r).neg using 1; norm_num
+      convert hsq.div_const (4 * ν * t) using 1
+      field_simp [h4ne]; ring
+    have hexp : HasDerivAt (fun s => Real.exp (-(s ^ 2) / (4 * ν * t)))
+        (Real.exp (-(r ^ 2) / (4 * ν * t)) * (-r / (2 * ν * t))) r := harg.exp
+    have hsub := (hasDerivAt_const r (1 : ℝ)).sub hexp
+    convert hsub.const_mul (Γ / (2 * Real.pi)) using 1
+    ring
+  rw [Filter.EventuallyEq.deriv_eq hloc, hd_rhs.deriv]
+  unfold lambOseenVorticity
+  have hzero : -(r ^ 2 + 0 ^ 2) / (4 * ν * t) = -(r ^ 2) / (4 * ν * t) := by ring
+  rw [hzero]
+  field_simp [hr.ne', hν.ne', ht.ne', Real.pi_ne_zero]
+  ring
+
+/-- **Theorem 3.3 (Incompressible Schrödinger Flow [ISF] Spin-Tension vs. Classical NS):**
+In Chern et al.'s (2016) 2-spinor Incompressible Schrödinger Flow (`ρ = ρ₀`), the momentum
+balance includes the projective QFIM / Landau–Lifshitz spin-tension force
+`f_QFIM = -(ℏ² / (4 m²)) ρ₀ divF_QFIM` alongside pressure and viscous stress.
+Consequently, ISF momentum acceleration equals classical incompressible Navier–Stokes
+acceleration if and only if `divF_QFIM = 0` (or the spin-tension force is explicitly
+subtracted in the Clebsch-to-NS projection). -/
+theorem isf_spin_tension_vs_classical_incompressible_ns
+    {ℏ m ρ₀ : ℝ} (hℏ : 0 < ℏ) (hm : 0 < m) (hρ₀ : 0 < ρ₀)
+    (gradP_div_rho ν lapV divF_qfim : ℝ) :
+    let classicalNS_accel : ℝ := -gradP_div_rho + ν * lapV
+    let isf_accel : ℝ := -gradP_div_rho + ν * lapV - (ℏ ^ 2 / (4 * m ^ 2)) * ρ₀ * divF_qfim
+    isf_accel - classicalNS_accel = -((ℏ ^ 2 / (4 * m ^ 2)) * ρ₀ * divF_qfim) ∧
+    (isf_accel = classicalNS_accel ↔ divF_qfim = 0) := by
+  intro classicalNS_accel isf_accel
+  have hcoeff : (ℏ ^ 2 / (4 * m ^ 2)) * ρ₀ ≠ 0 := by positivity
+  refine ⟨by dsimp only [isf_accel, classicalNS_accel]; ring, ?_⟩
+  dsimp only [isf_accel, classicalNS_accel]
+  constructor
+  · intro h
+    have hmul : (ℏ ^ 2 / (4 * m ^ 2)) * ρ₀ * divF_qfim = 0 := by linarith
+    exact (mul_eq_zero.mp hmul).resolve_left hcoeff
+  · intro h
+    rw [h, mul_zero, sub_zero]
+
 /-! ### Section 4: Plane Poiseuille Viscous Shear Flow -/
 
 /-- Parabolic plane Poiseuille velocity `u(y) = (G / (2 μ)) (h² - y²)` under pressure drop `G`. -/
