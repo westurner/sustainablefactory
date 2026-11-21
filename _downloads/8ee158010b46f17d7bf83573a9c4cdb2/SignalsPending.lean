@@ -2568,4 +2568,18 @@ lemma pending_sato_riemann_spectral_gate_boundary
     ¬ b.allSatoGatesClosed :=
   b.not_allSatoGatesClosed_of_any_gate_refuted h_refuted
 
+@[blueprint "lem:signals-pending-dual-schubert-navier-stokes-gate-boundary"
+  (title := "Dual-Schubert QFIM Navier–Stokes epistemic gate boundary")
+  (statement := /-- Any refuted analytical, linearization, turbulence-closure, or experimental gate blocks \texttt{allNavierStokesGatesClosed}. -/)
+  (proof := /-- Apply \texttt{DualSchubertNavierStokesPendingBoundary.not\_allNavierStokesGatesClosed\_of\_any\_refuted}. -/)
+  (latexEnv := "lemma")]
+lemma pending_dual_schubert_navier_stokes_gate_boundary
+    (b : DualSchubertNavierStokesPendingBoundary)
+    (h_refuted : ¬ b.millennium3DGlobalRegularityProved ∨
+      ¬ b.global3DHirotaLinearizationEstablished ∨
+      ¬ b.turbulenceSubgridClosureValidated ∨
+      ¬ b.experimentalFluidTelemetryValidated) :
+    ¬ b.allNavierStokesGatesClosed :=
+  b.not_allNavierStokesGatesClosed_of_any_refuted h_refuted
+
 end SignalsPending

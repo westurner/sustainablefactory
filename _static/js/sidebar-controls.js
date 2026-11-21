@@ -2,6 +2,10 @@
     "use strict";
 
     var storagePrefix = 'wrd-sphinx-theme-sidebar-';
+    var themeStorageKey = 'wrd-sphinx-theme-color-mode';
+    var darkThemeMediaQuery = '(prefers-color-scheme: dark)';
+    var darkThemeMediaRules = [];
+    var themePreference = 'system';
     var collapsedWidth = 32;
 
     function readStorage(key) {
@@ -19,6 +23,86 @@
             return;
         }
     }
+
+    function collectDarkThemeMediaRules() {
+        function collect(rules) {
+            Array.prototype.forEach.call(rules, function(rule) {
+                if (rule.media && rule.media.mediaText.replace(/\s+/g, '') ===
+                    '(prefers-color-scheme:dark)') {
+                    darkThemeMediaRules.push(rule);
+                } else if (rule.cssRules) {
+                    collect(rule.cssRules);
+                }
+            });
+        }
+
+        Array.prototype.forEach.call(document.styleSheets, function(stylesheet) {
+            try {
+                collect(stylesheet.cssRules);
+            } catch (error) {
+                return;
+            }
+        });
+    }
+
+    function setThemePreference(mode, persist) {
+        var supportedModes = ['system', 'light', 'dark', 'darker'];
+        if (supportedModes.indexOf(mode) === -1) mode = 'system';
+
+        themePreference = mode;
+        document.documentElement.setAttribute('data-theme', mode);
+
+        var mediaText = mode === 'system' ? darkThemeMediaQuery : mode === 'light' ? 'not all' : 'all';
+        darkThemeMediaRules.forEach(function(rule) {
+            rule.media.mediaText = mediaText;
+        });
+
+        function updateOledClass() {
+            if (document.body) {
+                document.body.classList.toggle('theme-oled', themePreference === 'darker');
+            }
+        }
+
+        if (document.body) {
+            updateOledClass();
+        } else {
+            document.addEventListener('DOMContentLoaded', updateOledClass, { once: true });
+        }
+
+        if (persist) writeStorage(themeStorageKey, mode);
+    }
+
+    function addThemeSelector(settingsPanel) {
+        if (settingsPanel.querySelector('[data-theme-selector]')) return;
+
+        var label = document.createElement('label');
+        label.className = 'theme-settings-theme';
+        label.appendChild(document.createTextNode('Theme'));
+
+        var select = document.createElement('select');
+        select.setAttribute('data-theme-selector', '');
+        [
+            { value: 'system', label: 'System' },
+            { value: 'light', label: 'Light' },
+            { value: 'dark', label: 'Dark' },
+            { value: 'darker', label: 'Darker' }
+        ].forEach(function(option) {
+            var optionElement = document.createElement('option');
+            optionElement.value = option.value;
+            optionElement.textContent = option.label;
+            select.appendChild(optionElement);
+        });
+
+        select.value = themePreference;
+        select.addEventListener('change', function() {
+            setThemePreference(select.value, true);
+        });
+        label.appendChild(select);
+        settingsPanel.appendChild(label);
+    }
+
+    collectDarkThemeMediaRules();
+    setThemePreference(readStorage(themeStorageKey), false);
 
     function isMobile() {
         return window.matchMedia('(max-width: 767px)').matches;
@@ -221,6 +305,8 @@
                 setWidth(state.width + delta, true);
             });
         });
+
+        if (settingsPanel) addThemeSelector(settingsPanel);
 
         window.addEventListener('resize', function() {
             states.forEach(function(state) {

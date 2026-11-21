@@ -7575,4 +7575,32 @@ example (im_sq w_hs_sq det_w : ℝ) (him : 0 ≤ im_sq) (hw : 0 ≤ w_hs_sq) :
     (by rw [Real.sq_sqrt (by norm_num)]; norm_num)
     him hw (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
+/-! ### Regression Tests: `DualSchubertNavierStokesPendingBoundary` -/
+
+example (b : Signals.Pending.DualSchubertNavierStokesPendingBoundary)
+    (h : ¬ b.millennium3DGlobalRegularityProved) :
+    ¬ b.allNavierStokesGatesClosed :=
+  SignalsPending.pending_dual_schubert_navier_stokes_gate_boundary b (Or.inl h)
+
+example (μ ζ : Signals.Units.DynamicViscosity)
+    (hμ : 0 ≤ μ.pascalSeconds) (hζ : 0 ≤ ζ.pascalSeconds)
+    (cv : Signals.Pending.ClassicalControlVolume)
+    (bc : Signals.Pending.FlowBoundaryCondition) :
+    let b : Signals.Pending.DualSchubertNavierStokesPendingBoundary :=
+      { shearViscosity := μ
+        shearViscosity_nonneg := hμ
+        bulkViscosity := ζ
+        bulkViscosity_nonneg := hζ
+        controlVolume := cv
+        boundaryCondition := bc
+        millennium3DGlobalRegularityProved := False
+        global3DHirotaLinearizationEstablished := False
+        turbulenceSubgridClosureValidated := False
+        experimentalFluidTelemetryValidated := False }
+    0 ≤ b.shearViscosity.pascalSeconds ∧
+      0 ≤ b.bulkViscosity.pascalSeconds ∧
+      ¬ b.allNavierStokesGatesClosed :=
+  Signals.Pending.dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims
+    μ ζ hμ hζ cv bc
+
 end SignalsPendingTests

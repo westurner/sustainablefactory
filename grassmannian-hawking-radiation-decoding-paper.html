@@ -49,7 +49,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-4pQJYasPt8eo5io4bGpGVgin1nsu9weISVC9YrQu5tdoHZRH8qBcnAsz/K9V1U+4"  />
   
   <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
@@ -454,7 +454,7 @@ window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
+  <script src="_static/js/local.js" integrity="sha384-uocJMM9ufXlom0w1og1M471rGITuJYEUHLpDQKoKhZ718a/gAbhRslF4PGeTvO0M" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -721,8 +721,8 @@ We prove <code class="docutils literal notranslate"><span class="pre">ObservedHo
 <tr class="row-odd"><td><p><strong>Hawking Temperature &amp; Entropy</strong></p></td>
 <td><p><span class="math notranslate nohighlight">\(T_H = \frac{\hbar c^3}{8\pi G M k_B}\)</span>, <span class="math notranslate nohighlight">\(S_{\mathrm{BH}} = \frac{k_B A_S}{4\ell_P^2}\)</span>, <span class="math notranslate nohighlight">\(T_H S_{\mathrm{BH}} = \frac{\hbar c r_S}{4\ell_P^2}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(A_H = 4\ell_P^2(S_{\mathrm{BH}}/k_B)\)</span> tiled by <code class="docutils literal notranslate"><span class="pre">holographicPlanckSplat</span></code></p></td>
-<td><p><span class="math notranslate nohighlight">\(T_H^{\mathrm{DDF}} = \frac{\hbar\kappa_H}{2\pi k_B c}\)</span>, <span class="math notranslate nohighlight">\((T_H^{\mathrm{DDF}})^2 \propto (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-3}\)</span> (<a class="reference internal" href="#hawk-chat-sqg2026">chat lines 46–85</a>)</p></td>
-<td><p>2D &amp; 3D burst release <span class="math notranslate nohighlight">\(\Delta Q_{\mathrm{core}} = Q_{\mathrm{core}}(\Sigma) - Q_{\mathrm{core}}(\Sigma_{\mathrm{swell}}) &gt; 0\)</span> (<a class="reference internal" href="#hawk-chat-sqg2026">chat lines 146–185</a>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(T_H^{\mathrm{DDF}} = \frac{\hbar\kappa_H}{2\pi k_B c}\)</span>, <span class="math notranslate nohighlight">\((T_H^{\mathrm{DDF}})^2 \propto (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-3}\)</span> (<a class="reference internal" href="#hawk-chat-sqg2026">lines 46–85</a>)</p></td>
+<td><p>2D &amp; 3D burst release <span class="math notranslate nohighlight">\(\Delta Q_{\mathrm{core}} = Q_{\mathrm{core}}(\Sigma) - Q_{\mathrm{core}}(\Sigma_{\mathrm{swell}}) &gt; 0\)</span> (<a class="reference internal" href="#hawk-chat-sqg2026">lines 146–185</a>)</p></td>
 </tr>
 <tr class="row-even"><td><p><strong><span class="math notranslate nohighlight">\(Gr_{\mathbb{C}}(2,4)\)</span> Plücker Redshift / Invariant</strong></p></td>
 <td><p><span class="math notranslate nohighlight">\(|w_A^{\mathbb{C}}(M_S)|^2|w_B^{\mathbb{C}}(M_S)|^2 = 1 - \frac{r_S}{r} &gt; 0\)</span>, S301 <span class="math notranslate nohighlight">\(\beta^3 &lt; \beta^2\)</span></p></td>
@@ -841,7 +841,7 @@ In the WGSL shader, <code class="docutils literal notranslate"><span class="pre"
 <tbody>
 <tr class="row-even"><td><p><strong>1</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ObservedHomodyneTensor.trace</span></code></p></td>
-<td><p>Coerces a single real scalar <code class="docutils literal notranslate"><span class="pre">(tensor.value</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">time</span> <span class="pre">:</span> <span class="pre">ℂ)</span></code> to <span class="math notranslate nohighlight">\(\mathbb{C}\)</span>, so <span class="math notranslate nohighlight">\((\mathrm{trace}).\mathrm{im} = 0\)</span> identically (<code class="docutils literal notranslate"><span class="pre">ObservedHomodyneTensor.trace_im_zero</span></code>). This loses the momentum quadrature <span class="math notranslate nohighlight">\(P(t)\)</span> needed by the chat’s “Hardware QFT via <span class="math notranslate nohighlight">\(\pi/2\)</span> LO phase sweeping” (<a class="reference internal" href="#hawk-chat-sqg2026">chat lines 2588–2678</a>).</p></td>
+<td><p>Coerces a single real scalar <code class="docutils literal notranslate"><span class="pre">(tensor.value</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">time</span> <span class="pre">:</span> <span class="pre">ℂ)</span></code> to <span class="math notranslate nohighlight">\(\mathbb{C}\)</span>, so <span class="math notranslate nohighlight">\((\mathrm{trace}).\mathrm{im} = 0\)</span> identically (<code class="docutils literal notranslate"><span class="pre">ObservedHomodyneTensor.trace_im_zero</span></code>). This loses the momentum quadrature <span class="math notranslate nohighlight">\(P(t)\)</span> needed by the chat’s “Hardware QFT via <span class="math notranslate nohighlight">\(\pi/2\)</span> LO phase sweeping” (<a class="reference internal" href="#hawk-chat-sqg2026">lines 2588–2678</a>).</p></td>
 <td><p>Added <code class="docutils literal notranslate"><span class="pre">ObservedQuadratureHomodyneTensor</span></code> (<code class="docutils literal notranslate"><span class="pre">inPhase</span></code> <span class="math notranslate nohighlight">\(X\)</span> + <code class="docutils literal notranslate"><span class="pre">quadrature</span></code> <span class="math notranslate nohighlight">\(P\)</span>) and proved <code class="docutils literal notranslate"><span class="pre">homodyne_pi_div_two_phase_sweep_recovers_quadrature</span></code>, connecting <code class="docutils literal notranslate"><span class="pre">Signals.Homodyne.rotatedQuadrature</span></code> at <span class="math notranslate nohighlight">\(\theta_{\mathrm{LO}} \in \{0, \pi/2\}\)</span> directly to <span class="math notranslate nohighlight">\(X(t) + i P(t)\)</span>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>2</strong></p></td>
@@ -866,7 +866,7 @@ In the WGSL shader, <code class="docutils literal notranslate"><span class="pre"
 </tr>
 <tr class="row-odd"><td><p><strong>6</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ALSRank</span></code> (<span class="math notranslate nohighlight">\(2 \le r \le 10\)</span>) vs. Page-Curve Entanglement</p></td>
-<td><p>A low ALS residual in a rank-<span class="math notranslate nohighlight">\(2..10\)</span> simulation could be misread as general astrophysical black-hole decryption, contradicting the chat’s own Page-curve scaling note (<a class="reference internal" href="#hawk-chat-sqg2026">chat lines 2526–2545</a>).</p></td>
+<td><p>A low ALS residual in a rank-<span class="math notranslate nohighlight">\(2..10\)</span> simulation could be misread as general astrophysical black-hole decryption, contradicting the chat’s own Page-curve scaling note (<a class="reference internal" href="#hawk-chat-sqg2026">lines 2526–2545</a>).</p></td>
 <td><p>Added <code class="docutils literal notranslate"><span class="pre">HawkingGrassmannianSynthesisContract</span></code> and proved <code class="docutils literal notranslate"><span class="pre">als_rank_lt_page_bond_dimension</span></code> (and <code class="docutils literal notranslate"><span class="pre">SignalsPending.hawking_synthesis_gpe_and_page_bounds</span></code>): whenever <span class="math notranslate nohighlight">\(S_{\mathrm{BH}}/k_B &gt; 2\ln 10 \approx 4.605\)</span>, <span class="math notranslate nohighlight">\(\mathrm{rank} \le 10 &lt; \exp(S_{\mathrm{BH}}/(2k_B)) = \chi_{\mathrm{Page}}\)</span>.</p></td>
 </tr>
 </tbody>

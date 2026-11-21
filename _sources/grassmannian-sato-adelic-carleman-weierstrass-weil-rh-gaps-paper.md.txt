@@ -76,9 +76,9 @@ flowchart TB
 
 ## 2. Carleman–Weierstrass Regularization Across $\operatorname{Re}(s) = 1$, $1/2$, and $1/3$
 
-A central gap proven in `RHGaps.lean` (chat lines 4336–5037) is that the unregularized Euler product $\det_1(1 - P_s) = \prod_p (1 - p^{-s}) = \zeta(s)^{-1}$ fails to define a trace-class Fredholm determinant on the boundary $\operatorname{Re}(s) = 1$ because $\sum_p p^{-1} = \infty$, and fails to define a Hilbert–Schmidt Carleman determinant $\det_2$ on the critical line $\operatorname{Re}(s) = 1/2$ because $\sum_p (p^{-1/2})^2 = \sum_p p^{-1} = \infty$.
+A central gap proven in `RHGaps.lean` (lines 4336–5037) is that the unregularized Euler product $\det_1(1 - P_s) = \prod_p (1 - p^{-s}) = \zeta(s)^{-1}$ fails to define a trace-class Fredholm determinant on the boundary $\operatorname{Re}(s) = 1$ because $\sum_p p^{-1} = \infty$, and fails to define a Hilbert–Schmidt Carleman determinant $\det_2$ on the critical line $\operatorname{Re}(s) = 1/2$ because $\sum_p (p^{-1/2})^2 = \sum_p p^{-1} = \infty$.
 
-In `CarlemanWeierstrass.lean` (chat lines 5783–6609), we generalize to the order-$k$ Weierstrass–Carleman factor {cite:p}`simon2005trace`:
+In `CarlemanWeierstrass.lean` (lines 5783–6609), we generalize to the order-$k$ Weierstrass–Carleman factor {cite:p}`simon2005trace`:
 
 $$
 E_k(z) = (1 + z)\exp\left(\sum_{j=1}^{k-1} \frac{(-1)^j}{j} z^j\right), \qquad
@@ -88,7 +88,7 @@ $$
 For $\lambda_p(s) = -p^{-s}$:
 
 - **$k = 1$ (trace class, $\mathcal{I}_1$):** Converges absolutely for $\operatorname{Re}(s) > 1$ ($\sum_p p^{-\sigma} < \infty$), recovering $\zeta(s)^{-1}$.
-- **$k = 2$ (Hilbert–Schmidt, $\mathcal{I}_2$):** Converges absolutely and never vanishes for $\operatorname{Re}(s) > 1/2$ (`RemainingGaps.lean`, chat lines 5115–5667; `CarlemanWeierstrass.lean`), obeying the multiplicative anomaly:
+- **$k = 2$ (Hilbert–Schmidt, $\mathcal{I}_2$):** Converges absolutely and never vanishes for $\operatorname{Re}(s) > 1/2$ (`RemainingGaps.lean`, lines 5115–5667; `CarlemanWeierstrass.lean`), obeying the multiplicative anomaly:
 
 $$
 \det\nolimits_2\bigl((1 + A)(1 + B)\bigr) = \det\nolimits_2(1 + A)\,\det\nolimits_2(1 + B)\,\exp\bigl(-\operatorname{Tr}(AB)\bigr).
@@ -100,7 +100,7 @@ $$
 
 ## 3. Schwinger 2-Cocycle, $\widehat{\mathrm{GL}}_{(2)}^0(H)$ Central Extension, and Exact Segal–Wilson $\tau$-Function
 
-On the Hilbert–Schmidt restricted Lie algebra $\mathfrak{gl}_{(2)}(H)$ (`SchwingerCocycle.lean`, chat lines 6746–7401), the cross-block commutator trace defines the Schwinger 2-cocycle:
+On the Hilbert–Schmidt restricted Lie algebra $\mathfrak{gl}_{(2)}(H)$ (`SchwingerCocycle.lean`, lines 6746–7401), the cross-block commutator trace defines the Schwinger 2-cocycle:
 
 $$
 \omega(X, Y) = \operatorname{Tr}_{H_+}\bigl(X_{+-} Y_{-+} - Y_{+-} X_{-+}\bigr).
@@ -122,7 +122,7 @@ $$
 
 the dual determinant line bundle $\mathrm{Det}^* \to \mathrm{Gr}_{(2)}^0(H)$ with its canonical holomorphic section $\sigma$ vanishing precisely off the big cell (`canonicalSection_ne_zero_iff_bigCell`), the weight-$+1$ equivariant action of $\widehat{\mathrm{GL}}_{(2)}^0(H)$, and the big-cell Segal–Wilson $\tau$-function (`segalWilson_tau_bigCell`).
 
-In `SegalWilsonGr24.lean` (chat lines 10014–11022), specializing to the 3-time KP flow $g(t) = \exp(t_1 z + t_2 z^2 + t_3 z^3)$ and a big-cell 2-plane $U \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ ($p_{23} \ne 0$) with finite-rank graph operator $T_U : H_+ \to H_-$, we prove `segalWilson_tau_gr24_eq_tauU`:
+In `SegalWilsonGr24.lean` (lines 10014–11022), specializing to the 3-time KP flow $g(t) = \exp(t_1 z + t_2 z^2 + t_3 z^3)$ and a big-cell 2-plane $U \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ ($p_{23} \ne 0$) with finite-rank graph operator $T_U : H_+ \to H_-$, we prove `segalWilson_tau_gr24_eq_tauU`:
 
 $$
 \det\nolimits_{\mathrm{Fr}}\Bigl(I_{H_+} + g(t)_{+-}\,T_U\,g(t)_{++}^{-1}\Bigr) = \frac{\tau_U(t_1, t_2, t_3)}{p_{23}},
@@ -134,7 +134,7 @@ closing the full bridge from infinite-dimensional Fredholm determinant bundles b
 
 ## 4. Bidirectional $L^1(\mathbb{R})$ Weil Positivity via Shifted Gaussians
 
-In `WeilPositivity.lean` (chat lines 7756–8004) and `WeilGaussianL1.lean` (chat lines 11030–11306), we formalize the Weil explicit-formula quadratic form {cite:p}`weil1952explicit` on a conjugate-symmetric finite zero multiset $(Z, m)$:
+In `WeilPositivity.lean` (lines 7756–8004) and `WeilGaussianL1.lean` (lines 11030–11306), we formalize the Weil explicit-formula quadratic form {cite:p}`weil1952explicit` on a conjugate-symmetric finite zero multiset $(Z, m)$:
 
 $$
 Q_{Z, m}(f) = \sum_{z \in Z} m(z)\,\widehat{f}(z)\,\overline{\widehat{f}(\bar{z})}, \qquad

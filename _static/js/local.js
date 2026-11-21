@@ -892,16 +892,28 @@ $(document).ready(function() {
     }
 
     function setThemePreference(mode, persist) {
-        var supportedModes = ['system', 'light', 'dark'];
+        var supportedModes = ['system', 'light', 'dark', 'darker'];
         if (supportedModes.indexOf(mode) === -1) mode = 'system';
 
         themePreference = mode;
         document.documentElement.setAttribute('data-theme', mode);
 
-        var mediaText = mode === 'dark' ? 'all' : mode === 'light' ? 'not all' : darkThemeMediaQuery;
+        var mediaText = mode === 'system' ? darkThemeMediaQuery : mode === 'light' ? 'not all' : 'all';
         darkThemeMediaRules.forEach(function(rule) {
             rule.media.mediaText = mediaText;
         });
+
+        function updateOledClass() {
+            if (document.body) {
+                document.body.classList.toggle('theme-oled', themePreference === 'darker');
+            }
+        }
+
+        if (document.body) {
+            updateOledClass();
+        } else {
+            document.addEventListener('DOMContentLoaded', updateOledClass, { once: true });
+        }
 
         if (persist) writeStorage(themeStorageKey, mode);
     }
@@ -918,7 +930,8 @@ $(document).ready(function() {
         [
             { value: 'system', label: 'System' },
             { value: 'light', label: 'Light' },
-            { value: 'dark', label: 'Dark' }
+            { value: 'dark', label: 'Dark' },
+            { value: 'darker', label: 'Darker' }
         ].forEach(function(option) {
             var optionElement = document.createElement('option');
             optionElement.value = option.value;

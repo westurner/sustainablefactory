@@ -397,6 +397,27 @@ constitutive equations and discriminator predictions, but testing whether
 $\eta_{\text{act}}^\gamma = 0$ requires high-sensitivity laboratory beam-deflection
 experiments.
 
+## Dual-Schubert QFIM Compressible & Incompressible Navier–Stokes
+
+`Signals.NavierStokes` ([`src/signals/Signals/NavierStokes.lean`](src/signals/Signals/NavierStokes.lean),
+modules `PluckerFrame`, `Incompressible`, `Compressible`, paired with
+[`src/signals/numerical_adapter/src/navier_stokes.rs`](src/signals/numerical_adapter/src/navier_stokes.rs),
+[`sustainablefactory/navier_stokes.py`](sustainablefactory/navier_stokes.py),
+[`docs/dual-schubert-qfim-navier-stokes-plan.md`](docs/dual-schubert-qfim-navier-stokes-plan.md),
+and [`docs/grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.md`](docs/grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.md))
+formalizes the Three-Channel Plücker–Madelung & Six-Channel Dual-Schubert QFIM
+($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$) framework across both incompressible
+($\nabla\rho = \mathbf{0} \implies \text{Ch. 2} = 0$, 2D Taylor–Green, 2D Lamb–Oseen
+heat/curl, plane Poiseuille, ISF spin-tension gap, and 3D Beltrami/ABC) and compressible
+NS/NSK ($\Phi_{\mathrm{visc}} \ge 0$, full-calculus Korteweg capillary stress divergence,
+Bresch–Desjardins Dual-Schubert velocity equivalence, unified Bogoliubov–Korteweg–Stokes
+dispersion bridging to `Signals.DDF.standardBogoliubovPhaseVelSq`, Rankine–Hugoniot jump,
+and Cole–Hopf moving Burgers shocks), while repairing the $4\times 2$ Stiefel frame shape
+and Hermitian off-diagonal viscous operator defects in `bohmian-mechanics-and-navier-stokes-and-nonlinearity.md`.
+`DualSchubertNavierStokesPendingBoundary` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+isolates Clay Millennium 3D global regularity, general 3D non-integrability, turbulence
+closure, and physical laboratory velocimetry calibration as open gates.
+
 ---
 
 ## Core Project Agents

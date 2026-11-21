@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Compressible &amp; Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)) &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html" />
+    <link rel="prev" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-4pQJYasPt8eo5io4bGpGVgin1nsu9weISVC9YrQu5tdoHZRH8qBcnAsz/K9V1U+4"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-uocJMM9ufXlom0w1og1M471rGITuJYEUHLpDQKoKhZ718a/gAbhRslF4PGeTvO0M" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Compressible &amp; Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</a><ul>
+<li><a class="reference internal" href="#audit-of-the-source-chat-epistemic-boundaries">1. Audit of the Source Chat &amp; Epistemic Boundaries</a></li>
+<li><a class="reference internal" href="#unified-mathematical-architecture-dual-schubert-qfim-to-incompressible-compressible-navierstokes">2. Unified Mathematical Architecture: Dual-Schubert QFIM to Incompressible &amp; Compressible Navier–Stokes</a></li>
+<li><a class="reference internal" href="#phased-implementation-workstreams-ns-1-through-ns-5">3. Phased Implementation Workstreams (<code class="docutils literal notranslate"><span class="pre">NS-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">NS-5</span></code>)</a><ul>
+<li><a class="reference internal" href="#ns-1-lean-4-formalization-signals-navierstokes-signals-pending"><code class="docutils literal notranslate"><span class="pre">NS-1</span></code>: Lean 4 Formalization (<code class="docutils literal notranslate"><span class="pre">Signals.NavierStokes.*</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a></li>
+<li><a class="reference internal" href="#ns-2-rust-pyo3-maturin-analytical-auditors-time-marching-solvers"><code class="docutils literal notranslate"><span class="pre">NS-2</span></code>: Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Analytical Auditors &amp; Time-Marching Solvers</a></li>
+<li><a class="reference internal" href="#ns-3-sympy-exact-proofs-pytest-cross-verification-suite"><code class="docutils literal notranslate"><span class="pre">NS-3</span></code>: SymPy Exact Proofs &amp; <code class="docutils literal notranslate"><span class="pre">pytest</span></code> Cross-Verification Suite</a></li>
+<li><a class="reference internal" href="#ns-4-myst-markdown-paper-paper-53-documentation-integration"><code class="docutils literal notranslate"><span class="pre">NS-4</span></code>: MyST Markdown Paper (Paper 53) &amp; Documentation Integration</a></li>
+<li><a class="reference internal" href="#ns-5-commit-sequence"><code class="docutils literal notranslate"><span class="pre">NS-5</span></code>: Commit Sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html" title="Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/dual-schubert-qfim-navier-stokes-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Compressible &amp; Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</a><ul>
+<li><a class="reference internal" href="#audit-of-the-source-chat-epistemic-boundaries">1. Audit of the Source Chat &amp; Epistemic Boundaries</a></li>
+<li><a class="reference internal" href="#unified-mathematical-architecture-dual-schubert-qfim-to-incompressible-compressible-navierstokes">2. Unified Mathematical Architecture: Dual-Schubert QFIM to Incompressible &amp; Compressible Navier–Stokes</a></li>
+<li><a class="reference internal" href="#phased-implementation-workstreams-ns-1-through-ns-5">3. Phased Implementation Workstreams (<code class="docutils literal notranslate"><span class="pre">NS-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">NS-5</span></code>)</a><ul>
+<li><a class="reference internal" href="#ns-1-lean-4-formalization-signals-navierstokes-signals-pending"><code class="docutils literal notranslate"><span class="pre">NS-1</span></code>: Lean 4 Formalization (<code class="docutils literal notranslate"><span class="pre">Signals.NavierStokes.*</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a></li>
+<li><a class="reference internal" href="#ns-2-rust-pyo3-maturin-analytical-auditors-time-marching-solvers"><code class="docutils literal notranslate"><span class="pre">NS-2</span></code>: Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Analytical Auditors &amp; Time-Marching Solvers</a></li>
+<li><a class="reference internal" href="#ns-3-sympy-exact-proofs-pytest-cross-verification-suite"><code class="docutils literal notranslate"><span class="pre">NS-3</span></code>: SymPy Exact Proofs &amp; <code class="docutils literal notranslate"><span class="pre">pytest</span></code> Cross-Verification Suite</a></li>
+<li><a class="reference internal" href="#ns-4-myst-markdown-paper-paper-53-documentation-integration"><code class="docutils literal notranslate"><span class="pre">NS-4</span></code>: MyST Markdown Paper (Paper 53) &amp; Documentation Integration</a></li>
+<li><a class="reference internal" href="#ns-5-commit-sequence"><code class="docutils literal notranslate"><span class="pre">NS-5</span></code>: Commit Sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"
+                          title="previous chapter">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> in Lean 4, Rust/PyO3, and <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html"
+                          title="next chapter">Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dual-schubert-qfim-navier-stokes-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-compressible-incompressible-navierstokes-via-three-channel-pluckermadelung-and-six-channel-dual-schubert-qfim-f-mu-nu-4-g-mu-nu-mathrm-fs">
+<span id="dual-schubert-qfim-navier-stokes-plan"></span><h1>Written Plan: Compressible &amp; Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)<a class="headerlink" href="#written-plan-compressible-incompressible-navierstokes-via-three-channel-pluckermadelung-and-six-channel-dual-schubert-qfim-f-mu-nu-4-g-mu-nu-mathrm-fs" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Author:</strong> Wes Turner</p></li>
+<li><p><strong>Owning Paper:</strong> <a class="reference internal" href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html"><span class="std std-doc">Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</span></a> (Paper 53)</p></li>
+<li><p><strong>Companion Papers Reused:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"><span class="std std-doc">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-madelung-lagrangian-ddf-jamming-paper.html"><span class="std std-doc">From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.html"><span class="std std-doc">Quantum Trajectories in Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(k,n)\)</span>, Three-Channel Plücker–Madelung–QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>), Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDF</span></code>) Mechanics</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Primary Source Chat Provenance:</strong></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/745d29a418fe9d348845a86b99d0907e/bohmian-mechanics-and-navier-stokes-and-nonlinearity.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/bohmian-mechanics-and-navier-stokes-and-nonlinearity.md</span></code></a> (<code class="docutils literal notranslate"><span class="pre">216</span></code> lines, <code class="docutils literal notranslate"><span class="pre">sha256:</span> <span class="pre">d575c8992e1398f02228d62d4300a223d8efd0f4e1b82c929e2c72401897bea0</span></code>; lines <code class="docutils literal notranslate"><span class="pre">1–140</span></code> primary derivation, lines <code class="docutils literal notranslate"><span class="pre">143–216</span></code> duplicate paste).</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="audit-of-the-source-chat-epistemic-boundaries">
+<h2>1. Audit of the Source Chat &amp; Epistemic Boundaries<a class="headerlink" href="#audit-of-the-source-chat-epistemic-boundaries" title="Link to this heading">¶</a></h2>
+<p>Before implementing any Lean 4 or numerical code, an audit of <code class="docutils literal notranslate"><span class="pre">data/chats/bohmian-mechanics-and-navier-stokes-and-nonlinearity.md</span></code> identifies <strong>three mathematical defects or overclaims</strong> that must be proved, corrected, and explicitly bounded:</p>
+<ol class="arabic simple">
+<li><p><strong>Defect 1 — Matrix-Shape Mismatch in the <span class="math notranslate nohighlight">\(4\times 2\)</span> Stiefel Frame (lines 57–71):</strong>
+Line 57 equates a <span class="math notranslate nohighlight">\(4\times 2\)</span> matrix <span class="math notranslate nohighlight">\((z_{ij})\)</span> to a <span class="math notranslate nohighlight">\(2\times 2\)</span> block <span class="math notranslate nohighlight">\((\psi_a, \tilde{\psi}_a)\)</span>, while lines 63–71 define rows 3 and 4 as spatial derivatives <span class="math notranslate nohighlight">\(\partial_x\psi, \partial_y\psi\)</span>.</p>
+<ul class="simple">
+<li><p><strong>Resolution:</strong> Formalize an explicit <span class="math notranslate nohighlight">\(4\times 2\)</span> 1-jet Stiefel frame <span class="math notranslate nohighlight">\(Z \in \mathbb{C}^{4\times 2}\)</span> (with upper <span class="math notranslate nohighlight">\(2\times 2\)</span> Clebsch/dual spinor block and lower <span class="math notranslate nohighlight">\(2\times 2\)</span> covariant derivative block) whose six Plücker minors <span class="math notranslate nohighlight">\(p_{ij} = z_{i1}z_{j2} - z_{i2}z_{j1}\)</span> satisfy the Klein quadric <span class="math notranslate nohighlight">\(p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0\)</span> identically, alongside a 2-component Clebsch/Pauli spinor lift <span class="math notranslate nohighlight">\(\psi = (\psi_1, \psi_2)^T\)</span> carrying non-zero continuous vorticity <span class="math notranslate nohighlight">\(\boldsymbol{\omega} = \nabla\times\mathbf{v} = \frac{\hbar}{m}\Omega_{\mathrm{Berry}} \ne 0\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Defect 2 — Hermiticity Sign Error in the Proposed Viscous Operator <span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{eff}}\)</span> (lines 99–101):</strong>
+Line 100 writes the off-diagonal viscous block as <span class="math notranslate nohighlight">\(\begin{pmatrix} 0 &amp; -i\hbar\nu\nabla^2 \\ +i\hbar\nu\nabla^2 &amp; 0 \end{pmatrix}\)</span>. Because <span class="math notranslate nohighlight">\(\nabla^2\)</span> is formally self-adjoint, <span class="math notranslate nohighlight">\((-i\hbar\nu\nabla^2)^\dagger = +i\hbar\nu\nabla^2\)</span>, making this block <strong>Hermitian</strong> (norm-preserving Rabi-like dispersion rather than viscous dissipation).</p>
+<ul class="simple">
+<li><p><strong>Resolution:</strong> Machine-check in Lean 4 and SymPy that the chat’s off-diagonal block is Hermitian with zero net dissipation, and replace it with the genuine <strong>Bateman / Keldysh doubled anti-Hermitian viscous operator</strong> <span class="math notranslate nohighlight">\(\operatorname{diag}(+i\hbar\nu\nabla^2, -i\hbar\nu\nabla^2)\)</span>, which preserves the indefinite primal–dual pairing <span class="math notranslate nohighlight">\(\langle\tilde{\psi}, \psi\rangle\)</span> while dissipating primal energy at rate <span class="math notranslate nohighlight">\(-2\nu\int\lvert\nabla\psi\rvert^2\)</span>, paired with the exact Navier–Stokes viscous stress tensor <span class="math notranslate nohighlight">\(\nabla\cdot\boldsymbol{\tau}_{\mathrm{visc}}\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Defect 3 — Overclaim on Constant-Coefficient Hirota Linearization &amp; 3D Blowup Resolution (lines 82–91, 111–133):</strong>
+The Klein quadric removes <strong>Madelung coordinate denominators</strong> (<span class="math notranslate nohighlight">\(1/p_{12}\)</span> across the Schubert divisor <span class="math notranslate nohighlight">\(\Sigma_1 = \{p_{12} = 0\} \to \Omega_{13}\)</span>) and linearizes 1D viscous Burgers via Cole–Hopf (<span class="math notranslate nohighlight">\(v = -2\nu\partial_x\ln\tau\)</span>), <strong>not</strong> general 3D Navier–Stokes into a constant-coefficient Hirota equation, and does <strong>not</strong> prove Clay Millennium 3D global regularity or finite-time blowup avoidance.</p>
+<ul class="simple">
+<li><p><strong>Resolution:</strong> Isolate 3D Clay Millennium regularity, turbulence closure, and physical DDF/evanescent-fluid calibration in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.DualSchubertNavierStokesPendingBoundary</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="unified-mathematical-architecture-dual-schubert-qfim-to-incompressible-compressible-navierstokes">
+<h2>2. Unified Mathematical Architecture: Dual-Schubert QFIM to Incompressible &amp; Compressible Navier–Stokes<a class="headerlink" href="#unified-mathematical-architecture-dual-schubert-qfim-to-incompressible-compressible-navierstokes" title="Link to this heading">¶</a></h2>
+<p>Building directly on <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.DualSchubertQFIM</span></code> (<code class="docutils literal notranslate"><span class="pre">three_channel_plucker_madelung_qfim</span></code>, <code class="docutils literal notranslate"><span class="pre">dual_schubert_six_channel_decomposition</span></code>) and <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code> Section 27 (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>), a normalized Plücker / Clebsch-spinor fluid state <span class="math notranslate nohighlight">\(\Psi = \sqrt{\rho}\,\hat{p}\)</span> (<span class="math notranslate nohighlight">\(\|\hat{p}\| = 1\)</span>) obeys:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\hbar^2}{2m}\|\nabla\Psi\|^2 = \underbrace{\frac{1}{2}m\rho\|\mathbf{v}\|^2}_{\text{Ch. 1: Macroscopic flow } \mathbf{v} = \frac{\hbar}{m}\mathbf{A}_{\mathrm{Berry}}} + \underbrace{\frac{\hbar^2}{8m}\frac{\|\nabla\rho\|^2}{\rho}}_{\text{Ch. 2: Compressible osmotic/Fisher}} + \underbrace{\frac{\hbar^2}{8m}\rho\operatorname{Tr}(F_{\mu\nu})}_{\text{Ch. 3: Projective QFIM } (= \frac{\hbar^2}{2m}\rho\operatorname{Tr}(g_{\mu\nu}^{\mathrm{FS}}))}.
+\]</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fluid Regime</p></th>
+<th class="head"><p>Governing PDEs</p></th>
+<th class="head"><p>Role of 6-Channel Dual-Schubert QFIM</p></th>
+<th class="head"><p>Machine-Checked &amp; Numerical Benchmarks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Incompressible Navier–Stokes</strong> (<span class="math notranslate nohighlight">\(\rho = \rho_0\)</span>, <span class="math notranslate nohighlight">\(\nabla\cdot\mathbf{v} = 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\partial_t\mathbf{v} + (\mathbf{v}\cdot\nabla)\mathbf{v} = -\frac{1}{\rho_0}\nabla P + \nu\Delta\mathbf{v}\)</span></p></td>
+<td><p><strong>Ch. 2 vanishes identically</strong> (<span class="math notranslate nohighlight">\(\nabla\rho = 0 \implies v_{\mathrm{osm}} = 0\)</span>). <strong>Ch. 1</strong> carries rotational Clebsch-spinor flow (<span class="math notranslate nohighlight">\(\boldsymbol{\omega} = \nabla\times\mathbf{v} = \frac{\hbar}{m}\Omega_{\mathrm{Berry}} \ne 0\)</span>). <strong>Ch. 3</strong> encodes projective spin-tension stress (<span class="math notranslate nohighlight">\(-\frac{\hbar^2}{4m^2}\rho_0 F_{\mu\nu}\)</span>, Chern et al. 2016 <em>Incompressible Schrödinger Flow</em>). Pressure <span class="math notranslate nohighlight">\(P\)</span> acts as the <span class="math notranslate nohighlight">\(\mathrm{U}(1)\)</span> Helmholtz–Leray gauge multiplier. Dual-Schubert <span class="math notranslate nohighlight">\((\Psi_+, \Psi_-)\)</span> separates primal kinetic energy from dual enstrophy dissipation <span class="math notranslate nohighlight">\(\dot{E} = -\nu\int|\boldsymbol{\omega}|^2\)</span>.</p></td>
+<td><p>1. 2D Taylor–Green decaying vortex (<span class="math notranslate nohighlight">\(e^{-2\nu k^2 t}\)</span>)<br>2. 2D Lamb–Oseen viscous vortex<br>3. Plane Poiseuille &amp; Couette shear flows<br>4. 3D Beltrami / ABC rotational flow<br>5. Explicit Schubert chart transition <span class="math notranslate nohighlight">\(\Omega_0 \to \Sigma_1 \to \Omega_{13}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Compressible Navier–Stokes &amp; Navier–Stokes–Korteweg (NSK)</strong> (<span class="math notranslate nohighlight">\(\rho(x,t) &gt; 0\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\partial_t\rho + \nabla\cdot(\rho\mathbf{v}) = 0\)</span>,<br><span class="math notranslate nohighlight">\(\rho(\partial_t\mathbf{v} + (\mathbf{v}\cdot\nabla)\mathbf{v}) = -\nabla P_{\mathrm{cl}}(\rho) - \frac{\rho}{m}\nabla Q + \nabla\cdot\boldsymbol{\tau}_{\mathrm{visc}} + \nabla\cdot\boldsymbol{\sigma}_{\mathrm{QFIM}}\)</span></p></td>
+<td><p><strong>All 3 channels active.</strong> Under <strong>Bresch–Desjardins</strong> density-dependent viscosity <span class="math notranslate nohighlight">\(\mu(\rho) = \nu\rho\)</span>, the Dual-Schubert velocities <span class="math notranslate nohighlight">\(\mathbf{v}_\pm = \mathbf{v} \pm \nu\nabla\ln\rho = \mathbf{v} \pm \frac{2m\nu}{\hbar}\mathbf{v}_{\mathrm{osm}}\)</span> split total kinetic energy into Ch. 1 + Ch. 2 Fisher energy (<code class="docutils literal notranslate"><span class="pre">dual_schubert_six_channel_decomposition</span></code>). The quantum force <span class="math notranslate nohighlight">\(-\frac{\rho}{m}\nabla Q = \nabla\cdot\mathbf{K}_{\mathrm{Korteweg}}\)</span> equals the exact Korteweg capillary stress divergence.</p></td>
+<td><p>1. 1D viscous Burgers / Cole–Hopf shock (<span class="math notranslate nohighlight">\(v = -2\nu\partial_x\ln\tau\)</span>)<br>2. Exact Korteweg stress-tensor divergence identity<br>3. Bresch–Desjardins Dual-Schubert energy &amp; Fisher split<br>4. Compressible viscous dissipation positivity <span class="math notranslate nohighlight">\(\Phi_{\mathrm{visc}} \ge 0\)</span><br>5. Linearized Stokes acoustic attenuation &amp; 1D finite-volume NSK shock solver</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="phased-implementation-workstreams-ns-1-through-ns-5">
+<h2>3. Phased Implementation Workstreams (<code class="docutils literal notranslate"><span class="pre">NS-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">NS-5</span></code>)<a class="headerlink" href="#phased-implementation-workstreams-ns-1-through-ns-5" title="Link to this heading">¶</a></h2>
+<section id="ns-1-lean-4-formalization-signals-navierstokes-signals-pending">
+<h3><code class="docutils literal notranslate"><span class="pre">NS-1</span></code>: Lean 4 Formalization (<code class="docutils literal notranslate"><span class="pre">Signals.NavierStokes.*</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)<a class="headerlink" href="#ns-1-lean-4-formalization-signals-navierstokes-signals-pending" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/signals/Signals/NavierStokes/PluckerFrame.lean</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/signals/Signals/NavierStokes/Incompressible.lean</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/signals/Signals/NavierStokes/Compressible.lean</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/signals/Signals/NavierStokes.lean</span></code> (umbrella import, imported in <code class="docutils literal notranslate"><span class="pre">src/signals/Signals.lean</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code> (<code class="docutils literal notranslate"><span class="pre">DualSchubertNavierStokesPendingBoundary</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/signals/SignalsPending.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Core Theorems (Zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PluckerFrame.lean</span></code>: 2-component Clebsch-spinor Berry curvature <span class="math notranslate nohighlight">\(\equiv\)</span> continuous vorticity (<code class="docutils literal notranslate"><span class="pre">clebsch_berry_vorticity_nonzero</span></code>), <span class="math notranslate nohighlight">\(4\times 2\)</span> jet-frame Klein quadric cancellation (<code class="docutils literal notranslate"><span class="pre">jetFrame_klein_quadric_cancellation</span></code>), smooth chart transition bijection <span class="math notranslate nohighlight">\(\Omega_0 \leftrightarrow \Omega_{13}\)</span> across <span class="math notranslate nohighlight">\(\Sigma_1 = \{p_{12}=0\}\)</span> (<code class="docutils literal notranslate"><span class="pre">schubert_chart_transition_omega0_to_omega13</span></code>), and Chat Bug #2 proof (<code class="docutils literal notranslate"><span class="pre">chat_offdiag_viscous_matrix_is_hermitian</span></code> vs. <code class="docutils literal notranslate"><span class="pre">bateman_doubled_viscous_pairing_conserved_and_primal_dissipates</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Incompressible.lean</span></code>: <code class="docutils literal notranslate"><span class="pre">incompressible_channel2_vanishes</span></code>, <code class="docutils literal notranslate"><span class="pre">incompressible_dual_schubert_energy_enstrophy_split</span></code>, exact PDE proofs for 2D Taylor–Green (<code class="docutils literal notranslate"><span class="pre">taylorGreen2D_solves_incompressible_ns</span></code>, <code class="docutils literal notranslate"><span class="pre">taylorGreen2D_energy_enstrophy_decay</span></code>), 2D Lamb–Oseen (<code class="docutils literal notranslate"><span class="pre">lambOseen2D_vorticity_heat_pde</span></code>), plane Poiseuille/Couette (<code class="docutils literal notranslate"><span class="pre">poiseuille_solves_incompressible_ns</span></code>), and 3D Beltrami (<code class="docutils literal notranslate"><span class="pre">beltrami3D_solves_steady_incompressible_ns</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Compressible.lean</span></code>: 3D compressible stress tensor &amp; Stokes hypothesis (<code class="docutils literal notranslate"><span class="pre">compressible_viscous_dissipation_nonneg</span></code>), exact Korteweg capillary stress divergence (<code class="docutils literal notranslate"><span class="pre">korteweg_stress_div_eq_quantum_force</span></code>), Bresch–Desjardins Dual-Schubert QFIM identity (<code class="docutils literal notranslate"><span class="pre">breschDesjardins_dual_schubert_qfim_split</span></code>), Cole–Hopf viscous Burgers &amp; tanh shock (<code class="docutils literal notranslate"><span class="pre">coleHopf_burgers_solves_viscous_burgers</span></code>, <code class="docutils literal notranslate"><span class="pre">burgers_tanh_shock_solves_pde</span></code>), and linearized Stokes acoustic attenuation (<code class="docutils literal notranslate"><span class="pre">stokes_acoustic_attenuation_dispersion</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code>: <code class="docutils literal notranslate"><span class="pre">DualSchubertNavierStokesPendingBoundary</span></code> and impossibility theorem <code class="docutils literal notranslate"><span class="pre">dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> passes cleanly with zero errors and zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p></li>
+</ul>
+</section>
+<section id="ns-2-rust-pyo3-maturin-analytical-auditors-time-marching-solvers">
+<h3><code class="docutils literal notranslate"><span class="pre">NS-2</span></code>: Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Analytical Auditors &amp; Time-Marching Solvers<a class="headerlink" href="#ns-2-rust-pyo3-maturin-analytical-auditors-time-marching-solvers" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/navier_stokes.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code></p></li>
+<li><p><strong>Deliverables:</strong></p>
+<ol class="arabic simple">
+<li><p>Analytical residual auditors (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-13</span></code>): <code class="docutils literal notranslate"><span class="pre">audit_taylor_green_2d</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_lamb_oseen_2d</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_beltrami_3d</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_viscous_burgers_cole_hopf</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_compressible_nsk_korteweg_bd</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_schubert_chart_transition_vortex</span></code>, and <code class="docutils literal notranslate"><span class="pre">audit_bateman_vs_chat_heff</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#[pyclass]</span> <span class="pre">IncompressibleDualSchubertSolver2D</span></code>: 2D periodic <span class="math notranslate nohighlight">\((N_x \times N_y)\)</span> Chorin / Helmholtz–Leray projection + viscous step tracking <span class="math notranslate nohighlight">\(L^\infty\)</span> divergence error, kinetic energy, enstrophy, Dual-Schubert 6-channel QFIM, and automatic <span class="math notranslate nohighlight">\(\Omega_0 \leftrightarrow \Omega_{13}\)</span> Schubert chart switching.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#[pyclass]</span> <span class="pre">CompressibleNskDualSchubertSolver1D</span></code>: 1D periodic finite-volume Rusanov + viscous + Korteweg capillary stress solver for barotropic compressible NS/NSK tracking mass conservation, Bresch–Desjardins Dual-Schubert energy, and Channel 1/2/3 QFIM decomposition.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span> <span class="pre">--manifest-path</span> <span class="pre">src/signals/numerical_adapter/Cargo.toml</span> <span class="pre">navier_stokes</span></code> (all <code class="docutils literal notranslate"><span class="pre">#[test]</span></code> passing) and <code class="docutils literal notranslate"><span class="pre">maturin</span> <span class="pre">develop</span> <span class="pre">--manifest-path</span> <span class="pre">src/signals/numerical_adapter/Cargo.toml</span> <span class="pre">--release</span> <span class="pre">--features</span> <span class="pre">extension-module</span></code>.</p></li>
+</ul>
+</section>
+<section id="ns-3-sympy-exact-proofs-pytest-cross-verification-suite">
+<h3><code class="docutils literal notranslate"><span class="pre">NS-3</span></code>: SymPy Exact Proofs &amp; <code class="docutils literal notranslate"><span class="pre">pytest</span></code> Cross-Verification Suite<a class="headerlink" href="#ns-3-sympy-exact-proofs-pytest-cross-verification-suite" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">sustainablefactory/navier_stokes.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tests/test_navier_stokes_dual_schubert_qfim.py</span></code></p></li>
+<li><p><strong>Deliverables:</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">verify_symbolic_navier_stokes_qfim_identities()</span></code>: exact SymPy proofs of Clebsch vorticity, Klein quadric &amp; chart transition, Chat Bug #2 Hermitian vs. Bateman dissipation, 2D Taylor–Green, 2D Lamb–Oseen, 3D Beltrami, Poiseuille, Korteweg stress divergence, compressible dissipation positivity, Bresch–Desjardins Dual-Schubert identity, Cole–Hopf Burgers shock, Stokes acoustic dispersion, and incompressible/compressible 6-channel Dual-Schubert QFIM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest</span></code> tests cross-checking every Rust/PyO3 analytical auditor and validating time-marching convergence &amp; conservation for both <code class="docutils literal notranslate"><span class="pre">IncompressibleDualSchubertSolver2D</span></code> and <code class="docutils literal notranslate"><span class="pre">CompressibleNskDualSchubertSolver1D</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">tests/test_navier_stokes_dual_schubert_qfim.py</span></code> passes 100%.</p></li>
+</ul>
+</section>
+<section id="ns-4-myst-markdown-paper-paper-53-documentation-integration">
+<h3><code class="docutils literal notranslate"><span class="pre">NS-4</span></code>: MyST Markdown Paper (Paper 53) &amp; Documentation Integration<a class="headerlink" href="#ns-4-myst-markdown-paper-paper-53-documentation-integration" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.md</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/citations.bib</span></code> (verified entries for Bresch–Desjardins, Chern–Knöppel–Pinkall–Schröder ISF, Bateman, Korteweg, Fefferman, Taylor–Green, Cole, Hopf)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code> (register plan &amp; Paper 53)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/grassmannian-unification-applications-roadmap-paper.md</span></code> (integrate Paper 53 across Master Plücker Dictionary, Section 2.14, Pending Routing Matrix, Section 5 Lean 4 capstone, BibTeX, and <a class="reference external" href="http://Schema.org">Schema.org</a> JSON-LD)</p></li>
+</ul>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">env</span> <span class="pre">lean</span></code> on extracted roadmap Section 5 capstone; <code class="docutils literal notranslate"><span class="pre">0</span></code> findings from <code class="docutils literal notranslate"><span class="pre">fix_markdown_table_math_pipes.py</span></code> and <code class="docutils literal notranslate"><span class="pre">fix_markdown_display_math_spacing.py</span></code>; <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">docs</span> <span class="pre">html</span></code> with <code class="docutils literal notranslate"><span class="pre">0</span></code> warnings on plan, Paper 53, and roadmap; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code>.</p></li>
+</ul>
+</section>
+<section id="ns-5-commit-sequence">
+<h3><code class="docutils literal notranslate"><span class="pre">NS-5</span></code>: Commit Sequence<a class="headerlink" href="#ns-5-commit-sequence" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PRO:</span> <span class="pre">Add</span> <span class="pre">written</span> <span class="pre">plan</span> <span class="pre">for</span> <span class="pre">compressible</span> <span class="pre">and</span> <span class="pre">incompressible</span> <span class="pre">Navier-Stokes</span> <span class="pre">via</span> <span class="pre">Dual-Schubert</span> <span class="pre">QFIM</span></code> (<code class="docutils literal notranslate"><span class="pre">docs/dual-schubert-qfim-navier-stokes-plan.md</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENH:</span> <span class="pre">Formalize</span> <span class="pre">compressible</span> <span class="pre">and</span> <span class="pre">incompressible</span> <span class="pre">Navier-Stokes</span> <span class="pre">via</span> <span class="pre">Dual-Schubert</span> <span class="pre">QFIM</span> <span class="pre">in</span> <span class="pre">Lean</span> <span class="pre">4</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.NavierStokes.*</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">SignalsPending.lean</span></code>, tests).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENH:</span> <span class="pre">Implement</span> <span class="pre">Rust/PyO3</span> <span class="pre">Navier-Stokes</span> <span class="pre">Dual-Schubert</span> <span class="pre">QFIM</span> <span class="pre">solvers</span> <span class="pre">and</span> <span class="pre">SymPy/pytest</span> <span class="pre">cross-verification</span></code> (<code class="docutils literal notranslate"><span class="pre">navier_stokes.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">lib.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">sustainablefactory/navier_stokes.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tests/test_navier_stokes_dual_schubert_qfim.py</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DOCS:</span> <span class="pre">Add</span> <span class="pre">Paper</span> <span class="pre">53</span> <span class="pre">on</span> <span class="pre">Dual-Schubert</span> <span class="pre">QFIM</span> <span class="pre">compressible/incompressible</span> <span class="pre">Navier-Stokes</span> <span class="pre">and</span> <span class="pre">update</span> <span class="pre">roadmap</span></code> (Paper 53, <code class="docutils literal notranslate"><span class="pre">citations.bib</span></code>, <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>, roadmap).</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" >previous</a></li>
+        <li><a href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html" title="Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

@@ -85,15 +85,15 @@ Following Segal–Wilson {cite:p}`qcb-segal1985` and Pressley–Segal {cite:p}`p
 1. The restricted projection $\pi_+|_{W} : W \to H_+$ is Fredholm (finite-dimensional kernel, closed range, finite-dimensional cokernel).
 2. The cross projection $\pi_-|_{W} : W \to H_-$ is compact (and in the Hilbert–Schmidt Grassmannian $\mathrm{Gr}_2(H)$, Hilbert–Schmidt).
 
-In `RieszSchauder.lean` (chat lines 1255–1989), we establish the complete Riesz–Schauder Fredholm package from scratch over Mathlib's `IsCompactOperator`: for every compact $K \in \mathcal{K}(H)$, the operator $I + K$ has finite-dimensional kernel, closed range, finite-dimensional cokernel, and Fredholm index zero (`isFredholm_id_add_compact`).
+In `RieszSchauder.lean` (lines 1255–1989), we establish the complete Riesz–Schauder Fredholm package from scratch over Mathlib's `IsCompactOperator`: for every compact $K \in \mathcal{K}(H)$, the operator $I + K$ has finite-dimensional kernel, closed range, finite-dimensional cokernel, and Fredholm index zero (`isFredholm_id_add_compact`).
 
-In `CircleL2.lean` (chat lines 1997–2326), we instantiate $H = L^2(\mathrm{AddCircle}(2\pi), \mathbb{C})$ using Mathlib's orthonormal Fourier basis `fourierBasis` $\{e_n\}_{n \in \mathbb{Z}}$ with $e_n(\theta) = e^{in\theta}$, splitting into the Hardy subspace $H_+ = \overline{\operatorname{span}}\{e_n : n \ge 0\}$ and its orthogonal complement $H_- = \overline{\operatorname{span}}\{e_n : n < 0\}$. Multiplication by $e^{i\theta}$ defines the unitary bilateral shift `shiftCLE : HCircle ≃L[ℂ] HCircle`, whose restriction to $H_+$ has kernel $\{0\}$ and 1-dimensional cokernel $\mathbb{C} e_0$, giving Fredholm index $-1$.
+In `CircleL2.lean` (lines 1997–2326), we instantiate $H = L^2(\mathrm{AddCircle}(2\pi), \mathbb{C})$ using Mathlib's orthonormal Fourier basis `fourierBasis` $\{e_n\}_{n \in \mathbb{Z}}$ with $e_n(\theta) = e^{in\theta}$, splitting into the Hardy subspace $H_+ = \overline{\operatorname{span}}\{e_n : n \ge 0\}$ and its orthogonal complement $H_- = \overline{\operatorname{span}}\{e_n : n < 0\}$. Multiplication by $e^{i\theta}$ defines the unitary bilateral shift `shiftCLE : HCircle ≃L[ℂ] HCircle`, whose restriction to $H_+$ has kernel $\{0\}$ and 1-dimensional cokernel $\mathbb{C} e_0$, giving Fredholm index $-1$.
 
 ---
 
 ## 3. Klein Quadric Truncation $\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}(L^2(S^1))$ and Two Machine-Caught Bug Fixes
 
-Mapping $(v_0, v_1, v_2, v_3) \in \mathbb{C}^4$ to $v_0 e_{-2} + v_1 e_{-1} + v_2 e_0 + v_3 e_1 \in L^2(S^1)$ embeds any 2-plane $U = \operatorname{span}\{v, w\} \subset \mathbb{C}^4$ into the virtual-dimension-$0$ Sato Grassmannian via $W_U = U \oplus \overline{\operatorname{span}}\{e_n : n \ge 2\}$ (`Gr24Truncation.lean`, chat lines 2475–2995). Its six Plücker minors $p_{ij} = v_i w_j - v_j w_i$ ($0 \le i < j \le 3$) satisfy the Klein quadric equation:
+Mapping $(v_0, v_1, v_2, v_3) \in \mathbb{C}^4$ to $v_0 e_{-2} + v_1 e_{-1} + v_2 e_0 + v_3 e_1 \in L^2(S^1)$ embeds any 2-plane $U = \operatorname{span}\{v, w\} \subset \mathbb{C}^4$ into the virtual-dimension-$0$ Sato Grassmannian via $W_U = U \oplus \overline{\operatorname{span}}\{e_n : n \ge 2\}$ (`Gr24Truncation.lean`, lines 2475–2995). Its six Plücker minors $p_{ij} = v_i w_j - v_j w_i$ ($0 \le i < j \le 3$) satisfy the Klein quadric equation:
 
 $$
 p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12} = 0.
@@ -112,7 +112,7 @@ In the source chat (Block 005, lines 2475–2995), `w_norm` was originally writt
 
 ### 3.2 Machine-Caught Fix 2: Baker–Akhiezer $\partial_x^3 \psi$ Coefficient (`LaxPair.lean`)
 
-For the KdV 1-soliton potential $u(x, t) = 2 k^2 \operatorname{sech}^2(\theta)$ with $\theta = k x + k^3 t$, the Baker–Akhiezer wave function (`LaxPair.lean`, chat lines 12135–12380) is:
+For the KdV 1-soliton potential $u(x, t) = 2 k^2 \operatorname{sech}^2(\theta)$ with $\theta = k x + k^3 t$, the Baker–Akhiezer wave function (`LaxPair.lean`, lines 12135–12380) is:
 
 $$
 \psi(x, y, t; z) = \bigl(z - k\tanh\theta\bigr)\exp\bigl(z x + z^2 y + z^3 t\bigr).
@@ -136,7 +136,7 @@ $$
 
 ## 4. Hirota Bilinear KP-II, Kodama–Williams $\mathrm{Gr}_{\ge 0}(2,4)$ Soliton Webs, and AKNS Solitons
 
-Under the 3-time KP flow $\exp(t_1 z + t_2 z^2 + t_3 z^3)$ (`KPFlow.lean`, chat lines 3001–3617), the Sato $\tau$-function of a 2-plane $U = \operatorname{span}\{v, w\} \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ expands in Schur polynomials indexed by partitions inside the $2\times 2$ Young diagram (`HirotaKP.lean`, chat lines 3736–4227):
+Under the 3-time KP flow $\exp(t_1 z + t_2 z^2 + t_3 z^3)$ (`KPFlow.lean`, lines 3001–3617), the Sato $\tau$-function of a 2-plane $U = \operatorname{span}\{v, w\} \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ expands in Schur polynomials indexed by partitions inside the $2\times 2$ Young diagram (`HirotaKP.lean`, lines 3736–4227):
 
 $$
 \tau_U(t_1, t_2, t_3) = p_{23} + p_{13} s_{(1)} + p_{03} s_{(2)} + p_{12} s_{(1,1)} + p_{02} s_{(2,1)} + p_{01} s_{(2,2)},
@@ -148,9 +148,10 @@ $$
 \bigl(D_{t_1}^4 - 4 D_{t_1} D_{t_3} + 3 D_{t_2}^2\bigr)\tau_U \cdot \tau_U = 24\,(p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}) = 0.
 $$
 
-In `KP2Nonlinear.lean` (chat lines 7410–7748) and `PDESolver.lean` (chat lines 11446–12015), we prove:
+In `KP2Nonlinear.lean` (lines 7410–7748) and `PDESolver.lean` (lines 11446–12015), we prove:
 
 1. **Bilinear-to-Nonlinear Equivalence (`hirotaKP_eq_zero_iff_kp2`):** Wherever $\tau(x, y, t) \ne 0$, setting $u = 2\,\partial_x^2 \log\tau$ satisfies $\partial_x(4 u_t - u_{xxx} - 6 u u_x) - 3 u_{yy} = 0$ if and only if Hirota's bilinear expression vanishes.
+
 2. **Wronskian Positroid Soliton Webs (`solitonTau_eq_wronskian`, `hirotaKP_solitonTau_eq_zero`, `solitonTau_pos_of_totallyNonneg`):** For real ordered wavenumbers $\kappa_0 < \kappa_1 < \kappa_2 < \kappa_3$ and a totally nonnegative frame $(v, w) \in \mathrm{Gr}_{\ge 0}(2,4)$ (all $p_{ij} \ge 0$, not all zero),
 
 $$
@@ -158,14 +159,16 @@ $$
 $$
 
 is strictly positive on all of $\mathbb{R}^3$, guaranteeing global smooth, blowup-free $(2+1)$-D resonant soliton webs {cite:p}`kodama2014kp`.
+
 3. **KdV Reduction (`kdv2Soliton_y_invariant_and_smooth`, `kdv_oneSoliton_pde`):** Choosing symmetric wavenumbers $(-\kappa_2, -\kappa_1, \kappa_1, \kappa_2)$ and the KdV positroid cell annihilates the $y$-dependence ($\partial_y u = \partial_{yy} u = 0$), yielding exact smooth KdV 1- and 2-solitons solving $4 u_t - u_{xxx} - 6 u u_x = 0$.
-4. **AKNS Hierarchy (`AKNS.lean`, chat lines 12388–12739):** Passing to $2\times 2$ matrix Lax pairs {cite:p}`ablowitz1974inverse`, we prove `akns_zero_curvature_iff` together with the focusing NLS bright soliton `brightSoliton_nls_pde` ($q(x,t) = A\operatorname{sech}(Ax)e^{i A^2 t}$ solving $i q_t + q_{xx} + 2|q|^2 q = 0$) and the defocusing GPE dark soliton `darkSoliton_gpe_pde` ($q(x,t) = A\tanh(Ax)e^{-2 i A^2 t}$ solving $i q_t + q_{xx} - 2|q|^2 q = 0$).
+
+4. **AKNS Hierarchy (`AKNS.lean`, lines 12388–12739):** Passing to $2\times 2$ matrix Lax pairs {cite:p}`ablowitz1974inverse`, we prove `akns_zero_curvature_iff` together with the focusing NLS bright soliton `brightSoliton_nls_pde` ($q(x,t) = A\operatorname{sech}(Ax)e^{i A^2 t}$ solving $i q_t + q_{xx} + 2|q|^2 q = 0$) and the defocusing GPE dark soliton `darkSoliton_gpe_pde` ($q(x,t) = A\tanh(Ax)e^{-2 i A^2 t}$ solving $i q_t + q_{xx} - 2|q|^2 q = 0$).
 
 ---
 
 ## 5. Three-Channel Plücker–Madelung, Six-Channel Dual-Schubert QFIM, & Evanescent Speed Law
 
-In `DualSchubertQFIM.lean` (chat lines 13049–13254), we lift the projective geometry of $\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathbb{P}^5(\mathbb{C})$ into a machine-checked quantum-metrology identity connecting directly to our companion paper [Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md):
+In `DualSchubertQFIM.lean` (lines 13049–13254), we lift the projective geometry of $\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathbb{P}^5(\mathbb{C})$ into a machine-checked quantum-metrology identity connecting directly to our companion paper [Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md):
 
 $$
 \|\partial_x \Psi\|^2 = \rho\,\bigl(\operatorname{Im}\langle\hat{p}, \partial_x\hat{p}\rangle\bigr)^2 + \frac{(\partial_x\rho)^2}{4\rho} + \rho\,\frac{F_Q(\hat{p}, \partial_x\hat{p})}{4},

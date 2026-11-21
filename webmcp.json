@@ -17,6 +17,7 @@
       "cuprate-superconductivity-plan",
       "ddf-fracture-communication-plan",
       "dispersive-homodyne-plan",
+      "dual-schubert-qfim-navier-stokes-plan",
       "flat-light-nanolithography-scholarly",
       "flat-light-proca-nlig-validation-plan",
       "gaussian-splat-tensors-normed-paper",
@@ -27,6 +28,7 @@
       "grassmannian-cuprate-superconductivity-paper",
       "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
       "grassmannian-ddf-moving-sheath-paper",
+      "grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper",
       "grassmannian-enz-hyperbolic-metamaterials-paper",
       "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper",
       "grassmannian-gebr-chat-porting-plan",
@@ -199200,6 +199202,81 @@
     },
     {
       "children": [],
+      "docname": "dual-schubert-qfim-navier-stokes-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "written-plan-compressible-incompressible-navierstokes-via-three-channel-pluckermadelung-and-six-channel-dual-schubert-qfim-f-mu-nu-4-g-mu-nu-mathrm-fs",
+              "dual-schubert-qfim-navier-stokes-plan"
+            ],
+            "level": 1,
+            "title": "Written Plan: Compressible & Incompressible Navier\u2013Stokes via Three-Channel Pl\u00fccker\u2013Madelung and Six-Channel Dual-Schubert QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}})"
+          },
+          {
+            "ids": [
+              "audit-of-the-source-chat-epistemic-boundaries"
+            ],
+            "level": 2,
+            "title": "1. Audit of the Source Chat & Epistemic Boundaries"
+          },
+          {
+            "ids": [
+              "unified-mathematical-architecture-dual-schubert-qfim-to-incompressible-compressible-navierstokes"
+            ],
+            "level": 2,
+            "title": "2. Unified Mathematical Architecture: Dual-Schubert QFIM to Incompressible & Compressible Navier\u2013Stokes"
+          },
+          {
+            "ids": [
+              "phased-implementation-workstreams-ns-1-through-ns-5"
+            ],
+            "level": 2,
+            "title": "3. Phased Implementation Workstreams (NS-1 Through NS-5)"
+          },
+          {
+            "ids": [
+              "ns-1-lean-4-formalization-signals-navierstokes-signals-pending"
+            ],
+            "level": 3,
+            "title": "NS-1: Lean 4 Formalization (Signals.NavierStokes.* & Signals.Pending)"
+          },
+          {
+            "ids": [
+              "ns-2-rust-pyo3-maturin-analytical-auditors-time-marching-solvers"
+            ],
+            "level": 3,
+            "title": "NS-2: Rust + PyO3 (maturin) Analytical Auditors & Time-Marching Solvers"
+          },
+          {
+            "ids": [
+              "ns-3-sympy-exact-proofs-pytest-cross-verification-suite"
+            ],
+            "level": 3,
+            "title": "NS-3: SymPy Exact Proofs & pytest Cross-Verification Suite"
+          },
+          {
+            "ids": [
+              "ns-4-myst-markdown-paper-paper-53-documentation-integration"
+            ],
+            "level": 3,
+            "title": "NS-4: MyST Markdown Paper (Paper 53) & Documentation Integration"
+          },
+          {
+            "ids": [
+              "ns-5-commit-sequence"
+            ],
+            "level": 3,
+            "title": "NS-5: Commit Sequence"
+          }
+        ]
+      },
+      "source": "dual-schubert-qfim-navier-stokes-plan.md",
+      "title": "Written Plan: Compressible & Incompressible Navier\u2013Stokes via Three-Channel Pl\u00fccker\u2013Madelung and Six-Channel Dual-Schubert QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}})",
+      "url": "dual-schubert-qfim-navier-stokes-plan.html"
+    },
+    {
+      "children": [],
       "docname": "flat-light-nanolithography-scholarly",
       "doctree": {
         "headings": [
@@ -200848,6 +200925,144 @@
       "source": "grassmannian-ddf-moving-sheath-paper.md",
       "title": "Complex Grassmannian Gr_{\\mathbb{C}}(2,4) & N-ary Gr_{\\mathbb{C}}(2, N+2) Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Pl\u00fccker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4",
       "url": "grassmannian-ddf-moving-sheath-paper.html"
+    },
+    {
+      "children": [],
+      "docname": "grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "compressible-and-incompressible-navierstokes-via-three-channel-pluckermadelung-and-six-channel-dual-schubert-qfim-f-mu-nu-4-g-mu-nu-mathrm-fs-clebsch-spinor-vorticity-schubert-chart-regularization-bateman-viscous-audit-korteweg-stress-and-breschdesjardins-equivalence-in-lean-4-rust-pyo3-and-sympy",
+              "grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper"
+            ],
+            "level": 1,
+            "title": "Compressible and Incompressible Navier\u2013Stokes via Three-Channel Pl\u00fccker\u2013Madelung and Six-Channel Dual-Schubert QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}}): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch\u2013Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "architecture-dual-regime-unification-flowchart"
+            ],
+            "level": 2,
+            "title": "1. Architecture & Dual-Regime Unification Flowchart"
+          },
+          {
+            "ids": [
+              "formal-audit-of-the-source-chat-three-machine-checked-repairs-pluckerframe-lean"
+            ],
+            "level": 2,
+            "title": "2. Formal Audit of the Source Chat: Three Machine-Checked Repairs (PluckerFrame.lean)"
+          },
+          {
+            "ids": [
+              "repair-1-4-times-2-1-jet-stiefel-frame-schubert-chart-transition-omega-0-leftrightarrow-omega-02"
+            ],
+            "level": 3,
+            "title": "2.1 Repair 1 \u2014 4 \\times 2 1-Jet Stiefel Frame & Schubert Chart Transition \\Omega_0 \\leftrightarrow \\Omega_{02}"
+          },
+          {
+            "ids": [
+              "repair-2-hermiticity-defect-in-mathcal-h-mathrm-eff-vs-corrected-bateman-doubled-operator"
+            ],
+            "level": 3,
+            "title": "2.2 Repair 2 \u2014 Hermiticity Defect in \\mathcal{H}_{\\mathrm{eff}} vs. Corrected Bateman Doubled Operator"
+          },
+          {
+            "ids": [
+              "continuous-vorticity-from-a-2-component-clebsch-spinor-lift"
+            ],
+            "level": 3,
+            "title": "2.3 Continuous Vorticity from a 2-Component Clebsch Spinor Lift"
+          },
+          {
+            "ids": [
+              "incompressible-navierstokes-incompressible-lean-ch-2-0"
+            ],
+            "level": 2,
+            "title": "3. Incompressible Navier\u2013Stokes (Incompressible.lean, Ch. 2 = 0)"
+          },
+          {
+            "ids": [
+              "compressible-navierstokes-navierstokeskorteweg-compressible-lean-ch-1-2-3"
+            ],
+            "level": 2,
+            "title": "4. Compressible Navier\u2013Stokes & Navier\u2013Stokes\u2013Korteweg (Compressible.lean, Ch. 1 + 2 + 3)"
+          },
+          {
+            "ids": [
+              "lean-4-rust-pyo3-implementation-excerpts-and-tri-language-verification-table"
+            ],
+            "level": 2,
+            "title": "5. Lean 4 & Rust/PyO3 Implementation Excerpts and Tri-Language Verification Table"
+          },
+          {
+            "ids": [
+              "lean-4-core-theorem-signatures-signals-navierstokes"
+            ],
+            "level": 3,
+            "title": "5.1 Lean 4 Core Theorem Signatures (Signals.NavierStokes)"
+          },
+          {
+            "ids": [
+              "rust-pyo3-structure-preserving-solvers-navier-stokes-rs"
+            ],
+            "level": 3,
+            "title": "5.2 Rust/PyO3 Structure-Preserving Solvers (navier_stokes.rs)"
+          },
+          {
+            "ids": [
+              "tri-language-verification-summary"
+            ],
+            "level": 3,
+            "title": "5.3 Tri-Language Verification Summary"
+          },
+          {
+            "ids": [
+              "epistemic-pending-boundary-dualschubertnavierstokespendingboundary"
+            ],
+            "level": 2,
+            "title": "6. Epistemic Pending Boundary (DualSchubertNavierStokesPendingBoundary)"
+          },
+          {
+            "ids": [
+              "reproducibility-commands"
+            ],
+            "level": 2,
+            "title": "7. Reproducibility Commands"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          },
+          {
+            "ids": [
+              "bibtex-citation"
+            ],
+            "level": 3,
+            "title": "BibTeX Citation"
+          },
+          {
+            "ids": [
+              "schema-org-metadata-json-ld"
+            ],
+            "level": 3,
+            "title": "Schema.org Metadata (JSON-LD)"
+          }
+        ]
+      },
+      "source": "grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.md",
+      "title": "Compressible and Incompressible Navier\u2013Stokes via Three-Channel Pl\u00fccker\u2013Madelung and Six-Channel Dual-Schubert QFIM (F_{\\mu\\nu} = 4\\,g_{\\mu\\nu}^{\\mathrm{FS}}): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch\u2013Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy",
+      "url": "grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html"
     },
     {
       "children": [],
@@ -207654,6 +207869,13 @@
           },
           {
             "ids": [
+              "compressible-incompressible-navierstokes-via-three-channel-pluckermadelung-six-channel-dual-schubert-qfim-paper-53-signals-navierstokes-pluckerframe-incompressible-compressible-signals-pending-dualschubertnavierstokespendingboundary-navier-stokes-rs-sustainablefactory-navier-stokes-py"
+            ],
+            "level": 3,
+            "title": "2.14 Compressible & Incompressible Navier\u2013Stokes via Three-Channel Pl\u00fccker\u2013Madelung & Six-Channel Dual-Schubert QFIM (Paper 53) (Signals.NavierStokes [PluckerFrame, Incompressible, Compressible], Signals.Pending.DualSchubertNavierStokesPendingBoundary, navier_stokes.rs, sustainablefactory/navier_stokes.py)"
+          },
+          {
+            "ids": [
               "cross-document-architecture-what-belongs-in-which-document-summary-of-existing-plan-documents"
             ],
             "level": 2,
@@ -208350,6 +208572,7 @@
         "cuprate-superconductivity-plan",
         "ddf-fracture-communication-plan",
         "dispersive-homodyne-plan",
+        "dual-schubert-qfim-navier-stokes-plan",
         "flat-light-nanolithography-scholarly",
         "flat-light-proca-nlig-validation-plan",
         "gaussian-splat-tensors-normed-paper",
@@ -208360,6 +208583,7 @@
         "grassmannian-cuprate-superconductivity-paper",
         "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
         "grassmannian-ddf-moving-sheath-paper",
+        "grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper",
         "grassmannian-enz-hyperbolic-metamaterials-paper",
         "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper",
         "grassmannian-gebr-chat-porting-plan",
