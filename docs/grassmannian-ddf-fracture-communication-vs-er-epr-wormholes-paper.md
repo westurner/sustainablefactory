@@ -10,8 +10,8 @@ description: "An arXiv-ready MyST Markdown formal verification and theoretical p
 - **Subjects:**
   - Quantum Physics (`quant-ph`); General Relativity and Quantum Cosmology (`gr-qc`); High Energy Physics - Theory (`hep-th`); Fluid Dynamics (`physics.flu-dyn`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, {download}`src/signals/Signals/DFT.lean, lines 7104–7937 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/QuantumTrajectories.lean, lines 178–355 and 1180–1335 <../src/signals/Signals/QuantumTrajectories.lean>`, {download}`src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean, lines 1–199 <../src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean>`, {download}`src/signals/Signals/DDF.lean, lines 478–510 and 9000–9250 <../src/signals/Signals/DDF.lean>`, {download}`src/signals/Signals/Pending.lean, lines 2475–2560, 3130–3215, and 8420–8652 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 1855–2036 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8275–8424 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 1085–1160 and 6825–6984 <../src/signals/SignalsPendingTests.lean>`)
-  - `signals-numerical-adapter` Rust/WASM Crate ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–2175 and 2935–3190 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, {download}`src/signals/numerical_adapter/src/quantum_trajectories.rs, lines 410–445 and 670–698 <../src/signals/numerical_adapter/src/quantum_trajectories.rs>`)
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, {download}`src/signals/Signals/DFT.lean, lines 7104–7937 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/QuantumTrajectories.lean, lines 178–355 and 1180–1335 <../src/signals/Signals/QuantumTrajectories.lean>`, {download}`src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean, lines 108–199 <../src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean>`, {download}`src/signals/Signals/DDF.lean, lines 478–510 and 9000–9250 <../src/signals/Signals/DDF.lean>`, {download}`src/signals/Signals/Pending.lean, lines 2475–2560, 3149–3215, 8420–8652, and 9216–9269 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsPending.lean, lines 1855–2036 and 2507–2549 <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8284–8430 and 9354–9387 <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean, lines 1085–1160, 6825–6984, and 7544–7578 <../src/signals/SignalsPendingTests.lean>`)
+  - `signals-numerical-adapter` Rust/WASM Crate ({download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1950–2156 and 4334–4577 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, {download}`src/signals/numerical_adapter/src/quantum_trajectories.rs, lines 421–453 and 681–775 <../src/signals/numerical_adapter/src/quantum_trajectories.rs>`)
   - Validation Plan: [ddf-fracture-communication-validation-plan.md](ddf-fracture-communication-plan.md)
 - **Companion Papers:**
   - [$\mathrm{ER}=\mathrm{EPR}$ in Witten's $\mathrm{SU}(4)$ Twistor Theory and Plücker Coordinates on $\mathrm{Gr}_{\mathbb{C}}(2,4)$: Positive-Grassmannian Light-Cone Restriction, Tachyons, Off-Shell Virtual Particles, and Massless vs. Semi-Dirac Wormhole Transit in Lean 4 and Rust](grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md)
@@ -323,11 +323,11 @@ flowchart LR
 | :-: | :--- | :--- | :---: | :--- | :---: | :--- | :--- |
 | **1** | **$M_1$: Photons Around Wormhole** | Exterior Stratum 1 $\mathrm{Gr}_{>0}(2,4)$ optical arc bypassing throat | $0$ (`p23 = 0`) | Standalone $> 0$; unguided $(r_0/r)^2 = 10^{-4}$ (or $>90\%$ with `TRUE`/`CNC`) | $\le \dfrac{2}{3}$ (classical ceiling) | **$E_{\mathrm{throat}} = 0$** (no throat; linear free-space optics) | Single-path ($1 - p_1$); fastest $c$-arrival pilot & line-of-sight free-space links |
 | **2** | **$M_2$: Photons / Phonons Through Fracture Around Wormhole** | Exterior contiguous $\mathrm{De} > 1$ phase-slip corridor bypassing throat | $0$ (`p23 = 0`) | Standalone $\Delta y = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$; **$>9{,}800\times$ gain over $M_1$** (`100/101`) | $\le \dfrac{2}{3}$ (classical ceiling) | **$E_{\mathrm{throat}} = 0$**; high power **widens** fracture (`τ_drive > τ_crit`) | Single-path ($1 - p_2$); non-line-of-sight / opaque solid-state guided classical links |
-| **3** | **$M_3$: Semi-Dirac Fermions Through Wormhole** *(+ $M_3^\gamma$ `TRUE` soft photon)* | Non-local bipartite conifold throat along massless $\hat{y}$-axis ($k_x=0$) | **$1$** ($\|p_{23}\| = 1/2$, $A_{\mathrm{ER}} > 0$) | **$0$ standalone** (`erEprNoSignalingMarginalA`); $T_y = 1$ ($>10{,}000\times$ vs. raw 3D photon) | $\dfrac{1}{2}$ unkeyed random marginal | $E_{\mathrm{throat}} = N_{\mathrm{sym}}\|P_y\|$; **collapses** if $E_{\mathrm{throat}} > \mathcal{B}_{\mathrm{Bohm}}$ | Cannot signal standalone; requires $M_1$ or $M_2$ GJW key to unlock quantum state |
-| **4** | **$M_1 + M_3$: Photons Around + Through Wormhole** | Exterior photon key ($M_1$) + Semi-Dirac / soft-photon throat ($M_3$) | **$1$ on $M_3$; $0$ on $M_1$** | Unlocked $\Delta P_{\mathrm{RX}} = \frac{2 x_{\mathrm{around}}}{1+x_{\mathrm{around}}^2}$ ($1/r^2$-limited without repeaters) | **$1 > \dfrac{2}{3}$** (when $x_{\mathrm{around}} = 1$) | **$E_{\mathrm{throat}} = E_3 \le \mathcal{B}_{\mathrm{Bohm}}$** ($M_1$ key stays outside throat) | Key availability $1 - p_1$; **free-space / satellite / non-contiguous GJW teleportation** |
-| **5** | **$M_2 + M_3$: Photons Through Fracture + Through Wormhole** | Fracture-guided key ($M_2$) + Semi-Dirac / soft-photon throat ($M_3$) | **$1$ on $M_3$; $0$ on $M_2$** | Unlocked $\Delta P_{\mathrm{RX}} = \frac{2 x_{\mathrm{frac}}}{1+x_{\mathrm{frac}}^2} = 100\%$ with **$>9{,}800\times$ key gain** | **$1 > \dfrac{2}{3}$** (full quantum bridge) | **$E_{\mathrm{throat}} = E_3 \le \mathcal{B}_{\mathrm{Bohm}}$** (high-power key isolated in fracture) | Key availability $1 - p_2$; **opaque / cryogenic / solid-state (`N-LIG`, `RTG`, $\mathrm{ZrSiS}$) quantum buses** |
+| **3** | **$M_3$: Semi-Dirac Fermions Through Wormhole** *(+ $M_3^\gamma$ `TRUE` soft photon)* | Non-local bipartite conifold throat along massless $\hat{y}$-axis ($k_x=0$) | **$1$** ($\|p_{23}\| = 1/2$, $A_{\mathrm{ER}} > 0$) | **$0$ standalone** (`erEprNoSignalingMarginalA`); $T_y = 1$ ($>10{,}000\times$ vs. raw 3D photon) | $\dfrac{1}{2}$ unkeyed random marginal | $E_{\mathrm{throat}} = N_{\mathrm{sym}}\|P_y\|$; **collapses** if $E_{\mathrm{throat}} > \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$ (Sec. 3.3.5) | Cannot signal standalone; requires $M_1$ or $M_2$ GJW key to unlock quantum state |
+| **4** | **$M_1 + M_3$: Photons Around + Through Wormhole** | Exterior photon key ($M_1$) + Semi-Dirac / soft-photon throat ($M_3$) | **$1$ on $M_3$; $0$ on $M_1$** | Unlocked $\Delta P_{\mathrm{RX}} = \frac{2 x_{\mathrm{around}}}{1+x_{\mathrm{around}}^2}$ ($1/r^2$-limited without repeaters) | **$1 > \dfrac{2}{3}$** (when $x_{\mathrm{around}} = 1$) | **$E_{\mathrm{throat}} = E_3 \le \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$** ($M_1$ key stays outside throat) | Key availability $1 - p_1$; **free-space / satellite / non-contiguous GJW teleportation** |
+| **5** | **$M_2 + M_3$: Photons Through Fracture + Through Wormhole** | Fracture-guided key ($M_2$) + Semi-Dirac / soft-photon throat ($M_3$) | **$1$ on $M_3$; $0$ on $M_2$** | Unlocked $\Delta P_{\mathrm{RX}} = \frac{2 x_{\mathrm{frac}}}{1+x_{\mathrm{frac}}^2} = 100\%$ with **$>9{,}800\times$ key gain** | **$1 > \dfrac{2}{3}$** (full quantum bridge) | **$E_{\mathrm{throat}} = E_3 \le \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$** (high-power key isolated in fracture) | Key availability $1 - p_2$; **opaque / cryogenic / solid-state (`N-LIG`, `RTG`, $\mathrm{ZrSiS}$) quantum buses** |
 | **6** | **$M_1 + M_2$: Photons Around + Photons Through Fracture** | Dual exterior paths: ambient reference ($M_1$) $\parallel$ fracture corridor ($M_2$) | $0$ (`p23 = 0` on both) | **Delay-buffered `H0`/Magnus cancellation** (`dualPathSkewCompensatedClutterResidual`) + **`MRC` $\mathrm{SNR}_1 + \mathrm{SNR}_2$** | $\le \dfrac{2}{3}$ (entanglement-free) | **$E_{\mathrm{throat}} = 0$** (zero quantum/wormhole overhead) | **$1 - P_{\mathrm{out}}^{\mathrm{corr}}(p,\rho)$** ($99\%$ indep. / $97.2\%$ at $\rho=0.2$); self-calibrating fracture metrology |
-| **7** | **$M_1 + M_2 + M_3$: Photons Around + Through Fracture + Through Wormhole** | **Tri-modal**: $M_1$ pilot/LO + $M_2$ guided key + $M_3$ wormhole throat | **$1$ on $M_3$; $0$ on $M_1, M_2$** | **AGC $100\%$ contrast** (`triModalAgcDualKeyedErEprRxProbability` $= 1$ for $x_1=x_2=1$ & blackout, $\in [0,1]$) + skew-buffered `MRC` | **$1 > \dfrac{2}{3}$** + classical trunk | **$E_{\mathrm{throat}}^{\mathrm{leak}} \le \mathcal{B}_{\mathrm{Bohm}}$** at $-30\text{ dB}$ WKB mouth isolation (`triModalParasiticThroatLoad`) | **$99\%$ indep. / $97.2\%$ correlated ($\rho=0.2$) key availability** + 3-tier graceful failover |
+| **7** | **$M_1 + M_2 + M_3$: Photons Around + Through Fracture + Through Wormhole** | **Tri-modal**: $M_1$ pilot/LO + $M_2$ guided key + $M_3$ wormhole throat | **$1$ on $M_3$; $0$ on $M_1, M_2$** | **AGC $100\%$ contrast** (`triModalAgcDualKeyedErEprRxProbability` $= 1$ for $x_1=x_2=1$ & blackout, $\in [0,1]$) + skew-buffered `MRC` | **$1 > \dfrac{2}{3}$** + classical trunk | **$E_{\mathrm{throat}}^{\mathrm{leak}} \le \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$** at $-30\text{ dB}$ WKB mouth isolation (`triModalParasiticThroatLoad`) | **$99\%$ indep. / $97.2\%$ correlated ($\rho=0.2$) key availability** + 3-tier graceful failover |
 
 #### 3.3.4 Adversarial Review & Critique Gap-Closures of the Seven-Mode Multi-Path Taxonomy (`Signals.DFT` Section 25.2.1)
 
@@ -340,11 +340,51 @@ To harden the seven-mode taxonomy against physical edge cases, we formalized fou
 | **3** | **Common-Cause Environmental Shocks Violate Independent Outage ($p_1 p_2$)** | Shared thermal, seismic, or power disturbances introduce positive failure correlation $\rho_{\mathrm{corr}} \in [0, 1]$ between $M_1$ and $M_2$. | **Fixed (`dualPathCorrelatedOutageProbability`)**: Formalizes $P_{\mathrm{out}}^{\mathrm{corr}}(p, \rho_{\mathrm{corr}}) = p^2 + \rho_{\mathrm{corr}} p(1 - p)$, proving reduction to $p^2$ at $\rho_{\mathrm{corr}}=0$, loss of diversity ($= p$) at $\rho_{\mathrm{corr}}=1$, and strict improvement $p^2 \le P_{\mathrm{out}}^{\mathrm{corr}} < p$ for $\rho_{\mathrm{corr}} \in [0, 1)$ ($7/250 = 2.8\% < 10\%$ at $p=0.1, \rho=0.2$). |
 | **4** | **Finite Exterior-to-Throat Mouth Crosstalk ($\epsilon_1, \epsilon_2 > 0$) vs. Literal-Zero Idealization** | High-power exterior pulses ($E_1 = E_2 = 1000$) passing near a wormhole mouth have finite evanescent leakage $\epsilon_1, \epsilon_2 \ge 0$ into the throat rather than literal `0`. | **Fixed (`triModalParasiticThroatLoad`)**: Proves that poor $-20\text{ dB}$ mouth isolation ($\epsilon = 10^{-2} \implies E_{\mathrm{throat}} = 24 > 10$) triggers Raychaudhuri collapse, whereas $-30\text{ dB}$ Semi-Dirac WKB/spatial isolation ($\epsilon = 10^{-3} \implies E_{\mathrm{throat}} = 6 \le 10$) keeps `wormholeNetNullDefocusingFlux ≤ 0`. |
 
+#### 3.3.5 How Resolving Scalar Bohmian Node Blowup and the Sharoglazova–Klaers (*Nature* 2025) Evanescent Speed Law Refines `collapses if E_throat > B_Bohm` (`Signals.QuantumTrajectories` Section 9 & `DualSchubertQFIM`)
+
+A subtle foundational question arises directly from Row 3 of the comparison table above (`collapses if E_throat > B_Bohm`): **does our resolution of scalar Bohmian node blowup ($\rho_0 \to 0$) and the Sharoglazova–Klaers (*Nature* 2025) evanescent tunneling speed paradox ({cite:p}`sharoglazova_energyspeed_2025,klaers2023particle,klaers2025reaffirming`, [grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md](grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md) Section 4, and `Signals.SatoGrassmannian.DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law`) change the wormhole collapse criterion?**
+
+**Yes—in four decisive ways (`er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities` in {download}`src/signals/Signals/QuantumTrajectories.lean, lines 1180–1335 <../src/signals/Signals/QuantumTrajectories.lean>`):** it eliminates **two opposite pathologies of naive single-channel scalar Bohmian mechanics** (false stalled-packet collapse at $E_{\mathrm{throat}} \to 0^+$ *and* fake $1/\rho_0^2 \to \infty$ nodal-blowup immunity at $E_{\mathrm{throat}} \to \infty$), upgrades scalar $\mathcal{B}_{\mathrm{Bohm}}$ to the **six-channel Dual-Schubert Plücker–QFIM cushion $\mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$**, and confirms that **a finite Raychaudhuri overload ceiling $E_{\mathrm{throat}} \le \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$ genuinely persists**:
+
+1. **Eliminating Stalled-Packet Pile-Up Collapse ($v_S = 0 \implies \tau_{\mathrm{dwell}}^{\mathrm{Bohm}} = \infty$) via `sharoglazova_klaers_evanescent_speed_law`**:
+   An $\mathrm{ER}=\mathrm{EPR}$ throat is an off-shell evanescent barrier ($\Psi(x) = e^{-\bar{\kappa} x}(\cosh(\delta\kappa x), \sinh(\delta\kappa x))$). In standard 1-channel Bohmian mechanics, the spatial phase gradient vanishes identically ($\langle\hat{p}, d\hat{p}\rangle_{\mathbb{C}} = 0$, `standardBohmEvanescentVelocity = 0`), predicting $v_S = 0$, infinite throat dwell time $\tau_{\mathrm{dwell}}^{\mathrm{Bohm}} = L_{\mathrm{throat}}/v_S = \infty$, and divergent steady-state stored throat energy $E_{\mathrm{throat}}^{\mathrm{dwell}} = P_{\mathrm{in}}(L_{\mathrm{throat}}/v_S) \to \infty > \mathcal{B}_{\mathrm{Bohm}}$ (`evanescentThroatStoredEnergy`)—which would collapse the throat even for an arbitrarily soft input stream! Theorem `sharoglazova_klaers_evanescent_speed_law` proves that when Channel 1 vanishes, **Channel 2** (scalar Fisher/osmotic speed) and **Channel 3** (projective QFIM $F_{xx} = 4\,g_{xx}^{\mathrm{FS}} = 4\delta\kappa^2/\cosh^2(2\delta\kappa x) > 0$) combine via $\tanh^2(2\delta\kappa x) + \operatorname{sech}^2(2\delta\kappa x) = 1$ into a **strictly positive evanescent speed**:
+
+   $$
+   v_{\mathrm{eff}}^2(x) = \left(\frac{\hbar}{m}\right)^2\left[\left(\frac{\partial_x\rho}{2\rho}\right)^2 + \frac{F_{xx}(x)}{4}\right] = \frac{2}{m}\bigl(|E_{\mathrm{kin}}| - \hbar J_0 \tanh(2\delta\kappa\,x)\bigr), \qquad v_{\mathrm{eff}}^2(0) = \frac{2|E_{\mathrm{kin}}|}{m} > 0,
+   $$
+
+   yielding finite dwell time $\tau_{\mathrm{dwell}}^{\mathrm{BBM}} = a(k,\kappa)\tau_\lambda = \tau_{\mathrm{dwell}}^{\mathrm{QM}} < \infty$ and finite stored throat energy $E_{\mathrm{throat}}^{\mathrm{dwell}} \le \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$.
+2. **Ruling Out Fake $1/\rho_0^2 \to \infty$ Nodal-Blowup Rescue (`kahlerRegularizedBohmCushion`)**:
+   In unregularized scalar Madelung variables, $G_{\operatorname{Im}\mathcal{S}} = (\nabla_u\operatorname{Im}\mathcal{S})^2/\rho_0^2$ diverges as $1/\rho_0^2 \to +\infty$ at dark fringes, vortex cores, or nodal pinches ($\rho_0 \to 0$). If that divergence were physical, a pinching throat would generate an infinite negative-energy bounce preventing collapse at any $E_{\mathrm{throat}}$. On $\mathcal{Q}_4 = \mathrm{Gr}_{\mathbb{C}}(2,4)$, replacing $\rho_0^2$ with the squared Cauchy–Binet Kähler determinant $(1 + \|W\|_{\mathrm{HS}}^2 + (\det W)^2)^2 \ge 1$ bounds the cushion strictly from above:
+
+   $$
+   0 \le \mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}}\bigl(\mathcal{N}_{\mathrm{im}}, \|W\|_{\mathrm{HS}}^2, \det W\bigr) = \frac{\mathcal{N}_{\mathrm{im}}}{\bigl(1 + \|W\|_{\mathrm{HS}}^2 + (\det W)^2\bigr)^2} \le \mathcal{N}_{\mathrm{im}} < \infty,
+   $$
+
+   while Channel 3 projective QFIM energy $\frac{\hbar^2}{8m}\rho F_{uu}$ vanishes smoothly (`= 0`) at $\rho = 0$ (`projectiveQfimEnergyFromRayMetric`). **Thus $\mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$ is strictly finite, and Raychaudhuri overload collapse ($E_{\mathrm{throat}} > \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$) is a real, non-removable physical threshold.**
+3. **Protecting the Symmetric Throat Saddle ($\partial_u\rho = 0$) via the Six-Channel Dual-Schubert QFIM Cushion (`dualSchubertQfimWormholeCushion`)**:
+   At a symmetric minimal-area throat saddle where $\partial_u\rho = 0$, the 1-channel scalar Fisher term $\frac{(\partial_u\rho)^2}{4\rho}$ vanishes (`B_osm_reg = 0`), which in scalar Bohmian mechanics would leave zero stabilization right at the throat waist! Under `dual_schubert_six_channel_decomposition`, the full stabilization cushion adds the primal ($\Psi_+$) and Hodge-dual ($\Psi_-$) projective QFIM channels plus the GJW Schubert Josephson stiffness:
+
+   $$
+   \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}} = \mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}} + \frac{\hbar^2}{8m}\bigl(\rho_+ F_{uu}^+ + \rho_- F_{uu}^-\bigr) + 2\,|\lambda_{\mathrm{GJW}}|\,\sqrt{\rho_+\,\rho_-}\,\mathcal{C}_{\mathrm{EPR}} > 0,
+   $$
+
+   remaining strictly positive at $\mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}} = 0$ and strictly enlarging the non-collapse window ($\mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}} = 10 < E_{\mathrm{throat}} = 12 \le \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}} = 15$ transits safely, whereas $E_{\mathrm{throat}} = 20 > 15$ still collapses).
+4. **Linear $N_{\mathrm{sym}}$ Burst Load from Kähler Blockade Saturation (`saturatedBlockadeThreeBodyEnergy`)**:
+   Pairwise McGuire/Kerr multi-packet self-energy ($E_3^{\mathrm{pair}} = 4 E_2 = 16 > 15$) would falsely trigger collapse on a 3-packet burst, whereas $\mathrm{Gr}_{\mathbb{C}}(k, 2k)$ Kähler blockade saturation ({cite:p}`drori2023quantum`) enforces linear scaling $E_3^{\mathrm{sat}} = 3 E_2 = 12 \le 15$, matching $E_{\mathrm{throat}} = N_{\mathrm{sym}}|P_y|$ in Row 3.
+
+| Physical Regime Inside the $\mathrm{ER}=\mathrm{EPR}$ Throat | Naive 1-Channel Scalar Bohmian Model ($v_S = \frac{\hbar}{m}\partial_x S$, $\mathcal{B} \propto \rho_0^{-2}$) | 3-Channel Plücker–Madelung–QFIM ($F = 4g^{\mathrm{FS}}$) & Dual-Schubert `iGPE` | Impact on `collapses if E_throat > B_Bohm` |
+| :--- | :--- | :--- | :--- |
+| **1. Evanescent Throat Transit ($\partial_x S = 0$)** | $v_S = 0 \implies \tau_{\mathrm{dwell}} = \infty \implies E_{\mathrm{throat}}^{\mathrm{dwell}} = \infty$ | $v_{\mathrm{eff}}^2(0) = \frac{2\|E_{\mathrm{kin}}\|}{m} > 0$ (`sharoglazova_klaers_evanescent_speed_law`), $\tau_{\mathrm{dwell}}^{\mathrm{QM}} < \infty$ | **Prevents false stall-pileup collapse** of soft wavepackets (`evanescentThroatStoredEnergy 1 1 2 ≤ 15`) |
+| **2. Nodal Pinch / Vortex Core ($\rho_0 \to 0$)** | $1/\rho_0^2 \to +\infty$ blowup (fake infinite negative-energy bounce) | Kähler norm $\det(I_2 + W W^\dagger) \ge 1 \implies \mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}} \le \mathcal{N}_{\mathrm{im}} < \infty$ (`kahlerRegularizedBohmCushion`) | **Confirms collapse for $E_{\mathrm{throat}} > \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$ is genuine** (no $1/\rho_0^2$ rescue!) |
+| **3. Symmetric Throat Waist ($\partial_u\rho = 0$)** | Channel 2 $(\partial_u\rho)^2/(4\rho) = 0$ drops cushion to zero at waist | Channel 3 $\frac{\hbar^2}{8m}(\rho_+ F_{uu}^+ + \rho_- F_{uu}^-) > 0$ stays maximal (`sech²(0) = 1`) | **Prevents premature waist pinch-off** & widens safe window ($\mathcal{B}_{\mathrm{osm}}^{\mathrm{reg}} < \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$) |
+| **4. Multi-Symbol Burst ($N_{\mathrm{sym}} \ge 3$)** | Pairwise $E_3^{\mathrm{pair}} = 4 E_2 = 16 > 15$ overpredicts self-energy | Kähler blockade saturation $E_3^{\mathrm{sat}} = 3 E_2 = 12 \le 15$ (`saturatedBlockadeThreeBodyEnergy`) | **Justifies linear $E_{\mathrm{throat}} = N_{\mathrm{sym}}\|P_y\|$** burst capacity in Row 3 |
+
 ---
 
-## 4. Machine-Checked Lean 4 Formalization (`Signals.DFT` Sections 25–25.2.1 and `Signals.Pending`)
+## 4. Machine-Checked Lean 4 Formalization (`Signals.DFT` Sections 25–25.2.1, `Signals.QuantumTrajectories` Section 9, `DualSchubertQFIM`, and `Signals.Pending`)
 
-The following self-contained Lean 4 verification block ({download}`src/signals/Signals/DFT.lean, lines 7104–7937 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/Pending.lean, lines 8420–8652 <../src/signals/Signals/Pending.lean>`, and {download}`src/signals/SignalsTests.lean, lines 8275–8424 <../src/signals/SignalsTests.lean>`) typechecks directly against `Signals` and `SignalsPending`:
+The following self-contained Lean 4 verification block ({download}`src/signals/Signals/DFT.lean, lines 7104–7937 <../src/signals/Signals/DFT.lean>`, {download}`src/signals/Signals/QuantumTrajectories.lean, lines 1180–1335 <../src/signals/Signals/QuantumTrajectories.lean>`, {download}`src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean, lines 108–199 <../src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean>`, {download}`src/signals/Signals/Pending.lean, lines 3149–3215, 8420–8652, and 9216–9269 <../src/signals/Signals/Pending.lean>`, {download}`src/signals/SignalsTests.lean, lines 8284–8430 and 9354–9387 <../src/signals/SignalsTests.lean>`, and {download}`src/signals/SignalsPendingTests.lean, lines 6825–6984 and 7544–7578 <../src/signals/SignalsPendingTests.lean>`) typechecks directly against `Signals` and `SignalsPending`:
 
 ```lean
 import Signals
@@ -353,6 +393,7 @@ import SignalsPending
 namespace ArxivDdfFractureVsErEprVerification
 
 open Signals.DFT
+open Signals.QuantumTrajectories
 open Signals.Pending
 
 -- 1. Core Section 25 Master Theorem: DDF Fracture Communication vs. ER=EPR Wormholes & Hybrid Synthesis
@@ -509,7 +550,45 @@ example (x_around x_fracture y0 y_drift t1 delta_t_skew kappa_ddf q_ddf e_around
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
--- 5. Pending Contract Boundary: Non-causal modes are rejected while causal transverse phonons are supported
+-- 5. Section 9 (Signals.QuantumTrajectories): Kähler-Regularized Bohm–QFIM Cushion & Sharoglazova–Klaers Evanescent Throat Speed
+example (hbar mass e_abs j0 kappa_plus kappa_minus im_sq w_hs_sq det_w
+    rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr : ℝ)
+    (hhbar : 0 < hbar) (hmass : 0 < mass)
+    (hkp : kappa_plus ^ 2 = 2 * mass * (e_abs - hbar * j0) / hbar ^ 2)
+    (hkm : kappa_minus ^ 2 = 2 * mass * (e_abs + hbar * j0) / hbar ^ 2)
+    (him : 0 ≤ im_sq) (hw : 0 ≤ w_hs_sq)
+    (hrp : 0 < rho_plus) (hfp : 0 < f_qfim_plus)
+    (hrm : 0 ≤ rho_minus) (hfm : 0 ≤ f_qfim_minus)
+    (hlam : 0 ≤ lambda_gjw) (hcepr : 0 ≤ c_epr) :
+    -- (a) Sharoglazova–Klaers 3-channel evanescent throat speed law at injection x = 0:
+    ((hbar / mass) ^ 2 *
+        (((kappa_minus + kappa_plus) / 2) ^ 2 + ((kappa_minus - kappa_plus) / 2) ^ 2) =
+      2 * e_abs / mass) ∧
+    -- (b) Kähler node-blowup regularization (0 ≤ B_osm_reg ≤ im_sq; rules out 1/ρ_0^2 → ∞ rescue):
+      0 ≤ kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ∧
+      kahlerRegularizedBohmCushion im_sq w_hs_sq det_w ≤ im_sq ∧
+    -- (c) Symmetric throat saddle protection (B_osm_reg = 0 still has B_Bohm_QFIM > 0) & safe window (10 < 12 ≤ 15 < 20):
+      0 < dualSchubertQfimWormholeCushion 0 hbar mass rho_plus f_qfim_plus
+        rho_minus f_qfim_minus lambda_gjw c_epr ∧
+      dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0 = 15 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 12 10 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux 12
+        (dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 20
+        (dualSchubertQfimWormholeCushion 10 2 1 1 6 1 4 (1 / 2) 0) ∧
+    -- (d) Elimination of stalled-packet dwell pile-up (v → 0⁺ collapses vs. v_eff = 2 transits) & 3-body linear saturation:
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux
+        (evanescentThroatStoredEnergy 1 1 (1 / 100)) 15 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux
+        (evanescentThroatStoredEnergy 1 1 2) 15 ≤ 0 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux (saturatedBlockadeThreeBodyEnergy 4) 15 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux (pairwiseMcGuireThreeBodyEnergy 4) 15 :=
+  er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities
+    hbar mass e_abs j0 kappa_plus kappa_minus im_sq w_hs_sq det_w
+    rho_plus f_qfim_plus rho_minus f_qfim_minus lambda_gjw c_epr
+    hhbar hmass hkp hkm him hw hrp hfp hrm hfm hlam hcepr
+
+-- 6. Pending Contract Boundary: Non-causal modes are rejected while causal transverse phonons are supported
 example (evidence : DDFFractureCommunicationEvidence)
     (h_mode : evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon) :
     ¬evidence.supportsDDFHypothesis :=
@@ -520,9 +599,9 @@ end ArxivDdfFractureVsErEprVerification
 
 ---
 
-## 5. Rust Implementation and Unit Test Verification (`dft_plabic_vrc.rs`)
+## 5. Rust Implementation and Unit Test Verification (`dft_plabic_vrc.rs` & `quantum_trajectories.rs`)
 
-In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–2175 and 2935–3190 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>`, we implement the numerical evaluators and unit tests matching `Signals.DFT` Sections 25–25.2.1:
+In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1950–2156 and 4334–4577 <../src/signals/numerical_adapter/src/dft_plabic_vrc.rs>` and {download}`src/signals/numerical_adapter/src/quantum_trajectories.rs, lines 421–453 and 681–775 <../src/signals/numerical_adapter/src/quantum_trajectories.rs>`, we implement the numerical evaluators and parameterized `rstest` / invariant-sweep unit tests matching `Signals.DFT` Sections 25–25.2.1 and `Signals.QuantumTrajectories` Section 9:
 - `ddf_fracture_total_channel_signal(y_classical: f64, kappa_ddf: f64, q_ddf: f64) -> f64`
 - `ddf_fracture_magnus_subtracted_residual(y_meas: f64, y_acoustic: f64, rho_f: f64, u_inflow: f64, gamma_circ: f64) -> f64`
 - `ddf_fracture_deborah_ratio(tau_relax: f64, shear_rate: f64) -> f64`
@@ -549,12 +628,22 @@ In {download}`src/signals/numerical_adapter/src/dft_plabic_vrc.rs, lines 1940–
 - `dual_path_skew_compensated_clutter_residual(y0: f64, y_drift: f64, t1: f64, delta_t_skew: f64, tau_buf: f64, kappa_ddf: f64, q_ddf: f64) -> f64`
 - `dual_path_correlated_outage_probability(p_fail: f64, rho_corr: f64) -> f64`
 - `trimodal_parasitic_throat_load(eps_around: f64, eps_fracture: f64, e_around: f64, e_fracture: f64, e_wormhole: f64) -> f64`
+- `kahler_regularized_bohm_cushion(im_action_sq: f64, w_hs_sq: f64, det_w: f64) -> f64` (`quantum_trajectories.rs`)
+- `dual_schubert_qfim_wormhole_cushion(b_osm_reg: f64, hbar: f64, mass: f64, rho_plus: f64, f_qfim_plus: f64, rho_minus: f64, f_qfim_minus: f64, lambda_gjw: f64, c_epr: f64) -> f64` (`quantum_trajectories.rs`)
+- `evanescent_throat_stored_energy(p_in: f64, l_throat: f64, v_eff: f64) -> f64` (`quantum_trajectories.rs`)
+
+Dedicated parameterized unit-test suites (`16` targeted test cases across `dft_plabic_vrc::tests` and `quantum_trajectories::tests`):
+- `test_ddf_fracture_vs_er_epr_h0_magnus_deborah_and_four_discriminators` (`#[rstest]` across air PIV, superfluid $\mathrm{He}$, `polyCBD`, and cryogenic `N-LIG` regimes, $2\pi n$ plaquette phase slips, $p_{23}$ concurrence sweeps, boundary no-signaling, and opposite overload response)
+- `test_ddf_fracture_vs_er_epr_cayley_saturation_attenuation_and_passivity_invariants` (`#[rstest]` across $x_{\mathrm{drive}} \in [-3, 1000]$ verifying unconditional $[0, 1]$ Cayley bounds, $P(+1)+P(-1)=1$, high-$k$ dilatant damping monotonicity, and strict passive efficiency $0 < \eta < 1$)
+- `test_ddf_fracture_vs_er_epr_seven_mode_multipath_agc_skew_and_crosstalk` (all $7$ modes $M_1 \dots M_7$, AGC convex dual-key normalization & blackout survival, `CROW`/FIFO arrival-skew cancellation, $\rho_{\mathrm{corr}} \in [0, 1)$ correlated outage monotonicity, and exact parasitic mouth-crosstalk collapse threshold $\epsilon_{\mathrm{crit}}$ against $\mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$)
+- `test_er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion` (`#[rstest]` spatial profile $x \in [-1.5, 1.2]$ of the 3-channel Sharoglazova–Klaers evanescent speed law, $\rho_0 \to 0^+$ Kähler node-blowup bound, symmetric-waist QFIM cushion, and blockade-saturated 3-packet scaling)
 
 Reproducible build and test commands:
 
 ```bash
 make signals_build
-cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml test_rhombohedral_graphene_superconductivity_qc_check_figures
+cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml test_ddf_fracture_vs_er_epr_
+cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml test_er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion
 ```
 
 ---
@@ -569,7 +658,8 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 | **2. Deborah shear-fracture threshold ($\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1 \iff \hbar^2\omega^2 < 0$) & $2\pi n$ plaquette phase-slip holonomy** | {download}`IQ-Sampling-for-Signal-Phase.md, lines 15230–15568 <../data/chats/IQ-Sampling-for-Signal-Phase.md>`; {download}`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 470–495 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`; {download}`_Neutrons-and-Black-Holes-and-Fracture.md, lines 1175–1215 <../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md>` | `scholarly theory` / `calibration-required` | High (for mathematical GPE/viscoelastic algebra) | `Signals.DDF.grassmannian_bogoliubov_proca_and_deborah_fracture_identities`, `plaquette_phase_slip_syndrome`, `Signals.DFT.ddfFractureDeborahRatio` | Calibrate $\tau_{\mathrm{relax}}$ and $\sigma_{\mathrm{crit}}$ on `polyCBD` / superfluid-vortex (`Zenodo 20068724`) and fiber-optic strain (`Zenodo 20780049`) benchmarks |
 | **3. Four-way discrimination between DDF fracture waveguides ($p_{23}=0$) and $\mathrm{ER}=\mathrm{EPR}$ wormhole bridges ($\mathcal{C}_{\mathrm{EPR}}^2 = 4\|p_{23}\|^2 > 0$) + Horodecki $2/3$ fidelity threshold** | {download}`_Neutrons-and-Black-Holes-and-Fracture.md, lines 861–954 <../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md>`; {download}`Superfluid-Gravity-and-Negative-Energy.md, lines 243–305 <../data/chats/Superfluid-Gravity-and-Negative-Energy.md>`; [Maldacena & Susskind (2013)](#maldacenasusskind2013); {cite:p}`massar1995`; {cite:p}`horodecki1999` | `scholarly theory` (machine-checked in Lean 4 & Rust) | High | `Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`, `horodeckiAverageTeleportationFidelity` | Blinded two-channel experiment comparing unentangled acoustic/phonon waveguides against entangled quantum teleportation circuits |
 | **4. Seven-mode multi-path taxonomy ($M_1, M_2, M_3$ & $M_1+M_3, M_2+M_3, M_1+M_2, M_1+M_2+M_3$), AGC Cayley-saturated dual-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver, skew buffering, correlated outage, & mouth crosstalk bounds** | {download}`_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md, lines 1689–1785 <../data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md>`; {cite:p}`gjw2017`; {cite:p}`jafferis2022` | `calibration-required` (protocol algebra verified; hardware realization in `Signals.Pending`) | Medium–High | `Signals.DFT.seven_mode_multipath_wormhole_fracture_and_trimodal_synthesis_identities`, `seven_mode_multipath_agc_skew_correlated_outage_and_leakage_critique_identities`, `triModalAgcDualKeyedErEprRxProbability`, `triModalParasiticThroatLoad` | Requires synchronized arrival-time skew calibration ($\tau_{\mathrm{buf}} = \Delta t_{\mathrm{skew}}$), $\le -30\text{ dB}$ mouth isolation, and closed energy ledger (`energyClosed`) |
-| **5. Faster-than-light (FTL) fracture signaling, over-unity fracture energy extraction, or uncalibrated longitudinal Proca vacuum fracture beams** | {download}`ddf-fracture-communication-plan.md, lines 38–55 and 220–245 <ddf-fracture-communication-plan.md>` | `unsupported` (explicitly rejected by `not_supported_by_noncausal_mode` & `ddfFracturePassivePowerEfficiency < 1`) | Excluded | `Signals.Pending.DDFFractureCommunicationEvidence.not_supported_by_noncausal_mode`, `Signals.DFT.erEprNoSignalingMarginalA` | Strictly excluded: any superluminal (`ddfFractureCausalTransitMargin < 0`) or uncalibrated longitudinal mode rejects `HDDF` |
+| **5. Kähler-regularized Bohm–QFIM throat cushion ($\mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$), Sharoglazova–Klaers evanescent throat transit ($v_{\mathrm{eff}}(0) > 0$), & Kähler blockade linear $N_{\mathrm{sym}}$ burst scaling** | [Sharoglazova et al. (2025)](#ddffrac-sharoglazova2025); {download}`grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md <grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md>` | `scholarly theory` (machine-checked in `Signals.QuantumTrajectories` & `DualSchubertQFIM`) | High | `Signals.QuantumTrajectories.er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities`, `Signals.SatoGrassmannian.DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law` | Confirms finite Raychaudhuri overload ceiling ($E_{\mathrm{throat}} > \mathcal{B}_{\mathrm{Bohm\text{-}QFIM}}$ collapses) while removing unphysical $v_S=0$ dwell divergence and $1/\rho_0^2 \to \infty$ nodal blowup |
+| **6. Faster-than-light (FTL) fracture signaling, over-unity fracture energy extraction, or uncalibrated longitudinal Proca vacuum fracture beams** | {download}`ddf-fracture-communication-plan.md, lines 38–55 and 220–245 <ddf-fracture-communication-plan.md>` | `unsupported` (explicitly rejected by `not_supported_by_noncausal_mode` & `ddfFracturePassivePowerEfficiency < 1`) | Excluded | `Signals.Pending.DDFFractureCommunicationEvidence.not_supported_by_noncausal_mode`, `Signals.DFT.erEprNoSignalingMarginalA` | Strictly excluded: any superluminal (`ddfFractureCausalTransitMargin < 0`) or uncalibrated longitudinal mode rejects `HDDF` |
 
 ---
 
@@ -581,6 +671,8 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
   <a id="gjw2017"></a> **Gao, P., Jafferis, D. L., & Wall, A. C. (2017).** *Traversable Wormholes via a Double Trace Deformation.* Journal of High Energy Physics, 2017(12), 151. `arXiv:1608.05687`. DOI: `10.1007/JHEP12(2017)151`.
 - (jafferis2022)=
   <a id="jafferis2022"></a> **Jafferis, D., Zlokapa, A., Lykken, J. D., Kolchmeyer, D. K., Davis, S. I., Lauk, N., Neven, H., & Spiropulu, M. (2022).** *Traversable wormhole dynamics on a quantum processor.* Nature, 612, 51–55. DOI: `10.1038/s41586-022-05424-3`.
+- (ddffrac-sharoglazova2025)=
+  <a id="ddffrac-sharoglazova2025"></a> **Sharoglazova, V., Puplauskis, M., Mattschas, C., Toebes, C., & Klaers, J. (2025).** *Energy–speed relationship of quantum particles challenges Bohmian mechanics.* Nature, 643, 67–72. DOI: `10.1038/s41586-025-09099-4`.
 - (ddffrac-witten2004)=
   <a id="ddffrac-witten2004"></a> **Witten, E. (2004).** *Perturbative Gauge Theory as a String Theory in Twistor Space.* Communications in Mathematical Physics, 252, 189–258. `arXiv:hep-th/0312171`. DOI: `10.1007/s00220-004-1187-3`.
 - (costello2018)=
@@ -647,7 +739,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
     "@type": "Person",
     "name": "Wes Turner"
   },
-  "dateModified": "2026-11-11",
+  "dateModified": "2026-11-21",
   "about": [
     "Dilatant Dark Fluid fracture communication",
     "ER=EPR entanglement and wormholes",
