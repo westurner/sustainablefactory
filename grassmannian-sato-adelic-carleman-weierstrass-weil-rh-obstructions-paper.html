@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> in Lean 4, Rust/PyO3, and <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-of-the-adelic-carleman-determinant-bundle-weil-bridge-stack">1. Architecture of the Adelic Carleman, Determinant-Bundle, Weil, &amp; Bridge Stack</a></li>
+<li><a class="reference internal" href="#carlemanweierstrass-regularization-across-operatorname-re-s-1-1-2-and-1-3">2. Carleman–Weierstrass Regularization Across <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1\)</span>, <span class="math notranslate nohighlight">\(1/2\)</span>, and <span class="math notranslate nohighlight">\(1/3\)</span></a></li>
+<li><a class="reference internal" href="#schwinger-2-cocycle-widehat-mathrm-gl-2-0-h-central-extension-and-exact-segalwilson-tau-function">3. Schwinger 2-Cocycle, <span class="math notranslate nohighlight">\(\widehat{\mathrm{GL}}_{(2)}^0(H)\)</span> Central Extension, and Exact Segal–Wilson <span class="math notranslate nohighlight">\(\tau\)</span>-Function</a></li>
+<li><a class="reference internal" href="#bidirectional-l-1-mathbb-r-weil-positivity-via-shifted-gaussians">4. Bidirectional <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity via Shifted Gaussians</a></li>
+<li><a class="reference internal" href="#formal-lean-4-bridge-to-signals-riemannspectral-riemannspectralbridge-lean">5. Formal Lean 4 Bridge to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (<code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code>)</a></li>
+<li><a class="reference internal" href="#tri-language-numerical-verification-mpmath-40-digit-vs-rust-pyo3">6. Tri-Language Numerical Verification (<code class="docutils literal notranslate"><span class="pre">mpmath</span></code> 40-Digit vs. Rust/PyO3)</a></li>
+<li><a class="reference internal" href="#open-boundaries-recorded-in-signals-pending-satoriemannspectralpendingboundary">7. Open Boundaries Recorded in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code></a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html" title="Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy" accesskey="P">previous </a></li>
+              <li><a href="references.html" title="References" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-sato-adelic-carleman-weierstrass-weil-rh-obstructions-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> in Lean 4, Rust/PyO3, and <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-of-the-adelic-carleman-determinant-bundle-weil-bridge-stack">1. Architecture of the Adelic Carleman, Determinant-Bundle, Weil, &amp; Bridge Stack</a></li>
+<li><a class="reference internal" href="#carlemanweierstrass-regularization-across-operatorname-re-s-1-1-2-and-1-3">2. Carleman–Weierstrass Regularization Across <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1\)</span>, <span class="math notranslate nohighlight">\(1/2\)</span>, and <span class="math notranslate nohighlight">\(1/3\)</span></a></li>
+<li><a class="reference internal" href="#schwinger-2-cocycle-widehat-mathrm-gl-2-0-h-central-extension-and-exact-segalwilson-tau-function">3. Schwinger 2-Cocycle, <span class="math notranslate nohighlight">\(\widehat{\mathrm{GL}}_{(2)}^0(H)\)</span> Central Extension, and Exact Segal–Wilson <span class="math notranslate nohighlight">\(\tau\)</span>-Function</a></li>
+<li><a class="reference internal" href="#bidirectional-l-1-mathbb-r-weil-positivity-via-shifted-gaussians">4. Bidirectional <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity via Shifted Gaussians</a></li>
+<li><a class="reference internal" href="#formal-lean-4-bridge-to-signals-riemannspectral-riemannspectralbridge-lean">5. Formal Lean 4 Bridge to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (<code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code>)</a></li>
+<li><a class="reference internal" href="#tri-language-numerical-verification-mpmath-40-digit-vs-rust-pyo3">6. Tri-Language Numerical Verification (<code class="docutils literal notranslate"><span class="pre">mpmath</span></code> 40-Digit vs. Rust/PyO3)</a></li>
+<li><a class="reference internal" href="#open-boundaries-recorded-in-signals-pending-satoriemannspectralpendingboundary">7. Open Boundaries Recorded in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code></a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"
+                          title="previous chapter">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="references.html"
+                          title="next chapter">References</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-sato-adelic-carleman-weierstrass-weil-rh-obstructions-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="adelic-carlemanweierstrass-regularized-determinants-det-2-det-3-schwinger-2-cocycle-central-extensions-segalwilson-determinant-bundles-l-1-mathbb-r-weil-positivity-and-formal-bridges-to-signals-riemannspectral-in-lean-4-rust-pyo3-and-mpmath">
+<span id="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-obstructions-paper"></span><h1>Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> in Lean 4, Rust/PyO3, and <code class="docutils literal notranslate"><span class="pre">mpmath</span></code><a class="headerlink" href="#adelic-carlemanweierstrass-regularized-determinants-det-2-det-3-schwinger-2-cocycle-central-extensions-segalwilson-determinant-bundles-l-1-mathbb-r-weil-positivity-and-formal-bridges-to-signals-riemannspectral-in-lean-4-rust-pyo3-and-mpmath" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Number Theory (<code class="docutils literal notranslate"><span class="pre">math.NT</span></code>); Functional Analysis (<code class="docutils literal notranslate"><span class="pre">math.FA</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Logic &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Verified Infinite-Dimensional Mathematical Core (Machine-Checked in Lean 4, Rust/PyO3, and 40-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>):</strong> We formalize 10 zero-<code class="docutils literal notranslate"><span class="pre">sorry</span></code> Lean 4 modules under <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> (<code class="docutils literal notranslate"><span class="pre">RHObstructions</span></code>, <code class="docutils literal notranslate"><span class="pre">RemainingGaps</span></code>, <code class="docutils literal notranslate"><span class="pre">CarlemanWeierstrass</span></code>, <code class="docutils literal notranslate"><span class="pre">SchwingerCocycle</span></code>, <code class="docutils literal notranslate"><span class="pre">DeterminantBundle</span></code>, <code class="docutils literal notranslate"><span class="pre">BigCellCocycle</span></code>, <code class="docutils literal notranslate"><span class="pre">SegalWilsonGr24</span></code>, <code class="docutils literal notranslate"><span class="pre">WeilPositivity</span></code>, <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1</span></code>, <code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge</span></code>), proving: <strong>(1)</strong> the four classical RH analytical obstructions (de Bruijn–Newman backward heat flow, Erdős <span class="math notranslate nohighlight">\(\sum 1/p = \infty\)</span> and <span class="math notranslate nohighlight">\(\sum p^{-1/2} = \infty\)</span>, Li/Cayley unit-circle characterization, degree-2 Jensen–Pólya Turán equivalence, and Kato–Rellich operator closure), <strong>(2)</strong> order-<span class="math notranslate nohighlight">\(k\)</span> Weierstrass–Carleman regularized determinants <span class="math notranslate nohighlight">\(\det_k\)</span> (<code class="docutils literal notranslate"><span class="pre">det2</span></code> for <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &gt; 1/2\)</span>, <code class="docutils literal notranslate"><span class="pre">det3</span></code> convergent and non-vanishing on the critical line <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span>, and the multiplicative anomaly <span class="math notranslate nohighlight">\(\det_2((1+A)(1+B)) = \det_2(1+A)\det_2(1+B)e^{-\operatorname{Tr}(AB)}\)</span>), <strong>(3)</strong> the Schwinger 2-cocycle <span class="math notranslate nohighlight">\(\omega(M_{z^{-1}}, M_z) = -1\)</span>, central extension <span class="math notranslate nohighlight">\(1 \to \mathbb{C}^\times \to \widehat{\mathrm{GL}}_{(2)}^0(H) \to \mathrm{GL}_{(2)}^0(H) \to 1\)</span>, Segal–Wilson determinant bundle <span class="math notranslate nohighlight">\(\mathrm{Det}^* \to \mathrm{Gr}_{(2)}^0(H)\)</span>, and exact reduction <span class="math notranslate nohighlight">\(\det_{\mathrm{Fr}}(1 + g(t)_{+-} T_U g(t)_{++}^{-1}) = \tau_U(t_1, t_2, t_3) / p_{23}\)</span>, <strong>(4)</strong> bidirectional <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil positivity equivalence using shifted Gaussians with an explicit <span class="math notranslate nohighlight">\(-4\pi m(z_0) &lt; 0\)</span> off-line disproof witness, and <strong>(5)</strong> six formal Lean 4 bridge theorems connecting the infinite-dimensional stack directly to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code>.</p></li>
+<li><p><strong>Open Millennium-Problem &amp; Axiom Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code>):</strong> This paper does <strong>not</strong> prove the Riemann Hypothesis <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id507" title="Enrico Bombieri. Problems of the millennium: the Riemann hypothesis. Clay Mathematics Institute, 2000. URL: https://www.claymath.org/millennium/riemann-hypothesis/.">Bombieri, 2000</a>]</span>. In <code class="docutils literal notranslate"><span class="pre">Signals.Pending.sato_infinite_dim_and_pde_stack_do_not_close_rh_or_physical_claims</span></code>, we explicitly record that certifying <span class="math notranslate nohighlight">\(\omega(S^{-1}, S) = -1\)</span>, critical-line <span class="math notranslate nohighlight">\(\det_3 \ne 0\)</span>, and bidirectional Weil equivalence does <strong>not</strong> discharge: (i) the four global <code class="docutils literal notranslate"><span class="pre">RB-6</span></code> RH bridges (<span class="math notranslate nohighlight">\(\Lambda \le 0\)</span>, Hilbert–Pólya spectral realization, global Weil <span class="math notranslate nohighlight">\(L^1\)</span> positivity for <span class="math notranslate nohighlight">\(\zeta\)</span>, and adelic trace limits), or (ii) the classical Lidskii trace-class <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> axiom bundle in <code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code> awaiting upstream Mathlib trace-ideal theory.</p></li>
+</ul>
+</li>
+<li><p><strong>Primary Source Chat Provenance:</strong></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/81119aa9c644349562afd944c47272db/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md</span></code></a> (<code class="docutils literal notranslate"><span class="pre">13,272</span></code> lines, <code class="docutils literal notranslate"><span class="pre">sha256:</span> <span class="pre">c8eb7b93d618846add0564db6fd4df248aff7a12a6e63d1808712a6673f1a6ab</span></code>), specifically Blocks 008–011 (lines 4336–7401) and Blocks 013–017 (lines 7756–11306).</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"><span class="std std-doc">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM</span></a> (Paper 1 of this series)</p></li>
+<li><p><a class="reference internal" href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"><span class="std std-doc">Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy, Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel <span class="math notranslate nohighlight">\(C_4(p)\)</span> Jet Audits</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"><span class="std std-doc">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Computational Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">3,830</span></code> Lake jobs via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/a6850d5f2bef2cf0620d0b7efd0d823b/RHObstructions.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/RHObstructions.lean</span></code></a> through <a class="reference download internal" download="" href="_downloads/61ba86115daf04b6f738dba5b21c5e65/RiemannSpectralBridge.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/RiemannSpectralBridge.lean</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/3cdeb207d020b1acb915b2dc771c3245/RiemannSpectral.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/RiemannSpectral.lean</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code>)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Extension (<code class="docutils literal notranslate"><span class="pre">7/7</span></code> <code class="docutils literal notranslate"><span class="pre">sato_grassmannian</span></code> Rust unit tests passing):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/e0a68e52968a6edae738a4ef79a876e3/sato_grassmannian.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/sato_grassmannian.rs</span></code></a> (<code class="docutils literal notranslate"><span class="pre">evaluate_carleman_euler_products</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate_weil_gaussian_quad_form</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate_segal_wilson_gr24_tau</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate_riemann_spectral_bridge</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Python + SymPy + 40-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> + PyO3 Verification Suite (<code class="docutils literal notranslate"><span class="pre">8/8</span></code> <code class="docutils literal notranslate"><span class="pre">pytest</span></code> tests passing):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/79202878593a2589daff6c5686833192/sato_grassmannian.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/sato_grassmannian.py</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/d3ce69957ea22fd952a5fa4a21a87e71/test_sato_grassmannian_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_sato_grassmannian_sympy_pyo3.py</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Our prior Riemann spectral papers established finite-dimensional Grassmannian, Li, Jensen–Pólya, de Bruijn–Newman, Weil, and celestial-holography contracts in <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code>, isolating four open infinite-dimensional analytical bridges (<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>). Here we lift that program into genuine infinite-dimensional Hilbert-space analysis in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.*</span></code>), formalizing both the exact operator-theoretic machinery of Sato–Segal–Wilson determinant bundles and the exact mathematical obstructions preventing naive Euler-product or Hilbert–Pólya constructions from proving the Riemann Hypothesis.</p>
+<p>We establish five main results, verified across Lean 4 (zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>), Rust/PyO3, SymPy, and 40-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>:</p>
+<ol class="arabic simple">
+<li><p><strong>Formalized RH Obstructions &amp; Archimedean Deficiency Analysis (<code class="docutils literal notranslate"><span class="pre">RHObstructions.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">RemainingGaps.lean</span></code>):</strong> We prove the local de Bruijn–Newman backward-heat collision dichotomy <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id515" title="Brad Rodgers and Terence Tao. The de Bruijn–Newman constant is non-negative. Forum of Mathematics, Pi, 8:e6, 2020. doi:10.1017/fmp.2020.6.">Rodgers and Tao, 2020</a>]</span>, divergence of <span class="math notranslate nohighlight">\(\sum_p p^{-1}\)</span> and <span class="math notranslate nohighlight">\(\sum_p p^{-1/2}\)</span> (proving the prime Euler operator is neither trace-class on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1\)</span> nor Hilbert–Schmidt on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span>), Li’s unit-circle and off-line exponential blowup theorems <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id513" title="Xian-Jin Li. The positivity of a sequence of numbers and the Riemann hypothesis. Journal of Number Theory, 65(2):325–333, 1997. doi:10.1006/jnth.1997.2137.">Li, 1997</a>]</span>, degree-2 Jensen–Pólya Turán hyperbolicity <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id511" title="Michael Griffin, Ken Ono, Larry Rolen, and Don Zagier. Jensen polynomials for the Riemann zeta function and other sequences. Proceedings of the National Academy of Sciences, 116(23):11103–11110, 2019. doi:10.1073/pnas.1902572116.">Griffin <em>et al.</em>, 2019</a>]</span>, Kato–Rellich symmetric-operator closure <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id532" title="Tosio Kato. Perturbation Theory for Linear Operators. Classics in Mathematics. Springer, 2nd edition, 1995.">Kato, 1995</a>]</span>, and Archimedean log-coordinate dilation deficiency indices (<code class="docutils literal notranslate"><span class="pre">deficiency_plus_unique</span></code>, <code class="docutils literal notranslate"><span class="pre">deficiency_minus_unique</span></code>).</p></li>
+<li><p><strong>Order-<span class="math notranslate nohighlight">\(k\)</span> Weierstrass–Carleman Determinants &amp; Critical-Line <span class="math notranslate nohighlight">\(\det_3\)</span> Convergence (<code class="docutils literal notranslate"><span class="pre">CarlemanWeierstrass.lean</span></code>):</strong> Using Weierstrass primary factors <span class="math notranslate nohighlight">\(E_k(z) = (1 + z)\exp\bigl(\sum_{j=1}^{k-1}(-1)^j z^j / j\bigr)\)</span> <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id529" title="Barry Simon. Trace Ideals and Their Applications. Volume 120 of Mathematical Surveys and Monographs. American Mathematical Society, 2nd edition, 2005.">Simon, 2005</a>]</span>, we prove that <span class="math notranslate nohighlight">\(\det_2\)</span> converges and never vanishes for <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &gt; 1/2\)</span>, obeys the exact multiplicative anomaly <span class="math notranslate nohighlight">\(\det_2((1+A)(1+B)) = \det_2(1+A)\det_2(1+B)e^{-\operatorname{Tr}(AB)}\)</span> (<code class="docutils literal notranslate"><span class="pre">det2Diag_mul_anomaly</span></code>), and that order-3 <span class="math notranslate nohighlight">\(\det_3\)</span> converges and never vanishes directly on the critical line <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span> (<code class="docutils literal notranslate"><span class="pre">det3_eulerPrimes_critical_line</span></code>), since <span class="math notranslate nohighlight">\(\sum_p p^{-3/2} &lt; \infty\)</span>. At the first Riemann zero <span class="math notranslate nohighlight">\(\gamma_1 \approx 14.13472514\)</span>, Rust and 40-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> agree on <span class="math notranslate nohighlight">\(\lvert\det_3(\tfrac{1}{2} + i\gamma_1)\rvert = 1.05685678145613\)</span> to <span class="math notranslate nohighlight">\(2.35 \times 10^{-15}\)</span>.</p></li>
+<li><p><strong>Schwinger 2-Cocycle, <span class="math notranslate nohighlight">\(\widehat{\mathrm{GL}}_{(2)}^0(H)\)</span> Central Extension, and Exact Segal–Wilson <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> <span class="math notranslate nohighlight">\(\tau\)</span>-Function (<code class="docutils literal notranslate"><span class="pre">SchwingerCocycle.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">BigCellCocycle.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">SegalWilsonGr24.lean</span></code>):</strong> We construct the Lie-algebra Schwinger 2-cocycle <span class="math notranslate nohighlight">\(\omega(X, Y) = \operatorname{Tr}(X_{+-}Y_{-+} - Y_{+-}X_{-+})\)</span>, prove its Jacobi identity and non-triviality <span class="math notranslate nohighlight">\(\omega(M_{z^{-1}}, M_z) = -1\)</span> (<code class="docutils literal notranslate"><span class="pre">schwingerCocycle_shiftInv_shift</span></code>), construct the group central extension <span class="math notranslate nohighlight">\(1 \to \mathbb{C}^\times \to \widehat{\mathrm{GL}}_{(2)}^0(H) \to \mathrm{GL}_{(2)}^0(H) \to 1\)</span> and Segal–Wilson determinant bundle <span class="math notranslate nohighlight">\(\mathrm{Det}^* \to \mathrm{Gr}_{(2)}^0(H)\)</span> modulo <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id390" title="G Segal and G Wilson. Loop groups and equations of kdv type. 1985. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.">Segal and Wilson, 1985</a>, <a class="reference internal" href="#id527" title="Andrew Pressley and Graeme Segal. Loop Groups. Oxford Mathematical Monographs. Oxford University Press, 1986.">Pressley and Segal, 1986</a>]</span>, and prove in <code class="docutils literal notranslate"><span class="pre">segalWilson_tau_gr24_eq_tauU</span></code> that the infinite-dimensional Fredholm determinant <span class="math notranslate nohighlight">\(\det_{\mathrm{Fr}}(1 + g(t)_{+-} T_U g(t)_{++}^{-1})\)</span> reduces identically to the finite Schur polynomial <span class="math notranslate nohighlight">\(\tau_U(t_1, t_2, t_3) / p_{23}\)</span> (<code class="docutils literal notranslate"><span class="pre">0.0</span></code> Rust/SymPy mismatch).</p></li>
+<li><p><strong>Bidirectional <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Shifted-Gaussian Weil Positivity Equivalence (<code class="docutils literal notranslate"><span class="pre">WeilPositivity.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code>):</strong> Upgrading abstract Mellin positivity <span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id516" title="André Weil. Sur les “formules explicites” de la théorie des nombres premiers. Communications du Séminaire Mathématique de l'Université de Lund, Tome Supplémentaire:252–265, 1952.">Weil, 1952</a>, <a class="reference internal" href="#id533" title="Alain Connes. Trace formula in noncommutative geometry and the zeros of the Riemann zeta function. Selecta Mathematica, 5(1):29–106, 1999. arXiv:math/9811068, doi:10.1007/s000290050042.">Connes, 1999</a>]</span> to genuine <span class="math notranslate nohighlight">\(f \in L^1(\mathbb{R})\)</span> test functions built from shifted Gaussians <span class="math notranslate nohighlight">\(g_\delta(x) = e^{-(x-\delta)^2}\)</span>, <code class="docutils literal notranslate"><span class="pre">weilPositivity_L1_iff_allRealZeros</span></code> proves that a conjugate-symmetric finite zero multiset lies entirely on <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> if and only if the Weil Hermitian form is nonnegative for all <span class="math notranslate nohighlight">\(f \in L^1(\mathbb{R})\)</span>, exhibiting an explicit <span class="math notranslate nohighlight">\(-4\pi m(z_0) &lt; 0\)</span> witness for any off-line zero (evaluated numerically at <span class="math notranslate nohighlight">\(-8\pi = -25.132741 &lt; -4\pi = -12.566371\)</span> against the first 10 true Riemann zeros).</p></li>
+<li><p><strong>Formal Lean 4 Bridge to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (<code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code>):</strong> Six machine-checked bridge theorems unify the finite <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> module with <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.*</span></code> across Li/Cayley, dBN backward-heat collisions, Jensen–Pólya Madelung–Bohm vs. Turán, Wronskian Hirota KP lifts, finite-to-infinite Kato–Rellich promotion, and celestial chiral Casimir reality.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="architecture-of-the-adelic-carleman-determinant-bundle-weil-bridge-stack">
+<h2>1. Architecture of the Adelic Carleman, Determinant-Bundle, Weil, &amp; Bridge Stack<a class="headerlink" href="#architecture-of-the-adelic-carleman-determinant-bundle-weil-bridge-stack" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph Obs[&quot;RH Obstructions &amp; Carleman Regularization&quot;]
+        O1[&quot;RHObstructions.lean (Block 008)\ndBN collision, Erdős ∑1/p = ∞,\nCayley/Li, Jensen-2, Kato–Rellich&quot;]
+        O2[&quot;RemainingGaps.lean (Block 009)\nCarleman det_2 (σ &gt; 1/2),\nArchimedean deficiency indices&quot;]
+        O3[&quot;CarlemanWeierstrass.lean (Block 010)\nOrder-k E_k(z), det_2 anomaly,\ncritical-line det_3 ≠ 0 (∑p^-3/2 &lt; ∞)&quot;]
+    end
+
+    subgraph Bundle[&quot;Central Extension &amp; Segal–Wilson Det* Bundle&quot;]
+        D1[&quot;SchwingerCocycle.lean (Block 011)\nIsHS, GL_2^res, Jacobi identity,\nω(S^-1, S) = -1&quot;]
+        D2[&quot;DeterminantBundle.lean (Block 014)\n1 → C* → GL̂_(2)^0 → GL_(2)^0 → 1,\nDet* → Gr_(2)^0(H), segalWilson_tau_bigCell&quot;]
+        D3[&quot;BigCellCocycle.lean &amp; SegalWilsonGr24.lean\n(Blocks 015–016)\nBig-cell splitting, det_Fr = τ_U / p_23&quot;]
+    end
+
+    subgraph Weil[&quot;L¹(ℝ) Weil Positivity &amp; RiemannSpectral Bridge&quot;]
+        W1[&quot;WeilPositivity.lean &amp; WeilGaussianL1.lean\n(Blocks 013, 017)\nL¹(ℝ) shifted Gaussians ↔ AllRealZeros\n(-4π m(z_0) &lt; 0 off-line witness)&quot;]
+        W2[&quot;RiemannSpectralBridge.lean\nFormal Lean 4 bridge linking\nSignals.RiemannSpectral ↔ SatoGrassmannian&quot;]
+        W3[&quot;Pending.lean\nSatoRiemannSpectralPendingBoundary\n(4 open RH bridges + FredholmDetTheory)&quot;]
+    end
+
+    O1 --&gt; O2 --&gt; O3 --&gt; W2
+    D1 --&gt; D2 --&gt; D3 --&gt; W2
+    W1 --&gt; W2 --&gt; W3
+    </pre></section>
+<hr class="docutils" />
+<section id="carlemanweierstrass-regularization-across-operatorname-re-s-1-1-2-and-1-3">
+<h2>2. Carleman–Weierstrass Regularization Across <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1\)</span>, <span class="math notranslate nohighlight">\(1/2\)</span>, and <span class="math notranslate nohighlight">\(1/3\)</span><a class="headerlink" href="#carlemanweierstrass-regularization-across-operatorname-re-s-1-1-2-and-1-3" title="Link to this heading">¶</a></h2>
+<p>A central obstruction proven in <code class="docutils literal notranslate"><span class="pre">RHObstructions.lean</span></code> (chat lines 4336–5037) is that the unregularized Euler product <span class="math notranslate nohighlight">\(\det_1(1 - P_s) = \prod_p (1 - p^{-s}) = \zeta(s)^{-1}\)</span> fails to define a trace-class Fredholm determinant on the boundary <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1\)</span> because <span class="math notranslate nohighlight">\(\sum_p p^{-1} = \infty\)</span>, and fails to define a Hilbert–Schmidt Carleman determinant <span class="math notranslate nohighlight">\(\det_2\)</span> on the critical line <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span> because <span class="math notranslate nohighlight">\(\sum_p (p^{-1/2})^2 = \sum_p p^{-1} = \infty\)</span>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">CarlemanWeierstrass.lean</span></code> (chat lines 5783–6609), we generalize to the order-<span class="math notranslate nohighlight">\(k\)</span> Weierstrass–Carleman factor <span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id529" title="Barry Simon. Trace Ideals and Their Applications. Volume 120 of Mathematical Surveys and Monographs. American Mathematical Society, 2nd edition, 2005.">Simon, 2005</a>]</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+E_k(z) = (1 + z)\exp\left(\sum_{j=1}^{k-1} \frac{(-1)^j}{j} z^j\right), \qquad
+\det\nolimits_k(1 + K) = \prod_p E_k(\lambda_p).
+\]</div>
+<p>For <span class="math notranslate nohighlight">\(\lambda_p(s) = -p^{-s}\)</span>:</p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(k = 1\)</span> (trace class, <span class="math notranslate nohighlight">\(\mathcal{I}_1\)</span>):</strong> Converges absolutely for <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &gt; 1\)</span> (<span class="math notranslate nohighlight">\(\sum_p p^{-\sigma} &lt; \infty\)</span>), recovering <span class="math notranslate nohighlight">\(\zeta(s)^{-1}\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(k = 2\)</span> (Hilbert–Schmidt, <span class="math notranslate nohighlight">\(\mathcal{I}_2\)</span>):</strong> Converges absolutely and never vanishes for <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &gt; 1/2\)</span> (<code class="docutils literal notranslate"><span class="pre">RemainingGaps.lean</span></code>, chat lines 5115–5667; <code class="docutils literal notranslate"><span class="pre">CarlemanWeierstrass.lean</span></code>), obeying the multiplicative anomaly:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\det\nolimits_2\bigl((1 + A)(1 + B)\bigr) = \det\nolimits_2(1 + A)\,\det\nolimits_2(1 + B)\,\exp\bigl(-\operatorname{Tr}(AB)\bigr).
+\]</div>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(k = 3\)</span> (Schatten <span class="math notranslate nohighlight">\(\mathcal{I}_3\)</span>):</strong> Converges absolutely and never vanishes for <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &gt; 1/3\)</span>, and in particular <strong>everywhere on the critical line</strong> <span class="math notranslate nohighlight">\(s = \tfrac{1}{2} + i t\)</span> (<code class="docutils literal notranslate"><span class="pre">det3_eulerPrimes_critical_line</span></code>), because <span class="math notranslate nohighlight">\(\sum_p p^{-3/2} &lt; \infty\)</span>. Crucially, because <span class="math notranslate nohighlight">\(\det_3(\tfrac{1}{2} + i t) \ne 0\)</span> identically, the zeros of <span class="math notranslate nohighlight">\(\zeta(\tfrac{1}{2} + i t)\)</span> cannot arise from vanishing of individual Euler factors — they live entirely in the divergent counterterm exponential <span class="math notranslate nohighlight">\(\exp\bigl(\sum_p (p^{-s} + \tfrac{1}{2} p^{-2s})\bigr)\)</span>!</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="schwinger-2-cocycle-widehat-mathrm-gl-2-0-h-central-extension-and-exact-segalwilson-tau-function">
+<h2>3. Schwinger 2-Cocycle, <span class="math notranslate nohighlight">\(\widehat{\mathrm{GL}}_{(2)}^0(H)\)</span> Central Extension, and Exact Segal–Wilson <span class="math notranslate nohighlight">\(\tau\)</span>-Function<a class="headerlink" href="#schwinger-2-cocycle-widehat-mathrm-gl-2-0-h-central-extension-and-exact-segalwilson-tau-function" title="Link to this heading">¶</a></h2>
+<p>On the Hilbert–Schmidt restricted Lie algebra <span class="math notranslate nohighlight">\(\mathfrak{gl}_{(2)}(H)\)</span> (<code class="docutils literal notranslate"><span class="pre">SchwingerCocycle.lean</span></code>, chat lines 6746–7401), the cross-block commutator trace defines the Schwinger 2-cocycle:</p>
+<div class="math notranslate nohighlight">
+\[
+\omega(X, Y) = \operatorname{Tr}_{H_+}\bigl(X_{+-} Y_{-+} - Y_{+-} X_{-+}\bigr).
+\]</div>
+<p>We prove <span class="math notranslate nohighlight">\(\omega\)</span> is skew-symmetric, obeys the Lie-algebra 2-cocycle Jacobi identity (<code class="docutils literal notranslate"><span class="pre">schwingerCocycle_jacobi</span></code>, <code class="docutils literal notranslate"><span class="pre">centralBracket_jacobi</span></code>), and evaluates on the commuting shift pair <span class="math notranslate nohighlight">\((S^{-1}, S)\)</span> on <span class="math notranslate nohighlight">\(L^2(S^1)\)</span> to:</p>
+<div class="math notranslate nohighlight">
+\[
+\omega\bigl(M_{z^{-1}}, M_z\bigr) = -1 \ne 0,
+\]</div>
+<p>yielding the canonical Heisenberg central term <span class="math notranslate nohighlight">\([\widehat{S}^{-1}, \widehat{S}] = -c\)</span> (<code class="docutils literal notranslate"><span class="pre">schwingerCocycle_shiftInv_shift</span></code>).</p>
+<p>At the group level (<code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code>, lines 8157–9706; <code class="docutils literal notranslate"><span class="pre">BigCellCocycle.lean</span></code>, lines 9811–10002), relative to the classical trace-class Fredholm determinant axiom bundle <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> <span class="bibtex-citation" id="id10">[<a class="reference internal" href="#id529" title="Barry Simon. Trace Ideals and Their Applications. Volume 120 of Mathematical Surveys and Monographs. American Mathematical Society, 2nd edition, 2005.">Simon, 2005</a>]</span>, we construct the exact central extension:</p>
+<div class="math notranslate nohighlight">
+\[
+1 \longrightarrow \mathbb{C}^\times \longrightarrow \widehat{\mathrm{GL}}_{(2)}^0(H) \longrightarrow \mathrm{GL}_{(2)}^0(H) \longrightarrow 1,
+\]</div>
+<p>the dual determinant line bundle <span class="math notranslate nohighlight">\(\mathrm{Det}^* \to \mathrm{Gr}_{(2)}^0(H)\)</span> with its canonical holomorphic section <span class="math notranslate nohighlight">\(\sigma\)</span> vanishing precisely off the big cell (<code class="docutils literal notranslate"><span class="pre">canonicalSection_ne_zero_iff_bigCell</span></code>), the weight-<span class="math notranslate nohighlight">\(+1\)</span> equivariant action of <span class="math notranslate nohighlight">\(\widehat{\mathrm{GL}}_{(2)}^0(H)\)</span>, and the big-cell Segal–Wilson <span class="math notranslate nohighlight">\(\tau\)</span>-function (<code class="docutils literal notranslate"><span class="pre">segalWilson_tau_bigCell</span></code>).</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">SegalWilsonGr24.lean</span></code> (chat lines 10014–11022), specializing to the 3-time KP flow <span class="math notranslate nohighlight">\(g(t) = \exp(t_1 z + t_2 z^2 + t_3 z^3)\)</span> and a big-cell 2-plane <span class="math notranslate nohighlight">\(U \in \mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> (<span class="math notranslate nohighlight">\(p_{23} \ne 0\)</span>) with finite-rank graph operator <span class="math notranslate nohighlight">\(T_U : H_+ \to H_-\)</span>, we prove <code class="docutils literal notranslate"><span class="pre">segalWilson_tau_gr24_eq_tauU</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[
+\det\nolimits_{\mathrm{Fr}}\Bigl(I_{H_+} + g(t)_{+-}\,T_U\,g(t)_{++}^{-1}\Bigr) = \frac{\tau_U(t_1, t_2, t_3)}{p_{23}},
+\]</div>
+<p>closing the full bridge from infinite-dimensional Fredholm determinant bundles back to the exact Schur-polynomial KP <span class="math notranslate nohighlight">\(\tau\)</span>-function of Paper 1.</p>
+</section>
+<hr class="docutils" />
+<section id="bidirectional-l-1-mathbb-r-weil-positivity-via-shifted-gaussians">
+<h2>4. Bidirectional <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity via Shifted Gaussians<a class="headerlink" href="#bidirectional-l-1-mathbb-r-weil-positivity-via-shifted-gaussians" title="Link to this heading">¶</a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">WeilPositivity.lean</span></code> (chat lines 7756–8004) and <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code> (chat lines 11030–11306), we formalize the Weil explicit-formula quadratic form <span class="bibtex-citation" id="id11">[<a class="reference internal" href="#id516" title="André Weil. Sur les “formules explicites” de la théorie des nombres premiers. Communications du Séminaire Mathématique de l'Université de Lund, Tome Supplémentaire:252–265, 1952.">Weil, 1952</a>]</span> on a conjugate-symmetric finite zero multiset <span class="math notranslate nohighlight">\((Z, m)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_{Z, m}(f) = \sum_{z \in Z} m(z)\,\widehat{f}(z)\,\overline{\widehat{f}(\bar{z})}, \qquad
+\widehat{f}(z) = \int_{-\infty}^{\infty} f(x)\,e^{i z x}\,dx.
+\]</div>
+<p>Using real shifted Gaussians <span class="math notranslate nohighlight">\(g_\delta(x) = e^{-(x-\delta)^2} \in L^1(\mathbb{R})\)</span> with closed-form Mellin/Fourier transform <span class="math notranslate nohighlight">\(\widehat{g_\delta}(z) = \sqrt{\pi}\,e^{i \delta z - z^2/4}\)</span> (<code class="docutils literal notranslate"><span class="pre">mellinTransform_shiftedGaussian</span></code>) and an explicit Vandermonde separation shift <span class="math notranslate nohighlight">\(\delta\)</span> (<code class="docutils literal notranslate"><span class="pre">exists_delta_exp_injOn</span></code>), <code class="docutils literal notranslate"><span class="pre">weilPositivity_L1_iff_allRealZeros</span></code> proves both directions without assuming compactly supported or Schwartz test functions:</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl(\forall z \in Z,\; \operatorname{Im}(z) = 0\bigr) \;\Longleftrightarrow\; \bigl(\forall f \in L^1(\mathbb{R}),\; Q_{Z, m}(f) \ge 0\bigr).
+\]</div>
+<p>Whenever any off-line zero <span class="math notranslate nohighlight">\(z_0 \in Z\)</span> has <span class="math notranslate nohighlight">\(\operatorname{Im}(z_0) \ne 0\)</span>, the proof constructs an explicit finite linear combination of shifted Gaussians achieving <span class="math notranslate nohighlight">\(Q_{Z, m}(f) = -4\pi m(z_0) &lt; 0\)</span> (or <span class="math notranslate nohighlight">\(-8\pi\)</span> summed over the conjugate pair <span class="math notranslate nohighlight">\(\{z_0, \bar{z}_0\}\)</span>).</p>
+</section>
+<hr class="docutils" />
+<section id="formal-lean-4-bridge-to-signals-riemannspectral-riemannspectralbridge-lean">
+<h2>5. Formal Lean 4 Bridge to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (<code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code>)<a class="headerlink" href="#formal-lean-4-bridge-to-signals-riemannspectral-riemannspectralbridge-lean" title="Link to this heading">¶</a></h2>
+<p>To unify our existing finite <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> library with the new infinite-dimensional <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.*</span></code> stack, <code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code> proves six exact Lean 4 bridge theorems:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Bridge Theorem in <code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code></p></th>
+<th class="head"><p>Connects <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code></p></th>
+<th class="head"><p>To <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.*</span></code></p></th>
+<th class="head"><p>Mathematical Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">li_cayley_critical_line_bridge</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">liTransformModulusSq_eq_one_iff_critical_line</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RHObstructions.cayley</span></code>, <code class="docutils literal notranslate"><span class="pre">liSummand_nonneg_of_re_ge_half</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(|1 - 1/\rho|^2 = \mathrm{liTransformModulusSq}(\sigma_{\mathrm{dev}}, \gamma)\)</span>; unit circle <span class="math notranslate nohighlight">\(\iff \sigma_{\mathrm{dev}} = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dbn_collision_bridge</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dbnQuadraticHeat_collides_and_leaves_real_axis</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RHObstructions.localDoubleZero_allRealZeros_iff</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(H_t(\Delta z)\)</span> at <span class="math notranslate nohighlight">\(z_2 = -2\)</span> equals <span class="math notranslate nohighlight">\(-\operatorname{Re}(\mathrm{localDoubleZero}(t + z_0/2, \Delta z))\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">jensen2_turan_iff_madelung_bohm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jensen_polya_madelung_bohm_split_and_extremum_rescue</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RHObstructions.jensen2_allRealZeros_iff_turan</span></code></p></td>
+<td><p>Degree-2 Jensen real-rootedness <span class="math notranslate nohighlight">\(\iff J_{\mathrm{osmotic}} + J_{\mathrm{Bohm}} \ge 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">riemannSpectral_wronskian_solves_hirotaKP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sato_hirota_bilinear_plucker_identity</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Gr24Truncation.kleinQuadric_relation</span></code>, <code class="docutils literal notranslate"><span class="pre">HirotaKP.hirotaKP_tauU_eq_zero</span></code></p></td>
+<td><p>Real Wronskian minors lift to <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> and solve Hirota’s KP-II bilinear equation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finiteDiagonalSymmetricOp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">finiteDiagonalOperator_symmetric</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RHObstructions.SymmetricOp</span></code>, <code class="docutils literal notranslate"><span class="pre">katoRellich_closure</span></code></p></td>
+<td><p>Finite real diagonal spectra promote to everywhere-defined <code class="docutils literal notranslate"><span class="pre">SymmetricOp</span></code> on <span class="math notranslate nohighlight">\(\mathbb{C}^n\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">celestialChiralCasimir_and_cayley_critical_line_equiv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">celestialChiralCasimir_im_eq_zero_iff_critical_line</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RHObstructions.cayley</span></code></p></td>
+<td><p>For <span class="math notranslate nohighlight">\(\gamma \ne 0\)</span>, <span class="math notranslate nohighlight">\(\operatorname{Im}(h(h-1)) = 0 \iff |1 - 1/\rho|^2 = 1 \iff \sigma_{\mathrm{dev}} = 0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="tri-language-numerical-verification-mpmath-40-digit-vs-rust-pyo3">
+<h2>6. Tri-Language Numerical Verification (<code class="docutils literal notranslate"><span class="pre">mpmath</span></code> 40-Digit vs. Rust/PyO3)<a class="headerlink" href="#tri-language-numerical-verification-mpmath-40-digit-vs-rust-pyo3" title="Link to this heading">¶</a></h2>
+<p>Running <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">tests/test_sato_grassmannian_sympy_pyo3.py</span></code> cross-verifies the Lean 4 theorems against compiled Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">signals_numerical_adapter</span></code>) and 40-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>, including live evaluation on the first 10 nontrivial Riemann zeros computed by <code class="docutils literal notranslate"><span class="pre">py_find_first_n_riemann_zeros(10)</span></code> from <code class="docutils literal notranslate"><span class="pre">riemann_spectral.rs</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity Audited</p></th>
+<th class="head"><p>Parameters</p></th>
+<th class="head"><p>40-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> / Exact Theory</p></th>
+<th class="head"><p>Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">f64</span></code>)</p></th>
+<th class="head"><p>Absolute Discrepancy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Classical strip <span class="math notranslate nohighlight">\(|\det_1(2 + 5i)|\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(168\)</span> primes (<span class="math notranslate nohighlight">\(p \le 1000\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.167258402893353\)</span> (vs. <span class="math notranslate nohighlight">\(1/|\zeta| = 1.16726702\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.167258402893354\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.03 \times 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Classical strip <span class="math notranslate nohighlight">\(|\det_2(2 + 5i)|\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(168\)</span> primes (<span class="math notranslate nohighlight">\(p \le 1000\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.978948714184111\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.978948714184107\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(3.81 \times 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Critical-line <span class="math notranslate nohighlight">\(|\det_3(\tfrac{1}{2} + i\gamma_1)|\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\gamma_1 = 14.13472514\)</span>, <span class="math notranslate nohighlight">\(239\)</span> primes (<span class="math notranslate nohighlight">\(p \le 1500\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.056856781456128\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.056856781456131\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2.35 \times 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Critical-line <span class="math notranslate nohighlight">\(\sum_{p \le 1500} p^{-3/2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sigma = 1/2\)</span>, <span class="math notranslate nohighlight">\(239\)</span> primes</p></td>
+<td><p>Strictly convergent (<span class="math notranslate nohighlight">\(&lt; 2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.843891898264092\)</span></p></td>
+<td><p>Exact finite tail</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\det_2\)</span> multiplicative anomaly residual</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sigma = 1/2, t = \gamma_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (<code class="docutils literal notranslate"><span class="pre">det2Diag_mul_anomaly</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.77 \times 10^{-15}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.77 \times 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Segal–Wilson <span class="math notranslate nohighlight">\(\det_{\mathrm{Fr}}\)</span> vs. <span class="math notranslate nohighlight">\(\tau_U/p_{23}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(t = (0.35, -0.20, 0.15)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.918618732284581\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.918618732284581\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.0\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>First 10 true Riemann zeros: Li/Cayley</p></td>
+<td><p><span class="math notranslate nohighlight">\(\gamma_1 \dots \gamma_{10}\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span> (<code class="docutils literal notranslate"><span class="pre">li_cayley_critical_line_bridge</span></code>)</p></td>
+<td><p>max err <span class="math notranslate nohighlight">\(2.22 \times 10^{-16}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2.22 \times 10^{-16}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Weil <span class="math notranslate nohighlight">\(L^1\)</span> form on 10 true critical-line zeros</p></td>
+<td><p>3 shifted Gaussians</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span> (<code class="docutils literal notranslate"><span class="pre">weilPositivity_L1_iff_allRealZeros</span></code>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathrm{Re} = 5.02 \times 10^{-43}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Im} = 0.0\)</span></p></td>
+<td><p>Exact real <span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Weil <span class="math notranslate nohighlight">\(L^1\)</span> off-line disproof witness</p></td>
+<td><p><span class="math notranslate nohighlight">\(z_0 = \gamma_1 \pm 0.15 i\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-8\pi = -25.132741 &lt; -4\pi = -12.566371\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-25.13274122871833\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(&lt; 10^{-14}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="open-boundaries-recorded-in-signals-pending-satoriemannspectralpendingboundary">
+<h2>7. Open Boundaries Recorded in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code><a class="headerlink" href="#open-boundaries-recorded-in-signals-pending-satoriemannspectralpendingboundary" title="Link to this heading">¶</a></h2>
+<p>In accordance with the repository’s evidence-modeling discipline, <code class="docutils literal notranslate"><span class="pre">Signals.Pending.sato_infinite_dim_and_pde_stack_do_not_close_rh_or_physical_claims</span></code> formally records four explicit open gates:</p>
+<ol class="arabic simple">
+<li><p><strong>Four Open RH Bridges (<code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary</span></code>):</strong> Proving <span class="math notranslate nohighlight">\(\Lambda \le 0\)</span> globally, constructing an adelic Sato trace limit, establishing global Weil/Li/Jensen–Pólya positivity across all zeros of <span class="math notranslate nohighlight">\(\zeta(s)\)</span>, and constructing a genuinely self-adjoint Hilbert–Pólya operator whose spectrum equals <span class="math notranslate nohighlight">\(\{\gamma_n\}\)</span> remain open Millennium-problem milestones.</p></li>
+<li><p><strong>Trace-Class Lidskii <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> Bundle:</strong> <code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code> cleanly axiomatizes Simon’s trace-class Fredholm determinant properties (<code class="docutils literal notranslate"><span class="pre">detFr</span></code>, multiplicativity, <code class="docutils literal notranslate"><span class="pre">detFr_rankOne_nilpotent_eq_one</span></code>, <code class="docutils literal notranslate"><span class="pre">detFr_blockLowerTriangular_two</span></code>) as a typeclass interface pending full Schatten-class / Lidskii trace theory in upstream Mathlib.</p></li>
+<li><p><strong>Global Infinite-Zero Weil Positivity:</strong> <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code> proves bidirectional equivalence for finite conjugate-symmetric zero multisets; extending the off-line witness to the infinite zero set of <span class="math notranslate nohighlight">\(\zeta(s)\)</span> requires the unconditional Weil explicit formula convergence estimates on <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> test functions.</p></li>
+<li><p><strong>Physical-Model Boundary:</strong> Exact mathematical equivalence between <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> is an analytical/algebraic result and makes no unverified physical claims.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<div class="docutils container" id="id12">
+<div role="list" class="citation-list">
+<div class="citation" id="id390" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">1</a><span class="fn-bracket">]</span></span>
+<p>G Segal and G Wilson. Loop groups and equations of kdv type. 1985. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.</p>
+</div>
+<div class="citation" id="id507" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">2</a><span class="fn-bracket">]</span></span>
+<p>Enrico Bombieri. Problems of the millennium: the Riemann hypothesis. Clay Mathematics Institute, 2000. URL: <a class="reference external" href="https://www.claymath.org/millennium/riemann-hypothesis/">https://www.claymath.org/millennium/riemann-hypothesis/</a>.</p>
+</div>
+<div class="citation" id="id515" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">3</a><span class="fn-bracket">]</span></span>
+<p>Brad Rodgers and Terence Tao. The de Bruijn–Newman constant is non-negative. <em>Forum of Mathematics, Pi</em>, 8:e6, 2020. <a class="reference external" href="https://doi.org/10.1017/fmp.2020.6">doi:10.1017/fmp.2020.6</a>.</p>
+</div>
+<div class="citation" id="id516" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id11">2</a>)</span>
+<p>André Weil. Sur les “formules explicites” de la théorie des nombres premiers. <em>Communications du Séminaire Mathématique de l'Université de Lund</em>, Tome Supplémentaire:252–265, 1952.</p>
+</div>
+<div class="citation" id="id513" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">5</a><span class="fn-bracket">]</span></span>
+<p>Xian-Jin Li. The positivity of a sequence of numbers and the Riemann hypothesis. <em>Journal of Number Theory</em>, 65(2):325–333, 1997. <a class="reference external" href="https://doi.org/10.1006/jnth.1997.2137">doi:10.1006/jnth.1997.2137</a>.</p>
+</div>
+<div class="citation" id="id511" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">6</a><span class="fn-bracket">]</span></span>
+<p>Michael Griffin, Ken Ono, Larry Rolen, and Don Zagier. Jensen polynomials for the Riemann zeta function and other sequences. <em>Proceedings of the National Academy of Sciences</em>, 116(23):11103–11110, 2019. <a class="reference external" href="https://doi.org/10.1073/pnas.1902572116">doi:10.1073/pnas.1902572116</a>.</p>
+</div>
+<div class="citation" id="id527" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>Andrew Pressley and Graeme Segal. <em>Loop Groups</em>. Oxford Mathematical Monographs. Oxford University Press, 1986.</p>
+</div>
+<div class="citation" id="id532" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">8</a><span class="fn-bracket">]</span></span>
+<p>Tosio Kato. <em>Perturbation Theory for Linear Operators</em>. Classics in Mathematics. Springer, 2nd edition, 1995.</p>
+</div>
+<div class="citation" id="id529" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id9">2</a>,<a role="doc-backlink" href="#id10">3</a>)</span>
+<p>Barry Simon. <em>Trace Ideals and Their Applications</em>. Volume 120 of Mathematical Surveys and Monographs. American Mathematical Society, 2nd edition, 2005.</p>
+</div>
+<div class="citation" id="id533" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">10</a><span class="fn-bracket">]</span></span>
+<p>Alain Connes. Trace formula in noncommutative geometry and the zeros of the Riemann zeta function. <em>Selecta Mathematica</em>, 5(1):29–106, 1999. <a class="reference external" href="https://arxiv.org/abs/math/9811068">arXiv:math/9811068</a>, <a class="reference external" href="https://doi.org/10.1007/s000290050042">doi:10.1007/s000290050042</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html" title="Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy" >previous</a></li>
+        <li><a href="references.html" title="References" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

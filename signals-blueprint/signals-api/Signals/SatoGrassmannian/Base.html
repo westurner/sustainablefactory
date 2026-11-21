@@ -1,0 +1,999 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Signals.SatoGrassmannian.Base</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Signals.SatoGrassmannian.Base";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">Base</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="https://lean-lang.org/doc/api/Init.html">Init</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Spectrum.html">Mathlib.Analysis.InnerProductSpace.Spectrum</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/LinearAlgebra/Dimension/Finrank.html">Mathlib.LinearAlgebra.Dimension.Finrank</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/Projection/Basic.html">Mathlib.Analysis.InnerProductSpace.Projection.Basic</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Group/Quotient.html">Mathlib.Analysis.Normed.Group.Quotient</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Module/FiniteDimension.html">Mathlib.Analysis.Normed.Module.FiniteDimension</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Banach.html">Mathlib.Analysis.Normed.Operator.Banach</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Compact/Basic.html">Mathlib.Analysis.Normed.Operator.Compact.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Signals.SatoGrassmannian.Base" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.IsFredholm"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">IsFredholm</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.fredholmIndex"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholmIndex</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isFredholm_of_equiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isFredholm_of_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.fredholmIndex_of_equiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholmIndex_of_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.finiteDimensional_of_ker_range"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">finiteDimensional_of_ker_range</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.closedRange_of_finiteDimensional_coker"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">closedRange_of_finiteDimensional_coker</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.fredholm_comp_algebraic"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholm_comp_algebraic</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.IsFredholm.comp"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">IsFredholm</span>.<span class="name">comp</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.fredholmIndex_comp"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholmIndex_comp</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.CompactFredholmTheory"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">CompactFredholmTheory</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isFredholm_of_parametrix"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isFredholm_of_parametrix</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.PolarizedHilbertSpace"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">PolarizedHilbertSpace</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.PPlus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">PPlus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.PMinus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">PMinus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.polarizationJ"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">polarizationJ</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockPP"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockPM"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPM</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockMP"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockMP</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockMM"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockMM</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.pPlus_add_pMinus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">pPlus_add_pMinus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.orthoProj_plus_of_mem_minus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">orthoProj_plus_of_mem_minus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.orthoProj_minus_of_mem_plus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">orthoProj_minus_of_mem_plus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockPP_comp"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP_comp</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockPP_id"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP_id</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.commutator_J_eq"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">commutator_J_eq</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isCompact_commutator_J_iff"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompact_commutator_J_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.GLRes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">GLRes</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.blockPP_isFredholm"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP_isFredholm</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.glResIndex"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">glResIndex</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.glResIndex_mul"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">glResIndex_mul</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projPlus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projMinus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.MemSatoGrassmannian"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">MemSatoGrassmannian</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.SatoGr"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">SatoGr</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.virtualDim"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">virtualDim</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projPlus_HPlus_eq_id"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus_HPlus_eq_id</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projMinus_HPlus_eq_zero"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus_HPlus_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.basepoint_mem"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">basepoint_mem</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.basepoint"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">basepoint</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.virtualDim_basepoint"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">virtualDim_basepoint</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.graphMap"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphMap</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.graphSubspace"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphSubspace</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projPlus_graphMap"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus_graphMap</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projMinus_graphMap"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus_graphMap</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.graphProjPlusEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphProjPlusEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.graphSubspace_isClosed"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphSubspace_isClosed</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.graphSubspace_mem_bigCell"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphSubspace_mem_bigCell</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.restrictEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">restrictEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projPlus_restrictEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus_restrictEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.projMinus_restrictEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus_restrictEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.glRes_smul_mem_and_vdim"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">glRes_smul_mem_and_vdim</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.instMulActionGLRes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">instMulActionGLRes</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.virtualDim_smul"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">virtualDim_smul</span></a></div></nav><main>
+<div class="mod_doc"><h2 id="Section-1-Fredholm-Operators-Kato-s-Lemma-and-Index-Additivity" class="markdown-heading">Section 1: Fredholm Operators, Kato's Lemma, and Index Additivity <a class="hover-link" href="#Section-1-Fredholm-Operators-Kato-s-Lemma-and-Index-Additivity">#</a></h2></div><div class="decl" id="Signals.SatoGrassmannian.IsFredholm"><div class="structure"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L25-L30">source</a></div><div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">IsFredholm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>A bounded linear operator is Fredholm if its kernel and cokernel are
+finite-dimensional and its range is closed.</p><ul class="structure_fields" id="Signals.SatoGrassmannian.IsFredholm.mk"><li id="Signals.SatoGrassmannian.IsFredholm.finDimKer" class="structure_field"><div class="structure_field_info">finDimKer : <span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">(↑<span class="fn">T</span>)</span>.<span class="fn">ker</span></span></span></span></div></li><li id="Signals.SatoGrassmannian.IsFredholm.finDimCoker" class="structure_field"><div class="structure_field_info">finDimCoker : <span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">(<span class="fn">F</span> <span class="fn">⧸</span> <span class="fn"><span class="fn">(↑<span class="fn">T</span>)</span>.<span class="fn">range</span></span>)</span></span></div></li><li id="Signals.SatoGrassmannian.IsFredholm.closedRange" class="structure_field"><div class="structure_field_info">closedRange : <span class="fn"><span class="fn">IsClosed</span> <span class="fn">↑<span class="fn"><span class="fn">(↑<span class="fn">T</span>)</span>.<span class="fn">range</span></span></span></span></div></li></ul><details id="instances-for-list-Signals.SatoGrassmannian.IsFredholm" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.fredholmIndex"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L32-L35">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholmIndex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">ℤ</span></div></div><p>The Fredholm index <code>dim(ker T) - dim(coker T) ∈ ℤ</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.fredholmIndex" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.isFredholm_of_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L37-L52">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.isFredholm_of_equiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isFredholm_of_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn"><span class="fn">E</span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">↑<span class="fn">e</span></span></span></div></div><p>Every topological linear isomorphism is Fredholm.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.fredholmIndex_of_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L54-L63">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex_of_equiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholmIndex_of_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn"><span class="fn">E</span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">↑<span class="fn">e</span></span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>Every topological linear isomorphism has Fredholm index <code>0</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.finiteDimensional_of_ker_range"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L65-L73">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.finiteDimensional_of_ker_range"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">finiteDimensional_of_ker_range</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">W</span> : <a href="../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">𝕜</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">W</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">𝕜</span> <span class="fn">W</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">W</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">f</span>.<span class="fn">ker</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">f</span>.<span class="fn">range</span></span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">V</span></span></div></div><p>If both kernel and range of a linear map are finite-dimensional, so is its domain.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.closedRange_of_finiteDimensional_coker"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L75-L132">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.closedRange_of_finiteDimensional_coker"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">closedRange_of_finiteDimensional_coker</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">(<span class="fn">F</span> <span class="fn">⧸</span> <span class="fn"><span class="fn">(↑<span class="fn">A</span>)</span>.<span class="fn">range</span></span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsClosed</span> <span class="fn">↑<span class="fn"><span class="fn">(↑<span class="fn">A</span>)</span>.<span class="fn">range</span></span></span></span></div></div><p><strong>Kato's Closed-Range Lemma:</strong> Any bounded linear operator between Banach spaces
+with finite-dimensional cokernel automatically has closed range.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.fredholm_comp_algebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L134-L264">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholm_comp_algebraic"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholm_comp_algebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><span class="fn">F</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hKT</span> : <span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">(↑<span class="fn">T</span>)</span>.<span class="fn">ker</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hKS</span> : <span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">(↑<span class="fn">S</span>)</span>.<span class="fn">ker</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hCT</span> : <span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">(<span class="fn">F</span> <span class="fn">⧸</span> <span class="fn"><span class="fn">(↑<span class="fn">T</span>)</span>.<span class="fn">range</span></span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hCS</span> : <span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">(<span class="fn">G</span> <span class="fn">⧸</span> <span class="fn"><span class="fn">(↑<span class="fn">S</span>)</span>.<span class="fn">range</span></span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">S</span> <span class="fn">∘SL</span> <span class="fn">T</span>)</span>)</span>.<span class="fn">ker</span></span></span></span> <span class="fn">∧</span>   <span class="fn"><span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">(<span class="fn">G</span> <span class="fn">⧸</span> <span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">S</span> <span class="fn">∘SL</span> <span class="fn">T</span>)</span>)</span>.<span class="fn">range</span></span>)</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">(<span class="fn">S</span> <span class="fn">∘SL</span> <span class="fn">T</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">S</span></span> <span class="fn">+</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">T</span></span></span></span></span></span></div></div><p><strong>Purely Algebraic Index Additivity (6-Term Exact Sequence):</strong>
+Proves finite-dimensionality of <code>ker (S ∘ T)</code> and <code>coker (S ∘ T)</code> together with
+<code>ind(S ∘ T) = ind(S) + ind(T)</code> using only linear algebra.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.IsFredholm.comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L266-L277">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm.comp"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">IsFredholm</span>.<span class="name">comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><span class="fn">F</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">S</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hT</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">T</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">(<span class="fn">S</span> <span class="fn">∘SL</span> <span class="fn">T</span>)</span></span></div></div><p><strong>Theorem 1 (Fredholm Composition):</strong> The composition of two Fredholm operators
+between Banach spaces is Fredholm.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.fredholmIndex_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L279-L287">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex_comp"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholmIndex_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><span class="fn">F</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">S</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hT</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">T</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">(<span class="fn">S</span> <span class="fn">∘SL</span> <span class="fn">T</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">S</span></span> <span class="fn">+</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">T</span></span></span></span></div></div><p><strong>Theorem 2 (Fredholm Index Additivity):</strong> <code>ind(S ∘ T) = ind(S) + ind(T)</code>.</p></div></div><div class="mod_doc"><h2 id="Section-2-Compact-Perturbation-Interface-Atkinson-s-Theorem" class="markdown-heading">Section 2: Compact Perturbation Interface &amp; Atkinson's Theorem <a class="hover-link" href="#Section-2-Compact-Perturbation-Interface-Atkinson-s-Theorem">#</a></h2></div><div class="decl" id="Signals.SatoGrassmannian.CompactFredholmTheory"><div class="class"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L291-L299">source</a></div><div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">CompactFredholmTheory</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_5)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>Minimal analytic input (Riesz–Schauder / Dieudonné compact-perturbation stability):
+adding a compact operator preserves the Fredholm property and its index.</p><ul class="structure_fields" id="Signals.SatoGrassmannian.CompactFredholmTheory.mk"><li id="Signals.SatoGrassmannian.CompactFredholmTheory.add_compact" class="structure_field"><div class="structure_field_info">add_compact<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E </span><span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">T </span><span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span> : <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">T</span></span> → <span class="fn"><span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span> → <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">(<span class="fn">T</span> <span class="fn">+</span> <span class="fn">K</span>)</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">(<span class="fn">T</span> <span class="fn">+</span> <span class="fn">K</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">T</span></span></span></span></span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-Signals.SatoGrassmannian.CompactFredholmTheory" class="instances-list"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.isFredholm_of_parametrix"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L301-L338">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.isFredholm_of_parametrix"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isFredholm_of_parametrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E </span><span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L </span><span class="fn">R</span> : <span class="fn"><span class="fn">F</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hL</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn">L</span> <span class="fn">∘SL</span> <span class="fn">T</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hR</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn">T</span> <span class="fn">∘SL</span> <span class="fn">R</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">T</span></span></div></div><p><strong>Theorem 3 (Atkinson's Parametrix Sufficiency — Derived):</strong>
+If <code>T</code> is invertible modulo compact operators, then <code>T</code> is Fredholm.</p></div></div><div class="mod_doc"><h2 id="Section-3-Polarized-Hilbert-Space-Restricted-General-Linear-Group-GL-res-H" class="markdown-heading">Section 3: Polarized Hilbert Space &amp; Restricted General Linear Group <code>GL_res(H)</code> <a class="hover-link" href="#Section-3-Polarized-Hilbert-Space-Restricted-General-Linear-Group-GL-res-H">#</a></h2></div><div class="decl" id="Signals.SatoGrassmannian.PolarizedHilbertSpace"><div class="structure"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L344-L351">source</a></div><div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">PolarizedHilbertSpace</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> u</div></div><p>A complex Hilbert space equipped with an orthogonal polarization <code>H = H₊ ⊕ H₋</code>.</p><ul class="structure_fields" id="Signals.SatoGrassmannian.PolarizedHilbertSpace.mk"><li id="Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus" class="structure_field"><div class="structure_field_info">HPlus : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span></div></li><li id="Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus" class="structure_field"><div class="structure_field_info">HMinus : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span></div></li><li id="Signals.SatoGrassmannian.PolarizedHilbertSpace.complete_HPlus" class="structure_field"><div class="structure_field_info">complete_HPlus : <span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">↥<span class="fn"><span class="fn">self</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></div></li><li id="Signals.SatoGrassmannian.PolarizedHilbertSpace.complete_HMinus" class="structure_field"><div class="structure_field_info">complete_HMinus : <span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">↥<span class="fn"><span class="fn">self</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span></div></li><li id="Signals.SatoGrassmannian.PolarizedHilbertSpace.ortho_eq" class="structure_field"><div class="structure_field_info">ortho_eq : <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span><span class="fn">ᗮ</span></span></span></div></li></ul><details id="instances-for-list-Signals.SatoGrassmannian.PolarizedHilbertSpace" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.PPlus"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L361-L362">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PPlus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">PPlus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.PPlus" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.PMinus"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L364-L365">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PMinus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">PMinus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.PMinus" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.polarizationJ"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L367-L369">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.polarizationJ"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">polarizationJ</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span></div></div><p>The polarization involution <code>J = P₊ - P₋</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.polarizationJ" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.blockPP"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L371-L373">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></div></div><p>The 2×2 block components of <code>A : H →L[𝕜] H</code> relative to <code>H = H₊ ⊕ H₋</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.blockPP" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.blockPM"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L375-L376">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPM"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.blockPM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.blockMP"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L378-L379">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMP"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockMP</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.blockMP" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.blockMM"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L381-L382">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMM"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockMM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.blockMM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.pPlus_add_pMinus"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L384-L386">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.pPlus_add_pMinus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">pPlus_add_pMinus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">H</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PPlus">PPlus</a> <span class="fn">P</span>)</span> <span class="fn">x</span></span> <span class="fn">+</span> <span class="fn"><span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PMinus">PMinus</a> <span class="fn">P</span>)</span> <span class="fn">x</span></span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.orthoProj_plus_of_mem_minus"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L388-L391">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.orthoProj_plus_of_mem_minus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">orthoProj_plus_of_mem_minus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">y</span> : <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span>.<span class="fn">orthogonalProjectionOnto</span></span> <span class="fn">↑<span class="fn">y</span></span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.orthoProj_minus_of_mem_plus"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L393-L398">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.orthoProj_minus_of_mem_plus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">orthoProj_minus_of_mem_plus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span>.<span class="fn">orthogonalProjectionOnto</span></span> <span class="fn">↑<span class="fn">x</span></span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.blockPP_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L400-L412">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP_comp"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A </span><span class="fn">B</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP">blockPP</a> <span class="fn">P</span> <span class="fn">(<span class="fn">A</span> <span class="fn">∘SL</span> <span class="fn">B</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP">blockPP</a> <span class="fn">P</span> <span class="fn">A</span></span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP">blockPP</a> <span class="fn">P</span> <span class="fn">B</span></span></span> <span class="fn">+</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPM">blockPM</a> <span class="fn">P</span> <span class="fn">A</span></span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMP">blockMP</a> <span class="fn">P</span> <span class="fn">B</span></span></span></span></span></div></div><p>Block multiplication law <code>(A ∘ B)₊₊ = A₊₊ B₊₊ + A₊₋ B₋₊</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.blockPP_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L414-L417">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP_id"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP">blockPP</a> <span class="fn">P</span> <span class="fn">(<span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">H</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.commutator_J_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L419-L456">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.commutator_J_eq"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">commutator_J_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.polarizationJ">polarizationJ</a> <span class="fn">P</span></span> <span class="fn">∘SL</span> <span class="fn">A</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">A</span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.polarizationJ">polarizationJ</a> <span class="fn">P</span></span></span></span> <span class="fn">=</span>   <span class="fn"><span class="fn">2</span> <span class="fn">•</span>     <span class="fn">(<span class="fn"><span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span>.<span class="fn">subtypeL</span></span> <span class="fn">∘SL</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPM">blockPM</a> <span class="fn">P</span> <span class="fn">A</span></span> <span class="fn">∘SL</span> <span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span>.<span class="fn">orthogonalProjectionOnto</span></span></span></span> <span class="fn">-</span>       <span class="fn"><span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span>.<span class="fn">subtypeL</span></span> <span class="fn">∘SL</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMP">blockMP</a> <span class="fn">P</span> <span class="fn">A</span></span> <span class="fn">∘SL</span> <span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span>.<span class="fn">orthogonalProjectionOnto</span></span></span></span>)</span></span></span></div></div><p>Exact block formula for the commutator <code>[J, A] = J A - A J</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.isCompact_commutator_J_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L458-L498">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.isCompact_commutator_J_iff"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompact_commutator_J_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">H</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.polarizationJ">polarizationJ</a> <span class="fn">P</span></span> <span class="fn">∘SL</span> <span class="fn">A</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">A</span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.polarizationJ">polarizationJ</a> <span class="fn">P</span></span></span>)</span></span></span> <span class="fn">↔</span>   <span class="fn"><span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPM">blockPM</a> <span class="fn">P</span> <span class="fn">A</span>)</span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMP">blockMP</a> <span class="fn">P</span> <span class="fn">A</span>)</span></span></span></span></span></div></div><p><code>g ∈ GL_res(H)</code> iff its commutator with <code>J</code> is compact.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.GLRes"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L500-L554">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">GLRes</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Subgroup</span> <span class="fn">(<span class="fn">H</span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span>)</span></span></div></div><p><strong>Theorem 4:</strong> The restricted general linear group <code>GL_res(H)</code> as a subgroup of <code>GL(H)</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.GLRes" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.blockPP_isFredholm"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L556-L584">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP_isFredholm"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">blockPP_isFredholm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes">GLRes</a> <span class="fn">P</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP">blockPP</a> <span class="fn">P</span> <span class="fn">↑<span class="fn">↑<span class="fn">g</span></span></span>)</span></span></div></div><p>For every <code>g ∈ GL_res(H)</code>, its upper-left block <code>g₊₊ : H₊ → H₊</code> is Fredholm.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.glResIndex"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L586-L588">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">glResIndex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes">GLRes</a> <span class="fn">P</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">ℤ</span></div></div><p>The Fredholm index invariant <code>g ↦ ind(g₊₊) ∈ ℤ</code> on <code>GL_res(H)</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.glResIndex" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.glResIndex_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L590-L603">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex_mul"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">glResIndex_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g </span><span class="fn">h</span> : <span class="fn">↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes">GLRes</a> <span class="fn">P</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex">glResIndex</a> <span class="fn">P</span> <span class="fn">(<span class="fn">g</span> <span class="fn">*</span> <span class="fn">h</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex">glResIndex</a> <span class="fn">P</span> <span class="fn">g</span></span> <span class="fn">+</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex">glResIndex</a> <span class="fn">P</span> <span class="fn">h</span></span></span></span></div></div><p><strong>Theorem 5 (Index Homomorphism):</strong> <code>ind((gh)₊₊) = ind(g₊₊) + ind(h₊₊)</code>.</p></div></div><div class="mod_doc"><h2 id="Section-4-Sato-Grassmannian-Basepoint-Big-Cell-Graph-Chart-GL-res-H-Action" class="markdown-heading">Section 4: Sato Grassmannian, Basepoint, Big-Cell Graph Chart &amp; <code>GL_res(H)</code> Action <a class="hover-link" href="#Section-4-Sato-Grassmannian-Basepoint-Big-Cell-Graph-Chart-GL-res-H-Action">#</a></h2></div><div class="decl" id="Signals.SatoGrassmannian.projPlus"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L614-L616">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn">W</span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.projPlus" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.projMinus"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L618-L620">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn">W</span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span></div></div><details id="instances-for-list-Signals.SatoGrassmannian.projMinus" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.MemSatoGrassmannian"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L622-L624">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.MemSatoGrassmannian"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">MemSatoGrassmannian</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>Membership predicate for the Sato (restricted) Grassmannian <code>Gr_res(H)</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.MemSatoGrassmannian" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.SatoGr"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L626-L628">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">SatoGr</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> u</div></div><p>The Sato Grassmannian <code>Gr_res(H)</code> as a subtype of closed subspaces of <code>H</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.SatoGr" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.virtualDim"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L630-L632">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">virtualDim</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> <span class="fn">P</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">ℤ</span></div></div><p>The virtual dimension (Fredholm index of <code>p₊</code>) of a point <code>W ∈ Gr_res(H)</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.virtualDim" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.projPlus_HPlus_eq_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L634-L637">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus_HPlus_eq_id"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus_HPlus_eq_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus">projPlus</a> <span class="fn">P</span> <span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.projMinus_HPlus_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L639-L642">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus_HPlus_eq_zero"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus_HPlus_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus">projMinus</a> <span class="fn">P</span> <span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.basepoint_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L644-L651">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.basepoint_mem"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">basepoint_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.MemSatoGrassmannian">MemSatoGrassmannian</a> <span class="fn">P</span> <span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></div></div><p><strong>Canonical Basepoint:</strong> <code>H₊</code> belongs to <code>Gr_res(H)</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.basepoint"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L653-L655">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.basepoint"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">basepoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> <span class="fn">P</span></span></div></div><p>The canonical basepoint <code>H₊</code> packaged as an element of <code><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> P</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.basepoint" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.virtualDim_basepoint"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L657-L662">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim_basepoint"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">virtualDim_basepoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim">virtualDim</a> <span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.basepoint">basepoint</a> <span class="fn">P</span>)</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>The virtual dimension of the canonical basepoint <code>H₊</code> is <code>0</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.graphMap"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L664-L667">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphMap"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span></div></div><p>The graph map <code>Φ_T : H₊ →L[𝕜] H</code> sending <code>x ↦ x + T x</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.graphMap" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.graphSubspace"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L669-L672">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphSubspace"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphSubspace</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span></div></div><p>The graph subspace <code>Γ(T) = { x + T x | x ∈ H₊ } ≤ H</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.graphSubspace" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.projPlus_graphMap"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L674-L678">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus_graphMap"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus_graphMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span>.<span class="fn">orthogonalProjectionOnto</span></span> <span class="fn">(<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphMap">graphMap</a> <span class="fn">P</span> <span class="fn">T</span>)</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.projMinus_graphMap"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L680-L684">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus_graphMap"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus_graphMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span>.<span class="fn">orthogonalProjectionOnto</span></span> <span class="fn">(<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphMap">graphMap</a> <span class="fn">P</span> <span class="fn">T</span>)</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">T</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.graphProjPlusEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L686-L700">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphProjPlusEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphProjPlusEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphSubspace">graphSubspace</a> <span class="fn">P</span> <span class="fn">T</span>)</span></span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span></span></div></div><p>On the graph subspace <code>Γ(T)</code>, <code>p₊ : Γ(T) ≃L[𝕜] H₊</code> is a topological isomorphism.</p><details id="instances-for-list-Signals.SatoGrassmannian.graphProjPlusEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.graphSubspace_isClosed"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L702-L714">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphSubspace_isClosed"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphSubspace_isClosed</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsClosed</span> <span class="fn">↑<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphSubspace">graphSubspace</a> <span class="fn">P</span> <span class="fn">T</span>)</span></span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.graphSubspace_mem_bigCell"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L716-L731">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphSubspace_mem_bigCell"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">graphSubspace_mem_bigCell</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HPlus">HPlus</a></span></span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn"><span class="fn">P</span>.<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace.HMinus">HMinus</a></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hT</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">T</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">W</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> <span class="fn">P</span></span>), <span class="fn"><span class="fn"><span class="fn">↑<span class="fn">W</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.graphSubspace">graphSubspace</a> <span class="fn">P</span> <span class="fn">T</span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim">virtualDim</a> <span class="fn">W</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></span></div></div><p><strong>Big Cell Chart:</strong> For any compact operator <code>T : H₊ →L[𝕜] H₋</code>,
+the graph subspace <code>Γ(T)</code> lies in <code>Gr_res(H)</code> and has virtual dimension <code>0</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.restrictEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L735-L752">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.restrictEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">restrictEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">H</span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↥<span class="fn">W</span></span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">↥<span class="fn">(<span class="fn">Submodule.map</span> <span class="fn">(↑<span class="fn">↑<span class="fn">g</span></span>)</span> <span class="fn">W</span>)</span></span></span></div></div><p>The topological isomorphism <code>W ≃L[𝕜] g(W)</code> obtained by restricting <code>g : H ≃L[𝕜] H</code>.</p><details id="instances-for-list-Signals.SatoGrassmannian.restrictEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Signals.SatoGrassmannian.projPlus_restrictEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L759-L772">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus_restrictEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projPlus_restrictEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">H</span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus">projPlus</a> <span class="fn">P</span> <span class="fn">(<span class="fn">Submodule.map</span> <span class="fn">(↑<span class="fn">↑<span class="fn">g</span></span>)</span> <span class="fn">W</span>)</span></span> <span class="fn">∘SL</span> <span class="fn">↑<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.restrictEquiv">restrictEquiv</a> <span class="fn">g</span> <span class="fn">W</span>)</span></span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPP">blockPP</a> <span class="fn">P</span> <span class="fn">↑<span class="fn">g</span></span></span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus">projPlus</a> <span class="fn">P</span> <span class="fn">W</span></span></span> <span class="fn">+</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockPM">blockPM</a> <span class="fn">P</span> <span class="fn">↑<span class="fn">g</span></span></span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus">projMinus</a> <span class="fn">P</span> <span class="fn">W</span></span></span></span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.projMinus_restrictEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L774-L787">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus_restrictEquiv"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">projMinus_restrictEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">H</span> <span class="fn">≃L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus">projMinus</a> <span class="fn">P</span> <span class="fn">(<span class="fn">Submodule.map</span> <span class="fn">(↑<span class="fn">↑<span class="fn">g</span></span>)</span> <span class="fn">W</span>)</span></span> <span class="fn">∘SL</span> <span class="fn">↑<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.restrictEquiv">restrictEquiv</a> <span class="fn">g</span> <span class="fn">W</span>)</span></span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMP">blockMP</a> <span class="fn">P</span> <span class="fn">↑<span class="fn">g</span></span></span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus">projPlus</a> <span class="fn">P</span> <span class="fn">W</span></span></span> <span class="fn">+</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.blockMM">blockMM</a> <span class="fn">P</span> <span class="fn">↑<span class="fn">g</span></span></span> <span class="fn">∘SL</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projMinus">projMinus</a> <span class="fn">P</span> <span class="fn">W</span></span></span></span></span></div></div></div></div><div class="decl" id="Signals.SatoGrassmannian.glRes_smul_mem_and_vdim"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L789-L838">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glRes_smul_mem_and_vdim"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">glRes_smul_mem_and_vdim</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes">GLRes</a> <span class="fn">P</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> <span class="fn">P</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.MemSatoGrassmannian">MemSatoGrassmannian</a> <span class="fn">P</span> <span class="fn">(<span class="fn">Submodule.map</span> <span class="fn">↑<span class="fn">↑<span class="fn">↑<span class="fn">g</span></span></span></span> <span class="fn">↑<span class="fn">W</span></span>)</span></span> <span class="fn">∧</span>   <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.projPlus">projPlus</a> <span class="fn">P</span> <span class="fn">(<span class="fn">Submodule.map</span> <span class="fn">↑<span class="fn">↑<span class="fn">↑<span class="fn">g</span></span></span></span> <span class="fn">↑<span class="fn">W</span></span>)</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex">glResIndex</a> <span class="fn">P</span> <span class="fn">g</span></span> <span class="fn">+</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim">virtualDim</a> <span class="fn">W</span></span></span></span></span></div></div><p><strong>Theorem 6 (Action Closure &amp; Virtual Dimension Shift):</strong>
+<code>GL_res(H)</code> preserves <code>Gr_res(H)</code> and shifts virtual dimension by <code>ind(g₊₊)</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.instMulActionGLRes"><div class="instance"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L840-L855">source</a></div><div class="attributes">@[instance_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.instMulActionGLRes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">instMulActionGLRes</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MulAction</span> <span class="fn">(↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes">GLRes</a> <span class="fn">P</span>)</span>)</span> <span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> <span class="fn">P</span>)</span></span></div></div><p>The group action <code>MulAction (GLRes P) (SatoGr P)</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.virtualDim_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/Base.lean#L857-L862">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim_smul"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">virtualDim_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">InnerProductSpace</span> <span class="fn">𝕜</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.PolarizedHilbertSpace">PolarizedHilbertSpace</a> <span class="fn">𝕜</span> <span class="fn">H</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">↥<span class="fn">(<a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.GLRes">GLRes</a> <span class="fn">P</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">W</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.SatoGr">SatoGr</a> <span class="fn">P</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim">virtualDim</a> <span class="fn">(<span class="fn">g</span> <span class="fn">•</span> <span class="fn">W</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.glResIndex">glResIndex</a> <span class="fn">P</span> <span class="fn">g</span></span> <span class="fn">+</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.virtualDim">virtualDim</a> <span class="fn">W</span></span></span></span></div></div><p><strong>Corollary (Virtual Dimension Equivariance):</strong>
+<code>vdim(g • W) = ind(g₊₊) + vdim(W)</code>.</p></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

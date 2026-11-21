@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" />
+    <link rel="prev" title="Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-of-the-signals-satograssmannian-core-pde-stack">1. Architecture of the <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> Core &amp; PDE Stack</a></li>
+<li><a class="reference internal" href="#polarized-hilbert-space-rieszschauder-fredholm-theory-and-l-2-s-1">2. Polarized Hilbert Space, Riesz–Schauder Fredholm Theory, and <span class="math notranslate nohighlight">\(L^2(S^1)\)</span></a></li>
+<li><a class="reference internal" href="#klein-quadric-truncation-mathrm-gr-mathbb-c-2-4-hookrightarrow-mathrm-gr-l-2-s-1-and-two-machine-caught-bug-fixes">3. Klein Quadric Truncation <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}(L^2(S^1))\)</span> and Two Machine-Caught Bug Fixes</a><ul>
+<li><a class="reference internal" href="#machine-caught-fix-1-big-cell-frame-reconstruction-signs-gr24truncation-lean">3.1 Machine-Caught Fix 1: Big-Cell Frame Reconstruction Signs (<code class="docutils literal notranslate"><span class="pre">Gr24Truncation.lean</span></code>)</a></li>
+<li><a class="reference internal" href="#machine-caught-fix-2-bakerakhiezer-partial-x-3-psi-coefficient-laxpair-lean">3.2 Machine-Caught Fix 2: Baker–Akhiezer <span class="math notranslate nohighlight">\(\partial_x^3 \psi\)</span> Coefficient (<code class="docutils literal notranslate"><span class="pre">LaxPair.lean</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hirota-bilinear-kp-ii-kodamawilliams-mathrm-gr-ge-0-2-4-soliton-webs-and-akns-solitons">4. Hirota Bilinear KP-II, Kodama–Williams <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> Soliton Webs, and AKNS Solitons</a></li>
+<li><a class="reference internal" href="#three-channel-pluckermadelung-six-channel-dual-schubert-qfim-evanescent-speed-law">5. Three-Channel Plücker–Madelung, Six-Channel Dual-Schubert QFIM, &amp; Evanescent Speed Law</a></li>
+<li><a class="reference internal" href="#overflow-proof-log-sum-exp-rust-pyo3-pde-solver-tri-language-verification-summary">6. Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solver &amp; Tri-Language Verification Summary</a></li>
+<li><a class="reference internal" href="#reproducibility-commands">7. Reproducibility Commands</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html" title="Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-of-the-signals-satograssmannian-core-pde-stack">1. Architecture of the <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> Core &amp; PDE Stack</a></li>
+<li><a class="reference internal" href="#polarized-hilbert-space-rieszschauder-fredholm-theory-and-l-2-s-1">2. Polarized Hilbert Space, Riesz–Schauder Fredholm Theory, and <span class="math notranslate nohighlight">\(L^2(S^1)\)</span></a></li>
+<li><a class="reference internal" href="#klein-quadric-truncation-mathrm-gr-mathbb-c-2-4-hookrightarrow-mathrm-gr-l-2-s-1-and-two-machine-caught-bug-fixes">3. Klein Quadric Truncation <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}(L^2(S^1))\)</span> and Two Machine-Caught Bug Fixes</a><ul>
+<li><a class="reference internal" href="#machine-caught-fix-1-big-cell-frame-reconstruction-signs-gr24truncation-lean">3.1 Machine-Caught Fix 1: Big-Cell Frame Reconstruction Signs (<code class="docutils literal notranslate"><span class="pre">Gr24Truncation.lean</span></code>)</a></li>
+<li><a class="reference internal" href="#machine-caught-fix-2-bakerakhiezer-partial-x-3-psi-coefficient-laxpair-lean">3.2 Machine-Caught Fix 2: Baker–Akhiezer <span class="math notranslate nohighlight">\(\partial_x^3 \psi\)</span> Coefficient (<code class="docutils literal notranslate"><span class="pre">LaxPair.lean</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hirota-bilinear-kp-ii-kodamawilliams-mathrm-gr-ge-0-2-4-soliton-webs-and-akns-solitons">4. Hirota Bilinear KP-II, Kodama–Williams <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> Soliton Webs, and AKNS Solitons</a></li>
+<li><a class="reference internal" href="#three-channel-pluckermadelung-six-channel-dual-schubert-qfim-evanescent-speed-law">5. Three-Channel Plücker–Madelung, Six-Channel Dual-Schubert QFIM, &amp; Evanescent Speed Law</a></li>
+<li><a class="reference internal" href="#overflow-proof-log-sum-exp-rust-pyo3-pde-solver-tri-language-verification-summary">6. Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solver &amp; Tri-Language Verification Summary</a></li>
+<li><a class="reference internal" href="#reproducibility-commands">7. Reproducibility Commands</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"
+                          title="previous chapter">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"
+                          title="next chapter">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> in Lean 4, Rust/PyO3, and <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="formalizing-the-infinite-dimensional-sato-grassmannian-mathrm-gr-p-h-plabic-mathrm-gr-ge-0-2-4-kp-ii-kdv-akns-soliton-pde-solvers-bakerakhiezer-lax-pairs-and-6-channel-dual-schubert-qfim-in-lean-4-rust-pyo3-and-sympy">
+<span id="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper"></span><h1>Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy<a class="headerlink" href="#formalizing-the-infinite-dimensional-sato-grassmannian-mathrm-gr-p-h-plabic-mathrm-gr-ge-0-2-4-kp-ii-kdv-akns-soliton-pde-solvers-bakerakhiezer-lax-pairs-and-6-channel-dual-schubert-qfim-in-lean-4-rust-pyo3-and-sympy" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Exactly Solvable and Integrable Systems (<code class="docutils literal notranslate"><span class="pre">nlin.SI</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Functional Analysis (<code class="docutils literal notranslate"><span class="pre">math.FA</span></code>); Logic &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Verified Mathematical &amp; Computational Core (Machine-Checked in Lean 4, Rust/PyO3, and SymPy):</strong> We formalize 11 zero-<code class="docutils literal notranslate"><span class="pre">sorry</span></code> Lean 4 modules under <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> (<code class="docutils literal notranslate"><span class="pre">Base</span></code>, <code class="docutils literal notranslate"><span class="pre">RieszSchauder</span></code>, <code class="docutils literal notranslate"><span class="pre">CircleL2</span></code>, <code class="docutils literal notranslate"><span class="pre">Gr24Truncation</span></code>, <code class="docutils literal notranslate"><span class="pre">KPFlow</span></code>, <code class="docutils literal notranslate"><span class="pre">HirotaKP</span></code>, <code class="docutils literal notranslate"><span class="pre">KP2Nonlinear</span></code>, <code class="docutils literal notranslate"><span class="pre">PDESolver</span></code>, <code class="docutils literal notranslate"><span class="pre">LaxPair</span></code>, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code>, <code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM</span></code>), building the infinite-dimensional polarized Hilbert-space Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id378" title="M Sato. Soliton equations as dynamical systems on infinite dimensional grassmann manifolds. 1981. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.">Sato, 1981</a>, <a class="reference internal" href="references.html#id379" title="G Segal and G Wilson. Loop groups and equations of kdv type. 1985. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.">Segal and Wilson, 1985</a>, <a class="reference internal" href="references.html#id516" title="Andrew Pressley and Graeme Segal. Loop Groups. Oxford Mathematical Monographs. Oxford University Press, 1986. URL: https://global.oup.com/academic/product/loop-groups-9780198535614.">Pressley and Segal, 1986</a>]</span>, Hardy polarization on <span class="math notranslate nohighlight">\(L^2(S^1)\)</span>, exact Klein-quadric truncation <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}_2(L^2(S^1))\)</span>, KP flows, Hirota bilinear KP-II identity <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id520" title="Ryogo Hirota. The Direct Method in Soliton Theory. Volume 155 of Cambridge Tracts in Mathematics. Cambridge University Press, 2004. URL: https://doi.org/10.1017/CBO9780511543043.">Hirota, 2004</a>]</span>, Kodama–Williams <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> totally nonnegative soliton webs <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id237" title="A Postnikov. Total positivity, grassmannians, and networks. 2006. Plabic graphs. URL: https://arxiv.org/abs/math/0609764, arXiv:math/0609764.">Postnikov, 2006</a>, <a class="reference internal" href="references.html#id517" title="Yuji Kodama and Lauren Williams. KP solitons and total positivity for the Grassmannian. Inventiones Mathematicae, 198(3):637–699, 2014. URL: https://doi.org/10.48550/arXiv.1106.0023, arXiv:1106.0023, doi:10.1007/s00222-014-0506-3.">Kodama and Williams, 2014</a>]</span>, explicit KdV 1- and 2-soliton PDE proofs, Baker–Akhiezer <span class="math notranslate nohighlight">\(B_2\)</span>/<span class="math notranslate nohighlight">\(B_3\)</span> Lax equations, AKNS focusing NLS bright soliton and defocusing GPE dark soliton PDEs <span class="bibtex-citation" id="id4">[<a class="reference internal" href="references.html#id519" title="Mark J. Ablowitz, David J. Kaup, Alan C. Newell, and Harvey Segur. The inverse scattering transform–Fourier analysis for nonlinear problems. Studies in Applied Mathematics, 53(4):249–315, 1974. URL: https://dx.doi.org/10.1002/sapm1974534249, doi:10.1002/sapm1974534249.">Ablowitz <em>et al.</em>, 1974</a>]</span>, and the 6-channel Dual-Schubert Quantum Fisher Information Metric (QFIM) decomposition (<span class="math notranslate nohighlight">\(F_Q = 4\,g_{\mathrm{FS}}\)</span>). Every algebraic and differential identity is cross-checked by 13 exact SymPy symbolic proofs and a compiled Rust/PyO3 <code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code> extension (<code class="docutils literal notranslate"><span class="pre">kp2_residual</span> <span class="pre">=</span> <span class="pre">3.11e-15</span></code>).</p></li>
+<li><p><strong>Open Experimental &amp; Axiom Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code>):</strong> Checked PDE identities and QFIM decompositions prove exact consequences of the underlying integrable equations and projective Kähler geometry. They do <strong>not</strong> experimentally validate Sharoglazova–Klaers evanescent tunneling velocities <span class="bibtex-citation" id="id5">[<a class="reference internal" href="references.html#id486" title="Violetta Sharoglazova, Marius Puplauskis, Charlie Mattschas, Chris Toebes, and Jan Klaers. Energy–speed relationship of quantum particles challenges Bohmian mechanics. Nature, 643(8070):67–72, July 2025. URL: https://www.nature.com/articles/s41586-025-09099-4, doi:10.1038/s41586-025-09099-4.">Sharoglazova <em>et al.</em>, 2025</a>]</span>, massive Proca photons, or physical laboratory realizations without independent measurement data.</p></li>
+</ul>
+</li>
+<li><p><strong>Primary Source Chat Provenance:</strong></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/81119aa9c644349562afd944c47272db/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md</span></code></a> (<code class="docutils literal notranslate"><span class="pre">13,272</span></code> lines, <code class="docutils literal notranslate"><span class="pre">sha256:</span> <span class="pre">c8eb7b93d618846add0564db6fd4df248aff7a12a6e63d1808712a6673f1a6ab</span></code>), specifically Blocks 001–007 (lines 73–4227), Block 012 (lines 7410–7748), Blocks 018–022 (lines 11446–13254).</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"><span class="std std-doc">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <code class="docutils literal notranslate"><span class="pre">L¹(ℝ)</span></code> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code></span></a> (Paper 2 of this series)</p></li>
+<li><p><a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Fubini–Study GPE, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Madelung Hydrodynamics, and Revised Turner (2026) Models</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Computational Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">3,830</span></code> Lake jobs via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/ce065b1aa6a05d4440fe422d552cc861/SatoGrassmannian.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian.lean</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/d093afffb18feeffd87edc68ff271542/Base.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/Base.lean</span></code></a> through <a class="reference download internal" download="" href="_downloads/48282496fd8919add30797bec1c6cbdf/DualSchubertQFIM.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Extension (<code class="docutils literal notranslate"><span class="pre">7/7</span></code> <code class="docutils literal notranslate"><span class="pre">sato_grassmannian</span></code> Rust unit tests passing):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/e0a68e52968a6edae738a4ef79a876e3/sato_grassmannian.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/sato_grassmannian.rs</span></code></a> (<code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code>, <code class="docutils literal notranslate"><span class="pre">Kp2Jet</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate_ba_lax_pair</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate_akns_solitons</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate_dual_schubert_qfim</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Python + SymPy + PyO3 Verification Suite (<code class="docutils literal notranslate"><span class="pre">8/8</span></code> <code class="docutils literal notranslate"><span class="pre">pytest</span></code> tests passing):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/79202878593a2589daff6c5686833192/sato_grassmannian.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/sato_grassmannian.py</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/d3ce69957ea22fd952a5fa4a21a87e71/test_sato_grassmannian_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_sato_grassmannian_sympy_pyo3.py</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Finite-dimensional Grassmannians <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> and positive Plabic parametrizations <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> capture single-soliton and two-soliton interactions, but the full Kadomtsev–Petviashvili (KP) hierarchy lives on the infinite-dimensional Sato–Segal–Wilson Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span> of a polarized Hilbert space <span class="math notranslate nohighlight">\(H = H_+ \oplus H_-\)</span>. We present a complete, zero-<code class="docutils literal notranslate"><span class="pre">sorry</span></code> Lean 4 formalization of the infinite-dimensional Sato Grassmannian and its integrable PDE hierarchy inside the <code class="docutils literal notranslate"><span class="pre">Signals</span></code> library (<code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.*</span></code>), paired with a compiled Rust/PyO3 <code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code> and exact SymPy symbolic verification.</p>
+<p>Our formalization establishes six main results:</p>
+<ol class="arabic simple">
+<li><p><strong>Infinite-Dimensional Polarized Hilbert-Space Grassmannian &amp; Riesz–Schauder Fredholm Theory (<code class="docutils literal notranslate"><span class="pre">Base.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">RieszSchauder.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">CircleL2.lean</span></code>):</strong> We formalize <code class="docutils literal notranslate"><span class="pre">PolarizedHilbertSpace</span></code>, Fredholm projections <code class="docutils literal notranslate"><span class="pre">IsFredholm</span></code>, the Riesz–Schauder theorem (<code class="docutils literal notranslate"><span class="pre">isFredholm_id_add_compact</span></code>, index zero for compact perturbations of the identity), the Hardy space polarization on <span class="math notranslate nohighlight">\(H = L^2(S^1, \mathbb{C})\)</span> with unilateral shift <span class="math notranslate nohighlight">\(S = M_z\)</span> (<code class="docutils literal notranslate"><span class="pre">shiftCLE</span></code>), and the restricted general linear group <span class="math notranslate nohighlight">\(\mathrm{GL}_{\mathrm{res}}(H)\)</span> preserving <span class="math notranslate nohighlight">\(\mathrm{Gr}(H)\)</span> with additive Fredholm virtual dimension.</p></li>
+<li><p><strong>Exact <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Truncation, Klein Quadric, and Two Formalization Bug Fixes (<code class="docutils literal notranslate"><span class="pre">Gr24Truncation.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">LaxPair.lean</span></code>):</strong> Embedding <span class="math notranslate nohighlight">\(\mathbb{C}^4 \cong \operatorname{span}\{z^{-2}, z^{-1}, 1, z\} \subset L^2(S^1)\)</span> yields an explicit isomorphism onto the big cell of <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> cut out by the Klein quadric <span class="math notranslate nohighlight">\(p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0\)</span>. Formalizing the chat transcript caught and proved <strong>two genuine algebraic errors</strong> in the source derivation: (i) a sign inversion in the big-cell frame reconstruction <code class="docutils literal notranslate"><span class="pre">kleinQuadric_reconstruct_bigCell</span></code> (Block 005, lines 2475–2995), and (ii) a coefficient error in the third spatial derivative <span class="math notranslate nohighlight">\(\partial_x^3 \psi\)</span> of the Baker–Akhiezer wave function (<code class="docutils literal notranslate"><span class="pre">baWave_lax_equations</span></code>, Block 019, lines 12135–12380), where the true term is <span class="math notranslate nohighlight">\(+6 z k^3 S_2 T - 4 k^4 S_2 T^2\)</span> rather than <span class="math notranslate nohighlight">\(+4 k^3 S_2 T (z - k T)\)</span>.</p></li>
+<li><p><strong>Hirota Bilinear KP-II Identity, Nonlinear <span class="math notranslate nohighlight">\(u = 2\partial_x^2\log\tau\)</span>, and Smooth Kodama–Williams <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> Soliton Webs (<code class="docutils literal notranslate"><span class="pre">KPFlow.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">HirotaKP.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">KP2Nonlinear.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">PDESolver.lean</span></code>):</strong> We prove <code class="docutils literal notranslate"><span class="pre">hirotaKP_tauU_eq_zero</span></code> identically via the Klein quadric, <code class="docutils literal notranslate"><span class="pre">hirotaKP_eq_zero_iff_kp2</span></code> (equivalence between Hirota’s bilinear form and the nonlinear <span class="math notranslate nohighlight">\((2+1)\)</span>-D KP-II PDE <span class="math notranslate nohighlight">\(\partial_x(4 u_t - u_{xxx} - 6 u u_x) - 3 u_{yy} = 0\)</span>), strict positivity and global smoothness of <span class="math notranslate nohighlight">\(\tau(x,y,t) &gt; 0\)</span> on the totally nonnegative cell <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> (<code class="docutils literal notranslate"><span class="pre">solitonTau_pos_of_totallyNonneg</span></code>), <span class="math notranslate nohighlight">\(y\)</span>-invariance of KdV 2-solitons (<code class="docutils literal notranslate"><span class="pre">kdv2Soliton_y_invariant_and_smooth</span></code>), and the exact KdV 1-soliton PDE (<code class="docutils literal notranslate"><span class="pre">kdv_oneSoliton_pde</span></code>).</p></li>
+<li><p><strong>Baker–Akhiezer Lax Pair &amp; AKNS Focusing NLS / Defocusing GPE Solitons (<code class="docutils literal notranslate"><span class="pre">LaxPair.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">AKNS.lean</span></code>):</strong> We prove both the <span class="math notranslate nohighlight">\(B_2\)</span> (<span class="math notranslate nohighlight">\(\partial_y \psi = (\partial_x^2 + u)\psi\)</span>) and <span class="math notranslate nohighlight">\(B_3\)</span> (<span class="math notranslate nohighlight">\(\partial_t \psi = (\partial_x^3 + \tfrac{3}{2}u\partial_x + w)\psi\)</span>) Lax equations for the KdV 1-soliton, the <span class="math notranslate nohighlight">\(2\times 2\)</span> AKNS zero-curvature equivalence <code class="docutils literal notranslate"><span class="pre">akns_zero_curvature_iff</span></code>, the focusing NLS bright soliton <code class="docutils literal notranslate"><span class="pre">brightSoliton_nls_pde</span></code>, and the defocusing GPE dark soliton <code class="docutils literal notranslate"><span class="pre">darkSoliton_gpe_pde</span></code>.</p></li>
+<li><p><strong>3-Channel Plücker–Madelung &amp; 6-Channel Dual-Schubert QFIM (<code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.lean</span></code>):</strong> We prove <span class="math notranslate nohighlight">\(F_Q = 4\,g_{\mathrm{FS}}\)</span> (<code class="docutils literal notranslate"><span class="pre">qfim_eq_four_fubiniStudy</span></code>), the 3-channel Plücker–Madelung decomposition (<code class="docutils literal notranslate"><span class="pre">three_channel_plucker_madelung_qfim</span></code>), and the additive 6-channel <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span> decomposition (<code class="docutils literal notranslate"><span class="pre">dual_schubert_six_channel_decomposition</span></code>).</p></li>
+<li><p><strong>Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solver (<code class="docutils literal notranslate"><span class="pre">sato_grassmannian.rs</span></code>):</strong> Using normalized Boltzmann weights <span class="math notranslate nohighlight">\(w_r = c_r e^{\theta_r - M}/Z\)</span> and central cumulants up to 6th order, <code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code> evaluates arbitrary <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II soliton webs even at <span class="math notranslate nohighlight">\((x, y, t) = (100, -50, 20)\)</span> without floating-point overflow, achieving <code class="docutils literal notranslate"><span class="pre">kp2_residual</span> <span class="pre">=</span> <span class="pre">3.11e-15</span></code>, <code class="docutils literal notranslate"><span class="pre">lax_b2</span> <span class="pre">=</span> <span class="pre">1.11e-16</span></code>, <code class="docutils literal notranslate"><span class="pre">lax_b3</span> <span class="pre">=</span> <span class="pre">4.97e-16</span></code>, <code class="docutils literal notranslate"><span class="pre">akns_bright</span> <span class="pre">=</span> <span class="pre">2.48e-16</span></code>, <code class="docutils literal notranslate"><span class="pre">akns_dark</span> <span class="pre">=</span> <span class="pre">2.29e-16</span></code>, and <code class="docutils literal notranslate"><span class="pre">qfim_res</span> <span class="pre">=</span> <span class="pre">0.0</span></code>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="architecture-of-the-signals-satograssmannian-core-pde-stack">
+<h2>1. Architecture of the <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> Core &amp; PDE Stack<a class="headerlink" href="#architecture-of-the-signals-satograssmannian-core-pde-stack" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph Core[&quot;Hilbert-Space Sato Grassmannian Core&quot;]
+        B1[&quot;Base.lean (Blocks 001–002)\nPolarizedHilbertSpace, IsFredholm,\nSatoGr, GL_res(H)&quot;]
+        B2[&quot;RieszSchauder.lean (Block 003)\nCompact perturbations of Id,\nindex(I + K) = 0&quot;]
+        B3[&quot;CircleL2.lean (Block 004)\nL²(S¹) Fourier basis e_n,\nHardy H_+ ⊕ H_-, shiftCLE&quot;]
+        B4[&quot;Gr24Truncation.lean (Block 005)\nGr_C(2,4) ↪ Gr(L²(S¹)), Klein Q_4,\nfixed big-cell frame signs&quot;]
+    end
+
+    subgraph PDE[&quot;Integrable PDE Hierarchy &amp; Lax/AKNS/QFIM&quot;]
+        P1[&quot;KPFlow.lean &amp; HirotaKP.lean\n(Blocks 006–007)\nexp(∑ t_n z^n), schurTau,\nhirotaKP_tauU_eq_zero&quot;]
+        P2[&quot;KP2Nonlinear.lean &amp; PDESolver.lean\n(Blocks 012, 018)\nu = 2 ∂_x² log τ, Gr_≥0(2,4) &gt; 0,\nKdV 1- &amp; 2-solitons&quot;]
+        P3[&quot;LaxPair.lean &amp; AKNS.lean\n(Blocks 019–020)\nFixed B_2/B_3 Lax pair,\nNLS bright &amp; GPE dark solitons&quot;]
+        P4[&quot;DualSchubertQFIM.lean (Block 022)\nF_Q = 4 g_FS, 3-channel Madelung,\n6-channel Gr(2,4) × Gr(2,4)^∨&quot;]
+    end
+
+    subgraph Runtime[&quot;Compiled Rust/PyO3 + SymPy Verification&quot;]
+        R1[&quot;sato_grassmannian.rs (Block 021+)\nLog-sum-exp PlabicGr24Solver,\nBA Lax, AKNS, Dual-Schubert QFIM&quot;]
+        R2[&quot;sato_grassmannian.py &amp; pytest\n13 SymPy exact proofs +\nPyO3 residual audits (&lt; 10^-14)&quot;]
+    end
+
+    B1 --&gt; B2 --&gt; B3 --&gt; B4 --&gt; P1 --&gt; P2 --&gt; P3 --&gt; R1
+    B4 --&gt; P4 --&gt; R1 --&gt; R2
+    </pre><p>Every theorem in the 11 Lean 4 modules compiles under Lean <code class="docutils literal notranslate"><span class="pre">v4.35.0-rc3</span></code> and Mathlib with zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>, zero <code class="docutils literal notranslate"><span class="pre">admit</span></code>, and zero module-level warnings, integrated into the repository’s top-level <code class="docutils literal notranslate"><span class="pre">Signals</span></code> library (<code class="docutils literal notranslate"><span class="pre">3,830</span></code> Lake jobs via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>).</p>
+</section>
+<hr class="docutils" />
+<section id="polarized-hilbert-space-rieszschauder-fredholm-theory-and-l-2-s-1">
+<h2>2. Polarized Hilbert Space, Riesz–Schauder Fredholm Theory, and <span class="math notranslate nohighlight">\(L^2(S^1)\)</span><a class="headerlink" href="#polarized-hilbert-space-rieszschauder-fredholm-theory-and-l-2-s-1" title="Link to this heading">¶</a></h2>
+<p>Following Segal–Wilson <span class="bibtex-citation" id="id6">[<a class="reference internal" href="references.html#id379" title="G Segal and G Wilson. Loop groups and equations of kdv type. 1985. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.">Segal and Wilson, 1985</a>]</span> and Pressley–Segal <span class="bibtex-citation" id="id7">[<a class="reference internal" href="references.html#id516" title="Andrew Pressley and Graeme Segal. Loop Groups. Oxford Mathematical Monographs. Oxford University Press, 1986. URL: https://global.oup.com/academic/product/loop-groups-9780198535614.">Pressley and Segal, 1986</a>]</span>, a polarized complex Hilbert space (<code class="docutils literal notranslate"><span class="pre">Base.lean</span></code>, sourced from <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md</span></code>, lines 73–1160) is an orthogonal decomposition <span class="math notranslate nohighlight">\(H = H_+ \oplus H_-\)</span> into closed subspaces with orthogonal projections <span class="math notranslate nohighlight">\(\pi_+ : H \to H_+\)</span> and <span class="math notranslate nohighlight">\(\pi_- : H \to H_-\)</span>. A closed subspace <span class="math notranslate nohighlight">\(W \subset H\)</span> belongs to the Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}(H)\)</span> if:</p>
+<ol class="arabic simple">
+<li><p>The restricted projection <span class="math notranslate nohighlight">\(\pi_+|_{W} : W \to H_+\)</span> is Fredholm (finite-dimensional kernel, closed range, finite-dimensional cokernel).</p></li>
+<li><p>The cross projection <span class="math notranslate nohighlight">\(\pi_-|_{W} : W \to H_-\)</span> is compact (and in the Hilbert–Schmidt Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_2(H)\)</span>, Hilbert–Schmidt).</p></li>
+</ol>
+<p>In <code class="docutils literal notranslate"><span class="pre">RieszSchauder.lean</span></code> (chat lines 1255–1989), we establish the complete Riesz–Schauder Fredholm package from scratch over Mathlib’s <code class="docutils literal notranslate"><span class="pre">IsCompactOperator</span></code>: for every compact <span class="math notranslate nohighlight">\(K \in \mathcal{K}(H)\)</span>, the operator <span class="math notranslate nohighlight">\(I + K\)</span> has finite-dimensional kernel, closed range, finite-dimensional cokernel, and Fredholm index zero (<code class="docutils literal notranslate"><span class="pre">isFredholm_id_add_compact</span></code>).</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">CircleL2.lean</span></code> (chat lines 1997–2326), we instantiate <span class="math notranslate nohighlight">\(H = L^2(\mathrm{AddCircle}(2\pi), \mathbb{C})\)</span> using Mathlib’s orthonormal Fourier basis <code class="docutils literal notranslate"><span class="pre">fourierBasis</span></code> <span class="math notranslate nohighlight">\(\{e_n\}_{n \in \mathbb{Z}}\)</span> with <span class="math notranslate nohighlight">\(e_n(\theta) = e^{in\theta}\)</span>, splitting into the Hardy subspace <span class="math notranslate nohighlight">\(H_+ = \overline{\operatorname{span}}\{e_n : n \ge 0\}\)</span> and its orthogonal complement <span class="math notranslate nohighlight">\(H_- = \overline{\operatorname{span}}\{e_n : n &lt; 0\}\)</span>. Multiplication by <span class="math notranslate nohighlight">\(e^{i\theta}\)</span> defines the unitary bilateral shift <code class="docutils literal notranslate"><span class="pre">shiftCLE</span> <span class="pre">:</span> <span class="pre">HCircle</span> <span class="pre">≃L[ℂ]</span> <span class="pre">HCircle</span></code>, whose restriction to <span class="math notranslate nohighlight">\(H_+\)</span> has kernel <span class="math notranslate nohighlight">\(\{0\}\)</span> and 1-dimensional cokernel <span class="math notranslate nohighlight">\(\mathbb{C} e_0\)</span>, giving Fredholm index <span class="math notranslate nohighlight">\(-1\)</span>.</p>
+</section>
+<hr class="docutils" />
+<section id="klein-quadric-truncation-mathrm-gr-mathbb-c-2-4-hookrightarrow-mathrm-gr-l-2-s-1-and-two-machine-caught-bug-fixes">
+<h2>3. Klein Quadric Truncation <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}(L^2(S^1))\)</span> and Two Machine-Caught Bug Fixes<a class="headerlink" href="#klein-quadric-truncation-mathrm-gr-mathbb-c-2-4-hookrightarrow-mathrm-gr-l-2-s-1-and-two-machine-caught-bug-fixes" title="Link to this heading">¶</a></h2>
+<p>Mapping <span class="math notranslate nohighlight">\((v_0, v_1, v_2, v_3) \in \mathbb{C}^4\)</span> to <span class="math notranslate nohighlight">\(v_0 e_{-2} + v_1 e_{-1} + v_2 e_0 + v_3 e_1 \in L^2(S^1)\)</span> embeds any 2-plane <span class="math notranslate nohighlight">\(U = \operatorname{span}\{v, w\} \subset \mathbb{C}^4\)</span> into the virtual-dimension-<span class="math notranslate nohighlight">\(0\)</span> Sato Grassmannian via <span class="math notranslate nohighlight">\(W_U = U \oplus \overline{\operatorname{span}}\{e_n : n \ge 2\}\)</span> (<code class="docutils literal notranslate"><span class="pre">Gr24Truncation.lean</span></code>, chat lines 2475–2995). Its six Plücker minors <span class="math notranslate nohighlight">\(p_{ij} = v_i w_j - v_j w_i\)</span> (<span class="math notranslate nohighlight">\(0 \le i &lt; j \le 3\)</span>) satisfy the Klein quadric equation:</p>
+<div class="math notranslate nohighlight">
+\[
+p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12} = 0.
+\]</div>
+<section id="machine-caught-fix-1-big-cell-frame-reconstruction-signs-gr24truncation-lean">
+<h3>3.1 Machine-Caught Fix 1: Big-Cell Frame Reconstruction Signs (<code class="docutils literal notranslate"><span class="pre">Gr24Truncation.lean</span></code>)<a class="headerlink" href="#machine-caught-fix-1-big-cell-frame-reconstruction-signs-gr24truncation-lean" title="Link to this heading">¶</a></h3>
+<p>On the big cell <span class="math notranslate nohighlight">\(p_{23} \ne 0\)</span>, the unique reduced row-echelon frame <span class="math notranslate nohighlight">\((v_{\mathrm{norm}}, w_{\mathrm{norm}})\)</span> whose <span class="math notranslate nohighlight">\((2,3)\)</span>-columns form <span class="math notranslate nohighlight">\(I_2\)</span> and whose Plücker coordinates recover <span class="math notranslate nohighlight">\(p_{ij} / p_{23}\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+v_{\mathrm{norm}} = \left(\frac{p_{03}}{p_{23}},\; \frac{p_{13}}{p_{23}},\; 1,\; 0\right), \qquad
+w_{\mathrm{norm}} = \left(-\frac{p_{02}}{p_{23}},\; -\frac{p_{12}}{p_{23}},\; 0,\; 1\right).
+\]</div>
+<p>In the source chat (Block 005, lines 2475–2995), <code class="docutils literal notranslate"><span class="pre">w_norm</span></code> was originally written with positive signs <span class="math notranslate nohighlight">\((+p_{02}/p_{23}, +p_{12}/p_{23}, 0, 1)\)</span>, which gives <span class="math notranslate nohighlight">\(v_{\mathrm{norm},0} w_{\mathrm{norm},2} - v_{\mathrm{norm},2} w_{\mathrm{norm},0} = -p_{02}/p_{23}\)</span> — off by a sign from <span class="math notranslate nohighlight">\(p_{02}/p_{23}\)</span> (<code class="docutils literal notranslate"><span class="pre">chat_block005_bug_confirmed_nonzero</span> <span class="pre">=</span> <span class="pre">True</span></code> in SymPy). Lean 4’s kernel rejected the erroneous sign during <code class="docutils literal notranslate"><span class="pre">kleinQuadric_reconstruct_bigCell</span></code>, and correcting the signs of <span class="math notranslate nohighlight">\(w_{\mathrm{norm}}\)</span> makes both <code class="docutils literal notranslate"><span class="pre">kleinQuadric_reconstruct_bigCell</span></code> and the infinite-dimensional Segal–Wilson theorem <code class="docutils literal notranslate"><span class="pre">segalWilson_tau_gr24_eq_tauU</span></code> (Paper 2) close identically.</p>
+</section>
+<section id="machine-caught-fix-2-bakerakhiezer-partial-x-3-psi-coefficient-laxpair-lean">
+<h3>3.2 Machine-Caught Fix 2: Baker–Akhiezer <span class="math notranslate nohighlight">\(\partial_x^3 \psi\)</span> Coefficient (<code class="docutils literal notranslate"><span class="pre">LaxPair.lean</span></code>)<a class="headerlink" href="#machine-caught-fix-2-bakerakhiezer-partial-x-3-psi-coefficient-laxpair-lean" title="Link to this heading">¶</a></h3>
+<p>For the KdV 1-soliton potential <span class="math notranslate nohighlight">\(u(x, t) = 2 k^2 \operatorname{sech}^2(\theta)\)</span> with <span class="math notranslate nohighlight">\(\theta = k x + k^3 t\)</span>, the Baker–Akhiezer wave function (<code class="docutils literal notranslate"><span class="pre">LaxPair.lean</span></code>, chat lines 12135–12380) is:</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(x, y, t; z) = \bigl(z - k\tanh\theta\bigr)\exp\bigl(z x + z^2 y + z^3 t\bigr).
+\]</div>
+<p>Setting <span class="math notranslate nohighlight">\(T = \tanh\theta\)</span>, <span class="math notranslate nohighlight">\(S_2 = \operatorname{sech}^2\theta = 1 - T^2\)</span>, and <span class="math notranslate nohighlight">\(E = e^{zx + z^2 y + z^3 t}\)</span>, the exact third spatial derivative is:</p>
+<div class="math notranslate nohighlight">
+\[
+\partial_x^3 \psi = \Bigl[z^3(z - k T) - 3 z^2 k^2 S_2 + 6 z k^3 S_2 T + 2 k^4 S_2(1 - 3 T^2)\Bigr] E.
+\]</div>
+<p>The source chat draft (Block 019) wrote <span class="math notranslate nohighlight">\(+4 k^3 S_2 T (z - k T) + 2 k^4 S_2 (1 - 2 T^2)\)</span> instead of <span class="math notranslate nohighlight">\(+6 z k^3 S_2 T + 2 k^4 S_2 (1 - 3 T^2)\)</span>, leaving an exact discrepancy of <span class="math notranslate nohighlight">\(2 k^3 S_2 T (z + k T) E\)</span> (<code class="docutils literal notranslate"><span class="pre">chat_block019_psi_xxx_bug_confirmed_nonzero</span> <span class="pre">=</span> <span class="pre">True</span></code> in SymPy). With the corrected derivative, <code class="docutils literal notranslate"><span class="pre">baWave_lax_equations</span></code> proves both the <span class="math notranslate nohighlight">\(B_2\)</span> and <span class="math notranslate nohighlight">\(B_3\)</span> Lax equations unconditionally:</p>
+<div class="math notranslate nohighlight">
+\[
+\partial_y \psi = (\partial_x^2 + u)\psi, \qquad
+\partial_t \psi = \left(\partial_x^3 + \frac{3}{2} u\,\partial_x + w\right)\psi, \qquad
+w = -3 k^3 \tanh\theta \operatorname{sech}^2\theta.
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hirota-bilinear-kp-ii-kodamawilliams-mathrm-gr-ge-0-2-4-soliton-webs-and-akns-solitons">
+<h2>4. Hirota Bilinear KP-II, Kodama–Williams <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> Soliton Webs, and AKNS Solitons<a class="headerlink" href="#hirota-bilinear-kp-ii-kodamawilliams-mathrm-gr-ge-0-2-4-soliton-webs-and-akns-solitons" title="Link to this heading">¶</a></h2>
+<p>Under the 3-time KP flow <span class="math notranslate nohighlight">\(\exp(t_1 z + t_2 z^2 + t_3 z^3)\)</span> (<code class="docutils literal notranslate"><span class="pre">KPFlow.lean</span></code>, chat lines 3001–3617), the Sato <span class="math notranslate nohighlight">\(\tau\)</span>-function of a 2-plane <span class="math notranslate nohighlight">\(U = \operatorname{span}\{v, w\} \in \mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> expands in Schur polynomials indexed by partitions inside the <span class="math notranslate nohighlight">\(2\times 2\)</span> Young diagram (<code class="docutils literal notranslate"><span class="pre">HirotaKP.lean</span></code>, chat lines 3736–4227):</p>
+<div class="math notranslate nohighlight">
+\[
+\tau_U(t_1, t_2, t_3) = p_{23} + p_{13} s_{(1)} + p_{03} s_{(2)} + p_{12} s_{(1,1)} + p_{02} s_{(2,1)} + p_{01} s_{(2,2)},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(s_{(1)} = t_1\)</span>, <span class="math notranslate nohighlight">\(s_{(2)} = t_2 + \tfrac{1}{2} t_1^2\)</span>, <span class="math notranslate nohighlight">\(s_{(1,1)} = \tfrac{1}{2} t_1^2 - t_2\)</span>, <span class="math notranslate nohighlight">\(s_{(2,1)} = \tfrac{1}{3} t_1^3 - t_3\)</span>, and <span class="math notranslate nohighlight">\(s_{(2,2)} = \tfrac{1}{12} t_1^4 + t_2^2 - t_1 t_3\)</span>. Both <code class="docutils literal notranslate"><span class="pre">HirotaKP.hirotaKP_tauU_eq_zero</span></code> and SymPy (<code class="docutils literal notranslate"><span class="pre">hirota_kp_eq_24_times_klein</span></code>) prove the exact algebraic identity:</p>
+<div class="math notranslate nohighlight">
+\[
+\bigl(D_{t_1}^4 - 4 D_{t_1} D_{t_3} + 3 D_{t_2}^2\bigr)\tau_U \cdot \tau_U = 24\,(p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}) = 0.
+\]</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">KP2Nonlinear.lean</span></code> (chat lines 7410–7748) and <code class="docutils literal notranslate"><span class="pre">PDESolver.lean</span></code> (chat lines 11446–12015), we prove:</p>
+<ol class="arabic simple">
+<li><p><strong>Bilinear-to-Nonlinear Equivalence (<code class="docutils literal notranslate"><span class="pre">hirotaKP_eq_zero_iff_kp2</span></code>):</strong> Wherever <span class="math notranslate nohighlight">\(\tau(x, y, t) \ne 0\)</span>, setting <span class="math notranslate nohighlight">\(u = 2\,\partial_x^2 \log\tau\)</span> satisfies <span class="math notranslate nohighlight">\(\partial_x(4 u_t - u_{xxx} - 6 u u_x) - 3 u_{yy} = 0\)</span> if and only if Hirota’s bilinear expression vanishes.</p></li>
+<li><p><strong>Wronskian Positroid Soliton Webs (<code class="docutils literal notranslate"><span class="pre">solitonTau_eq_wronskian</span></code>, <code class="docutils literal notranslate"><span class="pre">hirotaKP_solitonTau_eq_zero</span></code>, <code class="docutils literal notranslate"><span class="pre">solitonTau_pos_of_totallyNonneg</span></code>):</strong> For real ordered wavenumbers <span class="math notranslate nohighlight">\(\kappa_0 &lt; \kappa_1 &lt; \kappa_2 &lt; \kappa_3\)</span> and a totally nonnegative frame <span class="math notranslate nohighlight">\((v, w) \in \mathrm{Gr}_{\ge 0}(2,4)\)</span> (all <span class="math notranslate nohighlight">\(p_{ij} \ge 0\)</span>, not all zero),</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\tau_{\kappa, v, w}(x, y, t) = \sum_{0 \le i &lt; j \le 3} p_{ij}(\kappa_j - \kappa_i)\exp\Bigl((\kappa_i + \kappa_j)x + (\kappa_i^2 + \kappa_j^2)y + (\kappa_i^3 + \kappa_j^3)t\Bigr) &gt; 0
+\]</div>
+<p>is strictly positive on all of <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>, guaranteeing global smooth, blowup-free <span class="math notranslate nohighlight">\((2+1)\)</span>-D resonant soliton webs <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id517" title="Yuji Kodama and Lauren Williams. KP solitons and total positivity for the Grassmannian. Inventiones Mathematicae, 198(3):637–699, 2014. URL: https://doi.org/10.48550/arXiv.1106.0023, arXiv:1106.0023, doi:10.1007/s00222-014-0506-3.">Kodama and Williams, 2014</a>]</span>.
+3. <strong>KdV Reduction (<code class="docutils literal notranslate"><span class="pre">kdv2Soliton_y_invariant_and_smooth</span></code>, <code class="docutils literal notranslate"><span class="pre">kdv_oneSoliton_pde</span></code>):</strong> Choosing symmetric wavenumbers <span class="math notranslate nohighlight">\((-\kappa_2, -\kappa_1, \kappa_1, \kappa_2)\)</span> and the KdV positroid cell annihilates the <span class="math notranslate nohighlight">\(y\)</span>-dependence (<span class="math notranslate nohighlight">\(\partial_y u = \partial_{yy} u = 0\)</span>), yielding exact smooth KdV 1- and 2-solitons solving <span class="math notranslate nohighlight">\(4 u_t - u_{xxx} - 6 u u_x = 0\)</span>.
+4. <strong>AKNS Hierarchy (<code class="docutils literal notranslate"><span class="pre">AKNS.lean</span></code>, chat lines 12388–12739):</strong> Passing to <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix Lax pairs <span class="bibtex-citation" id="id9">[<a class="reference internal" href="references.html#id519" title="Mark J. Ablowitz, David J. Kaup, Alan C. Newell, and Harvey Segur. The inverse scattering transform–Fourier analysis for nonlinear problems. Studies in Applied Mathematics, 53(4):249–315, 1974. URL: https://dx.doi.org/10.1002/sapm1974534249, doi:10.1002/sapm1974534249.">Ablowitz <em>et al.</em>, 1974</a>]</span>, we prove <code class="docutils literal notranslate"><span class="pre">akns_zero_curvature_iff</span></code> together with the focusing NLS bright soliton <code class="docutils literal notranslate"><span class="pre">brightSoliton_nls_pde</span></code> (<span class="math notranslate nohighlight">\(q(x,t) = A\operatorname{sech}(Ax)e^{i A^2 t}\)</span> solving <span class="math notranslate nohighlight">\(i q_t + q_{xx} + 2|q|^2 q = 0\)</span>) and the defocusing GPE dark soliton <code class="docutils literal notranslate"><span class="pre">darkSoliton_gpe_pde</span></code> (<span class="math notranslate nohighlight">\(q(x,t) = A\tanh(Ax)e^{-2 i A^2 t}\)</span> solving <span class="math notranslate nohighlight">\(i q_t + q_{xx} - 2|q|^2 q = 0\)</span>).</p>
+</section>
+<hr class="docutils" />
+<section id="three-channel-pluckermadelung-six-channel-dual-schubert-qfim-evanescent-speed-law">
+<h2>5. Three-Channel Plücker–Madelung, Six-Channel Dual-Schubert QFIM, &amp; Evanescent Speed Law<a class="headerlink" href="#three-channel-pluckermadelung-six-channel-dual-schubert-qfim-evanescent-speed-law" title="Link to this heading">¶</a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.lean</span></code> (chat lines 13049–13254), we lift the projective geometry of <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathbb{P}^5(\mathbb{C})\)</span> into a machine-checked quantum-metrology identity connecting directly to our companion paper <a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric</span></a>:</p>
+<div class="math notranslate nohighlight">
+\[
+\|\partial_x \Psi\|^2 = \rho\,\bigl(\operatorname{Im}\langle\hat{p}, \partial_x\hat{p}\rangle\bigr)^2 + \frac{(\partial_x\rho)^2}{4\rho} + \rho\,\frac{F_Q(\hat{p}, \partial_x\hat{p})}{4},
+\qquad F_Q(p, v) = 4\,g_{\mathrm{FS}}(p, v) = 4\left(\frac{\|v\|^2}{\|p\|^2} - \frac{|\langle p, v\rangle|^2}{\|p\|^4}\right).
+\]</div>
+<p>On the dual-Schubert product <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span>, <code class="docutils literal notranslate"><span class="pre">dual_schubert_six_channel_decomposition</span></code> proves that the total QFIM splits additively into six nonnegative channels (three forward Plücker channels plus three dual-Schubert channels). Furthermore, <strong>Theorem 4.3</strong> (<code class="docutils literal notranslate"><span class="pre">sharoglazova_klaers_evanescent_speed_law</span></code> in <code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.lean</span></code>, linked to <code class="docutils literal notranslate"><span class="pre">er_epr_wormhole_bohm_blowup_and_sharoglazova_klaers_qfim_cushion_identities</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.QuantumTrajectories</span></code> Section 9) formalizes the stationary coupled-waveguide evanescent state <span class="math notranslate nohighlight">\(\Psi(x) = e^{-\bar{\kappa} x}(\cosh(\delta\kappa\,x), \sinh(\delta\kappa\,x))\)</span> where <span class="math notranslate nohighlight">\(\kappa_{\pm}^2 = 2m(|E_{\mathrm{kin}}| \mp \hbar J_0)/\hbar^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+v_{\mathrm{Bohm}}^2 = 0, \qquad g_{\mathrm{FS}}(\hat{p}, \partial_x\hat{p}) = \frac{\delta\kappa^2}{\cosh^2(2\delta\kappa\,x)}, \qquad \left(\frac{\hbar}{m}\right)^2\left[0 + \left(\frac{\partial_x\rho}{2\rho}\right)^2 + \frac{F_Q}{4}\right] = \frac{2}{m}\bigl(|E_{\mathrm{kin}}| - \hbar J_0\tanh(2\delta\kappa\,x)\bigr).
+\]</div>
+<p>Thus Channel 1 (Bohmian phase velocity) vanishes identically while Channel 2 (scalar osmotic gradient) and Channel 3 (projective Fubini–Study / QFIM) jointly recover the exact evanescent speed law without singularity. As recorded in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code>, these exact geometric identities do not by themselves establish experimental tunneling speeds in coupled-waveguide cavities <span class="bibtex-citation" id="id10">[<a class="reference internal" href="references.html#id486" title="Violetta Sharoglazova, Marius Puplauskis, Charlie Mattschas, Chris Toebes, and Jan Klaers. Energy–speed relationship of quantum particles challenges Bohmian mechanics. Nature, 643(8070):67–72, July 2025. URL: https://www.nature.com/articles/s41586-025-09099-4, doi:10.1038/s41586-025-09099-4.">Sharoglazova <em>et al.</em>, 2025</a>]</span> or physical wormhole-throat stabilization.</p>
+</section>
+<hr class="docutils" />
+<section id="overflow-proof-log-sum-exp-rust-pyo3-pde-solver-tri-language-verification-summary">
+<h2>6. Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solver &amp; Tri-Language Verification Summary<a class="headerlink" href="#overflow-proof-log-sum-exp-rust-pyo3-pde-solver-tri-language-verification-summary" title="Link to this heading">¶</a></h2>
+<p>Directly evaluating <span class="math notranslate nohighlight">\(\tau(x,y,t) = \sum_r c_r e^{\theta_r}\)</span> in IEEE-754 <code class="docutils literal notranslate"><span class="pre">f64</span></code> overflows above <span class="math notranslate nohighlight">\(\theta_r \approx 709\)</span> (e.g., at <span class="math notranslate nohighlight">\((x, y, t) = (100, -50, 20)\)</span>). In <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/sato_grassmannian.rs</span></code> (extending chat Block 021, lines 12747–13021), <code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code> shifts all exponents by <span class="math notranslate nohighlight">\(M = \max_r (\ln c_r + \theta_r)\)</span>, forms normalized Boltzmann weights <span class="math notranslate nohighlight">\(w_r = e^{\phi_r - M} / Z\)</span>, and computes the exact analytical KP-II jet up to 4th derivatives via central cumulants of <span class="math notranslate nohighlight">\((\alpha_r, \beta_r, \gamma_r)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+u = 2\,\mu_{2,\alpha}, \qquad u_x = 2\,\mu_{3,\alpha}, \qquad u_{xx} = 2(\mu_{4,\alpha} - 3\mu_{2,\alpha}^2),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+u_{xxx} = 2(\mu_{5,\alpha} - 10\mu_{3,\alpha}\mu_{2,\alpha}), \qquad u_{xxxx} = 2(\mu_{6,\alpha} - 15\mu_{4,\alpha}\mu_{2,\alpha} - 10\mu_{3,\alpha}^2 + 30\mu_{2,\alpha}^3).
+\]</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Verification Artifact</p></th>
+<th class="head"><p>Domain / Benchmark Point</p></th>
+<th class="head"><p>Lean 4 Theorem (Zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>)</p></th>
+<th class="head"><p>SymPy Exact Proof</p></th>
+<th class="head"><p>Rust/PyO3 Measured Residual</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Big-cell Klein quadric (<code class="docutils literal notranslate"><span class="pre">Gr(2,4)</span></code>)</p></td>
+<td><p>Postnikov weights <span class="math notranslate nohighlight">\((1.2, 0.8, 1.5, 2.1)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kleinQuadric_reconstruct_bigCell</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">big_cell_reconstruction_corrected_signs</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(|p_{01}p_{23}-p_{02}p_{13}+p_{03}p_{12}| &lt; 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>KP-II top-cell resonant web</p></td>
+<td><p><span class="math notranslate nohighlight">\(\kappa=(-2,-0.5,0.7,1.8)\)</span>, <span class="math notranslate nohighlight">\((1.3,-2.4,0.9)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hirotaKP_solitonTau_eq_zero</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hirota_kp_eq_24_times_klein</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(u = 1.162107\)</span>, residual <span class="math notranslate nohighlight">\(3.11 \times 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>KP-II extreme-coordinate stability</p></td>
+<td><p><span class="math notranslate nohighlight">\(\kappa=(-1,0,1,2)\)</span>, <span class="math notranslate nohighlight">\((100,-50,20)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">solitonTau_pos_of_totallyNonneg</span></code></p></td>
+<td><p>Exact cumulant invariance</p></td>
+<td><p>No overflow, residual <span class="math notranslate nohighlight">\(&lt; 10^{-11}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>KdV 2-soliton <span class="math notranslate nohighlight">\(y\)</span>-invariance</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_1=0.6, k_2=1.3\)</span>, <span class="math notranslate nohighlight">\(y=0\)</span> vs. <span class="math notranslate nohighlight">\(y=17.5\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kdv2Soliton_y_invariant_and_smooth</span></code></p></td>
+<td><p>Exact <span class="math notranslate nohighlight">\(\beta_r\)</span> symmetry</p></td>
+<td><p><span class="math notranslate nohighlight">\(|u(y=0)-u(y=17.5)| &lt; 10^{-13}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Baker–Akhiezer <span class="math notranslate nohighlight">\(B_2\)</span> &amp; <span class="math notranslate nohighlight">\(B_3\)</span> Lax pair</p></td>
+<td><p><span class="math notranslate nohighlight">\(k=0.8, z=0.3+1.1i\)</span>, <span class="math notranslate nohighlight">\((0.4,-0.2,0.5)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">baWave_lax_equations</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ba_lax_b2_exact</span></code>, <code class="docutils literal notranslate"><span class="pre">ba_lax_b3_exact</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(B_2\)</span>: <span class="math notranslate nohighlight">\(1.11 \times 10^{-16}\)</span>; <span class="math notranslate nohighlight">\(B_3\)</span>: <span class="math notranslate nohighlight">\(4.97 \times 10^{-16}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>AKNS bright NLS &amp; dark GPE solitons</p></td>
+<td><p><span class="math notranslate nohighlight">\(A=1.3\)</span>, <span class="math notranslate nohighlight">\((x,t)=(0.7,-0.4)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">brightSoliton_nls_pde</span></code>, <code class="docutils literal notranslate"><span class="pre">darkSoliton_gpe_pde</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">akns_bright_nls_exact</span></code>, <code class="docutils literal notranslate"><span class="pre">akns_dark_gpe_exact</span></code></p></td>
+<td><p>NLS: <span class="math notranslate nohighlight">\(2.48 \times 10^{-16}\)</span>; GPE: <span class="math notranslate nohighlight">\(2.29 \times 10^{-16}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>6-channel Dual-Schubert QFIM</p></td>
+<td><p>Normalized 6+6 Plücker densities</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dual_schubert_six_channel_decomposition</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dual_schubert_three_channel_plucker_madelung_qfim</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(F_Q^{\mathrm{tot}} = 0.988767\)</span>, residual <span class="math notranslate nohighlight">\(&lt; 10^{-15}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Sharoglazova–Klaers evanescent speed law</p></td>
+<td><p><span class="math notranslate nohighlight">\(\hbar=m=1\)</span>, <span class="math notranslate nohighlight">\(E_{\mathrm{abs}}=2.5\)</span>, <span class="math notranslate nohighlight">\(J_0=1.5\)</span>, <span class="math notranslate nohighlight">\(x=0.37\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sharoglazova_klaers_evanescent_speed_law</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sharoglazova_klaers_evanescent_speed_law</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(v_{\mathrm{Bohm}}^2 = 0\)</span>, residual <span class="math notranslate nohighlight">\(&lt; 10^{-14}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="reproducibility-commands">
+<h2>7. Reproducibility Commands<a class="headerlink" href="#reproducibility-commands" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Verify all 21 Signals.SatoGrassmannian modules, SignalsTests, and SignalsPendingTests</span>
+make<span class="w"> </span>signals_build
+
+<span class="c1"># 2. Run Rust unit tests and build/install the PyO3 extension</span>
+cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--manifest-path<span class="w"> </span>src/signals/numerical_adapter/Cargo.toml<span class="w"> </span>sato_grassmannian
+maturin<span class="w"> </span>develop<span class="w"> </span>--manifest-path<span class="w"> </span>src/signals/numerical_adapter/Cargo.toml<span class="w"> </span>--release<span class="w"> </span>--features<span class="w"> </span>extension-module
+
+<span class="c1"># 3. Run the SymPy + mpmath + PyO3 cross-verification test suite (15 symbolic proofs + PyO3/mpmath)</span>
+pytest<span class="w"> </span>-q<span class="w"> </span>tests/test_sato_grassmannian_sympy_pyo3.py
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<ul class="simple" id="id11">
+<li id="id247"><p>A Postnikov. Total positivity, grassmannians, and networks. 2006. Plabic graphs. URL: <a class="reference external" href="https://arxiv.org/abs/math/0609764">https://arxiv.org/abs/math/0609764</a>, <a class="reference external" href="https://arxiv.org/abs/math/0609764">arXiv:math/0609764</a>.</p></li>
+<li id="id496"><p>Violetta Sharoglazova, Marius Puplauskis, Charlie Mattschas, Chris Toebes, and Jan Klaers. Energy–speed relationship of quantum particles challenges Bohmian mechanics. <em>Nature</em>, 643(8070):67–72, July 2025. URL: <a class="reference external" href="https://www.nature.com/articles/s41586-025-09099-4">https://www.nature.com/articles/s41586-025-09099-4</a>, <a class="reference external" href="https://doi.org/10.1038/s41586-025-09099-4">doi:10.1038/s41586-025-09099-4</a>.</p></li>
+<li id="id388"><p>M Sato. Soliton equations as dynamical systems on infinite dimensional grassmann manifolds. 1981. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.</p></li>
+<li id="id389"><p>G Segal and G Wilson. Loop groups and equations of kdv type. 1985. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.</p></li>
+<li id="id526"><p>Andrew Pressley and Graeme Segal. <em>Loop Groups</em>. Oxford Mathematical Monographs. Oxford University Press, 1986. URL: <a class="reference external" href="https://global.oup.com/academic/product/loop-groups-9780198535614">https://global.oup.com/academic/product/loop-groups-9780198535614</a>.</p></li>
+<li id="id530"><p>Ryogo Hirota. <em>The Direct Method in Soliton Theory</em>. Volume 155 of Cambridge Tracts in Mathematics. Cambridge University Press, 2004. URL: <a class="reference external" href="https://doi.org/10.1017/CBO9780511543043">https://doi.org/10.1017/CBO9780511543043</a>.</p></li>
+<li id="id527"><p>Yuji Kodama and Lauren Williams. KP solitons and total positivity for the Grassmannian. <em>Inventiones Mathematicae</em>, 198(3):637–699, 2014. URL: <a class="reference external" href="https://doi.org/10.48550/arXiv.1106.0023">https://doi.org/10.48550/arXiv.1106.0023</a>, <a class="reference external" href="https://arxiv.org/abs/1106.0023">arXiv:1106.0023</a>, <a class="reference external" href="https://doi.org/10.1007/s00222-014-0506-3">doi:10.1007/s00222-014-0506-3</a>.</p></li>
+<li id="id529"><p>Mark J. Ablowitz, David J. Kaup, Alan C. Newell, and Harvey Segur. The inverse scattering transform–Fourier analysis for nonlinear problems. <em>Studies in Applied Mathematics</em>, 53(4):249–315, 1974. URL: <a class="reference external" href="https://dx.doi.org/10.1002/sapm1974534249">https://dx.doi.org/10.1002/sapm1974534249</a>, <a class="reference external" href="https://doi.org/10.1002/sapm1974534249">doi:10.1002/sapm1974534249</a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html" title="Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy" >previous</a></li>
+        <li><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

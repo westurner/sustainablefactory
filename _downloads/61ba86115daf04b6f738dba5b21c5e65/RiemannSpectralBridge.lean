@@ -1,0 +1,227 @@
+import Mathlib.Analysis.InnerProductSpace.PiL2
+import Signals.RiemannSpectral
+import Signals.SatoGrassmannian.Gr24Truncation
+import Signals.SatoGrassmannian.HirotaKP
+import Signals.SatoGrassmannian.RHGaps
+import Signals.SatoGrassmannian.RemainingGaps
+import Signals.SatoGrassmannian.CarlemanWeierstrass
+import Signals.SatoGrassmannian.WeilPositivity
+import Signals.SatoGrassmannian.WeilGaussianL1
+import Signals.SatoGrassmannian.SegalWilsonGr24
+
+/-!
+# Formal Bridge Between `Signals.RiemannSpectral` and `Signals.SatoGrassmannian`
+
+Connects the finite-dimensional `RB-6` Grassmannian / Li / de Bruijn–Newman / Jensen–Pólya /
+Weil / celestial-holography theorems in `Signals.RiemannSpectral` to the infinite-dimensional
+Hilbert-space Sato Grassmannian stack `Signals.SatoGrassmannian.*`:
+
+1. **Li / Cayley bridge** (`liTransformModulusSq_eq_norm_sq_cayley`): exact identity
+   `‖cayley ((1/2 + σ_dev) + i γ)‖² = liTransformModulusSq σ_dev γ`, uniting
+   `RiemannSpectral.liTransformModulusSq_eq_one_iff_critical_line` with
+   `RHGaps.norm_sq_cayley_sub_one`, `liSummand_nonneg_of_re_ge_half`, and
+   `cayley_pow_unbounded_of_re_lt_half`.
+2. **de Bruijn–Newman backward-heat collision bridge** (`dbnQuadraticHeatSolution_eq_localDoubleZero`):
+   exact normalization matching `RiemannSpectral.dbnQuadraticHeatSolution` to
+   `RHGaps.localDoubleZero`.
+3. **Jensen–Pólya Madelung–Bohm / Turán bridge** (`jensen2_turan_iff_madelung_bohm`):
+   degree-2 real-rootedness in `RHGaps` equals nonnegativity of the osmotic + Bohm
+   discriminant in `Signals.RiemannSpectral`.
+4. **Sato Hirota bilinear Plücker bridge** (`wronskianMinor_eq_pluckerCoord_cast`):
+   real Wronskian minors in `Signals.RiemannSpectral` lift directly to `Gr24Truncation.pluckerCoord`
+   on the Klein quadric `𝒬₄`, feeding into `HirotaKP.hirotaKP_tauU_eq_zero` and
+   `SegalWilsonGr24.segalWilson_tau_gr24_eq_tauU`.
+5. **Finite-to-infinite Kato–Rellich promotion** (`finiteDiagonalSymmetricOp`):
+   promotes any real finite diagonal matrix `d : Fin n → ℝ` (`RiemannSpectral.finiteDiagonalOperator`)
+   to an everywhere-defined `SymmetricOp (EuclideanSpace ℂ (Fin n))` satisfying the symmetric
+   operator contract of `RHGaps.katoRellich_closure`.
+6. **Celestial chiral Casimir & Cayley critical-line equivalence**
+   (`celestialChiralCasimir_and_cayley_critical_line_equiv`):
+   combines `RiemannSpectral.celestialChiralCasimir_im_eq_zero_iff_critical_line` with
+   the Cayley unit-circle characterization `‖cayley ρ‖ = 1 ↔ σ_dev = 0`.
+-/
+
+open scoped InnerProductSpace BigOperators
+
+namespace Signals.SatoGrassmannian.RiemannSpectralBridge
+
+open Signals.RiemannSpectral
+open Signals.SatoGrassmannian
+open Signals.SatoGrassmannian.Gr24Truncation
+open Signals.SatoGrassmannian.HirotaKP
+open Signals.SatoGrassmannian.RHGaps
+open Signals.SatoGrassmannian.RemainingGaps
+open Signals.SatoGrassmannian.WeilPositivity
+open Signals.SatoGrassmannian.WeilGaussianL1
+
+/-! ### 1. Li / Cayley Unit-Circle Bridge -/
+
+/-- Exact identity between `Signals.RiemannSpectral.liTransformModulusSq` and
+`‖RHGaps.cayley ρ‖²` at `ρ = (1/2 + σ_dev) + i γ ≠ 0`. -/
+theorem liTransformModulusSq_eq_norm_sq_cayley (sigmaDev gamma : ℝ)
+    (h_rho_ne_zero : 0 < (sigmaDev + 1 / 2) ^ 2 + gamma ^ 2) :
+    let ρ : ℂ := ⟨sigmaDev + 1 / 2, gamma⟩
+    ‖cayley ρ‖ ^ 2 = liTransformModulusSq sigmaDev gamma := by
+  intro ρ
+  have hden : (sigmaDev + 1 / 2) ^ 2 + gamma ^ 2 ≠ 0 := ne_of_gt h_rho_ne_zero
+  have hρ : ρ ≠ 0 := by
+    intro h0
+    have hre : sigmaDev + 1 / 2 = 0 := congrArg Complex.re h0
+    have him : gamma = 0 := congrArg Complex.im h0
+    rw [hre, him] at h_rho_ne_zero
+    norm_num at h_rho_ne_zero
+  have hnorm_sq_ρ : ‖ρ‖ ^ 2 = (sigmaDev + 1 / 2) ^ 2 + gamma ^ 2 := by
+    rw [← Complex.normSq_eq_norm_sq, Complex.normSq_apply]
+    simp [ρ]; ring
+  have hnorm_sq_sub : ‖ρ - 1‖ ^ 2 = (sigmaDev - 1 / 2) ^ 2 + gamma ^ 2 := by
+    rw [← Complex.normSq_eq_norm_sq, Complex.normSq_apply]
+    simp [ρ]; ring
+  unfold cayley liTransformModulusSq
+  have hfrac : (1 : ℂ) - ρ⁻¹ = (ρ - 1) / ρ := by field_simp [hρ]
+  rw [hfrac, norm_div, div_pow, hnorm_sq_ρ, hnorm_sq_sub]
+
+/-- Unified critical-line equivalence combining `Signals.RiemannSpectral` and `RHGaps`:
+for `ρ = (1/2 + σ_dev) + i γ ≠ 0`, `‖cayley ρ‖² = 1 ↔ liTransformModulusSq σ_dev γ = 1 ↔ σ_dev = 0`,
+and on the critical line (`σ_dev = 0`) every `n`-th Li summand is nonnegative. -/
+theorem li_cayley_critical_line_bridge (sigmaDev gamma : ℝ)
+    (h_rho_ne_zero : 0 < (sigmaDev + 1 / 2) ^ 2 + gamma ^ 2) :
+    let ρ : ℂ := ⟨sigmaDev + 1 / 2, gamma⟩
+    (‖cayley ρ‖ ^ 2 = 1 ↔ sigmaDev = 0) ∧
+    (liTransformModulusSq sigmaDev gamma = 1 ↔ ‖cayley ρ‖ ^ 2 = 1) ∧
+    (sigmaDev = 0 → ∀ n : ℕ, 0 ≤ liSummand ρ n) := by
+  intro ρ
+  have heq := liTransformModulusSq_eq_norm_sq_cayley sigmaDev gamma h_rho_ne_zero
+  have hiff := liTransformModulusSq_eq_one_iff_critical_line sigmaDev gamma h_rho_ne_zero
+  refine ⟨by rw [heq]; exact hiff, by rw [heq], fun h0 n => ?_⟩
+  have hρ : ρ ≠ 0 := by
+    intro hzero
+    have hre : sigmaDev + 1 / 2 = 0 := congrArg Complex.re hzero
+    have him : gamma = 0 := congrArg Complex.im hzero
+    rw [hre, him] at h_rho_ne_zero; norm_num at h_rho_ne_zero
+  have hre : (1 : ℝ) / 2 ≤ ρ.re := by simp [ρ, h0]
+  exact liSummand_nonneg_of_re_ge_half hρ hre n
+
+/-! ### 2. de Bruijn–Newman Backward-Heat Collision Bridge -/
+
+/-- Exact match between `Signals.RiemannSpectral.dbnQuadraticHeatSolution` (with curvature `z₂ = -2`)
+and the real part of `RHGaps.localDoubleZero`:
+`dbnQuadraticHeatSolution z0 (-2) t dz = -(localDoubleZero (t + z0 / 2) dz).re`. -/
+theorem dbnQuadraticHeatSolution_eq_localDoubleZero (z0 t dz : ℝ) :
+    dbnQuadraticHeatSolution z0 (-2) t dz = -(localDoubleZero (t + z0 / 2) dz).re := by
+  unfold dbnQuadraticHeatSolution localDoubleZero
+  have hre : (((dz : ℂ) ^ 2 - (2 : ℂ) * ((t + z0 / 2 : ℝ) : ℂ))).re =
+      dz ^ 2 - 2 * (t + z0 / 2) := by
+    have hcast : ((dz : ℂ) ^ 2 - (2 : ℂ) * ((t + z0 / 2 : ℝ) : ℂ)) =
+        ((dz ^ 2 - 2 * (t + z0 / 2) : ℝ) : ℂ) := by push_cast; ring
+    rw [hcast, Complex.ofReal_re]
+  rw [hre]; ring
+
+/-- Unified de Bruijn–Newman collision threshold: at `z₀ > 0, z₂ = -2`, the critical time is
+`t_crit = -z₀ / 2 < 0`; for `t ≥ t_crit` the local double-zero polynomial has all real zeros,
+while for `t < t_crit` `dbnQuadraticHeatSolution z0 (-2) t dz < 0` for every real `dz`. -/
+theorem dbn_collision_bridge (z0 : ℝ) (hz0 : 0 < z0) :
+    let tCrit := -(z0 / 2)
+    tCrit < 0 ∧
+    (∀ t : ℝ, tCrit ≤ t ↔ ∀ w : ℂ, localDoubleZero (t + z0 / 2) w = 0 → w.im = 0) ∧
+    (∀ t dz : ℝ, t < tCrit → dbnQuadraticHeatSolution z0 (-2) t dz < 0) := by
+  intro tCrit
+  have hcol := dbnQuadraticHeat_collides_and_leaves_real_axis z0 (-2) hz0 (by norm_num)
+  have htCrit_eq : z0 / (-2 : ℝ) = tCrit := by dsimp [tCrit]; ring
+  refine ⟨by dsimp [tCrit]; linarith, fun t => ?_, fun t dz ht => ?_⟩
+  · have hiff := localDoubleZero_allRealZeros_iff (t + z0 / 2)
+    have hle : tCrit ≤ t ↔ 0 ≤ t + z0 / 2 := by dsimp [tCrit]; constructor <;> intro h <;> linarith
+    exact hle.trans hiff.symm
+  · exact hcol.2.2 t dz (by rw [htCrit_eq]; exact ht)
+
+/-! ### 3. Jensen–Pólya Madelung–Bohm / Turán Bridge -/
+
+/-- Exact equivalence between degree-2 Jensen–Pólya real-rootedness in `RHGaps`
+and nonnegativity of the osmotic + Bohm channel sum in `Signals.RiemannSpectral`. -/
+theorem jensen2_turan_iff_madelung_bohm (a0 a1 a2 : ℝ) (ha2 : 0 < a2) :
+    (∀ z : ℂ, jensen2 a0 a1 a2 z = 0 → z.im = 0) ↔
+      0 ≤ jensenPolyaOsmoticChannel a1 + jensenPolyaBohmChannel a0 a2 := by
+  have hiff := jensen2_allRealZeros_iff_turan (γ₀ := a0) (γ₁ := a1) (γ₂ := a2) ha2
+  unfold AllRealZeros at hiff
+  rw [hiff]
+  unfold jensenPolyaOsmoticChannel jensenPolyaBohmChannel
+  constructor <;> intro h <;> linarith
+
+/-! ### 4. Sato Hirota Bilinear Plücker Bridge -/
+
+/-- Lifting a real 4-component Wronskian pair `(f, df)` into `C4 = Fin 4 → ℂ` identifies
+`RiemannSpectral.wronskianMinor` with `Gr24Truncation.pluckerCoord` and automatically
+satisfies both `sato_hirota_bilinear_plucker_identity` and `HirotaKP.hirotaKP_tauU_eq_zero`. -/
+theorem wronskianMinor_eq_pluckerCoord_cast (f df : Fin 4 → ℝ) (i j : Fin 4) :
+    ((wronskianMinor (f i) (f j) (df i) (df j) : ℝ) : ℂ) =
+      pluckerCoord (fun k => (f k : ℂ)) (fun k => (df k : ℂ)) i j := by
+  unfold wronskianMinor pluckerCoord
+  push_cast
+  ring
+
+theorem riemannSpectral_wronskian_solves_hirotaKP (f df : Fin 4 → ℝ) (t₁ t₂ t₃ : ℂ) :
+    let v : C4 := fun k => (f k : ℂ)
+    let w : C4 := fun k => (df k : ℂ)
+    pluckerCoord v w 0 1 * pluckerCoord v w 2 3 -
+      pluckerCoord v w 0 2 * pluckerCoord v w 1 3 +
+      pluckerCoord v w 0 3 * pluckerCoord v w 1 2 = 0 ∧
+    hirotaKP (tauU v w) t₁ t₂ t₃ = 0 :=
+  ⟨kleinQuadric_relation _ _, hirotaKP_tauU_eq_zero _ _ t₁ t₂ t₃⟩
+
+/-! ### 5. Finite-to-Infinite Kato–Rellich Operator Promotion -/
+
+/-- Promote a real finite diagonal spectrum `d : Fin n → ℝ` (the `RB-6` finite diagonal
+operator from `Signals.RiemannSpectral.finiteDiagonalOperator`) to an everywhere-defined
+`SymmetricOp (EuclideanSpace ℂ (Fin n))` in the unbounded Hilbert–Pólya framework of
+`RHGaps.katoRellich_closure`. -/
+noncomputable def finiteDiagonalSymmetricOp {n : ℕ} (d : Fin n → ℝ) :
+    SymmetricOp (EuclideanSpace ℂ (Fin n)) where
+  dom := ⊤
+  op :=
+    { toFun := fun x => WithLp.toLp 2 (fun i : Fin n => (d i : ℂ) * x.1.ofLp i)
+      map_add' := fun x y => by
+        ext i; simp [mul_add]
+      map_smul' := fun c x => by
+        ext i; simp; ring }
+  symm := fun x y => by
+    simp only [PiLp.inner_apply, RCLike.inner_apply]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    change y.1.ofLp i * (starRingEnd ℂ) ((d i : ℂ) * x.1.ofLp i) =
+      ((d i : ℂ) * y.1.ofLp i) * (starRingEnd ℂ) (x.1.ofLp i)
+    rw [map_mul, Complex.conj_ofReal]
+    ring
+
+/-- Every real diagonal value `d i` is a genuine real eigenvalue of `finiteDiagonalSymmetricOp d`. -/
+theorem finiteDiagonalSymmetricOp_eigenvalue {n : ℕ} (d : Fin n → ℝ) (i : Fin n) :
+    let e : EuclideanSpace ℂ (Fin n) := EuclideanSpace.single i (1 : ℂ)
+    (finiteDiagonalSymmetricOp d).op ⟨e, Submodule.mem_top⟩ = (d i : ℂ) • e := by
+  intro e
+  ext j
+  change (d j : ℂ) * (EuclideanSpace.single i (1 : ℂ)).ofLp j =
+    (d i : ℂ) * (EuclideanSpace.single i (1 : ℂ)).ofLp j
+  by_cases hji : j = i
+  · subst hji; rfl
+  · simp [hji]
+
+/-! ### 6. Celestial Chiral Casimir & Cayley Critical-Line Equivalence -/
+
+/-- Combines `Signals.RiemannSpectral.celestialChiralCasimir_im_eq_zero_iff_critical_line`
+with `li_cayley_critical_line_bridge`: for any nontrivial zero height `γ ≠ 0`,
+vanishing of the celestial chiral Casimir imaginary part, unit-circle membership of the
+Li/Cayley transform, and `σ_dev = 0` are mutually equivalent. -/
+theorem celestialChiralCasimir_and_cayley_critical_line_equiv
+    (sigmaDev gamma : ℝ) (h_gamma_ne : gamma ≠ 0) :
+    let ρ : ℂ := ⟨sigmaDev + 1 / 2, gamma⟩
+    (celestialChiralCasimirIm sigmaDev gamma = 0 ↔ ‖cayley ρ‖ ^ 2 = 1) ∧
+    (‖cayley ρ‖ ^ 2 = 1 ↔ sigmaDev = 0) := by
+  intro ρ
+  have h_rho_ne : 0 < (sigmaDev + 1 / 2) ^ 2 + gamma ^ 2 := by
+    have h1 : 0 ≤ (sigmaDev + 1 / 2) ^ 2 := sq_nonneg _
+    have h2 : 0 < gamma ^ 2 := sq_pos_of_ne_zero h_gamma_ne
+    linarith
+  have hcas := celestialChiralCasimir_im_eq_zero_iff_critical_line sigmaDev gamma h_gamma_ne
+  have hcas_iff : celestialChiralCasimirIm sigmaDev gamma = 0 ↔ sigmaDev = 0 := by
+    rw [← hcas.2.1]; exact hcas.2.2.1
+  have hcay := (li_cayley_critical_line_bridge sigmaDev gamma h_rho_ne).1
+  exact ⟨hcas_iff.trans hcay.symm, hcay⟩
+
+end Signals.SatoGrassmannian.RiemannSpectralBridge

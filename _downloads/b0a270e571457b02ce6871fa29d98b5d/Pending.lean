@@ -9531,4 +9531,90 @@ theorem celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges
   intro h
   exact h.1.1
 
+/-! ### Sato Grassmannian, Adelic Carleman–Weierstrass, Segal–Wilson, & Weil L¹ Pending Boundary -/
+
+/-- Epistemic boundary isolating the verified infinite-dimensional Sato Grassmannian stack
+(`Signals.SatoGrassmannian.*`, 21 modules) from open Millennium-problem, upstream Mathlib
+Lidskii trace-ideal, and experimental laboratory claims. -/
+structure SatoRiemannSpectralPendingBoundary where
+  /-- Embedded four-bridge finite/infinite Riemann Hypothesis boundary (`RB-6`). -/
+  rhBoundary : RiemannHypothesisPendingBoundary
+  /-- Verified Schwinger 2-cocycle value `ω(M_{z⁻¹}, M_z) = -1` on `L²(S¹)`. -/
+  schwingerCocycleShiftValue : ℝ
+  schwingerCocycleShiftValue_eq : schwingerCocycleShiftValue = -1
+  /-- Verified critical-line Carleman order `k = 3` (`det₃` converges and never vanishes on `Re(s) = 1/2`). -/
+  criticalLineCarlemanOrder : Nat
+  criticalLineCarlemanOrder_eq : criticalLineCarlemanOrder = 3
+  /-- Verified Weil `L¹(ℝ)` off-line witness prefactor `-4π m(z₀)` for multiplicity `m(z₀) ≥ 1`. -/
+  weilOfflineWitnessMultiplicity : Nat
+  weilOfflineWitnessMultiplicity_pos : 0 < weilOfflineWitnessMultiplicity
+  /-- Open upstream Mathlib bridge: constructing the classical Lidskii trace-class
+  `FredholmDetTheory` instance without axiomatization (`DeterminantBundle.lean`). -/
+  mathlibLidskiiFredholmDetConstructed : Prop
+  /-- Open global Weil explicit-formula convergence bridge extending the finite-zero
+  `L¹(ℝ)` shifted-Gaussian equivalence (`WeilGaussianL1.lean`) to the full infinite zero
+  multiset of `ζ(s)`. -/
+  globalInfiniteZeroWeilBridge : Prop
+  /-- Open experimental calibration bridge for Sharoglazova–Klaers coupled-waveguide evanescent
+  tunneling speeds and Dual-Schubert QFIM physical realization. -/
+  evanescentQfimExperimentalValidation : Prop
+
+/-- Predicate asserting that every open analytical, upstream Mathlib, and experimental gate
+in the Sato Grassmannian / RH / QFIM stack is simultaneously closed. -/
+def SatoRiemannSpectralPendingBoundary.allSatoGatesClosed
+    (b : SatoRiemannSpectralPendingBoundary) : Prop :=
+  b.rhBoundary.allFourBridgesClosed ∧
+    b.mathlibLidskiiFredholmDetConstructed ∧
+    b.globalInfiniteZeroWeilBridge ∧
+    b.evanescentQfimExperimentalValidation
+
+/-- Refuting any one of the four open gates rules out `allSatoGatesClosed`. -/
+theorem SatoRiemannSpectralPendingBoundary.not_allSatoGatesClosed_of_any_gate_refuted
+    (b : SatoRiemannSpectralPendingBoundary)
+    (h_refuted : ¬ b.rhBoundary.allFourBridgesClosed ∨
+      ¬ b.mathlibLidskiiFredholmDetConstructed ∨
+      ¬ b.globalInfiniteZeroWeilBridge ∨
+      ¬ b.evanescentQfimExperimentalValidation) :
+    ¬ b.allSatoGatesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h_rh, h_lidskii, h_weil, h_exp⟩
+  rcases h_refuted with h_r | h_r | h_r | h_r
+  · exact h_r h_rh
+  · exact h_r h_lidskii
+  · exact h_r h_weil
+  · exact h_r h_exp
+
+/-- Certifying the infinite-dimensional Sato Grassmannian PDE/Lax/AKNS/QFIM stack,
+`ω(S⁻¹, S) = -1`, critical-line `det₃ ≠ 0`, and finite-zero `L¹(ℝ)` Weil equivalence
+does **not** discharge the four `RB-6` RH bridges, upstream Mathlib Lidskii construction,
+global infinite-zero Weil convergence, or experimental evanescent-speed validation. -/
+theorem sato_infinite_dim_and_pde_stack_do_not_close_rh_or_physical_claims
+    (height : ℝ) (h_pos : 0 < height) (nZeros nGram : Nat) :
+    let b : SatoRiemannSpectralPendingBoundary :=
+      { rhBoundary :=
+          { verifiedHeightBound := height
+            verifiedHeightBound_pos := h_pos
+            auditedZeroCount := nZeros
+            auditedGramViolations := nGram
+            deBruijnNewmanUpperBound := False
+            adelicSatoTraceLimit := False
+            globalLiAndJensenPolyaPositivity := False
+            selfAdjointSpectralOperatorClosure := False }
+        schwingerCocycleShiftValue := -1
+        schwingerCocycleShiftValue_eq := rfl
+        criticalLineCarlemanOrder := 3
+        criticalLineCarlemanOrder_eq := rfl
+        weilOfflineWitnessMultiplicity := 1
+        weilOfflineWitnessMultiplicity_pos := by omega
+        mathlibLidskiiFredholmDetConstructed := False
+        globalInfiniteZeroWeilBridge := False
+        evanescentQfimExperimentalValidation := False }
+    b.schwingerCocycleShiftValue = -1 ∧
+      b.criticalLineCarlemanOrder = 3 ∧
+      ¬ b.allSatoGatesClosed := by
+  dsimp only
+  refine ⟨rfl, rfl, ?_⟩
+  intro h
+  exact h.1.1
+
 end Signals.Pending

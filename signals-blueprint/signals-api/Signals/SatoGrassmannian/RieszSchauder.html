@@ -1,0 +1,241 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Signals.SatoGrassmannian.RieszSchauder</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Signals.SatoGrassmannian.RieszSchauder";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">RieszSchauder</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="https://lean-lang.org/doc/api/Init.html">Init</a></li><li><a href="../.././Signals/SatoGrassmannian/Base.html">Signals.SatoGrassmannian.Base</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/LinearAlgebra/Dimension/Finrank.html">Mathlib.LinearAlgebra.Dimension.Finrank</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Module/FiniteDimension.html">Mathlib.Analysis.Normed.Module.FiniteDimension</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Module/HahnBanach.html">Mathlib.Analysis.Normed.Module.HahnBanach</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Module/RieszLemma.html">Mathlib.Analysis.Normed.Module.RieszLemma</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Banach.html">Mathlib.Analysis.Normed.Operator.Banach</a></li><li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Operator/Compact/Basic.html">Mathlib.Analysis.Normed.Operator.Compact.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Signals.SatoGrassmannian.RieszSchauder" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isCompactOperator_of_finiteDimensional_range"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompactOperator_of_finiteDimensional_range</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.exists_closed_compl_of_finiteDimensional"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">exists_closed_compl_of_finiteDimensional</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isCompactOperator_exists_tendsto_subseq"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompactOperator_exists_tendsto_subseq</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isCompactOperator_pow_sub_one"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompactOperator_pow_sub_one</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.finiteDimensional_ker_id_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">finiteDimensional_ker_id_add_compact</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.isClosed_range_id_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isClosed_range_id_add_compact</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.riesz_unit_vector"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">riesz_unit_vector</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.ascent_stabilizes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">ascent_stabilizes</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.descent_stabilizes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">descent_stabilizes</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.rieszSchauder_id_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">rieszSchauder_id_add_compact</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.exists_finiteRank_parametrix"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">exists_finiteRank_parametrix</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.fredholm_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholm_add_compact</span></a></div><div class="nav_link"><a class="break_within" href="#Signals.SatoGrassmannian.instCompactFredholmTheory"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">instCompactFredholmTheory</span></a></div></nav><main>
+<div class="decl" id="Signals.SatoGrassmannian.isCompactOperator_of_finiteDimensional_range"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L20-L38">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.isCompactOperator_of_finiteDimensional_range"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompactOperator_of_finiteDimensional_range</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E </span><span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">(↑<span class="fn">T</span>)</span>.<span class="fn">range</span></span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">T</span></span></span></div></div><p>Every continuous linear map with finite-dimensional range is compact.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.exists_closed_compl_of_finiteDimensional"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L40-L91">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.exists_closed_compl_of_finiteDimensional"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">exists_closed_compl_of_finiteDimensional</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">V</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn">V</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">P_proj</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>),
+  <span class="fn"><span class="fn">(∀ (<span class="fn">v</span> : <span class="fn">↥<span class="fn">V</span></span>), <span class="fn"><span class="fn"><span class="fn">P_proj</span> <span class="fn">↑<span class="fn">v</span></span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">v</span></span></span>)</span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">P_proj</span>)</span>.<span class="fn">range</span></span> <span class="fn">=</span> <span class="fn">V</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">IsClosed</span> <span class="fn">↑<span class="fn"><span class="fn">(↑<span class="fn">P_proj</span>)</span>.<span class="fn">ker</span></span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">IsCompl</span> <span class="fn">V</span> <span class="fn"><span class="fn">(↑<span class="fn">P_proj</span>)</span>.<span class="fn">ker</span></span></span></span></span></span></span></div></div><p><strong>Hahn–Banach Finite-Dimensional Splitting:</strong> Every finite-dimensional subspace <code>V ≤ E</code>
+admits a continuous idempotent projection <code>P_proj : E →L[𝕜] E</code> with <code>range P_proj = V</code> and closed
+complement <code>ker P_proj</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.isCompactOperator_exists_tendsto_subseq"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L93-L118">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.isCompactOperator_exists_tendsto_subseq"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompactOperator_exists_tendsto_subseq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E </span><span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hM</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">M</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hu</span> : <span class="fn">∀ (<span class="fn">n</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">‖</span><span class="fn"><span class="fn">u</span> <span class="fn">n</span></span><span class="fn">‖</span></span> <span class="fn">≤</span> <span class="fn">M</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">y</span> : <span class="fn">F</span>) (<span class="fn">φ</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn">ℕ</span></span>), <span class="fn"><span class="fn"><span class="fn">StrictMono</span> <span class="fn">φ</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">n</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn">K</span> <span class="fn">(<span class="fn">u</span> <span class="fn">(<span class="fn">φ</span> <span class="fn">n</span>)</span>)</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">y</span>)</span></span></span></span></div></div><p>Sequential compactness under a compact operator: every bounded sequence <code>(u n)</code>
+has a subsequence <code>(u (φ n))</code> whose image <code>(K (u (φ n)))</code> converges.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.isCompactOperator_pow_sub_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L120-L132">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.isCompactOperator_pow_sub_one"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isCompactOperator_pow_sub_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span> <span class="fn">^</span> <span class="fn">n</span></span> <span class="fn">-</span> <span class="fn">1</span>)</span></span></span></div></div><p>If <code>K : E →L[𝕜] E</code> is compact, then <code>(id + K)^n - id</code> is compact for every <code>n : ℕ</code>.</p></div></div><div class="mod_doc"><h2 id="Lemma-1-Riesz-Schauder-Theorem-for-id-+-K" class="markdown-heading">Lemma 1: Riesz–Schauder Theorem for <code>id + K</code> <a class="hover-link" href="#Lemma-1-Riesz-Schauder-Theorem-for-id-+-K">#</a></h2></div><div class="decl" id="Signals.SatoGrassmannian.finiteDimensional_ker_id_add_compact"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L144-L175">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.finiteDimensional_ker_id_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">finiteDimensional_ker_id_add_compact</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">𝕜</span> <span class="fn">↥<span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span>)</span>.<span class="fn">ker</span></span></span></span></div></div><p>Step 1.1: <code>ker(id + K)</code> is finite-dimensional.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.isClosed_range_id_add_compact"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L177-L262">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.isClosed_range_id_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">isClosed_range_id_add_compact</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsClosed</span> <span class="fn">↑<span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span>)</span>.<span class="fn">range</span></span></span></span></div></div><p>Step 1.2: <code>range(id + K)</code> is closed in a Banach space.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.riesz_unit_vector"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L264-L290">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.riesz_unit_vector"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">riesz_unit_vector</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">𝕜</span> <span class="fn">X</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hF</span> : <span class="fn"><span class="fn">IsClosed</span> <span class="fn">↑<span class="fn">F</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hproper</span> : <span class="fn">∃ (<span class="fn">x</span> : <span class="fn">X</span>), <span class="fn"><span class="fn">x</span> ∉ <span class="fn">F</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">v</span> : <span class="fn">X</span>), <span class="fn"><span class="fn"><span class="fn"><span class="fn">‖</span><span class="fn">v</span><span class="fn">‖</span></span> <span class="fn">≤</span> <span class="fn">1</span></span> <span class="fn">∧</span> <span class="fn">∀ <span class="fn">y</span> ∈ <span class="fn">F</span>, <span class="fn"><span class="fn"><span class="fn">1</span> / <span class="fn">2</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">‖</span><span class="fn"><span class="fn">v</span> <span class="fn">-</span> <span class="fn">y</span></span><span class="fn">‖</span></span></span></span></span></span></div></div><p>Normalized Riesz lemma: given a proper closed subspace <code>F ≤ X</code>, there exists a unit vector
+<code>v : X</code> (<code>‖v‖ = 1</code>) at distance <code>≥ 1/2</code> from every <code>y ∈ F</code>.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.ascent_stabilizes"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L293-L359">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.ascent_stabilizes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">ascent_stabilizes</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">p</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span> <span class="fn">^</span> <span class="fn">(<span class="fn">p</span> <span class="fn">+</span> <span class="fn">1</span>)</span>)</span>)</span>.<span class="fn">ker</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span> <span class="fn">^</span> <span class="fn">p</span>)</span>)</span>.<span class="fn">ker</span></span></span></span></div></div><p>Step 1.3a: Ascent stabilization <code>∃ p, ker(A^(p+1)) = ker(A^p)</code> via Riesz's lemma.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.descent_stabilizes"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L361-L429">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.descent_stabilizes"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">descent_stabilizes</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">q</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span> <span class="fn">^</span> <span class="fn">(<span class="fn">q</span> <span class="fn">+</span> <span class="fn">1</span>)</span>)</span>)</span>.<span class="fn">range</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span> <span class="fn">^</span> <span class="fn">q</span>)</span>)</span>.<span class="fn">range</span></span></span></span></div></div><p>Step 1.3b: Descent stabilization <code>∃ q, range(A^(q+1)) = range(A^q)</code> via Riesz's lemma.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.rieszSchauder_id_add_compact"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L431-L618">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.rieszSchauder_id_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">rieszSchauder_id_add_compact</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">K</span>)</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></div></div><p><strong>Lemma 1 (Riesz–Schauder Theorem):</strong> For any compact operator <code>K : E →L[𝕜] E</code>
+on a Banach space, <code>id + K</code> is Fredholm with Fredholm index <code>0</code>.</p></div></div><div class="mod_doc"><h2 id="Lemma-2-Parametrix-Reduction-of-T-+-K-and-CompactFredholmTheory-Instance" class="markdown-heading">Lemma 2: Parametrix Reduction of <code>T + K</code> and <code>CompactFredholmTheory</code> Instance <a class="hover-link" href="#Lemma-2-Parametrix-Reduction-of-T-+-K-and-CompactFredholmTheory-Instance">#</a></h2></div><div class="decl" id="Signals.SatoGrassmannian.exists_finiteRank_parametrix"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L631-L715">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.exists_finiteRank_parametrix"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">exists_finiteRank_parametrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E </span><span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hT</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">T</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">R</span> : <span class="fn"><span class="fn">F</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">E</span></span>),
+  <span class="fn"><span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn">R</span> <span class="fn">∘SL</span> <span class="fn">T</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>)</span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn">T</span> <span class="fn">∘SL</span> <span class="fn">R</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">ContinuousLinearMap.id</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>)</span></span></span></span></span></div></div><p>Every Fredholm operator admits a bounded two-sided parametrix <code>R : F →L[𝕜] E</code>
+such that <code>R ∘ T - id</code> and <code>T ∘ R - id</code> have finite-dimensional range (hence are compact).</p></div></div><div class="decl" id="Signals.SatoGrassmannian.fredholm_add_compact"><div class="theorem"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L717-L775">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.fredholm_add_compact"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">fredholm_add_compact</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E </span><span class="fn">F</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">T </span><span class="fn">K</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">𝕜</span><span class="fn">]</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hT</span> : <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">T</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><span class="fn">IsCompactOperator</span> <span class="fn">⇑<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.IsFredholm">IsFredholm</a> <span class="fn">(<span class="fn">T</span> <span class="fn">+</span> <span class="fn">K</span>)</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">(<span class="fn">T</span> <span class="fn">+</span> <span class="fn">K</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.fredholmIndex">fredholmIndex</a> <span class="fn">T</span></span></span></span></div></div><p><strong>Lemma 2 (Compact Perturbation Stability):</strong> Adding a compact operator preserves
+both the Fredholm property and the Fredholm index.</p></div></div><div class="decl" id="Signals.SatoGrassmannian.instCompactFredholmTheory"><div class="instance"><div class="gh_link"><a href="https://github.com/westurner/sustainablefactory/blob/d0b8dd13d77e522b4df706d4b19a3b7ffef44f93/src/signals/Signals/SatoGrassmannian/RieszSchauder.lean#L777-L779">source</a></div><div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Signals/SatoGrassmannian/RieszSchauder.html#Signals.SatoGrassmannian.instCompactFredholmTheory"><span class="name">Signals</span>.<span class="name">SatoGrassmannian</span>.<span class="name">instCompactFredholmTheory</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">RCLike</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Signals/SatoGrassmannian/Base.html#Signals.SatoGrassmannian.CompactFredholmTheory">CompactFredholmTheory</a> <span class="fn">𝕜</span></span></div></div><p><strong>Global Instance:</strong> <code>CompactFredholmTheory 𝕜</code> is now unconditionally discharged.</p></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

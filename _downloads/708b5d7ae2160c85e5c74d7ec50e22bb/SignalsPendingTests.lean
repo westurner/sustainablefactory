@@ -7496,4 +7496,51 @@ example (b : Signals.Pending.ToupinCelestialMillenniumPendingBoundary)
   Signals.Pending.ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
     b (Or.inr (Or.inr (Or.inr h)))
 
+/-! Sato Grassmannian, Adelic Carleman–Weierstrass, Segal–Wilson, & Weil L¹ Pending Boundary checks. -/
+example :
+    let b : Signals.Pending.SatoRiemannSpectralPendingBoundary :=
+      { rhBoundary :=
+          { verifiedHeightBound := 7006
+            verifiedHeightBound_pos := by norm_num
+            auditedZeroCount := 100
+            auditedGramViolations := 2
+            deBruijnNewmanUpperBound := False
+            adelicSatoTraceLimit := False
+            globalLiAndJensenPolyaPositivity := False
+            selfAdjointSpectralOperatorClosure := False }
+        schwingerCocycleShiftValue := -1
+        schwingerCocycleShiftValue_eq := rfl
+        criticalLineCarlemanOrder := 3
+        criticalLineCarlemanOrder_eq := rfl
+        weilOfflineWitnessMultiplicity := 1
+        weilOfflineWitnessMultiplicity_pos := by omega
+        mathlibLidskiiFredholmDetConstructed := False
+        globalInfiniteZeroWeilBridge := False
+        evanescentQfimExperimentalValidation := False }
+    b.schwingerCocycleShiftValue = -1 ∧
+      b.criticalLineCarlemanOrder = 3 ∧
+      ¬ b.allSatoGatesClosed :=
+  Signals.Pending.sato_infinite_dim_and_pde_stack_do_not_close_rh_or_physical_claims
+    7006 (by norm_num) 100 2
+
+example (b : Signals.Pending.SatoRiemannSpectralPendingBoundary)
+    (h : ¬ b.rhBoundary.allFourBridgesClosed) : ¬ b.allSatoGatesClosed :=
+  Signals.Pending.SatoRiemannSpectralPendingBoundary.not_allSatoGatesClosed_of_any_gate_refuted
+    b (Or.inl h)
+
+example (b : Signals.Pending.SatoRiemannSpectralPendingBoundary)
+    (h : ¬ b.mathlibLidskiiFredholmDetConstructed) : ¬ b.allSatoGatesClosed :=
+  Signals.Pending.SatoRiemannSpectralPendingBoundary.not_allSatoGatesClosed_of_any_gate_refuted
+    b (Or.inr (Or.inl h))
+
+example (b : Signals.Pending.SatoRiemannSpectralPendingBoundary)
+    (h : ¬ b.globalInfiniteZeroWeilBridge) : ¬ b.allSatoGatesClosed :=
+  Signals.Pending.SatoRiemannSpectralPendingBoundary.not_allSatoGatesClosed_of_any_gate_refuted
+    b (Or.inr (Or.inr (Or.inl h)))
+
+example (b : Signals.Pending.SatoRiemannSpectralPendingBoundary)
+    (h : ¬ b.evanescentQfimExperimentalValidation) : ¬ b.allSatoGatesClosed :=
+  Signals.Pending.SatoRiemannSpectralPendingBoundary.not_allSatoGatesClosed_of_any_gate_refuted
+    b (Or.inr (Or.inr (Or.inr h)))
+
 end SignalsPendingTests

@@ -61,6 +61,8 @@
       "grassmannian-rhombohedral-graphene-superconductivity-qc-paper",
       "grassmannian-riemann-spectral-ihara-jensen-polya-paper",
       "grassmannian-riscv-holographic-nanolithography-kicad-paper",
+      "grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper",
+      "grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper",
       "grassmannian-semi-dirac-fermions-ddf-paper",
       "grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper",
       "grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper",
@@ -200663,17 +200665,24 @@
           },
           {
             "ids": [
-              "machine-checked-lean-4-formalization-signals-dft-sections-2525-2-1-and-signals-pending"
+              "how-resolving-scalar-bohmian-node-blowup-and-the-sharoglazovaklaers-nature-2025-evanescent-speed-law-refines-collapses-if-e-throat-b-bohm-signals-quantumtrajectories-section-9-dualschubertqfim"
             ],
-            "level": 2,
-            "title": "4. Machine-Checked Lean 4 Formalization (Signals.DFT Sections 25\u201325.2.1 and Signals.Pending)"
+            "level": 4,
+            "title": "3.3.5 How Resolving Scalar Bohmian Node Blowup and the Sharoglazova\u2013Klaers (Nature 2025) Evanescent Speed Law Refines collapses if E_throat > B_Bohm (Signals.QuantumTrajectories Section 9 & DualSchubertQFIM)"
           },
           {
             "ids": [
-              "rust-implementation-and-unit-test-verification-dft-plabic-vrc-rs"
+              "machine-checked-lean-4-formalization-signals-dft-sections-2525-2-1-signals-quantumtrajectories-section-9-dualschubertqfim-and-signals-pending"
             ],
             "level": 2,
-            "title": "5. Rust Implementation and Unit Test Verification (dft_plabic_vrc.rs)"
+            "title": "4. Machine-Checked Lean 4 Formalization (Signals.DFT Sections 25\u201325.2.1, Signals.QuantumTrajectories Section 9, DualSchubertQFIM, and Signals.Pending)"
+          },
+          {
+            "ids": [
+              "rust-implementation-and-unit-test-verification-dft-plabic-vrc-rs-quantum-trajectories-rs"
+            ],
+            "level": 2,
+            "title": "5. Rust Implementation and Unit Test Verification (dft_plabic_vrc.rs & quantum_trajectories.rs)"
           },
           {
             "ids": [
@@ -201025,6 +201034,13 @@
             ],
             "level": 4,
             "title": "Step 2: Why Massless Particles Are Dramatically Less Destructive Than Massive Particles in a DDF / \\mathrm{Gr}_{\\mathbb{C}}(2,4) Throat (wormholeTransitJammedEnergy)"
+          },
+          {
+            "ids": [
+              "step-3-resolving-scalar-1-rho-0-2-node-blowup-and-the-sharoglazovaklaers-nature-2025-evanescent-stall-paradox-mathcal-b-mathrm-bohm-mapsto-mathcal-b-mathrm-bohm-text-qfim"
+            ],
+            "level": 4,
+            "title": "Step 3: Resolving Scalar 1/\\rho_0^2 Node Blowup and the Sharoglazova\u2013Klaers (Nature 2025) Evanescent Stall Paradox (\\mathcal{B}_{\\mathrm{Bohm}} \\mapsto \\mathcal{B}_{\\mathrm{Bohm\\text{-}QFIM}})"
           },
           {
             "ids": [
@@ -205852,6 +205868,184 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "adelic-carlemanweierstrass-regularized-determinants-det-2-det-3-schwinger-2-cocycle-central-extensions-segalwilson-determinant-bundles-l-1-mathbb-r-weil-positivity-and-formal-bridges-to-signals-riemannspectral-in-lean-4-rust-pyo3-and-mpmath",
+              "grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper"
+            ],
+            "level": 1,
+            "title": "Adelic Carleman\u2013Weierstrass Regularized Determinants (\\det_2, \\det_3), Schwinger 2-Cocycle Central Extensions, Segal\u2013Wilson Determinant Bundles, L^1(\\mathbb{R}) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "architecture-of-the-adelic-carleman-determinant-bundle-weil-bridge-stack"
+            ],
+            "level": 2,
+            "title": "1. Architecture of the Adelic Carleman, Determinant-Bundle, Weil, & Bridge Stack"
+          },
+          {
+            "ids": [
+              "carlemanweierstrass-regularization-across-operatorname-re-s-1-1-2-and-1-3"
+            ],
+            "level": 2,
+            "title": "2. Carleman\u2013Weierstrass Regularization Across \\operatorname{Re}(s) = 1, 1/2, and 1/3"
+          },
+          {
+            "ids": [
+              "schwinger-2-cocycle-widehat-mathrm-gl-2-0-h-central-extension-and-exact-segalwilson-tau-function"
+            ],
+            "level": 2,
+            "title": "3. Schwinger 2-Cocycle, \\widehat{\\mathrm{GL}}_{(2)}^0(H) Central Extension, and Exact Segal\u2013Wilson \\tau-Function"
+          },
+          {
+            "ids": [
+              "bidirectional-l-1-mathbb-r-weil-positivity-via-shifted-gaussians"
+            ],
+            "level": 2,
+            "title": "4. Bidirectional L^1(\\mathbb{R}) Weil Positivity via Shifted Gaussians"
+          },
+          {
+            "ids": [
+              "formal-lean-4-bridge-to-signals-riemannspectral-riemannspectralbridge-lean"
+            ],
+            "level": 2,
+            "title": "5. Formal Lean 4 Bridge to Signals.RiemannSpectral (RiemannSpectralBridge.lean)"
+          },
+          {
+            "ids": [
+              "tri-language-numerical-verification-mpmath-40-digit-vs-rust-pyo3"
+            ],
+            "level": 2,
+            "title": "6. Tri-Language Numerical Verification (mpmath 40-Digit vs. Rust/PyO3)"
+          },
+          {
+            "ids": [
+              "open-boundaries-recorded-in-signals-pending-satoriemannspectralpendingboundary"
+            ],
+            "level": 2,
+            "title": "7. Open Boundaries Recorded in Signals.Pending.SatoRiemannSpectralPendingBoundary"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.md",
+      "title": "Adelic Carleman\u2013Weierstrass Regularized Determinants (\\det_2, \\det_3), Schwinger 2-Cocycle Central Extensions, Segal\u2013Wilson Determinant Bundles, L^1(\\mathbb{R}) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath",
+      "url": "grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"
+    },
+    {
+      "children": [],
+      "docname": "grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "formalizing-the-infinite-dimensional-sato-grassmannian-mathrm-gr-p-h-plabic-mathrm-gr-ge-0-2-4-kp-ii-kdv-akns-soliton-pde-solvers-bakerakhiezer-lax-pairs-and-6-channel-dual-schubert-qfim-in-lean-4-rust-pyo3-and-sympy",
+              "grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper"
+            ],
+            "level": 1,
+            "title": "Formalizing the Infinite-Dimensional Sato Grassmannian \\mathrm{Gr}_p(H), Plabic \\mathrm{Gr}_{\\ge 0}(2,4) KP-II / KdV / AKNS Soliton PDE Solvers, Baker\u2013Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "architecture-of-the-signals-satograssmannian-core-pde-stack"
+            ],
+            "level": 2,
+            "title": "1. Architecture of the Signals.SatoGrassmannian Core & PDE Stack"
+          },
+          {
+            "ids": [
+              "polarized-hilbert-space-rieszschauder-fredholm-theory-and-l-2-s-1"
+            ],
+            "level": 2,
+            "title": "2. Polarized Hilbert Space, Riesz\u2013Schauder Fredholm Theory, and L^2(S^1)"
+          },
+          {
+            "ids": [
+              "klein-quadric-truncation-mathrm-gr-mathbb-c-2-4-hookrightarrow-mathrm-gr-l-2-s-1-and-two-machine-caught-bug-fixes"
+            ],
+            "level": 2,
+            "title": "3. Klein Quadric Truncation \\mathrm{Gr}_{\\mathbb{C}}(2,4) \\hookrightarrow \\mathrm{Gr}(L^2(S^1)) and Two Machine-Caught Bug Fixes"
+          },
+          {
+            "ids": [
+              "machine-caught-fix-1-big-cell-frame-reconstruction-signs-gr24truncation-lean"
+            ],
+            "level": 3,
+            "title": "3.1 Machine-Caught Fix 1: Big-Cell Frame Reconstruction Signs (Gr24Truncation.lean)"
+          },
+          {
+            "ids": [
+              "machine-caught-fix-2-bakerakhiezer-partial-x-3-psi-coefficient-laxpair-lean"
+            ],
+            "level": 3,
+            "title": "3.2 Machine-Caught Fix 2: Baker\u2013Akhiezer \\partial_x^3 \\psi Coefficient (LaxPair.lean)"
+          },
+          {
+            "ids": [
+              "hirota-bilinear-kp-ii-kodamawilliams-mathrm-gr-ge-0-2-4-soliton-webs-and-akns-solitons"
+            ],
+            "level": 2,
+            "title": "4. Hirota Bilinear KP-II, Kodama\u2013Williams \\mathrm{Gr}_{\\ge 0}(2,4) Soliton Webs, and AKNS Solitons"
+          },
+          {
+            "ids": [
+              "three-channel-pluckermadelung-six-channel-dual-schubert-qfim-evanescent-speed-law"
+            ],
+            "level": 2,
+            "title": "5. Three-Channel Pl\u00fccker\u2013Madelung, Six-Channel Dual-Schubert QFIM, & Evanescent Speed Law"
+          },
+          {
+            "ids": [
+              "overflow-proof-log-sum-exp-rust-pyo3-pde-solver-tri-language-verification-summary"
+            ],
+            "level": 2,
+            "title": "6. Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solver & Tri-Language Verification Summary"
+          },
+          {
+            "ids": [
+              "reproducibility-commands"
+            ],
+            "level": 2,
+            "title": "7. Reproducibility Commands"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md",
+      "title": "Formalizing the Infinite-Dimensional Sato Grassmannian \\mathrm{Gr}_p(H), Plabic \\mathrm{Gr}_{\\ge 0}(2,4) KP-II / KdV / AKNS Soliton PDE Solvers, Baker\u2013Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy",
+      "url": "grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-semi-dirac-fermions-ddf-paper",
       "doctree": {
         "headings": [
@@ -207453,6 +207647,13 @@
           },
           {
             "ids": [
+              "infinite-dimensional-satosegalwilson-hilbert-space-grassmannian-mathrm-gr-mathrm-res-mathcal-h-integrable-pde-solvers-kp-ii-kdv-boussinesq-akns-dual-schubert-qfim-adelic-carlemanweierstrass-det-3-spectral-rh-gap-audit-papers-51-52-signals-satograssmannian-21-modules-signals-pending-satoriemannspectralpendingboundary-sato-grassmannian-rs-sustainablefactory-sato-grassmannian-py"
+            ],
+            "level": 3,
+            "title": "2.13 Infinite-Dimensional Sato\u2013Segal\u2013Wilson Hilbert-Space Grassmannian \\mathrm{Gr}_{\\mathrm{res}}(\\mathcal{H}), Integrable PDE Solvers (KP-II / KdV / Boussinesq / AKNS), Dual-Schubert QFIM, Adelic Carleman\u2013Weierstrass \\det_3, & Spectral RH Gap Audit (Papers 51 & 52) (Signals.SatoGrassmannian [21 modules], Signals.Pending.SatoRiemannSpectralPendingBoundary, sato_grassmannian.rs, sustainablefactory/sato_grassmannian.py)"
+          },
+          {
+            "ids": [
               "cross-document-architecture-what-belongs-in-which-document-summary-of-existing-plan-documents"
             ],
             "level": 2,
@@ -208193,6 +208394,8 @@
         "grassmannian-rhombohedral-graphene-superconductivity-qc-paper",
         "grassmannian-riemann-spectral-ihara-jensen-polya-paper",
         "grassmannian-riscv-holographic-nanolithography-kicad-paper",
+        "grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper",
+        "grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper",
         "grassmannian-semi-dirac-fermions-ddf-paper",
         "grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper",
         "grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper",
@@ -210449,6 +210652,24 @@
       "source": "sphinx-meilisearch-architecture.md",
       "title": "Sphinx-Meilisearch Integration Architecture",
       "url": "sphinx-meilisearch-architecture.html"
+    },
+    {
+      "children": [],
+      "docname": "titles",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "possible-titles-for-these-papers-as-a-book-w-sphinx-latexpdf"
+            ],
+            "level": 1,
+            "title": "Possible Titles for these papers as a Book w/ sphinx latexpdf"
+          }
+        ]
+      },
+      "source": "titles.md",
+      "title": "Possible Titles for these papers as a Book w/ sphinx latexpdf",
+      "url": "titles.html"
     },
     {
       "children": [],
