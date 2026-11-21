@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel \(C_4(p)\) Jet Audits in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-what-we-learn-from-celestial-holography-touqga-2-pdf-vs-our-recent-papers">1. Architecture: What We Learn from Celestial Holography (<code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code>) vs. Our Recent Papers</a></li>
+<li><a class="reference internal" href="#five-machine-checked-mathematical-physical-discoveries-from-celestial-holography-signals-riemannspectral-section-11">2. Five Machine-Checked Mathematical &amp; Physical Discoveries from Celestial Holography (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 11)</a><ul>
+<li><a class="reference internal" href="#why-delta-2s-and-why-four-spacetime-dimensions-d-4-are-uniquely-selected">2.1 Why <span class="math notranslate nohighlight">\(\Delta = 2s\)</span> and Why Four Spacetime Dimensions (<span class="math notranslate nohighlight">\(d = 4\)</span>) Are Uniquely Selected</a></li>
+<li><a class="reference internal" href="#chiral-mathfrak-sl-2-mathbb-c-casimir-eigenvalue-reality-on-the-critical-line">2.2 Chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir Eigenvalue Reality on the Critical Line</a></li>
+<li><a class="reference internal" href="#hasseweil-zeta-factorization-of-mathrm-gr-2-4-over-mathbb-f-q-and-self-dual-middle-cohomology-b-4-2">2.3 Hasse–Weil Zeta Factorization of <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> Over <span class="math notranslate nohighlight">\(\mathbb{F}_q\)</span> and Self-Dual Middle Cohomology (<span class="math notranslate nohighlight">\(b_4 = 2\)</span>)</a></li>
+<li><a class="reference internal" href="#the-plancherelunruh-blackbody-law-rational-m-1-1-8-m-2-1-90-and-compact-interval-3-loop-m-3-reduction">2.4 The Plancherel–Unruh Blackbody Law, Rational <span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>, and Compact-Interval 3-Loop <span class="math notranslate nohighlight">\(M_3\)</span> Reduction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#constructive-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-touqga-2-pdf">3. Constructive Epistemic Audit of the Five RH Pathways and Appendix B in <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code></a><ul>
+<li><a class="reference internal" href="#table-3-1-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-toupin2025quantum">Table 3.1: Epistemic Audit of the Five RH Pathways and Appendix B in <span class="xref cite cite-p">toupin2025quantum</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reviewing-our-turner-gravity-models-in-regards-to-gravitons-developing-integrated-turner-models-15a-15b">4. Reviewing Our Turner Gravity Models in Regards to “Gravitons” &amp; Developing Integrated Turner Models 15a &amp; 15b</a><ul>
+<li><a class="reference internal" href="#how-gravitons-are-modeled-across-all-15-frameworks-in-src-signals">4.1 How Gravitons Are Modeled Across All 15 Frameworks in <code class="docutils literal notranslate"><span class="pre">src/signals</span></code></a></li>
+<li><a class="reference internal" href="#table-4-1-master-comparison-of-graviton-modeling-across-all-gravity-frameworks">Table 4.1: Master Comparison of “Graviton” Modeling Across All Gravity Frameworks</a></li>
+<li><a class="reference internal" href="#critique-edge-case-analysis-and-gap-closure-fixes-turner-model-15-critique-cayley-shadow-all-loop-and-light-deflection-identities-plancherel-fourier-sech4-and-schwartz-quartic-counterexample-identities">4.2 Critique, Edge-Case Analysis, and Gap-Closure Fixes (<code class="docutils literal notranslate"><span class="pre">turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-tri-language-verification-commands">5. Reproducible Tri-Language Verification Commands</a></li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">6. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html" title="Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel \(C_4(p)\) Jet Audits in Lean 4, Rust/PyO3, and SymPy" accesskey="P">previous </a></li>
+              <li><a href="references.html" title="References" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-celestial-holography-graviton-turner-riemann-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-what-we-learn-from-celestial-holography-touqga-2-pdf-vs-our-recent-papers">1. Architecture: What We Learn from Celestial Holography (<code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code>) vs. Our Recent Papers</a></li>
+<li><a class="reference internal" href="#five-machine-checked-mathematical-physical-discoveries-from-celestial-holography-signals-riemannspectral-section-11">2. Five Machine-Checked Mathematical &amp; Physical Discoveries from Celestial Holography (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 11)</a><ul>
+<li><a class="reference internal" href="#why-delta-2s-and-why-four-spacetime-dimensions-d-4-are-uniquely-selected">2.1 Why <span class="math notranslate nohighlight">\(\Delta = 2s\)</span> and Why Four Spacetime Dimensions (<span class="math notranslate nohighlight">\(d = 4\)</span>) Are Uniquely Selected</a></li>
+<li><a class="reference internal" href="#chiral-mathfrak-sl-2-mathbb-c-casimir-eigenvalue-reality-on-the-critical-line">2.2 Chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir Eigenvalue Reality on the Critical Line</a></li>
+<li><a class="reference internal" href="#hasseweil-zeta-factorization-of-mathrm-gr-2-4-over-mathbb-f-q-and-self-dual-middle-cohomology-b-4-2">2.3 Hasse–Weil Zeta Factorization of <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> Over <span class="math notranslate nohighlight">\(\mathbb{F}_q\)</span> and Self-Dual Middle Cohomology (<span class="math notranslate nohighlight">\(b_4 = 2\)</span>)</a></li>
+<li><a class="reference internal" href="#the-plancherelunruh-blackbody-law-rational-m-1-1-8-m-2-1-90-and-compact-interval-3-loop-m-3-reduction">2.4 The Plancherel–Unruh Blackbody Law, Rational <span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>, and Compact-Interval 3-Loop <span class="math notranslate nohighlight">\(M_3\)</span> Reduction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#constructive-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-touqga-2-pdf">3. Constructive Epistemic Audit of the Five RH Pathways and Appendix B in <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code></a><ul>
+<li><a class="reference internal" href="#table-3-1-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-toupin2025quantum">Table 3.1: Epistemic Audit of the Five RH Pathways and Appendix B in <span class="xref cite cite-p">toupin2025quantum</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reviewing-our-turner-gravity-models-in-regards-to-gravitons-developing-integrated-turner-models-15a-15b">4. Reviewing Our Turner Gravity Models in Regards to “Gravitons” &amp; Developing Integrated Turner Models 15a &amp; 15b</a><ul>
+<li><a class="reference internal" href="#how-gravitons-are-modeled-across-all-15-frameworks-in-src-signals">4.1 How Gravitons Are Modeled Across All 15 Frameworks in <code class="docutils literal notranslate"><span class="pre">src/signals</span></code></a></li>
+<li><a class="reference internal" href="#table-4-1-master-comparison-of-graviton-modeling-across-all-gravity-frameworks">Table 4.1: Master Comparison of “Graviton” Modeling Across All Gravity Frameworks</a></li>
+<li><a class="reference internal" href="#critique-edge-case-analysis-and-gap-closure-fixes-turner-model-15-critique-cayley-shadow-all-loop-and-light-deflection-identities-plancherel-fourier-sech4-and-schwartz-quartic-counterexample-identities">4.2 Critique, Edge-Case Analysis, and Gap-Closure Fixes (<code class="docutils literal notranslate"><span class="pre">turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-tri-language-verification-commands">5. Reproducible Tri-Language Verification Commands</a></li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">6. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"
+                          title="previous chapter">Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel <span class="math notranslate nohighlight">\(C_4(p)\)</span> Jet Audits in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="references.html"
+                          title="next chapter">References</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-celestial-holography-graviton-turner-riemann-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="celestial-holography-the-canonical-dictionary-delta-2s-plancherelunruh-graviton-loop-weights-m-1-1-8-m-2-1-90-and-integrated-turner-models-15a-15b-for-gravitons-and-riemann-spectral-bridges-in-lean-4-rust-pyo3-and-sympy">
+<span id="grassmannian-celestial-holography-graviton-turner-riemann-paper"></span><h1>Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy<a class="headerlink" href="#celestial-holography-the-canonical-dictionary-delta-2s-plancherelunruh-graviton-loop-weights-m-1-1-8-m-2-1-90-and-integrated-turner-models-15a-15b-for-gravitons-and-riemann-spectral-bridges-in-lean-4-rust-pyo3-and-sympy" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>High Energy Physics - Theory (<code class="docutils literal notranslate"><span class="pre">hep-th</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Number Theory (<code class="docutils literal notranslate"><span class="pre">math.NT</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Logic &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Verified Mathematical &amp; Physical Core (Machine-Checked in Lean 4, Rust/PyO3, and SymPy/<code class="docutils literal notranslate"><span class="pre">mpmath</span></code>):</strong> We verify and formalize in <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (Section 11) and <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (Section 30.7) the exact mathematical core of Celestial Holography <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id440" title="A Strominger. Lectures on the infrared structure of gravity and gauge theory. 2018. Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: https://arxiv.org/abs/1703.05448, arXiv:1703.05448.">Strominger, 2018</a>, <a class="reference internal" href="#id547" title="Sabrina Pasterski, Shu-Heng Shao, and Andrew Strominger. Flat space amplitudes and conformal symmetry of the celestial sphere. Physical Review D, 96(6):065026, 2017. arXiv:1701.00049, doi:10.1103/PhysRevD.96.065026.">Pasterski <em>et al.</em>, 2017</a>, <a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>: <strong>(1)</strong> uniqueness of the canonical celestial–arithmetic dictionary <span class="math notranslate nohighlight">\(\Delta = (d - 2)s = 2s\)</span> in <span class="math notranslate nohighlight">\(d = 4\)</span> spacetime dimensions (<code class="docutils literal notranslate"><span class="pre">celestialDictionaryUnique_two_s_and_dim_four</span></code>), <strong>(2)</strong> reality of the chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir <span class="math notranslate nohighlight">\(h(h-1) = s(s-1)\)</span> on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span> (<code class="docutils literal notranslate"><span class="pre">celestialChiralCasimir_im_eq_zero_iff_critical_line</span></code>), <strong>(3)</strong> the Hasse–Weil point-count polynomial <span class="math notranslate nohighlight">\(\lvert\mathrm{Gr}(2,4)(\mathbb{F}_q)\rvert = 1 + q + 2q^2 + q^3 + q^4 = (1+q^2)(1+q+q^2)\)</span> and Poincaré self-duality (<code class="docutils literal notranslate"><span class="pre">gr24FiniteFieldPointCount_factorization_and_poincare_duality</span></code>), <strong>(4)</strong> the Planck / Bisognano–Wichmann Rindler boost identity <span class="math notranslate nohighlight">\(P(\lambda) = \frac{\pi\lambda}{\sinh(\pi\lambda)} = 2\pi\lambda\bigl[n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr]\)</span>, exact Bernoulli rational 1-loop and 2-loop bare weights <span class="math notranslate nohighlight">\(M_1 = 1/8\)</span> and <span class="math notranslate nohighlight">\(M_2 = 1/90\)</span>, and the <span class="math notranslate nohighlight">\(A_{L-1}\)</span> complete-graph vs. ladder path-graph edge deficit <span class="math notranslate nohighlight">\(\binom{L}{2} - (L - 1) = \frac{(L-1)(L-2)}{2} = 0 \iff L \in \{1, 2\}\)</span> (<code class="docutils literal notranslate"><span class="pre">celestial_plancherel_blackbody_and_loop_dichotomy_identities</span></code>), <strong>(5)</strong> a new compact-interval convolution identity reducing the 3-loop integral <span class="math notranslate nohighlight">\(M_3 = 0.0010280204768206812\dots &lt; (1/8)^3\)</span> to a 1D/2D integral with zero tail truncation, and <strong>(6)</strong> <strong>Integrated Turner Models 15a (Without DDF) &amp; 15b (With DDF)</strong> (<code class="docutils literal notranslate"><span class="pre">turner_model_15_celestial_plucker_ddf_graviton_unification</span></code>).</p></li>
+<li><p><strong>Open Millennium-Problem Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.ToupinCelestialMillenniumPendingBoundary</span></code>):</strong> This paper does <strong>not</strong> claim that Celestial Holography closes the classical Riemann Hypothesis <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id534" title="Enrico Bombieri. Problems of the millennium: the Riemann hypothesis. Clay Mathematics Institute, 2000. URL: https://www.claymath.org/millennium/riemann-hypothesis/.">Bombieri, 2000</a>]</span>, the Birch and Swinnerton-Dyer Conjecture, or the 4D Yang–Mills Mass Gap. Our tri-language audit identifies four specific technical and analytical gaps in Chapters 5 and 8 and Appendix B of <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (Section 3) and proves in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges</span></code> that <span class="math notranslate nohighlight">\(\Delta = 2s\)</span>, <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(1/2) = 1\)</span>, and <span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span> do not by themselves discharge the four global <code class="docutils literal notranslate"><span class="pre">RB-6</span></code> bridges.</p></li>
+</ul>
+</li>
+<li><p><strong>Primary Source &amp; Companion Papers Reviewed:</strong></p>
+<ul>
+<li><p>Primary Audited Monograph: <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (<a class="reference download internal" download="" href="_downloads/50d7d29d5a476f336f360151c4d17754/TOUQGA-2.pdf"><code class="xref download docutils literal notranslate"><span class="pre">data/papers/TOUQGA-2.pdf</span></code></a>, 970 pp., <code class="docutils literal notranslate"><span class="pre">sha256:</span> <span class="pre">1546247c8104b3bf09f70f90d87de38c11fdcc986c37058935d6c8faec6d5fcc</span></code>)</p></li>
+<li><p>Companion Papers Integrated:</p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"><span class="std std-doc">Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy, Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel <span class="math notranslate nohighlight">\(C_4(p)\)</span> Jet Audits</span></a></p></li>
+<li><p><a class="reference internal" href="riemann-spectral-bridges-plan.html"><span class="std std-doc">Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>) for the Remaining Riemann Hypothesis Analytical Bridges</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gebr-layer-groups-dpp-noci-arc-paper.html"><span class="std std-doc">Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gravity-from-qed-scattering-paper.html"><span class="std std-doc">Grassmannian Gravity from QED &amp; Gauge Scattering Amplitudes: Complex <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Orbital Precession, Mercury’s Perihelion, <span class="math notranslate nohighlight">\(N\)</span>-Body Dynamics, and Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDF</span></code>) Unification</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-complex-gpe-igpe-plucker-madelung-paper.html"><span class="std std-doc">Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Fubini–Study GPE, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, Homogeneous Plücker <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Madelung Hydrodynamics, and Revised Turner (2026) Models for Superposition, Gravity, and Gravitational Waves</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>): Three-Channel Plücker Madelung–QFIM Kinetic Decomposition on <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> and Ghost-Free Turner Gravity vs. Witten’s Twistor String</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.html"><span class="std std-doc"><span class="math notranslate nohighlight">\(\mathrm{SU}(4)\)</span> Symmetry, Witten’s Twistor String Theory, Lower Grassmannians in <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{R}}\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}\)</span>, Relative Merits of Cachazo vs. DDF vs. Turner Models, and Grand Unification with the Holographic Principle and AdS/CFT</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Computational Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">3,632</span></code> Lake jobs, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> axioms):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/3cdeb207d020b1acb915b2dc771c3245/RiemannSpectral.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/RiemannSpectral.lean</span></code></a> (Section 11: <code class="docutils literal notranslate"><span class="pre">celestialDictionaryUnique_two_s_and_dim_four</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialChiralCasimir_im_eq_zero_iff_critical_line</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24FiniteFieldPointCount_factorization_and_poincare_duality</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_plancherel_blackbody_and_loop_dichotomy_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">adelic_cesaro_symmetry_and_offline_selfdual_counterexample</span></code>, <code class="docutils literal notranslate"><span class="pre">plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DDF.lean</span></code></a> (Section 30.7: <code class="docutils literal notranslate"><span class="pre">celestialSpinTwoShadowNormFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialSpinTwoCayleyShadowFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialPlancherelLoopCorrectionFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialPlancherelAllLoopGeometricEnvelope</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection</span></code>, <code class="docutils literal notranslate"><span class="pre">turner_model_15_celestial_plucker_ddf_graviton_unification</span></code>, <code class="docutils literal notranslate"><span class="pre">turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code>, <code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Extension (<code class="docutils literal notranslate"><span class="pre">129</span></code> passing unit tests):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/59fa40a607d798c750ea6b8c11906c93/riemann_spectral.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/riemann_spectral.rs</span></code></a> (<code class="docutils literal notranslate"><span class="pre">celestial_plancherel_weight</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_bose_difference_weight</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_half_line_convolution_f</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_spin_two_cayley_shadow_factor</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_plancherel_all_loop_envelope</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24_hasse_weil_point_count</span></code>, <code class="docutils literal notranslate"><span class="pre">gr24_rref_subspace_count_fp</span></code>, <code class="docutils literal notranslate"><span class="pre">adelic_symmetric_cesaro_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_celestial_holography_and_turner_graviton</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/35a06ed67cf4bc8db40506df17b315ff/lib.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code></a> (<code class="docutils literal notranslate"><span class="pre">py_audit_celestial_holography_and_turner_graviton</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Python + SymPy + 45-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> + PyO3 Verification Suite:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/67a8c89d31e6cb415894bc6113435851/riemann_rh_bridges.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/riemann_rh_bridges.py</span></code></a> (<code class="docutils literal notranslate"><span class="pre">audit_celestial_holography_toupin_and_turner_graviton</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/82532ddf8753307b1d85bb12d88f5c35/test_riemann_spectral_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_riemann_spectral_sympy_pyo3.py</span></code></a> (<code class="docutils literal notranslate"><span class="pre">test_celestial_holography_toupin_and_turner_model15_sympy_mpmath_pyo3</span></code>)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We review Daniel Toupin’s 970-page monograph <em>On the Nature of Nature: Celestial Holography to the Zeta Zeros</em> (<span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, <a class="reference download internal" download="" href="_downloads/50d7d29d5a476f336f360151c4d17754/TOUQGA-2.pdf"><code class="xref download docutils literal notranslate"><span class="pre">data/papers/TOUQGA-2.pdf</span></code></a>) alongside our recent Riemann Hypothesis spectral papers (<a class="reference internal" href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"><span class="std std-doc">Finite Spectral Contracts for RH Approaches</span></a>, <a class="reference internal" href="riemann-spectral-bridges-plan.html"><span class="std std-doc">RH Analytical Bridges Plan <code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code></span></a>, and <a class="reference internal" href="grassmannian-gebr-layer-groups-dpp-noci-arc-paper.html"><span class="std std-doc">Grassmannian EBR &amp; Finite-Graph Ihara–Selberg Zeta</span></a>) and our Turner (2026) gravity models (<code class="docutils literal notranslate"><span class="pre">Signals.QEDGravity</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code>). We ask two concrete scientific questions: <strong>(1) What rigorous mathematical and physical structures can we learn from Celestial Holography and verify in Lean 4, Rust/PyO3, and SymPy/mpmath, and where do the Millennium-Prize arguments in <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> encounter open analytical gaps?</strong> and <strong>(2) How does reviewing our Turner gravity models in regards to gravitons allow us to build a more integrated graviton model (<code class="docutils literal notranslate"><span class="pre">Turner</span> <span class="pre">Models</span> <span class="pre">15a</span> <span class="pre">&amp;</span> <span class="pre">15b</span></code>)?</strong></p>
+<p>Our tri-language investigation establishes five principal results:</p>
+<ol class="arabic simple">
+<li><p><strong>Five Machine-Checked Celestial–Arithmetic Theorems Extracted from <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 11):</strong></p>
+<ul class="simple">
+<li><p><strong>Canonical Dictionary <span class="math notranslate nohighlight">\(\Delta = 2s\)</span> &amp; Specialness of <span class="math notranslate nohighlight">\(d = 4\)</span> Spacetime Dimensions (<code class="docutils literal notranslate"><span class="pre">celestialDictionaryUnique_two_s_and_dim_four</span></code>):</strong> Intertwining the functional-equation reflection <span class="math notranslate nohighlight">\(s \mapsto 1 - s\)</span> with the <span class="math notranslate nohighlight">\(d\)</span>-dimensional celestial shadow involution <span class="math notranslate nohighlight">\(\Delta \mapsto (d - 2) - \Delta\)</span> and mapping the zeta pole <span class="math notranslate nohighlight">\(s = 1 \mapsto \Delta_T = d - 2\)</span> uniquely selects <span class="math notranslate nohighlight">\(\Delta(s) = (d - 2)s\)</span>, whose slope <span class="math notranslate nohighlight">\(d - 2\)</span> matches the <span class="math notranslate nohighlight">\(\mathrm{Gr}(2, d)\)</span> Plücker exterior rank <span class="math notranslate nohighlight">\(k = 2\)</span> <strong>if and only if <span class="math notranslate nohighlight">\(d = 4\)</span></strong> (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>).</p></li>
+<li><p><strong>Chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir Reality on the Critical Line (<code class="docutils literal notranslate"><span class="pre">celestialChiralCasimir_im_eq_zero_iff_critical_line</span></code>):</strong> Under <span class="math notranslate nohighlight">\(h = \Delta(s)/2 = s = (\tfrac{1}{2} + \sigma_{\mathrm{dev}}) + i\gamma\)</span>, the chiral Casimir <span class="math notranslate nohighlight">\(h(h-1) = s(s-1)\)</span> expands to <span class="math notranslate nohighlight">\(\bigl(-\tfrac{1}{4} + \sigma_{\mathrm{dev}}^2 - \gamma^2\bigr) + 2 i \sigma_{\mathrm{dev}}\gamma\)</span>, which for any <span class="math notranslate nohighlight">\(\gamma \ne 0\)</span> is real <strong>if and only if <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0\)</span></strong> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span>).</p></li>
+<li><p><strong>Hasse–Weil <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)(\mathbb{F}_q)\)</span> Factorization &amp; Self-Dual Middle Cohomology (<code class="docutils literal notranslate"><span class="pre">gr24FiniteFieldPointCount_factorization_and_poincare_duality</span></code>):</strong> From the six Schubert cells <span class="math notranslate nohighlight">\(\mathbb{A}^{|\lambda|}\)</span> (<span class="math notranslate nohighlight">\(\lambda \subseteq (2,2)\)</span>) with even Betti numbers <span class="math notranslate nohighlight">\((b_0, b_2, b_4, b_6, b_8) = (1, 1, 2, 1, 1)\)</span>, <span class="math notranslate nohighlight">\(\lvert\mathrm{Gr}(2,4)(\mathbb{F}_q)\rvert = 1 + q + 2q^2 + q^3 + q^4 = (1+q^2)(1+q+q^2)\)</span> satisfies exact palindromic Poincaré duality <span class="math notranslate nohighlight">\(q^4 P(1/q) = P(q)\)</span>, matching brute-force RREF subspace enumeration over <span class="math notranslate nohighlight">\(\mathbb{F}_2\)</span> (<span class="math notranslate nohighlight">\(35\)</span>), <span class="math notranslate nohighlight">\(\mathbb{F}_3\)</span> (<span class="math notranslate nohighlight">\(130\)</span>), and <span class="math notranslate nohighlight">\(\mathbb{F}_5\)</span> (<span class="math notranslate nohighlight">\(806\)</span>) and factoring <span class="math notranslate nohighlight">\(\zeta_{\mathrm{Gr}(2,4)}(s) = \zeta(s)\zeta(s-1)\zeta(s-2)^2\zeta(s-3)\zeta(s-4)\)</span> to <span class="math notranslate nohighlight">\(&lt; 1.88 \times 10^{-46}\)</span> across the first 15 primes.</p></li>
+<li><p><strong>Plancherel–Unruh Blackbody Identity, Exact Rational <span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>, and the <span class="math notranslate nohighlight">\(L \in \{1, 2\}\)</span> vs. <span class="math notranslate nohighlight">\(L \ge 3\)</span> Graph Dichotomy (<code class="docutils literal notranslate"><span class="pre">celestial_plancherel_blackbody_and_loop_dichotomy_identities</span></code>):</strong> The <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> Plancherel weight <span class="math notranslate nohighlight">\(P(\lambda) = \lvert\Gamma(1+i\lambda)\rvert^2 = \frac{\pi\lambda}{\sinh(\pi\lambda)}\)</span> equals the Rindler/Unruh boost Bose–Einstein difference <span class="math notranslate nohighlight">\(2\pi\lambda\bigl[n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr]\)</span> at <span class="math notranslate nohighlight">\(\beta_{\mathrm{BW}} = 2\pi\)</span> <span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id552" title="Joseph J. Bisognano and Eyvind H. Wichmann. On the duality condition for a Hermitian scalar field. Journal of Mathematical Physics, 16(4):985–1007, 1975. doi:10.1063/1.522605.">Bisognano and Wichmann, 1975</a>]</span> (<code class="docutils literal notranslate"><span class="pre">2.22e-16</span></code> max residual). Its 1-loop and 2-loop bare ladder integrals evaluate to the exact Bernoulli rationals <span class="math notranslate nohighlight">\(M_1 = 1/8\)</span> and <span class="math notranslate nohighlight">\(M_2 = 1/90 &lt; M_1^2 = 1/64\)</span>, governed by the complete-graph vs. path-graph edge deficit <span class="math notranslate nohighlight">\(\binom{L}{2} - (L - 1) = \frac{(L-1)(L-2)}{2} = 0 \iff L \in \{1, 2\}\)</span>.</p></li>
+<li><p><strong>Compact-Interval Reduction for the 3-Loop Weight <span class="math notranslate nohighlight">\(M_3\)</span>:</strong> Using Fourier–Parseval differentiation of <span class="math notranslate nohighlight">\(\operatorname{sech}^4(k/2)\)</span>, we derive an exact compact-interval formula for the half-line Plancherel rung convolution <span class="math notranslate nohighlight">\(F(y) = \frac{1+y^2}{12}P(y) + \frac{y}{2\pi}\int_0^{1/2} P(uy)P((1-u)y)\,du\)</span>, reproducing Toupin’s 44-digit 3-loop constant <span class="math notranslate nohighlight">\(M_3 = 0.0010280204768206812\dots &lt; 1/512\)</span> to <span class="math notranslate nohighlight">\(2.10 \times 10^{-15}\)</span> in Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> and <span class="math notranslate nohighlight">\(2.58 \times 10^{-26}\)</span> in <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> while decomposing <span class="math notranslate nohighlight">\(M_3 = M_{3,\mathrm{even}} (0.0005990322) + M_{3,\mathrm{odd}} (0.0004289882)\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Constructive Epistemic Audit of Pathways 1–5 and Appendix B of <span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>:</strong></p>
+<ul class="simple">
+<li><p><strong>Pathway 1 &amp; 3 Cesàro Symmetry Correction (<code class="docutils literal notranslate"><span class="pre">adelic_cesaro_symmetry_and_offline_selfdual_counterexample</span></code>):</strong> In <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> Eq. (8.242) (p. 432) and Theorem 8.86 (p. 449), the symmetric Cesàro norm <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(\sigma)\)</span> is claimed to vanish (<span class="math notranslate nohighlight">\(N_{\mathrm{reg}} = 0\)</span>, a “zero-norm ghost”) for <span class="math notranslate nohighlight">\(\sigma &lt; 1/2\)</span> and diverge to <span class="math notranslate nohighlight">\(+\infty\)</span> for <span class="math notranslate nohighlight">\(\sigma &gt; 1/2\)</span>. We prove in Lean 4 and verify in Rust/Python that on the Haar measure <span class="math notranslate nohighlight">\(d^\times r = dr/r\)</span>, <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(\sigma, R) = \frac{\sinh((2\sigma-1)\ln R)}{(2\sigma-1)\ln R}\)</span> is <strong>strictly even</strong> in <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = \sigma - 1/2\)</span> (<code class="docutils literal notranslate"><span class="pre">N_reg(0.25,</span> <span class="pre">10^4)</span> <span class="pre">=</span> <span class="pre">N_reg(0.75,</span> <span class="pre">10^4)</span> <span class="pre">=</span> <span class="pre">10.856276</span> <span class="pre">&gt;</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">N_reg(0.50,</span> <span class="pre">10^4)</span></code>), diverging to <span class="math notranslate nohighlight">\(+\infty\)</span> on <strong>both</strong> sides of <span class="math notranslate nohighlight">\(\sigma = 1/2\)</span>.</p></li>
+<li><p><strong>Pathway 2 &amp; 4 Meyer Fréchet-to-Hilbert Gap (<code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code>):</strong> While <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(\sigma) &lt; \infty \iff \sigma = 1/2\)</span> characterizes unitary characters on <span class="math notranslate nohighlight">\(L^2(\mathbb{A}^\times/\mathbb{Q}^\times)\)</span> <span class="bibtex-citation" id="id10">[<a class="reference internal" href="#id548" title="John T. Tate. Fourier Analysis in Number Fields, and Hecke's Zeta-Functions. PhD thesis, Princeton University, 1950. Published in \emph Algebraic Number Theory (Cassels and Fröhlich, eds.), Academic Press, 1967, pp. 305–347.">Tate, 1950</a>]</span>, Meyer’s unconditional spectral realization <span class="bibtex-citation" id="id11">[<a class="reference internal" href="#id549" title="Ralf Meyer. On a representation of the idele class group related to primes and zeros of $L$-functions. Duke Mathematical Journal, 127(3):519–595, 2005. arXiv:math/0412277, doi:10.1215/S0012-7094-04-12734-4.">Meyer, 2005</a>]</span> lives on a quotient of nuclear Fréchet spaces; assuming that every zero <span class="math notranslate nohighlight">\(\rho\)</span> of <span class="math notranslate nohighlight">\(\zeta(s)\)</span> descends to a normalizable state in the unitary GNS Hilbert space is equivalent to <strong>Open Bridge 4</strong> (<code class="docutils literal notranslate"><span class="pre">selfAdjointSpectralOperatorClosure</span></code>).</p></li>
+<li><p><strong>Pathway 3 Biane–Pitman–Yor Kernel Slip &amp; Off-Line Density Counterexample:</strong> In <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> Eqs. (8.277)–(8.281) (pp. 457–458), the alternating Kolmogorov–Smirnov series <span class="math notranslate nohighlight">\(2\sum_{k=1}^\infty (-1)^{k+1}e^{-2k^2\pi^2 v^2}\)</span> is used in place of the Biane–Pitman–Yor Kuiper range tail <span class="math notranslate nohighlight">\(2\sum_{k=1}^\infty (2\pi k^2 v^2 - 1)e^{-\pi k^2 v^2}\)</span> <span class="bibtex-citation" id="id12">[<a class="reference internal" href="#id550" title="Philippe Biane, Jim Pitman, and Marc Yor. Probability laws related to the Jacobi theta and Riemann zeta functions, and Brownian excursions. Bulletin of the American Mathematical Society, 38(4):435–465, 2001. doi:10.1090/S0273-0979-01-00912-0.">Biane <em>et al.</em>, 2001</a>]</span>, producing a <code class="docutils literal notranslate"><span class="pre">0.963864</span></code> discrepancy against <span class="math notranslate nohighlight">\(2\xi(2)\)</span> and introducing the Dirichlet eta factor <span class="math notranslate nohighlight">\((1 - 2^{1-s})\zeta(s)\)</span>—whose own positive random variable <span class="math notranslate nohighlight">\(M = \sup_{0\le t\le 1}\lvert B_t\rvert &gt; 0\)</span> on the Brownian-bridge probability space has infinitely many Mellin zeros on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1 \ne 1/2\)</span>! We also construct an explicit smooth self-dual positive density <span class="math notranslate nohighlight">\(g(u) = (u^2 - 4)^2 e^{-u^2/2} \ge 0\)</span> whose Mellin transform vanishes at <span class="math notranslate nohighlight">\((s - 1/2)^2 = 1 \pm i\sqrt{10}\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) \ne 1/2\)</span>).</p></li>
+<li><p><strong>Appendix B.2 Central-Charge <span class="math notranslate nohighlight">\(c(\epsilon)\)</span> Power-Counting Audit:</strong> SymPy Laurent expansion shows that <code class="docutils literal notranslate"><span class="pre">compute_gamma_ratio(epsilon)</span></code> in <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> Appendix B.2 (pp. 931–937) has leading pole <span class="math notranslate nohighlight">\(+8/\epsilon\)</span> (rather than <span class="math notranslate nohighlight">\(-4/\epsilon\)</span> on p. 934 or <span class="math notranslate nohighlight">\(+2/\epsilon\)</span> on p. 936 because <span class="math notranslate nohighlight">\(\operatorname{Res}_{z=-2}\Gamma(z) = +1/2! = +1/2\)</span>), and <code class="docutils literal notranslate"><span class="pre">stress_tensor_ope_coefficient(epsilon)</span></code> divides by <code class="docutils literal notranslate"><span class="pre">shadow_norm</span> <span class="pre">=</span> <span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">epsilon</span></code> instead of multiplying, forcing <span class="math notranslate nohighlight">\(c_{\mathrm{B.2}}(\epsilon) = 2 R(\epsilon)(\pi^2\epsilon)/(1/\epsilon) = 16\pi^2\epsilon + O(\epsilon^2) \to 0\)</span> by an explicit <span class="math notranslate nohighlight">\(\epsilon^2\)</span> factor.</p></li>
+</ul>
+</li>
+<li><p><strong>Review of Our Turner Gravity Models in Regards to “Gravitons” &amp; Development of Integrated Turner Models 15a &amp; 15b (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30.7):</strong></p>
+<ul class="simple">
+<li><p>Reviewing how gravitons are represented across all 14 existing models in <code class="docutils literal notranslate"><span class="pre">Signals.QEDGravity</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code>, we show that Toupin’s resolution of Penrose’s 50-year <strong>Googly Problem</strong> (Theorem 5.148: the shadow transform <span class="math notranslate nohighlight">\((\Delta, J) \mapsto (2-\Delta, -J)\)</span> is the boundary restriction of the Jost involution <span class="math notranslate nohighlight">\(\Theta|_{\mathcal{I}} = T\)</span> <span class="bibtex-citation" id="id13">[<a class="reference internal" href="#id551" title="Res Jost. Eine Bemerkung zum CTP-Theorem. Helvetica Physica Acta, 30:409–416, 1957.">Jost, 1957</a>]</span>) provides the exact asymptotic boundary dual to our <strong>Dual-Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span> <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> formulation</strong> (where middle cohomology <span class="math notranslate nohighlight">\(b_4(\mathrm{Gr}(2,4)) = 2\)</span> splits into self-dual <span class="math notranslate nohighlight">\(J = +2\)</span> and anti-self-dual <span class="math notranslate nohighlight">\(J = -2\)</span> Plücker sectors, locked at <span class="math notranslate nohighlight">\(T\)</span>-symmetric equilibrium when <span class="math notranslate nohighlight">\(s_{\mathrm{dual}} = s_{\mathrm{real}}\)</span>).</p></li>
+<li><p>Combining the Klein-quadric Fubini–Study Kähler determinant excess <span class="math notranslate nohighlight">\(\mathcal{D}(W_{\mathrm{orb}}) - 3 = 1 - e^2 = p/a\)</span> (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>, matching the spin-2 graviton helicity square <span class="math notranslate nohighlight">\(J^2 = (\pm 2)^2 = 4\)</span>), the celestial principal-series shadow norm factor <span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}(\sigma_{\mathrm{dev}}) = 1 - 4\sigma_{\mathrm{dev}}^2\)</span>, and the UV-finite Plancherel–Unruh loop factor <span class="math notranslate nohighlight">\(\mathcal{F}_{\mathrm{loop}}(\alpha_{\mathrm{QG}}) = 1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\)</span> yields <strong>Integrated Turner Model 15a (Without DDF, <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1\)</span>)</strong> and <strong>Integrated Turner Model 15b (With DDF, <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>)</strong>, proved in <code class="docutils literal notranslate"><span class="pre">turner_model_15_celestial_plucker_ddf_graviton_unification</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="architecture-what-we-learn-from-celestial-holography-touqga-2-pdf-vs-our-recent-papers">
+<h2>1. Architecture: What We Learn from Celestial Holography (<code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code>) vs. Our Recent Papers<a class="headerlink" href="#architecture-what-we-learn-from-celestial-holography-touqga-2-pdf-vs-our-recent-papers" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph Toupin[&quot;Celestial Holography Monograph (Toupin 2025/2026, TOUQGA-2.pdf)&quot;]
+        T1[&quot;1. Canonical Dictionary Δ = 2s (Ch. 7)\n• Plücker rank k = 2 on Gr(2,4)\n• d = 4 Plancherel ratio (d-2)/2 : 1/2 = 2\n• Chiral sl(2,C) Casimir h(h-1) = s(s-1)&quot;]
+        T2[&quot;2. Googly Resolution &amp; Jost Θ|_I = T (Sec. 5.8)\n• Shadow (Δ, J) ↔ (2-Δ, -J) = Time Reversal T\n• Antiunitary MHV/anti-MHV equality on Δ = 1 + iλ\n• Gr(2,4)(F_q) Hasse–Weil b_4 = 2 SD/ASD split&quot;]
+        T3[&quot;3. Plancherel–Unruh Loop Measure (Sec. 5.8.5)\n• P(λ) = πλ/sinh(πλ) = 2πλ[n_B(πλ) - n_B(2πλ)]\n• All-loop UV bound M_L ≤ (1/8)^L\n• Exact M_1 = 1/8, M_2 = 1/90 vs. L ≥ 3 dichotomy&quot;]
+        T4[&quot;4. Five RH Pathways &amp; Millennium Claims (Ch. 8–11)\n• Pathway 1: Adelic Cesàro N_reg(σ)\n• Pathway 2: Meyer–Stone spectral embedding\n• Pathway 3: Biane–Pitman–Yor Brownian bridge\n• Pathway 4: Celestial c = 0 BMS_4 partition function\n• Pathway 5: Yakaboylu Fermi–Dirac completeness&quot;]
+    end
+
+    subgraph Verified[&quot;Machine-Checked Upgrades in Signals (Lean 4 + Rust/PyO3 + SymPy)&quot;]
+        V1[&quot;Signals.RiemannSpectral Sec. 11:\n• celestialDictionaryUnique_two_s_and_dim_four\n• celestialChiralCasimir_im_eq_zero_iff_critical_line\n• gr24FiniteFieldPointCount_factorization_and_poincare_duality&quot;]
+        V2[&quot;Signals.RiemannSpectral Sec. 11 &amp; riemann_spectral.rs:\n• celestial_plancherel_blackbody_and_loop_dichotomy_identities\n• Compact 1D/2D convolution F(y) for M_3 (&lt; 2.1e-15 in Rust)\n• Googly MHV shadow-conjugation check (0.0 vs. 0.949 off-line)&quot;]
+        V3[&quot;Signals.DDF Sec. 30.7 (Integrated Turner Models 15a &amp; 15b):\n• turner_model_15_celestial_plucker_ddf_graviton_unification\n• Unites Q_4 Kähler (F = 4 g^FS, J² = 4), Dual-Gr(2,4) Googly T-lock,\n  Plancherel UV loop series 1 + α/8 + α²/90, &amp; DDF η_act^γ ∈ {0,1}&quot;]
+    end
+
+    subgraph Audit[&quot;Epistemic Audit &amp; RB-6 Pending Gate (Signals.Pending)&quot;]
+        A1[&quot;1. Cesàro Symmetry Fix: N_reg(1/2 - δ) = N_reg(1/2 + δ) &gt; 1\n   (refutes σ &lt; 1/2 zero-norm claim in Eq. 8.242 / Thm. 8.86)\n2. BPY Kernel Fix: Eq. 8.277–8.281 used KS (1-2^{1-s})ζ(s) instead of\n   Kuiper 2ξ(s); KS density p_M &gt; 0 has zeros on Re(s) = 1 ≠ 1/2!\n3. App. B.2 Fix: R(ε) ~ +8/ε and / (1/ε) creates O(ε) artifact\n4. ToupinCelestialMillenniumPendingBoundary gates RB-6 Bridges 1–4&quot;]
+    end
+
+    T1 --&gt; V1
+    T2 --&gt; V2
+    T3 --&gt; V2
+    V1 --&gt; V3
+    V2 --&gt; V3
+    T4 --&gt; Audit
+    </pre></section>
+<hr class="docutils" />
+<section id="five-machine-checked-mathematical-physical-discoveries-from-celestial-holography-signals-riemannspectral-section-11">
+<h2>2. Five Machine-Checked Mathematical &amp; Physical Discoveries from Celestial Holography (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 11)<a class="headerlink" href="#five-machine-checked-mathematical-physical-discoveries-from-celestial-holography-signals-riemannspectral-section-11" title="Link to this heading">¶</a></h2>
+<section id="why-delta-2s-and-why-four-spacetime-dimensions-d-4-are-uniquely-selected">
+<h3>2.1 Why <span class="math notranslate nohighlight">\(\Delta = 2s\)</span> and Why Four Spacetime Dimensions (<span class="math notranslate nohighlight">\(d = 4\)</span>) Are Uniquely Selected<a class="headerlink" href="#why-delta-2s-and-why-four-spacetime-dimensions-d-4-are-uniquely-selected" title="Link to this heading">¶</a></h3>
+<p>In celestial holography <span class="bibtex-citation" id="id14">[<a class="reference internal" href="#id440" title="A Strominger. Lectures on the infrared structure of gravity and gauge theory. 2018. Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: https://arxiv.org/abs/1703.05448, arXiv:1703.05448.">Strominger, 2018</a>, <a class="reference internal" href="#id547" title="Sabrina Pasterski, Shu-Heng Shao, and Andrew Strominger. Flat space amplitudes and conformal symmetry of the celestial sphere. Physical Review D, 96(6):065026, 2017. arXiv:1701.00049, doi:10.1103/PhysRevD.96.065026.">Pasterski <em>et al.</em>, 2017</a>]</span>, massless four-dimensional scattering amplitudes are Mellin-transformed over light-cone energy <span class="math notranslate nohighlight">\(\omega \in (0, \infty)\)</span> into correlation functions of conformal primaries <span class="math notranslate nohighlight">\(O_\Delta^J(z, \bar{z})\)</span> on the 2D celestial sphere <span class="math notranslate nohighlight">\(\mathcal{CS}^2 \cong \mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+O_\Delta^J(z, \bar{z}) = \int_0^\infty d\omega\,\omega^{\Delta - 1}\,a_\omega^J(z, \bar{z}).
+\]</div>
+<p>In <span class="math notranslate nohighlight">\(d\)</span> spacetime dimensions, the celestial sphere <span class="math notranslate nohighlight">\(S^{d-2}\)</span> has dimension <span class="math notranslate nohighlight">\(d - 2\)</span>, the shadow transform acts as <span class="math notranslate nohighlight">\(\Delta \mapsto (d - 2) - \Delta\)</span> with principal-series unitary axis <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = \rho_0^{\mathrm{cel}}(d) = \frac{d - 2}{2}\)</span>, and the stress tensor has conformal dimension <span class="math notranslate nohighlight">\(\Delta_T = d - 2\)</span>. On the arithmetic side <span class="bibtex-citation" id="id15">[<a class="reference internal" href="#id548" title="John T. Tate. Fourier Analysis in Number Fields, and Hecke's Zeta-Functions. PhD thesis, Princeton University, 1950. Published in \emph Algebraic Number Theory (Cassels and Fröhlich, eds.), Academic Press, 1967, pp. 305–347.">Tate, 1950</a>]</span>, the completed Riemann zeta function <span class="math notranslate nohighlight">\(\xi(s) = \xi(1 - s)\)</span> has functional-equation involution <span class="math notranslate nohighlight">\(s \mapsto 1 - s\)</span>, critical line <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = \rho_0^{\mathrm{ad}} = \frac{1}{2}\)</span>, and simple pole at <span class="math notranslate nohighlight">\(s = 1\)</span>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.celestialDictionaryUnique_general_dim</span></code> and <code class="docutils literal notranslate"><span class="pre">celestialDictionaryUnique_two_s_and_dim_four</span></code> (<a class="reference download internal" download="" href="_downloads/3cdeb207d020b1acb915b2dc771c3245/RiemannSpectral.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/RiemannSpectral.lean</span></code></a>), we prove Toupin’s Theorem 7.1 / Lemma 7.3 (<span class="bibtex-citation" id="id16">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, pp. 342–348):</p>
+<ol class="arabic">
+<li><p><strong>Uniqueness of the Affine Intertwiner:</strong> Any affine map <span class="math notranslate nohighlight">\(\varphi(s) = \alpha s + \beta\)</span> satisfying</p>
+<div class="math notranslate nohighlight">
+\[
+   \forall s \in \mathbb{R},\quad (d - 2) - (\alpha s + \beta) = \alpha(1 - s) + \beta \qquad\text{and}\qquad \varphi(1) = d - 2
+   \]</div>
+<p>uniquely satisfies <span class="math notranslate nohighlight">\(\alpha = d - 2\)</span> and <span class="math notranslate nohighlight">\(\beta = 0\)</span>, so <span class="math notranslate nohighlight">\(\Delta(s) = (d - 2)s\)</span>.</p>
+</li>
+<li><p><strong>Why <span class="math notranslate nohighlight">\(d = 4\)</span> Is Uniquely Compatible with Plücker Geometry:</strong> Under the Penrose–Ward correspondence <span class="bibtex-citation" id="id17">[<a class="reference internal" href="#id196" title="Roger Penrose. Twistor algebra. Journal of Mathematical Physics, 8(2):345–366, 1967. URL: https://pubs.aip.org/aip/jmp/article-abstract/8/2/345/233824/Twistor-Algebra, doi:10.1063/1.1705200.">Penrose, 1967</a>]</span>, null rays in <span class="math notranslate nohighlight">\(d\)</span>-dimensional spacetime correspond to 2-planes in <span class="math notranslate nohighlight">\(\mathrm{Gr}(2, d)\)</span>, whose Plücker embedding <span class="math notranslate nohighlight">\(\mathrm{Gr}(2, d) \hookrightarrow \mathbb{P}(\bigwedge^2 \mathbb{C}^d)\)</span> carries central <span class="math notranslate nohighlight">\(\mathrm{GL}(1)\)</span> exterior weight <span class="math notranslate nohighlight">\(k = 2\)</span> (reflecting <span class="math notranslate nohighlight">\(\omega = \lvert\kappa\rvert^2\)</span> for a Weyl spinor <span class="math notranslate nohighlight">\(\kappa^\alpha\)</span>). The celestial Plancherel slope <span class="math notranslate nohighlight">\(\alpha(d) = d - 2\)</span> equals the Plücker exterior rank <span class="math notranslate nohighlight">\(k = 2\)</span> <strong>if and only if <span class="math notranslate nohighlight">\(d = 4\)</span></strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+   \alpha(d) = d - 2 = 2 \iff d = 4 \implies \Delta = 2s, \qquad \rho_0^{\mathrm{cel}}(4) = 1 \in \mathbb{Z}.
+   \]</div>
+</li>
+</ol>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Spacetime Dimension <span class="math notranslate nohighlight">\(d\)</span></p></th>
+<th class="head text-center"><p>Celestial Sphere <span class="math notranslate nohighlight">\(S^{d-2}\)</span></p></th>
+<th class="head text-center"><p>Principal-Series Abscissa <span class="math notranslate nohighlight">\(\rho_0^{\mathrm{cel}}(d) = \frac{d-2}{2}\)</span></p></th>
+<th class="head text-center"><p>Dictionary Slope <span class="math notranslate nohighlight">\(\alpha(d) = d - 2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\mathrm{Gr}(2,d)\)</span> Plücker Rank <span class="math notranslate nohighlight">\(k\)</span></p></th>
+<th class="head text-center"><p>Self-Dual <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,d) \cong \mathrm{Gr}(d-2,d)\)</span>?</p></th>
+<th class="head text-center"><p>Matches <span class="math notranslate nohighlight">\(\alpha(d) = k = 2\)</span>?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(d = 3\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(S^1\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1/2\)</span> (half-integer)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(2\)</span></p></td>
+<td class="text-center"><p>No (<span class="math notranslate nohighlight">\(\mathrm{Gr}(2,3) \cong \mathrm{Gr}(1,3)\)</span>)</p></td>
+<td class="text-center"><p>No (<span class="math notranslate nohighlight">\(1 \ne 2\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong><span class="math notranslate nohighlight">\(d = 4\)</span></strong></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(S^2 \cong \mathbb{CP}^1\)</span></strong></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(1\)</span> (integer)</strong></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(2\)</span> (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>)</strong></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(2\)</span></strong></p></td>
+<td class="text-center"><p><strong>Yes (<span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4) \cong \mathrm{Gr}(2,4)^\vee\)</span>)</strong></p></td>
+<td class="text-center"><p><strong>Yes (<span class="math notranslate nohighlight">\(2 = 2\)</span>)</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(d = 5\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(S^3\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(3/2\)</span> (half-integer)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(3\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(2\)</span></p></td>
+<td class="text-center"><p>No (<span class="math notranslate nohighlight">\(\mathrm{Gr}(2,5) \cong \mathrm{Gr}(3,5)\)</span>)</p></td>
+<td class="text-center"><p>No (<span class="math notranslate nohighlight">\(3 \ne 2\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(d = 6\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(S^4\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(2\)</span> (integer)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(4\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(2\)</span></p></td>
+<td class="text-center"><p>No (<span class="math notranslate nohighlight">\(\mathrm{Gr}(2,6) \cong \mathrm{Gr}(4,6)\)</span>)</p></td>
+<td class="text-center"><p>No (<span class="math notranslate nohighlight">\(4 \ne 2\)</span>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="chiral-mathfrak-sl-2-mathbb-c-casimir-eigenvalue-reality-on-the-critical-line">
+<h3>2.2 Chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir Eigenvalue Reality on the Critical Line<a class="headerlink" href="#chiral-mathfrak-sl-2-mathbb-c-casimir-eigenvalue-reality-on-the-critical-line" title="Link to this heading">¶</a></h3>
+<p>For a scalar/chiral celestial block of weight <span class="math notranslate nohighlight">\(h = \Delta(s)/2 = s\)</span> with <span class="math notranslate nohighlight">\(s = \bigl(\tfrac{1}{2} + \sigma_{\mathrm{dev}}\bigr) + i\gamma\)</span>, the quadratic <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir eigenvalue is <span class="math notranslate nohighlight">\(h(h - 1) = s(s - 1) = -s(1 - s)\)</span> (<span class="bibtex-citation" id="id18">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, Eq. 5.494, p. 263). Theorem <code class="docutils literal notranslate"><span class="pre">celestialChiralCasimir_im_eq_zero_iff_critical_line</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> proves:</p>
+<div class="math notranslate nohighlight">
+\[
+s(s - 1) = \underbrace{\left(-\frac{1}{4} + \sigma_{\mathrm{dev}}^2 - \gamma^2\right)}_{\operatorname{Re}(s(s-1))} + i\,\underbrace{\left(2\,\sigma_{\mathrm{dev}}\,\gamma\right)}_{\operatorname{Im}(s(s-1))}.
+\]</div>
+<p>Consequently, for any non-zero spectral ordinate <span class="math notranslate nohighlight">\(\gamma \ne 0\)</span>:</p>
+<ol class="arabic simple">
+<li><p>The chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir eigenvalue <span class="math notranslate nohighlight">\(s(s - 1)\)</span> is <strong>real if and only if <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0\)</span></strong> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2 \iff \operatorname{Re}(\Delta) = 1\)</span>);</p></li>
+<li><p>On the critical line (<span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0\)</span>), <span class="math notranslate nohighlight">\(s(s - 1) = -\frac{1}{4} - \gamma^2 \le -\frac{1}{4}\)</span> (the Bargmann principal-series threshold), and the full 2D Casimir is <span class="math notranslate nohighlight">\(C_2(\Delta) = -\Delta(\Delta - 2) = -4s(s - 1) = 1 + 4\gamma^2 = 1 + \lambda^2 \ge 1\)</span>.</p></li>
+</ol>
+</section>
+<section id="hasseweil-zeta-factorization-of-mathrm-gr-2-4-over-mathbb-f-q-and-self-dual-middle-cohomology-b-4-2">
+<h3>2.3 Hasse–Weil Zeta Factorization of <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> Over <span class="math notranslate nohighlight">\(\mathbb{F}_q\)</span> and Self-Dual Middle Cohomology (<span class="math notranslate nohighlight">\(b_4 = 2\)</span>)<a class="headerlink" href="#hasseweil-zeta-factorization-of-mathrm-gr-2-4-over-mathbb-f-q-and-self-dual-middle-cohomology-b-4-2" title="Link to this heading">¶</a></h3>
+<p>Because <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> is stratified by six affine Schubert cells <span class="math notranslate nohighlight">\(C_\lambda \cong \mathbb{A}^{|\lambda|}\)</span> indexed by partitions <span class="math notranslate nohighlight">\(\lambda \subseteq (2, 2)\)</span> of sizes <span class="math notranslate nohighlight">\(0, 1, 2, 2, 3, 4\)</span>, its even étale/singular Betti numbers are <span class="math notranslate nohighlight">\((b_0, b_2, b_4, b_6, b_8) = (1, 1, 2, 1, 1)\)</span> with Euler characteristic <span class="math notranslate nohighlight">\(\chi(\mathrm{Gr}(2,4)) = 6 = \binom{4}{2}\)</span>. Over any finite field <span class="math notranslate nohighlight">\(\mathbb{F}_q\)</span>, the number of <span class="math notranslate nohighlight">\(\mathbb{F}_q\)</span>-rational 2-planes in <span class="math notranslate nohighlight">\(\mathbb{F}_q^4\)</span> is the Gaussian binomial coefficient (<code class="docutils literal notranslate"><span class="pre">gr24FiniteFieldPointCount</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\left\lvert\mathrm{Gr}(2,4)(\mathbb{F}_q)\right\rvert = \binom{4}{2}_q = \frac{(q^4 - 1)(q^3 - 1)}{(q^2 - 1)(q - 1)} = 1 + q + 2q^2 + q^3 + q^4 = (1 + q^2)(1 + q + q^2).
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">gr24FiniteFieldPointCount_factorization_and_poincare_duality</span></code> proves in Lean 4 that this polynomial satisfies exact palindromic Poincaré / orthogonal-complement duality <span class="math notranslate nohighlight">\(q^4 P_{\mathrm{Gr}(2,4)}(1/q) = P_{\mathrm{Gr}(2,4)}(q)\)</span>, so the Hasse–Weil zeta function of <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> over <span class="math notranslate nohighlight">\(\mathbb{Q}\)</span> factors into shifted Riemann zeta functions (<span class="bibtex-citation" id="id19">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, Theorem 7.11, p. 350):</p>
+<div class="math notranslate nohighlight">
+\[
+\zeta_{\mathrm{Gr}(2,4)}(s) = \prod_{k=0}^4 \zeta(s - k)^{b_{2k}} = \zeta(s)\,\zeta(s - 1)\,\zeta(s - 2)^2\,\zeta(s - 3)\,\zeta(s - 4).
+\]</div>
+<ul class="simple">
+<li><p>The trivial cohomology <span class="math notranslate nohighlight">\(H^0(\mathrm{Gr}(2,4))\)</span> (<span class="math notranslate nohighlight">\(b_0 = 1\)</span>) contributes <strong><span class="math notranslate nohighlight">\(\zeta(s)\)</span> itself</strong>;</p></li>
+<li><p>The two-dimensional middle cohomology <span class="math notranslate nohighlight">\(H^4(\mathrm{Gr}(2,4), \mathbb{Z}) \cong \mathbb{Z}^2\)</span> (<span class="math notranslate nohighlight">\(b_4 = 2\)</span>, spanned by the orthogonal Schubert classes <span class="math notranslate nohighlight">\(\sigma_{(2,0)}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{(1,1)}\)</span>) contributes the squared factor <strong><span class="math notranslate nohighlight">\(\zeta(s - 2)^2\)</span></strong>, which geometrically encodes the split-signature <span class="math notranslate nohighlight">\((3,3)\)</span> decomposition of <span class="math notranslate nohighlight">\(\bigwedge^2 \mathbb{C}^4\)</span> into <strong>self-dual (<span class="math notranslate nohighlight">\(J = +2\)</span>) and anti-self-dual (<span class="math notranslate nohighlight">\(J = -2\)</span>) graviton sectors</strong>!</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">riemann_spectral.rs</span></code> (<code class="docutils literal notranslate"><span class="pre">gr24_rref_subspace_count_fp</span></code>) and <code class="docutils literal notranslate"><span class="pre">riemann_rh_bridges.py</span></code>, we verify that RREF Schubert-cell subspace enumeration over <span class="math notranslate nohighlight">\(\mathbb{F}_p\)</span> matches <span class="math notranslate nohighlight">\(1 + p + 2p^2 + p^3 + p^4\)</span> identically (<span class="math notranslate nohighlight">\(\lvert\mathrm{Gr}(2,4)(\mathbb{F}_2)\rvert = 35\)</span>, <span class="math notranslate nohighlight">\(\lvert\mathrm{Gr}(2,4)(\mathbb{F}_3)\rvert = 130\)</span>, <span class="math notranslate nohighlight">\(\lvert\mathrm{Gr}(2,4)(\mathbb{F}_5)\rvert = 806\)</span>, <span class="math notranslate nohighlight">\(\lvert\mathrm{Gr}(2,4)(\mathbb{F}_7)\rvert = 2850\)</span>), and that the local Euler product matches <span class="math notranslate nohighlight">\(\prod_{k=0}^4 (1 - p^{k-s})^{-b_{2k}}\)</span> to <strong><span class="math notranslate nohighlight">\(1.87 \times 10^{-46}\)</span></strong> at <span class="math notranslate nohighlight">\(s = 3.7 + 2.1i\)</span>.</p></li>
+</ul>
+</section>
+<section id="the-plancherelunruh-blackbody-law-rational-m-1-1-8-m-2-1-90-and-compact-interval-3-loop-m-3-reduction">
+<h3>2.4 The Plancherel–Unruh Blackbody Law, Rational <span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>, and Compact-Interval 3-Loop <span class="math notranslate nohighlight">\(M_3\)</span> Reduction<a class="headerlink" href="#the-plancherelunruh-blackbody-law-rational-m-1-1-8-m-2-1-90-and-compact-interval-3-loop-m-3-reduction" title="Link to this heading">¶</a></h3>
+<p>One of the strongest mathematical contributions in <span class="bibtex-citation" id="id20">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (Section 5.8.5, Theorems 5.179–5.186, pp. 256–263) is the analysis of the bare <span class="math notranslate nohighlight">\(L\)</span>-loop celestial ladder measure built from the <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> Plancherel weight:</p>
+<div class="math notranslate nohighlight">
+\[
+P(\lambda) = \lvert\Gamma(1 + i\lambda)\rvert^2 = \frac{\pi\lambda}{\sinh(\pi\lambda)} \in (0, 1], \qquad M_L = \frac{1}{(2\pi)^L}\int_{\mathbb{R}_{&gt;0}^L} \left[\prod_{j=1}^L P(\lambda_j)\right]\left[\prod_{j=1}^{L-1} P(\lvert\lambda_j - \lambda_{j+1}\rvert)\right]d\lambda_1\cdots d\lambda_L.
+\]</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.celestial_plancherel_blackbody_and_loop_dichotomy_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">riemann_spectral.rs</span></code>, and <code class="docutils literal notranslate"><span class="pre">riemann_rh_bridges.py</span></code>, we verify and extend four exact results:</p>
+<ol class="arabic">
+<li><p><strong>Planck / Bisognano–Wichmann Rindler Boost Identity (<span class="bibtex-citation" id="id21">[<a class="reference internal" href="#id552" title="Joseph J. Bisognano and Eyvind H. Wichmann. On the duality condition for a Hermitian scalar field. Journal of Mathematical Physics, 16(4):985–1007, 1975. doi:10.1063/1.522605.">Bisognano and Wichmann, 1975</a>]</span>; <span class="bibtex-citation" id="id22">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, Theorem 5.183):</strong>
+Because <span class="math notranslate nohighlight">\(\frac{1}{e^y - 1} - \frac{1}{e^{2y} - 1} = \frac{e^y}{e^{2y} - 1} = \frac{1}{2\sinh y}\)</span>, the Plancherel weight is identically the difference of two Bose–Einstein distributions at the Rindler wedge Unruh inverse temperature <span class="math notranslate nohighlight">\(\beta_{\mathrm{BW}} = 2\pi\)</span> (<span class="math notranslate nohighlight">\(T_{\mathrm{Unruh}} = 1/(2\pi)\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+   P(\lambda) = \frac{\pi\lambda}{\sinh(\pi\lambda)} = 2\pi\lambda\bigl[n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr] = 2\pi\lambda\sum_{n=0}^\infty e^{-2\pi\lambda(n + 1/2)},
+   \]</div>
+<p>where the half-integer zero-point energies cancel between the shadow-doubled pair <span class="math notranslate nohighlight">\(\{\pi\lambda, 2\pi\lambda\}\)</span> (<span class="math notranslate nohighlight">\(2\cdot\frac{\pi\lambda}{2} - \frac{2\pi\lambda}{2} = 0\)</span>) and remove the <span class="math notranslate nohighlight">\(p = 2\)</span> Euler factor from the Stefan–Boltzmann moments:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{M}_s = \frac{1}{2\pi}\int_0^\infty \lambda^{s-1} P(\lambda)\,d\lambda = \pi^{-(s+1)}\bigl(1 - 2^{-(s+1)}\bigr)\Gamma(s+1)\zeta(s+1) = \pi^{-(s+1)}\Gamma(s+1)\eta(s+1).
+   \]</div>
+</li>
+<li><p><strong>All-Loop UV Finiteness Bound <span class="math notranslate nohighlight">\(0 &lt; M_L \le (1/8)^L\)</span> and Rational 1-Loop / 2-Loop Weights (<span class="bibtex-citation" id="id23">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, Theorems 5.179–5.180):</strong>
+Since <span class="math notranslate nohighlight">\(0 &lt; P(\lambda_j - \lambda_{j+1}) \le 1\)</span>, discarding the <span class="math notranslate nohighlight">\(L - 1\)</span> rung factors bounds <span class="math notranslate nohighlight">\(M_L \le M_1^L = (1/8)^L\)</span> unconditionally for all <span class="math notranslate nohighlight">\(L \ge 1\)</span>. At <span class="math notranslate nohighlight">\(L = 1\)</span> and <span class="math notranslate nohighlight">\(L = 2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   M_1 = \pi^{-2}\left(1 - 2^{-2}\right)\Gamma(2)\zeta(2) = \frac{3}{4}\cdot\frac{1}{6} = \frac{1}{8} = 0.125, \qquad M_2 = \frac{1}{3}\cdot\frac{1}{(2\pi)^2}\cdot\frac{2\pi^2}{15} = \frac{1}{90} \approx 0.011111111111111112 &lt; \frac{1}{64}.
+   \]</div>
+</li>
+<li><p><strong>Path-Graph vs. Complete-Graph Chamber Dichotomy (<span class="bibtex-citation" id="id24">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>, Lemma 5.181 &amp; Theorem 5.182):</strong>
+Why does the <span class="math notranslate nohighlight">\(S_3\)</span> (<span class="math notranslate nohighlight">\(A_2\)</span>) Weyl-chamber Parseval mechanism yield rational Bernoulli fractions at <span class="math notranslate nohighlight">\(L = 1, 2\)</span> but fail for <span class="math notranslate nohighlight">\(L \ge 3\)</span>? Because the <span class="math notranslate nohighlight">\(L\)</span>-vertex ladder path graph has <span class="math notranslate nohighlight">\(L - 1\)</span> edges whereas the complete graph <span class="math notranslate nohighlight">\(K_L\)</span> (<span class="math notranslate nohighlight">\(A_{L-1}\)</span> root system) has <span class="math notranslate nohighlight">\(\binom{L}{2}\)</span> edges (<code class="docutils literal notranslate"><span class="pre">celestialLoopCompleteMinusPathEdges</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+   \binom{L}{2} - (L - 1) = \frac{(L - 1)(L - 2)}{2} = \begin{cases} 0, &amp; L \in \{1, 2\}, \\ 1, &amp; L = 3, \\ 3, &amp; L = 4, \\ 6, &amp; L = 5. \end{cases}
+   \end{split}\]</div>
+</li>
+<li><p><strong>New Compact-Interval Reduction for the 3-Loop Integral <span class="math notranslate nohighlight">\(M_3\)</span> (<code class="docutils literal notranslate"><span class="pre">celestial_half_line_convolution_f</span></code>):</strong>
+On the 3-vertex path graph <span class="math notranslate nohighlight">\(1 - 2 - 3\)</span>, the outer loop variables <span class="math notranslate nohighlight">\(\lambda_1, \lambda_3 \in (0, \infty)\)</span> couple only to the middle variable <span class="math notranslate nohighlight">\(\lambda_2 = y &gt; 0\)</span>, factoring the 3D integral into a 1D integral of the squared half-line convolution <span class="math notranslate nohighlight">\(F(y) := \frac{1}{2\pi}\int_0^\infty P(x)P(x - y)\,dx\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+   M_3 = \frac{1}{2\pi}\int_0^\infty P(y)\,\bigl[F(y)\bigr]^2\,dy.
+   \]</div>
+<p>Furthermore, using the exact differential identity <span class="math notranslate nohighlight">\(\operatorname{sech}^4(k/2) = \frac{2}{3}\bigl(1 - \frac{d^2}{dk^2}\bigr)\operatorname{sech}^2(k/2)\)</span> on the Fourier transform <span class="math notranslate nohighlight">\(\hat{P}(k) = \frac{\pi}{2}\operatorname{sech}^2(k/2)\)</span>, we prove that the full-line convolution equals <span class="math notranslate nohighlight">\(F(y) + F(-y) = \frac{1 + y^2}{6}P(y)\)</span>, while <span class="math notranslate nohighlight">\(F(y) - F(-y) = \frac{1}{2\pi}\int_0^y P(x)P(y - x)\,dx\)</span>. Averaging the two yields an <strong>exact compact-interval representation</strong> with zero infinite-tail truncation:</p>
+<div class="math notranslate nohighlight">
+\[
+   F(y) = \underbrace{\frac{1 + y^2}{12}\,P(y)}_{A_{\mathrm{even}}(y)} + \underbrace{\frac{y}{2\pi}\int_0^{1/2} P(u y)\,P\bigl((1 - u)y\bigr)\,du}_{B_{\mathrm{odd}}(y)}.
+   \]</div>
+<p>In Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> (<code class="docutils literal notranslate"><span class="pre">audit_celestial_holography_and_turner_graviton</span></code>), 8-point Gauss–Legendre quadrature evaluates <span class="math notranslate nohighlight">\(M_1, M_2, M_3\)</span> in <span class="math notranslate nohighlight">\(&lt; 0.2\text{ ms}\)</span> to <strong><span class="math notranslate nohighlight">\(2.10 \times 10^{-15}\)</span></strong>, matching 45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> and separating <span class="math notranslate nohighlight">\(M_3\)</span> into its even <span class="math notranslate nohighlight">\(A_2\)</span>-chamber baseline <span class="math notranslate nohighlight">\(M_{3,\mathrm{even}} = 0.000599032245\)</span> and its ordered-chamber excess <span class="math notranslate nohighlight">\(M_{3,\mathrm{odd}} = 0.000428988232\)</span>:</p>
+</li>
+</ol>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Loop Order <span class="math notranslate nohighlight">\(L\)</span></p></th>
+<th class="head text-center"><p>Missing <span class="math notranslate nohighlight">\(K_L\)</span> Edges <span class="math notranslate nohighlight">\(\frac{(L-1)(L-2)}{2}\)</span></p></th>
+<th class="head text-left"><p>Exact / 45-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Value <span class="math notranslate nohighlight">\(M_L\)</span></p></th>
+<th class="head text-right"><p>Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> Gauss–Legendre Value</p></th>
+<th class="head text-right"><p>Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> Absolute Error</p></th>
+<th class="head text-right"><p>All-Loop UV Bound <span class="math notranslate nohighlight">\((1/8)^L\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><strong><span class="math notranslate nohighlight">\(L = 1\)</span></strong></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/8 = 0.1250000000000000\)</span></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.1249999999999969</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">3.12e-15</span></code></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.12500000</span></code> (saturated)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong><span class="math notranslate nohighlight">\(L = 2\)</span></strong></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/90 \approx 0.0111111111111111\)</span></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.0111111111111151</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">4.02e-15</span></code></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.01562500</span></code> (<span class="math notranslate nohighlight">\(1/64\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong><span class="math notranslate nohighlight">\(L = 3\)</span></strong></p></td>
+<td class="text-center"><p><strong><code class="docutils literal notranslate"><span class="pre">1</span></code></strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.0010280204768207</span></code> (<code class="docutils literal notranslate"><span class="pre">diff</span> <span class="pre">=</span> <span class="pre">2.58e-26</span></code>)</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.0010280204768228</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">2.10e-15</span></code></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.001953125</span></code> (<span class="math notranslate nohighlight">\(1/512\)</span>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="constructive-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-touqga-2-pdf">
+<h2>3. Constructive Epistemic Audit of the Five RH Pathways and Appendix B in <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code><a class="headerlink" href="#constructive-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-touqga-2-pdf" title="Link to this heading">¶</a></h2>
+<p>Following our research-evidence triage and <code class="docutils literal notranslate"><span class="pre">RB-6</span></code> formal verification protocol (<a class="reference internal" href="riemann-spectral-bridges-plan.html"><span class="std std-doc">RH Analytical Bridges Plan</span></a>), we audited every step of Chapters 5 and 8 and Appendix B of <span class="bibtex-citation" id="id25">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span>. Table 3.1 summarizes what is rigorously proved versus the exact technical or analytical gap in each pathway.</p>
+<section id="table-3-1-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-toupin2025quantum">
+<h3>Table 3.1: Epistemic Audit of the Five RH Pathways and Appendix B in <span class="bibtex-citation" id="id26">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span><a class="headerlink" href="#table-3-1-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-toupin2025quantum" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Pathway / Section in <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code></p></th>
+<th class="head text-left"><p>Validated Mathematical Core</p></th>
+<th class="head text-left"><p>Concrete Technical / Analytical Gap Identified by Tri-Language Audit</p></th>
+<th class="head text-left"><p>Corresponding <code class="docutils literal notranslate"><span class="pre">Signals</span></code> Formalization</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Pathway 1: Adelic Cesàro <span class="math notranslate nohighlight">\(L^2\)</span> Norm</strong> (Sec. 8.3, pp. 398–405; Sec. 8.4.3, pp. 430–433)</p></td>
+<td class="text-left"><p>Unitary scaling characters <span class="math notranslate nohighlight">\(\lvert a\rvert^{s-1/2}\)</span> on <span class="math notranslate nohighlight">\(\mathbb{R}_+^\times\)</span> have finite Cesàro GNS norm <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(\sigma) = 1\)</span> iff <span class="math notranslate nohighlight">\(\sigma = 1/2\)</span> <span class="bibtex-citation" id="id27">[<a class="reference internal" href="#id548" title="John T. Tate. Fourier Analysis in Number Fields, and Hecke's Zeta-Functions. PhD thesis, Princeton University, 1950. Published in \emph Algebraic Number Theory (Cassels and Fröhlich, eds.), Academic Press, 1967, pp. 305–347.">Tate, 1950</a>]</span>.</p></td>
+<td class="text-left"><p><strong>1.</strong> Eq. (8.239)–(8.242) (p. 431–432) &amp; Thm. 8.86 (p. 449) claim <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(\sigma) = 0\)</span> (“zero-norm ghost”) for <span class="math notranslate nohighlight">\(\sigma &lt; 1/2\)</span>. On <span class="math notranslate nohighlight">\(d^\times r = dr/r\)</span>, <span class="math notranslate nohighlight">\(N_{\mathrm{reg}}(\sigma, R) = \frac{\sinh((2\sigma-1)\ln R)}{(2\sigma-1)\ln R}\)</span> is <strong>even</strong> around <span class="math notranslate nohighlight">\(\sigma = 1/2\)</span> (<code class="docutils literal notranslate"><span class="pre">N_reg(0.25)</span> <span class="pre">=</span> <span class="pre">N_reg(0.75)</span> <span class="pre">=</span> <span class="pre">10.856</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>), diverging to <span class="math notranslate nohighlight">\(+\infty\)</span> on <strong>both</strong> sides.<br><strong>2.</strong> Proving that a character is unitary iff <span class="math notranslate nohighlight">\(\sigma = 1/2\)</span> does not prove that zeta zeros <span class="math notranslate nohighlight">\(\rho\)</span> produce unitary GNS eigenstates.</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">adelic_cesaro_symmetry_and_offline_selfdual_counterexample</span></code>, <code class="docutils literal notranslate"><span class="pre">adelic_symmetric_cesaro_mean</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Pathway 2: Meyer–Stone Spectral Rigidity</strong> (Sec. 8.4, Thm. 8.55, pp. 420–442)</p></td>
+<td class="text-left"><p>Stone’s theorem makes <span class="math notranslate nohighlight">\(A = i\frac{d}{d\ln\lvert a\rvert}\)</span> self-adjoint on the unitary GNS Hilbert space <span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{GNS}}\)</span>.</p></td>
+<td class="text-left"><p>In Meyer’s unconditional theorem <span class="bibtex-citation" id="id28">[<a class="reference internal" href="#id549" title="Ralf Meyer. On a representation of the idele class group related to primes and zeros of $L$-functions. Duke Mathematical Journal, 127(3):519–595, 2005. arXiv:math/0412277, doi:10.1215/S0012-7094-04-12734-4.">Meyer, 2005</a>]</span>, the zero spectrum <span class="math notranslate nohighlight">\(\rho\)</span> arises on a quotient of <strong>nuclear Fréchet spaces</strong> <span class="math notranslate nohighlight">\(\mathcal{S}_0(\mathbb{A}^\times/\mathbb{Q}^\times)'\)</span>, not inside <span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{GNS}}\)</span>. Assuming <span class="math notranslate nohighlight">\(\mu_W = \mu_A\)</span> on <span class="math notranslate nohighlight">\(\mathcal{H}_{\mathrm{GNS}}\)</span> (Thm. 8.55(ii) / “Born Rule Bridge” Thm. 8.64) is equivalent to <strong>Open Bridge 4</strong>.</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary.meyerFrechetToGnsHilbertBridge</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Pathway 3: Biane–Pitman–Yor Brownian Bridge</strong> (Sec. 8.5, Thm. 8.84–8.86, pp. 443–450)</p></td>
+<td class="text-left"><p>Biane–Pitman–Yor <span class="bibtex-citation" id="id29">[<a class="reference internal" href="#id550" title="Philippe Biane, Jim Pitman, and Marc Yor. Probability laws related to the Jacobi theta and Riemann zeta functions, and Brownian excursions. Bulletin of the American Mathematical Society, 38(4):435–465, 2001. doi:10.1090/S0273-0979-01-00912-0.">Biane <em>et al.</em>, 2001</a>]</span> proved <span class="math notranslate nohighlight">\(\mathbb{E}[V_{\mathrm{BPY}}^s] = 2\xi(s)\)</span> for the rescaled Kuiper range of a Brownian bridge.</p></td>
+<td class="text-left"><p><strong>1.</strong> Eqs. (8.277)–(8.281) (pp. 457–458) substitute the <strong>Kolmogorov–Smirnov</strong> alternating series <span class="math notranslate nohighlight">\(2\sum (-1)^{k+1}e^{-2k^2\pi^2 v^2}\)</span> for the Kuiper tail <span class="math notranslate nohighlight">\(2\sum (2\pi k^2 v^2 - 1)e^{-\pi k^2 v^2}\)</span>, missing <span class="math notranslate nohighlight">\((s-1)\)</span> (<code class="docutils literal notranslate"><span class="pre">0.963864</span></code> error at <span class="math notranslate nohighlight">\(s=2\)</span>) and producing <span class="math notranslate nohighlight">\((1-2^{1-s})\zeta(s)\)</span>.<br><strong>2.</strong> The KS maximum <span class="math notranslate nohighlight">\(M = \sup\lvert B_t\rvert &gt; 0\)</span> has a positive Wiener density <span class="math notranslate nohighlight">\(p_M(v) &gt; 0\)</span>, yet <span class="math notranslate nohighlight">\(\mathbb{E}[M^s] \propto (1-2^{1-s})\zeta(s)\)</span> has zeros on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1 \ne 1/2\)</span>!</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">audit_celestial_holography_toupin_and_turner_graviton</span></code> (<code class="docutils literal notranslate"><span class="pre">toupin_eq8281_discrepancy_s2</span></code>, <code class="docutils literal notranslate"><span class="pre">pathway3_counterexample_ok</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Pathway 4: Celestial Holography <span class="math notranslate nohighlight">\(c = 0\)</span> &amp; BMS<span class="math notranslate nohighlight">\(_4\)</span></strong> (Sec. 8.6, pp. 451–468; App. B.2, pp. 931–937)</p></td>
+<td class="text-left"><p>Bargmann’s theorem places unitary <span class="math notranslate nohighlight">\(\mathrm{SL}(2,\mathbb{C})\)</span> principal-series wavefunctions on <span class="math notranslate nohighlight">\(\Delta = 1 + i\lambda\)</span>, and <span class="math notranslate nohighlight">\(\Delta = 2s\)</span> maps <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = 1 \leftrightarrow \operatorname{Re}(s) = 1/2\)</span>.</p></td>
+<td class="text-left"><p><strong>1.</strong> In App. B.2 (p. 933), <code class="docutils literal notranslate"><span class="pre">R(eps)</span></code> has pole <span class="math notranslate nohighlight">\(+8/\epsilon\)</span> (not <span class="math notranslate nohighlight">\(-4/\epsilon\)</span> or <span class="math notranslate nohighlight">\(+2/\epsilon\)</span>), and dividing by <code class="docutils literal notranslate"><span class="pre">shadow_norm</span> <span class="pre">=</span> <span class="pre">1/eps</span></code> multiplies by <span class="math notranslate nohighlight">\(\epsilon\)</span>, forcing <code class="docutils literal notranslate"><span class="pre">c_eps</span> <span class="pre">~</span> <span class="pre">16</span> <span class="pre">pi^2</span> <span class="pre">eps</span> <span class="pre">-&gt;</span> <span class="pre">0</span></code> by power counting.<br><strong>2.</strong> Identifying BMS<span class="math notranslate nohighlight">\(_4\)</span> graviton modes <span class="math notranslate nohighlight">\(\Delta_n\)</span> with zeta zeros <span class="math notranslate nohighlight">\(2\rho_n\)</span> (Prop. 8.93) requires an unproven spectral determinant identity (<strong>Open Bridge 4</strong>).</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Pathway 5: Yakaboylu Beurling–Malliavin Completeness</strong> (Sec. 8.10, Thm. 8.153, pp. 527–535)</p></td>
+<td class="text-left"><p>Lemma 8.154 proves the Mellin isometry for the Fermi–Dirac weight <span class="math notranslate nohighlight">\(\omega(t) = \frac{t e^t}{(1+e^t)^2}\)</span>, where <span class="math notranslate nohighlight">\(W(u) = \omega(e^u) = \frac{1}{4}\operatorname{sech}^2(u/2) \propto \hat{P}(u)\)</span>.</p></td>
+<td class="text-left"><p>As noted in Theorem 8.153 (p. 529), completeness of <span class="math notranslate nohighlight">\(\{\psi_n\}\)</span> in <span class="math notranslate nohighlight">\(L^2([0,\infty), dt)\)</span> is an <strong>equivalence</strong> to RH (via Weil positivity), not an independent unconditional proof unless Pathways 1–4 first establish RH.</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary.globalLiAndJensenPolyaPositivity</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reviewing-our-turner-gravity-models-in-regards-to-gravitons-developing-integrated-turner-models-15a-15b">
+<h2>4. Reviewing Our Turner Gravity Models in Regards to “Gravitons” &amp; Developing Integrated Turner Models 15a &amp; 15b<a class="headerlink" href="#reviewing-our-turner-gravity-models-in-regards-to-gravitons-developing-integrated-turner-models-15a-15b" title="Link to this heading">¶</a></h2>
+<section id="how-gravitons-are-modeled-across-all-15-frameworks-in-src-signals">
+<h3>4.1 How Gravitons Are Modeled Across All 15 Frameworks in <code class="docutils literal notranslate"><span class="pre">src/signals</span></code><a class="headerlink" href="#how-gravitons-are-modeled-across-all-15-frameworks-in-src-signals" title="Link to this heading">¶</a></h3>
+<p>How does a “graviton”—its spin/helicity <span class="math notranslate nohighlight">\(J = \pm 2\)</span>, propagator order (<span class="math notranslate nohighlight">\(1/q^2\)</span> vs. <span class="math notranslate nohighlight">\(1/q^4\)</span>), self-dual/anti-self-dual twistor balance (Penrose’s Googly Problem), ultraviolet loop behavior, and active photon–photon coupling <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma\)</span>—behave across our existing gravity models (<code class="docutils literal notranslate"><span class="pre">Signals.QEDGravity</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code>) and our new <strong>Integrated Turner Models 15a &amp; 15b</strong>?</p>
+<ol class="arabic">
+<li><p><strong>Resolution of Penrose’s Googly Problem on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Sections 30.2–30.7 &amp; <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> Section 5.8):</strong>
+In Penrose’s original twistor construction <span class="bibtex-citation" id="id30">[<a class="reference internal" href="#id196" title="Roger Penrose. Twistor algebra. Journal of Mathematical Physics, 8(2):345–366, 1967. URL: https://pubs.aip.org/aip/jmp/article-abstract/8/2/345/233824/Twistor-Algebra, doi:10.1063/1.1705200.">Penrose, 1967</a>, <a class="reference internal" href="#id197" title="Roger Penrose. Nonlinear gravitons and curved twistor theory. General Relativity and Gravitation, 7(1):31–52, 1976. URL: https://link.springer.com/article/10.1007/BF00762011, doi:10.1007/BF00762011.">Penrose, 1976</a>]</span>, holomorphic cohomology <span class="math notranslate nohighlight">\(H^1(\mathbb{PT}^+, \mathcal{O}(-6))\)</span> encodes anti-self-dual (<span class="math notranslate nohighlight">\(J = -2\)</span>) gravitons effortlessly, whereas self-dual (<span class="math notranslate nohighlight">\(J = +2\)</span>, “googly”) gravitons resisted a symmetric description on <span class="math notranslate nohighlight">\(\mathbb{PT}\)</span>.</p>
+<ul>
+<li><p>In <span class="bibtex-citation" id="id31">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (Theorem 5.148, pp. 217–222; Appendix B.8, pp. 947–950), Toupin proves that at null infinity <span class="math notranslate nohighlight">\(\mathcal{I}^+\)</span>, the celestial shadow transform <span class="math notranslate nohighlight">\((\Delta, J) \mapsto (2 - \Delta, -J)\)</span> with <span class="math notranslate nohighlight">\(z \mapsto \bar{z}\)</span> is the boundary restriction of the <strong>Jost involution <span class="math notranslate nohighlight">\(\Theta\)</span></strong> of axiomatic QFT <span class="bibtex-citation" id="id32">[<a class="reference internal" href="#id551" title="Res Jost. Eine Bemerkung zum CTP-Theorem. Helvetica Physica Acta, 30:409–416, 1957.">Jost, 1957</a>]</span>, which collapses <span class="math notranslate nohighlight">\(C, P, T\)</span> into a single irreducible antiunitary time-reversal involution <span class="math notranslate nohighlight">\(T\)</span>. On the principal series <span class="math notranslate nohighlight">\(\Delta_j = 1 + i\lambda_j\)</span>, <span class="math notranslate nohighlight">\(2 - \Delta_j = \overline{\Delta_j}\)</span>, so the 3-point celestial MHV gamma coefficient satisfies:</p>
+<div class="math notranslate nohighlight">
+\[
+     C^{\mathrm{shadow}}(\Delta_1, \Delta_2, \Delta_3) := \overline{C^{\mathrm{MHV}}(2 - \Delta_1, 2 - \Delta_2, 2 - \Delta_3)} = C^{\mathrm{MHV}}(\Delta_1, \Delta_2, \Delta_3) = C^{\mathrm{anti\text{-}MHV}}(\Delta_1, \Delta_2, \Delta_3)
+     \]</div>
+<p>with <strong>exact zero error (<code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code>)</strong> on the principal series <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0\)</span>, whereas shifting off the critical line to <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0.15\)</span> breaks the shadow-conjugation equality by <strong><code class="docutils literal notranslate"><span class="pre">94.90%</span></code> (<code class="docutils literal notranslate"><span class="pre">0.948990</span></code>)</strong> (<code class="docutils literal notranslate"><span class="pre">googly_off_line_symmetry_breaking</span></code> in <code class="docutils literal notranslate"><span class="pre">riemann_spectral.rs</span></code>)!</p>
+</li>
+<li><p>In our <strong>Turner Models 14a/14b and 15a/15b</strong>, the bulk condensate lives on the <strong>Dual-Schubert product <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">PluckerMadelungState</span></code>), corresponding to the two orthogonal middle-cohomology Schubert classes <span class="math notranslate nohighlight">\(\sigma_{(2,0)}, \sigma_{(1,1)} \in H^4(\mathrm{Gr}(2,4), \mathbb{Z})\)</span> (<span class="math notranslate nohighlight">\(b_4 = 2\)</span>). The Hodge complement map <span class="math notranslate nohighlight">\(\tau: \Lambda \mapsto \Lambda^\perp\)</span> exchanges the primary Plücker state <span class="math notranslate nohighlight">\(\Psi \in \mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> (<span class="math notranslate nohighlight">\(J = +2\)</span>, phase <span class="math notranslate nohighlight">\(s_{\mathrm{real}}\)</span>) with its dual partner <span class="math notranslate nohighlight">\(\Phi \in \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span> (<span class="math notranslate nohighlight">\(J = -2\)</span>, phase <span class="math notranslate nohighlight">\(s_{\mathrm{dual}}\)</span>). Thus, our Hermitian phase-locking condition <span class="math notranslate nohighlight">\(s_{\mathrm{dual}} = s_{\mathrm{real}}\)</span> (<span class="math notranslate nohighlight">\(\delta_{\mathrm{Jos}} = 0, \delta P_{\mathrm{Jos}} = 0\)</span>) is the exact bulk hydrodynamic realization of Toupin’s boundary Jost/shadow <span class="math notranslate nohighlight">\(T\)</span>-involution!</p></li>
+</ul>
+</li>
+<li><p><strong>Why <span class="math notranslate nohighlight">\(J^2 = (\pm 2)^2 = 4\)</span> Unites Spin-2 Graviton Helicity with <span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span> and the Kähler Determinant <span class="math notranslate nohighlight">\(\mathcal{D}(W_{\mathrm{orb}}) = 4 - e^2\)</span>:</strong>
+For a celestial primary of dimension <span class="math notranslate nohighlight">\(\Delta\)</span> and helicity <span class="math notranslate nohighlight">\(J\)</span>, the left/right conformal weights <span class="math notranslate nohighlight">\(h = (\Delta + J)/2\)</span> and <span class="math notranslate nohighlight">\(\bar{h} = (\Delta - J)/2\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.DFT.celestialConformalWeightH</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialConformalWeightHBar</span></code>) satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+   \Delta^2 - 4 h \bar{h} = J^2 = (\pm 2)^2 = 4.
+   \]</div>
+<p>This spin-2 invariant <span class="math notranslate nohighlight">\(J^2 = 4\)</span> coincides with:</p>
+<ul class="simple">
+<li><p>The QFIM-to-Fubini–Study ratio <span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.DFT.qfimDiag_eq_four_mul_fubiniStudyDiag</span></code>),</p></li>
+<li><p>The BCJ <span class="math notranslate nohighlight">\(\text{Gravity} = \text{Gauge}^2\)</span> phase-variance quadrupling <span class="math notranslate nohighlight">\(\operatorname{Var}_p(2\partial_\mu\phi) = 4\operatorname{Var}_p(\partial_\mu\phi)\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.DFT.qed_scattering_gravity_bcj_partanen_tulkki_qfim_and_fubini_study_identities</span></code>),</p></li>
+<li><p>The Cachazo–Skinner 4-point Hodges double-copy scalar kernel <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{CS}}(1+e, 1-e) = ((1+e) + (1-e))^2 = 4\)</span>, and</p></li>
+<li><p>The circular Fubini–Study Kähler determinant <span class="math notranslate nohighlight">\(\mathcal{D}(W_{\mathrm{orb}}(0)) = 4 - 0^2 = 4\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF.PlanetaryOrbit.gr24AffineChart</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Formulation of Integrated Turner Models 15a (Without DDF) &amp; 15b (With DDF) (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30.7):</strong>
+In <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DDF.lean</span></code></a>, lines <code class="docutils literal notranslate"><span class="pre">9625–9815</span></code>), we define:</p>
+<ul>
+<li><p><strong>Celestial Spin-2 Principal-Series Shadow Norm Factor (<code class="docutils literal notranslate"><span class="pre">celestialSpinTwoShadowNormFactor</span></code>):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+     \mathcal{W}_{\mathrm{grav}}(\sigma_{\mathrm{dev}}) = \Delta_{\mathrm{re}}(2 - \Delta_{\mathrm{re}}) = (1 + 2\sigma_{\mathrm{dev}})(1 - 2\sigma_{\mathrm{dev}}) = 1 - 4\sigma_{\mathrm{dev}}^2,
+     \]</div>
+<p>which equals <span class="math notranslate nohighlight">\(1\)</span> if and only if <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = 0\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2 \iff \operatorname{Re}(\Delta) = 1\)</span>).</p>
+</li>
+<li><p><strong>Plancherel–Unruh Quantum-Graviton Loop Factor (<code class="docutils literal notranslate"><span class="pre">celestialPlancherelLoopCorrectionFactor</span></code>):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+     \mathcal{F}_{\mathrm{loop}}(\alpha_{\mathrm{QG}}) = 1 + M_1\,\alpha_{\mathrm{QG}} + M_2\,\alpha_{\mathrm{QG}}^2 = 1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2,
+     \]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha_{\mathrm{QG}} \ge 0\)</span> is the dimensionless quantum-gravitational loop coupling (<span class="math notranslate nohighlight">\(\alpha_{\mathrm{QG}} = 0\)</span> at classical solar-system and binary-pulsar scales; <span class="math notranslate nohighlight">\(1 &lt; \mathcal{F}_{\mathrm{loop}}(\alpha_{\mathrm{QG}}) &lt; 1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{64}\alpha_{\mathrm{QG}}^2\)</span> for <span class="math notranslate nohighlight">\(\alpha_{\mathrm{QG}} &gt; 0\)</span>).</p>
+</li>
+<li><p><strong>Integrated 1PN Perihelion Precession &amp; 2.5PN Gravitational-Wave Luminosity (<code class="docutils literal notranslate"><span class="pre">turnerCelestialPluckerGravitonPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">turnerCelestialPluckerGravitonGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity</span></code>):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+     \Delta\varpi_{\mathrm{Model\,15a/b}} = \bigl(1 - 4\sigma_{\mathrm{dev}}^2\bigr)\left(1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\right)\frac{6\pi G M}{c^2 a\bigl(\mathcal{D}(W_{\mathrm{orb}}) - 3\bigr)} + \delta_{\mathrm{Jos}},
+     \]</div>
+<div class="math notranslate nohighlight">
+\[
+     P_{\mathrm{GW}}^{\mathrm{Model\,15a/b}} = \bigl(1 - 4\sigma_{\mathrm{dev}}^2\bigr)\left(1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\right)\frac{32 G^4 m_1^2 m_2^2(m_1+m_2)}{5 c^5 a^5}\frac{P_{\mathrm{PM}}(e)}{\bigl(\sqrt{\mathcal{D}(W_{\mathrm{orb}}) - 3}\bigr)^7} + \delta P_{\mathrm{Jos}},
+     \]</div>
+<p>where Model 15a uses flat-space <span class="math notranslate nohighlight">\((G, c)\)</span> with active photon–photon gravitational deflection <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1\)</span>, while Model 15b uses the DDF constitutive product <span class="math notranslate nohighlight">\(c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi\)</span> with passive radiation sourcing <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>.</p>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="table-4-1-master-comparison-of-graviton-modeling-across-all-gravity-frameworks">
+<h3>Table 4.1: Master Comparison of “Graviton” Modeling Across All Gravity Frameworks<a class="headerlink" href="#table-4-1-master-comparison-of-graviton-modeling-across-all-gravity-frameworks" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Gravity / Graviton Model</p></th>
+<th class="head text-left"><p>Graviton Carrier &amp; Spin/Helicity</p></th>
+<th class="head text-left"><p>Propagator &amp; Ostrogradsky Ghost Status</p></th>
+<th class="head text-left"><p>Googly Self-Dual / Anti-Self-Dual (<span class="math notranslate nohighlight">\(J=\pm 2\)</span>) Mechanism</p></th>
+<th class="head text-left"><p>UV Loop Regularization</p></th>
+<th class="head text-center"><p>1PN Mercury (<span class="math notranslate nohighlight">\(42.98''/\text{cy}\)</span>), Light Bending (<span class="math notranslate nohighlight">\(1.75''\)</span>), &amp; 2.5PN GW Error <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}}\)</span></p></th>
+<th class="head text-center"><p>Active Laser–Laser Deflection <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>1. Nordström Scalar (1913)</strong></p></td>
+<td class="text-left"><p>Spin-0 scalar <span class="math notranslate nohighlight">\(\Phi\)</span> (<span class="math notranslate nohighlight">\(J=0\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> (ghost-free, wrong spin)</p></td>
+<td class="text-left"><p>Scalar only (no <span class="math notranslate nohighlight">\(\pm 2\)</span> helicity)</p></td>
+<td class="text-left"><p>Divergent</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(116.7\%\)</span></strong> (<span class="math notranslate nohighlight">\(\Delta\varpi = -\tfrac{1}{6}\Delta\varpi_{\mathrm{GR}}\)</span>, <span class="math notranslate nohighlight">\(\Delta\theta_\gamma = 0\)</span>)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(0\)</span> (<span class="math notranslate nohighlight">\(T^\mu{}_\mu = 0\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>2. Relativistic Spin-1 Vector</strong></p></td>
+<td class="text-left"><p>Spin-1 vector <span class="math notranslate nohighlight">\(A_\mu\)</span> (<span class="math notranslate nohighlight">\(J=\pm 1\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> (ghost-free, wrong spin)</p></td>
+<td class="text-left"><p>Vector <span class="math notranslate nohighlight">\(\pm 1\)</span> only</p></td>
+<td class="text-left"><p>Re-normalizable</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(83.3\%\)</span></strong> (<span class="math notranslate nohighlight">\(\Delta\varpi = +\tfrac{1}{6}\Delta\varpi_{\mathrm{GR}}\)</span>, <span class="math notranslate nohighlight">\(\Delta\theta_\gamma = \tfrac{1}{2}\Delta\theta_{\mathrm{GR}}\)</span>)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1/2\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>3. Classical Einstein GR (1915)</strong></p></td>
+<td class="text-left"><p>Metric <span class="math notranslate nohighlight">\(h_{\mu\nu}^{\mathrm{TT}}\)</span> (<span class="math notranslate nohighlight">\(J=\pm 2\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> (2-derivative)</p></td>
+<td class="text-left"><p>Spacetime <span class="math notranslate nohighlight">\(C_{\mu\nu\rho\sigma}^\pm\)</span></p></td>
+<td class="text-left"><p>Perturbatively non-renormalizable</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong> (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} = 0\)</span>)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>4. Witten Twistor String (2004)</strong> <span class="bibtex-citation" id="id33">[<a class="reference internal" href="#id234" title="Edward Witten. Perturbative gauge theory as a string theory in twistor space. Communications in Mathematical Physics, 252:189–258, 2004. Witten's Twistor String Theory under S(4). URL: https://link.springer.com/article/10.1007/s00220-004-1187-3, arXiv:hep-th/0312171, doi:10.1007/s00220-004-1187-3.">Witten, 2004</a>]</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mathbb{CP}^{3|4}\)</span> closed string</p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(1/(q^2(q^2-m^2))\)</span> FAILS</strong> (4th-order Weyl ghost <span class="bibtex-citation" id="id34">[<a class="reference internal" href="#id211" title="Nathan Berkovits and Edward Witten. Conformal supergravity in twistor-string theory. Journal of High Energy Physics, 2004(08):009, 2004. arXiv:hep-th/0406051, doi:10.1088/1126-6708/2004/08/009.">Berkovits and Witten, 2004</a>]</span>)</p></td>
+<td class="text-left"><p>Broken by conformal supergravity loops</p></td>
+<td class="text-left"><p>Corrupted by Weyl ghosts</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(100\%\)</span></strong> at <span class="math notranslate nohighlight">\(\beta_{\mathrm{scale}}=0\)</span> (or grows as <span class="math notranslate nohighlight">\(a^3\)</span>)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>5. Cachazo (<code class="docutils literal notranslate"><span class="pre">CSW</span></code>/<code class="docutils literal notranslate"><span class="pre">BCFW</span></code>/<code class="docutils literal notranslate"><span class="pre">Hodges</span></code>/<code class="docutils literal notranslate"><span class="pre">CHY</span></code>)</strong> <span class="bibtex-citation" id="id35">[<a class="reference internal" href="#id213" title="Freddy Cachazo and David Skinner. Gravity from rational curves in twistor space. Physical Review Letters, 110(16):161301, 2013. arXiv:1207.0741, doi:10.1103/PhysRevLett.110.161301.">Cachazo and Skinner, 2013</a>, <a class="reference internal" href="#id434" title="F. Cachazo, S. He, and E. Y Yuan. Scattering of massless particles in arbitrary dimensions. Physical Review Letters, 2014. Referenced in docs/grassmannian-unification-applications-roadmap-paper.md.; Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md. URL: https://doi.org/10.1103/PhysRevLett.113.171601, arXiv:1307.2199, doi:10.1103/PhysRevLett.113.171601.">Cachazo <em>et al.</em>, 2014</a>]</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(k,n)\)</span> &amp; <span class="math notranslate nohighlight">\(\mathbb{CP}^1\)</span> punctures (<span class="math notranslate nohighlight">\(J=\pm 2\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> via <span class="math notranslate nohighlight">\(\pi_I = 1\)</span> infinity twistor <span class="math notranslate nohighlight">\(I_{AB}\)</span></p></td>
+<td class="text-left"><p>Hodges determinants <span class="math notranslate nohighlight">\(\det'(\Phi)\det'(\tilde{\Phi})\)</span></p></td>
+<td class="text-left"><p>Dimensional reg. (<span class="math notranslate nohighlight">\(D = 4-2\epsilon\)</span>)</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong> at <span class="math notranslate nohighlight">\(\pi_I = 1, \Lambda_{\mathrm{cc}} = 0\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>6. QED / <code class="docutils literal notranslate"><span class="pre">BCJ</span></code> / Partanen–Tulkki <span class="math notranslate nohighlight">\(\mathrm{U}(1)^4\)</span></strong> <span class="bibtex-citation" id="id36">[<a class="reference internal" href="#id227" title="Mikko Partanen and Jukka Tulkki. Gravity generated by four one-dimensional unitary gauge symmetries and the standard model. Reports on Progress in Physics, 88(5):057802, 2025. QED Scattering Gravity; 4x U(1) 1-loop scattering gravity. URL: https://arxiv.org/abs/2310.01460, arXiv:2310.01460, doi:10.1088/1361-6633/adc82e.">Partanen and Tulkki, 2025</a>, <a class="reference internal" href="#id210" title="Zvi Bern, John Joseph M. Carrasco, and Henrik Johansson. New relations for gauge-theory amplitudes. Physical Review D, 78(8):085011, 2008. URL: https://doi.org/10.1103/PhysRevD.78.085011, doi:10.1103/PhysRevD.78.085011.">Bern <em>et al.</em>, 2008</a>]</span></p></td>
+<td class="text-left"><p>Double copy <span class="math notranslate nohighlight">\(\varepsilon_\mu^{(\pm 1)}\otimes\varepsilon_\nu^{(\pm 1)}\)</span> (<span class="math notranslate nohighlight">\(J=\pm 2\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> via <span class="math notranslate nohighlight">\(n_t^2/q^2\)</span> numerator squaring</p></td>
+<td class="text-left"><p>Gauge <span class="math notranslate nohighlight">\(\otimes\)</span> Gauge helicity product</p></td>
+<td class="text-left"><p>Dimensional / <span class="math notranslate nohighlight">\(\mathrm{U}(1)^4\)</span> QFT reg.</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong> (1-loop triangle diagram)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>7. Fedi <code class="docutils literal notranslate"><span class="pre">DDF</span></code> (2026)</strong> <span class="bibtex-citation" id="id37">[<a class="reference internal" href="#id226" title="Marco Fedi. Dilatant dark fluid: toward a unified quantum-hydrodynamic origin of Lorentz invariance, gravity, and cosmological phenomenology. SSRN Electronic Journal, 2026. DDF: Dilatant Dark Fluid ; SSRN Preprint 7406660. URL: https://dx.doi.org/10.2139/ssrn.7406660, doi:10.2139/ssrn.7406660.">Fedi, 2026</a>]</span></p></td>
+<td class="text-left"><p>Quadrupolar <span class="math notranslate nohighlight">\(\varphi\)</span>-jamming / <span class="math notranslate nohighlight">\(\phi\)</span>-river phonon</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> acoustic Painlevé–Gullstrand metric</p></td>
+<td class="text-left"><p>Acoustic shear polarization</p></td>
+<td class="text-left"><p>Finite healing length <span class="math notranslate nohighlight">\(\xi_\phi\)</span></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong> (<span class="math notranslate nohighlight">\(c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi\)</span>)</p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0\)</span></strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>8. Turner Models 12 &amp; 13</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.QEDGravity</span></code>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker <span class="math notranslate nohighlight">\(w_A w_B = 1-e^2\)</span> + 3D Splats</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> (ghost-free)</p></td>
+<td class="text-left"><p>Plücker crossing channels</p></td>
+<td class="text-left"><p>Splat covariance <span class="math notranslate nohighlight">\(\operatorname{Tr}(\Sigma^{-1})\)</span></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong></p></td>
+<td class="text-center"><p>12: <span class="math notranslate nohighlight">\(1\)</span><br>13: <strong><span class="math notranslate nohighlight">\(0\)</span></strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>9. Turner Models 14a &amp; 14b</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Sec. 30.6)</p></td>
+<td class="text-left"><p>Dual-Schubert <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee\)</span> on <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> via 2-derivative Kähler <span class="math notranslate nohighlight">\(\mathcal{T}_{\mathrm{GPE}} \propto g^{\mathrm{FS}} = \tfrac{1}{4}\mathrm{QFIM}\)</span></p></td>
+<td class="text-left"><p>Dual-Grassmannian <span class="math notranslate nohighlight">\((\Psi, \Phi)\)</span> (<span class="math notranslate nohighlight">\(b_4 = 2\)</span>)</p></td>
+<td class="text-left"><p>Kähler core <span class="math notranslate nohighlight">\(\mathcal{D}_{\mathrm{core}} \ge 1\)</span></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong> (<span class="math notranslate nohighlight">\(\mathcal{D}(W_{\mathrm{orb}})-3 = 1-e^2\)</span>)</p></td>
+<td class="text-center"><p>14a: <span class="math notranslate nohighlight">\(1\)</span><br>14b: <strong><span class="math notranslate nohighlight">\(0\)</span></strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>10. Toupin Celestial CFT (2025)</strong> <span class="bibtex-citation" id="id38">[<a class="reference internal" href="#id546" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span></p></td>
+<td class="text-left"><p>Celestial primary <span class="math notranslate nohighlight">\(O_\Delta^{\pm 2}(z,\bar{z})\)</span> (<span class="math notranslate nohighlight">\(\Delta = 1+i\lambda = 2s\)</span>)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1/q^2\)</span> via shadow pole <span class="math notranslate nohighlight">\(\Delta_i+\Delta_j=2\)</span> cuts</p></td>
+<td class="text-left"><p>Boundary Jost/shadow <span class="math notranslate nohighlight">\(T\)</span>-involution <span class="math notranslate nohighlight">\(\Theta\lvert_{\mathcal{I}} = T\)</span></p></td>
+<td class="text-left"><p>Plancherel–Unruh <span class="math notranslate nohighlight">\(P(\lambda) = \frac{\pi\lambda}{\sinh(\pi\lambda)}\)</span>, <span class="math notranslate nohighlight">\(M_L \le (1/8)^L\)</span></p></td>
+<td class="text-center"><p>Asymptotic S-matrix only (no orbital Kähler chart)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>11. Integrated Turner Models 15a (No DDF) &amp; 15b (With DDF)</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Sec. 30.7)</p></td>
+<td class="text-left"><p><strong>Unites Celestial <span class="math notranslate nohighlight">\(O_\Delta^{\pm 2}\)</span> (<span class="math notranslate nohighlight">\(\Delta=2s, J^2=4\)</span>) + <span class="math notranslate nohighlight">\(\mathcal{Q}_4\)</span> Kähler (<span class="math notranslate nohighlight">\(F = 4g^{\mathrm{FS}}\)</span>) + Dual-<span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\)</span> + DDF</strong></p></td>
+<td class="text-left"><p><strong><span class="math notranslate nohighlight">\(1/q^2\)</span> ghost-free everywhere</strong></p></td>
+<td class="text-left"><p><strong>Bulk <span class="math notranslate nohighlight">\(\mathrm{Gr}(2,4)\times\mathrm{Gr}(2,4)^\vee\)</span> (<span class="math notranslate nohighlight">\(s_{\mathrm{dual}}=s_{\mathrm{real}}\)</span>) <span class="math notranslate nohighlight">\(\leftrightarrow\)</span> Boundary Jost <span class="math notranslate nohighlight">\(\Theta\lvert_{\mathcal{I}}=T\)</span></strong></p></td>
+<td class="text-left"><p><strong>Plancherel–Unruh <span class="math notranslate nohighlight">\(M_1=1/8, M_2=1/90\)</span> + Kähler core <span class="math notranslate nohighlight">\(\mathcal{D}_{\mathrm{core}} \ge 1\)</span></strong></p></td>
+<td class="text-center"><p><strong><span class="math notranslate nohighlight">\(0.00\%\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">1.65e-16</span></code> in <code class="docutils literal notranslate"><span class="pre">f64</span></code> at <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}}=0, \alpha_{\mathrm{QG}}=0\)</span>)</p></td>
+<td class="text-center"><p><strong>15a: <span class="math notranslate nohighlight">\(1\)</span></strong><br><strong>15b: <span class="math notranslate nohighlight">\(0\)</span></strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="critique-edge-case-analysis-and-gap-closure-fixes-turner-model-15-critique-cayley-shadow-all-loop-and-light-deflection-identities-plancherel-fourier-sech4-and-schwartz-quartic-counterexample-identities">
+<h3>4.2 Critique, Edge-Case Analysis, and Gap-Closure Fixes (<code class="docutils literal notranslate"><span class="pre">turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities</span></code>)<a class="headerlink" href="#critique-edge-case-analysis-and-gap-closure-fixes-turner-model-15-critique-cayley-shadow-all-loop-and-light-deflection-identities-plancherel-fourier-sech4-and-schwartz-quartic-counterexample-identities" title="Link to this heading">¶</a></h3>
+<p>To ensure complete mathematical and numerical rigor across all regimes, we subjected our initial Section 11 (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code>) and Section 30.7 (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>) formalizations to five targeted critiques and implemented machine-checked fixes across Lean 4, Rust/PyO3, and SymPy/<code class="docutils literal notranslate"><span class="pre">mpmath</span></code>:</p>
+<ol class="arabic">
+<li><p><strong>Critique &amp; Fix 1 — Outside-Critical-Strip Sign Flip of <span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}(\sigma_{\mathrm{dev}}) = 1 - 4\sigma_{\mathrm{dev}}^2\)</span>, Resolved via Cayley Shadow Regularization (<code class="docutils literal notranslate"><span class="pre">celestialSpinTwoCayleyShadowFactor</span></code>):</strong></p>
+<ul>
+<li><p><em>Critique:</em> While the quadratic shadow product <span class="math notranslate nohighlight">\(\Delta_{\mathrm{re}}(2 - \Delta_{\mathrm{re}}) = 1 - 4\sigma_{\mathrm{dev}}^2\)</span> is positive inside the open critical strip <span class="math notranslate nohighlight">\(|\sigma_{\mathrm{dev}}| &lt; 1/2\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) \in (0, 1)\)</span>), it vanishes at the strip boundaries <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = \pm 1/2\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) \in \{0, 1\}\)</span>, where the zeta pole <span class="math notranslate nohighlight">\(s = 1 \mapsto \Delta_T = 2\)</span> resides) and turns strictly negative (<span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}(1) = -3 &lt; 0\)</span>) outside the critical strip, which would invert the sign of 1PN precession and violate 2.5PN gravitational-wave passivity (<span class="math notranslate nohighlight">\(P_{\mathrm{GW}} &lt; 0\)</span>).</p></li>
+<li><p><em>Machine-Checked Fix:</em> We define the <strong>Cayley-regularized principal-series shadow weight</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+     \mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}}) = \frac{1}{1 + 4\sigma_{\mathrm{dev}}^2} \in (0, 1],
+     \]</div>
+<p>and prove in <code class="docutils literal notranslate"><span class="pre">turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities</span></code> that <span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(0) = 1\)</span>, <span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(-\sigma_{\mathrm{dev}}) = \mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}})\)</span>, <span class="math notranslate nohighlight">\(0 &lt; \mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}}) \le 1\)</span> for <strong>all</strong> <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} \in \mathbb{R}\)</span> (<span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\pm 1/2) = 1/2\)</span>, <span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(1) = 1/5 &gt; 0 &gt; -3\)</span>), and its difference from the quadratic factor is the exact nonnegative fourth-order residual:</p>
+<div class="math notranslate nohighlight">
+\[
+     \mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}}) - \bigl(1 - 4\sigma_{\mathrm{dev}}^2\bigr) = \frac{16\sigma_{\mathrm{dev}}^4}{1 + 4\sigma_{\mathrm{dev}}^2} \ge 0.
+     \]</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Critique &amp; Fix 2 — 2-Loop Truncation vs. All-Loop Geometric Resummation (<code class="docutils literal notranslate"><span class="pre">celestialPlancherelAllLoopGeometricEnvelope</span></code>):</strong></p>
+<ul>
+<li><p><em>Critique:</em> <code class="docutils literal notranslate"><span class="pre">celestialPlancherelLoopCorrectionFactor</span></code> truncates at 2 loops (<span class="math notranslate nohighlight">\(1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\)</span>). How is the infinite all-loop sum <span class="math notranslate nohighlight">\(\sum_{L=0}^\infty M_L\alpha_{\mathrm{QG}}^L\)</span> bounded for finite coupling <span class="math notranslate nohighlight">\(\alpha_{\mathrm{QG}}\)</span>?</p></li>
+<li><p><em>Machine-Checked Fix:</em> Because <span class="math notranslate nohighlight">\(0 &lt; M_L \le (1/8)^L\)</span> for all <span class="math notranslate nohighlight">\(L \ge 1\)</span>, the all-loop series is bounded above for all <span class="math notranslate nohighlight">\(0 \le \alpha_{\mathrm{QG}} &lt; 8\)</span> by the closed-form geometric envelope <span class="math notranslate nohighlight">\(\mathcal{F}_{\mathrm{loop}}^{\max}(\alpha_{\mathrm{QG}}) = \frac{8}{8 - \alpha_{\mathrm{QG}}}\)</span>, with exact 2-loop chamber rational deficit <span class="math notranslate nohighlight">\(M_1^2 - M_2 = \frac{1}{64} - \frac{1}{90} = \frac{13}{2880} &gt; 0\)</span> and tail identity:</p>
+<div class="math notranslate nohighlight">
+\[
+     \frac{8}{8 - \alpha_{\mathrm{QG}}} - \left(1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\right) = \frac{13}{2880}\alpha_{\mathrm{QG}}^2 + \frac{\alpha_{\mathrm{QG}}^3}{64(8 - \alpha_{\mathrm{QG}})} &gt; 0 \qquad (\forall\, 0 &lt; \alpha_{\mathrm{QG}} &lt; 8).
+     \]</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Critique &amp; Fix 3 — 1PN Solar Light Deflection (<span class="math notranslate nohighlight">\(1.7505''\)</span>) &amp; Active Laser–Laser Deflection Discriminator in Models 15a &amp; 15b:</strong></p>
+<ul class="simple">
+<li><p><em>Machine-Checked Fix:</em> We formalize <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection</span></code> (Model 15a) and <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection</span></code> (Model 15b) in <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> and prove that both recover <span class="math notranslate nohighlight">\(\Delta\theta_{\mathrm{GR}} = \frac{4 G_\phi M}{c^2 b}\)</span> (<code class="docutils literal notranslate"><span class="pre">1.750539</span> <span class="pre">arcsec</span></code> at the solar limb <span class="math notranslate nohighlight">\(R_\odot = 6.957 \times 10^8\text{ m}\)</span>), while <code class="docutils literal notranslate"><span class="pre">mutualPhotonDeflection</span></code> cleanly separates Model 15a (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1 \implies \alpha_{1\leftarrow 2} &gt; 0\)</span>) from Model 15b (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0 \implies \alpha_{1\leftarrow 2} = 0\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Critique &amp; Fix 4 — Signed-Argument Parity of <span class="math notranslate nohighlight">\(F(y)\)</span> &amp; Machine-Checked Schwartz Quartic Counterexample (<code class="docutils literal notranslate"><span class="pre">plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities</span></code>):</strong></p>
+<ul class="simple">
+<li><p><em>Machine-Checked Fix:</em> Testing <code class="docutils literal notranslate"><span class="pre">celestial_half_line_convolution_f(y)</span></code> at negative <span class="math notranslate nohighlight">\(y &lt; 0\)</span> revealed that the odd box integral must multiply by signed <span class="math notranslate nohighlight">\(y/(2\pi)\)</span> rather than <span class="math notranslate nohighlight">\(|y|/(2\pi)\)</span> so that <span class="math notranslate nohighlight">\(F(y) + F(-y) = \frac{1+y^2}{6}P(y)\)</span> holds for all <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span> (<code class="docutils literal notranslate"><span class="pre">full_line_conv_err</span> <span class="pre">&lt;</span> <span class="pre">1e-20</span></code>). In Lean 4, we also proved the exact hyperbolic second-derivative identity <span class="math notranslate nohighlight">\(\frac{d^2}{dk^2}\bigl(\operatorname{sech}^2(k/2)\bigr) = \frac{3\sinh^2(k/2) - \cosh^2(k/2)}{2\cosh^4(k/2)} = \operatorname{sech}^2(k/2) - \frac{3}{2}\operatorname{sech}^4(k/2)\)</span> and proved that the smooth nonnegative Schwartz density <span class="math notranslate nohighlight">\(g(u) = (u^2 - 4)^2 e^{-u^2/2} \ge 0\)</span> has Mellin polynomial <code class="docutils literal notranslate"><span class="pre">selfDualSchwartzQuarticMellin</span></code> <span class="math notranslate nohighlight">\(P_{\mathrm{Mellin}}(z) = (z^2 - 3)^2 + 4z^2 + 2 = (z^2 - 1)^2 + 10\)</span>, which satisfies <span class="math notranslate nohighlight">\(P_{\mathrm{Mellin}}(i\gamma) = (\gamma^2 + 1)^2 + 10 \ge 11 &gt; 0\)</span> for all <span class="math notranslate nohighlight">\(\gamma \in \mathbb{R}\)</span> (<strong>zero roots on the critical line!</strong>).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reproducible-tri-language-verification-commands">
+<h2>5. Reproducible Tri-Language Verification Commands<a class="headerlink" href="#reproducible-tri-language-verification-commands" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Lean 4 verification (3,632 Lake jobs, zero sorry axioms)</span>
+make<span class="w"> </span>-C<span class="w"> </span>/workspaces/sustainablefactory<span class="w"> </span>signals_build
+
+<span class="c1"># 2. Rust native unit tests (129 passing) + PyO3/maturin editable release wheel</span>
+cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--manifest-path<span class="w"> </span>/workspaces/sustainablefactory/src/signals/numerical_adapter/Cargo.toml
+<span class="nv">TMPDIR</span><span class="o">=</span>/workspaces/sustainablefactory/.tmp<span class="w"> </span>maturin<span class="w"> </span>develop<span class="w"> </span>--release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--manifest-path<span class="w"> </span>/workspaces/sustainablefactory/src/signals/numerical_adapter/Cargo.toml
+
+<span class="c1"># 3. Python + SymPy + 45-80 digit mpmath + PyO3 integration suite</span>
+pytest<span class="w"> </span>-q<span class="w"> </span>/workspaces/sustainablefactory/tests/test_riemann_spectral_sympy_pyo3.py
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="provenance-metadata-bibtex-json-ld">
+<h2>6. Provenance Metadata (BibTeX &amp; JSON-LD)<a class="headerlink" href="#provenance-metadata-bibtex-json-ld" title="Link to this heading">¶</a></h2>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">turner2026celestial_graviton_riemann_audit</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wesley}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Celestial Holography, the Canonical Dictionary ($\Delta = 2s$), Plancherel--Unruh Graviton Loop Weights ($M_1 = 1/8, M_2 = 1/90$), and Integrated Turner Models 15a \&amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Technical Monograph \&amp; Formal Verification Suite}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Audits data/papers/TOUQGA-2.pdf (Toupin 2025/2026) and integrates with Signals.RiemannSpectral Sec. 11 and Signals.DDF Sec. 30.7}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Celestial Holography, the Canonical Dictionary (Δ = 2s), Plancherel–Unruh Graviton Loop Weights (M_1 = 1/8, M_2 = 1/90), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/papers/TOUQGA-2.pdf"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-riemann-spectral-ihara-jensen-polya-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/riemann-spectral-bridges-plan.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/RiemannSpectral.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-19"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<div class="docutils container" id="id39">
+<div role="list" class="citation-list">
+<div class="citation" id="id227" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id36">1</a><span class="fn-bracket">]</span></span>
+<p>Mikko Partanen and Jukka Tulkki. Gravity generated by four one-dimensional unitary gauge symmetries and the standard model. <em>Reports on Progress in Physics</em>, 88(5):057802, 2025. QED Scattering Gravity; 4x U(1) 1-loop scattering gravity. URL: <a class="reference external" href="https://arxiv.org/abs/2310.01460">https://arxiv.org/abs/2310.01460</a>, <a class="reference external" href="https://arxiv.org/abs/2310.01460">arXiv:2310.01460</a>, <a class="reference external" href="https://doi.org/10.1088/1361-6633/adc82e">doi:10.1088/1361-6633/adc82e</a>.</p>
+</div>
+<div class="citation" id="id226" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id37">2</a><span class="fn-bracket">]</span></span>
+<p>Marco Fedi. Dilatant dark fluid: toward a unified quantum-hydrodynamic origin of Lorentz invariance, gravity, and cosmological phenomenology. <em>SSRN Electronic Journal</em>, 2026. DDF: Dilatant Dark Fluid ; SSRN Preprint 7406660. URL: <a class="reference external" href="https://dx.doi.org/10.2139/ssrn.7406660">https://dx.doi.org/10.2139/ssrn.7406660</a>, <a class="reference external" href="https://doi.org/10.2139/ssrn.7406660">doi:10.2139/ssrn.7406660</a>.</p>
+</div>
+<div class="citation" id="id210" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id36">3</a><span class="fn-bracket">]</span></span>
+<p>Zvi Bern, John Joseph M. Carrasco, and Henrik Johansson. New relations for gauge-theory amplitudes. <em>Physical Review D</em>, 78(8):085011, 2008. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevD.78.085011">https://doi.org/10.1103/PhysRevD.78.085011</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevD.78.085011">doi:10.1103/PhysRevD.78.085011</a>.</p>
+</div>
+<div class="citation" id="id234" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id33">4</a><span class="fn-bracket">]</span></span>
+<p>Edward Witten. Perturbative gauge theory as a string theory in twistor space. <em>Communications in Mathematical Physics</em>, 252:189–258, 2004. Witten's Twistor String Theory under S(4). URL: <a class="reference external" href="https://link.springer.com/article/10.1007/s00220-004-1187-3">https://link.springer.com/article/10.1007/s00220-004-1187-3</a>, <a class="reference external" href="https://arxiv.org/abs/hep-th/0312171">arXiv:hep-th/0312171</a>, <a class="reference external" href="https://doi.org/10.1007/s00220-004-1187-3">doi:10.1007/s00220-004-1187-3</a>.</p>
+</div>
+<div class="citation" id="id211" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id34">5</a><span class="fn-bracket">]</span></span>
+<p>Nathan Berkovits and Edward Witten. Conformal supergravity in twistor-string theory. <em>Journal of High Energy Physics</em>, 2004(08):009, 2004. <a class="reference external" href="https://arxiv.org/abs/hep-th/0406051">arXiv:hep-th/0406051</a>, <a class="reference external" href="https://doi.org/10.1088/1126-6708/2004/08/009">doi:10.1088/1126-6708/2004/08/009</a>.</p>
+</div>
+<div class="citation" id="id213" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id35">6</a><span class="fn-bracket">]</span></span>
+<p>Freddy Cachazo and David Skinner. Gravity from rational curves in twistor space. <em>Physical Review Letters</em>, 110(16):161301, 2013. <a class="reference external" href="https://arxiv.org/abs/1207.0741">arXiv:1207.0741</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.110.161301">doi:10.1103/PhysRevLett.110.161301</a>.</p>
+</div>
+<div class="citation" id="id434" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id35">7</a><span class="fn-bracket">]</span></span>
+<p>F. Cachazo, S. He, and E. Y Yuan. Scattering of massless particles in arbitrary dimensions. <em>Physical Review Letters</em>, 2014. Referenced in docs/grassmannian-unification-applications-roadmap-paper.md.; Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.113.171601">https://doi.org/10.1103/PhysRevLett.113.171601</a>, <a class="reference external" href="https://arxiv.org/abs/1307.2199">arXiv:1307.2199</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.113.171601">doi:10.1103/PhysRevLett.113.171601</a>.</p>
+</div>
+<div class="citation" id="id196" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id17">1</a>,<a role="doc-backlink" href="#id30">2</a>)</span>
+<p>Roger Penrose. Twistor algebra. <em>Journal of Mathematical Physics</em>, 8(2):345–366, 1967. URL: <a class="reference external" href="https://pubs.aip.org/aip/jmp/article-abstract/8/2/345/233824/Twistor-Algebra">https://pubs.aip.org/aip/jmp/article-abstract/8/2/345/233824/Twistor-Algebra</a>, <a class="reference external" href="https://doi.org/10.1063/1.1705200">doi:10.1063/1.1705200</a>.</p>
+</div>
+<div class="citation" id="id197" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id30">9</a><span class="fn-bracket">]</span></span>
+<p>Roger Penrose. Nonlinear gravitons and curved twistor theory. <em>General Relativity and Gravitation</em>, 7(1):31–52, 1976. URL: <a class="reference external" href="https://link.springer.com/article/10.1007/BF00762011">https://link.springer.com/article/10.1007/BF00762011</a>, <a class="reference external" href="https://doi.org/10.1007/BF00762011">doi:10.1007/BF00762011</a>.</p>
+</div>
+<div class="citation" id="id440" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id14">2</a>)</span>
+<p>A Strominger. Lectures on the infrared structure of gravity and gauge theory. 2018. Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: <a class="reference external" href="https://arxiv.org/abs/1703.05448">https://arxiv.org/abs/1703.05448</a>, <a class="reference external" href="https://arxiv.org/abs/1703.05448">arXiv:1703.05448</a>.</p>
+</div>
+<div class="citation" id="id534" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">11</a><span class="fn-bracket">]</span></span>
+<p>Enrico Bombieri. Problems of the millennium: the Riemann hypothesis. Clay Mathematics Institute, 2000. URL: <a class="reference external" href="https://www.claymath.org/millennium/riemann-hypothesis/">https://www.claymath.org/millennium/riemann-hypothesis/</a>.</p>
+</div>
+<div class="citation" id="id547" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id14">2</a>)</span>
+<p>Sabrina Pasterski, Shu-Heng Shao, and Andrew Strominger. Flat space amplitudes and conformal symmetry of the celestial sphere. <em>Physical Review D</em>, 96(6):065026, 2017. <a class="reference external" href="https://arxiv.org/abs/1701.00049">arXiv:1701.00049</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevD.96.065026">doi:10.1103/PhysRevD.96.065026</a>.</p>
+</div>
+<div class="citation" id="id546" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id4">3</a>,<a role="doc-backlink" href="#id5">4</a>,<a role="doc-backlink" href="#id6">5</a>,<a role="doc-backlink" href="#id7">6</a>,<a role="doc-backlink" href="#id9">7</a>,<a role="doc-backlink" href="#id16">8</a>,<a role="doc-backlink" href="#id18">9</a>,<a role="doc-backlink" href="#id19">10</a>,<a role="doc-backlink" href="#id20">11</a>,<a role="doc-backlink" href="#id22">12</a>,<a role="doc-backlink" href="#id23">13</a>,<a role="doc-backlink" href="#id24">14</a>,<a role="doc-backlink" href="#id25">15</a>,<a role="doc-backlink" href="#id26">16</a>,<a role="doc-backlink" href="#id31">17</a>,<a role="doc-backlink" href="#id38">18</a>)</span>
+<p>Daniel Toupin. <em>On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory</em>. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: <a class="reference external" href="https://philpapers.org/archive/TOUQGA-2.pdf">https://philpapers.org/archive/TOUQGA-2.pdf</a>; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: <a class="reference external" href="https://philpapers.org/rec/TOUQGA-2">https://philpapers.org/rec/TOUQGA-2</a>.</p>
+</div>
+<div class="citation" id="id552" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id21">2</a>)</span>
+<p>Joseph J. Bisognano and Eyvind H. Wichmann. On the duality condition for a Hermitian scalar field. <em>Journal of Mathematical Physics</em>, 16(4):985–1007, 1975. <a class="reference external" href="https://doi.org/10.1063/1.522605">doi:10.1063/1.522605</a>.</p>
+</div>
+<div class="citation" id="id548" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id15">2</a>,<a role="doc-backlink" href="#id27">3</a>)</span>
+<p>John T. Tate. <em>Fourier Analysis in Number Fields, and Hecke's Zeta-Functions</em>. PhD thesis, Princeton University, 1950. Published in \emph Algebraic Number Theory (Cassels and Fröhlich, eds.), Academic Press, 1967, pp. 305–347.</p>
+</div>
+<div class="citation" id="id549" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id28">2</a>)</span>
+<p>Ralf Meyer. On a representation of the idele class group related to primes and zeros of $L$-functions. <em>Duke Mathematical Journal</em>, 127(3):519–595, 2005. <a class="reference external" href="https://arxiv.org/abs/math/0412277">arXiv:math/0412277</a>, <a class="reference external" href="https://doi.org/10.1215/S0012-7094-04-12734-4">doi:10.1215/S0012-7094-04-12734-4</a>.</p>
+</div>
+<div class="citation" id="id550" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id12">1</a>,<a role="doc-backlink" href="#id29">2</a>)</span>
+<p>Philippe Biane, Jim Pitman, and Marc Yor. Probability laws related to the Jacobi theta and Riemann zeta functions, and Brownian excursions. <em>Bulletin of the American Mathematical Society</em>, 38(4):435–465, 2001. <a class="reference external" href="https://doi.org/10.1090/S0273-0979-01-00912-0">doi:10.1090/S0273-0979-01-00912-0</a>.</p>
+</div>
+<div class="citation" id="id551" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>18<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id13">1</a>,<a role="doc-backlink" href="#id32">2</a>)</span>
+<p>Res Jost. Eine Bemerkung zum CTP-Theorem. <em>Helvetica Physica Acta</em>, 30:409–416, 1957.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html" title="Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel \(C_4(p)\) Jet Audits in Lean 4, Rust/PyO3, and SymPy" >previous</a></li>
+        <li><a href="references.html" title="References" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

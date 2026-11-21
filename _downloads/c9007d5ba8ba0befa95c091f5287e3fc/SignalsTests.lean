@@ -8902,4 +8902,368 @@ example (p e_id e_x e_y e_z overlap_sq grad_e re_amp im_amp chi3 : ℝ) :
     p e_id e_x e_y e_z (1 / 3) (2 / 3) overlap_sq grad_e 2 (1 / 100) re_amp im_amp chi3
     (by norm_num) (by norm_num) (by norm_num)
 
+/-! WS-1, WS-3, WS-4, WS-5, WS-9: GrassmannianEBR & LayerGroups regression checks. -/
+example (k : Signals.Proca.FourVector) :
+    Signals.GrassmannianEBR.pauliSpinorDet k = Signals.Proca.minkowskiDot k k :=
+  Signals.GrassmannianEBR.pauliSpinorDet_eq_minkowskiDot k
+
+example :
+    Signals.LayerGroups.opC6zHex.comp Signals.LayerGroups.opC6zHex =
+      Signals.LayerGroups.opC3zHex ∧
+      2 + 5 + 11 + 30 + 16 + 16 = 80 :=
+  ⟨Signals.LayerGroups.layerGroup_generator_relations.2.2.2.2.2.2.2.1,
+    Signals.LayerGroups.eighty_layer_groups_family_partition⟩
+
+example :
+    0 < Signals.GrassmannianEBR.gramDet2Reg 2 3 1 (1 / 10) ∧
+      Signals.GrassmannianEBR.gramDet2Reg 5 5 5 0 = 0 ∧
+      Signals.GrassmannianEBR.vrcPairExcitationSmooth 0 2 = 1 / 2 ∧
+      Signals.GrassmannianEBR.qngStepFromQfim 8 2 = (1 / 4) * (8 / 2) ∧
+      min (Signals.GrassmannianEBR.nociSymmetricEnergy (-1) (-1 / 2) (1 / 5))
+          (Signals.GrassmannianEBR.nociAntisymmetricEnergy (-1) (-1 / 2) (1 / 5)) < -1 ∧
+      Signals.GrassmannianEBR.iharaQuadraticDiscriminant 1 2 ≤ 0 ∧
+      Signals.GrassmannianEBR.iharaQuadraticDiscriminant (-2) 2 ≤ 0 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact Signals.GrassmannianEBR.gramDet2Reg_pos 2 3 1 (1 / 10)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  · exact Signals.GrassmannianEBR.gramDet2_duplicate_zero 5
+  · exact Signals.GrassmannianEBR.vrcPairExcitationSmooth_at_degeneracy 2 (by norm_num)
+  · exact Signals.GrassmannianEBR.qngStepFromQfim_eq_quarter_fubiniStudy 8 2 (by norm_num)
+  · exact Signals.GrassmannianEBR.nociTwoState_variational_lowering (-1) (-1 / 2) (1 / 5)
+      (by norm_num) (by norm_num) (by norm_num)
+  · exact Signals.GrassmannianEBR.petersen_graph_ramanujan_checkFigures.1
+  · exact Signals.GrassmannianEBR.petersen_graph_ramanujan_checkFigures.2
+
+/-! Signals.RiemannSpectral regression checks. -/
+example (f1 f2 f3 f4 df1 df2 df3 df4 f0 g0 f1p g1p f2p g2p c du : ℝ) :
+    Signals.RiemannSpectral.wronskianMinor f1 f2 df1 df2 *
+        Signals.RiemannSpectral.wronskianMinor f3 f4 df3 df4 -
+      Signals.RiemannSpectral.wronskianMinor f1 f3 df1 df3 *
+        Signals.RiemannSpectral.wronskianMinor f2 f4 df2 df4 +
+      Signals.RiemannSpectral.wronskianMinor f1 f4 df1 df4 *
+        Signals.RiemannSpectral.wronskianMinor f2 f3 df2 df3 = 0 ∧
+      Signals.RiemannSpectral.gueSineKernel2x2Det c du = c * du ^ 2 - (c ^ 2 / 4) * du ^ 4 ∧
+      Signals.GrassmannianEBR.jensenPolyaDiscriminant
+        (f0 * g0) (f1p * g0 + f0 * g1p) (f2p * g0 + 2 * f1p * g1p + f0 * g2p) =
+          g0 ^ 2 * Signals.GrassmannianEBR.jensenPolyaDiscriminant f0 f1p f2p +
+            f0 ^ 2 * Signals.GrassmannianEBR.jensenPolyaDiscriminant g0 g1p g2p ∧
+      (Signals.RiemannSpectral.liTransformModulusSq 0 14 = 1) ∧
+      (0 < Signals.RiemannSpectral.dbnTwoZeroForwardSeparationRate 14 21) := by
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · exact Signals.RiemannSpectral.sato_hirota_bilinear_plucker_identity f1 f2 f3 f4 df1 df2 df3 df4
+  · exact (Signals.RiemannSpectral.slavnov_gue_2x2_quadratic_level_repulsion c du).2
+  · exact Signals.RiemannSpectral.jensenPolyaDiscriminant_mul_product_rule f0 f1p f2p g0 g1p g2p
+  · exact (Signals.RiemannSpectral.liTransformModulusSq_eq_one_iff_critical_line 0 14
+      (by norm_num)).mpr rfl
+  · exact (Signals.RiemannSpectral.dbnTwoZeroForwardSeparationRate_pos 14 21 (by norm_num)).2
+
+example :
+    let uP := Signals.RiemannSpectral.iharaRealRootPlus 2 3 1
+    let uM := Signals.RiemannSpectral.iharaRealRootMinus 2 3 1
+    2 * uP ^ 2 - 3 * uP + 1 = 0 ∧ uP * uM = 1 / 2 ∧ uP ^ 2 ≠ 1 / 2 ∧
+      Signals.RiemannSpectral.liTransformModulusSq (1 / 4) 14 < 1 ∧
+      1 < Signals.RiemannSpectral.liTransformModulusSq (-(1 / 4)) 14 ∧
+      Signals.RiemannSpectral.dbnThreeZeroVelocitySum 14 21 25 = 0 ∧
+      0 < Signals.RiemannSpectral.vandermondeDet3 14 21 25 := by
+  have h := Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle 2 3 1
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_li := Signals.RiemannSpectral.liTransformModulusSq_off_line_splits (1 / 4) 14
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_cm := Signals.RiemannSpectral.dbnThreeZero_center_of_mass_conserved 14 21 25
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_v := (Signals.RiemannSpectral.vandermondeDet3_factorization_and_pos 14 21 25).2
+    (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.2.1, h.2.2.2.2.1, h_li.1, h_li.2, h_cm, h_v⟩
+
+example :
+    (∃ lam2 discSqrt : ℝ,
+      (57 / 20 : ℝ) < lam2 ∧ lam2 < (143 / 50 : ℝ) ∧
+      Signals.RiemannSpectral.nonRamanujan14CharPoly lam2 = 0 ∧
+      (8 : ℝ) < lam2 ^ 2 ∧
+      (Signals.RiemannSpectral.iharaRealRootPlus 2 lam2 discSqrt) ^ 2 ≠ 1 / 2) ∧
+    (Signals.GrassmannianEBR.iharaQuadraticDiscriminant (Real.sqrt 2) 2 ≤ 0) := by
+  constructor
+  · obtain ⟨lam2, d, h1, h2, h3, h4, _, _, _, _, _, _, h5, _⟩ :=
+      Signals.RiemannSpectral.nonRamanujan14_exists_super_ramanujan_off_circle_roots
+    exact ⟨lam2, d, h1, h2, h3, h4, h5⟩
+  · exact (Signals.RiemannSpectral.heawood_graph_ramanujan_critical_circle
+      (Real.sqrt 2) (Real.sq_sqrt (by norm_num))).1
+
+example (b1 b2 b3 : ℝ) :
+    Signals.RiemannSpectral.jensenCubicDiscriminant 1 0 (-3) 0 = 108 ∧
+      0 < Signals.RiemannSpectral.jensenCubicDiscriminant 1 0 (-3) (1 / 7) ∧
+      0 < Signals.RiemannSpectral.weilQuadForm2 2 1 3 1 (-1) ∧
+      Signals.RiemannSpectral.weilQuadForm2 1 2 1 (-2) 1 < 0 ∧
+      Signals.RiemannSpectral.dbnQuadraticHeatSolution (4 / 1000) (-22) (-(4 / 1000) / 22) 0 = 0 ∧
+      b3 = Signals.RiemannSpectral.keiperLi3 b1 b2 b3 / 3 -
+        Signals.RiemannSpectral.keiperLi2 b1 b2 + Signals.RiemannSpectral.keiperLi1 b1 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact (Signals.RiemannSpectral.depressedCubic_hermite3_discriminant 0).2.2
+  · exact ((Signals.RiemannSpectral.depressedCubic_hermite3_discriminant (1 / 7)).2.1).mpr
+      (by norm_num)
+  · exact Signals.RiemannSpectral.weilQuadForm2_pos_of_sylvester 2 1 3 1 (-1)
+      (by norm_num) (by norm_num) (Or.inl (by norm_num))
+  · exact (Signals.RiemannSpectral.weilQuadForm2_neg_witness_of_neg_det 1 2 1
+      (by norm_num) (by norm_num)).2
+  · have h := Signals.RiemannSpectral.dbnQuadraticHeat_collides_and_leaves_real_axis
+      (4 / 1000) (-22) (by norm_num) (by norm_num)
+    simpa [div_neg, neg_div] using h.2.1
+  · exact (Signals.RiemannSpectral.keiperLi_binomial_inversion_123 b1 b2 b3).2.2
+
+example (t dz x0 x1 : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatSolution (4 / 1000) (-22) 1000 ((4 / 1000) / (-22)) 0 =
+        (1 / 2) * 1000 * ((4 / 1000) / (-22)) ^ 2 ∧
+      Signals.QuantumCausalInference.mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x0 x1 = 0 ∧
+      Signals.RiemannSpectral.dbnFourZeroSymmetricInnerRate (1 / 50) 1 < 2 / (1 / 50) := by
+  refine ⟨?_, ?_, ?_⟩
+  · exact (Signals.RiemannSpectral.dbnQuarticHeat_pde_and_shift
+      (4 / 1000) (-22) 1000 t dz (by norm_num)).2.1
+  · exact (Signals.RiemannSpectral.mpemba_projection_eliminates_slow_weil_mode
+      (1 / 100) 1 (3 / 5) (4 / 5) x0 x1 (by norm_num)).1
+  · exact (Signals.RiemannSpectral.dbnFourZero_symmetric_neighbor_squeeze
+      (1 / 50) 1 (by norm_num) (by norm_num)).2
+
+/-! Finite RB-6 proxies: bounded local heat flow, diagonal transfer residual,
+finite Li prefix positivity, and an exact finite diagonal eigenpair model. -/
+example :
+    |Signals.RiemannSpectral.dbnQuarticHeatSolution 1 2 3 1 0| ≤
+      1 + 2 * 1 + 3 * 1 ^ 2 / 2 := by
+  exact Signals.RiemannSpectral.dbnQuarticHeat_peak_abs_le
+    1 2 3 1 1 2 3 1 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+
+example :
+    |Signals.RiemannSpectral.dbnQuarticHeatSolution 1 2 3 1 1| ≤
+      1 + 2 * 1 + 3 * 1 ^ 2 / 2 +
+        (2 + 3 * 1) * 1 ^ 2 / 2 + 3 * 1 ^ 4 / 24 := by
+  exact Signals.RiemannSpectral.dbnQuarticHeat_abs_le_on_box
+    1 2 3 1 1 1 2 3 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+
+example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State) :
+    Signals.GrassmannianEBR.pluckerQuadraticResidual
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24PluckerCoordinates state) = 0 ∧
+      (state.heatStep 1).heatStep 2 = state.heatStep 3 := by
+  constructor
+  · exact Signals.RiemannSpectral.dbnQuarticHeatGr24_plucker_relation state
+  · calc
+      (state.heatStep 1).heatStep 2 = state.heatStep (1 + 2) :=
+        Signals.RiemannSpectral.DBNQuarticHeatGr24State.heatStep_comp state 1 2
+      _ = state.heatStep 3 := by
+        congr 1
+        norm_num
+
+example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State) (deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix (state.heatStep deltaTime) =
+      Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix state *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix_heatStep state deltaTime
+
+example (deltaTime1 deltaTime2 : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime1 *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime2 =
+      Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction (deltaTime1 + deltaTime2) :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction_comp deltaTime1 deltaTime2
+
+example (deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction (-deltaTime) = 1 ∧
+      Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction (-deltaTime) *
+        Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime = 1 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction_mul_reverse deltaTime
+
+example (deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction deltaTime =
+      1 + deltaTime • Signals.RiemannSpectral.dbnQuarticHeatGr24Generator +
+        (deltaTime ^ 2 / 2) •
+          (Signals.RiemannSpectral.dbnQuarticHeatGr24Generator *
+            Signals.RiemannSpectral.dbnQuarticHeatGr24Generator) :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24AmbientAction_eq_generator_polynomial deltaTime
+
+example :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24Generator *
+      Signals.RiemannSpectral.dbnQuarticHeatGr24Generator *
+      Signals.RiemannSpectral.dbnQuarticHeatGr24Generator = 0 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24Generator_cube_eq_zero
+
+example :
+    ∃ i j : Fin 4,
+      Signals.RiemannSpectral.dbnQuarticHeatGr24Generator i j ≠
+        Signals.RiemannSpectral.dbnQuarticHeatGr24Generator j i :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24Generator_not_symmetric
+
+example (s : ℂ) :
+    Signals.RiemannSpectral.riemannSpectralShadowParameter
+        (Signals.RiemannSpectral.riemannSpectralShadowParameter s) = s :=
+  Signals.RiemannSpectral.riemannSpectralShadowParameter_involutive s
+
+example (dimension : ℂ) :
+    Signals.RiemannSpectral.riemannSpectralShadowDimension
+        (Signals.RiemannSpectral.riemannSpectralShadowDimension dimension) = dimension :=
+  Signals.RiemannSpectral.riemannSpectralShadowDimension_involutive dimension
+
+example (s : ℂ) :
+    Signals.RiemannSpectral.riemannSpectralShadowDimension
+        (Signals.RiemannSpectral.riemannSpectralNormalizedDimension s) =
+      Signals.RiemannSpectral.riemannSpectralNormalizedDimension
+        (Signals.RiemannSpectral.riemannSpectralShadowParameter s) :=
+  Signals.RiemannSpectral.riemannSpectralShadowDimension_eq_dimension_reflected s
+
+example (s : ℂ) :
+    (Signals.RiemannSpectral.riemannSpectralNormalizedDimension s).re = 1 ↔
+      s.re = (1 / 2 : ℝ) :=
+  Signals.RiemannSpectral.riemannSpectralNormalizedDimension_re_eq_one_iff s
+
+example (state : Signals.RiemannSpectral.DBNQuarticHeatGr24State)
+    (h_nonzero : state.a2 ≠ 0) :
+    ∃ i j : Fin 4,
+      i ≠ j ∧
+        Signals.Plabic.plucker2x4Minor
+            (Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix state) i j ≠ 0 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24_has_nonzero_minor state (Or.inr (Or.inl h_nonzero))
+
+example :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24PluckerCoordinates
+        ({ a0 := 0, a2 := 0, a4 := 0 } : Signals.RiemannSpectral.DBNQuarticHeatGr24State) =
+      { p12 := 0, p13 := 0, p14 := 0, p23 := 0, p24 := 0, p34 := 0 } := rfl
+
+example (z0 z2 z4 t deltaTime dz : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatSolution z0 z2 z4 (t + deltaTime) dz =
+      (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)).a0 +
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)).a2 * dz ^ 2 +
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)).a4 * dz ^ 4 :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt_reconstructs z0 z2 z4 (t + deltaTime) dz
+
+example (z0 z2 z4 t deltaTime : ℝ) :
+    Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix
+        (Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 (t + deltaTime)) =
+      Signals.RiemannSpectral.dbnQuarticHeatGr24GeneratorMatrix
+        ((Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt z0 z2 z4 t).heatStep deltaTime) :=
+  Signals.RiemannSpectral.dbnQuarticHeatGr24StateAt_generator_heatStep z0 z2 z4 t deltaTime
+
+example :
+    Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance
+      (fun _ : Fin 2 => (1 : ℝ)) (fun _ => 0) ≤ (2 : ℝ) := by
+  simpa using Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance_le
+    (fun _ : Fin 2 => (1 : ℝ)) (fun _ => 0) 1 (by intro i; norm_num)
+
+example (li : Nat → ℝ)
+    (h : Signals.RiemannSpectral.finiteLiPositivePrefix 25 li) :
+    0 ≤ Signals.RiemannSpectral.finiteLiPrefixSum 25 li :=
+  Signals.RiemannSpectral.finiteLiPrefixSum_nonneg 25 li h
+
+example (eigenvalues : Fin 3 → ℝ) (i : Fin 3) :
+    Signals.RiemannSpectral.finiteDiagonalEigenvalue eigenvalues (eigenvalues i) := by
+  exact (Signals.RiemannSpectral.finiteDiagonalEigenvalue_iff_mem_range
+    eigenvalues (eigenvalues i)).2 ⟨i, rfl⟩
+
+example (eigenvalues x y : Fin 3 → ℝ) :
+    Signals.RiemannSpectral.finiteEuclideanInner
+        (Signals.RiemannSpectral.finiteDiagonalOperator eigenvalues x) y =
+      Signals.RiemannSpectral.finiteEuclideanInner x
+        (Signals.RiemannSpectral.finiteDiagonalOperator eigenvalues y) :=
+  Signals.RiemannSpectral.finiteDiagonalOperator_symmetric eigenvalues x y
+
+/-! Section 11 of Signals.RiemannSpectral & Section 30.7 of Signals.DDF:
+Celestial Holography dictionary Δ = 2s, Gr(2,4)(𝔽_q) Hasse–Weil point counts,
+Plancherel–Unruh loop weights M_1 = 1/8, M_2 = 1/90, Cesàro/BPY audits, and
+Integrated Turner Models 15a & 15b. -/
+example :
+    Signals.RiemannSpectral.gr24FiniteFieldPointCount 1 = 6 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 2 = 35 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 3 = 130 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 5 = 806 ∧
+      Signals.RiemannSpectral.gr24FiniteFieldPointCount 7 = 2850 ∧
+      Signals.RiemannSpectral.celestialLoopCompleteMinusPathEdges 1 = 0 ∧
+      Signals.RiemannSpectral.celestialLoopCompleteMinusPathEdges 2 = 0 ∧
+      Signals.RiemannSpectral.celestialLoopCompleteMinusPathEdges 3 = 1 ∧
+      Signals.RiemannSpectral.celestialBareLoopWeightM2 <
+        Signals.RiemannSpectral.celestialBareLoopWeightM1 ^ 2 ∧
+      1 < Signals.RiemannSpectral.adelicCesaroQuadraticApprox (1 / 4) 10 ∧
+      Signals.RiemannSpectral.selfDualMellinToyKernel (1 / 4) 0 ((1 / 4 : ℝ) ^ 2) = 0 := by
+  have h_hw := Signals.RiemannSpectral.gr24FiniteFieldPointCount_factorization_and_poincare_duality
+    2 (by norm_num)
+  have h_pl := Signals.RiemannSpectral.celestial_plancherel_blackbody_and_loop_dichotomy_identities
+    2 (by norm_num) (by norm_num)
+  have h_ces := Signals.RiemannSpectral.adelic_cesaro_symmetry_and_offline_selfdual_counterexample
+    (1 / 4) 10 (1 / 4) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_hw.2.2.1, h_hw.2.2.2.2.1, h_hw.2.2.2.2.2.1, h_hw.2.2.2.2.2.2.1,
+    h_hw.2.2.2.2.2.2.2, h_pl.2.2.2.2.2.1, h_pl.2.2.2.2.2.2.1, h_pl.2.2.2.2.2.2.2.1,
+    h_pl.2.2.2.2.1, h_ces.2.2.1, h_ces.2.2.2.2.1⟩
+
+example (sigmaDev : ℝ) :
+    let s : ℂ := ((1 / 2 : ℝ) + sigmaDev : ℝ) + (14 : ℂ) * Complex.I
+    ((s * (s - 1)).im = 0 ↔ sigmaDev = 0) ∧
+      Signals.RiemannSpectral.celestialChiralCasimirRe 0 14 ≤ -(1 / 4 : ℝ) := by
+  have h := Signals.RiemannSpectral.celestialChiralCasimir_im_eq_zero_iff_critical_line
+    sigmaDev 14 (by norm_num)
+  exact ⟨h.2.2.1, h.2.2.2⟩
+
+example (s : Signals.DDF.MovingSheath toyDDFSubstrate)
+    (s_pl : Signals.DDF.PluckerMadelungState) (orbitalPhase deltaVarpi : ℝ) :
+    let Δϖ_GR := toyRiverExterior.perihelionPrecessionRad toyMercuryOrbit
+    let P_GR := toyRiverExterior.petersMathewsLuminosity toyMercuryOrbit 1
+    Signals.DDF.celestialSpinTwoShadowNormFactor 0 = 1 ∧
+      Signals.DDF.celestialSpinTwoShadowNormFactor (1 / 4) < 1 ∧
+      1 < Signals.DDF.celestialPlancherelLoopCorrectionFactor (1 / 10) ∧
+      Signals.DDF.PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+          toyMercuryOrbit toyRiverExterior.G_phi toyRiverExterior.sourceMass
+          toyDDFSubstrate.c deltaVarpi 0 0 0 = Δϖ_GR ∧
+      toyRiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+          toyMercuryOrbit deltaVarpi 0 0 0 = Δϖ_GR ∧
+      Signals.DDF.PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+          toyMercuryOrbit toyRiverExterior.G_phi toyRiverExterior.sourceMass
+          1 toyDDFSubstrate.c orbitalPhase deltaVarpi 0 0 0 = P_GR ∧
+      toyRiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity
+          toyMercuryOrbit 1 0 0 0 = P_GR := by
+  have h := Signals.DDF.turner_model_15_celestial_plucker_ddf_graviton_unification
+    s toyRiverExterior toyMercuryOrbit s_pl
+    orbitalPhase deltaVarpi 1 (1 / 4) (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1.1, h.1.2.1, h.2.1.2.1, h.2.2.1.1, h.2.2.1.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1⟩
+
+example (y gamma : ℝ) (z : ℂ) :
+    (1 / (5 / 4 : ℝ) ^ 2 - (3 * (3 / 4 : ℝ) ^ 2 - (5 / 4 : ℝ) ^ 2) / (2 * (5 / 4 : ℝ) ^ 4) =
+        3 / (2 * (5 / 4 : ℝ) ^ 4)) ∧
+      ((2 / 3 : ℝ) * (1 / 4 : ℝ) * (1 + y ^ 2) = (1 + y ^ 2) / 6 ∧
+        (1 / 2 : ℝ) * ((1 + y ^ 2) / 6) = (1 + y ^ 2) / 12) ∧
+      Signals.RiemannSpectral.celestialBareLoopWeightM1 ^ 2 -
+        Signals.RiemannSpectral.celestialBareLoopWeightM2 = 13 / 2880 ∧
+      Signals.RiemannSpectral.selfDualSchwartzQuarticMellin (-z) =
+        Signals.RiemannSpectral.selfDualSchwartzQuarticMellin z ∧
+      11 ≤ (Signals.RiemannSpectral.selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I)).re ∧
+      Signals.RiemannSpectral.selfDualSchwartzQuarticMellin ((gamma : ℂ) * Complex.I) ≠ 0 := by
+  have h := Signals.RiemannSpectral.plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities
+    (5 / 4) (3 / 4) y gamma z (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1.1, h.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩
+
+example (sigmaDev deltaVarpi : ℝ) :
+    let Δθ_GR := 4 * toyRiverExterior.G_phi * toyRiverExterior.sourceMass /
+      (toyDDFSubstrate.c ^ 2 * 1)
+    Signals.DDF.celestialSpinTwoShadowNormFactor (1 / 2) = 0 ∧
+      Signals.DDF.celestialSpinTwoShadowNormFactor 1 = -3 ∧
+      Signals.DDF.celestialSpinTwoCayleyShadowFactor (1 / 2) = 1 / 2 ∧
+      Signals.DDF.celestialSpinTwoCayleyShadowFactor 1 = 1 / 5 ∧
+      0 < Signals.DDF.celestialSpinTwoCayleyShadowFactor sigmaDev ∧
+      Signals.DDF.celestialSpinTwoCayleyShadowFactor sigmaDev ≤ 1 ∧
+      0 ≤ Signals.DDF.celestialSpinTwoCayleyShadowFactor sigmaDev -
+        Signals.DDF.celestialSpinTwoShadowNormFactor sigmaDev ∧
+      Signals.DDF.celestialPlancherelLoopCorrectionFactor (1 / 10) <
+        Signals.DDF.celestialPlancherelAllLoopGeometricEnvelope (1 / 10) ∧
+      Signals.DDF.PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection
+          toyMercuryOrbit Δθ_GR deltaVarpi 0 0 0 = Δθ_GR ∧
+      toyRiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection
+          toyMercuryOrbit 1 deltaVarpi 0 0 0 = Δθ_GR ∧
+      0 < Signals.DDF.mutualPhotonDeflection Signals.DDF.ActiveRadiationSourcing.generalRelativity
+            toyRiverExterior.G_phi toyDDFSubstrate.c 1 1 1 ∧
+      Signals.DDF.mutualPhotonDeflection Signals.DDF.ActiveRadiationSourcing.dilatantDarkFluid
+        toyRiverExterior.G_phi toyDDFSubstrate.c 1 1 1 = 0 := by
+  have h := Signals.DDF.turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities
+    toyRiverExterior toyMercuryOrbit sigmaDev (1 / 10) deltaVarpi 1 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1.1, h.1.2.2.1, h.1.2.2.2.2.1, h.1.2.2.2.2.2.1,
+    h.1.2.2.2.2.2.2.2.1, h.1.2.2.2.2.2.2.2.2.1, h.1.2.2.2.2.2.2.2.2.2.2,
+    h.2.1.2.2, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2⟩
+
 end SignalsTests

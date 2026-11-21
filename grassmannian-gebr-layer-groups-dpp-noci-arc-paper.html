@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions in Lean 4, Rust/PyO3 (maturin), and Python/SymPy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (RB-1–RB-6) for the Remaining Riemann Hypothesis Analytical Bridges" href="riemann-spectral-bridges-plan.html" />
+    <link rel="prev" title="Grassmannian EBR Chat-Code Porting Ledger" href="grassmannian-gebr-chat-porting-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions in Lean 4, Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>), and Python/SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#cross-module-reuse-architecture">1. Cross-Module Reuse Architecture</a></li>
+<li><a class="reference internal" href="#phase-a-dimensioned-dispersion-ws-1-closed-cycle-thermodynamics-ws-2">2. Phase A: Dimensioned Dispersion (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code>) &amp; Closed-Cycle Thermodynamics (<code class="docutils literal notranslate"><span class="pre">WS-2</span></code>)</a><ul>
+<li><a class="reference internal" href="#hermitian-pauli-spinor-map-and-lorentz-boost-invariance-ws-1">2.1 Hermitian Pauli Spinor Map and Lorentz-Boost Invariance (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code>)</a></li>
+<li><a class="reference internal" href="#closed-cycle-conditional-landauer-qfimbures-accounting-ws-2">2.2 Closed-Cycle Conditional Landauer &amp; QFIM–Bures Accounting (<code class="docutils literal notranslate"><span class="pre">WS-2</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-b-exact-80-crystallographic-layer-groups-ws-3-cholesky-slavnovgram-dpp-ws-4">3. Phase B: Exact 80 Crystallographic Layer Groups (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>) &amp; Cholesky Slavnov–Gram DPP (<code class="docutils literal notranslate"><span class="pre">WS-4</span></code>)</a><ul>
+<li><a class="reference internal" href="#exhaustive-verification-of-all-80-international-tables-vol-e-layer-groups-ws-3">3.1 Exhaustive Verification of All 80 International Tables Vol. E Layer Groups (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>)</a></li>
+<li><a class="reference internal" href="#psd-verified-cholesky-slavnovgram-dpp-and-raw-vs-orbifold-coverage-ws-4">3.2 PSD-Verified Cholesky Slavnov–Gram DPP and Raw vs. Orbifold Coverage (<code class="docutils literal notranslate"><span class="pre">WS-4</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-c-multi-reference-noci-ws-5-seeded-ebr-harness-ws-6-tequila-compiled-grid-dsl-ws-7">4. Phase C: Multi-Reference NOCI (<code class="docutils literal notranslate"><span class="pre">WS-5</span></code>), Seeded EBR Harness (<code class="docutils literal notranslate"><span class="pre">WS-6</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSL (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)</a><ul>
+<li><a class="reference internal" href="#multi-reference-noci-vs-exact-fci-and-tequila-jordanwigner-pauli-expectation-ws-5">4.1 Multi-Reference NOCI vs. Exact FCI and <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> Jordan–Wigner Pauli Expectation (<code class="docutils literal notranslate"><span class="pre">WS-5</span></code>)</a></li>
+<li><a class="reference internal" href="#seeded-continuous-relaxation-ebr-benchmark-harness-ws-6">4.2 Seeded Continuous-Relaxation EBR Benchmark Harness (<code class="docutils literal notranslate"><span class="pre">WS-6</span></code>)</a></li>
+<li><a class="reference internal" href="#compositional-gridop-dsl-reusing-tequila-circuits-and-multi-array-imaging-pca-invariants-ws-7">4.3 Compositional <code class="docutils literal notranslate"><span class="pre">GridOp</span></code> DSL Reusing <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> Circuits and <code class="docutils literal notranslate"><span class="pre">multi_array_imaging</span></code> PCA Invariants (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-d-textile-gate-ws-8-isolated-finite-graph-iharaselberg-equivalence-ws-9">5. Phase D: Textile Gate (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>) &amp; Isolated Finite-Graph Ihara–Selberg Equivalence (<code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)</a><ul>
+<li><a class="reference internal" href="#dimensioned-textile-observation-gate-ws-8">5.1 Dimensioned Textile-Observation Gate (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>)</a></li>
+<li><a class="reference internal" href="#isolated-finite-graph-bassihara-determinant-ramanujan-critical-circle-ws-9">5.2 Isolated Finite-Graph Bass–Ihara Determinant &amp; Ramanujan Critical Circle (<code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-tri-language-verification-commands">6. Reproducible Tri-Language Verification Commands</a></li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">7. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-gebr-chat-porting-plan.html" title="Grassmannian EBR Chat-Code Porting Ledger" accesskey="P">previous </a></li>
+              <li><a href="riemann-spectral-bridges-plan.html" title="Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (RB-1–RB-6) for the Remaining Riemann Hypothesis Analytical Bridges" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions in Lean 4, Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>), and Python/SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#cross-module-reuse-architecture">1. Cross-Module Reuse Architecture</a></li>
+<li><a class="reference internal" href="#phase-a-dimensioned-dispersion-ws-1-closed-cycle-thermodynamics-ws-2">2. Phase A: Dimensioned Dispersion (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code>) &amp; Closed-Cycle Thermodynamics (<code class="docutils literal notranslate"><span class="pre">WS-2</span></code>)</a><ul>
+<li><a class="reference internal" href="#hermitian-pauli-spinor-map-and-lorentz-boost-invariance-ws-1">2.1 Hermitian Pauli Spinor Map and Lorentz-Boost Invariance (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code>)</a></li>
+<li><a class="reference internal" href="#closed-cycle-conditional-landauer-qfimbures-accounting-ws-2">2.2 Closed-Cycle Conditional Landauer &amp; QFIM–Bures Accounting (<code class="docutils literal notranslate"><span class="pre">WS-2</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-b-exact-80-crystallographic-layer-groups-ws-3-cholesky-slavnovgram-dpp-ws-4">3. Phase B: Exact 80 Crystallographic Layer Groups (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>) &amp; Cholesky Slavnov–Gram DPP (<code class="docutils literal notranslate"><span class="pre">WS-4</span></code>)</a><ul>
+<li><a class="reference internal" href="#exhaustive-verification-of-all-80-international-tables-vol-e-layer-groups-ws-3">3.1 Exhaustive Verification of All 80 International Tables Vol. E Layer Groups (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>)</a></li>
+<li><a class="reference internal" href="#psd-verified-cholesky-slavnovgram-dpp-and-raw-vs-orbifold-coverage-ws-4">3.2 PSD-Verified Cholesky Slavnov–Gram DPP and Raw vs. Orbifold Coverage (<code class="docutils literal notranslate"><span class="pre">WS-4</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-c-multi-reference-noci-ws-5-seeded-ebr-harness-ws-6-tequila-compiled-grid-dsl-ws-7">4. Phase C: Multi-Reference NOCI (<code class="docutils literal notranslate"><span class="pre">WS-5</span></code>), Seeded EBR Harness (<code class="docutils literal notranslate"><span class="pre">WS-6</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSL (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)</a><ul>
+<li><a class="reference internal" href="#multi-reference-noci-vs-exact-fci-and-tequila-jordanwigner-pauli-expectation-ws-5">4.1 Multi-Reference NOCI vs. Exact FCI and <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> Jordan–Wigner Pauli Expectation (<code class="docutils literal notranslate"><span class="pre">WS-5</span></code>)</a></li>
+<li><a class="reference internal" href="#seeded-continuous-relaxation-ebr-benchmark-harness-ws-6">4.2 Seeded Continuous-Relaxation EBR Benchmark Harness (<code class="docutils literal notranslate"><span class="pre">WS-6</span></code>)</a></li>
+<li><a class="reference internal" href="#compositional-gridop-dsl-reusing-tequila-circuits-and-multi-array-imaging-pca-invariants-ws-7">4.3 Compositional <code class="docutils literal notranslate"><span class="pre">GridOp</span></code> DSL Reusing <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> Circuits and <code class="docutils literal notranslate"><span class="pre">multi_array_imaging</span></code> PCA Invariants (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phase-d-textile-gate-ws-8-isolated-finite-graph-iharaselberg-equivalence-ws-9">5. Phase D: Textile Gate (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>) &amp; Isolated Finite-Graph Ihara–Selberg Equivalence (<code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)</a><ul>
+<li><a class="reference internal" href="#dimensioned-textile-observation-gate-ws-8">5.1 Dimensioned Textile-Observation Gate (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>)</a></li>
+<li><a class="reference internal" href="#isolated-finite-graph-bassihara-determinant-ramanujan-critical-circle-ws-9">5.2 Isolated Finite-Graph Bass–Ihara Determinant &amp; Ramanujan Critical Circle (<code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-tri-language-verification-commands">6. Reproducible Tri-Language Verification Commands</a></li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">7. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-gebr-chat-porting-plan.html"
+                          title="previous chapter">Grassmannian EBR Chat-Code Porting Ledger</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="riemann-spectral-bridges-plan.html"
+                          title="next chapter">Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>) for the Remaining Riemann Hypothesis Analytical Bridges</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="verified-finite-contracts-for-grassmannian-ebr-all-80-crystallographic-layer-groups-psd-slavnovgram-dpps-multi-reference-noci-tequila-compiled-grid-dsls-and-finite-graph-iharaselberg-zeta-functions-in-lean-4-rust-pyo3-maturin-and-python-sympy">
+<span id="grassmannian-gebr-layer-groups-dpp-noci-arc-paper"></span><h1>Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions in Lean 4, Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>), and Python/SymPy<a class="headerlink" href="#verified-finite-contracts-for-grassmannian-ebr-all-80-crystallographic-layer-groups-psd-slavnovgram-dpps-multi-reference-noci-tequila-compiled-grid-dsls-and-finite-graph-iharaselberg-zeta-functions-in-lean-4-rust-pyo3-maturin-and-python-sympy" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Chemical Physics (<code class="docutils literal notranslate"><span class="pre">physics.chem-ph</span></code>); Combinatorics &amp; Crystallography (<code class="docutils literal notranslate"><span class="pre">math.CO</span></code>); Artificial Intelligence &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.AI</span></code>, <code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>); Programming Languages (<code class="docutils literal notranslate"><span class="pre">cs.PL</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Implementation Plan &amp; Source Provenance:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-gebr-chat-porting-plan.html"><span class="std std-doc">Grassmannian EBR Chat-Code Porting Ledger and Phased Implementation Plan</span></a> (<code class="docutils literal notranslate"><span class="pre">WS-0</span></code> through <code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)</p></li>
+<li><p>AI Chat Source (design provenance, not scholarly validation): <a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code></a></p></li>
+<li><p>Reusable Chat-Patch Tooling: <a class="reference download internal" download="" href="_downloads/935059aa2c139e8c2744d80607ce48b5/extract_chat_code_blocks.py"><code class="xref download docutils literal notranslate"><span class="pre">tools/extract_chat_code_blocks.py</span></code></a> and <a class="reference download internal" download="" href="_downloads/5f81ee57605f13bbca1532b8340f249b/SKILL.md"><code class="xref download docutils literal notranslate"><span class="pre">chat-code-patches</span> <span class="pre">skill</span></code></a></p></li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Simulation Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, <code class="docutils literal notranslate"><span class="pre">3,631</span></code> core Lake jobs, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> axioms):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/b034a8b90d3668849f8cea1cacab5368/GrassmannianEBR.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/GrassmannianEBR.lean</span></code></a> (WS-1 Pauli spinor/Minkowski bridge, WS-4 Gram PSD &amp; inverse, WS-5 VRC-3 &amp; 2-state NOCI lowering, WS-9 finite-graph Ihara–Selberg Ramanujan equivalence)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/58fe4e56cb725535395ca84516e4db92/LayerGroups.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/LayerGroups.lean</span></code></a> (WS-3 exact integer/half-lattice affine layer-group monoid/group composition and generator relations)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/fb9056bd695e0704ef3a44c8744c4682/QuantumCooling.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/QuantumCooling.lean</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> (WS-2 <code class="docutils literal notranslate"><span class="pre">InferenceThermodynamicCycleContract</span></code> closed-cycle Second Law; WS-8 <code class="docutils literal notranslate"><span class="pre">TextileObservationContract</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Extension (<code class="docutils literal notranslate"><span class="pre">122</span></code> passing unit tests):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/1117b7eaa708ef8e3365bb38307589dc/layer_groups.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/layer_groups.rs</span></code></a> (all 80 IT Vol. E layer groups <span class="math notranslate nohighlight">\(\mathcal{L}_1\text{–}\mathcal{L}_{80}\)</span>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/c6c43abc945e615ca85d119096cba799/slavnov_dpp.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/slavnov_dpp.rs</span></code></a> (Cholesky regularized Gram <span class="math notranslate nohighlight">\(\log\det\)</span> and analytical gradients <span class="math notranslate nohighlight">\(2 X G_\varepsilon^{-1}\)</span>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/35dfd4611ebc7069c620da78c305b16a/multi_reference_noci.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/multi_reference_noci.rs</span></code></a> (Löwdin canonical orthogonalization, Jacobi eigensolver, stretched <span class="math notranslate nohighlight">\(\mathrm{H}_2\)</span> benchmark cross-checked against <code class="docutils literal notranslate"><span class="pre">tequila_simulator::expectation_pauli_hamiltonian_msb</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/d17cda859ab9eb7bbc77ee044743fe84/ebr_benchmark.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/ebr_benchmark.rs</span></code></a> (seeded continuous-relaxation EBR + adaptive halting + DPP harness separated from exact backtracking)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/d6d100c223429fadb353d523fc131e05/arc_dsl.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/arc_dsl.rs</span></code></a> (compositional <code class="docutils literal notranslate"><span class="pre">GridOp</span></code> DSL reusing <code class="docutils literal notranslate"><span class="pre">multi_array_imaging</span></code> PCA object invariants, <code class="docutils literal notranslate"><span class="pre">layer_groups</span></code> <span class="math notranslate nohighlight">\(D_4\)</span> operations, and <code class="docutils literal notranslate"><span class="pre">tequila_simulator::simulate_circuit_msb</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/7e2cdc389df0d8c0cc920e49c4ff83aa/finite_constraint_solvers.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/finite_constraint_solvers.rs</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/35a06ed67cf4bc8db40506df17b315ff/lib.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code></a></p></li>
+</ul>
+</li>
+<li><p>Python + SymPy + PyO3 (<code class="docutils literal notranslate"><span class="pre">signals_numerical_adapter</span></code>) Verification Suite:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/51aac7886888aa984f410918bfc8903f/test_gebr_advancements_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_gebr_advancements_sympy_pyo3.py</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Companion Papers Reused:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-tequila-rust-pyo3-quantum-simulator-paper.html"><span class="std std-doc">A Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Quantum Simulation Backend for <code class="docutils literal notranslate"><span class="pre">Tequila</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-multispectral-hubble-medical-nanoimaging-paper.html"><span class="std std-doc">Multi-Spectral and Multi-Array Grassmannian Imaging Across Scales</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qism-bethe-ansatz-paper.html"><span class="std std-doc">Grassmannian Geometry of the Quantum Inverse Scattering Method and Algebraic Bethe Ansatz</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-rhombohedral-graphene-superconductivity-qc-paper.html"><span class="std std-doc">Superconductivity, QAHE/FQAH, Supersolid Vortices, and Topological Quantum Computing in Rhombohedral and Moiré Multilayer Graphene (<code class="docutils literal notranslate"><span class="pre">G-MGS</span></code>)</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Translating speculative research dialogues into trustworthy scientific software requires separating <strong>machine-checked finite mathematics and deterministic reference implementations</strong> from <strong>unmeasured physical, benchmark, or analytic claims</strong>. Following the audit of 64 fenced code blocks in <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code> (<a class="reference internal" href="grassmannian-gebr-chat-porting-plan.html"><span class="std std-doc">Porting Plan</span></a>), this paper reports the tri-language execution of all nine workstreams (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code> through <code class="docutils literal notranslate"><span class="pre">WS-9</span></code>) in <strong>Lean 4</strong> (<code class="docutils literal notranslate"><span class="pre">3,631</span></code> Lake jobs, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>), <strong>Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>)</strong> (<code class="docutils literal notranslate"><span class="pre">122</span></code> unit tests compiled into the editable Python extension <code class="docutils literal notranslate"><span class="pre">signals_numerical_adapter</span></code>), and <strong>Python/SymPy</strong> (<code class="docutils literal notranslate"><span class="pre">15</span></code> combined SymPy/PyO3 + <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> tests passing).</p>
+<p>Crucially, rather than duplicating existing infrastructure, the implementation directly reuses our companion <code class="docutils literal notranslate"><span class="pre">Signals</span></code> and <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> stack:</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-1</span></code> (Dispersion Physics)</strong>: Connects <code class="docutils literal notranslate"><span class="pre">Gr24DispersionParameters</span></code> to <code class="docutils literal notranslate"><span class="pre">Signals.Proca.FourVector</span></code> (<code class="docutils literal notranslate"><span class="pre">+,-,-,-</span></code>) and SI <code class="docutils literal notranslate"><span class="pre">Signals.Units</span></code>, proving Hermitian Pauli spinor determinant preservation <span class="math notranslate nohighlight">\(\det K(k) = k_0^2 - k_x^2 - k_y^2 - k_z^2\)</span> and exact <span class="math notranslate nohighlight">\(z\)</span>-Lorentz boost invariance in Lean 4 and SymPy while keeping physical Maxwell/Proca/evanescent identifications gated in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-2</span></code> (Closed-Cycle Conditional Landauer &amp; QFIM–Bures)</strong>: Quarantines speculative vacuum-extraction prose in <code class="docutils literal notranslate"><span class="pre">Signals.QuantumCooling</span></code> and proves in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.InferenceThermodynamicCycleContract</span></code> that even when single-shot conditional erasure is negative (<span class="math notranslate nohighlight">\(S(A\mid M) &lt; 0\)</span>), closing the cycle via memory reset and dimensioned QFIM–Bures action dissipation <span class="math notranslate nohighlight">\(\hbar\mathcal{L}_{\mathrm{QFIM}}^2 / (4\tau)\)</span> obeys the Second Law (<span class="math notranslate nohighlight">\(Q_{\mathrm{closed}} \ge k_B T \ln 2 \cdot N_{\mathrm{bits}} &gt; 0\)</span>).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-3</span></code> (All 80 Crystallographic Layer Groups)</strong>: Formalizes exact integer/half-lattice affine composition modulo <span class="math notranslate nohighlight">\(\mathbb{Z}^2 \times \{0\}\)</span> in <code class="docutils literal notranslate"><span class="pre">Signals.LayerGroups</span></code> and exhaustively verifies identity, closure, inverses, exact group orders, and 17-wallpaper projections across all 80 International Tables Vol. E layer groups (<span class="math notranslate nohighlight">\(\mathcal{L}_1\text{–}\mathcal{L}_{80}\)</span>) in Rust/PyO3, keeping <code class="docutils literal notranslate"><span class="pre">G-MGS</span></code> transport/QAHE claims decoupled.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-4</span></code> (PSD-Verified Slavnov–Gram DPP)</strong>: Proves <span class="math notranslate nohighlight">\(2\times 2\)</span> regularized Gram positivity, duplicate collapse, and inverse identities in Lean 4; implements exact Cholesky <span class="math notranslate nohighlight">\(\log\det(X^\top X + \varepsilon I)\)</span> and analytical gradients <span class="math notranslate nohighlight">\(2 X G_\varepsilon^{-1}\)</span> verified against SymPy symbolic differentiation (<span class="math notranslate nohighlight">\(&lt;10^{-11}\)</span>); and empirically demonstrates on 8-Queens that raw-coordinate Gram-DPP spans only <code class="docutils literal notranslate"><span class="pre">5/12</span></code> <span class="math notranslate nohighlight">\(D_4\)</span> orbits without explicit orbifold quotienting (vs. <code class="docutils literal notranslate"><span class="pre">12/12</span></code> after <span class="math notranslate nohighlight">\(D_4\)</span> quotienting).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-5</span></code> (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Multi-Reference NOCI &amp; VRC-3)</strong>: Proves VRC-3 smooth degeneracy evaluation at <span class="math notranslate nohighlight">\(\Delta\varepsilon = 0\)</span>, the <span class="math notranslate nohighlight">\(1/4\)</span> QNG step from <span class="math notranslate nohighlight">\(F_{\mu\nu} = 4 g_{\mu\nu}^{\mathrm{FS}}\)</span>, and exact 2-state NOCI variational lowering in Lean 4; implements Löwdin canonical orthogonalization and Jacobi eigensolving in Rust/PyO3; and cross-checks stretched <span class="math notranslate nohighlight">\(\mathrm{H}_2\)</span> (2-site Hubbard) 2-state PUHF vs. 3-state NOCI against exact FCI and <code class="docutils literal notranslate"><span class="pre">tequila_simulator::expectation_pauli_hamiltonian_msb</span></code> (<span class="math notranslate nohighlight">\(|\Delta E| &lt; 10^{-12}\)</span>, <span class="math notranslate nohighlight">\(\langle\hat{S}^2\rangle = 0\)</span>).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-6</span></code> (Seeded EBR Harness)</strong>: Separates continuous Sinkhorn + McWeeny + DPP relaxation from exact backtracking, showing transparently that unlearned continuous relaxation achieves <code class="docutils literal notranslate"><span class="pre">Pass&#64;1</span> <span class="pre">=</span> <span class="pre">0.20</span></code> on 4-Queens and <code class="docutils literal notranslate"><span class="pre">0.00</span></code> on 6- and 8-Queens (<code class="docutils literal notranslate"><span class="pre">seed</span> <span class="pre">=</span> <span class="pre">42</span></code>), refuting unbenchmarked <code class="docutils literal notranslate"><span class="pre">100%</span> <span class="pre">Pass&#64;1</span></code> claims without an upstream trained EBR energy network (<code class="docutils literal notranslate"><span class="pre">arXiv:2611.08977</span></code>).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-7</span></code> (Compositional Grid DSL Reusing <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">multi_array_imaging</span></code>)</strong>: Implements typed <code class="docutils literal notranslate"><span class="pre">GridOp</span></code> primitives (rotations, flips, transpose, connected-component object extraction, cropping, recoloring, tiling, mirroring, bounded BFS synthesis) that reuse <code class="docutils literal notranslate"><span class="pre">multi_array_imaging</span></code> rotation-invariant PCA descriptors (<code class="docutils literal notranslate"><span class="pre">cov_det_2d</span></code>, <code class="docutils literal notranslate"><span class="pre">aspect_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">bbox_fill_density</span></code>, <code class="docutils literal notranslate"><span class="pre">principal_angle_rad</span></code>), <code class="docutils literal notranslate"><span class="pre">layer_groups</span></code> <span class="math notranslate nohighlight">\(D_4 \subset \mathcal{L}_{55}\)</span> matrices, and exact reversible <code class="docutils literal notranslate"><span class="pre">TequilaGateOp</span></code> (<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">SWAP</span></code>) quantum-circuit execution via <code class="docutils literal notranslate"><span class="pre">tequila_simulator::simulate_circuit_msb</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">WS-8</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">WS-9</span></code> (Textile Gate &amp; Isolated Finite-Graph Ihara–Selberg)</strong>: Encodes <code class="docutils literal notranslate"><span class="pre">TextileObservationContract</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> with <code class="docutils literal notranslate"><span class="pre">Units.Length</span></code>/<code class="docutils literal notranslate"><span class="pre">Units.Force</span></code>/<code class="docutils literal notranslate"><span class="pre">Units.Duration</span></code>, verifies 3D knitted centerline Klein residual <span class="math notranslate nohighlight">\(= 0\)</span> in SymPy, and proves the established finite-graph Ramanujan critical-circle equivalence (<span class="math notranslate nohighlight">\(\lambda^2 \le 4q \implies |u|^2 = 1/q\)</span>) verified symbolically on the 10-vertex 3-regular Petersen graph (<span class="math notranslate nohighlight">\(q=2\)</span>) without making any Riemann Hypothesis claim.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="cross-module-reuse-architecture">
+<h2>1. Cross-Module Reuse Architecture<a class="headerlink" href="#cross-module-reuse-architecture" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph Existing[&quot;Existing Verified Owners Reused (No Duplication)&quot;]
+        E1[&quot;Signals.Proca &amp; Signals.Units&lt;br/&gt;(FourVector, minkowskiDot, SI types)&quot;]
+        E2[&quot;Signals.QISM &amp; Signals.Pending&lt;br/&gt;(slavnovDet2_pauli_exclusion, Pending gates)&quot;]
+        E3[&quot;tequila_simulator.rs &amp; src/tequila&lt;br/&gt;(TequilaGateOp, simulate_circuit_msb,&lt;br/&gt;expectation_pauli_hamiltonian_msb)&quot;]
+        E4[&quot;multi_array_imaging.rs (Paper 17)&lt;br/&gt;(2D PCA cov_det_2d, aspect_ratio,&lt;br/&gt;bbox_fill_density, principal_angle_rad)&quot;]
+    end
+
+    subgraph NewModules[&quot;New Workstreams WS-1..WS-9 (Lean 4 + Rust/PyO3 + SymPy)&quot;]
+        N1[&quot;WS-1 &amp; WS-2: GrassmannianEBR.lean,&lt;br/&gt;QuantumCooling.lean, Pending.lean&lt;br/&gt;(Pauli spinor boost + Closed-Cycle Second Law)&quot;]
+        N2[&quot;WS-3 &amp; WS-4: LayerGroups.lean,&lt;br/&gt;layer_groups.rs (80 groups), slavnov_dpp.rs&quot;]
+        N3[&quot;WS-5 &amp; WS-6: multi_reference_noci.rs,&lt;br/&gt;ebr_benchmark.rs (seeded harness)&quot;]
+        N4[&quot;WS-7, WS-8, WS-9: arc_dsl.rs,&lt;br/&gt;TextileObservationContract, Ihara–Selberg&quot;]
+    end
+
+    subgraph Bridge[&quot;PyO3 0.24 + maturin Editable Extension &amp; SymPy Suite&quot;]
+        P1[&quot;signals_numerical_adapter (19 PyO3 functions + 2 pyclasses)&lt;br/&gt;+ tests/test_gebr_advancements_sympy_pyo3.py&quot;]
+    end
+
+    E1 --&gt; N1
+    E2 --&gt; N2
+    E3 --&gt; N3
+    E3 --&gt; N4
+    E4 --&gt; N4
+    N2 --&gt; N4
+    N1 --&gt; P1
+    N2 --&gt; P1
+    N3 --&gt; P1
+    N4 --&gt; P1
+    </pre></section>
+<hr class="docutils" />
+<section id="phase-a-dimensioned-dispersion-ws-1-closed-cycle-thermodynamics-ws-2">
+<h2>2. Phase A: Dimensioned Dispersion (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code>) &amp; Closed-Cycle Thermodynamics (<code class="docutils literal notranslate"><span class="pre">WS-2</span></code>)<a class="headerlink" href="#phase-a-dimensioned-dispersion-ws-1-closed-cycle-thermodynamics-ws-2" title="Link to this heading">¶</a></h2>
+<section id="hermitian-pauli-spinor-map-and-lorentz-boost-invariance-ws-1">
+<h3>2.1 Hermitian Pauli Spinor Map and Lorentz-Boost Invariance (<code class="docutils literal notranslate"><span class="pre">WS-1</span></code>)<a class="headerlink" href="#hermitian-pauli-spinor-map-and-lorentz-boost-invariance-ws-1" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR</span></code> (<a class="reference download internal" download="" href="_downloads/b034a8b90d3668849f8cea1cacab5368/GrassmannianEBR.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/GrassmannianEBR.lean</span></code></a>), <code class="docutils literal notranslate"><span class="pre">DimensionedWavevector</span></code> lifts SI <code class="docutils literal notranslate"><span class="pre">Frequency</span></code> and <code class="docutils literal notranslate"><span class="pre">Speed</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.Units</span></code>) into <code class="docutils literal notranslate"><span class="pre">Signals.Proca.FourVector</span></code> <span class="math notranslate nohighlight">\(k^\mu = (f/c, k_x, k_y, k_z)\)</span> in fixed signature <span class="math notranslate nohighlight">\((+,-,-,-)\)</span> and maps it to the <span class="math notranslate nohighlight">\(2\times 2\)</span> Hermitian Pauli matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+K(k) = \begin{pmatrix} k_0 + k_z &amp; k_x - i k_y \\ k_x + i k_y &amp; k_0 - k_z \end{pmatrix}, \qquad \det K(k) = (k_0 + k_z)(k_0 - k_z) - (k_x^2 + k_y^2) = k_0^2 - k_x^2 - k_y^2 - k_z^2.
+\end{split}\]</div>
+<p>Lean 4 proves <code class="docutils literal notranslate"><span class="pre">pauliSpinorDet_eq_minkowskiDot</span></code>, <code class="docutils literal notranslate"><span class="pre">pauliSpinorDet_lorentzBoostZ</span></code> (for any boost satisfying <span class="math notranslate nohighlight">\(\cosh^2\eta - \sinh^2\eta = 1\)</span>), <code class="docutils literal notranslate"><span class="pre">dimensionedWavevector_minkowski_eq_dispersionInterval</span></code>, and <code class="docutils literal notranslate"><span class="pre">procaMode_pauliSpinorDet_eq_mass_sq</span></code> (linking <code class="docutils literal notranslate"><span class="pre">Signals.Proca.Mode.dispersion_relation</span></code> to <span class="math notranslate nohighlight">\(\det K(p) = m^2 &gt; 0\)</span>). Physical identification with Maxwell, Proca, or sub-nanometer evanescent laboratory modes remains gated in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.CWProcaEmissionHypothesis</span></code> and <a class="reference internal" href="flat-light-proca-nlig-validation-plan.html"><span class="std std-doc">Flat Light, Proca, and N-LIG Validation Plan</span></a>.</p>
+</section>
+<section id="closed-cycle-conditional-landauer-qfimbures-accounting-ws-2">
+<h3>2.2 Closed-Cycle Conditional Landauer &amp; QFIM–Bures Accounting (<code class="docutils literal notranslate"><span class="pre">WS-2</span></code>)<a class="headerlink" href="#closed-cycle-conditional-landauer-qfimbures-accounting-ws-2" title="Link to this heading">¶</a></h3>
+<p>The chat export (<a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">522–695</span> <span class="pre">and</span> <span class="pre">1082–1221</span></code></a>) proposed an unclamped single-shot Landauer–Bures work sum and interpreted negative values as net inference cooling. <code class="docutils literal notranslate"><span class="pre">Signals.Pending.InferenceThermodynamicCycleContract</span></code> closes the cycle with explicit SI energy units:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_{\mathrm{closed}} = \underbrace{k_B T \ln 2 \cdot S(A \mid M)\,N_{\mathrm{bits}}}_{Q_{\mathrm{single\text{-}shot}}} + \underbrace{Q_{\mathrm{reset}}}_{\ge k_B T \ln 2 (1 - S(A \mid M)) N_{\mathrm{bits}}} + \underbrace{\frac{\hbar \mathcal{L}_{\mathrm{QFIM}}^2}{4 \tau_{\mathrm{step}}}}_{\Delta W_{\mathrm{Bures}} \ge 0} + W_{\mathrm{ctrl}} \ge k_B T \ln 2 \cdot N_{\mathrm{bits}} &gt; 0.
+\]</div>
+<p>Both Lean (<code class="docutils literal notranslate"><span class="pre">InferenceThermodynamicCycleContract.closedCycle_secondLaw_bound</span></code>, <code class="docutils literal notranslate"><span class="pre">singleShot_vs_unentangled_control</span></code>) and SymPy (<code class="docutils literal notranslate"><span class="pre">test_ws2_closed_cycle_landauer_and_qfim_bures_dimensions_sympy</span></code>) confirm that the signed conditional entropy <span class="math notranslate nohighlight">\(S(A\mid M)\)</span> cancels identically over the closed cycle, preserving the Second Law even when single-shot conditional erasure is negative.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="phase-b-exact-80-crystallographic-layer-groups-ws-3-cholesky-slavnovgram-dpp-ws-4">
+<h2>3. Phase B: Exact 80 Crystallographic Layer Groups (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>) &amp; Cholesky Slavnov–Gram DPP (<code class="docutils literal notranslate"><span class="pre">WS-4</span></code>)<a class="headerlink" href="#phase-b-exact-80-crystallographic-layer-groups-ws-3-cholesky-slavnovgram-dpp-ws-4" title="Link to this heading">¶</a></h2>
+<section id="exhaustive-verification-of-all-80-international-tables-vol-e-layer-groups-ws-3">
+<h3>3.1 Exhaustive Verification of All 80 International Tables Vol. E Layer Groups (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>)<a class="headerlink" href="#exhaustive-verification-of-all-80-international-tables-vol-e-layer-groups-ws-3" title="Link to this heading">¶</a></h3>
+<p>Every crystallographic layer group <span class="math notranslate nohighlight">\(\mathcal{L}_1\text{–}\mathcal{L}_{80}\)</span> acts on <span class="math notranslate nohighlight">\(\mathbb{R}^3 / (\mathbb{Z}^2 \times \{0\})\)</span> via exact affine pairs <span class="math notranslate nohighlight">\((R, \mathbf{t})\)</span> with <span class="math notranslate nohighlight">\(R = \operatorname{diag}(A, r_z)\)</span>, <span class="math notranslate nohighlight">\(A \in \mathrm{GL}_2(\mathbb{Z})\)</span>, <span class="math notranslate nohighlight">\(r_z \in \{-1, +1\}\)</span>, and half-lattice in-plane translations <span class="math notranslate nohighlight">\(t_u, t_v \in \mathbb{Z}/2\mathbb{Z}\)</span>. <code class="docutils literal notranslate"><span class="pre">Signals.LayerGroups</span></code> proves associativity (<code class="docutils literal notranslate"><span class="pre">LayerOp.comp_assoc</span></code>), identity laws, determinant multiplicativity (<code class="docutils literal notranslate"><span class="pre">LayerOp.det3_comp</span></code>), exact generator relations (<code class="docutils literal notranslate"><span class="pre">layerGroup_generator_relations</span></code>), and the crystal-system partition <span class="math notranslate nohighlight">\(2 + 5 + 11 + 30 + 16 + 16 = 80\)</span>.</p>
+<p>In Rust (<code class="docutils literal notranslate"><span class="pre">layer_groups.rs</span></code>, exposed via <code class="docutils literal notranslate"><span class="pre">py_verify_all_80_layer_groups</span></code> and <code class="docutils literal notranslate"><span class="pre">py_layer_group_orbit</span></code>), BFS closure over exact integer/mod-2 generators verifies <strong>all 80 groups</strong> for identity, closure, inverses, exact quotient order, and projection onto <strong>all 17 2D wallpaper groups</strong>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer Group</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Crystal System</p></th>
+<th class="head"><p>Wallpaper Projection</p></th>
+<th class="head text-right"><p>Verified Quotient Order</p></th>
+<th class="head text-right"><p>Generic Orbit Size</p></th>
+<th class="head"><p>Context</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_1\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p1</span></code></p></td>
+<td><p>Triclinic / oblique</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p1</span></code></p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-right"><p>1</p></td>
+<td><p>Trivial baseline</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_7\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p112/a</span></code></p></td>
+<td><p>Monoclinic / oblique</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p2</span></code></p></td>
+<td class="text-right"><p>4</p></td>
+<td class="text-right"><p>4</p></td>
+<td><p>Stockinette symmetry tag (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_{19}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p222</span></code></p></td>
+<td><p>Orthorhombic / rect.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p2mm</span></code></p></td>
+<td class="text-right"><p>4</p></td>
+<td class="text-right"><p>4</p></td>
+<td><p><span class="math notranslate nohighlight">\(1\times 1\)</span> Rib symmetry tag (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_{37}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pmmm</span></code></p></td>
+<td><p>Orthorhombic / rect.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p2mm</span></code></p></td>
+<td class="text-right"><p>8</p></td>
+<td class="text-right"><p>8</p></td>
+<td><p>Garter stitch symmetry tag (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_{55}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p4mm</span></code></p></td>
+<td><p>Tetragonal / square</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p4mm</span></code></p></td>
+<td class="text-right"><p>8</p></td>
+<td class="text-right"><p>8</p></td>
+<td><p><span class="math notranslate nohighlight">\(D_4\)</span> grid ops (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_{61}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p4/mmm</span></code></p></td>
+<td><p>Tetragonal / square</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p4mm</span></code></p></td>
+<td class="text-right"><p>16</p></td>
+<td class="text-right"><p>16</p></td>
+<td><p>Double-sided square layer</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathcal{L}_{80}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p6/mmm</span></code></p></td>
+<td><p>Hexagonal</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p6mm</span></code></p></td>
+<td class="text-right"><p>24</p></td>
+<td class="text-right"><p>24</p></td>
+<td><p>Hexagonal layer symmetry (decoupled from <code class="docutils literal notranslate"><span class="pre">G-MGS</span></code> QAHE)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="psd-verified-cholesky-slavnovgram-dpp-and-raw-vs-orbifold-coverage-ws-4">
+<h3>3.2 PSD-Verified Cholesky Slavnov–Gram DPP and Raw vs. Orbifold Coverage (<code class="docutils literal notranslate"><span class="pre">WS-4</span></code>)<a class="headerlink" href="#psd-verified-cholesky-slavnovgram-dpp-and-raw-vs-orbifold-coverage-ws-4" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR</span></code> proves that for <span class="math notranslate nohighlight">\(a, b \ge 0\)</span>, <span class="math notranslate nohighlight">\(c^2 \le ab\)</span>, and <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\det G_\varepsilon = (a+\varepsilon)(b+\varepsilon) - c^2 &gt; 0\)</span> (<code class="docutils literal notranslate"><span class="pre">gramDet2Reg_pos</span></code>), duplicate vectors collapse <span class="math notranslate nohighlight">\(\det G_0 = 0\)</span> (<code class="docutils literal notranslate"><span class="pre">gramDet2_duplicate_zero</span></code>), and <span class="math notranslate nohighlight">\(G_\varepsilon G_\varepsilon^{-1} = I_2\)</span> (<code class="docutils literal notranslate"><span class="pre">gram2Reg_inverse_identities</span></code>). In Rust (<code class="docutils literal notranslate"><span class="pre">slavnov_dpp.rs</span></code>, exposed via <code class="docutils literal notranslate"><span class="pre">py_evaluate_gram_dpp</span></code>), Cholesky factorization computes <span class="math notranslate nohighlight">\(\log\det(X^\top X + \varepsilon I_K)\)</span> and exact analytical gradients:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial}{\partial X}\,\log\det\!\left(X^\top X + \varepsilon I_K\right) = 2\,X\,(X^\top X + \varepsilon I_K)^{-1},
+\]</div>
+<p>matching both central finite differences (<span class="math notranslate nohighlight">\(&lt;10^{-7}\)</span>) and exact SymPy symbolic differentiation (<span class="math notranslate nohighlight">\(&lt;10^{-11}\)</span>). Against the exact 8-Queens oracle (<code class="docutils literal notranslate"><span class="pre">92</span></code> boards in <code class="docutils literal notranslate"><span class="pre">12</span></code> <span class="math notranslate nohighlight">\(D_4\)</span> orbits), greedy MAP Gram-DPP (<code class="docutils literal notranslate"><span class="pre">select_k</span> <span class="pre">=</span> <span class="pre">12</span></code>, <span class="math notranslate nohighlight">\(\varepsilon = 10^{-4}\)</span>) reveals a concrete geometric limitation missed by chat prose:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>8-Queens Selection Pool</p></th>
+<th class="head text-right"><p>Exact Oracle Pool Size</p></th>
+<th class="head text-right"><p>Requested <span class="math notranslate nohighlight">\(K\)</span></p></th>
+<th class="head text-right"><p>Distinct Solutions Selected</p></th>
+<th class="head text-right"><p>Distinct <span class="math notranslate nohighlight">\(D_4\)</span> Orbits Covered</p></th>
+<th class="head text-right"><p>Final <span class="math notranslate nohighlight">\(\log\det G_\varepsilon\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Raw coordinate embedding (<code class="docutils literal notranslate"><span class="pre">orbifold_quotient=False</span></code>)</p></td>
+<td class="text-right"><p>92</p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p><strong>5 / 12</strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.758290</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D_4\)</span>-orbifold quotient (<code class="docutils literal notranslate"><span class="pre">orbifold_quotient=True</span></code>)</p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p><strong>12 / 12</strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-4.303787</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Because rotated/reflected boards within the same <span class="math notranslate nohighlight">\(D_4\)</span> orbit can be nearly orthogonal in <span class="math notranslate nohighlight">\(\mathbb{R}^{64}\)</span>, raw coordinate Gram-DPP selects orthogonal symmetry copies across only 5 of 12 fundamental orbits; full orbit diversity requires explicit orbifold quotienting prior to DPP selection.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="phase-c-multi-reference-noci-ws-5-seeded-ebr-harness-ws-6-tequila-compiled-grid-dsl-ws-7">
+<h2>4. Phase C: Multi-Reference NOCI (<code class="docutils literal notranslate"><span class="pre">WS-5</span></code>), Seeded EBR Harness (<code class="docutils literal notranslate"><span class="pre">WS-6</span></code>), &amp; <code class="docutils literal notranslate"><span class="pre">Tequila</span></code>-Compiled Grid DSL (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)<a class="headerlink" href="#phase-c-multi-reference-noci-ws-5-seeded-ebr-harness-ws-6-tequila-compiled-grid-dsl-ws-7" title="Link to this heading">¶</a></h2>
+<section id="multi-reference-noci-vs-exact-fci-and-tequila-jordanwigner-pauli-expectation-ws-5">
+<h3>4.1 Multi-Reference NOCI vs. Exact FCI and <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> Jordan–Wigner Pauli Expectation (<code class="docutils literal notranslate"><span class="pre">WS-5</span></code>)<a class="headerlink" href="#multi-reference-noci-vs-exact-fci-and-tequila-jordanwigner-pauli-expectation-ws-5" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR</span></code> proves VRC-3 smooth degeneracy evaluation (<code class="docutils literal notranslate"><span class="pre">vrcPairExcitationSmooth_at_degeneracy</span></code>: <span class="math notranslate nohighlight">\(V/(\Delta\varepsilon^2 + V^2)\big|_{\Delta\varepsilon=0} = 1/V\)</span>), the <span class="math notranslate nohighlight">\(1/4\)</span> QNG step from <span class="math notranslate nohighlight">\(F_{\mu\nu} = 4 g_{\mu\nu}^{\mathrm{FS}}\)</span> (<code class="docutils literal notranslate"><span class="pre">qngStepFromQfim_eq_quarter_fubiniStudy</span></code>), and exact 2-state NOCI variational lowering (<code class="docutils literal notranslate"><span class="pre">nociTwoState_variational_lowering</span></code>).</p>
+<p>In Rust (<code class="docutils literal notranslate"><span class="pre">multi_reference_noci.rs</span></code>, exposed via <code class="docutils literal notranslate"><span class="pre">py_solve_noci_generalized</span></code> and <code class="docutils literal notranslate"><span class="pre">py_benchmark_stretched_h2_noci</span></code>), Löwdin canonical orthogonalization with an explicit overlap-eigenvalue cutoff solves <span class="math notranslate nohighlight">\(H c = E S c\)</span> on the minimal-basis 2-site 2-electron stretched-<span class="math notranslate nohighlight">\(\mathrm{H}_2\)</span> Hubbard Hamiltonian and cross-verifies the resulting 3-state NOCI wavefunction directly against the 4-qubit Jordan–Wigner Pauli Hamiltonian in <code class="docutils literal notranslate"><span class="pre">tequila_simulator::expectation_pauli_hamiltonian_msb</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\((t, U)\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(E_{\mathrm{RHF}}\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(E_{\mathrm{UHF}}\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\langle\hat{S}^2\rangle_{\mathrm{UHF}}\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(E_{\mathrm{NOCI\text{-}2}}\)</span> (PUHF)</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(E_{\mathrm{NOCI\text{-}3}}\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(E_{\mathrm{FCI}}\)</span> (SymPy)</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(E_{\mathrm{Tequila\text{-}JW}}\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(|E_{\mathrm{NOCI\text{-}3}} - E_{\mathrm{FCI}}|\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\((1.0, 3.0)\)</span></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.500000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.666667</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.555556</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.923077</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-1.000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-1.000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-1.000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-12</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\((1.0, 5.0)\)</span></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.500000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.400000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.840000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.689655</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.701562</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.701562</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.701562</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-12</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\((0.5, 4.0)\)</span></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+1.000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.125000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.937500</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.235294</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.236068</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.236068</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.236068</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-12</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Both 2-state PUHF and 3-state NOCI restore exact singlet symmetry (<span class="math notranslate nohighlight">\(\langle\hat{S}^2\rangle = 0.000000\)</span>), while exhibiting the strict variational hierarchy <span class="math notranslate nohighlight">\(E_{\mathrm{FCI}} = E_{\mathrm{NOCI\text{-}3}} &lt; E_{\mathrm{NOCI\text{-}2}} &lt; E_{\mathrm{UHF}} &lt; E_{\mathrm{RHF}}\)</span>.</p>
+</section>
+<section id="seeded-continuous-relaxation-ebr-benchmark-harness-ws-6">
+<h3>4.2 Seeded Continuous-Relaxation EBR Benchmark Harness (<code class="docutils literal notranslate"><span class="pre">WS-6</span></code>)<a class="headerlink" href="#seeded-continuous-relaxation-ebr-benchmark-harness-ws-6" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ebr_benchmark.rs</span></code> (<code class="docutils literal notranslate"><span class="pre">py_run_ebr_nqueens_benchmark</span></code>) keeps continuous Sinkhorn + McWeeny + DPP relaxation strictly separate from exact backtracking (<code class="docutils literal notranslate"><span class="pre">finite_constraint_solvers.rs</span></code>) and logs deterministic seeded runs (<code class="docutils literal notranslate"><span class="pre">seed</span> <span class="pre">=</span> <span class="pre">42</span></code>, <code class="docutils literal notranslate"><span class="pre">max_steps</span> <span class="pre">=</span> <span class="pre">120</span></code>, <code class="docutils literal notranslate"><span class="pre">step_size</span> <span class="pre">=</span> <span class="pre">0.15</span></code>):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Problem</p></th>
+<th class="head text-right"><p>Trajectories</p></th>
+<th class="head text-right"><p>DPP Weight</p></th>
+<th class="head text-right"><p>Valid Trajectories</p></th>
+<th class="head text-right"><p>Empirical <code class="docutils literal notranslate"><span class="pre">Pass&#64;1</span></code></p></th>
+<th class="head"><p>Distinct Valid / Exact Oracle</p></th>
+<th class="head text-right"><p>Mean Halting Steps</p></th>
+<th class="head text-right"><p>Wall Time (ms)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">4-Queens</span></code></p></td>
+<td class="text-right"><p>10</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00</span></code></p></td>
+<td class="text-right"><p>2</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.20</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">/</span> <span class="pre">2</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">3.20</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.046</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">4-Queens</span></code></p></td>
+<td class="text-right"><p>10</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.02</span></code></p></td>
+<td class="text-right"><p>2</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.20</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">/</span> <span class="pre">2</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">72.50</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.255</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">6-Queens</span></code></p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.02</span></code></p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">/</span> <span class="pre">4</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">80.42</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.530</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">8-Queens</span></code></p></td>
+<td class="text-right"><p>20</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.02</span></code></p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">/</span> <span class="pre">92</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">38.15</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">6.994</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>This negative result on <span class="math notranslate nohighlight">\(N \ge 6\)</span> is scientifically important: unlearned continuous Sinkhorn + McWeeny + DPP relaxation gets trapped in non-integer/conflicting stationary basins, confirming that upstream EBR performance (<code class="docutils literal notranslate"><span class="pre">arXiv:2611.08977</span></code>) requires a trained energy landscape rather than hand-crafted quadratic relaxations.</p>
+</section>
+<section id="compositional-gridop-dsl-reusing-tequila-circuits-and-multi-array-imaging-pca-invariants-ws-7">
+<h3>4.3 Compositional <code class="docutils literal notranslate"><span class="pre">GridOp</span></code> DSL Reusing <code class="docutils literal notranslate"><span class="pre">Tequila</span></code> Circuits and <code class="docutils literal notranslate"><span class="pre">multi_array_imaging</span></code> PCA Invariants (<code class="docutils literal notranslate"><span class="pre">WS-7</span></code>)<a class="headerlink" href="#compositional-gridop-dsl-reusing-tequila-circuits-and-multi-array-imaging-pca-invariants-ws-7" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">arc_dsl.rs</span></code> extends the 32-element symmetry finder in <code class="docutils literal notranslate"><span class="pre">finite_constraint_solvers.rs</span></code> with typed compositional primitives (<code class="docutils literal notranslate"><span class="pre">Rotate90/180/270</span></code>, <code class="docutils literal notranslate"><span class="pre">FlipHorizontal/Vertical</span></code>, <code class="docutils literal notranslate"><span class="pre">Transpose</span></code>, <code class="docutils literal notranslate"><span class="pre">CropNonZero</span></code>, <code class="docutils literal notranslate"><span class="pre">ExtractLargestObject</span></code>, <code class="docutils literal notranslate"><span class="pre">ExtractSmallestObject</span></code>, <code class="docutils literal notranslate"><span class="pre">Recolor</span></code>, <code class="docutils literal notranslate"><span class="pre">Translate</span></code>, <code class="docutils literal notranslate"><span class="pre">Tile</span></code>, <code class="docutils literal notranslate"><span class="pre">MirrorHorizontalConcat</span></code>, <code class="docutils literal notranslate"><span class="pre">MirrorVerticalConcat</span></code>, <code class="docutils literal notranslate"><span class="pre">FillBoundingBox</span></code>) and bounded BFS synthesis (<code class="docutils literal notranslate"><span class="pre">py_synthesize_grid_program</span></code>), reusing three existing repository layers:</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">multi_array_imaging.rs</span></code> (Paper 17)</strong>: Every 4-connected <code class="docutils literal notranslate"><span class="pre">GridObject</span></code> reuses <code class="docutils literal notranslate"><span class="pre">cosmic_ray_cluster_aspect_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">cosmic_ray_bbox_fill_density</span></code>, <code class="docutils literal notranslate"><span class="pre">cosmic_ray_covariance_det_2d</span></code>, and <code class="docutils literal notranslate"><span class="pre">cosmic_ray_principal_axis_angle_rad</span></code> to provide rotation- and flip-invariant shape descriptors (verified to <span class="math notranslate nohighlight">\(&lt;10^{-12}\)</span> across all 6 non-trivial <span class="math notranslate nohighlight">\(D_4\)</span> operations).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">layer_groups.rs</span></code> (<code class="docutils literal notranslate"><span class="pre">WS-3</span></code>)</strong>: <code class="docutils literal notranslate"><span class="pre">grid_op_to_layer_op</span></code> maps all spatial symmetries to exact <span class="math notranslate nohighlight">\(D_4 \subset \mathcal{L}_{55}\)</span> (<code class="docutils literal notranslate"><span class="pre">p4mm</span></code>) matrices.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tequila_simulator.rs</span></code> (Paper 44 / <code class="docutils literal notranslate"><span class="pre">src/tequila</span></code>)</strong>: On any <span class="math notranslate nohighlight">\(2^m \times 2^m\)</span> grid encoded into <span class="math notranslate nohighlight">\(2m\)</span> MSB address qubits (<span class="math notranslate nohighlight">\(0\text{..}m\)</span> = row, <span class="math notranslate nohighlight">\(m\text{..}2m\)</span> = col), <code class="docutils literal notranslate"><span class="pre">grid_op_to_tequila_gates</span></code> compiles flips into Pauli <code class="docutils literal notranslate"><span class="pre">X</span></code> layers and transposes into <code class="docutils literal notranslate"><span class="pre">SWAP(i,</span> <span class="pre">m</span> <span class="pre">+</span> <span class="pre">i)</span></code> layers, and <code class="docutils literal notranslate"><span class="pre">apply_grid_op_via_tequila_circuit</span></code> executes them through <code class="docutils literal notranslate"><span class="pre">tequila_simulator::simulate_circuit_msb</span></code> with exact bit-for-bit equality against classical <code class="docutils literal notranslate"><span class="pre">apply_op</span></code>.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="phase-d-textile-gate-ws-8-isolated-finite-graph-iharaselberg-equivalence-ws-9">
+<h2>5. Phase D: Textile Gate (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>) &amp; Isolated Finite-Graph Ihara–Selberg Equivalence (<code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)<a class="headerlink" href="#phase-d-textile-gate-ws-8-isolated-finite-graph-iharaselberg-equivalence-ws-9" title="Link to this heading">¶</a></h2>
+<section id="dimensioned-textile-observation-gate-ws-8">
+<h3>5.1 Dimensioned Textile-Observation Gate (<code class="docutils literal notranslate"><span class="pre">WS-8</span></code>)<a class="headerlink" href="#dimensioned-textile-observation-gate-ws-8" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>, <code class="docutils literal notranslate"><span class="pre">TextileObservationContract</span></code> ties canonical stitch labels (<code class="docutils literal notranslate"><span class="pre">stockinetteL7</span></code>, <code class="docutils literal notranslate"><span class="pre">rib1x1L19</span></code>, <code class="docutils literal notranslate"><span class="pre">garterL37</span></code>) to their exact IT Vol. E layer-group numbers (<span class="math notranslate nohighlight">\(\{7, 19, 37\}\)</span>), SI yarn diameter/pitch (<code class="docutils literal notranslate"><span class="pre">Units.Length</span></code>), tensile load (<code class="docutils literal notranslate"><span class="pre">Units.Force</span></code>), relaxation time (<code class="docutils literal notranslate"><span class="pre">Units.Duration</span></code>), strain rate (<code class="docutils literal notranslate"><span class="pre">Units.Frequency</span></code>), minimum replicate count (<span class="math notranslate nohighlight">\(\ge 3\)</span>), control-fabric flag, and curl-residual uncertainty bound. SymPy (<code class="docutils literal notranslate"><span class="pre">test_ws8_and_ws9_sympy_yarn_plucker_klein_and_petersen_ihara_zeta</span></code>) confirms that a parametric 3D knitted loop centerline <span class="math notranslate nohighlight">\(\mathbf{r}(s) = (s, A\sin(\omega s), B\cos(2\omega s))\)</span> satisfies the Plücker Klein identity identically (<span class="math notranslate nohighlight">\(p_{12}p_{34} - p_{13}p_{24} + p_{14}p_{23} = 0\)</span>).</p>
+</section>
+<section id="isolated-finite-graph-bassihara-determinant-ramanujan-critical-circle-ws-9">
+<h3>5.2 Isolated Finite-Graph Bass–Ihara Determinant &amp; Ramanujan Critical Circle (<code class="docutils literal notranslate"><span class="pre">WS-9</span></code>)<a class="headerlink" href="#isolated-finite-graph-bassihara-determinant-ramanujan-critical-circle-ws-9" title="Link to this heading">¶</a></h3>
+<p>Strictly decoupled from any claim regarding the Riemann zeta function <span class="math notranslate nohighlight">\(\zeta(s)\)</span>, <code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq</span></code> proves that for any adjacency eigenvalue <span class="math notranslate nohighlight">\(\lambda\)</span> of a finite <span class="math notranslate nohighlight">\((q+1)\)</span>-regular graph satisfying the Ramanujan bound <span class="math notranslate nohighlight">\(\lambda^2 \le 4q\)</span> (<span class="math notranslate nohighlight">\(q &gt; 0\)</span>), the complex roots of <span class="math notranslate nohighlight">\(1 - \lambda u + q u^2 = 0\)</span> satisfy <span class="math notranslate nohighlight">\(|u|^2 = 1/q\)</span>. SymPy evaluates the exact 10-vertex 3-regular Petersen graph (<span class="math notranslate nohighlight">\(q = 2\)</span>) determinant:</p>
+<div class="math notranslate nohighlight">
+\[
+\det\!\left(I_{10} - u A_{\mathrm{Petersen}} + 2 u^2 I_{10}\right) = (1 - 3u + 2u^2)(1 - u + 2u^2)^5(1 + 2u + 2u^2)^4,
+\]</div>
+<p>confirming exact eigenvalues <span class="math notranslate nohighlight">\(\{3^1, 1^5, (-2)^4\}\)</span> and <span class="math notranslate nohighlight">\(|u|^2 = 1/2 = 1/q\)</span> for all 18 non-trivial roots.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reproducible-tri-language-verification-commands">
+<h2>6. Reproducible Tri-Language Verification Commands<a class="headerlink" href="#reproducible-tri-language-verification-commands" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Lean 4 full Signals + Pending + Tests verification (3,631 Lake jobs)</span>
+make<span class="w"> </span>signals_build
+
+<span class="c1"># 2. Rust native tests (122 passing) + PyO3/maturin editable release build</span>
+<span class="nb">cd</span><span class="w"> </span>src/signals/numerical_adapter
+<span class="nv">TMPDIR</span><span class="o">=</span>/workspaces/sustainablefactory/.tmp<span class="w"> </span>maturin<span class="w"> </span>develop<span class="w"> </span>--release
+cargo<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># 3. Python + SymPy + PyO3 + Tequila integration test suites (15 passing)</span>
+pytest<span class="w"> </span>-q<span class="w"> </span>tests/test_gebr_advancements_sympy_pyo3.py<span class="w"> </span>tests/test_tequila_signals_backend.py
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="provenance-metadata-bibtex-json-ld">
+<h2>7. Provenance Metadata (BibTeX &amp; JSON-LD)<a class="headerlink" href="#provenance-metadata-bibtex-json-ld" title="Link to this heading">¶</a></h2>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_gebr_monograph_review_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wesley and Google Gemini}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantum-Causal Grassmannian Monograph Review: G-EBR, 80 Layer Groups, Slavnov-Gram DPP, Multi-Reference NOCI, ARC Grid DSL, and Ihara-Selberg Graph Zeta}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log (design provenance only; not scholarly validation)}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md, lines 20-12155}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov-Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara-Selberg Zeta Functions in Lean 4, Rust/PyO3 (maturin), and Python/SymPy"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-gebr-chat-porting-plan.md"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-18"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-gebr-chat-porting-plan.html" title="Grassmannian EBR Chat-Code Porting Ledger" >previous</a></li>
+        <li><a href="riemann-spectral-bridges-plan.html" title="Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (RB-1–RB-6) for the Remaining Riemann Hypothesis Analytical Bridges" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

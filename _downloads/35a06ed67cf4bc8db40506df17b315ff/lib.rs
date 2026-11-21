@@ -4,19 +4,489 @@
 
 use std::fmt;
 
+pub mod arc_dsl;
 pub mod cannon_mask_cad;
+pub mod finite_constraint_solvers;
 pub mod dft_plabic_vrc;
 pub mod double_slit;
+pub mod ebr_benchmark;
+pub mod layer_groups;
 pub mod madelung_lagrangian;
 pub mod multi_array_imaging;
+pub mod multi_reference_noci;
 pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
+pub mod quantum_trajectories;
+pub mod riemann_spectral;
+pub mod slavnov_dpp;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
 
 #[cfg(feature = "python")]
+use pyo3::exceptions::PyValueError;
+#[cfg(feature = "python")]
 use pyo3::prelude::*;
+#[cfg(feature = "python")]
+use pyo3::types::{PyDict, PyList};
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_verify_layer_group<'py>(py: Python<'py>, number: u8) -> PyResult<Bound<'py, PyDict>> {
+    let v = layer_groups::verify_layer_group(number)
+        .ok_or_else(|| PyValueError::new_err(format!("layer group number must be 1..=80, got {number}")))?;
+    let d = PyDict::new(py);
+    d.set_item("number", v.number)?;
+    d.set_item("symbol", v.symbol)?;
+    d.set_item("crystal_system", v.crystal_system)?;
+    d.set_item("wallpaper_projection", v.wallpaper_projection)?;
+    d.set_item("expected_order", v.expected_order)?;
+    d.set_item("actual_order", v.actual_order)?;
+    d.set_item("wallpaper_order", v.wallpaper_order)?;
+    d.set_item("has_identity", v.has_identity)?;
+    d.set_item("closed_under_composition", v.closed_under_composition)?;
+    d.set_item("all_have_inverses", v.all_have_inverses)?;
+    d.set_item("order_matches", v.order_matches)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_verify_all_80_layer_groups<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyList>> {
+    let list = PyList::empty(py);
+    for num in 1u8..=80 {
+        list.append(py_verify_layer_group(py, num)?)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_layer_group_orbit(number: u8, u: f64, v: f64, z: f64) -> PyResult<Vec<(f64, f64, f64)>> {
+    layer_groups::layer_group_orbit(number, u, v, z)
+        .ok_or_else(|| PyValueError::new_err(format!("layer group number must be 1..=80, got {number}")))
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_evaluate_gram_dpp<'py>(
+    py: Python<'py>,
+    features: Vec<Vec<f64>>,
+    eps: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let ev = slavnov_dpp::evaluate_gram_dpp(&features, eps)
+        .map_err(|e| PyValueError::new_err(format!("DPP error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("gram", ev.gram)?;
+    d.set_item("log_det", ev.log_det)?;
+    d.set_item("inverse", ev.inverse)?;
+    d.set_item("grad_features", ev.grad_features)?;
+    d.set_item("cholesky_diag_ratio_sq", ev.cholesky_diag_ratio_sq)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_nqueens_oracle_dpp_coverage<'py>(
+    py: Python<'py>,
+    size: usize,
+    select_k: usize,
+    eps: f64,
+    orbifold_quotient: bool,
+) -> PyResult<Bound<'py, PyDict>> {
+    let rep = if orbifold_quotient {
+        slavnov_dpp::nqueens_orbifold_dpp_coverage(size, select_k, eps)
+    } else {
+        slavnov_dpp::nqueens_oracle_dpp_coverage(size, select_k, eps)
+    }
+    .map_err(|e| PyValueError::new_err(format!("DPP error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("problem", rep.problem)?;
+    d.set_item("total_exact_solutions", rep.total_exact_solutions)?;
+    d.set_item("requested_k", rep.requested_k)?;
+    d.set_item("selected_distinct_solutions", rep.selected_distinct_solutions)?;
+    d.set_item("selected_distinct_d4_orbits", rep.selected_distinct_d4_orbits)?;
+    d.set_item("final_log_det", rep.final_log_det)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_solve_noci_generalized<'py>(
+    py: Python<'py>,
+    hamiltonian: Vec<Vec<f64>>,
+    overlap: Vec<Vec<f64>>,
+    overlap_cutoff: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let sol = multi_reference_noci::solve_noci_generalized(&hamiltonian, &overlap, overlap_cutoff)
+        .map_err(|e| PyValueError::new_err(format!("NOCI error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("eigenvalues", sol.eigenvalues)?;
+    d.set_item("eigenvectors", sol.eigenvectors)?;
+    d.set_item("overlap_eigenvalues", sol.overlap_eigenvalues)?;
+    d.set_item("retained_rank", sol.retained_rank)?;
+    d.set_item("overlap_condition_number", sol.overlap_condition_number)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_benchmark_stretched_h2_noci<'py>(
+    py: Python<'py>,
+    hopping_t: f64,
+    onsite_u: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let b = multi_reference_noci::benchmark_stretched_h2_noci(hopping_t, onsite_u)
+        .map_err(|e| PyValueError::new_err(format!("NOCI benchmark error: {e:?}")))?;
+    let d = PyDict::new(py);
+    d.set_item("hopping_t", b.hopping_t)?;
+    d.set_item("onsite_u", b.onsite_u)?;
+    d.set_item("rhf_energy", b.rhf_energy)?;
+    d.set_item("uhf_energy", b.uhf_energy)?;
+    d.set_item("uhf_s_squared", b.uhf_s_squared)?;
+    d.set_item("noci_2state_energy", b.noci_2state_energy)?;
+    d.set_item("noci_2state_s_squared", b.noci_2state_s_squared)?;
+    d.set_item("noci_3state_energy", b.noci_3state_energy)?;
+    d.set_item("noci_3state_s_squared", b.noci_3state_s_squared)?;
+    d.set_item("fci_ground_energy", b.fci_ground_energy)?;
+    d.set_item("noci_3state_minus_fci_error", b.noci_3state_minus_fci_error)?;
+    d.set_item("tequila_pauli_noci_energy", b.tequila_pauli_noci_energy)?;
+    d.set_item("overlap_s01", b.overlap_s01)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[pyo3(signature = (size, trajectories=12, max_steps=120, step_size=0.15, grad_tol=1e-4, dpp_weight=0.02, seed=42))]
+fn py_run_ebr_nqueens_benchmark<'py>(
+    py: Python<'py>,
+    size: usize,
+    trajectories: usize,
+    max_steps: usize,
+    step_size: f64,
+    grad_tol: f64,
+    dpp_weight: f64,
+    seed: u64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = ebr_benchmark::run_ebr_nqueens_benchmark(
+        size,
+        trajectories,
+        max_steps,
+        step_size,
+        grad_tol,
+        dpp_weight,
+        seed,
+    );
+    let d = PyDict::new(py);
+    d.set_item("problem", r.problem)?;
+    d.set_item("seed", r.seed)?;
+    d.set_item("trajectories", r.trajectories)?;
+    d.set_item("max_steps", r.max_steps)?;
+    d.set_item("dpp_weight", r.dpp_weight)?;
+    d.set_item("valid_trajectories", r.valid_trajectories)?;
+    d.set_item("pass_at_1", r.pass_at_1)?;
+    d.set_item("distinct_valid_solutions", r.distinct_valid_solutions)?;
+    d.set_item("distinct_d4_orbits", r.distinct_d4_orbits)?;
+    d.set_item("exact_oracle_solutions", r.exact_oracle_solutions)?;
+    d.set_item("mean_halting_steps", r.mean_halting_steps)?;
+    d.set_item("wall_time_ms", r.wall_time_ms)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_extract_grid_objects<'py>(
+    py: Python<'py>,
+    grid: Vec<Vec<u8>>,
+) -> PyResult<Bound<'py, PyList>> {
+    let objs = arc_dsl::extract_objects(&grid);
+    let list = PyList::empty(py);
+    for o in objs {
+        let d = PyDict::new(py);
+        d.set_item("color", o.color)?;
+        d.set_item("area", o.area())?;
+        d.set_item("min_row", o.min_row)?;
+        d.set_item("max_row", o.max_row)?;
+        d.set_item("min_col", o.min_col)?;
+        d.set_item("max_col", o.max_col)?;
+        d.set_item("aspect_ratio", o.aspect_ratio)?;
+        d.set_item("bbox_fill_density", o.bbox_fill_density)?;
+        d.set_item("cov_det_2d", o.cov_det_2d)?;
+        d.set_item("principal_angle_rad", o.principal_angle_rad)?;
+        list.append(d)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_apply_d4_grid_op_tequila(grid: Vec<Vec<u8>>, op_name: &str) -> PyResult<Vec<Vec<u16>>> {
+    let op = match op_name {
+        "rotate90" => arc_dsl::GridOp::Rotate90,
+        "rotate180" => arc_dsl::GridOp::Rotate180,
+        "rotate270" => arc_dsl::GridOp::Rotate270,
+        "flip_horizontal" => arc_dsl::GridOp::FlipHorizontal,
+        "flip_vertical" => arc_dsl::GridOp::FlipVertical,
+        "transpose" => arc_dsl::GridOp::Transpose,
+        other => {
+            return Err(PyValueError::new_err(format!(
+                "unsupported D4 op_name: {other}"
+            )))
+        }
+    };
+    let out = arc_dsl::apply_grid_op_via_tequila_circuit(&grid, &op).ok_or_else(|| {
+        PyValueError::new_err("grid must be a non-empty square power-of-two (2^m x 2^m) grid")
+    })?;
+    Ok(out
+        .into_iter()
+        .map(|row| row.into_iter().map(u16::from).collect())
+        .collect())
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_synthesize_grid_program(
+    train_pairs: Vec<(Vec<Vec<u8>>, Vec<Vec<u8>>)>,
+    test_input: Vec<Vec<u8>>,
+    max_depth: usize,
+) -> PyResult<(Vec<String>, Vec<Vec<u16>>)> {
+    let prog = arc_dsl::synthesize_grid_program(&train_pairs, max_depth)
+        .ok_or_else(|| PyValueError::new_err("no compositional program found within max_depth"))?;
+    let op_names: Vec<String> = prog.ops.iter().map(|op| format!("{op:?}")).collect();
+    let test_out = arc_dsl::apply_program(&test_input, &prog)
+        .into_iter()
+        .map(|row| row.into_iter().map(u16::from).collect())
+        .collect();
+    Ok((op_names, test_out))
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_find_first_n_riemann_zeros<'py>(
+    py: Python<'py>,
+    count: usize,
+) -> PyResult<Bound<'py, PyList>> {
+    let zeros = riemann_spectral::find_first_n_riemann_zeros(count);
+    let list = PyList::empty(py);
+    for z in zeros {
+        let d = PyDict::new(py);
+        d.set_item("index", z.index)?;
+        d.set_item("gamma", z.gamma)?;
+        d.set_item("hardy_z_exact", z.hardy_z_exact)?;
+        d.set_item("hardy_z_riemann_siegel_c2", z.hardy_z_riemann_siegel_c2)?;
+        d.set_item("hardy_z_riemann_siegel_c4", z.hardy_z_riemann_siegel_c4)?;
+        d.set_item("zeta_abs", z.zeta_abs)?;
+        d.set_item("borwein_zeta_abs", z.borwein_zeta_abs)?;
+        d.set_item("z_prime", z.z_prime)?;
+        d.set_item("jensen_polya_j", z.jensen_polya_j)?;
+        list.append(d)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_madelung_bohm_jensen_polya<'py>(
+    py: Python<'py>,
+    gamma: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = riemann_spectral::evaluate_madelung_bohm_jensen_polya(gamma);
+    let d = PyDict::new(py);
+    d.set_item("gamma", a.gamma)?;
+    d.set_item("z0", a.z0)?;
+    d.set_item("z_prime", a.z_prime)?;
+    d.set_item("z_double_prime", a.z_double_prime)?;
+    d.set_item("j_osmotic", a.j_osmotic)?;
+    d.set_item("j_bohm", a.j_bohm)?;
+    d.set_item("j_total", a.j_total)?;
+    d.set_item("bohm_ratio", a.bohm_ratio)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_gram_law_and_lehmer<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let grams = riemann_spectral::audit_gram_law_window();
+    let gram_list = PyList::empty(py);
+    for g in grams {
+        let gd = PyDict::new(py);
+        gd.set_item("gram_index", g.gram_index)?;
+        gd.set_item("gram_holds", g.gram_holds)?;
+        gd.set_item("gamma", g.point.gamma)?;
+        gd.set_item("z0", g.point.z0)?;
+        gd.set_item("z_prime", g.point.z_prime)?;
+        gd.set_item("z_double_prime", g.point.z_double_prime)?;
+        gd.set_item("j_osmotic", g.point.j_osmotic)?;
+        gd.set_item("j_bohm", g.point.j_bohm)?;
+        gd.set_item("j_total", g.point.j_total)?;
+        gd.set_item("bohm_ratio", g.point.bohm_ratio)?;
+        gram_list.append(gd)?;
+    }
+    let lehmer = riemann_spectral::audit_lehmer_1956_pair();
+    let ld = PyDict::new(py);
+    ld.set_item("gamma_left", lehmer.gamma_left)?;
+    ld.set_item("gamma_right", lehmer.gamma_right)?;
+    ld.set_item("gap", lehmer.gap)?;
+    ld.set_item("extremum_gamma", lehmer.extremum.gamma)?;
+    ld.set_item("z0", lehmer.extremum.z0)?;
+    ld.set_item("z_prime", lehmer.extremum.z_prime)?;
+    ld.set_item("z_double_prime", lehmer.extremum.z_double_prime)?;
+    ld.set_item("j_osmotic", lehmer.extremum.j_osmotic)?;
+    ld.set_item("j_bohm", lehmer.extremum.j_bohm)?;
+    ld.set_item("j_total", lehmer.extremum.j_total)?;
+    ld.set_item("bohm_ratio", lehmer.extremum.bohm_ratio)?;
+
+    let out = PyDict::new(py);
+    out.set_item("gram_window", gram_list)?;
+    out.set_item("lehmer_1956", ld)?;
+    Ok(out)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_compare_rs_c2_vs_c4<'py>(py: Python<'py>, t: f64) -> PyResult<Bound<'py, PyDict>> {
+    let c2 = riemann_spectral::hardy_z_riemann_siegel(t);
+    let c4_jet = riemann_spectral::hardy_z_riemann_siegel_c4_jet(t);
+    let d = PyDict::new(py);
+    d.set_item("t", t)?;
+    d.set_item("z_rs_c2", c2)?;
+    d.set_item("z_rs_c4", c4_jet.v)?;
+    d.set_item("z_prime_rs_c4", c4_jet.d1)?;
+    d.set_item("z_double_prime_rs_c4", c4_jet.d2)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_regular_graphs_bass_ihara<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyList>> {
+    let graphs = [
+        riemann_spectral::k33_graph_6(),
+        riemann_spectral::petersen_graph_10(),
+        riemann_spectral::heawood_graph_14(),
+        riemann_spectral::mobius_kantor_graph_16(),
+        riemann_spectral::barbell_non_ramanujan_14(),
+    ];
+    let list = PyList::empty(py);
+    for (name, deg, adj) in &graphs {
+        let rep = riemann_spectral::analyze_regular_graph_bass_ihara(name, *deg, adj);
+        let d = PyDict::new(py);
+        d.set_item("name", rep.name)?;
+        d.set_item("vertices", rep.vertices)?;
+        d.set_item("degree", rep.degree)?;
+        d.set_item("q", rep.q)?;
+        d.set_item("is_regular", rep.is_regular)?;
+        d.set_item("is_connected", rep.is_connected)?;
+        d.set_item("ramanujan_bound", rep.ramanujan_bound)?;
+        d.set_item("eigenvalues", rep.eigenvalues)?;
+        d.set_item(
+            "max_nontrivial_abs_eigenvalue",
+            rep.max_nontrivial_abs_eigenvalue,
+        )?;
+        d.set_item("markov_spectral_gap", rep.markov_spectral_gap)?;
+        d.set_item("ramanujan_margin", rep.ramanujan_margin)?;
+        d.set_item("is_ramanujan", rep.is_ramanujan)?;
+        d.set_item("nontrivial_off_circle_count", rep.nontrivial_off_circle_count)?;
+        let roots_list = PyList::empty(py);
+        for r in rep.roots {
+            let rd = PyDict::new(py);
+            rd.set_item("eigenvalue", r.eigenvalue)?;
+            rd.set_item("u_re", r.u_re)?;
+            rd.set_item("u_im", r.u_im)?;
+            rd.set_item("modulus_sq", r.modulus_sq)?;
+            rd.set_item("is_trivial", r.is_trivial)?;
+            rd.set_item("on_critical_circle", r.on_critical_circle)?;
+            roots_list.append(rd)?;
+        }
+        d.set_item("roots", roots_list)?;
+        list.append(d)?;
+    }
+    Ok(list)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[pyo3(signature = (critical_gammas, max_n, off_line_sigma_dev=None, off_line_gamma=None))]
+fn py_li_partial_coefficients(
+    critical_gammas: Vec<f64>,
+    max_n: usize,
+    off_line_sigma_dev: Option<f64>,
+    off_line_gamma: Option<f64>,
+) -> Vec<f64> {
+    let quartet = match (off_line_sigma_dev, off_line_gamma) {
+        (Some(s), Some(g)) => Some((s, g)),
+        _ => None,
+    };
+    riemann_spectral::li_partial_coefficients(&critical_gammas, max_n, quartet)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_celestial_holography_and_turner_graviton<'py>(
+    py: Python<'py>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let rep = riemann_spectral::audit_celestial_holography_and_turner_graviton();
+    let d = PyDict::new(py);
+    d.set_item("plancherel_bose_max_diff", rep.plancherel_bose_max_diff)?;
+    d.set_item("m1_quadrature", rep.m1_quadrature)?;
+    d.set_item("m1_exact", rep.m1_exact)?;
+    d.set_item("m1_abs_error", rep.m1_abs_error)?;
+    d.set_item("m2_quadrature", rep.m2_quadrature)?;
+    d.set_item("m2_exact", rep.m2_exact)?;
+    d.set_item("m2_abs_error", rep.m2_abs_error)?;
+    d.set_item("m3_quadrature", rep.m3_quadrature)?;
+    d.set_item("m3_reference", rep.m3_reference)?;
+    d.set_item("m3_abs_error", rep.m3_abs_error)?;
+    d.set_item("m3_upper_bound", rep.m3_upper_bound)?;
+    d.set_item("m3_even_part", rep.m3_even_part)?;
+    d.set_item("m3_odd_excess", rep.m3_odd_excess)?;
+    d.set_item(
+        "plancherel_two_loop_deficit_coeff",
+        rep.plancherel_two_loop_deficit_coeff,
+    )?;
+    d.set_item(
+        "googly_principal_series_rel_err",
+        rep.googly_principal_series_rel_err,
+    )?;
+    d.set_item(
+        "googly_off_line_symmetry_breaking",
+        rep.googly_off_line_symmetry_breaking,
+    )?;
+    d.set_item("gr24_f2_points", rep.gr24_f2_points)?;
+    d.set_item("gr24_f3_points", rep.gr24_f3_points)?;
+    d.set_item("gr24_f5_points", rep.gr24_f5_points)?;
+    d.set_item("gr24_f7_points", rep.gr24_f7_points)?;
+    d.set_item("gr24_rref_matches_polynomial", rep.gr24_rref_matches_polynomial)?;
+    d.set_item("cesaro_at_half", rep.cesaro_at_half)?;
+    d.set_item("cesaro_at_quarter", rep.cesaro_at_quarter)?;
+    d.set_item("cesaro_at_three_quarters", rep.cesaro_at_three_quarters)?;
+    d.set_item("cesaro_even_symmetry_diff", rep.cesaro_even_symmetry_diff)?;
+    d.set_item(
+        "turner_model15_mercury_arcsec_century",
+        rep.turner_model15_mercury_arcsec_century,
+    )?;
+    d.set_item("turner_model15_rel_err_vs_gr", rep.turner_model15_rel_err_vs_gr)?;
+    d.set_item(
+        "turner_model15_solar_light_bending_arcsec",
+        rep.turner_model15_solar_light_bending_arcsec,
+    )?;
+    d.set_item(
+        "turner_model15_cayley_shadow_norm_at_half",
+        rep.turner_model15_cayley_shadow_norm_at_half,
+    )?;
+    d.set_item(
+        "turner_model15_cayley_shadow_norm_at_one",
+        rep.turner_model15_cayley_shadow_norm_at_one,
+    )?;
+    d.set_item(
+        "turner_model15a_active_laser_deflection",
+        rep.turner_model15a_active_laser_deflection,
+    )?;
+    d.set_item(
+        "turner_model15b_active_laser_deflection",
+        rep.turner_model15b_active_laser_deflection,
+    )?;
+    Ok(d)
+}
 
 #[cfg(feature = "python")]
 #[pymodule]
@@ -47,6 +517,31 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         tequila_simulator::py_simulate_noisy_density_msb,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_simulate_quantum_trajectories_mcwf_msb,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(py_verify_layer_group, m)?)?;
+    m.add_function(wrap_pyfunction!(py_verify_all_80_layer_groups, m)?)?;
+    m.add_function(wrap_pyfunction!(py_layer_group_orbit, m)?)?;
+    m.add_function(wrap_pyfunction!(py_evaluate_gram_dpp, m)?)?;
+    m.add_function(wrap_pyfunction!(py_nqueens_oracle_dpp_coverage, m)?)?;
+    m.add_function(wrap_pyfunction!(py_solve_noci_generalized, m)?)?;
+    m.add_function(wrap_pyfunction!(py_benchmark_stretched_h2_noci, m)?)?;
+    m.add_function(wrap_pyfunction!(py_run_ebr_nqueens_benchmark, m)?)?;
+    m.add_function(wrap_pyfunction!(py_extract_grid_objects, m)?)?;
+    m.add_function(wrap_pyfunction!(py_apply_d4_grid_op_tequila, m)?)?;
+    m.add_function(wrap_pyfunction!(py_synthesize_grid_program, m)?)?;
+    m.add_function(wrap_pyfunction!(py_find_first_n_riemann_zeros, m)?)?;
+    m.add_function(wrap_pyfunction!(py_compare_rs_c2_vs_c4, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_madelung_bohm_jensen_polya, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_gram_law_and_lehmer, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_regular_graphs_bass_ihara, m)?)?;
+    m.add_function(wrap_pyfunction!(py_li_partial_coefficients, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_celestial_holography_and_turner_graviton,
         m
     )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;

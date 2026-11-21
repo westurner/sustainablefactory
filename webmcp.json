@@ -22,12 +22,15 @@
       "gaussian-splat-tensors-normed-paper",
       "glossary",
       "grassmannian-ads-cft-ddf-paper",
+      "grassmannian-celestial-holography-graviton-turner-riemann-paper",
       "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
       "grassmannian-cuprate-superconductivity-paper",
       "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
       "grassmannian-ddf-moving-sheath-paper",
       "grassmannian-enz-hyperbolic-metamaterials-paper",
       "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper",
+      "grassmannian-gebr-chat-porting-plan",
+      "grassmannian-gebr-layer-groups-dpp-noci-arc-paper",
       "grassmannian-gravity-from-qed-scattering-paper",
       "grassmannian-hawking-radiation-decoding-paper",
       "grassmannian-holographic-imaging-depth-recovery-paper",
@@ -56,6 +59,7 @@
       "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
       "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
       "grassmannian-rhombohedral-graphene-superconductivity-qc-paper",
+      "grassmannian-riemann-spectral-ihara-jensen-polya-paper",
       "grassmannian-riscv-holographic-nanolithography-kicad-paper",
       "grassmannian-semi-dirac-fermions-ddf-paper",
       "grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper",
@@ -85,6 +89,7 @@
       "references",
       "research_brief_carbothermic_ultrasonic",
       "rhombohedral-graphene-superconductivity-plan",
+      "riemann-spectral-bridges-plan",
       "schema",
       "search",
       "signals-blueprint",
@@ -200105,6 +200110,137 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-celestial-holography-graviton-turner-riemann-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "celestial-holography-the-canonical-dictionary-delta-2s-plancherelunruh-graviton-loop-weights-m-1-1-8-m-2-1-90-and-integrated-turner-models-15a-15b-for-gravitons-and-riemann-spectral-bridges-in-lean-4-rust-pyo3-and-sympy",
+              "grassmannian-celestial-holography-graviton-turner-riemann-paper"
+            ],
+            "level": 1,
+            "title": "Celestial Holography, the Canonical Dictionary (\\Delta = 2s), Plancherel\u2013Unruh Graviton Loop Weights (M_1 = 1/8, M_2 = 1/90), and Integrated Turner Models 15a & 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "architecture-what-we-learn-from-celestial-holography-touqga-2-pdf-vs-our-recent-papers"
+            ],
+            "level": 2,
+            "title": "1. Architecture: What We Learn from Celestial Holography (TOUQGA-2.pdf) vs. Our Recent Papers"
+          },
+          {
+            "ids": [
+              "five-machine-checked-mathematical-physical-discoveries-from-celestial-holography-signals-riemannspectral-section-11"
+            ],
+            "level": 2,
+            "title": "2. Five Machine-Checked Mathematical & Physical Discoveries from Celestial Holography (Signals.RiemannSpectral Section 11)"
+          },
+          {
+            "ids": [
+              "why-delta-2s-and-why-four-spacetime-dimensions-d-4-are-uniquely-selected"
+            ],
+            "level": 3,
+            "title": "2.1 Why \\Delta = 2s and Why Four Spacetime Dimensions (d = 4) Are Uniquely Selected"
+          },
+          {
+            "ids": [
+              "chiral-mathfrak-sl-2-mathbb-c-casimir-eigenvalue-reality-on-the-critical-line"
+            ],
+            "level": 3,
+            "title": "2.2 Chiral \\mathfrak{sl}(2, \\mathbb{C}) Casimir Eigenvalue Reality on the Critical Line"
+          },
+          {
+            "ids": [
+              "hasseweil-zeta-factorization-of-mathrm-gr-2-4-over-mathbb-f-q-and-self-dual-middle-cohomology-b-4-2"
+            ],
+            "level": 3,
+            "title": "2.3 Hasse\u2013Weil Zeta Factorization of \\mathrm{Gr}(2,4) Over \\mathbb{F}_q and Self-Dual Middle Cohomology (b_4 = 2)"
+          },
+          {
+            "ids": [
+              "the-plancherelunruh-blackbody-law-rational-m-1-1-8-m-2-1-90-and-compact-interval-3-loop-m-3-reduction"
+            ],
+            "level": 3,
+            "title": "2.4 The Plancherel\u2013Unruh Blackbody Law, Rational M_1 = 1/8, M_2 = 1/90, and Compact-Interval 3-Loop M_3 Reduction"
+          },
+          {
+            "ids": [
+              "constructive-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-touqga-2-pdf"
+            ],
+            "level": 2,
+            "title": "3. Constructive Epistemic Audit of the Five RH Pathways and Appendix B in TOUQGA-2.pdf"
+          },
+          {
+            "ids": [
+              "table-3-1-epistemic-audit-of-the-five-rh-pathways-and-appendix-b-in-toupin2025quantum"
+            ],
+            "level": 3,
+            "title": "Table 3.1: Epistemic Audit of the Five RH Pathways and Appendix B in toupin2025quantum"
+          },
+          {
+            "ids": [
+              "reviewing-our-turner-gravity-models-in-regards-to-gravitons-developing-integrated-turner-models-15a-15b"
+            ],
+            "level": 2,
+            "title": "4. Reviewing Our Turner Gravity Models in Regards to \u201cGravitons\u201d & Developing Integrated Turner Models 15a & 15b"
+          },
+          {
+            "ids": [
+              "how-gravitons-are-modeled-across-all-15-frameworks-in-src-signals"
+            ],
+            "level": 3,
+            "title": "4.1 How Gravitons Are Modeled Across All 15 Frameworks in src/signals"
+          },
+          {
+            "ids": [
+              "table-4-1-master-comparison-of-graviton-modeling-across-all-gravity-frameworks"
+            ],
+            "level": 3,
+            "title": "Table 4.1: Master Comparison of \u201cGraviton\u201d Modeling Across All Gravity Frameworks"
+          },
+          {
+            "ids": [
+              "critique-edge-case-analysis-and-gap-closure-fixes-turner-model-15-critique-cayley-shadow-all-loop-and-light-deflection-identities-plancherel-fourier-sech4-and-schwartz-quartic-counterexample-identities"
+            ],
+            "level": 3,
+            "title": "4.2 Critique, Edge-Case Analysis, and Gap-Closure Fixes (turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities & plancherel_fourier_sech4_and_schwartz_quartic_counterexample_identities)"
+          },
+          {
+            "ids": [
+              "reproducible-tri-language-verification-commands"
+            ],
+            "level": 2,
+            "title": "5. Reproducible Tri-Language Verification Commands"
+          },
+          {
+            "ids": [
+              "provenance-metadata-bibtex-json-ld"
+            ],
+            "level": 2,
+            "title": "6. Provenance Metadata (BibTeX & JSON-LD)"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "grassmannian-celestial-holography-graviton-turner-riemann-paper.md",
+      "title": "Celestial Holography, the Canonical Dictionary (\\Delta = 2s), Plancherel\u2013Unruh Graviton Loop Weights (M_1 = 1/8, M_2 = 1/90), and Integrated Turner Models 15a & 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy",
+      "url": "grassmannian-celestial-holography-graviton-turner-riemann-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
       "doctree": {
         "headings": [
@@ -201028,6 +201164,275 @@
       "source": "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md",
       "title": "\\mathrm{ER}=\\mathrm{EPR} in Witten\u2019s \\mathrm{SU}(4) Twistor Theory and Pl\u00fccker Coordinates on \\mathrm{Gr}_{\\mathbb{C}}(2,4): Positive-Grassmannian Light-Cone Restriction, Tachyons, Off-Shell Virtual Particles, and Massless vs. Semi-Dirac Wormhole Transit in Lean 4 and Rust",
       "url": "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.html"
+    },
+    {
+      "children": [],
+      "docname": "grassmannian-gebr-chat-porting-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "grassmannian-ebr-chat-code-porting-ledger",
+              "grassmannian-gebr-chat-porting-plan"
+            ],
+            "level": 1,
+            "title": "Grassmannian EBR Chat-Code Porting Ledger"
+          },
+          {
+            "ids": [
+              "extract-and-apply-cli"
+            ],
+            "level": 2,
+            "title": "Extract And Apply CLI"
+          },
+          {
+            "ids": [
+              "source-ordered-block-ledger"
+            ],
+            "level": 2,
+            "title": "Source-Ordered Block Ledger"
+          },
+          {
+            "ids": [
+              "ported-contracts"
+            ],
+            "level": 2,
+            "title": "Ported Contracts"
+          },
+          {
+            "ids": [
+              "reused-owners"
+            ],
+            "level": 2,
+            "title": "Reused Owners"
+          },
+          {
+            "ids": [
+              "explicit-exclusions"
+            ],
+            "level": 2,
+            "title": "Explicit Exclusions"
+          },
+          {
+            "ids": [
+              "deferred-objective-plan"
+            ],
+            "level": 2,
+            "title": "Deferred Objective Plan"
+          },
+          {
+            "ids": [
+              "objective-summary-matrix"
+            ],
+            "level": 3,
+            "title": "Objective Summary Matrix"
+          },
+          {
+            "ids": [
+              "phased-execution-plan"
+            ],
+            "level": 3,
+            "title": "Phased Execution Plan"
+          },
+          {
+            "ids": [
+              "phase-a-verified-formal-bridges-on-existing-owners-ws-1-ws-2"
+            ],
+            "level": 4,
+            "title": "Phase A \u2014 Verified Formal Bridges on Existing Owners (WS-1 & WS-2)"
+          },
+          {
+            "ids": [
+              "phase-b-exact-group-theory-psd-verified-gram-dpp-ws-3-ws-4"
+            ],
+            "level": 4,
+            "title": "Phase B \u2014 Exact Group Theory & PSD-Verified Gram DPP (WS-3 & WS-4)"
+          },
+          {
+            "ids": [
+              "phase-c-multi-reference-chemistry-ebr-harness-compositional-arc-dsl-ws-5-ws-6-ws-7"
+            ],
+            "level": 4,
+            "title": "Phase C \u2014 Multi-Reference Chemistry, EBR Harness, & Compositional ARC DSL (WS-5, WS-6, WS-7)"
+          },
+          {
+            "ids": [
+              "phase-d-dimensioned-textile-contract-isolated-finite-graph-iharaselberg-ws-8-ws-9"
+            ],
+            "level": 4,
+            "title": "Phase D \u2014 Dimensioned Textile Contract & Isolated Finite-Graph Ihara\u2013Selberg (WS-8 & WS-9)"
+          },
+          {
+            "ids": [
+              "phase-e-companion-myst-paper-pyo3-maturin-build-cross-document-sync"
+            ],
+            "level": 4,
+            "title": "Phase E \u2014 Companion MyST Paper, PyO3/Maturin Build, & Cross-Document Sync"
+          },
+          {
+            "ids": [
+              "porting-order"
+            ],
+            "level": 3,
+            "title": "Porting Order"
+          },
+          {
+            "ids": [
+              "validation"
+            ],
+            "level": 2,
+            "title": "Validation"
+          },
+          {
+            "ids": [
+              "source-record"
+            ],
+            "level": 2,
+            "title": "Source Record"
+          }
+        ]
+      },
+      "source": "grassmannian-gebr-chat-porting-plan.md",
+      "title": "Grassmannian EBR Chat-Code Porting Ledger",
+      "url": "grassmannian-gebr-chat-porting-plan.html"
+    },
+    {
+      "children": [],
+      "docname": "grassmannian-gebr-layer-groups-dpp-noci-arc-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "verified-finite-contracts-for-grassmannian-ebr-all-80-crystallographic-layer-groups-psd-slavnovgram-dpps-multi-reference-noci-tequila-compiled-grid-dsls-and-finite-graph-iharaselberg-zeta-functions-in-lean-4-rust-pyo3-maturin-and-python-sympy",
+              "grassmannian-gebr-layer-groups-dpp-noci-arc-paper"
+            ],
+            "level": 1,
+            "title": "Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov\u2013Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara\u2013Selberg Zeta Functions in Lean 4, Rust/PyO3 (maturin), and Python/SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "cross-module-reuse-architecture"
+            ],
+            "level": 2,
+            "title": "1. Cross-Module Reuse Architecture"
+          },
+          {
+            "ids": [
+              "phase-a-dimensioned-dispersion-ws-1-closed-cycle-thermodynamics-ws-2"
+            ],
+            "level": 2,
+            "title": "2. Phase A: Dimensioned Dispersion (WS-1) & Closed-Cycle Thermodynamics (WS-2)"
+          },
+          {
+            "ids": [
+              "hermitian-pauli-spinor-map-and-lorentz-boost-invariance-ws-1"
+            ],
+            "level": 3,
+            "title": "2.1 Hermitian Pauli Spinor Map and Lorentz-Boost Invariance (WS-1)"
+          },
+          {
+            "ids": [
+              "closed-cycle-conditional-landauer-qfimbures-accounting-ws-2"
+            ],
+            "level": 3,
+            "title": "2.2 Closed-Cycle Conditional Landauer & QFIM\u2013Bures Accounting (WS-2)"
+          },
+          {
+            "ids": [
+              "phase-b-exact-80-crystallographic-layer-groups-ws-3-cholesky-slavnovgram-dpp-ws-4"
+            ],
+            "level": 2,
+            "title": "3. Phase B: Exact 80 Crystallographic Layer Groups (WS-3) & Cholesky Slavnov\u2013Gram DPP (WS-4)"
+          },
+          {
+            "ids": [
+              "exhaustive-verification-of-all-80-international-tables-vol-e-layer-groups-ws-3"
+            ],
+            "level": 3,
+            "title": "3.1 Exhaustive Verification of All 80 International Tables Vol. E Layer Groups (WS-3)"
+          },
+          {
+            "ids": [
+              "psd-verified-cholesky-slavnovgram-dpp-and-raw-vs-orbifold-coverage-ws-4"
+            ],
+            "level": 3,
+            "title": "3.2 PSD-Verified Cholesky Slavnov\u2013Gram DPP and Raw vs. Orbifold Coverage (WS-4)"
+          },
+          {
+            "ids": [
+              "phase-c-multi-reference-noci-ws-5-seeded-ebr-harness-ws-6-tequila-compiled-grid-dsl-ws-7"
+            ],
+            "level": 2,
+            "title": "4. Phase C: Multi-Reference NOCI (WS-5), Seeded EBR Harness (WS-6), & Tequila-Compiled Grid DSL (WS-7)"
+          },
+          {
+            "ids": [
+              "multi-reference-noci-vs-exact-fci-and-tequila-jordanwigner-pauli-expectation-ws-5"
+            ],
+            "level": 3,
+            "title": "4.1 Multi-Reference NOCI vs. Exact FCI and Tequila Jordan\u2013Wigner Pauli Expectation (WS-5)"
+          },
+          {
+            "ids": [
+              "seeded-continuous-relaxation-ebr-benchmark-harness-ws-6"
+            ],
+            "level": 3,
+            "title": "4.2 Seeded Continuous-Relaxation EBR Benchmark Harness (WS-6)"
+          },
+          {
+            "ids": [
+              "compositional-gridop-dsl-reusing-tequila-circuits-and-multi-array-imaging-pca-invariants-ws-7"
+            ],
+            "level": 3,
+            "title": "4.3 Compositional GridOp DSL Reusing Tequila Circuits and multi_array_imaging PCA Invariants (WS-7)"
+          },
+          {
+            "ids": [
+              "phase-d-textile-gate-ws-8-isolated-finite-graph-iharaselberg-equivalence-ws-9"
+            ],
+            "level": 2,
+            "title": "5. Phase D: Textile Gate (WS-8) & Isolated Finite-Graph Ihara\u2013Selberg Equivalence (WS-9)"
+          },
+          {
+            "ids": [
+              "dimensioned-textile-observation-gate-ws-8"
+            ],
+            "level": 3,
+            "title": "5.1 Dimensioned Textile-Observation Gate (WS-8)"
+          },
+          {
+            "ids": [
+              "isolated-finite-graph-bassihara-determinant-ramanujan-critical-circle-ws-9"
+            ],
+            "level": 3,
+            "title": "5.2 Isolated Finite-Graph Bass\u2013Ihara Determinant & Ramanujan Critical Circle (WS-9)"
+          },
+          {
+            "ids": [
+              "reproducible-tri-language-verification-commands"
+            ],
+            "level": 2,
+            "title": "6. Reproducible Tri-Language Verification Commands"
+          },
+          {
+            "ids": [
+              "provenance-metadata-bibtex-json-ld"
+            ],
+            "level": 2,
+            "title": "7. Provenance Metadata (BibTeX & JSON-LD)"
+          }
+        ]
+      },
+      "source": "grassmannian-gebr-layer-groups-dpp-noci-arc-paper.md",
+      "title": "Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov\u2013Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara\u2013Selberg Zeta Functions in Lean 4, Rust/PyO3 (maturin), and Python/SymPy",
+      "url": "grassmannian-gebr-layer-groups-dpp-noci-arc-paper.html"
     },
     {
       "children": [],
@@ -205107,6 +205512,201 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-riemann-spectral-ihara-jensen-polya-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "finite-spectral-contracts-for-riemann-hypothesis-approaches-the-bassihara-ramanujan-dichotomy-5-graph-tower-14-vertex-non-ramanujan-witness-jensenpolya-transverse-qfim-stiffness-mpembatrajectorydbn-synthesis-and-high-precision-eulermaclaurin-riemannsiegel-c-4-p-jet-audits-in-lean-4-rust-pyo3-and-sympy",
+              "grassmannian-riemann-spectral-ihara-jensen-polya-paper"
+            ],
+            "level": 1,
+            "title": "Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass\u2013Ihara Ramanujan Dichotomy (5-Graph Tower & 14-Vertex Non-Ramanujan Witness), Jensen\u2013P\u00f3lya Transverse QFIM Stiffness, Mpemba\u2013Trajectory\u2013dBN Synthesis, and High-Precision Euler\u2013Maclaurin / Riemann\u2013Siegel C_4(p) Jet Audits in Lean 4, Rust/PyO3, and SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "architecture-epistemic-triage-of-the-five-chat-rh-approaches"
+            ],
+            "level": 2,
+            "title": "1. Architecture & Epistemic Triage of the Five Chat RH Approaches"
+          },
+          {
+            "ids": [
+              "solved-finite-problem-the-bassihara-ramanujan-dichotomy-and-the-14-vertex-non-ramanujan-barbell-graph-g-14"
+            ],
+            "level": 2,
+            "title": "2. Solved Finite Problem: The Bass\u2013Ihara Ramanujan Dichotomy and the 14-Vertex Non-Ramanujan Barbell Graph G_{14}"
+          },
+          {
+            "ids": [
+              "both-directions-proved-in-lean-4"
+            ],
+            "level": 3,
+            "title": "2.1 Both Directions Proved in Lean 4"
+          },
+          {
+            "ids": [
+              "explicit-14-vertex-3-regular-connected-non-ramanujan-witness-g-14-vs-petersen-and-heawood-graphs"
+            ],
+            "level": 3,
+            "title": "2.2 Explicit 14-Vertex 3-Regular Connected Non-Ramanujan Witness (G_{14}) vs. Petersen and Heawood Graphs"
+          },
+          {
+            "ids": [
+              "high-precision-rust-pyo3-evaluators-rb-1-error-minimization-jet2-cjet2-riemannsiegel-c-0-text-c-4"
+            ],
+            "level": 2,
+            "title": "3. High-Precision Rust/PyO3 Evaluators & RB-1 Error Minimization (Jet2/CJet2 + Riemann\u2013Siegel C_0\\text{..}C_4)"
+          },
+          {
+            "ids": [
+              "algorithmic-design-src-signals-numerical-adapter-src-riemann-spectral-rs"
+            ],
+            "level": 3,
+            "title": "3.1 Algorithmic Design (src/signals/numerical_adapter/src/riemann_spectral.rs)"
+          },
+          {
+            "ids": [
+              "rb-1-before-after-error-minimization-benchmarks-py-compare-rs-c2-vs-c4"
+            ],
+            "level": 3,
+            "title": "3.2 RB-1 Before/After Error-Minimization Benchmarks (py_compare_rs_c2_vs_c4)"
+          },
+          {
+            "ids": [
+              "first-30-nontrivial-zeros-cross-checked-against-35-digit-mpmath"
+            ],
+            "level": 3,
+            "title": "3.3 First 30 Nontrivial Zeros Cross-Checked Against 35-Digit mpmath"
+          },
+          {
+            "ids": [
+              "jensenpolya-transverse-qfim-stiffness-grams-law-violations-and-lehmers-1956-pair-correcting-the-chat-table"
+            ],
+            "level": 2,
+            "title": "4. Jensen\u2013P\u00f3lya Transverse QFIM Stiffness, Gram\u2019s Law Violations, and Lehmer\u2019s 1956 Pair (Correcting the Chat Table)"
+          },
+          {
+            "ids": [
+              "exact-algebraic-identities-proved-in-lean-4"
+            ],
+            "level": 3,
+            "title": "4.1 Exact Algebraic Identities Proved in Lean 4"
+          },
+          {
+            "ids": [
+              "exact-35-digit-mpmath-rust-audit-vs-uncomputed-chat-table"
+            ],
+            "level": 3,
+            "title": "4.2 Exact 35-Digit mpmath & Rust Audit vs. Uncomputed Chat Table"
+          },
+          {
+            "ids": [
+              "lis-unit-circle-criterion-and-why-finite-zero-audits-do-not-close-classical-rh"
+            ],
+            "level": 2,
+            "title": "5. Li\u2019s Unit-Circle Criterion and Why Finite Zero Audits Do Not Close Classical RH"
+          },
+          {
+            "ids": [
+              "machine-checked-unit-circle-equivalence-off-line-splitting"
+            ],
+            "level": 3,
+            "title": "5.1 Machine-Checked Unit-Circle Equivalence & Off-Line Splitting"
+          },
+          {
+            "ids": [
+              "formal-pending-boundary-signals-pending-riemannhypothesispendingboundary"
+            ],
+            "level": 3,
+            "title": "5.2 Formal Pending Boundary (Signals.Pending.RiemannHypothesisPendingBoundary)"
+          },
+          {
+            "ids": [
+              "sympy-arbitrary-precision-analytical-bridge-probes-riemann-rh-bridges-py-signals-riemannspectral-sections-79"
+            ],
+            "level": 2,
+            "title": "6. SymPy & Arbitrary-Precision Analytical-Bridge Probes (riemann_rh_bridges.py & Signals.RiemannSpectral Sections 7\u20139)"
+          },
+          {
+            "ids": [
+              "griffinonorolenzagier-pnas-2019-positive-integral-jensen-polynomials-d-2-text-6"
+            ],
+            "level": 3,
+            "title": "6.1 Griffin\u2013Ono\u2013Rolen\u2013Zagier (PNAS 2019) Positive-Integral Jensen Polynomials (d = 2\\text{..}6)"
+          },
+          {
+            "ids": [
+              "exact-infinite-zero-keiperli-coefficients-via-ln-2-xi-1-z"
+            ],
+            "level": 3,
+            "title": "6.2 Exact Infinite-Zero Keiper\u2013Li Coefficients via \\ln(2\\xi(1+z))"
+          },
+          {
+            "ids": [
+              "digit-weil-explicit-formula-gaussian-gram-matrix-prime-archimedean-vs-zero-side"
+            ],
+            "level": 3,
+            "title": "6.3 50-Digit Weil Explicit-Formula Gaussian Gram Matrix (Prime + Archimedean vs. Zero Side)"
+          },
+          {
+            "ids": [
+              "de-bruijnnewman-backward-heat-flow-collision-time-on-lehmers-1956-pair"
+            ],
+            "level": 3,
+            "title": "6.4 De Bruijn\u2013Newman Backward Heat-Flow Collision Time on Lehmer\u2019s 1956 Pair"
+          },
+          {
+            "ids": [
+              "finite-grassmannian-lift-of-the-quartic-de-bruijnnewman-heat-jet"
+            ],
+            "level": 3,
+            "title": "6.5 Finite Grassmannian Lift of the Quartic de Bruijn\u2013Newman Heat Jet"
+          },
+          {
+            "ids": [
+              "native-rust-f64-cross-check-plan"
+            ],
+            "level": 4,
+            "title": "Native Rust f64 Cross-Check Plan"
+          },
+          {
+            "ids": [
+              "reproducible-tri-language-verification-commands"
+            ],
+            "level": 2,
+            "title": "7. Reproducible Tri-Language Verification Commands"
+          },
+          {
+            "ids": [
+              "scholarly-references",
+              "rh-scholarly-references"
+            ],
+            "level": 3,
+            "title": "Scholarly References"
+          },
+          {
+            "ids": [
+              "provenance-metadata-bibtex-json-ld"
+            ],
+            "level": 2,
+            "title": "8. Provenance Metadata (BibTeX & JSON-LD)"
+          }
+        ]
+      },
+      "source": "grassmannian-riemann-spectral-ihara-jensen-polya-paper.md",
+      "title": "Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass\u2013Ihara Ramanujan Dichotomy (5-Graph Tower & 14-Vertex Non-Ramanujan Witness), Jensen\u2013P\u00f3lya Transverse QFIM Stiffness, Mpemba\u2013Trajectory\u2013dBN Synthesis, and High-Precision Euler\u2013Maclaurin / Riemann\u2013Siegel C_4(p) Jet Audits in Lean 4, Rust/PyO3, and SymPy",
+      "url": "grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-riscv-holographic-nanolithography-kicad-paper",
       "doctree": {
         "headings": [
@@ -207554,12 +208154,15 @@
         "gaussian-splat-tensors-normed-paper",
         "glossary",
         "grassmannian-ads-cft-ddf-paper",
+        "grassmannian-celestial-holography-graviton-turner-riemann-paper",
         "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
         "grassmannian-cuprate-superconductivity-paper",
         "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
         "grassmannian-ddf-moving-sheath-paper",
         "grassmannian-enz-hyperbolic-metamaterials-paper",
         "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper",
+        "grassmannian-gebr-chat-porting-plan",
+        "grassmannian-gebr-layer-groups-dpp-noci-arc-paper",
         "grassmannian-gravity-from-qed-scattering-paper",
         "grassmannian-hawking-radiation-decoding-paper",
         "grassmannian-holographic-imaging-depth-recovery-paper",
@@ -207588,6 +208191,7 @@
         "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
         "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
         "grassmannian-rhombohedral-graphene-superconductivity-qc-paper",
+        "grassmannian-riemann-spectral-ihara-jensen-polya-paper",
         "grassmannian-riscv-holographic-nanolithography-kicad-paper",
         "grassmannian-semi-dirac-fermions-ddf-paper",
         "grassmannian-semi-dirac-klein-transistor-hyperbolic-thz-thermoelectric-kicad-paper",
@@ -207617,6 +208221,7 @@
         "references",
         "research_brief_carbothermic_ultrasonic",
         "rhombohedral-graphene-superconductivity-plan",
+        "riemann-spectral-bridges-plan",
         "schema",
         "search",
         "signals-blueprint",
@@ -209196,6 +209801,151 @@
       "source": "rhombohedral-graphene-superconductivity-plan.md",
       "title": "Written Plan: Solving Superconductivity, QAHE/FQAH, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moir\u00e9 Graphene via Unified Grassmannian Mechanics (G-MGS)",
       "url": "rhombohedral-graphene-superconductivity-plan.html"
+    },
+    {
+      "children": [],
+      "docname": "riemann-spectral-bridges-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "written-plan-error-minimization-mpembatrajectory-synthesis-and-phased-workstreams-rb-1rb-6-for-the-remaining-riemann-hypothesis-analytical-bridges",
+              "riemann-spectral-bridges-plan"
+            ],
+            "level": 1,
+            "title": "Written Plan: Error Minimization, Mpemba\u2013Trajectory Synthesis, and Phased Workstreams (RB-1\u2013RB-6) for the Remaining Riemann Hypothesis Analytical Bridges"
+          },
+          {
+            "ids": [
+              "epistemic-scope-what-can-be-proved-minimized-now-vs-open-millennium-bridges"
+            ],
+            "level": 2,
+            "title": "1. Epistemic Scope: What Can Be Proved & Minimized Now vs. Open Millennium Bridges"
+          },
+          {
+            "ids": [
+              "synthesis-connecting-the-de-bruijnnewman-lehmer-collision-theorem-to-mpemba-relaxation-and-three-channel-quantum-trajectories"
+            ],
+            "level": 2,
+            "title": "2. Synthesis: Connecting the De Bruijn\u2013Newman Lehmer Collision Theorem to Mpemba Relaxation and Three-Channel Quantum Trajectories"
+          },
+          {
+            "ids": [
+              "quantitative-error-minimization-budget"
+            ],
+            "level": 2,
+            "title": "3. Quantitative Error-Minimization Budget"
+          },
+          {
+            "ids": [
+              "phased-implementation-workstreams-rb-1-through-rb-6"
+            ],
+            "level": 2,
+            "title": "4. Phased Implementation Workstreams (RB-1 Through RB-6)"
+          },
+          {
+            "ids": [
+              "rb-1-rust-pyo3-precision-upgrades-c-3-c-4-riemannsiegel-exact-analytic-z-z"
+            ],
+            "level": 3,
+            "title": "RB-1: Rust/PyO3 Precision Upgrades (C_3/C_4 Riemann\u2013Siegel & Exact Analytic Z', Z'')"
+          },
+          {
+            "ids": [
+              "rb-2-lean-4-quartic-de-bruijnnewman-heat-pde-strong-mpemba-slow-mode-projection-multi-zero-calogeromoser"
+            ],
+            "level": 3,
+            "title": "RB-2: Lean 4 Quartic de Bruijn\u2013Newman Heat PDE, Strong Mpemba Slow-Mode Projection, & Multi-Zero Calogero\u2013Moser"
+          },
+          {
+            "ids": [
+              "rb-3-sympy-mpmath-orthonormal-hermitegaussian-weil-gram-conditioning-gorz-d-2-text-8-multi-zero-lehmer-neighbor-audit"
+            ],
+            "level": 3,
+            "title": "RB-3: SymPy / mpmath Orthonormal Hermite\u2013Gaussian Weil Gram Conditioning, GORZ d = 2\\text{..}8, & Multi-Zero Lehmer Neighbor Audit"
+          },
+          {
+            "ids": [
+              "rb-4-finite-graph-ramanujan-tower-vs-non-ramanujan-mixing-spectral-gap-diagnostics"
+            ],
+            "level": 3,
+            "title": "RB-4: Finite-Graph Ramanujan Tower vs. Non-Ramanujan Mixing & Spectral-Gap Diagnostics"
+          },
+          {
+            "ids": [
+              "rb-5-sphinxcontrib-bibtex-cite-p-migration-paper-integration"
+            ],
+            "level": 3,
+            "title": "RB-5: sphinxcontrib-bibtex {cite:p} Migration & Paper Integration"
+          },
+          {
+            "ids": [
+              "rb-6-open-infinite-dimensional-millennium-problem-bridges-signals-pending-epistemic-gate"
+            ],
+            "level": 3,
+            "title": "RB-6: Open Infinite-Dimensional Millennium-Problem Bridges (Signals.Pending Epistemic Gate)"
+          },
+          {
+            "ids": [
+              "literature-status-and-existing-partial-results-reviewed-2026-11-19"
+            ],
+            "level": 2,
+            "title": "5. Literature Status and Existing Partial Results (Reviewed 2026-11-19)"
+          },
+          {
+            "ids": [
+              "scholarly-references"
+            ],
+            "level": 3,
+            "title": "Scholarly References"
+          },
+          {
+            "ids": [
+              "rb-6-finite-contract-problem-definitions"
+            ],
+            "level": 2,
+            "title": "6. RB-6 Finite Contract Problem Definitions"
+          },
+          {
+            "ids": [
+              "contract-1-bounded-quartic-heat-on-a-finite-box"
+            ],
+            "level": 3,
+            "title": "Contract 1: Bounded Quartic Heat on a Finite Box"
+          },
+          {
+            "ids": [
+              "contract-2-finite-diagonal-transfer-error-and-spectral-margin"
+            ],
+            "level": 3,
+            "title": "Contract 2: Finite Diagonal Transfer Error and Spectral Margin"
+          },
+          {
+            "ids": [
+              "contract-3-positivity-of-a-finite-li-prefix"
+            ],
+            "level": 3,
+            "title": "Contract 3: Positivity of a Finite Li Prefix"
+          },
+          {
+            "ids": [
+              "contract-4-finite-diagonal-spectral-model"
+            ],
+            "level": 3,
+            "title": "Contract 4: Finite Diagonal Spectral Model"
+          },
+          {
+            "ids": [
+              "finite-to-global-promotion-gate"
+            ],
+            "level": 3,
+            "title": "Finite-to-Global Promotion Gate"
+          }
+        ]
+      },
+      "source": "riemann-spectral-bridges-plan.md",
+      "title": "Written Plan: Error Minimization, Mpemba\u2013Trajectory Synthesis, and Phased Workstreams (RB-1\u2013RB-6) for the Remaining Riemann Hypothesis Analytical Bridges",
+      "url": "riemann-spectral-bridges-plan.html"
     },
     {
       "children": [],

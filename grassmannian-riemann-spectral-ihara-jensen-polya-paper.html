@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel \(C_4(p)\) Jet Audits in Lean 4, Rust/PyO3, and SymPy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html" />
+    <link rel="prev" title="Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (RB-1–RB-6) for the Remaining Riemann Hypothesis Analytical Bridges" href="riemann-spectral-bridges-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel <span class="math notranslate nohighlight">\(C_4(p)\)</span> Jet Audits in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-epistemic-triage-of-the-five-chat-rh-approaches">1. Architecture &amp; Epistemic Triage of the Five Chat RH Approaches</a></li>
+<li><a class="reference internal" href="#solved-finite-problem-the-bassihara-ramanujan-dichotomy-and-the-14-vertex-non-ramanujan-barbell-graph-g-14">2. Solved Finite Problem: The Bass–Ihara Ramanujan Dichotomy and the 14-Vertex Non-Ramanujan Barbell Graph <span class="math notranslate nohighlight">\(G_{14}\)</span></a><ul>
+<li><a class="reference internal" href="#both-directions-proved-in-lean-4">2.1 Both Directions Proved in Lean 4</a></li>
+<li><a class="reference internal" href="#explicit-14-vertex-3-regular-connected-non-ramanujan-witness-g-14-vs-petersen-and-heawood-graphs">2.2 Explicit 14-Vertex 3-Regular Connected Non-Ramanujan Witness (<span class="math notranslate nohighlight">\(G_{14}\)</span>) vs. Petersen and Heawood Graphs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#high-precision-rust-pyo3-evaluators-rb-1-error-minimization-jet2-cjet2-riemannsiegel-c-0-text-c-4">3. High-Precision Rust/PyO3 Evaluators &amp; <code class="docutils literal notranslate"><span class="pre">RB-1</span></code> Error Minimization (<code class="docutils literal notranslate"><span class="pre">Jet2</span></code>/<code class="docutils literal notranslate"><span class="pre">CJet2</span></code> + Riemann–Siegel <span class="math notranslate nohighlight">\(C_0\text{..}C_4\)</span>)</a><ul>
+<li><a class="reference internal" href="#algorithmic-design-src-signals-numerical-adapter-src-riemann-spectral-rs">3.1 Algorithmic Design (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/riemann_spectral.rs</span></code>)</a></li>
+<li><a class="reference internal" href="#rb-1-before-after-error-minimization-benchmarks-py-compare-rs-c2-vs-c4">3.2 <code class="docutils literal notranslate"><span class="pre">RB-1</span></code> Before/After Error-Minimization Benchmarks (<code class="docutils literal notranslate"><span class="pre">py_compare_rs_c2_vs_c4</span></code>)</a></li>
+<li><a class="reference internal" href="#first-30-nontrivial-zeros-cross-checked-against-35-digit-mpmath">3.3 First 30 Nontrivial Zeros Cross-Checked Against 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#jensenpolya-transverse-qfim-stiffness-grams-law-violations-and-lehmers-1956-pair-correcting-the-chat-table">4. Jensen–Pólya Transverse QFIM Stiffness, Gram’s Law Violations, and Lehmer’s 1956 Pair (Correcting the Chat Table)</a><ul>
+<li><a class="reference internal" href="#exact-algebraic-identities-proved-in-lean-4">4.1 Exact Algebraic Identities Proved in Lean 4</a></li>
+<li><a class="reference internal" href="#exact-35-digit-mpmath-rust-audit-vs-uncomputed-chat-table">4.2 Exact 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> &amp; Rust Audit vs. Uncomputed Chat Table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lis-unit-circle-criterion-and-why-finite-zero-audits-do-not-close-classical-rh">5. Li’s Unit-Circle Criterion and Why Finite Zero Audits Do Not Close Classical RH</a><ul>
+<li><a class="reference internal" href="#machine-checked-unit-circle-equivalence-off-line-splitting">5.1 Machine-Checked Unit-Circle Equivalence &amp; Off-Line Splitting</a></li>
+<li><a class="reference internal" href="#formal-pending-boundary-signals-pending-riemannhypothesispendingboundary">5.2 Formal Pending Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.RiemannHypothesisPendingBoundary</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sympy-arbitrary-precision-analytical-bridge-probes-riemann-rh-bridges-py-signals-riemannspectral-sections-79">6. SymPy &amp; Arbitrary-Precision Analytical-Bridge Probes (<code class="docutils literal notranslate"><span class="pre">riemann_rh_bridges.py</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Sections 7–9)</a><ul>
+<li><a class="reference internal" href="#griffinonorolenzagier-pnas-2019-positive-integral-jensen-polynomials-d-2-text-6">6.1 Griffin–Ono–Rolen–Zagier (PNAS 2019) Positive-Integral Jensen Polynomials (<span class="math notranslate nohighlight">\(d = 2\text{..}6\)</span>)</a></li>
+<li><a class="reference internal" href="#exact-infinite-zero-keiperli-coefficients-via-ln-2-xi-1-z">6.2 Exact Infinite-Zero Keiper–Li Coefficients via <span class="math notranslate nohighlight">\(\ln(2\xi(1+z))\)</span></a></li>
+<li><a class="reference internal" href="#digit-weil-explicit-formula-gaussian-gram-matrix-prime-archimedean-vs-zero-side">6.3 50-Digit Weil Explicit-Formula Gaussian Gram Matrix (Prime + Archimedean vs. Zero Side)</a></li>
+<li><a class="reference internal" href="#de-bruijnnewman-backward-heat-flow-collision-time-on-lehmers-1956-pair">6.4 De Bruijn–Newman Backward Heat-Flow Collision Time on Lehmer’s 1956 Pair</a></li>
+<li><a class="reference internal" href="#finite-grassmannian-lift-of-the-quartic-de-bruijnnewman-heat-jet">6.5 Finite Grassmannian Lift of the Quartic de Bruijn–Newman Heat Jet</a><ul>
+<li><a class="reference internal" href="#native-rust-f64-cross-check-plan">Native Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> Cross-Check Plan</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-tri-language-verification-commands">7. Reproducible Tri-Language Verification Commands</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">8. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="riemann-spectral-bridges-plan.html" title="Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (RB-1–RB-6) for the Remaining Riemann Hypothesis Analytical Bridges" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html" title="Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-riemann-spectral-ihara-jensen-polya-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel <span class="math notranslate nohighlight">\(C_4(p)\)</span> Jet Audits in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#architecture-epistemic-triage-of-the-five-chat-rh-approaches">1. Architecture &amp; Epistemic Triage of the Five Chat RH Approaches</a></li>
+<li><a class="reference internal" href="#solved-finite-problem-the-bassihara-ramanujan-dichotomy-and-the-14-vertex-non-ramanujan-barbell-graph-g-14">2. Solved Finite Problem: The Bass–Ihara Ramanujan Dichotomy and the 14-Vertex Non-Ramanujan Barbell Graph <span class="math notranslate nohighlight">\(G_{14}\)</span></a><ul>
+<li><a class="reference internal" href="#both-directions-proved-in-lean-4">2.1 Both Directions Proved in Lean 4</a></li>
+<li><a class="reference internal" href="#explicit-14-vertex-3-regular-connected-non-ramanujan-witness-g-14-vs-petersen-and-heawood-graphs">2.2 Explicit 14-Vertex 3-Regular Connected Non-Ramanujan Witness (<span class="math notranslate nohighlight">\(G_{14}\)</span>) vs. Petersen and Heawood Graphs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#high-precision-rust-pyo3-evaluators-rb-1-error-minimization-jet2-cjet2-riemannsiegel-c-0-text-c-4">3. High-Precision Rust/PyO3 Evaluators &amp; <code class="docutils literal notranslate"><span class="pre">RB-1</span></code> Error Minimization (<code class="docutils literal notranslate"><span class="pre">Jet2</span></code>/<code class="docutils literal notranslate"><span class="pre">CJet2</span></code> + Riemann–Siegel <span class="math notranslate nohighlight">\(C_0\text{..}C_4\)</span>)</a><ul>
+<li><a class="reference internal" href="#algorithmic-design-src-signals-numerical-adapter-src-riemann-spectral-rs">3.1 Algorithmic Design (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/riemann_spectral.rs</span></code>)</a></li>
+<li><a class="reference internal" href="#rb-1-before-after-error-minimization-benchmarks-py-compare-rs-c2-vs-c4">3.2 <code class="docutils literal notranslate"><span class="pre">RB-1</span></code> Before/After Error-Minimization Benchmarks (<code class="docutils literal notranslate"><span class="pre">py_compare_rs_c2_vs_c4</span></code>)</a></li>
+<li><a class="reference internal" href="#first-30-nontrivial-zeros-cross-checked-against-35-digit-mpmath">3.3 First 30 Nontrivial Zeros Cross-Checked Against 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#jensenpolya-transverse-qfim-stiffness-grams-law-violations-and-lehmers-1956-pair-correcting-the-chat-table">4. Jensen–Pólya Transverse QFIM Stiffness, Gram’s Law Violations, and Lehmer’s 1956 Pair (Correcting the Chat Table)</a><ul>
+<li><a class="reference internal" href="#exact-algebraic-identities-proved-in-lean-4">4.1 Exact Algebraic Identities Proved in Lean 4</a></li>
+<li><a class="reference internal" href="#exact-35-digit-mpmath-rust-audit-vs-uncomputed-chat-table">4.2 Exact 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> &amp; Rust Audit vs. Uncomputed Chat Table</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lis-unit-circle-criterion-and-why-finite-zero-audits-do-not-close-classical-rh">5. Li’s Unit-Circle Criterion and Why Finite Zero Audits Do Not Close Classical RH</a><ul>
+<li><a class="reference internal" href="#machine-checked-unit-circle-equivalence-off-line-splitting">5.1 Machine-Checked Unit-Circle Equivalence &amp; Off-Line Splitting</a></li>
+<li><a class="reference internal" href="#formal-pending-boundary-signals-pending-riemannhypothesispendingboundary">5.2 Formal Pending Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.RiemannHypothesisPendingBoundary</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sympy-arbitrary-precision-analytical-bridge-probes-riemann-rh-bridges-py-signals-riemannspectral-sections-79">6. SymPy &amp; Arbitrary-Precision Analytical-Bridge Probes (<code class="docutils literal notranslate"><span class="pre">riemann_rh_bridges.py</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Sections 7–9)</a><ul>
+<li><a class="reference internal" href="#griffinonorolenzagier-pnas-2019-positive-integral-jensen-polynomials-d-2-text-6">6.1 Griffin–Ono–Rolen–Zagier (PNAS 2019) Positive-Integral Jensen Polynomials (<span class="math notranslate nohighlight">\(d = 2\text{..}6\)</span>)</a></li>
+<li><a class="reference internal" href="#exact-infinite-zero-keiperli-coefficients-via-ln-2-xi-1-z">6.2 Exact Infinite-Zero Keiper–Li Coefficients via <span class="math notranslate nohighlight">\(\ln(2\xi(1+z))\)</span></a></li>
+<li><a class="reference internal" href="#digit-weil-explicit-formula-gaussian-gram-matrix-prime-archimedean-vs-zero-side">6.3 50-Digit Weil Explicit-Formula Gaussian Gram Matrix (Prime + Archimedean vs. Zero Side)</a></li>
+<li><a class="reference internal" href="#de-bruijnnewman-backward-heat-flow-collision-time-on-lehmers-1956-pair">6.4 De Bruijn–Newman Backward Heat-Flow Collision Time on Lehmer’s 1956 Pair</a></li>
+<li><a class="reference internal" href="#finite-grassmannian-lift-of-the-quartic-de-bruijnnewman-heat-jet">6.5 Finite Grassmannian Lift of the Quartic de Bruijn–Newman Heat Jet</a><ul>
+<li><a class="reference internal" href="#native-rust-f64-cross-check-plan">Native Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> Cross-Check Plan</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-tri-language-verification-commands">7. Reproducible Tri-Language Verification Commands</a><ul>
+<li><a class="reference internal" href="#scholarly-references">Scholarly References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">8. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="riemann-spectral-bridges-plan.html"
+                          title="previous chapter">Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>) for the Remaining Riemann Hypothesis Analytical Bridges</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"
+                          title="next chapter">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-riemann-spectral-ihara-jensen-polya-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="finite-spectral-contracts-for-riemann-hypothesis-approaches-the-bassihara-ramanujan-dichotomy-5-graph-tower-14-vertex-non-ramanujan-witness-jensenpolya-transverse-qfim-stiffness-mpembatrajectorydbn-synthesis-and-high-precision-eulermaclaurin-riemannsiegel-c-4-p-jet-audits-in-lean-4-rust-pyo3-and-sympy">
+<span id="grassmannian-riemann-spectral-ihara-jensen-polya-paper"></span><h1>Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass–Ihara Ramanujan Dichotomy (5-Graph Tower &amp; 14-Vertex Non-Ramanujan Witness), Jensen–Pólya Transverse QFIM Stiffness, Mpemba–Trajectory–dBN Synthesis, and High-Precision Euler–Maclaurin / Riemann–Siegel <span class="math notranslate nohighlight">\(C_4(p)\)</span> Jet Audits in Lean 4, Rust/PyO3, and SymPy<a class="headerlink" href="#finite-spectral-contracts-for-riemann-hypothesis-approaches-the-bassihara-ramanujan-dichotomy-5-graph-tower-14-vertex-non-ramanujan-witness-jensenpolya-transverse-qfim-stiffness-mpembatrajectorydbn-synthesis-and-high-precision-eulermaclaurin-riemannsiegel-c-4-p-jet-audits-in-lean-4-rust-pyo3-and-sympy" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Number Theory (<code class="docutils literal notranslate"><span class="pre">math.NT</span></code>); Spectral Theory (<code class="docutils literal notranslate"><span class="pre">math.SP</span></code>); Combinatorics (<code class="docutils literal notranslate"><span class="pre">math.CO</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Logic &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Solved &amp; Machine-Checked (Finite Graph RH):</strong> Both directions of the finite-graph Bass–Ihara Ramanujan dichotomy <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id495" title="Hyman Bass. The Ihara–Selberg zeta function of a tree lattice. International Journal of Mathematics, 3(6):717–797, 1992. doi:10.1142/S0129167X92000357.">Bass, 1992</a>]</span> are proved in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle</span></code>), including an existential, floating-point-free Lean 4 proof that the <strong>14-vertex 3-regular connected Barbell graph <span class="math notranslate nohighlight">\(G_{14}\)</span></strong> (<span class="math notranslate nohighlight">\(q = 2\)</span>) exceeds the Ramanujan bound <span class="math notranslate nohighlight">\(2\sqrt{2}\)</span> and splits two real Bass–Ihara roots strictly off the critical circle <span class="math notranslate nohighlight">\(\lvert u \rvert^2 = 1/2\)</span>, contrasted across a 5-graph 3-regular tower (<span class="math notranslate nohighlight">\(K_{3,3}\)</span>, Petersen, Heawood, Möbius–Kantor <span class="math notranslate nohighlight">\(GP(8,3)\)</span>, and Barbell <span class="math notranslate nohighlight">\(G_{14}\)</span>).</p></li>
+<li><p><strong>Open Millennium Problem (Classical RH for <span class="math notranslate nohighlight">\(\zeta(s)\)</span>):</strong> This paper does <strong>not</strong> prove or disprove the classical Riemann Hypothesis for <span class="math notranslate nohighlight">\(\zeta(s)\)</span> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id496" title="Enrico Bombieri. Problems of the millennium: the Riemann hypothesis. Clay Mathematics Institute, 2000. URL: https://www.claymath.org/millennium/riemann-hypothesis/.">Bombieri, 2000</a>]</span>. Instead, <code class="docutils literal notranslate"><span class="pre">Signals.Pending.RiemannHypothesisPendingBoundary</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.Pending.finite_zero_audit_does_not_close_rh_bridges</span></code> formally isolate the four open infinite-dimensional analytical bridges (de Bruijn–Newman <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dBN}} \le 0\)</span> <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id504" title="Brad Rodgers and Terence Tao. The de Bruijn–Newman constant is non-negative. Forum of Mathematics, Pi, 8:e6, 2020. doi:10.1017/fmp.2020.6.">Rodgers and Tao, 2020</a>]</span>, adelic Sato trace-norm convergence, global Li/Jensen–Pólya/Weil positivity <span class="bibtex-citation" id="id4">[<a class="reference internal" href="references.html#id503" title="George Pólya. Über die algebraisch-funktionentheoretischen untersuchungen von J. L. W. V. Jensen. Kongelige Danske Videnskabernes Selskab, Mathematisk-Fysiske Meddelelser, 7(17):3–33, 1927.">Pólya, 1927</a>, <a class="reference internal" href="references.html#id505" title="André Weil. Sur les “formules explicites” de la théorie des nombres premiers. Communications du Séminaire Mathématique de l'Université de Lund, Tome Supplémentaire:252–265, 1952.">Weil, 1952</a>, <a class="reference internal" href="references.html#id502" title="Xian-Jin Li. The positivity of a sequence of numbers and the Riemann hypothesis. Journal of Number Theory, 65(2):325–333, 1997. doi:10.1006/jnth.1997.2137.">Li, 1997</a>]</span>, and Berry–Keating/Connes self-adjoint operator closure) and prove that no finite zero scan closes them.</p></li>
+</ul>
+</li>
+<li><p><strong>Source Provenance &amp; Verification Artifacts:</strong></p>
+<ul>
+<li><p>AI Chat Source (design provenance only; audited and corrected below): <a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code></a> (lines <code class="docutils literal notranslate"><span class="pre">2348–3600</span></code>, <code class="docutils literal notranslate"><span class="pre">4433–4946</span></code>, <code class="docutils literal notranslate"><span class="pre">4979–5728</span></code>)</p></li>
+<li><p>Companion Papers &amp; Engineering Plan:</p>
+<ul>
+<li><p><a class="reference internal" href="riemann-spectral-bridges-plan.html"><span class="std std-doc">Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"><span class="std std-doc">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-gebr-layer-groups-dpp-noci-arc-paper.html"><span class="std std-doc">Verified Finite Contracts for Grassmannian EBR, All 80 Crystallographic Layer Groups, PSD Slavnov–Gram DPPs, Multi-Reference NOCI, Tequila-Compiled Grid DSLs, and Finite-Graph Ihara–Selberg Zeta Functions</span></a> and <a class="reference internal" href="grassmannian-gebr-chat-porting-plan.html"><span class="std std-doc">Grassmannian EBR Chat-Code Porting Ledger</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-quantum-causal-inference-mpemba-paper.html"><span class="std std-doc">Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.html"><span class="std std-doc">Quantum Trajectories in Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(k,n)\)</span>, Three-Channel Plücker–Madelung–QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>), Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDF</span></code>) Mechanics</span></a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">leanprover/lean4:v4.35.0-rc3</span></code>, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> axioms):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/3cdeb207d020b1acb915b2dc771c3245/RiemannSpectral.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/RiemannSpectral.lean</span></code></a> (Sections 1–10)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/b034a8b90d3668849f8cea1cacab5368/GrassmannianEBR.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/GrassmannianEBR.lean</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/c5c42a2bb6515c8206671663673c6d59/QuantumCausalInference.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/QuantumCausalInference.lean</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary</span></code>, <code class="docutils literal notranslate"><span class="pre">finite_zero_audit_does_not_close_rh_bridges</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/c9007d5ba8ba0befa95c091f5287e3fc/SignalsTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code></a> &amp; <a class="reference download internal" download="" href="_downloads/708b5d7ae2160c85e5c74d7ec50e22bb/SignalsPendingTests.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Extension (<code class="docutils literal notranslate"><span class="pre">126</span></code> passing unit tests):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/59fa40a607d798c750ea6b8c11906c93/riemann_spectral.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/riemann_spectral.rs</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/35a06ed67cf4bc8db40506df17b315ff/lib.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code></a></p></li>
+</ul>
+</li>
+<li><p>Python + SymPy + 35–80 digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> + PyO3 Verification Suite:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/67a8c89d31e6cb415894bc6113435851/riemann_rh_bridges.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/riemann_rh_bridges.py</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/82532ddf8753307b1d85bb12d88f5c35/test_riemann_spectral_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_riemann_spectral_sympy_pyo3.py</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We audit all five Riemann Hypothesis (RH) approaches explored in the Grassmannian monograph dialogue (<a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code></a>, lines <code class="docutils literal notranslate"><span class="pre">2348–5728</span></code>) and consolidate every defensible finite algebraic, spectral, and numerical contract across <strong>Lean 4</strong>, <strong>Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>)</strong>, and <strong>Python/SymPy + 35–80 digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></strong>.</p>
+<ol class="arabic simple">
+<li><p><strong>Complete Finite-Graph Bass–Ihara Ramanujan Dichotomy Across a 5-Graph Tower (Solved in Lean 4, SymPy, and Rust):</strong> Pairing <code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq</span></code> (<span class="math notranslate nohighlight">\(\lambda^2 \le 4q \implies \lvert u \rvert^2 = 1/q\)</span>) with <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle</span></code> (<span class="math notranslate nohighlight">\(\lambda^2 &gt; 4q \implies\)</span> two real roots <span class="math notranslate nohighlight">\(u_+ \ne u_-\)</span> with <span class="math notranslate nohighlight">\(u_+ u_- = 1/q\)</span> and <span class="math notranslate nohighlight">\(u_\pm^2 \ne 1/q\)</span>) <span class="bibtex-citation" id="id5">[<a class="reference internal" href="references.html#id495" title="Hyman Bass. The Ihara–Selberg zeta function of a tree lattice. International Journal of Mathematics, 3(6):717–797, 1992. doi:10.1142/S0129167X92000357.">Bass, 1992</a>]</span>, we construct an explicit <strong>14-vertex 3-regular connected non-Ramanujan Barbell graph <span class="math notranslate nohighlight">\(G_{14}\)</span></strong> (<span class="math notranslate nohighlight">\(q = 2\)</span>) whose <span class="math notranslate nohighlight">\(3 \times 3\)</span> antisymmetric equitable quotient matrix has exact characteristic polynomial <span class="math notranslate nohighlight">\(p(\lambda) = \lambda^3 - \lambda^2 - 6\lambda + 2\)</span>. Using Lean 4’s Intermediate Value Theorem (<code class="docutils literal notranslate"><span class="pre">nonRamanujan14_exists_super_ramanujan_off_circle_roots</span></code>), we prove without floating-point assumptions that <span class="math notranslate nohighlight">\(G_{14}\)</span> possesses an eigenvalue <span class="math notranslate nohighlight">\(\lambda_2 \in (57/20, 143/50)\)</span> (<span class="math notranslate nohighlight">\(\lambda_2 \approx 2.8557725066 &gt; 2\sqrt{2} \approx 2.8284271247\)</span>) whose Bass–Ihara roots <span class="math notranslate nohighlight">\(u_+ \approx 0.8125068\)</span> and <span class="math notranslate nohighlight">\(u_- \approx 0.6153795\)</span> split strictly off the critical circle <span class="math notranslate nohighlight">\(\lvert u \rvert = 1/\sqrt{2}\)</span>, while simultaneously collapsing the Markov relaxation gap from <span class="math notranslate nohighlight">\(\gamma_{\mathrm{gap}} \in [0.3333, 1.0000]\)</span> across the Ramanujan tower (<span class="math notranslate nohighlight">\(K_{3,3}\)</span>, Petersen, Heawood, Möbius–Kantor <span class="math notranslate nohighlight">\(GP(8,3)\)</span>) down to <span class="math notranslate nohighlight">\(\gamma_{\mathrm{gap}} = 0.0481\)</span>.</p></li>
+<li><p><strong>High-Precision Rust/PyO3 Evaluators (Euler–Maclaurin, Riemann–Siegel <span class="math notranslate nohighlight">\(C_0\text{..}C_4\)</span> with Exact <code class="docutils literal notranslate"><span class="pre">Jet2</span></code>/<code class="docutils literal notranslate"><span class="pre">CJet2</span></code> Analytic Derivatives, and Borwein Diagnosis):</strong> We implement self-contained <code class="docutils literal notranslate"><span class="pre">f64</span></code> Euler–Maclaurin summation, singularity-free Chebyshev Riemann–Siegel remainder terms <span class="math notranslate nohighlight">\(C_0(p)\)</span> through <span class="math notranslate nohighlight">\(C_4(p)\)</span> <span class="bibtex-citation" id="id6">[<a class="reference internal" href="references.html#id499" title="Wolfgang Gabcke. Neue Herleitung und explizite Restabschätzung der Riemann–Siegel-Formel. PhD thesis, Georg-August-Universität Göttingen, 1979.">Gabcke, 1979</a>]</span>, 2nd-order forward-mode automatic differentiation (<code class="docutils literal notranslate"><span class="pre">Jet2</span></code>/<code class="docutils literal notranslate"><span class="pre">CJet2</span></code>) for exact <span class="math notranslate nohighlight">\(Z'(t), Z''(t)\)</span>, and Borwein Algorithm 2 <span class="bibtex-citation" id="id7">[<a class="reference internal" href="references.html#id497" title="Peter Borwein. An efficient algorithm for the Riemann zeta function. In Constructive, Experimental, and Nonlinear Analysis, volume 27 of CMS Conference Proceedings, 29–34. American Mathematical Society, 2000.">Borwein, 2000</a>]</span> in <code class="docutils literal notranslate"><span class="pre">riemann_spectral.rs</span></code>. Cross-checked against 35–45 digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>, Euler–Maclaurin locates all <strong>first 30 nontrivial zeros</strong> with maximum height error <strong><span class="math notranslate nohighlight">\(2.84 \times 10^{-14}\)</span></strong>, extending Riemann–Siegel from <span class="math notranslate nohighlight">\(C_2\)</span> to <span class="math notranslate nohighlight">\(C_4\)</span> reduces Lehmer-pair evaluation error by <strong><span class="math notranslate nohighlight">\(198.5\times\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">1.25e-09</span></code> <span class="math notranslate nohighlight">\(\to\)</span> <code class="docutils literal notranslate"><span class="pre">6.31e-12</span></code>, reaching the IEEE-754 <code class="docutils literal notranslate"><span class="pre">f64</span></code> phase-rounding floor), and replacing finite differences with <code class="docutils literal notranslate"><span class="pre">Jet2</span></code> analytic differentiation reduces <span class="math notranslate nohighlight">\(\mathcal{J}(g_{125})\)</span> error by <strong><span class="math notranslate nohighlight">\(2.87 \times 10^7\times\)</span></strong> (<code class="docutils literal notranslate"><span class="pre">1.93e-04</span></code> <span class="math notranslate nohighlight">\(\to\)</span> <code class="docutils literal notranslate"><span class="pre">6.72e-12</span></code>).</p></li>
+<li><p><strong>Correction of Chat Check Figures for Gram’s Law Violations (<span class="math notranslate nohighlight">\(g_{126}, g_{134}\)</span>) and Lehmer’s 1956 Pair (#6709–#6710):</strong> Auditing the chat’s uncomputed check-figure table (<a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">5718–5725</span></code></a>) against 35-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> and Rust Riemann–Siegel (<span class="math notranslate nohighlight">\(C_0\text{..}C_4\)</span>) exposes substantial numerical discrepancies in the chat table—including a sign reversal at Lehmer’s 1956 pair extremum <span class="math notranslate nohighlight">\(\gamma_* \approx 7005.0818551\)</span> <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id501" title="D. H. Lehmer. Extended computation of the Riemann zeta-function. Mathematika, 3(2):102–108, 1956. doi:10.1112/S0025579300001753.">Lehmer, 1956</a>, <a class="reference internal" href="references.html#id498" title="George Csordas, Wayne Smith, and Richard S. Varga. Level sets of real entire functions and the de Bruijn–Newman constant. Constructive Approximation, 10(1):107–129, 1994. doi:10.1007/BF01205170.">Csordas <em>et al.</em>, 1994</a>]</span>, where the true value is a <strong>positive peak</strong> <span class="math notranslate nohighlight">\(Z(\gamma_*) = +0.0039673575\)</span> with <span class="math notranslate nohighlight">\(Z''(\gamma_*) = -22.346154\)</span> (giving Channel B Bohm curvature rescue <span class="math notranslate nohighlight">\(J_{\mathrm{bohm}}(\gamma_*) = \mathcal{J}(\gamma_*) = +0.0886552 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\eta_{\mathrm{Bohm}} = 1.0000\)</span>, directly dual to the osmotic/Bohm velocity split of <span class="bibtex-citation" id="id9">[<a class="reference internal" href="references.html#id486" title="Violetta Sharoglazova, Marius Puplauskis, Charlie Mattschas, Chris Toebes, and Jan Klaers. Energy–speed relationship of quantum particles challenges Bohmian mechanics. Nature, 643(8070):67–72, July 2025. URL: https://www.nature.com/articles/s41586-025-09099-4, doi:10.1038/s41586-025-09099-4.">Sharoglazova <em>et al.</em>, 2025</a>]</span>), and negative <span class="math notranslate nohighlight">\(J_{\mathrm{bohm}}\)</span> at <span class="math notranslate nohighlight">\(g_{126}\)</span> and <span class="math notranslate nohighlight">\(g_{134}\)</span> themselves (where osmotic <span class="math notranslate nohighlight">\((Z')^2\)</span> keeps <span class="math notranslate nohighlight">\(\mathcal{J} &gt; 0\)</span>).</p></li>
+<li><p><strong>Mpemba–Trajectory–dBN Synthesis, Analytical-Bridge Probes, &amp; Strict Epistemic Boundary:</strong> Extending <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (Sections 7–10) and <code class="docutils literal notranslate"><span class="pre">riemann_rh_bridges.py</span></code>, we prove exact quartic de Bruijn–Newman backward-heat closure (<code class="docutils literal notranslate"><span class="pre">dbnQuarticHeat_pde_and_shift</span></code>), 4-zero/10-zero Calogero–Moser neighbor squeezing (<code class="docutils literal notranslate"><span class="pre">dbnFourZero_symmetric_neighbor_squeeze</span></code>, <span class="bibtex-citation" id="id10">[<a class="reference internal" href="references.html#id493" title="Lee Drori, Bankim Chandra Das, Tomer Danino Zohar, Gal Winer, Eilon Poem, Alexander Poddubny, and Ofer Firstenberg. Quantum vortices of strongly interacting photons. Science, 381(6654):193–198, 2023. URL: https://doi.org/10.1126/science.adh5315, arXiv:2302.05967, doi:10.1126/science.adh5315.">Drori <em>et al.</em>, 2023</a>, <a class="reference internal" href="references.html#id494" title="J. B. McGuire. Study of exactly soluble one-dimensional $n$-body problems. Journal of Mathematical Physics, 5(5):622–636, 1964. URL: https://doi.org/10.1063/1.1704156, doi:10.1063/1.1704156.">McGuire, 1964</a>]</span>), and Strong Mpemba slow-mode annihilation (<code class="docutils literal notranslate"><span class="pre">mpemba_projection_eliminates_slow_weil_mode</span></code>, <span class="bibtex-citation" id="id11">[<a class="reference internal" href="references.html#id335" title="R Holtzman and O Raz. Landau theory for the mpemba effect through phase transitions. Communications Physics, 2022. Referenced in docs/grassmannian-quantum-causal-inference-mpemba-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: https://doi.org/10.1038/s42005-022-01063-2, doi:10.1038/s42005-022-01063-2.">Holtzman and Raz, 2022</a>, <a class="reference internal" href="references.html#id404" title="A. Summer, M. Moroder, L. P. Bettmann, X. Turkeshi, I. Marvian, and J Goold. Resource-theoretical unification of mpemba effects: classical and quantum. Physical Review X, 2026. Referenced in docs/grassmannian-quantum-causal-inference-mpemba-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: https://doi.org/10.1103/rbt4-psfd, doi:10.1103/rbt4-psfd.">Summer <em>et al.</em>, 2026</a>]</span>)—which collapses the <span class="math notranslate nohighlight">\(6\times 6\)</span> orthonormal Hermite–Gaussian Weil Gram condition number by <strong><span class="math notranslate nohighlight">\(429.4\times\)</span></strong> (<span class="math notranslate nohighlight">\(\kappa = 1{,}389.36 \to 3.24\)</span>) with <span class="math notranslate nohighlight">\(&lt; 3.35 \times 10^{-50}\)</span> prime-vs-zero discrepancy <span class="bibtex-citation" id="id12">[<a class="reference internal" href="references.html#id496" title="Enrico Bombieri. Problems of the millennium: the Riemann hypothesis. Clay Mathematics Institute, 2000. URL: https://www.claymath.org/millennium/riemann-hypothesis/.">Bombieri, 2000</a>, <a class="reference internal" href="references.html#id505" title="André Weil. Sur les “formules explicites” de la théorie des nombres premiers. Communications du Séminaire Mathématique de l'Université de Lund, Tome Supplémentaire:252–265, 1952.">Weil, 1952</a>]</span>, alongside strict real-rootedness of Griffin–Ono–Rolen–Zagier Jensen polynomials for <span class="math notranslate nohighlight">\(d = 2\text{..}8\)</span> <span class="bibtex-citation" id="id13">[<a class="reference internal" href="references.html#id503" title="George Pólya. Über die algebraisch-funktionentheoretischen untersuchungen von J. L. W. V. Jensen. Kongelige Danske Videnskabernes Selskab, Mathematisk-Fysiske Meddelelser, 7(17):3–33, 1927.">Pólya, 1927</a>, <a class="reference internal" href="references.html#id500" title="Michael Griffin, Ken Ono, Larry Rolen, and Don Zagier. Jensen polynomials for the Riemann zeta function and other sequences. Proceedings of the National Academy of Sciences, 116(23):11103–11110, 2019. doi:10.1073/pnas.1902572116.">Griffin <em>et al.</em>, 2019</a>]</span> and exact infinite-zero Keiper–Li positivity <span class="math notranslate nohighlight">\(\lambda_1\text{..}\lambda_{25} &gt; 0\)</span> <span class="bibtex-citation" id="id14">[<a class="reference internal" href="references.html#id502" title="Xian-Jin Li. The positivity of a sequence of numbers and the Riemann hypothesis. Journal of Number Theory, 65(2):325–333, 1997. doi:10.1006/jnth.1997.2137.">Li, 1997</a>, <a class="reference internal" href="references.html#id506" title="Jerry B. Keiper. Power series expansions of Riemann's ξ function. Mathematics of Computation, 58(198):765–773, 1992. doi:10.1090/S0025-5718-1992-1122072-5.">Keiper, 1992</a>, <a class="reference internal" href="references.html#id507" title="Enrico Bombieri and Jeffrey C. Lagarias. Complements to Li's criterion for the Riemann hypothesis. Journal of Number Theory, 77(2):274–287, 1999. doi:10.1006/jnth.1999.2392.">Bombieri and Lagarias, 1999</a>]</span>. All four open analytical bridges for classical RH remain explicitly gated in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.RiemannHypothesisPendingBoundary</span></code>.</p></li>
+<li><p><strong>Finite Grassmannian Lift of the Quartic Heat Jet (Lean 4 and Rust):</strong> The even quartic coefficient state <span class="math notranslate nohighlight">\((a_0,a_2,a_4)\)</span> is augmented by a fixed reference direction to give a real <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb R}(2,4)\)</span> chart with Plücker coordinates <span class="math notranslate nohighlight">\((0,0,a_0,0,a_2,a_4)\)</span>. Lean proves the Klein relation and the additive-time ambient shear; Rust cross-checks the same finite formulas in <code class="docutils literal notranslate"><span class="pre">f64</span></code>. This is a finite coefficient-plane encoding, not a canonical Hilbert-space embedding, or a closure of any global RH bridge.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="architecture-epistemic-triage-of-the-five-chat-rh-approaches">
+<h2>1. Architecture &amp; Epistemic Triage of the Five Chat RH Approaches<a class="headerlink" href="#architecture-epistemic-triage-of-the-five-chat-rh-approaches" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph Chat[&quot;Chat Provenance (Gemini_Quantum-Causal-Grassmannian-Monograph-Review, L2348-5728)&quot;]
+        C1[&quot;1. Critical-Line Reflection &amp;&lt;br/&gt;Coulson-Fischer Bifurcation&quot;]
+        C2[&quot;2. Finite-Graph Bass-Ihara&lt;br/&gt;Plabic VRC &amp; Ramanujan Bound&quot;]
+        C3[&quot;3. Semi-Dirac Confinement,&lt;br/&gt;Slavnov/GUE &amp; Sato Hirota&quot;]
+        C4[&quot;4. Jensen-Polya QFIM Split,&lt;br/&gt;Gram Violations &amp; Lehmer/dBN&quot;]
+        C5[&quot;5. Li Unit-Circle Positivity&lt;br/&gt;&amp; Off-Line Quartet Splitting&quot;]
+    end
+
+    subgraph Lean[&quot;Machine-Checked Finite Lean 4 (Signals.RiemannSpectral + GrassmannianEBR)&quot;]
+        L1[&quot;negative_transverse_stiffness_bifurcates_off_line&lt;br/&gt;ihara_non_ramanujan_splits_off_critical_circle&quot;]
+        L2[&quot;nonRamanujan14_exists_super_ramanujan_off_circle_roots&lt;br/&gt;heawood_graph_ramanujan_critical_circle&quot;]
+        L3[&quot;semi_dirac_transverse_hessian_pos&lt;br/&gt;slavnov_gue_2x2 &amp; vandermondeDet3 &amp; sato_hirota&quot;]
+        L4[&quot;jensenPolyaDiscriminant_mul_product_rule&lt;br/&gt;lehmer_pair_failure &amp; dbnTwoZero/ThreeZero&quot;]
+        L5[&quot;liTransformModulusSq_eq_one_iff_critical_line&lt;br/&gt;liTransformModulusSq_off_line_splits&quot;]
+    end
+
+    subgraph Rust[&quot;Rust/PyO3 + SymPy + 35-Digit mpmath (riemann_spectral.rs)&quot;]
+        R1[&quot;Petersen (10v), Heawood (14v),&lt;br/&gt;Barbell G_14 (14v Non-Ramanujan)&quot;]
+        R2[&quot;Euler-Maclaurin (&lt;3e-14) + RS C0..C2&lt;br/&gt;+ Borwein Conditioning Diagnosis&quot;]
+        R3[&quot;First 30 Zeros, Gram g_126/g_134,&lt;br/&gt;Lehmer 1956 (#6709/#6710), Li Sums&quot;]
+    end
+
+    subgraph Pending[&quot;Epistemic Gate (Signals.Pending.RiemannHypothesisPendingBoundary)&quot;]
+        P1[&quot;Open Bridge 1: de Bruijn-Newman Lambda_dBN &lt;= 0&lt;br/&gt;Open Bridge 2: Adelic Sato Trace-Norm Limit&lt;br/&gt;Open Bridge 3: Global Li &amp; Jensen-Polya Positivity&lt;br/&gt;Open Bridge 4: Self-Adjoint Spectral Operator Closure&quot;]
+    end
+
+    C1 --&gt; L1
+    C2 --&gt; L2
+    C3 --&gt; L3
+    C4 --&gt; L4
+    C5 --&gt; L5
+    L2 --&gt; R1
+    L4 --&gt; R2
+    L5 --&gt; R3
+    L1 -. &quot;Does NOT discharge&quot; .-&gt; P1
+    R3 -. &quot;finite_zero_audit_does_not_close_rh_bridges&quot; .-&gt; P1
+    </pre><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Approach</p></th>
+<th class="head text-left"><p>Chat Source Lines</p></th>
+<th class="head text-left"><p>Proved Finite Contract (<code class="docutils literal notranslate"><span class="pre">Signals</span></code>)</p></th>
+<th class="head text-left"><p>Rust/PyO3 &amp; SymPy/mpmath Verification</p></th>
+<th class="head text-left"><p>Open Analytical Bridge (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>1. Reflection &amp; Bifurcation</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2382–2511</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">negative_transverse_stiffness_bifurcates_off_line</span></code></p></td>
+<td class="text-left"><p>Symbolic Cauchy–Riemann &amp; quartic test</p></td>
+<td class="text-left"><p>Global absence of negative stiffness (<span class="math notranslate nohighlight">\(\forall \gamma \in \mathbb{R}\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>2. Bass–Ihara Graph Zeta</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2774–2925</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ihara_ramanujan_critical_circle_modulus_sq</span></code>, <code class="docutils literal notranslate"><span class="pre">ihara_non_ramanujan_splits_off_critical_circle</span></code>, <code class="docutils literal notranslate"><span class="pre">nonRamanujan14_exists_super_ramanujan_off_circle_roots</span></code></p></td>
+<td class="text-left"><p>Petersen (<code class="docutils literal notranslate"><span class="pre">10v</span></code>), Heawood (<code class="docutils literal notranslate"><span class="pre">14v</span></code>), Barbell <span class="math notranslate nohighlight">\(G_{14}\)</span> (<code class="docutils literal notranslate"><span class="pre">14v</span></code>) exact SymPy + Rust Jacobi</p></td>
+<td class="text-left"><p>Trace-norm adelic limit <span class="math notranslate nohighlight">\(p_{\max} \to \infty\)</span> on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathrm{Sato}}(\mathbb{A}_{\mathbb{Q}}/\mathbb{Q}^\times)\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>3. Semi-Dirac, Slavnov &amp; Sato</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2537–3185</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">semi_dirac_transverse_hessian_pos</span></code>, <code class="docutils literal notranslate"><span class="pre">slavnov_gue_2x2_quadratic_level_repulsion</span></code>, <code class="docutils literal notranslate"><span class="pre">vandermondeDet3_factorization_and_pos</span></code>, <code class="docutils literal notranslate"><span class="pre">sato_hirota_bilinear_plucker_identity</span></code></p></td>
+<td class="text-left"><p>Exact SymPy Wronskian &amp; Vandermonde checks</p></td>
+<td class="text-left"><p>Self-adjoint Berry–Keating / Connes operator closure</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>4. Jensen–Pólya, Lehmer &amp; dBN</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4788–5728</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">jensen_polya_madelung_bohm_split_and_extremum_rescue</span></code>, <code class="docutils literal notranslate"><span class="pre">jensenPolyaDiscriminant_mul_product_rule</span></code>, <code class="docutils literal notranslate"><span class="pre">lehmer_pair_failure_destabilizes_and_splits</span></code>, <code class="docutils literal notranslate"><span class="pre">dbnTwoZeroForwardSeparationRate_pos</span></code>, <code class="docutils literal notranslate"><span class="pre">dbnThreeZero_center_of_mass_conserved</span></code></p></td>
+<td class="text-left"><p>30 zeros, Gram <span class="math notranslate nohighlight">\(g_{125}\text{–}g_{135}\)</span>, Lehmer #6709–#6710 audited vs. 35-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></p></td>
+<td class="text-left"><p>de Bruijn–Newman upper bound <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dBN}} \le 0\)</span> and global <span class="math notranslate nohighlight">\(\mathcal{J}(\gamma) \ge 0\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>5. Li’s Positivity Criterion</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4811–4814</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">liTransformModulusSq_eq_one_iff_critical_line</span></code>, <code class="docutils literal notranslate"><span class="pre">liTransformModulusSq_off_line_splits</span></code>, <code class="docutils literal notranslate"><span class="pre">liCriticalLinePairTerm_nonneg</span></code></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\lambda_n^{(30)} &gt; 0\)</span> (<span class="math notranslate nohighlight">\(n \le 100\)</span>); off-line quartet turns negative at <span class="math notranslate nohighlight">\(n = 3286\)</span></p></td>
+<td class="text-left"><p>Global positivity <span class="math notranslate nohighlight">\(\lambda_n \ge 0\)</span> for all <span class="math notranslate nohighlight">\(n \ge 1\)</span> across all infinitely many zeros</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="solved-finite-problem-the-bassihara-ramanujan-dichotomy-and-the-14-vertex-non-ramanujan-barbell-graph-g-14">
+<h2>2. Solved Finite Problem: The Bass–Ihara Ramanujan Dichotomy and the 14-Vertex Non-Ramanujan Barbell Graph <span class="math notranslate nohighlight">\(G_{14}\)</span><a class="headerlink" href="#solved-finite-problem-the-bassihara-ramanujan-dichotomy-and-the-14-vertex-non-ramanujan-barbell-graph-g-14" title="Link to this heading">¶</a></h2>
+<section id="both-directions-proved-in-lean-4">
+<h3>2.1 Both Directions Proved in Lean 4<a class="headerlink" href="#both-directions-proved-in-lean-4" title="Link to this heading">¶</a></h3>
+<p>For a finite connected <span class="math notranslate nohighlight">\((q + 1)\)</span>-regular graph <span class="math notranslate nohighlight">\(G = (V, E)\)</span> with adjacency matrix <span class="math notranslate nohighlight">\(A\)</span>, the reciprocal Bass–Ihara graph zeta function factorizes over the adjacency eigenvalues <span class="math notranslate nohighlight">\(\lambda \in \operatorname{Spec}(A)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\zeta_G(u)^{-1} = (1 - u^2)^{\lvert E \rvert - \lvert V \rvert} \det\!\left(I - u A + q u^2 I\right) = (1 - u^2)^{\lvert E \rvert - \lvert V \rvert} \prod_{\lambda \in \operatorname{Spec}(A)} \left(1 - \lambda u + q u^2\right).
+\]</div>
+<p>The <strong>Graph Riemann Hypothesis</strong> asks whether every non-trivial zero of <span class="math notranslate nohighlight">\(\zeta_G(u)^{-1}\)</span> (corresponding to <span class="math notranslate nohighlight">\(\lvert \lambda \rvert &lt; q + 1\)</span>) lies on the critical circle <span class="math notranslate nohighlight">\(\lvert u \rvert = q^{-1/2}\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span> under <span class="math notranslate nohighlight">\(u = q^{-s}\)</span>). Lean 4 proves both directions cleanly:</p>
+<ol class="arabic simple">
+<li><p><strong>Ramanujan Locking (<code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR.ihara_ramanujan_critical_circle_modulus_sq</span></code>):</strong> Whenever <span class="math notranslate nohighlight">\(q &gt; 0\)</span> and <span class="math notranslate nohighlight">\(\lambda^2 \le 4q\)</span>, the roots <span class="math notranslate nohighlight">\(u = \frac{\lambda \pm i\sqrt{4q - \lambda^2}}{2q}\)</span> satisfy <span class="math notranslate nohighlight">\(\lvert u \rvert^2 = \frac{1}{q}\)</span>.</p></li>
+<li><p><strong>Non-Ramanujan Off-Circle Splitting Converse (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.ihara_non_ramanujan_splits_off_critical_circle</span></code>):</strong> Whenever <span class="math notranslate nohighlight">\(q &gt; 0\)</span> and <span class="math notranslate nohighlight">\(\lambda^2 &gt; 4q\)</span> (with <span class="math notranslate nohighlight">\(d = \sqrt{\lambda^2 - 4q} &gt; 0\)</span>), the two real roots <span class="math notranslate nohighlight">\(u_\pm = \frac{\lambda \pm d}{2q}\)</span> satisfy <span class="math notranslate nohighlight">\(q u_\pm^2 - \lambda u_\pm + 1 = 0\)</span>, <span class="math notranslate nohighlight">\(u_+ u_- = \frac{1}{q}\)</span>, <span class="math notranslate nohighlight">\(u_+ \ne u_-\)</span>, and strictly leave the critical circle: <span class="math notranslate nohighlight">\(u_+^2 \ne \frac{1}{q}\)</span> and <span class="math notranslate nohighlight">\(u_-^2 \ne \frac{1}{q}\)</span>.</p></li>
+</ol>
+</section>
+<section id="explicit-14-vertex-3-regular-connected-non-ramanujan-witness-g-14-vs-petersen-and-heawood-graphs">
+<h3>2.2 Explicit 14-Vertex 3-Regular Connected Non-Ramanujan Witness (<span class="math notranslate nohighlight">\(G_{14}\)</span>) vs. Petersen and Heawood Graphs<a class="headerlink" href="#explicit-14-vertex-3-regular-connected-non-ramanujan-witness-g-14-vs-petersen-and-heawood-graphs" title="Link to this heading">¶</a></h3>
+<p>Take two disjoint copies of the 7-vertex gadget <span class="math notranslate nohighlight">\(H\)</span> on vertices <span class="math notranslate nohighlight">\(\{0, 1, 2, 3, 4, 5, 6\}\)</span> with edges <span class="math notranslate nohighlight">\((0,1), (0,2), (1,3), (1,4), (2,5), (2,6), (3,4), (3,5), (4,6), (5,6)\)</span> (degree 2 at vertex <span class="math notranslate nohighlight">\(0\)</span>, degree 3 at vertices <span class="math notranslate nohighlight">\(1\text{–}6\)</span>) and connect their degree-2 vertices by a single bridge edge <span class="math notranslate nohighlight">\((0, 7)\)</span> to obtain a <strong>14-vertex 3-regular connected simple graph <span class="math notranslate nohighlight">\(G_{14}\)</span></strong> (<span class="math notranslate nohighlight">\(q = 2\)</span>, Ramanujan threshold <span class="math notranslate nohighlight">\(2\sqrt{2} \approx 2.8284271247\)</span>).</p>
+<p>Because <span class="math notranslate nohighlight">\(G_{14}\)</span> has an exact 3-orbit equitable partition <span class="math notranslate nohighlight">\((\{0\}, \{1, 2\}, \{3, 4, 5, 6\})\)</span> in each half, its antisymmetric bridge sector (<span class="math notranslate nohighlight">\(v_{7+i} = -v_i\)</span>) reduces exactly to the <span class="math notranslate nohighlight">\(3 \times 3\)</span> quotient matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Q_{\mathrm{anti}} = \begin{pmatrix} -1 &amp; 2 &amp; 0 \\ 1 &amp; 0 &amp; 2 \\ 0 &amp; 1 &amp; 2 \end{pmatrix}, \qquad \det\!\left(\lambda I_3 - Q_{\mathrm{anti}}\right) = \lambda^3 - \lambda^2 - 6\lambda + 2.
+\end{split}\]</div>
+<p>SymPy computes the exact factored characteristic polynomials across the 5-graph 3-regular (<span class="math notranslate nohighlight">\(q = 2\)</span>) tower (<code class="docutils literal notranslate"><span class="pre">RB-4</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\chi_{K_{3,3}}(x) &amp;= x^4 (x - 3)(x + 3), \\
+\chi_{\mathrm{Petersen}}(x) &amp;= (x - 3)(x - 1)^5 (x + 2)^4, \\
+\chi_{\mathrm{Heawood}}(x) &amp;= (x - 3)(x + 3)(x^2 - 2)^6, \\
+\chi_{\mathrm{M\ddot{o}bius\text{--}Kantor}}(x) &amp;= (x - 3)(x + 3)(x^2 - 1)^3 (x^2 - 3)^4, \\
+\chi_{G_{14}}(x) &amp;= x^2 (x - 3)(x + 2)^2 (x^2 - 2)^3 \left(x^3 - x^2 - 6x + 2\right).
+\end{aligned}
+\end{split}\]</div>
+<p>In Lean 4, <code class="docutils literal notranslate"><span class="pre">nonRamanujan14_equitable_eigenvector</span></code> verifies the exact eigenvector <span class="math notranslate nohighlight">\((a, b, c) = (2, \lambda + 1, (\lambda^2 + \lambda - 2)/2)\)</span> for any root of <span class="math notranslate nohighlight">\(p(\lambda) = \lambda^3 - \lambda^2 - 6\lambda + 2\)</span>, <code class="docutils literal notranslate"><span class="pre">nonRamanujan14_bracket_sign_change</span></code> evaluates <span class="math notranslate nohighlight">\(p(57/20) = -587/8000 &lt; 0 &lt; 6757/125000 = p(143/50)\)</span> with <span class="math notranslate nohighlight">\((57/20)^2 = 3249/400 &gt; 8\)</span>, and <code class="docutils literal notranslate"><span class="pre">nonRamanujan14_exists_super_ramanujan_off_circle_roots</span></code> invokes <code class="docutils literal notranslate"><span class="pre">intermediate_value_Icc</span></code> to prove the existence of <span class="math notranslate nohighlight">\(\lambda_2 \in (2.85, 2.86)\)</span> strictly exceeding <span class="math notranslate nohighlight">\(2\sqrt{2}\)</span> with two real Bass–Ihara roots splitting off <span class="math notranslate nohighlight">\(\lvert u \rvert^2 = 1/2\)</span> <span class="bibtex-citation" id="id15">[<a class="reference internal" href="references.html#id495" title="Hyman Bass. The Ihara–Selberg zeta function of a tree lattice. International Journal of Mathematics, 3(6):717–797, 1992. doi:10.1142/S0129167X92000357.">Bass, 1992</a>]</span>. Simultaneously, <code class="docutils literal notranslate"><span class="pre">py_audit_regular_graphs_bass_ihara()</span></code> links the Graph RH directly to Markov/Mpemba relaxation speed via <span class="math notranslate nohighlight">\(\gamma_{\mathrm{gap}} = 1 - \max\lvert\lambda_{\mathrm{nt}}\rvert / 3\)</span> and the Ramanujan margin <span class="math notranslate nohighlight">\(2\sqrt{2} - \max\lvert\lambda_{\mathrm{nt}}\rvert\)</span> <span class="bibtex-citation" id="id16">[<a class="reference internal" href="references.html#id335" title="R Holtzman and O Raz. Landau theory for the mpemba effect through phase transitions. Communications Physics, 2022. Referenced in docs/grassmannian-quantum-causal-inference-mpemba-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: https://doi.org/10.1038/s42005-022-01063-2, doi:10.1038/s42005-022-01063-2.">Holtzman and Raz, 2022</a>]</span>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>3-Regular Connected Graph (<span class="math notranslate nohighlight">\(q = 2\)</span>)</p></th>
+<th class="head text-right"><p>Vertices</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\max \lvert \lambda_{\mathrm{nt}} \rvert\)</span></p></th>
+<th class="head text-right"><p>Markov Gap <span class="math notranslate nohighlight">\(\gamma_{\mathrm{gap}}\)</span></p></th>
+<th class="head text-right"><p>Margin <span class="math notranslate nohighlight">\(2\sqrt{2} - \max\lvert\lambda_{\mathrm{nt}}\rvert\)</span></p></th>
+<th class="head text-center"><p>Ramanujan?</p></th>
+<th class="head text-right"><p>Off-Circle Roots</p></th>
+<th class="head text-left"><p>Real Off-Circle Roots <span class="math notranslate nohighlight">\((u_+, u_-)\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Complete Bipartite <span class="math notranslate nohighlight">\(K_{3,3}\)</span></strong></p></td>
+<td class="text-right"><p>6</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.0000000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+2.828427</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p>None (<span class="math notranslate nohighlight">\(\lvert u \rvert^2 = 0.5\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Petersen</strong></p></td>
+<td class="text-right"><p>10</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.0000000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.333333</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.828427</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p>None (all 18 non-trivial roots have <span class="math notranslate nohighlight">\(\lvert u \rvert^2 = 0.5\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Heawood</strong> (Fano Levi)</p></td>
+<td class="text-right"><p>14</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.4142135624</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.528595</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+1.414214</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p>None (all 24 non-trivial roots have <span class="math notranslate nohighlight">\(\lvert u \rvert^2 = 0.5\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Möbius–Kantor <span class="math notranslate nohighlight">\(GP(8,3)\)</span></strong></p></td>
+<td class="text-right"><p>16</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.7320508076</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.422650</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+1.096376</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td class="text-left"><p>None (all 28 non-trivial roots have <span class="math notranslate nohighlight">\(\lvert u \rvert^2 = 0.5\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Barbell <span class="math notranslate nohighlight">\(G_{14}\)</span></strong></p></td>
+<td class="text-right"><p>14</p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">2.8557725066</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">0.048076</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">-0.027345</span></code></strong></p></td>
+<td class="text-center"><p><strong>No</strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">2</span></code></strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(u_+ = 0.8125068\)</span> (<span class="math notranslate nohighlight">\(u_+^2 = 0.6601672\)</span>), <span class="math notranslate nohighlight">\(u_- = 0.6153795\)</span> (<span class="math notranslate nohighlight">\(u_-^2 = 0.3786919\)</span>)</p></td>
+</tr>
+</tbody>
+</table>
+<p>In spectral <span class="math notranslate nohighlight">\(s\)</span>-coordinates (<span class="math notranslate nohighlight">\(u = 2^{-s}\)</span>), the two non-Ramanujan roots of <span class="math notranslate nohighlight">\(G_{14}\)</span> sit symmetrically off the critical line at <span class="math notranslate nohighlight">\(s_- = -\log_2 u_+ \approx 0.299548\)</span> and <span class="math notranslate nohighlight">\(s_+ = -\log_2 u_- \approx 0.700452\)</span> (<span class="math notranslate nohighlight">\(s_+ + s_- = 1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} = \pm 0.200452\)</span>), providing a concrete finite-graph realization of a Coulson–Fischer off-axis bifurcation alongside a <span class="math notranslate nohighlight">\(10.99\times\)</span> collapse in Markov relaxation rate relative to the 14-vertex Ramanujan Heawood graph.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="high-precision-rust-pyo3-evaluators-rb-1-error-minimization-jet2-cjet2-riemannsiegel-c-0-text-c-4">
+<h2>3. High-Precision Rust/PyO3 Evaluators &amp; <code class="docutils literal notranslate"><span class="pre">RB-1</span></code> Error Minimization (<code class="docutils literal notranslate"><span class="pre">Jet2</span></code>/<code class="docutils literal notranslate"><span class="pre">CJet2</span></code> + Riemann–Siegel <span class="math notranslate nohighlight">\(C_0\text{..}C_4\)</span>)<a class="headerlink" href="#high-precision-rust-pyo3-evaluators-rb-1-error-minimization-jet2-cjet2-riemannsiegel-c-0-text-c-4" title="Link to this heading">¶</a></h2>
+<section id="algorithmic-design-src-signals-numerical-adapter-src-riemann-spectral-rs">
+<h3>3.1 Algorithmic Design (<code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/riemann_spectral.rs</span></code>)<a class="headerlink" href="#algorithmic-design-src-signals-numerical-adapter-src-riemann-spectral-rs" title="Link to this heading">¶</a></h3>
+<p>Three complementary evaluators and a 2nd-order forward-mode automatic differentiation algebra (<code class="docutils literal notranslate"><span class="pre">Jet2</span></code> / <code class="docutils literal notranslate"><span class="pre">CJet2</span></code>) are implemented in pure Rust (<code class="docutils literal notranslate"><span class="pre">std</span></code> only) and exposed via PyO3 (<code class="docutils literal notranslate"><span class="pre">signals_numerical_adapter</span></code>):</p>
+<ol class="arabic simple">
+<li><p><strong>Euler–Maclaurin Analytic Continuation + Exact Complex 2-Jets (<code class="docutils literal notranslate"><span class="pre">zeta_euler_maclaurin</span></code>, <code class="docutils literal notranslate"><span class="pre">hardy_z_jet</span></code>):</strong> Uses adaptive cutoff <span class="math notranslate nohighlight">\(N = \max(18, \lceil 1.2 \lvert t \rvert + 18 \rceil)\)</span> with 9 Bernoulli ratios <span class="math notranslate nohighlight">\(B_{2k}/(2k)!\)</span> (<span class="math notranslate nohighlight">\(k = 1\text{..}9\)</span>). Propagating <code class="docutils literal notranslate"><span class="pre">CJet2</span></code> through <span class="math notranslate nohighlight">\(n^{-s}\)</span>, the Euler–Maclaurin tail, and <span class="math notranslate nohighlight">\(\vartheta(t)\)</span> delivers exact machine-precision <span class="math notranslate nohighlight">\((Z(t), Z'(t), Z''(t))\)</span> with zero finite-difference step-size cancellation.</p></li>
+<li><p><strong>Riemann–Siegel with Exact Chebyshev <span class="math notranslate nohighlight">\(C_0(p)\)</span> Through <span class="math notranslate nohighlight">\(C_4(p)\)</span> (<code class="docutils literal notranslate"><span class="pre">hardy_z_riemann_siegel_c4_jet</span></code>):</strong> Evaluates the Stirling-shifted phase <span class="math notranslate nohighlight">\(\vartheta(t)\)</span> (<span class="math notranslate nohighlight">\(&lt; 10^{-15}\)</span> error) plus the <span class="math notranslate nohighlight">\(O(\sqrt{t})\)</span> main sum and five Gabcke remainder terms <span class="bibtex-citation" id="id17">[<a class="reference internal" href="references.html#id499" title="Wolfgang Gabcke. Neue Herleitung und explizite Restabschätzung der Riemann–Siegel-Formel. PhD thesis, Georg-August-Universität Göttingen, 1979.">Gabcke, 1979</a>]</span>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+Z(t) = 2\sum_{n=1}^{\lfloor a \rfloor} n^{-1/2}\cos\!\left(\vartheta(t) - t \ln n\right) + (-1)^{\lfloor a \rfloor - 1} a^{-1/2}\sum_{r=0}^{4} a^{-r} C_r(p), \qquad a = \sqrt{\frac{t}{2\pi}}, \quad p = a - \lfloor a \rfloor.
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\(C_0(p)\text{..}C_4(p)\)</span> are entire functions whose apparent poles at <span class="math notranslate nohighlight">\(p = 1/4, 3/4\)</span> cancel analytically, expanding <span class="math notranslate nohighlight">\(C_0, C_2, C_4\)</span> in even Chebyshev polynomials <span class="math notranslate nohighlight">\(T_{2k}(2p - 1)\)</span> and <span class="math notranslate nohighlight">\(C_1, C_3\)</span> in odd Chebyshev polynomials <span class="math notranslate nohighlight">\(T_{2k+1}(2p - 1)\)</span> (derived at 120-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> precision) and propagating <code class="docutils literal notranslate"><span class="pre">Jet2</span></code> through Clenshaw recurrence eliminates both removable-singularity cancellation and finite-difference noise across <span class="math notranslate nohighlight">\([0, 1]\)</span>.
+3. <strong>Borwein Algorithm 2 (<code class="docutils literal notranslate"><span class="pre">zeta_borwein</span></code>):</strong> Included explicitly to diagnose why <code class="docutils literal notranslate"><span class="pre">f64</span></code> Borwein (<span class="math notranslate nohighlight">\(n = 22\)</span>) <span class="bibtex-citation" id="id18">[<a class="reference internal" href="references.html#id497" title="Peter Borwein. An efficient algorithm for the Riemann zeta function. In Constructive, Experimental, and Nonlinear Analysis, volume 27 of CMS Conference Proceedings, 29–34. American Mathematical Society, 2000.">Borwein, 2000</a>]</span> matches <span class="math notranslate nohighlight">\(\zeta(2) = \pi^2/6\)</span> to <span class="math notranslate nohighlight">\(&lt; 10^{-13}\)</span> and reaches <span class="math notranslate nohighlight">\(2.98 \times 10^{-9}\)</span> at <span class="math notranslate nohighlight">\(\gamma_1 \approx 14.1347\)</span>, yet degrades to <span class="math notranslate nohighlight">\(2.83 \times 10^{-1}\)</span> at <span class="math notranslate nohighlight">\(\gamma_{10} \approx 49.7738\)</span> and <span class="math notranslate nohighlight">\(1.07\)</span> at <span class="math notranslate nohighlight">\(\gamma_{30} \approx 101.3179\)</span>: its error scales as <span class="math notranslate nohighlight">\(\cosh(\pi t / 2) / (3 + 2\sqrt{2})^n\)</span>, requiring <span class="math notranslate nohighlight">\(n \gtrsim 100\)</span> (and <span class="math notranslate nohighlight">\(\sim 80\)</span>-digit arbitrary precision) at <span class="math notranslate nohighlight">\(t = 101.3\)</span>.</p>
+</section>
+<section id="rb-1-before-after-error-minimization-benchmarks-py-compare-rs-c2-vs-c4">
+<h3>3.2 <code class="docutils literal notranslate"><span class="pre">RB-1</span></code> Before/After Error-Minimization Benchmarks (<code class="docutils literal notranslate"><span class="pre">py_compare_rs_c2_vs_c4</span></code>)<a class="headerlink" href="#rb-1-before-after-error-minimization-benchmarks-py-compare-rs-c2-vs-c4" title="Link to this heading">¶</a></h3>
+<p>Upgrading from <span class="math notranslate nohighlight">\(C_2(p)\)</span> + 4th-order finite differences (<span class="math notranslate nohighlight">\(h = 5\times 10^{-4}\)</span>) to <span class="math notranslate nohighlight">\(C_4(p)\)</span> + exact <code class="docutils literal notranslate"><span class="pre">Jet2</span></code>/<code class="docutils literal notranslate"><span class="pre">CJet2</span></code> automatic differentiation drives every <code class="docutils literal notranslate"><span class="pre">f64</span></code> observable down to the fundamental IEEE-754 phase-argument rounding floor <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{phase}} \sim t \ln(\lfloor a \rfloor) \cdot \varepsilon_{\mathrm{mach}} \approx 6 \times 10^{-12}\)</span> at <span class="math notranslate nohighlight">\(t \approx 7{,}005\)</span>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Benchmark Observable</p></th>
+<th class="head text-right"><p>Baseline (<code class="docutils literal notranslate"><span class="pre">RS-C2</span></code> / FD) Error</p></th>
+<th class="head text-right"><p>Upgraded (<code class="docutils literal notranslate"><span class="pre">RS-C4</span></code> + <code class="docutils literal notranslate"><span class="pre">Jet2</span></code>) Error</p></th>
+<th class="head text-right"><p>Error Reduction Factor</p></th>
+<th class="head text-left"><p>Limiting <code class="docutils literal notranslate"><span class="pre">f64</span></code> Mechanism</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(Z(\gamma_{30})\)</span> at <span class="math notranslate nohighlight">\(\gamma_{30} = 101.31785101\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.502e-06</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">3.539e-08</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">42.4×</span></code></strong></p></td>
+<td class="text-left"><p>Asymptotic <span class="math notranslate nohighlight">\(O(a^{-11/2})\)</span> at small <span class="math notranslate nohighlight">\(a = 4.016\)</span> (Euler–Maclaurin gives <code class="docutils literal notranslate"><span class="pre">2.42e-14</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(Z(\gamma_*)\)</span> at Lehmer <span class="math notranslate nohighlight">\(\gamma_* = 7005.08185510\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.252e-09</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">6.311e-12</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">198.5×</span></code></strong></p></td>
+<td class="text-left"><p>IEEE-754 <code class="docutils literal notranslate"><span class="pre">f64</span></code> phase rounding <span class="math notranslate nohighlight">\(t \ln n \cdot 2^{-53}\)</span> (<span class="math notranslate nohighlight">\(a = 33.39\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(Z''(\gamma_*)\)</span> at Lehmer <span class="math notranslate nohighlight">\(\gamma_* = 7005.08185510\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">~1.10e-05</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">1.350e-10</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">81,000×</span></code></strong></p></td>
+<td class="text-left"><p>Exact <code class="docutils literal notranslate"><span class="pre">Jet2</span></code> Clenshaw + main-sum differentiation</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(\mathcal{J}(g_{125})\)</span> at <span class="math notranslate nohighlight">\(g_{125} = 280.80242938\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.932e-04</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">6.722e-12</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">2.87e7×</span></code></strong></p></td>
+<td class="text-left"><p>Zero step-size cancellation via <code class="docutils literal notranslate"><span class="pre">CJet2</span></code> Euler–Maclaurin</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="first-30-nontrivial-zeros-cross-checked-against-35-digit-mpmath">
+<h3>3.3 First 30 Nontrivial Zeros Cross-Checked Against 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code><a class="headerlink" href="#first-30-nontrivial-zeros-cross-checked-against-35-digit-mpmath" title="Link to this heading">¶</a></h3>
+<p>Across all <strong>30 first nontrivial zeros</strong> (<code class="docutils literal notranslate"><span class="pre">py_find_first_n_riemann_zeros(30)</span></code> vs. 35-digit <code class="docutils literal notranslate"><span class="pre">mpmath.zetazero</span></code>), the Rust Euler–Maclaurin root finder achieves <strong>maximum zero-height error <span class="math notranslate nohighlight">\(2.84 \times 10^{-14}\)</span></strong> and <strong>maximum <span class="math notranslate nohighlight">\(\lvert \zeta(\tfrac{1}{2} + i\gamma_k) \rvert = 5.94 \times 10^{-14}\)</span></strong>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>Zero Index <span class="math notranslate nohighlight">\(k\)</span></p></th>
+<th class="head text-right"><p>Rust Height <span class="math notranslate nohighlight">\(\gamma_k\)</span></p></th>
+<th class="head text-right"><p>Error vs. 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\lvert \zeta_{\mathrm{EM}}(\tfrac{1}{2} + i\gamma_k) \rvert\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\lvert Z_{\mathrm{RS}, C_2}(\gamma_k) \rvert\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\lvert Z_{\mathrm{RS}, C_4}(\gamma_k) \rvert\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\lvert \zeta_{\mathrm{Borwein}, 22} \rvert\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\mathcal{J}(\gamma_k) = (Z'(\gamma_k))^2\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">14.1347251417</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.78e-15</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7.92e-16</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7.76e-05</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.65e-05</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.98e-09</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.629103</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">21.0220396388</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">3.55e-15</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">3.38e-15</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.79e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.44e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.76e-05</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.292403</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">25.0108575801</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">3.39e-15</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.91e-05</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">3.15e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.65e-04</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.881619</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>10</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">49.7738324777</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.42e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.22e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.32e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">9.89e-08</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.83e-01</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.013369</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>20</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">77.1448400689</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.70e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.52e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.63e-08</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.90e-01</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.124430</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>27</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">94.6513440405</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.84e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.55e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7.74e-07</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.15e-08</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.96e-01</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.188631</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>28</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">95.8706342282</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.42e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.43e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.15e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.86e-08</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">6.03e-01</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.868145</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>30</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">101.3178510057</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.42e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.42e-14</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.50e-06</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">3.54e-08</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.07e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">9.951800</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="jensenpolya-transverse-qfim-stiffness-grams-law-violations-and-lehmers-1956-pair-correcting-the-chat-table">
+<h2>4. Jensen–Pólya Transverse QFIM Stiffness, Gram’s Law Violations, and Lehmer’s 1956 Pair (Correcting the Chat Table)<a class="headerlink" href="#jensenpolya-transverse-qfim-stiffness-grams-law-violations-and-lehmers-1956-pair-correcting-the-chat-table" title="Link to this heading">¶</a></h2>
+<section id="exact-algebraic-identities-proved-in-lean-4">
+<h3>4.1 Exact Algebraic Identities Proved in Lean 4<a class="headerlink" href="#exact-algebraic-identities-proved-in-lean-4" title="Link to this heading">¶</a></h3>
+<p>Along the critical strip <span class="math notranslate nohighlight">\(s = (\tfrac{1}{2} + \sigma_{\mathrm{dev}}) + i\gamma\)</span>, the second-order Cauchy–Riemann expansion of <span class="math notranslate nohighlight">\(E(\sigma_{\mathrm{dev}}) = \lvert W(\gamma - i\sigma_{\mathrm{dev}}) \rvert^2\)</span> around a real critical-line amplitude <span class="math notranslate nohighlight">\(Z(\gamma)\)</span> satisfies (<code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR.criticalStripPolynomialEnergy_eq_jensenPolya</span></code> and <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.jensen_polya_madelung_bohm_split_and_extremum_rescue</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+E(\sigma_{\mathrm{dev}}) = Z(\gamma)^2 + \underbrace{\Bigl(\underbrace{(Z'(\gamma))^2}_{J_{\mathrm{osmotic}}} + \underbrace{(-Z(\gamma)\,Z''(\gamma))}_{J_{\mathrm{bohm}}}\Bigr)}_{\mathcal{J}(\gamma)} \sigma_{\mathrm{dev}}^2 + \frac{1}{4}\bigl(Z''(\gamma)\bigr)^2 \sigma_{\mathrm{dev}}^4.
+\]</div>
+<p>Moreover, <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> proves:</p>
+<ul class="simple">
+<li><p><strong>Laguerre–Pólya Multiplicative Closure (<code class="docutils literal notranslate"><span class="pre">jensenPolyaDiscriminant_mul_product_rule</span></code>):</strong> <span class="math notranslate nohighlight">\(\mathcal{J}(fg) = g^2 \mathcal{J}(f) + f^2 \mathcal{J}(g)\)</span>, so any finite product of real-rooted factors preserves <span class="math notranslate nohighlight">\(\mathcal{J} \ge 0\)</span>.</p></li>
+<li><p><strong>Lehmer Bifurcation Witness (<code class="docutils literal notranslate"><span class="pre">lehmer_pair_failure_destabilizes_and_splits</span></code>):</strong> If <span class="math notranslate nohighlight">\(Z'(\gamma_*) = 0\)</span> and <span class="math notranslate nohighlight">\(Z(\gamma_*) Z''(\gamma_*) &gt; 0\)</span>, then <span class="math notranslate nohighlight">\(\mathcal{J}(\gamma_*) &lt; 0\)</span> and the quadratic-truncated critical-strip energy vanishes off the critical line at <span class="math notranslate nohighlight">\(\sigma_*^2 = 2 Z(\gamma_*) / Z''(\gamma_*) &gt; 0\)</span>.</p></li>
+<li><p><strong>De Bruijn–Newman / Calogero–Moser Flow (<code class="docutils literal notranslate"><span class="pre">dbnTwoZeroForwardSeparationRate_pos</span></code>, <code class="docutils literal notranslate"><span class="pre">dbnThreeZero_center_of_mass_conserved</span></code>):</strong> Under <span class="math notranslate nohighlight">\(\dot{z}_k = \sum_{j \ne k} 2/(z_j - z_k)\)</span>, two real zeros separate at rate <span class="math notranslate nohighlight">\(4/(z_2 - z_1) &gt; 0\)</span>, and the three-zero velocity sum vanishes identically.</p></li>
+</ul>
+</section>
+<section id="exact-35-digit-mpmath-rust-audit-vs-uncomputed-chat-table">
+<h3>4.2 Exact 35-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> &amp; Rust Audit vs. Uncomputed Chat Table<a class="headerlink" href="#exact-35-digit-mpmath-rust-audit-vs-uncomputed-chat-table" title="Link to this heading">¶</a></h3>
+<p>Auditing the chat’s uncomputed check-figure table (<a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">lines</span> <span class="pre">5718–5725</span></code></a>) against Rust <code class="docutils literal notranslate"><span class="pre">py_audit_gram_law_and_lehmer()</span></code> and 35-digit <code class="docutils literal notranslate"><span class="pre">mpmath.siegelz</span></code> reveals two key factual corrections:</p>
+<ol class="arabic simple">
+<li><p>At the Gram-violation points <span class="math notranslate nohighlight">\(g_{126}\)</span> and <span class="math notranslate nohighlight">\(g_{134}\)</span> themselves, <span class="math notranslate nohighlight">\(Z(g_m)\)</span> and <span class="math notranslate nohighlight">\(Z''(g_m)\)</span> are both <strong>negative</strong>, so <span class="math notranslate nohighlight">\(J_{\mathrm{bohm}}(g_m) = -Z Z''\)</span> is slightly <strong>negative</strong> (<code class="docutils literal notranslate"><span class="pre">-0.2103</span></code> and <code class="docutils literal notranslate"><span class="pre">-0.0923</span></code>), while the osmotic Fisher slope <span class="math notranslate nohighlight">\(J_{\mathrm{osm}} = (Z')^2\)</span> dominates (<code class="docutils literal notranslate"><span class="pre">+7.2783</span></code> and <code class="docutils literal notranslate"><span class="pre">+2.6105</span></code>) to maintain <span class="math notranslate nohighlight">\(\mathcal{J} &gt; 0\)</span>. The pure Bohm extremum rescue (<span class="math notranslate nohighlight">\(\eta_{\mathrm{Bohm}} = 1.0000\)</span>) occurs at the displaced positive peak <span class="math notranslate nohighlight">\(\gamma_* = 282.814083516\)</span> between the two zeros inside <span class="math notranslate nohighlight">\([g_{126}, g_{127}]\)</span>.</p></li>
+<li><p>At <strong>Lehmer’s 1956 near-miss pair</strong> (Zeros #6709 at <code class="docutils literal notranslate"><span class="pre">7005.0628661779</span></code> and #6710 at <code class="docutils literal notranslate"><span class="pre">7005.1005646697</span></code>, gap <span class="math notranslate nohighlight">\(\Delta\gamma = 0.0376984918\)</span>), the extremum at <span class="math notranslate nohighlight">\(\gamma_* = 7005.0818550970\)</span> is a <strong>positive peak</strong> <span class="math notranslate nohighlight">\(Z(\gamma_*) = +0.0039673563\)</span> with <span class="math notranslate nohighlight">\(Z''(\gamma_*) = -22.346182\)</span> (opposite signs to the chat’s uncomputed table), yielding <span class="math notranslate nohighlight">\(J_{\mathrm{bohm}}(\gamma_*) = \mathcal{J}(\gamma_*) = +0.08865527 &gt; 0\)</span> and <span class="math notranslate nohighlight">\(\eta_{\mathrm{Bohm}} = 1.000000\)</span>.</p></li>
+</ol>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Spectral Locus</p></th>
+<th class="head text-right"><p>Height <span class="math notranslate nohighlight">\(\gamma\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(Z(\gamma)\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(Z'(\gamma)\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(Z''(\gamma)\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(J_{\mathrm{osm}} = (Z')^2\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(J_{\mathrm{bohm}} = -Z Z''\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\mathcal{J}(\gamma)\)</span></p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\eta_{\mathrm{Bohm}}\)</span></p></th>
+<th class="head text-center"><p>Gram Holds?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{125}\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">280.80242938</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-7.00315164</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.080868</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+10.191751</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.006540</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+71.374377</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">71.380917</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.9999</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{126}\)</span> (1st Violation)</strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">282.45472082</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.02762950</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+2.697839</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-7.612266</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7.278333</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.210323</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7.068010</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.0298</span></code></p></td>
+<td class="text-center"><p><strong>No</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{126}\)</span> Peak <span class="math notranslate nohighlight">\(\gamma_*\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">282.81408352</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.44867775</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-6.838034</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">+3.068074</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">3.068074</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">+1.0000</span></code></strong></p></td>
+<td class="text-center"><p>Extremum</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{127}\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">284.10447635</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-1.42828341</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.117384</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+5.705791</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.013779</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+8.149487</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">8.163266</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.9983</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{133}\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">293.95119335</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.77638607</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-1.090699</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+5.002328</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">1.189625</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+3.883738</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.073363</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.7655</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{134}\)</span> (2nd Violation)</strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">295.58390697</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.01690039</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-1.615699</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-5.460079</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.610482</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.092277</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">2.518204</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-0.0366</span></code></p></td>
+<td class="text-center"><p><strong>No</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><span class="math notranslate nohighlight">\(g_{135}\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">297.21428208</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">-3.46980438</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+2.033296</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+8.530600</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">4.134292</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+29.599513</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">33.733805</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">+0.8774</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Lehmer 1956 (#6709–#6710) <span class="math notranslate nohighlight">\(\gamma_*\)</span></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7005.08185510</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">+0.00396736</span></code></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">-22.346182</span></code></strong></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">+0.088655</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">0.088655</span></code></strong></p></td>
+<td class="text-right"><p><strong><code class="docutils literal notranslate"><span class="pre">+1.0000</span></code></strong></p></td>
+<td class="text-center"><p>Extremum</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="lis-unit-circle-criterion-and-why-finite-zero-audits-do-not-close-classical-rh">
+<h2>5. Li’s Unit-Circle Criterion and Why Finite Zero Audits Do Not Close Classical RH<a class="headerlink" href="#lis-unit-circle-criterion-and-why-finite-zero-audits-do-not-close-classical-rh" title="Link to this heading">¶</a></h2>
+<section id="machine-checked-unit-circle-equivalence-off-line-splitting">
+<h3>5.1 Machine-Checked Unit-Circle Equivalence &amp; Off-Line Splitting<a class="headerlink" href="#machine-checked-unit-circle-equivalence-off-line-splitting" title="Link to this heading">¶</a></h3>
+<p>Under Li’s Möbius map <span class="math notranslate nohighlight">\(w(\rho) = 1 - 1/\rho\)</span> for <span class="math notranslate nohighlight">\(\rho = (\tfrac{1}{2} + \sigma_{\mathrm{dev}}) + i\gamma\)</span>, <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.liTransformModulusSq_eq_one_iff_critical_line</span></code> proves</p>
+<div class="math notranslate nohighlight">
+\[
+\left\lvert 1 - \frac{1}{\rho} \right\rvert^2 = \frac{(\sigma_{\mathrm{dev}} - 1/2)^2 + \gamma^2}{(\sigma_{\mathrm{dev}} + 1/2)^2 + \gamma^2} = 1 \iff \sigma_{\mathrm{dev}} = 0,
+\]</div>
+<p>while <code class="docutils literal notranslate"><span class="pre">liTransformModulusSq_off_line_splits</span></code> proves that for any <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\lvert 1 - 1/\rho \rvert^2 &lt; 1 &lt; \lvert 1 - 1/(1 - \bar{\rho}) \rvert^2\)</span>, placing one member of every off-line functional-equation quartet strictly outside the unit circle. In Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">py_li_partial_coefficients</span></code>), the partial sums <span class="math notranslate nohighlight">\(\lambda_n^{(30)} = \sum_{k=1}^{30} 2\operatorname{Re}[1 - (1 - 1/\rho_k)^n]\)</span> remain strictly positive for all <span class="math notranslate nohighlight">\(n \in [1, 100]\)</span>, whereas injecting a single hypothetical off-line quartet <span class="math notranslate nohighlight">\((\tfrac{1}{2} \pm 0.20) \pm 14.1347i\)</span> produces <span class="math notranslate nohighlight">\(\lvert 1 - 1/\rho \rvert \approx 1.0010 &gt; 1\)</span> and drives <span class="math notranslate nohighlight">\(\lambda_n\)</span> strictly negative starting at <strong><span class="math notranslate nohighlight">\(n = 3{,}286\)</span></strong> (<span class="math notranslate nohighlight">\(\lambda_{3286} = -0.0744\)</span>, dipping to <span class="math notranslate nohighlight">\(-235.87\)</span> by <span class="math notranslate nohighlight">\(n = 5{,}000\)</span>).</p>
+</section>
+<section id="formal-pending-boundary-signals-pending-riemannhypothesispendingboundary">
+<h3>5.2 Formal Pending Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.RiemannHypothesisPendingBoundary</span></code>)<a class="headerlink" href="#formal-pending-boundary-signals-pending-riemannhypothesispendingboundary" title="Link to this heading">¶</a></h3>
+<p>No finite check above can prove the classical Riemann Hypothesis. <code class="docutils literal notranslate"><span class="pre">Signals.Pending.finite_zero_audit_does_not_close_rh_bridges</span></code> formally encodes this boundary in Lean 4: a finite audit record with arbitrarily high verified height <span class="math notranslate nohighlight">\(T_{\max} &gt; 0\)</span>, audited zero count, and audited Gram violations still fails <code class="docutils literal notranslate"><span class="pre">allFourBridgesClosed</span></code> unless all four infinite-dimensional analytical bridges are established:</p>
+<ol class="arabic simple">
+<li><p><strong>de Bruijn–Newman upper bound:</strong> <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dBN}} \le 0\)</span> (paired with Rodgers–Tao 2020’s <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dBN}} \ge 0\)</span>).</p></li>
+<li><p><strong>Adelic Sato trace-norm limit:</strong> convergence of finite Plabic VRC / Bass–Ihara transfers as <span class="math notranslate nohighlight">\(p_{\max} \to \infty\)</span> on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathrm{Sato}}(\mathbb{A}_{\mathbb{Q}}/\mathbb{Q}^\times)\)</span>.</p></li>
+<li><p><strong>Global Li / Jensen–Pólya positivity:</strong> <span class="math notranslate nohighlight">\(\lambda_n \ge 0\)</span> for all <span class="math notranslate nohighlight">\(n \ge 1\)</span> and <span class="math notranslate nohighlight">\(\mathcal{J}(\gamma) \ge 0\)</span> for all <span class="math notranslate nohighlight">\(\gamma \in \mathbb{R}\)</span>.</p></li>
+<li><p><strong>Self-adjoint spectral operator closure:</strong> an intrinsically self-adjoint archimedean + non-archimedean domain closure for a Hilbert–Pólya / Connes generator.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="sympy-arbitrary-precision-analytical-bridge-probes-riemann-rh-bridges-py-signals-riemannspectral-sections-79">
+<h2>6. SymPy &amp; Arbitrary-Precision Analytical-Bridge Probes (<code class="docutils literal notranslate"><span class="pre">riemann_rh_bridges.py</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Sections 7–9)<a class="headerlink" href="#sympy-arbitrary-precision-analytical-bridge-probes-riemann-rh-bridges-py-signals-riemannspectral-sections-79" title="Link to this heading">¶</a></h2>
+<p>To push directly on the four open analytical bridges without overstating finite checks as a global proof, <a class="reference download internal" download="" href="_downloads/67a8c89d31e6cb415894bc6113435851/riemann_rh_bridges.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/riemann_rh_bridges.py</span></code></a> pairs seven symbolic SymPy proofs and four arbitrary-precision (<code class="docutils literal notranslate"><span class="pre">50–80</span></code> digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>) numerical probes with new machine-checked Lean 4 theorems in Sections 7–9 of <a class="reference download internal" download="" href="_downloads/3cdeb207d020b1acb915b2dc771c3245/RiemannSpectral.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/RiemannSpectral.lean</span></code></a>.</p>
+<section id="griffinonorolenzagier-pnas-2019-positive-integral-jensen-polynomials-d-2-text-6">
+<h3>6.1 Griffin–Ono–Rolen–Zagier (PNAS 2019) Positive-Integral Jensen Polynomials (<span class="math notranslate nohighlight">\(d = 2\text{..}6\)</span>)<a class="headerlink" href="#griffinonorolenzagier-pnas-2019-positive-integral-jensen-polynomials-d-2-text-6" title="Link to this heading">¶</a></h3>
+<p>Pólya (1927) proved that the Riemann Hypothesis is equivalent to the hyperbolicity (all roots real) of every Jensen polynomial <span class="math notranslate nohighlight">\(J^{d,n}(X) = \sum_{j=0}^d \binom{d}{j}\gamma_{n+j} X^j\)</span> (<span class="math notranslate nohighlight">\(d \ge 1, n \ge 0\)</span>) built from the Taylor moments <span class="math notranslate nohighlight">\(\gamma_n\)</span> of <span class="math notranslate nohighlight">\(\Xi(z) = \xi(\tfrac{1}{2} + iz)\)</span>. Griffin, Ono, Rolen, and Zagier (<a class="reference internal" href="#rh-scholarly-references"><span class="std std-ref">Griffin et al. 2019</span></a>) proved hyperbolicity for every fixed degree <span class="math notranslate nohighlight">\(d \ge 1\)</span> and sufficiently large shift <span class="math notranslate nohighlight">\(n \ge N(d)\)</span> by showing Hermite convergence to <span class="math notranslate nohighlight">\(He_d(X)\)</span>.</p>
+<ul class="simple">
+<li><p><strong>Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 7):</strong> <code class="docutils literal notranslate"><span class="pre">jensenCubicDiscriminant_factored_roots</span></code> proves <span class="math notranslate nohighlight">\(\Delta_3(a(X-r_1)(X-r_2)(X-r_3)) = a^4(r_1-r_2)^2(r_1-r_3)^2(r_2-r_3)^2 &gt; 0\)</span>, and <code class="docutils literal notranslate"><span class="pre">depressedCubic_hermite3_discriminant</span></code> proves <span class="math notranslate nohighlight">\(\Delta_3(Z^3 - 3Z + c) = 27(4 - c^2) &gt; 0 \iff c^2 &lt; 4\)</span> (<span class="math notranslate nohighlight">\(\Delta_3 = 108\)</span> at <span class="math notranslate nohighlight">\(He_3(Z) = Z^3 - 3Z\)</span>).</p></li>
+<li><p><strong>Zero-Cancellation Positive Integral (<code class="docutils literal notranslate"><span class="pre">compute_gorz_jensen_moments</span></code>):</strong> Using Riemann’s strictly positive kernel <span class="math notranslate nohighlight">\(\Phi(u) &gt; 0\)</span> (<span class="math notranslate nohighlight">\(\Xi(z) = 4 \int_0^\infty \Phi(u)\cos(zu)\,du\)</span>) eliminates the catastrophic cancellation of circle Cauchy integration at high shifts (<span class="math notranslate nohighlight">\(n &gt; 20\)</span>), matching <span class="math notranslate nohighlight">\(\gamma_0 = \xi(\tfrac{1}{2})\)</span> to <span class="math notranslate nohighlight">\(&lt; 10^{-60}\)</span>. Across all degrees <span class="math notranslate nohighlight">\(d \in \{2, 3, 4, 5, 6\}\)</span> and shifts <span class="math notranslate nohighlight">\(n \in [0, 25]\)</span>, every computed root of <span class="math notranslate nohighlight">\(J^{d,n}(X)\)</span> is strictly real (<span class="math notranslate nohighlight">\(\max \lvert \operatorname{Im}(r) \rvert = 0\)</span>) with Hermite <span class="math notranslate nohighlight">\(He_3\)</span> depressed residual <span class="math notranslate nohighlight">\(c_n \in [+0.0608, +0.1435] \ll 2\)</span>.</p></li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>Jensen Degree <span class="math notranslate nohighlight">\(d\)</span></p></th>
+<th class="head text-center"><p>Shifts Audited <span class="math notranslate nohighlight">\(n\)</span></p></th>
+<th class="head text-center"><p>All Roots Real?</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\max \lvert \operatorname{Im}(\text{root}) \rvert\)</span></p></th>
+<th class="head text-right"><p>Minimum Root Gap</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>2</p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0..25</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">9.0456e+01</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>3</p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0..25</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">7.5071e+01</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>4</p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0..25</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">6.6594e+01</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>5</p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0..25</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.9404e+01</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>6</p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0..25</span></code></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">0.00e+00</span></code></p></td>
+<td class="text-right"><p><code class="docutils literal notranslate"><span class="pre">5.4120e+01</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exact-infinite-zero-keiperli-coefficients-via-ln-2-xi-1-z">
+<h3>6.2 Exact Infinite-Zero Keiper–Li Coefficients via <span class="math notranslate nohighlight">\(\ln(2\xi(1+z))\)</span><a class="headerlink" href="#exact-infinite-zero-keiperli-coefficients-via-ln-2-xi-1-z" title="Link to this heading">¶</a></h3>
+<p>Whereas Section 5.1 summed over the first 30 zeros, expanding <span class="math notranslate nohighlight">\(\ln(2\xi(1+z)) = \sum_{k=1}^\infty b_k z^k\)</span> on <span class="math notranslate nohighlight">\(\lvert z \rvert = 2\)</span> (strictly inside the zero-free disk <span class="math notranslate nohighlight">\(\lvert z \rvert &lt; 14.14\)</span>) captures <strong>all infinitely many nontrivial zeros simultaneously</strong> via <span class="math notranslate nohighlight">\(\lambda_n = n \sum_{k=1}^n \binom{n-1}{k-1} b_k\)</span> (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.keiperLi_binomial_inversion_123</span></code>). At 65-digit precision (<code class="docutils literal notranslate"><span class="pre">compute_exact_keiper_li_coefficients</span></code>), <span class="math notranslate nohighlight">\(\lambda_1\)</span> matches the exact Bombieri–Lagarias identity <span class="math notranslate nohighlight">\(1 + \gamma_E/2 - \ln(4\pi)/2 = 0.023095708966121034\dots\)</span> to <strong><span class="math notranslate nohighlight">\(1.08 \times 10^{-66}\)</span></strong>, and all <span class="math notranslate nohighlight">\(\lambda_1\text{..}\lambda_{20}\)</span> are strictly positive (<span class="math notranslate nohighlight">\(\lambda_2 = 0.0923457\)</span>, <span class="math notranslate nohighlight">\(\lambda_5 = 0.5755427\)</span>, <span class="math notranslate nohighlight">\(\lambda_{10} = 2.2793394\)</span>, <span class="math notranslate nohighlight">\(\lambda_{20} = 8.7692769\)</span>).</p>
+</section>
+<section id="digit-weil-explicit-formula-gaussian-gram-matrix-prime-archimedean-vs-zero-side">
+<h3>6.3 50-Digit Weil Explicit-Formula Gaussian Gram Matrix (Prime + Archimedean vs. Zero Side)<a class="headerlink" href="#digit-weil-explicit-formula-gaussian-gram-matrix-prime-archimedean-vs-zero-side" title="Link to this heading">¶</a></h3>
+<p>Under Weil’s positivity criterion (<a class="reference internal" href="#rh-scholarly-references"><span class="std std-ref">Bombieri 2000</span></a>), RH holds if and only if the symmetric Weil distribution <span class="math notranslate nohighlight">\(W(g \ast \tilde{g})\)</span> is positive semidefinite on all admissible test functions. Lean 4 proves both the finite Sylvester positivity gate (<code class="docutils literal notranslate"><span class="pre">weilQuadForm2_pos_of_sylvester</span></code>) and the explicit negative-determinant disproof witness <span class="math notranslate nohighlight">\(v = (-w_{01}, w_{00})\)</span> (<code class="docutils literal notranslate"><span class="pre">weilQuadForm2_neg_witness_of_neg_det</span></code>).</p>
+<p>On the 4-dimensional Gaussian basis <span class="math notranslate nohighlight">\(g_i(x) = e^{-\alpha_i x^2}\)</span> with <span class="math notranslate nohighlight">\(\alpha \in \{40, 80, 160, 320\}\)</span>, <code class="docutils literal notranslate"><span class="pre">audit_weil_gaussian_gram_matrix</span></code> evaluates every matrix entry independently via the <strong>Prime + Archimedean side</strong> (poles at <span class="math notranslate nohighlight">\(s=0,1\)</span>, von Mangoldt sum <span class="math notranslate nohighlight">\(-2\sum \Lambda(n) n^{-1/2} F(\ln n)\)</span>, and digamma integral) and via the <strong>Spectral Zero side</strong>:</p>
+<ul class="simple">
+<li><p><strong>Maximum Prime-vs-Zero Matrix Discrepancy (50-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>):</strong> <strong><code class="docutils literal notranslate"><span class="pre">8.35e-52</span></code></strong>.</p></li>
+<li><p><strong>Exact Symmetric Eigenvalues of <span class="math notranslate nohighlight">\(W_{4\times 4}\)</span>:</strong> <code class="docutils literal notranslate"><span class="pre">3.4629e-05</span></code>, <code class="docutils literal notranslate"><span class="pre">7.0233e-04</span></code>, <code class="docutils literal notranslate"><span class="pre">9.9412e-03</span></code>, <code class="docutils literal notranslate"><span class="pre">1.1917e-01</span></code> (all strictly positive, confirming Weil positivity on this 4D Gaussian subspace).</p></li>
+</ul>
+</section>
+<section id="de-bruijnnewman-backward-heat-flow-collision-time-on-lehmers-1956-pair">
+<h3>6.4 De Bruijn–Newman Backward Heat-Flow Collision Time on Lehmer’s 1956 Pair<a class="headerlink" href="#de-bruijnnewman-backward-heat-flow-collision-time-on-lehmers-1956-pair" title="Link to this heading">¶</a></h3>
+<p>Under the de Bruijn–Newman heat PDE <span class="math notranslate nohighlight">\(\partial_t H_t = -\partial_z^2 H_t\)</span>, <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral.dbnQuadraticHeat_collides_and_leaves_real_axis</span></code> proves that near any real extremum peak (<span class="math notranslate nohighlight">\(z_0 &gt; 0, z_2 &lt; 0\)</span>), the quadratic solution <span class="math notranslate nohighlight">\(H_t(\delta z) = (z_0 - z_2 t) + \tfrac{1}{2} z_2 \delta z^2\)</span> hits a double root at <span class="math notranslate nohighlight">\(t_{\mathrm{crit}} = z_0 / z_2 &lt; 0\)</span> and leaves the real axis strictly for all <span class="math notranslate nohighlight">\(t &lt; t_{\mathrm{crit}}\)</span>. On Lehmer’s 1956 near-miss pair (#6709 &amp; #6710, <span class="math notranslate nohighlight">\(\Delta\gamma = 0.0376984977\)</span>), <code class="docutils literal notranslate"><span class="pre">audit_lehmer_dbn_backward_heat</span></code> finds</p>
+<div class="math notranslate nohighlight">
+\[
+t_{\mathrm{heat}} = \frac{Z(\gamma_*)}{Z''(\gamma_*)} = -0.0001775410, \qquad t_{\mathrm{CM}} = -\frac{\Delta\gamma^2}{8} = -0.0001776471, \qquad \frac{t_{\mathrm{heat}}}{t_{\mathrm{CM}}} = 0.999403,
+\]</div>
+<p>confirming to <span class="math notranslate nohighlight">\(0.06\%\)</span> that local backward heat collision matches the 2-zero Calogero–Moser exact merge time and quantitatively illustrating why Rodgers–Tao (2020) proved <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dBN}} \ge 0\)</span> while the remaining open half of RH is <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{dBN}} \le 0\)</span>.</p>
+</section>
+<section id="finite-grassmannian-lift-of-the-quartic-de-bruijnnewman-heat-jet">
+<h3>6.5 Finite Grassmannian Lift of the Quartic de Bruijn–Newman Heat Jet<a class="headerlink" href="#finite-grassmannian-lift-of-the-quartic-de-bruijnnewman-heat-jet" title="Link to this heading">¶</a></h3>
+<p>The quartic truncation has coefficient state <span class="math notranslate nohighlight">\(a(t)=(a_0(t),a_2(t),a_4(t))\)</span> for
+<span class="math notranslate nohighlight">\(H_t(\Delta z)=a_0(t)+a_2(t)(\Delta z)^2+a_4(t)(\Delta z)^4\)</span>. Its finite heat step is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+a(t+h)=a(t)S_h,\qquad
+S_h=\begin{pmatrix}1&amp;0&amp;0\\-2h&amp;1&amp;0\\12h^2&amp;-12h&amp;1\end{pmatrix},\qquad S_{h_1}S_{h_2}=S_{h_1+h_2}.
+\end{split}\]</div>
+<p>This makes the coefficient orbit a three-dimensional linear representation of the additive heat-time parameter. To obtain a Grassmannian point, augment the coefficient row by a fixed reference direction <span class="math notranslate nohighlight">\(e_4\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+C(a)=\begin{pmatrix}a_0&amp;a_2&amp;a_4&amp;0\\0&amp;0&amp;0&amp;1\end{pmatrix},\qquad
+(p_{12},p_{13},p_{14},p_{23},p_{24},p_{34})=(0,0,a_0,0,a_2,a_4).
+\end{split}\]</div>
+<p>Interpret <span class="math notranslate nohighlight">\((a_0,a_2,a_4)\)</span> as coordinates in the finite Euclidean coefficient Hilbert space <span class="math notranslate nohighlight">\(\mathbb R^3\)</span> with the selected basis <span class="math notranslate nohighlight">\(\{1,(\Delta z)^2,(\Delta z)^4\}\)</span>. A nonzero vector determines a ray in <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb R}(1,3)\cong\mathbb{RP}^2\)</span>; adjoining the fixed reference direction <span class="math notranslate nohighlight">\(e_4\)</span> embeds that ray as the 2-plane</p>
+<div class="math notranslate nohighlight">
+\[
+\iota([a])=\operatorname{span}\{(a_0,a_2,a_4,0),(0,0,0,1)\}\in\mathrm{Gr}_{\mathbb R}(2,4)\subset\mathrm{Gr}_{\mathbb C}(2,4).
+\]</div>
+<p>The Lean and Rust implementations store the finite coefficient vector and this explicit frame; they do not supply a continuum <span class="math notranslate nohighlight">\(L^2\)</span> basis or a canonical map from an unspecified Hilbert space. For <span class="math notranslate nohighlight">\(a\ne0\)</span>, the row span is a real 2-plane in <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb R}(2,4)\)</span>, hence in its complexification <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb C}(2,4)\)</span>. The Plücker relation is automatic for this decomposable bivector. The ambient shear</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+U_h=\begin{pmatrix}1&amp;0&amp;0&amp;0\\-2h&amp;1&amp;0&amp;0\\12h^2&amp;-12h&amp;1&amp;0\\0&amp;0&amp;0&amp;1\end{pmatrix},\qquad C(a(t+h))=C(a(t))U_h,
+\end{split}\]</div>
+<p>is lower triangular with unit diagonal, fixes the reference row, has reverse-time inverse <span class="math notranslate nohighlight">\(U_{-h}\)</span>, and composes as <span class="math notranslate nohighlight">\(U_{h_1}U_{h_2}=U_{h_1+h_2}\)</span>. More explicitly, <span class="math notranslate nohighlight">\(U_h=I+hN+\frac{h^2}{2}N^2\)</span> for a fixed nilpotent generator <span class="math notranslate nohighlight">\(N\)</span> with <span class="math notranslate nohighlight">\(N^3=0\)</span>; <span class="math notranslate nohighlight">\(N\)</span> is not symmetric in the coefficient-space Euclidean inner product. Thus this finite flow generator is not itself a self-adjoint Hilbert–Pólya operator. The Lean implementation (<code class="docutils literal notranslate"><span class="pre">DBNQuarticHeatGr24State</span></code>, <code class="docutils literal notranslate"><span class="pre">dbnQuarticHeatGr24Generator</span></code>, <code class="docutils literal notranslate"><span class="pre">dbnQuarticHeatGr24AmbientAction</span></code>, and <code class="docutils literal notranslate"><span class="pre">dbnQuarticHeatGr24GeneratorMatrix_heatStep</span></code>) proves these finite polynomial identities and the nonzero-minor condition; the Rust implementation (<code class="docutils literal notranslate"><span class="pre">DbnQuarticHeatGr24State</span></code>) checks the same formulas numerically in <code class="docutils literal notranslate"><span class="pre">f64</span></code>. The zero coefficient vector maps to the zero Plücker vector and is not a point of the projective Grassmannian.</p>
+<p>This construction is a chosen coefficient chart, not a canonical embedding of an infinite-dimensional Hilbert space and not a spectral model for the zeta zeros. A generic finite Hilbert-to-Grassmannian construction starts with an isometric frame <span class="math notranslate nohighlight">\(E_N:\mathbb{C}^N\to\mathcal{H}\)</span> whose range lies in the domain of a specified operator <span class="math notranslate nohighlight">\(A\)</span>. Compress to <span class="math notranslate nohighlight">\(A_N=E_N^*AE_N\)</span>, choose a full-rank <span class="math notranslate nohighlight">\(N\times k\)</span> frame <span class="math notranslate nohighlight">\(X_0\)</span>, and evolve</p>
+<div class="math notranslate nohighlight">
+\[
+X_t=e^{tA_N}X_0,\qquad p_t=\bigwedge^k X_t.
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(p_t\)</span> is the vector of <span class="math notranslate nohighlight">\(k\times k\)</span> minors, so it represents the transported <span class="math notranslate nohighlight">\(k\)</span>-plane. The quartic implementation is this recipe in a selected finite coefficient chart, with a row-frame convention. A dBN-to-Hilbert bridge would still need a justified Hilbert space, the unbounded generator <span class="math notranslate nohighlight">\(A=-\partial_z^2\)</span> with domain and boundary conditions, a convergent sequence of finite sections, and a proof that the limiting spectral data are the zeta-zero ordinates. None of those infinite-dimensional ingredients is supplied by the quartic jet.</p>
+<section id="native-rust-f64-cross-check-plan">
+<h4>Native Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code> Cross-Check Plan<a class="headerlink" href="#native-rust-f64-cross-check-plan" title="Link to this heading">¶</a></h4>
+<p>Separately, <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> defines the affine normalization
+<code class="docutils literal notranslate"><span class="pre">riemannSpectralNormalizedDimension(s)</span> <span class="pre">=</span> <span class="pre">2s</span></code> and the parameter and dimension
+shadow reflections. It proves that both reflections are involutions, that
+<span class="math notranslate nohighlight">\(2-\Delta(s)=\Delta(1-s)\)</span>, and that
+<span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta(s))=1\)</span> iff <span class="math notranslate nohighlight">\(\operatorname{Re}(s)=1/2\)</span>. These are
+exact algebraic normalization identities only: they do not establish a
+functional equation for <span class="math notranslate nohighlight">\(\zeta\)</span>, identify any zeros, or imply self-adjointness
+or the Riemann Hypothesis.</p>
+<p><code class="docutils literal notranslate"><span class="pre">audit_dbn_quartic_heat_gr24</span></code> accepts <span class="math notranslate nohighlight">\((z_0,z_2,z_4,t,h_1,h_2,\Delta z)\)</span> and returns <code class="docutils literal notranslate"><span class="pre">finite_inputs</span></code>, <code class="docutils literal notranslate"><span class="pre">chart_has_nonzero_minor</span></code>, <code class="docutils literal notranslate"><span class="pre">heat_step_max_abs</span></code>, <code class="docutils literal notranslate"><span class="pre">polynomial_reconstruction_abs</span></code>, <code class="docutils literal notranslate"><span class="pre">generator_intertwining_max_abs</span></code>, <code class="docutils literal notranslate"><span class="pre">plucker_relation_max_abs</span></code>, <code class="docutils literal notranslate"><span class="pre">ambient_semigroup_max_abs</span></code>, and <code class="docutils literal notranslate"><span class="pre">ambient_inverse_max_abs</span></code>; <code class="docutils literal notranslate"><span class="pre">max_abs_residual()</span></code> aggregates the six numeric residuals. The native test checks a deterministic nonzero fixture with <code class="docutils literal notranslate"><span class="pre">finite_inputs</span> <span class="pre">=</span> <span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">chart_has_nonzero_minor</span> <span class="pre">=</span> <span class="pre">true</span></code>, and <code class="docutils literal notranslate"><span class="pre">max_abs_residual()</span> <span class="pre">&lt;</span> <span class="pre">10^{-10}</span></code>. A second all-zero fixture must have <code class="docutils literal notranslate"><span class="pre">chart_has_nonzero_minor</span> <span class="pre">=</span> <span class="pre">false</span></code> and residual below <span class="math notranslate nohighlight">\(10^{-12}\)</span>. The test also checks the generator update against right multiplication by <span class="math notranslate nohighlight">\(U_h\)</span>.</p>
+<p>This is a numerical consistency audit in IEEE-754 <code class="docutils literal notranslate"><span class="pre">f64</span></code>, not interval certification: the thresholds validate the implementation on the selected fixture, not a uniform floating-point error bound over all inputs. A proof-grade numerical certificate would need outward-rounded intervals and explicit input ranges. Neither that certificate nor the analytic Taylor remainder is part of the current Lean/Rust contract.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Grassmannian state</p></th>
+<th class="head"><p>Lean 4 implementation</p></th>
+<th class="head"><p>Rust implementation</p></th>
+<th class="head"><p>Status relative to Bridge 4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Finite quartic dBN chart</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb R}(2,4)\subset\mathrm{Gr}_{\mathbb C}(2,4)\)</span>; coefficient ray plus fixed <span class="math notranslate nohighlight">\(e_4\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DBNQuarticHeatGr24State</span></code>, Plücker chart, Klein relation, <span class="math notranslate nohighlight">\(U_h\)</span> composition/inverse, generator intertwining</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DbnQuarticHeatGr24State</span></code> and <code class="docutils literal notranslate"><span class="pre">audit_dbn_quartic_heat_gr24</span></code> in <code class="docutils literal notranslate"><span class="pre">riemann_spectral.rs</span></code>; native <code class="docutils literal notranslate"><span class="pre">f64</span></code> residual checks</p></td>
+<td><p>Implemented finite polynomial model; no unbounded domain, Hilbert-space closure, or global-<span class="math notranslate nohighlight">\(\Lambda\)</span> conclusion</p></td>
+</tr>
+<tr class="row-odd"><td><p>Generic Hilbert finite section</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb C}(k,N)\)</span> from a rank-<span class="math notranslate nohighlight">\(k\)</span> subspace of a finite projection</p></td>
+<td><p>Not implemented: the operator/domain and convergence theorem are unspecified</p></td>
+<td><p>Not implemented for dBN</p></td>
+<td><p>Requires a defined candidate operator and a proved <span class="math notranslate nohighlight">\(N\to\infty\)</span> spectral-convergence result</p></td>
+</tr>
+</tbody>
+</table>
+<p>G-MGS superconductivity, the Turner dual-Grassmannian/iGPE product, and DDF second sound are omitted from this comparison because no state map from those models to <span class="math notranslate nohighlight">\(H_t(z)\)</span> has been specified. In particular, an ideal superconductor does not realize the auxiliary de Bruijn–Newman heat flow.</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reproducible-tri-language-verification-commands">
+<h2>7. Reproducible Tri-Language Verification Commands<a class="headerlink" href="#reproducible-tri-language-verification-commands" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Lean 4 verification (Signals.RiemannSpectral + Signals.Pending + Tests)</span>
+make<span class="w"> </span>signals_build
+
+<span class="c1"># 2. Rust native tests (126 passing) + PyO3/maturin editable release wheel</span>
+<span class="nb">cd</span><span class="w"> </span>src/signals/numerical_adapter
+cargo<span class="w"> </span><span class="nb">test</span>
+<span class="nv">TMPDIR</span><span class="o">=</span>/workspaces/sustainablefactory/.tmp<span class="w"> </span>maturin<span class="w"> </span>develop<span class="w"> </span>--release
+
+<span class="c1"># 3. Python + SymPy + 50-80 digit mpmath + PyO3 integration suite</span>
+pytest<span class="w"> </span>-q<span class="w"> </span>tests/test_riemann_spectral_sympy_pyo3.py
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="scholarly-references">
+<span id="rh-scholarly-references"></span><h3>Scholarly References<a class="headerlink" href="#scholarly-references" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><a id="bass1992"></a> Bass, H. (1992). “The Ihara–Selberg zeta function of a tree lattice.” <em>International Journal of Mathematics</em>, 3(6), 717–797.</p></li>
+<li><p><a id="bombieri2000"></a> Bombieri, E. (2000). “The Riemann Hypothesis.” <em>Official Problem Description</em>, Clay Mathematics Institute.</p></li>
+<li><p><a id="borwein2000"></a> Borwein, P. (2000). “An efficient algorithm for the Riemann zeta function.” <em>Constructive Experimental and Nonlinear Analysis</em>, CMS Conf. Proc. 27, 29–34.</p></li>
+<li><p><a id="gabcke1979"></a> Gabcke, W. (1979). <em>Neue Herleitung und explizite Restabschätzung der Riemann–Siegel-Formel</em>. PhD thesis, Universität Göttingen.</p></li>
+<li><p><a id="gorz2019"></a> Griffin, M., Ono, K., Rolen, L., &amp; Zagier, D. (2019). “Jensen polynomials for the Riemann zeta function and other sequences.” <em>Proceedings of the National Academy of Sciences</em>, 116(23), 11103–11110.</p></li>
+<li><p><a id="lehmer1956"></a> Lehmer, D. H. (1956). “Extended computation of the Riemann zeta-function.” <em>Mathematika</em>, 3(2), 102–108.</p></li>
+<li><p><a id="li1997"></a> Li, X.-J. (1997). “The positivity of a sequence of numbers and the Riemann hypothesis.” <em>Journal of Number Theory</em>, 65(2), 325–333.</p></li>
+<li><p><a id="rodgerstao2020"></a> Rodgers, B., &amp; Tao, T. (2020). “The de Bruijn–Newman constant is non-negative.” <em>Forum of Mathematics, Pi</em>, 8, e6.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="provenance-metadata-bibtex-json-ld">
+<h2>8. Provenance Metadata (BibTeX &amp; JSON-LD)<a class="headerlink" href="#provenance-metadata-bibtex-json-ld" title="Link to this heading">¶</a></h2>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">chat_rh_spectral_audit_2026</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wesley and Google Gemini}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Quantum-Causal Grassmannian Monograph Review: Riemann Hypothesis Spectral Approaches, Bass-Ihara Graph Zeta, Jensen-Polya QFIM, and Lehmer Pair Audits}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AI chat log (design provenance only; audited and corrected against 35-digit mpmath)}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Source: data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md, lines 2348-5728}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Finite Spectral Contracts for Riemann Hypothesis Approaches: The Bass-Ihara Ramanujan Dichotomy (14-Vertex Non-Ramanujan Witness), Jensen-Polya Transverse QFIM Stiffness, Li's Unit-Circle Criterion, and High-Precision Euler-Maclaurin / Riemann-Siegel C_2(p) Audits in Lean 4, Rust/PyO3, and SymPy"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/RiemannSpectral.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/riemann_spectral.rs"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-19"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="riemann-spectral-bridges-plan.html" title="Written Plan: Error Minimization, Mpemba–Trajectory Synthesis, and Phased Workstreams (RB-1–RB-6) for the Remaining Riemann Hypothesis Analytical Bridges" >previous</a></li>
+        <li><a href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html" title="Celestial Holography, the Canonical Dictionary (\(\Delta = 2s\)), Plancherel–Unruh Graviton Loop Weights (\(M_1 = 1/8, M_2 = 1/90\)), and Integrated Turner Models 15a &amp; 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

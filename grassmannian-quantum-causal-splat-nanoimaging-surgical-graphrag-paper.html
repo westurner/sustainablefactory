@@ -49,9 +49,9 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-/r/YN5WgMs++nRpW0ZxmNtUWh+hpIHgE7DHGmHiNWk8MVcXCYR7sKMuvY9GvO4fe"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -454,7 +454,7 @@ window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
+  <script src="_static/js/local.js" integrity="sha384-a+1ikmor9g1y9I/zRsYdh+uAADC1jtrkEqxVdX7KZWDxC/uOK4Us5NwE8MBKo8BC" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -730,7 +730,7 @@ We formulate <strong>Quantum Causal Semantic GraphRAG</strong> by representing e
     DenseAttn --&gt;|&quot;Replace O(N^2) attention\nby O(N) Plücker wedges&quot;| DenseGrass --&gt;|&quot;Prune homogeneous voxels\nvia 3D Normed Splats&quot;| SplatGrass
     </pre><section id="exact-complexity-ledger-and-the-6-400-times-efficiency-theorem">
 <h3>1.1 Exact Complexity Ledger and the <span class="math notranslate nohighlight">\(&gt; 6{,}400\times\)</span> Efficiency Theorem<a class="headerlink" href="#exact-complexity-ledger-and-the-6-400-times-efficiency-theorem" title="Link to this heading">¶</a></h3>
-<p>Consider a 3D spatiotemporal or volumetric grid of dimensions <span class="math notranslate nohighlight">\(T \times H \times W\)</span> with total voxel/patch count <span class="math notranslate nohighlight">\(N_{\mathrm{vox}} = T \cdot H \cdot W\)</span> and per-head feature dimension <span class="math notranslate nohighlight">\(d_{\mathrm{head}} &gt; 0\)</span>. In standard 3D spatiotemporal self-attention <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id377" title="A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I Polosukhin. Attention is all you need. 2017. Citation metadata transcribed from docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.; Citation metadata transcribed from docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md. URL: https://arxiv.org/abs/1706.03762, arXiv:1706.03762.">Vaswani <em>et al.</em>, 2017</a>]</span>, every voxel attends to every other voxel across the volume, incurring quadratic FLOP complexity (<code class="docutils literal notranslate"><span class="pre">spatiotemporalFullAttentionComplexity</span></code>):</p>
+<p>Consider a 3D spatiotemporal or volumetric grid of dimensions <span class="math notranslate nohighlight">\(T \times H \times W\)</span> with total voxel/patch count <span class="math notranslate nohighlight">\(N_{\mathrm{vox}} = T \cdot H \cdot W\)</span> and per-head feature dimension <span class="math notranslate nohighlight">\(d_{\mathrm{head}} &gt; 0\)</span>. In standard 3D spatiotemporal self-attention <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id380" title="A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I Polosukhin. Attention is all you need. 2017. Referenced in docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md.; Referenced in docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md. URL: https://arxiv.org/abs/1706.03762, arXiv:1706.03762.">Vaswani <em>et al.</em>, 2017</a>]</span>, every voxel attends to every other voxel across the volume, incurring quadratic FLOP complexity (<code class="docutils literal notranslate"><span class="pre">spatiotemporalFullAttentionComplexity</span></code>):</p>
 <div class="math notranslate nohighlight">
 \[
 \mathcal{C}_{\mathrm{attn}}(T, H, W, d_{\mathrm{head}}) = (T \cdot H \cdot W)^2 \, d_{\mathrm{head}} = N_{\mathrm{vox}}^2 \, d_{\mathrm{head}}.

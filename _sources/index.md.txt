@@ -77,10 +77,7 @@ using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process
   - Skills
     - {download}`search-chats/SKILL.md <../.agents/skills/search-chats/SKILL.md>`
     - {download}`search-chats-sources/SKILL.md <../.agents/skills/search-chats-sources/SKILL.md>`
+    - {download}`chat-code-patches/SKILL.md <../.agents/skills/chat-code-patches/SKILL.md>`
     - {download}`upgrade-versions-pyproject/SKILL.md <../.agents/skills/upgrade-versions-pyproject/SKILL.md>`
-    - {download}`src/agentsview/.agents/skills/localization-paraglide/SKILL.md <../src/agentsview/.agents/skills/localization-paraglide/SKILL.md>`
-    - {download}`src/agentsview/.agents/skills/testing-without-tautologies/SKILL.md <../src/agentsview/.agents/skills/testing-without-tautologies/SKILL.md>`
-    - {download}`src/agentsview/.claude/skills/localization-paraglide/SKILL.md <../src/agentsview/.claude/skills/localization-paraglide/SKILL.md>`
-    - {download}`src/agentsview/.claude/skills/testing-without-tautologies/SKILL.md <../src/agentsview/.claude/skills/testing-without-tautologies/SKILL.md>`
 
 - See {ref}`readme`

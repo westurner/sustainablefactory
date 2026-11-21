@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Grassmannian EBR Chat-Code Porting Ledger &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-s2JMmfpjNcAUJlTCPMRcRjoLreZYtXKoW0lW8+DD9okLJkCWYCPlJ63quFYPRu9B"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-3xhOoFS5cuqy2eIFCyq8jzP7ji62HmWvYmC0WggtNjwkcbmD7M8MKbtRZiKnIsIl"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-hhtXng1xW94buBHr6unPeXGO5Lo+Osm3adlpjlNfeWyoK7CKwo3A59ucdKtxv4Xi" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Grassmannian EBR Chat-Code Porting Ledger</a><ul>
+<li><a class="reference internal" href="#extract-and-apply-cli">Extract And Apply CLI</a></li>
+<li><a class="reference internal" href="#source-ordered-block-ledger">Source-Ordered Block Ledger</a></li>
+<li><a class="reference internal" href="#ported-contracts">Ported Contracts</a></li>
+<li><a class="reference internal" href="#reused-owners">Reused Owners</a></li>
+<li><a class="reference internal" href="#explicit-exclusions">Explicit Exclusions</a></li>
+<li><a class="reference internal" href="#deferred-objective-plan">Deferred Objective Plan</a><ul>
+<li><a class="reference internal" href="#porting-order">Porting Order</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validation">Validation</a></li>
+<li><a class="reference internal" href="#source-record">Source Record</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-gebr-chat-porting-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Grassmannian EBR Chat-Code Porting Ledger</a><ul>
+<li><a class="reference internal" href="#extract-and-apply-cli">Extract And Apply CLI</a></li>
+<li><a class="reference internal" href="#source-ordered-block-ledger">Source-Ordered Block Ledger</a></li>
+<li><a class="reference internal" href="#ported-contracts">Ported Contracts</a></li>
+<li><a class="reference internal" href="#reused-owners">Reused Owners</a></li>
+<li><a class="reference internal" href="#explicit-exclusions">Explicit Exclusions</a></li>
+<li><a class="reference internal" href="#deferred-objective-plan">Deferred Objective Plan</a><ul>
+<li><a class="reference internal" href="#porting-order">Porting Order</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validation">Validation</a></li>
+<li><a class="reference internal" href="#source-record">Source Record</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-gebr-chat-porting-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="grassmannian-ebr-chat-code-porting-ledger">
+<h1>Grassmannian EBR Chat-Code Porting Ledger<a class="headerlink" href="#grassmannian-ebr-chat-code-porting-ledger" title="Link to this heading">¶</a></h1>
+<p>This engineering note records the ordered review and port of code fences in
+<code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>.
+The source-line column points to each fence’s opening line. The 64 blocks were
+extracted in source order to <code class="docutils literal notranslate"><span class="pre">.tmp/chat-code-blocks/</span></code> with a numbered filename
+and a TSV manifest. Re-running the extraction from the source export reproduces
+that local working archive. The inventory contains 19 Lean, 3 Rust, 12 Python,
+5 diff, 5 Markdown, 16 plain-text, 2 shell, 1 BibTeX, and 1 LaTeX block.</p>
+<p>This is not an independent scholarly or experimental validation of the claims
+in the chat. The disposition terms mean:</p>
+<ul class="simple">
+<li><p><strong>Ported</strong>: corrected finite math or a working bounded implementation was
+added to the Signals source.</p></li>
+<li><p><strong>Reused</strong>: an existing Signals definition or test already owns the behavior;
+no duplicate declaration was added.</p></li>
+<li><p><strong>Replaced</strong>: an unverified heuristic was replaced by a deterministic reference
+implementation with tests.</p></li>
+<li><p><strong>Not adopted</strong>: narrative, incomplete, unverified, or unsupported code was
+retained only in the chat source and numbered local archive.</p></li>
+</ul>
+<section id="extract-and-apply-cli">
+<h2>Extract And Apply CLI<a class="headerlink" href="#extract-and-apply-cli" title="Link to this heading">¶</a></h2>
+<p>The reusable parser is in <code class="docutils literal notranslate"><span class="pre">src/transform_md/transform_md/transform_md.py</span></code> and
+the CLI is <code class="docutils literal notranslate"><span class="pre">src/transform_md/transform_md/chat_code_blocks.py</span></code>; the workspace
+entry point is <code class="docutils literal notranslate"><span class="pre">tools/extract_chat_code_blocks.py</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>tools/extract_chat_code_blocks.py<span class="w"> </span>extract<span class="w"> </span>data/chats/example.md<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--destdir<span class="w"> </span>.tmp/chat-code-blocks<span class="w"> </span>--verbosity<span class="w"> </span>verbose
+</pre></div>
+</div>
+<p>By default, output filenames start with their source-order sequence number,
+and the manifest is <code class="docutils literal notranslate"><span class="pre">&lt;destdir&gt;/chatpatches.json</span></code>. Set <code class="docutils literal notranslate"><span class="pre">--no-sequence-prefix</span></code>
+to use the source line number in filenames, or pass <code class="docutils literal notranslate"><span class="pre">--manifest</span></code> to choose a
+manifest path. <code class="docutils literal notranslate"><span class="pre">--force</span></code> replaces an existing extraction; without it, the tool
+reuses an intact manifest only when the source hash and extraction options
+match.</p>
+<p>Only fences labelled <code class="docutils literal notranslate"><span class="pre">diff</span></code> or <code class="docutils literal notranslate"><span class="pre">patch</span></code> are eligible for application. Every
+patch is hash-checked and run through <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">apply</span> <span class="pre">--check</span> <span class="pre">--recount</span></code> before
+application. Progress is written into the JSON manifest after each patch, so
+an already-applied block is not blindly applied twice.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>tools/extract_chat_code_blocks.py<span class="w"> </span>apply<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--manifest<span class="w"> </span>.tmp/chat-code-blocks/chatpatches.json<span class="w"> </span>-i
+</pre></div>
+</div>
+<p>Interactive mode pauses before each patch and offers retry, skip, or quit when
+an applicability check fails. A noninteractive failure saves the failing block
+and stops. Repair the worktree, then resume with <code class="docutils literal notranslate"><span class="pre">--continue</span></code>. After an
+independent rebase/reset, <code class="docutils literal notranslate"><span class="pre">--reapply</span></code> resets completed states and checks each
+patch against the current tree, skipping changes already present. The tool
+does not run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>, perform a rebase, commit, stage, or execute source
+snippets; review each resulting diff and use the repository’s normal Git
+workflow.</p>
+<p>The <a class="reference download internal" download="" href="_downloads/5f81ee57605f13bbca1532b8340f249b/SKILL.md"><code class="xref download docutils literal notranslate"><span class="pre">chat-code-patches</span> <span class="pre">skill</span></code></a>
+documents this workflow for future agent sessions. Its retry/resume/reapply tests are in
+<code class="docutils literal notranslate"><span class="pre">src/transform_md/tests/test_chat_code_blocks.py</span></code>.</p>
+</section>
+<section id="source-ordered-block-ledger">
+<h2>Source-Ordered Block Ledger<a class="headerlink" href="#source-ordered-block-ledger" title="Link to this heading">¶</a></h2>
+<p>Every line number below refers to
+<code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Fence</p></th>
+<th class="head text-right"><p>Opening line</p></th>
+<th class="head"><p>Disposition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>001</p></td>
+<td><p>Plain diagram</p></td>
+<td class="text-right"><p>24</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>002</p></td>
+<td><p>Plain equations and diagram</p></td>
+<td class="text-right"><p>142</p></td>
+<td><p>Not executable; energy and speedup inputs are not measurements.</p></td>
+</tr>
+<tr class="row-even"><td><p>003</p></td>
+<td><p>Plain architecture diagram</p></td>
+<td class="text-right"><p>311</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>004</p></td>
+<td><p>Lean cost ledger</p></td>
+<td class="text-right"><p>384</p></td>
+<td><p>Reused the existing volumetric cost model; the chat’s sample counts and step counts are not benchmark evidence.</p></td>
+</tr>
+<tr class="row-even"><td><p>005</p></td>
+<td><p>BibTeX</p></td>
+<td class="text-right"><p>532</p></td>
+<td><p>Candidate citation only; no bibliography entry was changed on the basis of this export.</p></td>
+</tr>
+<tr class="row-odd"><td><p>006</p></td>
+<td><p>Plain causal-sector diagram</p></td>
+<td class="text-right"><p>583</p></td>
+<td><p>Not executable; the causal labels are not consequences of the diagram.</p></td>
+</tr>
+<tr class="row-even"><td><p>007</p></td>
+<td><p>Lean Landauer and Hodge model</p></td>
+<td class="text-right"><p>641</p></td>
+<td><p>Reused the conditional Landauer model; ported the coordinate Hodge involution. The combined Landauer-Bures inference bound was not adopted.</p></td>
+</tr>
+<tr class="row-odd"><td><p>008</p></td>
+<td><p>Rust two-phase kernel</p></td>
+<td class="text-right"><p>815</p></td>
+<td><p>Not ported verbatim: its numerical steps do not establish projector idempotency, isometric parallel transport, or physical tunneling.</p></td>
+</tr>
+<tr class="row-even"><td><p>009</p></td>
+<td><p>Markdown paper section</p></td>
+<td class="text-right"><p>1086</p></td>
+<td><p>Not adopted; it interprets a proposed work equation as measured cooling during inference.</p></td>
+</tr>
+<tr class="row-odd"><td><p>010</p></td>
+<td><p>Lean step and dispersion models</p></td>
+<td class="text-right"><p>1142</p></td>
+<td><p>Ported as conditional rate arithmetic and a scalar dispersion model with explicit hypotheses.</p></td>
+</tr>
+<tr class="row-even"><td><p>011</p></td>
+<td><p>Python simulation tests</p></td>
+<td class="text-right"><p>1350</p></td>
+<td><p>Replaced the claimed EBR simulation checks with finite Lean identities and exact Rust reference tests.</p></td>
+</tr>
+<tr class="row-odd"><td><p>012</p></td>
+<td><p>Markdown GraphRAG proposal</p></td>
+<td class="text-right"><p>1654</p></td>
+<td><p>Not implemented; the proposed causal and verifier-free guarantees are unsupported.</p></td>
+</tr>
+<tr class="row-even"><td><p>013</p></td>
+<td><p>Markdown speedup table</p></td>
+<td class="text-right"><p>1767</p></td>
+<td><p>Not adopted as a benchmark; component ratios depend on unmeasured input values.</p></td>
+</tr>
+<tr class="row-odd"><td><p>014</p></td>
+<td><p>Lean speedup factorization</p></td>
+<td class="text-right"><p>1792</p></td>
+<td><p>Reused existing cost-model definitions; no multi-factor hardware speedup guarantee was added.</p></td>
+</tr>
+<tr class="row-even"><td><p>015</p></td>
+<td><p>Plain UKS diagram</p></td>
+<td class="text-right"><p>1885</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>016</p></td>
+<td><p>Lean multi-reference model</p></td>
+<td class="text-right"><p>1943</p></td>
+<td><p>Ported the two-reference energy inequality with explicit overlap and coupling assumptions only.</p></td>
+</tr>
+<tr class="row-even"><td><p>017</p></td>
+<td><p>Python H2/QCI-GXC simulation</p></td>
+<td class="text-right"><p>2104</p></td>
+<td><p>Not adopted as electronic-structure evidence; the source does not validate the proposed physical Hamiltonian.</p></td>
+</tr>
+<tr class="row-odd"><td><p>018</p></td>
+<td><p>Markdown QCI-GXC proposal</p></td>
+<td class="text-right"><p>2318</p></td>
+<td><p>Not adopted as a material or spin-restoration result.</p></td>
+</tr>
+<tr class="row-even"><td><p>019</p></td>
+<td><p>Plain RH diagram</p></td>
+<td class="text-right"><p>2360</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>020</p></td>
+<td><p>Lean critical-line model</p></td>
+<td class="text-right"><p>2426</p></td>
+<td><p>Ported reflection fixed-point and even-polynomial identities; excluded the inference that positive model stiffness proves RH.</p></td>
+</tr>
+<tr class="row-even"><td><p>021</p></td>
+<td><p>Plain RH diagram</p></td>
+<td class="text-right"><p>2545</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>022</p></td>
+<td><p>Python zero-discovery script</p></td>
+<td class="text-right"><p>2577</p></td>
+<td><p>Not ported; a numerical surrogate or seeded zero list cannot verify RH.</p></td>
+</tr>
+<tr class="row-even"><td><p>023</p></td>
+<td><p>Lean Ihara/Sato/RH model</p></td>
+<td class="text-right"><p>2800</p></td>
+<td><p>Not adopted as a graph-RH or RH theorem; a finite determinant identity does not establish the proposed infinite-limit bridge.</p></td>
+</tr>
+<tr class="row-odd"><td><p>024</p></td>
+<td><p>Markdown Sato discussion</p></td>
+<td class="text-right"><p>2933</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-even"><td><p>025</p></td>
+<td><p>Plain Sato diagram</p></td>
+<td class="text-right"><p>3004</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>026</p></td>
+<td><p>Lean Onsager/GUE/Sato models</p></td>
+<td class="text-right"><p>3064</p></td>
+<td><p>Reused the existing QFIM owner where applicable; did not promote the sine-kernel argument to a physical or RH result.</p></td>
+</tr>
+<tr class="row-even"><td><p>027</p></td>
+<td><p>Python symbolic RH script</p></td>
+<td class="text-right"><p>3202</p></td>
+<td><p>Not ported; numerical and symbolic checks do not prove global zero locations.</p></td>
+</tr>
+<tr class="row-odd"><td><p>028</p></td>
+<td><p>Plain decomposition diagram</p></td>
+<td class="text-right"><p>3623</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-even"><td><p>029</p></td>
+<td><p>Lean QFIM/VRC identities</p></td>
+<td class="text-right"><p>3679</p></td>
+<td><p>Reused existing DFT and QCI contracts rather than adding duplicate APIs.</p></td>
+</tr>
+<tr class="row-odd"><td><p>030</p></td>
+<td><p>Python VRC/RH tests</p></td>
+<td class="text-right"><p>3799</p></td>
+<td><p>Not ported as verification; existing VRC tests remain the owning checks.</p></td>
+</tr>
+<tr class="row-even"><td><p>031</p></td>
+<td><p>Lean G-GKBA/EBR ledger</p></td>
+<td class="text-right"><p>4229</p></td>
+<td><p>Reused the existing G-GKBA complexity model; the combined adaptive EBR factors are not measured.</p></td>
+</tr>
+<tr class="row-odd"><td><p>032</p></td>
+<td><p>LaTeX speedup theorem</p></td>
+<td class="text-right"><p>4399</p></td>
+<td><p>Not executable; retained as a proposed equation, not a measured result.</p></td>
+</tr>
+<tr class="row-even"><td><p>033</p></td>
+<td><p>Lean pair-excitation QNG model</p></td>
+<td class="text-right"><p>4467</p></td>
+<td><p>Not added as a new chemistry result; its scalar assumptions are not a validated electronic-structure calculation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>034</p></td>
+<td><p>Python QFIM audit</p></td>
+<td class="text-right"><p>4532</p></td>
+<td><p>Reused existing QFIM/Madelung identities; the zero-search output is not an RH result.</p></td>
+</tr>
+<tr class="row-even"><td><p>035</p></td>
+<td><p>Rust G-GKBA kernel</p></td>
+<td class="text-right"><p>4593</p></td>
+<td><p>Not ported; its operation counters are synthetic and do not benchmark cubic-history versus linear-history execution.</p></td>
+</tr>
+<tr class="row-odd"><td><p>036</p></td>
+<td><p>Plain factorization table</p></td>
+<td class="text-right"><p>4760</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-even"><td><p>037</p></td>
+<td><p>Plain RH diagram</p></td>
+<td class="text-right"><p>4795</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>038</p></td>
+<td><p>Lean Jensen-Polya polynomial</p></td>
+<td class="text-right"><p>4841</p></td>
+<td><p>Ported the finite polynomial expansion and its conditional off-axis inequality; no Hardy-Zeta positivity claim was added.</p></td>
+</tr>
+<tr class="row-even"><td><p>039</p></td>
+<td><p>Plain RH diagram</p></td>
+<td class="text-right"><p>4979</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>040</p></td>
+<td><p>Python zero audit</p></td>
+<td class="text-right"><p>5028</p></td>
+<td><p>Not ported as proof or benchmark; the generated numerical check does not establish RH.</p></td>
+</tr>
+<tr class="row-even"><td><p>041</p></td>
+<td><p>Lean three-channel QFIM model</p></td>
+<td class="text-right"><p>5251</p></td>
+<td><p>Reused the existing QFIM and Madelung model in DFT.</p></td>
+</tr>
+<tr class="row-odd"><td><p>042</p></td>
+<td><p>Lean blockade formula</p></td>
+<td class="text-right"><p>5375</p></td>
+<td><p>Not adopted as a physical blockade law; the equation is an assumed finite model.</p></td>
+</tr>
+<tr class="row-even"><td><p>043</p></td>
+<td><p>Python numerical audit</p></td>
+<td class="text-right"><p>5558</p></td>
+<td><p>Not ported; its numerical checks do not validate the proposed physical interpretation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>044</p></td>
+<td><p>Plain model diagram</p></td>
+<td class="text-right"><p>5735</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-even"><td><p>045</p></td>
+<td><p>Lean Hooke/QFIM strain model</p></td>
+<td class="text-right"><p>5785</p></td>
+<td><p>Ported the scalar Hooke energy-difference identity; it does not validate fabric mechanics or QFIM calibration.</p></td>
+</tr>
+<tr class="row-odd"><td><p>046</p></td>
+<td><p>Initial unified diff</p></td>
+<td class="text-right"><p>5975</p></td>
+<td><p>Rejected as a whole because of malformed/inconsistent hunks and stale crate context; selected finite identities were ported separately.</p></td>
+</tr>
+<tr class="row-even"><td><p>047</p></td>
+<td><p>Bash patch command</p></td>
+<td class="text-right"><p>7111</p></td>
+<td><p>Not run; the patch failed applicability checks before mutation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>048</p></td>
+<td><p>PyO3 layer-group diff</p></td>
+<td class="text-right"><p>7167</p></td>
+<td><p>Rejected: it targets obsolete Cargo features and a file that already exists in the current crate.</p></td>
+</tr>
+<tr class="row-even"><td><p>049</p></td>
+<td><p>Bash build commands</p></td>
+<td class="text-right"><p>7894</p></td>
+<td><p>Retained as proposed commands; current crate tests were run using its actual manifest.</p></td>
+</tr>
+<tr class="row-odd"><td><p>050</p></td>
+<td><p>Lean p4m/Hooke model</p></td>
+<td class="text-right"><p>7949</p></td>
+<td><p>Ported the p4m check figures and conditional scalar energy drop; not the claim of validated layer-group physics.</p></td>
+</tr>
+<tr class="row-even"><td><p>051</p></td>
+<td><p>Cumulative layer-group diff</p></td>
+<td class="text-right"><p>8096</p></td>
+<td><p>Rejected as a whole; approximate coordinate operations do not implement or verify all 80 layer groups.</p></td>
+</tr>
+<tr class="row-odd"><td><p>052</p></td>
+<td><p>Plain layer-group table</p></td>
+<td class="text-right"><p>8777</p></td>
+<td><p>Not executable; the group/application mapping was not independently verified.</p></td>
+</tr>
+<tr class="row-even"><td><p>053</p></td>
+<td><p>Lean graphene/Chern model</p></td>
+<td class="text-right"><p>8822</p></td>
+<td><p>Reused the existing QAHE Chern model; excluded the proposed thermal-cooling and inductance conclusions.</p></td>
+</tr>
+<tr class="row-odd"><td><p>054</p></td>
+<td><p>Python graphene/Sudoku tests</p></td>
+<td class="text-right"><p>9011</p></td>
+<td><p>Ported a standard Sudoku reference solver; did not port the graphene hardware claims.</p></td>
+</tr>
+<tr class="row-even"><td><p>055</p></td>
+<td><p>Plain video prompt</p></td>
+<td class="text-right"><p>9325</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-odd"><td><p>056</p></td>
+<td><p>Lean yarn/Schubert model</p></td>
+<td class="text-right"><p>9369</p></td>
+<td><p>Ported the decomposable-line identity and abstract Schubert multiplication table; omitted stitch-performance interpretations.</p></td>
+</tr>
+<tr class="row-even"><td><p>057</p></td>
+<td><p>ARC/graph-coloring diff</p></td>
+<td class="text-right"><p>9538</p></td>
+<td><p>Rejected as a whole due to stale context; replaced its heuristic solver claims with exact bounded references.</p></td>
+</tr>
+<tr class="row-odd"><td><p>058</p></td>
+<td><p>Rust N-Queens heuristic</p></td>
+<td class="text-right"><p>10500</p></td>
+<td><p>Replaced by exact enumeration and D4 orbit canonicalization.</p></td>
+</tr>
+<tr class="row-even"><td><p>059</p></td>
+<td><p>Python N-Queens fallback</p></td>
+<td class="text-right"><p>10740</p></td>
+<td><p>Replaced by Rust exact-solver tests; did not preserve the claimed Pass&#64;1/Cov&#64;20 guarantee.</p></td>
+</tr>
+<tr class="row-odd"><td><p>060</p></td>
+<td><p>Plain DPP diagram</p></td>
+<td class="text-right"><p>10891</p></td>
+<td><p>Not executable; retained as source context.</p></td>
+</tr>
+<tr class="row-even"><td><p>061</p></td>
+<td><p>Lean McWeeny/orbit model</p></td>
+<td class="text-right"><p>10929</p></td>
+<td><p>Ported the scalar polynomial; exact Rust enumeration confirms 92 eight-queen boards in 11 size-8 and 1 size-4 D4 orbit. The DPP coverage guarantee was rejected.</p></td>
+</tr>
+<tr class="row-odd"><td><p>062</p></td>
+<td><p>Python Birkhoff-DPP solver</p></td>
+<td class="text-right"><p>10992</p></td>
+<td><p>Not ported as a solver; finite Sinkhorn normalization and scalar McWeeny checks are tested separately.</p></td>
+</tr>
+<tr class="row-even"><td><p>063</p></td>
+<td><p>Birkhoff-DPP Rust diff</p></td>
+<td class="text-right"><p>11221</p></td>
+<td><p>Rejected as a whole because it depends on absent prior files and stale API context; exact solvers replace the heuristic.</p></td>
+</tr>
+<tr class="row-odd"><td><p>064</p></td>
+<td><p>Python combined tests</p></td>
+<td class="text-right"><p>11996</p></td>
+<td><p>Replaced the benchmark assertions with deterministic Rust unit tests.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ported-contracts">
+<h2>Ported Contracts<a class="headerlink" href="#ported-contracts" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Signals.GrassmannianEBR</span></code> contains finite algebraic models and explicitly
+conditional results:</p>
+<ul class="simple">
+<li><p>The Pluecker lift of an affine 3D line satisfies the Klein relation, and the
+coordinate Hodge map is an involution preserving that residual.</p></li>
+<li><p>The integral Schubert multiplication table gives the stated divisor-square
+and degree-four check figure.</p></li>
+<li><p>The even-square p4m orbit-count arithmetic, layer-order product, and scalar
+Hooke energy drop are checked from their supplied formulas.</p></li>
+<li><p>The McWeeny scalar polynomial fixes 0 and 1, moves values below/above 1/2 in
+the corresponding direction, and leaves 1/2 fixed. It is not a Birkhoff
+projection and does not eliminate every fractional value.</p></li>
+<li><p>The two-reference energy inequality, two-phase step comparison, dispersion
+inequalities, reflection symmetry, and Jensen-Polya polynomial expansion
+hold only under their stated scalar assumptions.</p></li>
+</ul>
+<p>The Rust <code class="docutils literal notranslate"><span class="pre">finite_constraint_solvers</span></code> module provides exact bounded references for
+N-Queens, proper graph colorings, a 9-by-9 Sudoku, and a 32-element D4/glide/
+palette-transform family. Its Sinkhorn function performs a finite number of
+normalizations and is approximate in general. It does not claim general ARC-AGI
+solving, EBR convergence, DPP diversity guarantees, or physical symmetry.</p>
+</section>
+<section id="reused-owners">
+<h2>Reused Owners<a class="headerlink" href="#reused-owners" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference.delRioConditionalLandauerHeat</span></code> already owns
+the conditional Landauer heat expression (<code class="docutils literal notranslate"><span class="pre">src/signals/Signals/QuantumCausalInference.lean</span></code>, line 236).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals.QuantumCausalInference.effectiveVolumetricSpeedupWithOverhead</span></code>
+already owns the volumetric arithmetic model (<code class="docutils literal notranslate"><span class="pre">src/signals/Signals/QuantumCausalInference.lean</span></code>, line 1813).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals.DFT.mcweenyPurificationPoly</span></code>, G-GKBA complexity, and QAHE Chern
+definitions already live in DFT (<code class="docutils literal notranslate"><span class="pre">src/signals/Signals/DFT.lean</span></code>, lines 111,
+791, and 3400 respectively).</p></li>
+</ul>
+<p>These are mathematical or code-level contracts over supplied parameters. None
+of them confirms a physical realization, benchmark speed, materials property,
+zero-backaction operation, or energy efficiency measurement.</p>
+</section>
+<section id="explicit-exclusions">
+<h2>Explicit Exclusions<a class="headerlink" href="#explicit-exclusions" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The proposed inference Landauer-Bures sum is not derived from the existing
+conditional Landauer contract; its QFIM-action term has no validated unit or
+thermodynamic premise here.</p></li>
+<li><p>The proposed 490,000x and larger speedups combine assumed FLOPs, trajectory
+counts, and halting steps. No device-level profiling or accuracy-matched
+baseline was provided.</p></li>
+<li><p>The G-EBR and DPP code does not establish that all trajectories reach distinct
+valid solutions. The exact N-Queens tests establish counts for the finite
+puzzle only; they do not establish EBR Pass&#64;1 or Cov&#64;20.</p></li>
+<li><p>A symmetric transverse polynomial with positive supplied curvature does not
+prove the Riemann Hypothesis. The chat blocks do not establish positivity for
+the actual Jensen-Polya discriminant at every height.</p></li>
+<li><p>The p6/mmm order product, QAHE Chern inputs, zero-resistance routing,
+sub-nanometer imaging, and knitted-fabric mechanics are not experimental
+measurements or validations in this port.</p></li>
+</ul>
+</section>
+<section id="deferred-objective-plan">
+<h2>Deferred Objective Plan<a class="headerlink" href="#deferred-objective-plan" title="Link to this heading">¶</a></h2>
+<p>These are explicit incomplete objectives from the source chat, not results.
+Each milestone must pass its acceptance gate before its claim moves from
+proposal or Pending into a verified Signals statement.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Objective</p></th>
+<th class="head"><p>Current port status</p></th>
+<th class="head"><p>Next implementation milestone</p></th>
+<th class="head"><p>Acceptance gate and chat source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Knitting performance</p></td>
+<td><p>The line-to-Pluecker identity and abstract Schubert ring are formalized; textile behavior is not.</p></td>
+<td><p>Add a dimensioned textile-observation record for yarn geometry, tension, boundary conditions, material, and uncertainty. Compare measured loop/contact geometry against the model and a control fabric.</p></td>
+<td><p>Repeated calibrated samples and residual/error bounds are required before claims about curl or stitch performance. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 9369 and 9011.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quantum cooling</p></td>
+<td><p>Existing conditional Landauer arithmetic is reused; the proposed inference Landauer-Bures balance is not derived.</p></td>
+<td><p>Add a <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> cycle contract with system/memory state, conditional entropy units, memory preparation/reset, controller work, heat reservoirs, and a no-entanglement control.</p></td>
+<td><p>Derive the bound from an explicit operation and full cycle; report calibrated heat/work with uncertainty before claiming cooling. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 641 and 1086.</p></td>
+</tr>
+<tr class="row-even"><td><p>EBR efficiency</p></td>
+<td><p>The Rust additions are exact search references, not an EBR implementation or benchmark.</p></td>
+<td><p>Pin an upstream EBR revision and benchmark data; implement its published objective and adaptive stopping separately from deterministic baselines.</p></td>
+<td><p>Accuracy-matched runs must include pass&#64;1, coverage, wall time, FLOPs, device/power data, seeds, and raw results. The chat’s multiplied FLOP ledger is not empirical evidence. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 1767 and 5975.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DPP diversity</p></td>
+<td><p>No global Slavnov-Gram DPP solver or coverage guarantee was ported.</p></td>
+<td><p>Specify the kernel, PSD/regularization conditions, stable log-determinant and gradient, and a deterministic small-instance oracle before integrating it with search.</p></td>
+<td><p>Tests must prove kernel properties and show coverage on exhaustive instances; no 100% Cov&#64;K claim without benchmark results. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 11221 and 11996.</p></td>
+</tr>
+<tr class="row-even"><td><p>All 80 layer groups and G-MGS</p></td>
+<td><p>Only p4m count arithmetic and an order product are checked; the group catalogue/actions and graphene measurements are absent.</p></td>
+<td><p>Add the cited authoritative catalogue and affine actions for each group; test identity, closure, inverses, orbit-stabilizer, and known unit cells before application mappings.</p></td>
+<td><p>Reproduce all 80 groups from the source catalogue and independently source Chern, gap, and transport data. Symmetry order alone cannot validate QAHE, zero resistance, or cooling. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 7167, 8096, and 8822.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ARC-AGI</p></td>
+<td><p>The finite Rust rule finder covers only 32 D4/glide/palette transforms; it is not an ARC-AGI solver.</p></td>
+<td><p>Implement a compositional rule language and search procedure that handles object, color, count, and multi-step transformations; pin public task versions and split policy.</p></td>
+<td><p>Evaluate held-out tasks with pass&#64;1/pass&#64;k, runtime, baselines, and exact task manifest. Continue to label the current implementation a finite symmetry-rule finder. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 9538 and 11996.</p></td>
+</tr>
+<tr class="row-even"><td><p>QCI-GXC multi-reference</p></td>
+<td><p>Only a conditional two-reference energy inequality is formalized; there is no NOCI or multi-reference SCF implementation.</p></td>
+<td><p>Implement complex overlap/Hamiltonian matrices, rank and conditioning checks, a Hermitian generalized eigensolve, symmetry action, and explicit spin observables; compare with an independent chemistry code.</p></td>
+<td><p>Reproduce named molecules/geometries and basis sets with convergence, energy, and spin-contamination tolerances. The two-state identity alone does not establish a ground state. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 1943 and 2104.</p></td>
+</tr>
+<tr class="row-odd"><td><p>RH locking</p></td>
+<td><p>No RH-locking result is claimed; only finite reflection and polynomial identities are retained.</p></td>
+<td><p>Treat positivity of the actual Jensen-Polya discriminant on the required domain as a separate analytic-number-theory problem. Formalize only independently established lemmas and assumptions.</p></td>
+<td><p>Do not infer RH from a symmetric toy energy, finite determinant, analogy, or numerical zero search. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 2426, 2800, and 4841.</p></td>
+</tr>
+<tr class="row-even"><td><p>Dispersion physics</p></td>
+<td><p>The sign trichotomy and scalar check figures are now proved; the physical correspondence is not.</p></td>
+<td><p>Add units and a correctly typed real four-vector/Pluecker map with a fixed metric convention; prove the map preserves the quadratic form before labeling physical modes.</p></td>
+<td><p>Algebraic signs remain abstract until polarization, frequency, wavevector, and boundary-condition measurements support a Maxwell/Proca/evanescent interpretation. Chat: <code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>, lines 1142 and 1240.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="porting-order">
+<h3>Porting Order<a class="headerlink" href="#porting-order" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Keep chat extraction source-ordered and content-hashed; automatically apply
+only reviewed unified-diff fences. Other code blocks remain artifacts until
+an owner and test are selected.</p></li>
+<li><p>Reuse existing Signals APIs before adding types. Add finite algebra with
+explicit assumptions to verified modules; put unvalidated physical premises
+in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> with units, uncertainty, controls, and provenance.</p></li>
+<li><p>Keep exact N-Queens, graph-coloring, Sudoku, and finite-grid solvers as
+correctness baselines. Do not label their outputs EBR, DPP, 80-layer-group,
+or ARC-AGI benchmark performance.</p></li>
+<li><p>Add performance claims only after reproducible, accuracy-matched benchmarks
+on pinned datasets/hardware; add physical claims only after calibrated
+measurements and full energy accounting.</p></li>
+</ol>
+</section>
+</section>
+<section id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> passed under the Signals-pinned Lean toolchain (3,630
+Lake jobs).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span> <span class="pre">--manifest-path</span> <span class="pre">src/signals/numerical_adapter/Cargo.toml</span></code> passed
+all 110 Rust tests, including the finite-constraint-solver tests.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">src/transform_md/tests</span></code> passed all 72 tests, including extraction,
+interactive pause, failure resume, idempotency, and reapply-after-reset cases.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">tests/test_markdown_display_math_spacing.py</span> <span class="pre">tests/test_markdown_table_math_pipes.py</span></code> passed all 11 tests. The report-only
+audits found zero table-math pipe issues and zero display-math spacing issues.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">docs</span> <span class="pre">html</span></code> succeeded with 30 warnings after adding the CLI and plan.
+The log includes an unresolved
+<code class="docutils literal notranslate"><span class="pre">search</span></code> document reference in <code class="docutils literal notranslate"><span class="pre">docs/index.md</span></code> and HTML section-extraction
+diagnostics for aggregate pages; neither points to the new paper.</p></li>
+<li><p>The generated paper was opened in the browser; it rendered with the expected
+title/headings and zero MathJax error nodes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">fmt</span> <span class="pre">--check</span></code> could not run because <code class="docutils literal notranslate"><span class="pre">cargo-fmt</span></code> is not installed in the
+container. Rust formatting remains unverified.</p></li>
+</ul>
+</section>
+<section id="source-record">
+<h2>Source Record<a class="headerlink" href="#source-record" title="Link to this heading">¶</a></h2>
+<p>The source is an AI-generated chat export, not a scholarly publication:
+<code class="docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code>.
+The sequence numbers in the ledger correspond to <code class="docutils literal notranslate"><span class="pre">.tmp/chat-code-blocks/001-*</span></code>
+through <code class="docutils literal notranslate"><span class="pre">.tmp/chat-code-blocks/064-*</span></code>; the local manifest records fence labels,
+opening/closing lines, and content lengths.</p>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

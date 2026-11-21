@@ -363,9 +363,26 @@ mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
   `RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`), and 2.5PN + Ringdown Gravitational
   Waves (Models 14a/14b: `PlanetaryOrbit.turnerPluckerIGPEGWLuminosity`,
   `RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`, proved in
-  `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), while
-  `ComplexGrassmannianIGPEPluckerContract` in [src/signals/Signals/Pending.lean](src/signals/Signals/Pending.lean)
-  isolates speculative chiral baryogenesis and dark-sector vacuum claims with explicit controls.
+  `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), and
+  **Integrated Turner Models 15a (Without DDF) & 15b (With DDF)** in Section 30.7
+  (`celestialSpinTwoShadowNormFactor`, `celestialSpinTwoCayleyShadowFactor`,
+  `celestialPlancherelLoopCorrectionFactor`, `celestialPlancherelAllLoopGeometricEnvelope`,
+  `PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad`,
+  `RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad`,
+  `PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity`,
+  `RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity`,
+  `PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection`,
+  `RiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection`,
+  `turner_model_15_celestial_plucker_ddf_graviton_unification`, and
+  `turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities`,
+  paired with Section 11 of [`src/signals/Signals/RiemannSpectral.lean`](src/signals/Signals/RiemannSpectral.lean),
+  [`src/signals/numerical_adapter/src/riemann_spectral.rs`](src/signals/numerical_adapter/src/riemann_spectral.rs),
+  [`sustainablefactory/riemann_rh_bridges.py`](sustainablefactory/riemann_rh_bridges.py), and
+  [`docs/grassmannian-celestial-holography-graviton-turner-riemann-paper.md`](docs/grassmannian-celestial-holography-graviton-turner-riemann-paper.md)),
+  while `ComplexGrassmannianIGPEPluckerContract` and `ToupinCelestialMillenniumPendingBoundary`
+  in [src/signals/Signals/Pending.lean](src/signals/Signals/Pending.lean)
+  isolate speculative chiral baryogenesis, dark-sector vacuum, and infinite-dimensional
+  Millennium-Prize claims with explicit controls.
   The corresponding wakefield, Halbach, centrifugal thermosyphon, Bohm-Gross, and Landau
   growth/damping identities live in [`src/signals/Signals/MHD.lean`](src/signals/Signals/MHD.lean),
   while `TwistorMomentumSinkHypothesis`, `PulsedWakefieldHalbachHypothesis`,

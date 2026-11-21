@@ -9217,4 +9217,318 @@ theorem DDFFractureCommunicationEvidence.quantum_trajectories_critique_and_gap_c
       rho0 kappa k1 x_tilde v_vel v_boost omega_rabi delta_probe gamma_e odb
       hv hjin hw hrho0 hmass hhbar hj0 hdenom_lor homega hdelta_p⟩
 
+/-! ### WS-2: Closed-Cycle Conditional Landauer & QFIM–Bures Inference Contract -/
+
+/-- Dimensioned QFIM–Bures action dissipation energy in joules:
+`ΔW_Bures = ℏ · L_QFIM² / (4 · τ_step)` (`J·s / s = J`, `L_QFIM` dimensionless). -/
+noncomputable def qfimBuresActionEnergyJoules
+    (hbarJoulesSec qfimLengthRad stepDurationSec : ℝ) : Signals.Units.Energy :=
+  ⟨hbarJoulesSec * qfimLengthRad ^ 2 / (4 * stepDurationSec)⟩
+
+lemma qfimBuresActionEnergyJoules_nonneg
+    (hbarJoulesSec qfimLengthRad stepDurationSec : ℝ)
+    (h_hbar : 0 < hbarJoulesSec) (h_tau : 0 < stepDurationSec) :
+    0 ≤ (qfimBuresActionEnergyJoules hbarJoulesSec qfimLengthRad stepDurationSec).joules := by
+  unfold qfimBuresActionEnergyJoules
+  positivity
+
+/-- Closed-cycle inference thermodynamic contract enforcing full accounting of
+single-shot conditional erasure (`del Rio et al., 2011`), observer-memory reset,
+dimensioned QFIM–Bures dissipation, controller/preparation work, and an
+unentangled `do(F = 0)` control. -/
+structure InferenceThermodynamicCycleContract where
+  temperature : Signals.Units.Temperature
+  temperature_pos : 0 < temperature.kelvin
+  kBln2JoulesPerKelvin : ℝ
+  kBln2_pos : 0 < kBln2JoulesPerKelvin
+  conditionalEntropyBits : ℝ
+  erasureBits : ℝ
+  erasureBits_pos : 0 < erasureBits
+  singleShotErasureHeat : Signals.Units.Energy
+  singleShotErasure_law :
+    singleShotErasureHeat.joules =
+      kBln2JoulesPerKelvin * temperature.kelvin * conditionalEntropyBits * erasureBits
+  memoryResetHeat : Signals.Units.Energy
+  memoryReset_secondLaw :
+    kBln2JoulesPerKelvin * temperature.kelvin * (1 - conditionalEntropyBits) * erasureBits ≤
+      memoryResetHeat.joules
+  hbarJoulesSec : ℝ
+  hbar_pos : 0 < hbarJoulesSec
+  qfimLengthRad : ℝ
+  stepDurationSec : ℝ
+  stepDuration_pos : 0 < stepDurationSec
+  controllerAndPrepWork : Signals.Units.Energy
+  controllerAndPrepWork_nonneg : 0 ≤ controllerAndPrepWork.joules
+  unentangledControlErasureHeat : Signals.Units.Energy
+  unentangledControl_law :
+    unentangledControlErasureHeat.joules =
+      kBln2JoulesPerKelvin * temperature.kelvin * erasureBits
+  calorimetryCalibrated : Prop
+  calorimetryCalibrated_hypothesis : calorimetryCalibrated
+
+/-- Total closed-cycle energy dissipation in joules across erasure, memory reset,
+QFIM–Bures action dissipation, and controller/preparation work. -/
+noncomputable def InferenceThermodynamicCycleContract.totalClosedCycleHeatJoules
+    (c : InferenceThermodynamicCycleContract) : ℝ :=
+  c.singleShotErasureHeat.joules + c.memoryResetHeat.joules +
+    (qfimBuresActionEnergyJoules c.hbarJoulesSec c.qfimLengthRad c.stepDurationSec).joules +
+    c.controllerAndPrepWork.joules
+
+/-- Even when single-shot conditional erasure is negative (`S(A|M) < 0`), closing the
+thermodynamic cycle by resetting the quantum memory obeys the Second Law
+(`totalClosedCycleHeatJoules ≥ k_B T ln 2 · N_bits > 0`). -/
+theorem InferenceThermodynamicCycleContract.closedCycle_secondLaw_bound
+    (c : InferenceThermodynamicCycleContract) :
+    c.unentangledControlErasureHeat.joules ≤ c.totalClosedCycleHeatJoules ∧
+      0 < c.totalClosedCycleHeatJoules := by
+  have h_bures :
+      0 ≤ (qfimBuresActionEnergyJoules c.hbarJoulesSec c.qfimLengthRad c.stepDurationSec).joules :=
+    qfimBuresActionEnergyJoules_nonneg c.hbarJoulesSec c.qfimLengthRad c.stepDurationSec
+      c.hbar_pos c.stepDuration_pos
+  have h_landauer_pos : 0 < c.unentangledControlErasureHeat.joules := by
+    rw [c.unentangledControl_law]
+    exact mul_pos (mul_pos c.kBln2_pos c.temperature_pos) c.erasureBits_pos
+  have h_sum_ge : c.unentangledControlErasureHeat.joules ≤ c.totalClosedCycleHeatJoules := by
+    unfold InferenceThermodynamicCycleContract.totalClosedCycleHeatJoules
+    rw [c.singleShotErasure_law, c.unentangledControl_law]
+    have h_reset := c.memoryReset_secondLaw
+    have h_ctrl := c.controllerAndPrepWork_nonneg
+    nlinarith
+  exact ⟨h_sum_ge, lt_of_lt_of_le h_landauer_pos h_sum_ge⟩
+
+/-- Negative conditional entropy makes single-shot erasure negative while the
+unentangled control remains strictly positive. -/
+theorem InferenceThermodynamicCycleContract.singleShot_vs_unentangled_control
+    (c : InferenceThermodynamicCycleContract)
+    (h_neg_entropy : c.conditionalEntropyBits < 0) :
+    c.singleShotErasureHeat.joules < 0 ∧ 0 < c.unentangledControlErasureHeat.joules := by
+  have h_scale : 0 < c.kBln2JoulesPerKelvin * c.temperature.kelvin :=
+    mul_pos c.kBln2_pos c.temperature_pos
+  have h_unent : 0 < c.unentangledControlErasureHeat.joules := by
+    rw [c.unentangledControl_law]
+    exact mul_pos h_scale c.erasureBits_pos
+  have h_single : c.singleShotErasureHeat.joules < 0 := by
+    rw [c.singleShotErasure_law]
+    have h1 : c.kBln2JoulesPerKelvin * c.temperature.kelvin * c.conditionalEntropyBits < 0 :=
+      mul_neg_of_pos_of_neg h_scale h_neg_entropy
+    exact mul_neg_of_neg_of_pos h1 c.erasureBits_pos
+  exact ⟨h_single, h_unent⟩
+
+/-! ### WS-8: Dimensioned Textile-Observation Contract (Knitting & Deborah Stick-Slip) -/
+
+/-- Canonical knitted stitch families referenced against exact International Tables Vol. E
+layer groups (`Signals.LayerGroups` / `layer_groups.rs`). -/
+inductive KnittedStitchFamily where
+  | stockinetteL7
+  | rib1x1L19
+  | garterL37
+  deriving DecidableEq, Repr
+
+/-- Layer-group number in International Tables Vol. E for each canonical stitch family. -/
+def KnittedStitchFamily.layerGroupNumber : KnittedStitchFamily → Nat
+  | .stockinetteL7 => 7
+  | .rib1x1L19 => 19
+  | .garterL37 => 37
+
+/-- Dimensioned observation and calibration gate for knitted textile mechanics.
+Separates verified abstract Plücker/Schubert identities (`Signals.GrassmannianEBR`) from
+measured yarn geometry, tensile loading, stiffness, uncertainty, and control-fabric residuals. -/
+structure TextileObservationContract where
+  stitchFamily : KnittedStitchFamily
+  yarnDiameter : Signals.Units.Length
+  yarnDiameter_pos : 0 < yarnDiameter.meters
+  loopCoursePitch : Signals.Units.Length
+  loopCoursePitch_pos : 0 < loopCoursePitch.meters
+  appliedTension : Signals.Units.Force
+  appliedTension_nonneg : 0 ≤ appliedTension.newtons
+  relaxationTime : Signals.Units.Duration
+  relaxationTime_pos : 0 < relaxationTime.seconds
+  strainRateHz : Signals.Units.Frequency
+  strainRate_nonneg : 0 ≤ strainRateHz.hz
+  measuredCurlResidual : ℝ
+  curlResidualUncertainty : ℝ
+  measuredCurlResidual_nonneg : 0 ≤ measuredCurlResidual
+  curlResidualWithinBound : measuredCurlResidual ≤ curlResidualUncertainty
+  sampleReplicates : Nat
+  minReplicates_ge_three : 3 ≤ sampleReplicates
+  controlFabricIncluded : Prop
+  controlFabricIncluded_hypothesis : controlFabricIncluded
+
+/-- Dimensionless Deborah number `De = τ_relax · γ̇` from dimensioned relaxation duration and strain rate. -/
+noncomputable def TextileObservationContract.deborahNumber (c : TextileObservationContract) : ℝ :=
+  c.relaxationTime.seconds * c.strainRateHz.hz
+
+lemma TextileObservationContract.deborahNumber_nonneg (c : TextileObservationContract) :
+    0 ≤ c.deborahNumber := by
+  unfold TextileObservationContract.deborahNumber
+  exact mul_nonneg (le_of_lt c.relaxationTime_pos) c.strainRate_nonneg
+
+lemma TextileObservationContract.calibrated_bounds (c : TextileObservationContract) :
+    0 ≤ c.deborahNumber ∧
+      c.measuredCurlResidual ≤ c.curlResidualUncertainty ∧
+      3 ≤ c.sampleReplicates ∧
+      c.stitchFamily.layerGroupNumber ∈ ({7, 19, 37} : Set Nat) := by
+  refine ⟨c.deborahNumber_nonneg, c.curlResidualWithinBound, c.minReplicates_ge_three, ?_⟩
+  cases c.stitchFamily <;> simp [KnittedStitchFamily.layerGroupNumber]
+
+/-! ### WS-9 Extended: Open Analytical Bridges for the Riemann Hypothesis (Epistemic Boundary) -/
+
+/-- Explicit Pending contract isolating the four open infinite-dimensional analytical bridges
+that separate finite machine-checked identities (`Signals.RiemannSpectral`, `Signals.GrassmannianEBR`)
+from a proof or disproof of the Riemann Hypothesis for `ζ(s)`.
+The fields carry abstract propositions, not formalizations of the underlying global analytic
+objects. Finite zero scans, finite Dirichlet truncations, and finite Ramanujan graphs **never**
+discharge these global obligations. -/
+structure RiemannHypothesisPendingBoundary where
+  /-- Audited height `T_max > 0` up to which numerical zero checks were performed. -/
+  verifiedHeightBound : ℝ
+  verifiedHeightBound_pos : 0 < verifiedHeightBound
+  /-- Count of distinct simple critical-line zeros audited below `verifiedHeightBound`. -/
+  auditedZeroCount : Nat
+  /-- Count of Gram-point violations audited (`g_126`, `g_134`, etc.) where `J(γ) > 0` held. -/
+  auditedGramViolations : Nat
+  /-- Open Bridge 1: de Bruijn–Newman upper bound `Λ_dBN ≤ 0` (paired with Rodgers–Tao 2020 `Λ_dBN ≥ 0`). -/
+  deBruijnNewmanUpperBound : Prop
+  /-- Open Bridge 2: finite-prime Bass-Ihara / Plabic VRC transfers converge in trace norm on
+  adelic `Gr_Sato` to a Ramanujan-bounded operator without off-circle spectral leakage. -/
+  adelicSatoTraceLimit : Prop
+  /-- Open Bridge 3: global positivity across all degrees and dimensions, including hyperbolicity
+  of every `J^{d,n}`, nonnegativity of every Li coefficient, and Weil positivity on the full
+  Schwartz-Bruhat space. -/
+  globalLiAndJensenPolyaPositivity : Prop
+  /-- Open Bridge 4: an essentially self-adjoint Berry-Keating / Connes operator whose spectrum
+  is exactly the imaginary parts of the nontrivial zeta zeros. -/
+  selfAdjointSpectralOperatorClosure : Prop
+
+/-- Predicate asserting that all four open analytical bridges hold simultaneously. -/
+def RiemannHypothesisPendingBoundary.allFourBridgesClosed
+    (b : RiemannHypothesisPendingBoundary) : Prop :=
+  b.deBruijnNewmanUpperBound ∧
+    b.adelicSatoTraceLimit ∧
+    b.globalLiAndJensenPolyaPositivity ∧
+    b.selfAdjointSpectralOperatorClosure
+
+/-- A refutation of any one supplied bridge proposition rules out closure of the conjunction.
+This is conditional bookkeeping: it neither asserts that a bridge is false nor treats lack of a
+proof as evidence of its negation. -/
+theorem RiemannHypothesisPendingBoundary.not_allFourBridgesClosed_of_bridge_refuted
+    (b : RiemannHypothesisPendingBoundary)
+    (h_refuted : ¬ b.deBruijnNewmanUpperBound ∨
+      ¬ b.adelicSatoTraceLimit ∨
+      ¬ b.globalLiAndJensenPolyaPositivity ∨
+      ¬ b.selfAdjointSpectralOperatorClosure) :
+    ¬ b.allFourBridgesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h_dbn, h_sato, h_global, h_operator⟩
+  rcases h_refuted with h_refuted | h_refuted | h_refuted | h_refuted
+  · exact h_refuted h_dbn
+  · exact h_refuted h_sato
+  · exact h_refuted h_global
+  · exact h_refuted h_operator
+
+/-- Finite numerical audits alone leave the open bridges unproven: a concrete witness with
+arbitrarily many audited zeros (`verifiedHeightBound > 0`) still fails `allFourBridgesClosed`
+when all four proposition fields are set to `False` as unresolved placeholders for this test.
+This witness is not a claim that the actual analytical bridges are false. -/
+theorem finite_zero_audit_does_not_close_rh_bridges
+    (height : ℝ) (h_pos : 0 < height) (nZeros nGram : Nat) :
+    let finiteAudit : RiemannHypothesisPendingBoundary :=
+      { verifiedHeightBound := height
+        verifiedHeightBound_pos := h_pos
+        auditedZeroCount := nZeros
+        auditedGramViolations := nGram
+        deBruijnNewmanUpperBound := False
+        adelicSatoTraceLimit := False
+        globalLiAndJensenPolyaPositivity := False
+        selfAdjointSpectralOperatorClosure := False }
+    ¬ finiteAudit.allFourBridgesClosed := by
+  dsimp only
+  intro h
+  exact h.1
+
+/-- Explicit Pending epistemic boundary for the celestial-holographic Millennium-Problem
+claims in Daniel Toupin (2025/2026, `TOUQGA-2.pdf`).
+Separates the machine-checked mathematical identities (`Δ = 2s` canonical dictionary,
+`Gr(2,4)(𝔽_q)` Hasse–Weil polynomial, Plancherel–Unruh bare loop weights `M_1 = 1/8, M_2 = 1/90`,
+and symmetric Cesàro identity at `σ = 1/2`) from the open infinite-dimensional analytical
+bridges required for the Riemann Hypothesis, Birch and Swinnerton-Dyer Conjecture at higher rank,
+and 4D continuum Yang–Mills Osterwalder–Schrader reconstruction. -/
+structure ToupinCelestialMillenniumPendingBoundary where
+  /-- Embedded 4-bridge Riemann Hypothesis boundary (`RB-6`). -/
+  rhBoundary : RiemannHypothesisPendingBoundary
+  /-- Verified canonical dictionary slope `α = 2` (`Δ = 2s`) in `d = 4` spacetime dimensions. -/
+  canonicalDictionarySlopeTwo : ℝ
+  canonicalDictionarySlope_eq_two : canonicalDictionarySlopeTwo = 2
+  /-- Verified 1-loop and 2-loop bare Plancherel weights `M_1 = 1/8` and `M_2 = 1/90`. -/
+  bareLoopM1 : ℝ
+  bareLoopM2 : ℝ
+  bareLoopM1_eq : bareLoopM1 = 1 / 8
+  bareLoopM2_eq : bareLoopM2 = 1 / 90
+  /-- Open Meyer Fréchet-to-Hilbert bridge: proving that every zero `ρ` of `ζ(s)` in Meyer's
+  nuclear Fréchet distribution space descends to a normalizable eigenstate in the unitary
+  GNS Hilbert space `L²(𝔸×/ℚ×)` without assuming `Re(ρ) = 1/2`. -/
+  meyerFrechetToGnsHilbertBridge : Prop
+  /-- Open BSD higher-rank Euler-system bridge (`ord_{s=1} L(E,s) ≥ 2`). -/
+  bsdHigherRankEulerSystemBridge : Prop
+  /-- Open 4D Yang–Mills continuum OS reconstruction & Spectral Transfer Conjecture 11.32 bridge. -/
+  yangMillsContinuumSpectralTransferBridge : Prop
+
+/-- Predicate asserting that all celestial-holographic Millennium bridges are simultaneously closed. -/
+def ToupinCelestialMillenniumPendingBoundary.allMillenniumBridgesClosed
+    (b : ToupinCelestialMillenniumPendingBoundary) : Prop :=
+  b.rhBoundary.allFourBridgesClosed ∧
+    b.meyerFrechetToGnsHilbertBridge ∧
+    b.bsdHigherRankEulerSystemBridge ∧
+    b.yangMillsContinuumSpectralTransferBridge
+
+/-- Refuting any one of the four global analytical bridges (`rhBoundary.allFourBridgesClosed`,
+`meyerFrechetToGnsHilbertBridge`, `bsdHigherRankEulerSystemBridge`, or
+`yangMillsContinuumSpectralTransferBridge`) rules out `allMillenniumBridgesClosed`. -/
+theorem ToupinCelestialMillenniumPendingBoundary.not_allMillenniumBridgesClosed_of_any_bridge_refuted
+    (b : ToupinCelestialMillenniumPendingBoundary)
+    (h_refuted : ¬ b.rhBoundary.allFourBridgesClosed ∨
+      ¬ b.meyerFrechetToGnsHilbertBridge ∨
+      ¬ b.bsdHigherRankEulerSystemBridge ∨
+      ¬ b.yangMillsContinuumSpectralTransferBridge) :
+    ¬ b.allMillenniumBridgesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h_rh, h_meyer, h_bsd, h_ym⟩
+  rcases h_refuted with h_r | h_r | h_r | h_r
+  · exact h_r h_rh
+  · exact h_r h_meyer
+  · exact h_r h_bsd
+  · exact h_r h_ym
+
+/-- Certifying the finite/algebraic celestial identities (`Δ = 2s`, `M_1 = 1/8`, `M_2 = 1/90 < M_1²`,
+and finite zero scans) does not discharge `allMillenniumBridgesClosed` when the global analytical
+bridge propositions remain unresolved. -/
+theorem celestial_dictionary_and_cesaro_norm_do_not_close_millennium_bridges
+    (height : ℝ) (h_pos : 0 < height) (nZeros nGram : Nat) :
+    let b : ToupinCelestialMillenniumPendingBoundary :=
+      { rhBoundary :=
+          { verifiedHeightBound := height
+            verifiedHeightBound_pos := h_pos
+            auditedZeroCount := nZeros
+            auditedGramViolations := nGram
+            deBruijnNewmanUpperBound := False
+            adelicSatoTraceLimit := False
+            globalLiAndJensenPolyaPositivity := False
+            selfAdjointSpectralOperatorClosure := False }
+        canonicalDictionarySlopeTwo := 2
+        canonicalDictionarySlope_eq_two := rfl
+        bareLoopM1 := 1 / 8
+        bareLoopM2 := 1 / 90
+        bareLoopM1_eq := rfl
+        bareLoopM2_eq := rfl
+        meyerFrechetToGnsHilbertBridge := False
+        bsdHigherRankEulerSystemBridge := False
+        yangMillsContinuumSpectralTransferBridge := False }
+    b.canonicalDictionarySlopeTwo = 2 ∧
+      b.bareLoopM2 < b.bareLoopM1 ^ 2 ∧
+      ¬ b.allMillenniumBridgesClosed := by
+  dsimp only
+  refine ⟨rfl, by norm_num, ?_⟩
+  intro h
+  exact h.1.1
+
 end Signals.Pending
