@@ -18,3 +18,9 @@
 [submodule "docs/_static/mathjax"]
 	path = docs/_static/mathjax
 	url = https://github.com/mathjax/MathJax.git
+[submodule "src/tequila"]
+	path = src/tequila
+	url = https://github.com/westurner/tequila
+[submodule "src/madness"]
+	path = src/madness
+	url = https://github.com/m-a-d-n-e-s-s/madness
