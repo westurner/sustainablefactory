@@ -21,6 +21,7 @@
 [submodule "src/tequila"]
 	path = src/tequila
 	url = https://github.com/westurner/tequila
-[submodule "src/madness"]
-	path = src/madness
-	url = https://github.com/m-a-d-n-e-s-s/madness
+;[submodule "src/madness"]
+;    path = src/madness
+;    url = https://github.com/m-a-d-n-e-s-s/madness
+; rev=73ad2cf
