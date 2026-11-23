@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Photoelectric Effect Reimagined: From Einstein’s Quanta to QCI-GXC Electronic Density, Twistor Longitudinal \(E_z\) &amp; OAM Light, Strong-Field Keldysh Tunneling, AKNS Solitons, and QFIM \(= 4\,g^{\mathrm{FS}}\) &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-4pQJYasPt8eo5io4bGpGVgin1nsu9weISVC9YrQu5tdoHZRH8qBcnAsz/K9V1U+4"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-uPHKzNFBYaKbhi0j25li5XcR4k+KPWAzPtulNaTbnqZhSB4Xj03rtWrJU9ymLbJ0"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-uocJMM9ufXlom0w1og1M471rGITuJYEUHLpDQKoKhZ718a/gAbhRslF4PGeTvO0M" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">The Photoelectric Effect Reimagined: From Einstein’s Quanta to <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Electronic Density, Twistor Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span> &amp; OAM Light, Strong-Field Keldysh Tunneling, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Solitons, and <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(= 4\,g^{\mathrm{FS}}\)</span></a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#the-big-picture-why-the-photoelectric-effect-needed-four-upgrades">1. The Big Picture: Why the Photoelectric Effect Needed Four Upgrades</a></li>
+<li><a class="reference internal" href="#how-qci-gxc-computes-the-work-function-phi-w-and-post-excitation-carrier-flow">2. How <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Computes the Work Function <span class="math notranslate nohighlight">\(\Phi_W\)</span> and Post-Excitation Carrier Flow</a></li>
+<li><a class="reference internal" href="#which-light-field-pulls-the-electron-out-twistors-longitudinal-e-z-enz-hotspots-and-oam-dichroism">3. Which Light Field Pulls the Electron Out? Twistors, Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span>, <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> Hotspots, and <code class="docutils literal notranslate"><span class="pre">OAM</span></code> Dichroism</a></li>
+<li><a class="reference internal" href="#polaritons-and-plasmons-in-the-photoelectric-effect-surface-plasmons-spps-volume-plasmon-satellites-pole-free-vrc-hybridization">4. Polaritons and Plasmons in the Photoelectric Effect: Surface Plasmons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>), Volume-Plasmon Satellites, &amp; Pole-Free <code class="docutils literal notranslate"><span class="pre">VRC</span></code> Hybridization</a><ul>
+<li><a class="reference internal" href="#surface-plasmon-polaritons-spps-hot-electron-photoemission-pihc">4.1 Surface Plasmon Polaritons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>) &amp; Hot-Electron Photoemission (<code class="docutils literal notranslate"><span class="pre">PIHC</span></code>)</a></li>
+<li><a class="reference internal" href="#volume-plasmons-enz-at-omega-omega-p-and-photoemission-loss-satellites">4.2 Volume Plasmons (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code> at <span class="math notranslate nohighlight">\(\omega = \omega_p\)</span>) and Photoemission Loss Satellites</a></li>
+<li><a class="reference internal" href="#exciton-and-phonon-polaritons-in-arpes-and-pole-free-complex-vrc-x-x-1">4.3 Exciton- and Phonon-Polaritons in <code class="docutils literal notranslate"><span class="pre">ARPES</span></code> and Pole-Free Complex <code class="docutils literal notranslate"><span class="pre">VRC</span></code> (<span class="math notranslate nohighlight">\(x_X = -1\)</span>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#strong-field-photoemission-keldysh-tunneling-akns-solitons-and-the-qfim-4-g-mathrm-fs-tunneling-speed-law">5. Strong-Field Photoemission, Keldysh Tunneling, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Solitons, and the <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(= 4\,g^{\mathrm{FS}}\)</span> Tunneling Speed Law</a><ul>
+<li><a class="reference internal" href="#ponderomotive-energy-u-p-the-keldysh-parameter-gamma-k-and-ati-combs">5.1 Ponderomotive Energy <span class="math notranslate nohighlight">\(U_p\)</span>, the Keldysh Parameter <span class="math notranslate nohighlight">\(\gamma_K\)</span>, and <code class="docutils literal notranslate"><span class="pre">ATI</span></code> Combs</a></li>
+<li><a class="reference internal" href="#resolving-the-tunneling-speed-paradox-via-three-channel-pluckermadelungqfim">5.2 Resolving the Tunneling Speed Paradox via Three-Channel Plücker–Madelung–<code class="docutils literal notranslate"><span class="pre">QFIM</span></code></a></li>
+<li><a class="reference internal" href="#akns-focusing-nls-driver-solitons-defocusing-gpe-surface-kinks-and-two-pathway-rabbitt-qfim">5.3 <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Focusing NLS Driver Solitons, Defocusing GPE Surface Kinks, and Two-Pathway <code class="docutils literal notranslate"><span class="pre">RABBITT</span></code> <code class="docutils literal notranslate"><span class="pre">QFIM</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#related-phenomena-better-described-by-this-model-check-figure-benchmarks">6. Related Phenomena Better Described by This Model (Check-Figure Benchmarks)</a></li>
+<li><a class="reference internal" href="#tri-language-verification-reproducibility">7. Tri-Language Verification &amp; Reproducibility</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-schema-org-provenance-metadata">BibTeX &amp; Schema.org Provenance Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html" title="Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy" accesskey="P">previous </a></li>
+              <li><a href="references.html" title="References" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">The Photoelectric Effect Reimagined: From Einstein’s Quanta to <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Electronic Density, Twistor Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span> &amp; OAM Light, Strong-Field Keldysh Tunneling, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Solitons, and <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(= 4\,g^{\mathrm{FS}}\)</span></a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#the-big-picture-why-the-photoelectric-effect-needed-four-upgrades">1. The Big Picture: Why the Photoelectric Effect Needed Four Upgrades</a></li>
+<li><a class="reference internal" href="#how-qci-gxc-computes-the-work-function-phi-w-and-post-excitation-carrier-flow">2. How <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Computes the Work Function <span class="math notranslate nohighlight">\(\Phi_W\)</span> and Post-Excitation Carrier Flow</a></li>
+<li><a class="reference internal" href="#which-light-field-pulls-the-electron-out-twistors-longitudinal-e-z-enz-hotspots-and-oam-dichroism">3. Which Light Field Pulls the Electron Out? Twistors, Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span>, <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> Hotspots, and <code class="docutils literal notranslate"><span class="pre">OAM</span></code> Dichroism</a></li>
+<li><a class="reference internal" href="#polaritons-and-plasmons-in-the-photoelectric-effect-surface-plasmons-spps-volume-plasmon-satellites-pole-free-vrc-hybridization">4. Polaritons and Plasmons in the Photoelectric Effect: Surface Plasmons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>), Volume-Plasmon Satellites, &amp; Pole-Free <code class="docutils literal notranslate"><span class="pre">VRC</span></code> Hybridization</a><ul>
+<li><a class="reference internal" href="#surface-plasmon-polaritons-spps-hot-electron-photoemission-pihc">4.1 Surface Plasmon Polaritons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>) &amp; Hot-Electron Photoemission (<code class="docutils literal notranslate"><span class="pre">PIHC</span></code>)</a></li>
+<li><a class="reference internal" href="#volume-plasmons-enz-at-omega-omega-p-and-photoemission-loss-satellites">4.2 Volume Plasmons (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code> at <span class="math notranslate nohighlight">\(\omega = \omega_p\)</span>) and Photoemission Loss Satellites</a></li>
+<li><a class="reference internal" href="#exciton-and-phonon-polaritons-in-arpes-and-pole-free-complex-vrc-x-x-1">4.3 Exciton- and Phonon-Polaritons in <code class="docutils literal notranslate"><span class="pre">ARPES</span></code> and Pole-Free Complex <code class="docutils literal notranslate"><span class="pre">VRC</span></code> (<span class="math notranslate nohighlight">\(x_X = -1\)</span>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#strong-field-photoemission-keldysh-tunneling-akns-solitons-and-the-qfim-4-g-mathrm-fs-tunneling-speed-law">5. Strong-Field Photoemission, Keldysh Tunneling, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Solitons, and the <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(= 4\,g^{\mathrm{FS}}\)</span> Tunneling Speed Law</a><ul>
+<li><a class="reference internal" href="#ponderomotive-energy-u-p-the-keldysh-parameter-gamma-k-and-ati-combs">5.1 Ponderomotive Energy <span class="math notranslate nohighlight">\(U_p\)</span>, the Keldysh Parameter <span class="math notranslate nohighlight">\(\gamma_K\)</span>, and <code class="docutils literal notranslate"><span class="pre">ATI</span></code> Combs</a></li>
+<li><a class="reference internal" href="#resolving-the-tunneling-speed-paradox-via-three-channel-pluckermadelungqfim">5.2 Resolving the Tunneling Speed Paradox via Three-Channel Plücker–Madelung–<code class="docutils literal notranslate"><span class="pre">QFIM</span></code></a></li>
+<li><a class="reference internal" href="#akns-focusing-nls-driver-solitons-defocusing-gpe-surface-kinks-and-two-pathway-rabbitt-qfim">5.3 <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Focusing NLS Driver Solitons, Defocusing GPE Surface Kinks, and Two-Pathway <code class="docutils literal notranslate"><span class="pre">RABBITT</span></code> <code class="docutils literal notranslate"><span class="pre">QFIM</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#related-phenomena-better-described-by-this-model-check-figure-benchmarks">6. Related Phenomena Better Described by This Model (Check-Figure Benchmarks)</a></li>
+<li><a class="reference internal" href="#tri-language-verification-reproducibility">7. Tri-Language Verification &amp; Reproducibility</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#bibtex-schema-org-provenance-metadata">BibTeX &amp; Schema.org Provenance Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html"
+                          title="previous chapter">Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="references.html"
+                          title="next chapter">References</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-photoelectric-effect-reimagined-from-einsteins-quanta-to-qci-gxc-electronic-density-twistor-longitudinal-e-z-oam-light-strong-field-keldysh-tunneling-akns-solitons-and-qfim-4-g-mathrm-fs">
+<span id="grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper"></span><h1>The Photoelectric Effect Reimagined: From Einstein’s Quanta to <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Electronic Density, Twistor Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span> &amp; OAM Light, Strong-Field Keldysh Tunneling, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Solitons, and <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(= 4\,g^{\mathrm{FS}}\)</span><a class="headerlink" href="#the-photoelectric-effect-reimagined-from-einsteins-quanta-to-qci-gxc-electronic-density-twistor-longitudinal-e-z-oam-light-strong-field-keldysh-tunneling-akns-solitons-and-qfim-4-g-mathrm-fs" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>Quantum Physics (<code class="docutils literal notranslate"><span class="pre">quant-ph</span></code>); Optics (<code class="docutils literal notranslate"><span class="pre">physics.optics</span></code>); Chemical Physics (<code class="docutils literal notranslate"><span class="pre">physics.chem-ph</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Exactly Solvable and Integrable Systems (<code class="docutils literal notranslate"><span class="pre">nlin.SI</span></code>); Physics Education &amp; General Physics (<code class="docutils literal notranslate"><span class="pre">physics.ed-ph</span></code>); Logic in Computer Science (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Verified Mathematical &amp; Computational Core (Machine-Checked in Lean 4, Rust/PyO3, and SymPy):</strong> All algebraic, trigonometric, differential, and PDE identities in this paper are formalized with zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> axioms in <a class="reference download internal" download="" href="_downloads/2f0eb384d6ebce8984eaf87630f41fe1/Photoelectric.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Photoelectric.lean</span></code></a>, <a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DFT.lean</span></code></a>, <a class="reference download internal" download="" href="_downloads/aefcbe25fe5904368f9f401955d2c2f8/Scattering.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Scattering.lean</span></code></a>, <a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DDF.lean</span></code></a>, <a class="reference download internal" download="" href="_downloads/08fc276c96b2458d3cd5bc03172c2408/QuantumTrajectories.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/QuantumTrajectories.lean</span></code></a>, and <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.*</span></code> (<code class="docutils literal notranslate"><span class="pre">3,835</span></code> Lake build jobs passing via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>), cross-checked by <code class="docutils literal notranslate"><span class="pre">172</span></code> Rust unit tests (<code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, <a class="reference download internal" download="" href="_downloads/704b7591d57ad25b2372ecc783cc9696/photoelectric.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/photoelectric.rs</span></code></a>), <code class="docutils literal notranslate"><span class="pre">21</span></code> exact SymPy symbolic proofs, and PyO3 numerical benchmarks (<a class="reference download internal" download="" href="_downloads/fa8d424bf22a87e9e133d85310953ea3/photoelectric.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/photoelectric.py</span></code></a>, <a class="reference download internal" download="" href="_downloads/fee97a1605e08cae649a5572955bec94/test_photoelectric_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_photoelectric_sympy_pyo3.py</span></code></a>).</p></li>
+<li><p><strong>Open Experimental Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.PhotoelectricEmissionPendingBoundary</span></code>):</strong> Formal theorems prove exact consequences of the physical equations and check-figure models. They do <strong>not</strong> replace calibrated ultra-high-vacuum (<code class="docutils literal notranslate"><span class="pre">UHV</span></code>) work-function measurements, measured Epsilon-Near-Zero (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code>) Drude losses, multiphoton yield curves, or attosecond streaking clock telemetry (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a>).</p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers Synthesized:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-unification-applications-roadmap-paper.html"><span class="std std-doc">Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span>, and Dilatant Dark Fluid (DDF) Mechanics</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.html"><span class="std std-doc">Maxwell Electromagnetic Theory Across Pre-Tensor Quaternions, Modern Vectors (and Gimbal Lock), Relativistic Tensors, and Penrose Twistors</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polaritons and Surface Plasmon Polaritons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>) in Unified Grassmannian–DDF Mechanics</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"><span class="std std-doc">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.html"><span class="std std-doc">Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.html"><span class="std std-doc">Quantum Trajectories in Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(k,n)\)</span>, Three-Channel Plücker–Madelung–QFIM, Dual-Schubert <code class="docutils literal notranslate"><span class="pre">iGPE</span></code>, and <code class="docutils literal notranslate"><span class="pre">DDF</span></code> Mechanics</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">Complex Grassmannian Plabic Vector-Relation Configurations (<code class="docutils literal notranslate"><span class="pre">VRC</span></code>), Quantum Causal Inference Kohn–Sham Density Functional Theory (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>), and Topological Multi-Qudit Compilers</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">Tuning Materials with Light (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>)</span></a></p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Most textbooks introduce the <strong>photoelectric effect</strong> as a clean historical parable: classical light waves fail, Albert Einstein (1905) proposes discrete light quanta <span class="math notranslate nohighlight">\(E = h\nu\)</span>, and electrons pop out of a metal whenever <span class="math notranslate nohighlight">\(h\nu\)</span> exceeds a single empirical number—the <strong>work function</strong> <span class="math notranslate nohighlight">\(\Phi_W\)</span>. While that picture captures weak-field single-photon emission, modern experiments—ranging from <strong>Epsilon-Near-Zero (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code>) nanophotonic cathodes</strong> and <strong>helical Orbital Angular Momentum (<code class="docutils literal notranslate"><span class="pre">OAM</span></code>) beams</strong> to <strong>strong-field Keldysh laser tunneling</strong>, <strong>soliton-driven attosecond pulses</strong>, and <strong>time-resolved Angle-Resolved Photoemission Spectroscopy (<code class="docutils literal notranslate"><span class="pre">trARPES</span></code>)</strong>—probe regimes where the textbook cartoon breaks down completely.</p>
+<p>Written for a broad physics and computational science audience, this paper shows how our unified <strong>Grassmannian–Twistor–<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>–Soliton–<code class="docutils literal notranslate"><span class="pre">QFIM</span></code> framework</strong> explains the photoelectric effect from first principles across every intensity, frequency, and geometry, while resolving quantitative errors (<code class="docutils literal notranslate"><span class="pre">100%</span></code>, <code class="docutils literal notranslate"><span class="pre">50%</span></code>, <code class="docutils literal notranslate"><span class="pre">100×–400×</span></code>) in standard approximate models:</p>
+<ol class="arabic simple">
+<li><p><strong>Where the Work Function <span class="math notranslate nohighlight">\(\Phi_W\)</span> Comes From (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Kohn–Sham DFT):</strong> Rather than treating <span class="math notranslate nohighlight">\(\Phi_W\)</span> as an opaque constant, <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> models the metal’s electron cloud as spin-polarized density projectors on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M)\times\mathrm{Gr}_{\mathbb{C}}(N_\beta, M)\)</span>, where McWeeny purification (<span class="math notranslate nohighlight">\(3\lambda^2 - 2\lambda^3\)</span>) cures self-interaction error (<code class="docutils literal notranslate"><span class="pre">SIE</span></code>) and surface-history rules (<code class="docutils literal notranslate"><span class="pre">G-IEP</span></code>) track how termination shifts <span class="math notranslate nohighlight">\(\Phi_W = E_{\mathrm{vac}} - E_F\)</span>.</p></li>
+<li><p><strong>Which Field Component Actually Pulls the Electron Out (Twistor Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span>, <code class="docutils literal notranslate"><span class="pre">ENZ</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">OAM</span></code>):</strong> Electrons escape <em>perpendicular</em> to the surface, driven by the longitudinal field <span class="math notranslate nohighlight">\(E_z\)</span>. Standard 2D paraxial optics drops <span class="math notranslate nohighlight">\(E_z\)</span> (<code class="docutils literal notranslate"><span class="pre">100%</span></code> error at radial focus), and 3-angle Euler polarization frames suffer <strong>gimbal lock</strong> (<span class="math notranslate nohighlight">\(\det J(\pm\pi/2) = 0\)</span>). Penrose twistors and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span> geometry eliminate gimbal lock (<code class="docutils literal notranslate"><span class="pre">F_{θθ}</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>), capture <strong><span class="math notranslate nohighlight">\(400\times\)</span></strong> lossless (<code class="docutils literal notranslate"><span class="pre">200×</span></code> lossy Drude) <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> surface intensity amplification (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{ENZ}} = 0.05\)</span>), and enforce spin-to-OAM selection (<span class="math notranslate nohighlight">\(\ell_z = \ell_{\mathrm{in}} + \sigma_{\mathrm{SAM}}\)</span>) with <span class="math notranslate nohighlight">\(4\ell^2\)</span> angular precision.</p></li>
+<li><p><strong>Why Collective Modes Dominate Surface &amp; Sub-Threshold Photoemission (Polaritons &amp; Plasmons):</strong> Photons rarely interact with isolated electrons alone: at a metal–dielectric surface, <strong>Surface Plasmon Polaritons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>)</strong> carry outside-light-cone momentum (<span class="math notranslate nohighlight">\(n_{\mathrm{SPP}}^2 &gt; \varepsilon_d\)</span>), concentrate <span class="math notranslate nohighlight">\((|\varepsilon_m|/\varepsilon_d)^2\)</span> more evanescent energy <em>inside</em> the metal skin depth on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span>, and compress optical mode area by <span class="math notranslate nohighlight">\(n_{\mathrm{SPP}}^2\kappa_{\mathrm{ratio}}\)</span> to ignite hot-carrier emission and Keldysh tunneling at low input power; in the bulk, <strong>volume plasmons</strong> at the <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> cutoff <span class="math notranslate nohighlight">\(\varepsilon_r(\rho_e, \omega_p) = 0\)</span> produce quantized <span class="math notranslate nohighlight">\(m\,\hbar\omega_p\)</span> photoemission satellites; and in strong-coupling cavities, <strong>Hopfield exciton/phonon-polaritons</strong> split photoemission bands by <span class="math notranslate nohighlight">\(\Omega_{\mathrm{eff}} = \sqrt{\Delta^2 + 4g^2}\)</span> with pole-free <code class="docutils literal notranslate"><span class="pre">VRC</span></code> <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> across the <span class="math notranslate nohighlight">\(x_X = -1\)</span> resonance.</p></li>
+<li><p><strong>What the Electron Does Inside the Barrier (Strong-Field Keldysh Tunneling &amp; 3-Channel <code class="docutils literal notranslate"><span class="pre">QFIM</span></code>):</strong> When intense lasers lower the Keldysh parameter <span class="math notranslate nohighlight">\(\gamma_K = \sqrt{\Phi_W / (2 U_p)} \lesssim 1\)</span>, electrons tunnel <em>evanescently</em> out of the surface even when <span class="math notranslate nohighlight">\(h\nu \ll \Phi_W\)</span>. Standard Bohmian mechanics predicts zero tunneling velocity (<span class="math notranslate nohighlight">\(v_{\mathrm{Bohm}} = 0\)</span>, <strong><code class="docutils literal notranslate"><span class="pre">100%</span></code> error</strong>), whereas our <strong>Three-Channel Plücker–Madelung–QFIM</strong> kinetic split (<span class="math notranslate nohighlight">\(F_Q = 4\,g_{\mathrm{FS}}\)</span>) shows that tunneling kinetic energy resides in <strong>Channel 2 (osmotic density slope)</strong> <span class="math notranslate nohighlight">\(v_{\mathrm{osm}} = \hbar\kappa/m_e = \sqrt{2\Phi_W/m_e}\)</span> and <strong>Channel 3 (projective <code class="docutils literal notranslate"><span class="pre">QFIM</span></code>)</strong> (<code class="docutils literal notranslate"><span class="pre">0%</span></code> residual).</p></li>
+<li><p><strong>How Intense Laser Drivers &amp; Surface Charge Waves Propagate (<code class="docutils literal notranslate"><span class="pre">SatoGrassmannian</span></code> <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">KP-II</span></code> Solitons) and How Quantum Pathways Interfere (<code class="docutils literal notranslate"><span class="pre">RABBITT</span></code>):</strong> Ultrashort driver pulses propagate as <strong>AKNS focusing NLS bright solitons</strong> (<span class="math notranslate nohighlight">\(A\operatorname{sech}(Ax)e^{i A^2 t}\)</span>) whose peak intensity drives local ponderomotive shifts <span class="math notranslate nohighlight">\(U_p\)</span>, while surface depletion kinks obey the <strong>AKNS defocusing GPE dark soliton</strong> (<span class="math notranslate nohighlight">\(A\tanh(Ax)e^{-2i A^2 t}\)</span>) and two-pathway (<span class="math notranslate nohighlight">\(\omega/2\omega\)</span>) interference eliminates the <strong><code class="docutils literal notranslate"><span class="pre">50%</span></code> error</strong> of unphased positive geometry via <code class="docutils literal notranslate"><span class="pre">QFIM</span> <span class="pre">=</span> <span class="pre">I_class</span> <span class="pre">+</span> <span class="pre">4</span> <span class="pre">Var_p(∂φ)</span></code>.</p></li>
+<li><p><strong>Related Phenomena Better Described by Check Figures:</strong> We catalog twelve benchmarked phenomena—from <code class="docutils literal notranslate"><span class="pre">SPP</span></code> hot-electron hotspots, volume-plasmon satellites, and evanescent waveguide speeds to cuprate <code class="docutils literal notranslate"><span class="pre">ARPES</span></code> pseudogaps (<code class="docutils literal notranslate"><span class="pre">0.79%</span></code> MAPE), multilayer graphene (<code class="docutils literal notranslate"><span class="pre">0.64%</span></code> MAPE), and time-linear <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code> photocarrier dynamics (<code class="docutils literal notranslate"><span class="pre">1.44</span> <span class="pre">×</span> <span class="pre">10⁸×</span></code> speedup)—validated simultaneously in <strong>Lean 4</strong>, <strong>Rust/PyO3</strong>, and <strong>Python/SymPy</strong>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="the-big-picture-why-the-photoelectric-effect-needed-four-upgrades">
+<h2>1. The Big Picture: Why the Photoelectric Effect Needed Four Upgrades<a class="headerlink" href="#the-big-picture-why-the-photoelectric-effect-needed-four-upgrades" title="Link to this heading">¶</a></h2>
+<p>In 1887, Heinrich Hertz noticed that ultraviolet light made electrical sparks jump more easily across a metal gap <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id531" title="Heinrich Hertz. Ueber einen Einfluss des ultravioletten Lichtes auf die electrische Entladung. Annalen der Physik, 267(8):983–1000, 1887. doi:10.1002/andp.18872670827.">Hertz, 1887</a>]</span>. By 1902, Philipp Lenard discovered something deeply puzzling <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id532" title="Philipp Lenard. Ueber die lichtelektrische Wirkung (&quot;on the photoelectric effect&quot;). Annalen der Physik, 313(5):149–198, 1902. URL: https://dx.doi.org/10.1002/andp.19023130510, doi:10.1002/andp.19023130510.">Lenard, 1902</a>]</span>: making the light <em>brighter</em> ejected <em>more</em> electrons, yet did <strong>not</strong> make individual electrons fly out any faster. Making the light <em>bluer</em> (higher frequency <span class="math notranslate nohighlight">\(\nu\)</span>), however, immediately raised their maximum kinetic energy—and below a sharp cutoff frequency <span class="math notranslate nohighlight">\(\nu_0\)</span>, even blindingly bright red light ejected <strong>zero</strong> electrons!</p>
+<p>Classical Maxwell 3-vector electromagnetism predicted the exact opposite: a light wave spreads its energy smoothly across an entire atomic cross-section <span class="math notranslate nohighlight">\(A_{\mathrm{atom}}\)</span>, so dim light should force an atom to wait minutes or hours (<code class="docutils literal notranslate"><span class="pre">classicalRayleighAccumulationDelay</span></code> <span class="math notranslate nohighlight">\(\propto 1/I\)</span>) to soak up enough energy to free an electron, and brighter waves should always kick electrons harder.</p>
+<p>In 1905, Albert Einstein resolved this paradox by proposing that light delivers its energy in discrete packets (photons) of energy <span class="math notranslate nohighlight">\(E = h\nu\)</span> <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id180" title="Albert Einstein. Zur elektrodynamik bewegter körper. Annalen der Physik, 322(10):891–921, 1905. title&#64;en: &quot;On the Electrodynamics of Moving Bodies&quot;; Special Relativity. URL: https://onlinelibrary.wiley.com/doi/10.1002/andp.19053221004, doi:10.1002/andp.19053221004.">Einstein, 1905</a>]</span>. Paying the surface escape toll <span class="math notranslate nohighlight">\(\Phi_W\)</span> (the <strong>work function</strong>) leaves a maximum kinetic energy verified to high precision by Robert Millikan in 1916 <span class="bibtex-citation" id="id4">[<a class="reference internal" href="references.html#id533" title="Robert Andrews Millikan. A direct photoelectric determination of Planck's “$h$”. Physical Review, 7(3):355–388, 1916. URL: https://doi.org/10.1103/PhysRev.7.355, doi:10.1103/PhysRev.7.355.">Millikan, 1916</a>]</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+K_{\max}(\nu, \Phi_W) = e V_s = \max(0,\, h\nu - \Phi_W), \qquad \nu_0 = \frac{\Phi_W}{h}.
+\]</div>
+<p>Over the past century, however, photonics and condensed-matter physics pushed light–matter interactions far beyond Einstein’s original regime. Four modern questions arise immediately:</p>
+<ol class="arabic simple">
+<li><p><strong>Where does <span class="math notranslate nohighlight">\(\Phi_W\)</span> come from?</strong> Why is <span class="math notranslate nohighlight">\(\Phi_W \approx 2.14\text{ eV}\)</span> for cesium, <span class="math notranslate nohighlight">\(4.28\text{ eV}\)</span> for aluminum, <span class="math notranslate nohighlight">\(4.55\text{ eV}\)</span> for tungsten, and <span class="math notranslate nohighlight">\(4.65\text{ eV}\)</span> for copper <span class="bibtex-citation" id="id5">[<a class="reference internal" href="references.html#id538" title="Herbert B. Michaelson. The work function of the elements and its periodicity. Journal of Applied Physics, 48(11):4729–4733, 1977. URL: https://doi.org/10.1063/1.323539, doi:10.1063/1.323539.">Michaelson, 1977</a>]</span>, and why is it sensitive to a single monolayer of hydrogen or oxygen?</p></li>
+<li><p><strong>Which direction of the light’s electric field actually pulls the electron out?</strong> An electron escaping a flat metal sheet must accelerate <em>normal</em> to the surface (<span class="math notranslate nohighlight">\(E_z\)</span>), yet introductory wave optics pretends <span class="math notranslate nohighlight">\(E_z = 0\)</span>.</p></li>
+<li><p><strong>What happens if the laser is so intense that <span class="math notranslate nohighlight">\(\hbar\omega &lt; \Phi_W\)</span> still rips electrons straight through the barrier?</strong> That is <strong>strong-field Keldysh photoemission</strong>, <strong>Schottky image-charge lowering</strong> <span class="bibtex-citation" id="id6">[<a class="reference internal" href="references.html#id542" title="Walter Schottky. Über den Einfluß von Strukturwirkungen, besonders der Thomsonschen Bildkraft, auf die Elektronenemission der Metalle. Physikalische Zeitschrift, 15:872–878, 1914. title&#64;en &quot;On the Influence of Structural Effects, Especially the Thomson Image Force, on the Electron Emission of Metals&quot; (Schottky effect).">Schottky, 1914</a>]</span>, and <strong>above-threshold ionization (<code class="docutils literal notranslate"><span class="pre">ATI</span></code>)</strong> <span class="bibtex-citation" id="id7">[<a class="reference internal" href="references.html#id534" title="Leonid V. Keldysh. Ionization in the field of a strong electromagnetic wave. Soviet Physics JETP, 20(5):1307–1314, 1965. URL: http://www.jetp.ras.ru/cgi-bin/e/index/e/20/5/p1307?a=list.">Keldysh, 1965</a>, <a class="reference internal" href="references.html#id541" title="Michael Krüger, Markus Schenk, and Peter Hommelhoff. Attosecond control of electrons emitted from a nanoscale metal tip. Nature, 475(7354):78–81, 2011. URL: https://doi.org/10.1038/nature10196, doi:10.1038/nature10196.">Krüger <em>et al.</em>, 2011</a>]</span>—and how fast does the electron actually move <em>inside</em> that classically forbidden barrier?</p></li>
+<li><p><strong>How do ultrashort laser shapes (solitons) and two-color quantum interference (<code class="docutils literal notranslate"><span class="pre">RABBITT</span></code>) encode attosecond timing?</strong></p></li>
+</ol>
+<pre  class="mermaid">
+        flowchart TB
+    E1905[&quot;1905 Einstein Photon Law\nK_max = max(0, hν - Φ_W)\n• Explains sharp cutoff ν_0 = Φ_W / h\n• Treats Φ_W as an external constant &amp; light as 1D scalar quanta&quot;]
+
+    QCI[&quot;1. Matter Side: QCI-GXC Kohn–Sham DFT\n• Φ_W = E_vac - E_F from spin-polarized Gr_C(N_α,M)×Gr_C(N_β,M)\n• McWeeny 3λ² - 2λ³ cures Self-Interaction Error (SIE)\n• Time-linear G-GKBA tracks internal photocarriers (1.44×10⁸×)&quot;]
+
+    TW[&quot;2. Light Side: Twistors, E_z, ENZ, &amp; OAM\n• 3D Gauss E_z = -(k_x E_x + k_y E_y)/k_z\n• ENZ surface boosts \|E_z\|² by 400× (200× lossy Drude)\n• Spinor QFIM eliminates Euler gimbal lock at θ = ±π/2&quot;]
+
+    POL[&quot;3. Interface Quasiparticles: Polaritons &amp; Plasmons (SPPs)\n• SPPs pack (|ε_m|/ε_d)² more field inside metal skin depth\n• Mode compression n_SPP² κ_ratio boosts U_p &amp; lowers γ_K²\n• Volume plasmons (ε_r = 0) &amp; Hopfield polariton UP/LP splits\n• Pole-free Complex VRC QFIM across x_X = -1 resonance&quot;]
+
+    SOL[&quot;4. Strong-Field &amp; Soliton Dynamics: Sato / AKNS / 3-Channel QFIM\n• Keldysh γ_K = √(Φ_W / 2U_p) bridges Einstein (γ_K≫1) &amp; tunneling (γ_K≪1)\n• Ch. 2 Osmotic + Ch. 3 QFIM (F_Q = 4 g_FS) fixes 100% Bohm tunneling error\n• AKNS bright NLS solitons drive U_p; dark GPE solitons model surface depletion&quot;]
+
+    E1905 --&gt; QCI
+    E1905 --&gt; TW
+    E1905 --&gt; POL
+    E1905 --&gt; SOL
+    </pre><p>Our integrated computational architecture (<code class="docutils literal notranslate"><span class="pre">Signals.Photoelectric</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DFT</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.QuantumTrajectories</span></code>) answers all four questions within one mathematically consistent framework.</p>
+</section>
+<hr class="docutils" />
+<section id="how-qci-gxc-computes-the-work-function-phi-w-and-post-excitation-carrier-flow">
+<h2>2. How <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> Computes the Work Function <span class="math notranslate nohighlight">\(\Phi_W\)</span> and Post-Excitation Carrier Flow<a class="headerlink" href="#how-qci-gxc-computes-the-work-function-phi-w-and-post-excitation-carrier-flow" title="Link to this heading">¶</a></h2>
+<p>In a solid, electrons do not sit in a featureless box; they form a self-consistent quantum cloud with density <span class="math notranslate nohighlight">\(\rho_e(\mathbf{r})\)</span> governed by <strong>Kohn–Sham Density Functional Theory (<code class="docutils literal notranslate"><span class="pre">DFT</span></code>)</strong> <span class="bibtex-citation" id="id8">[<a class="reference internal" href="references.html#id47" title="Pierre Hohenberg and Walter Kohn. Inhomogeneous electron gas. Physical Review, 136(3B):B864–B871, 1964. URL: https://doi.org/10.1103/PhysRev.136.B864, doi:10.1103/PhysRev.136.B864.">Hohenberg and Kohn, 1964</a>, <a class="reference internal" href="references.html#id48" title="Walter Kohn and Lu Jeu Sham. Self-consistent equations including exchange and correlation effects. Physical Review, 140(4A):A1133–A1138, 1965. URL: https://doi.org/10.1103/PhysRev.140.A1133, doi:10.1103/PhysRev.140.A1133.">Kohn and Sham, 1965</a>]</span>. In our <strong>Quantum Causal Inference Grassmannian Exchange-Correlation (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>)</strong> framework (<a class="reference download internal" download="" href="_downloads/f913f018b55aa6bf33b886341c599de4/DFT.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DFT.lean</span></code></a>; <a class="reference internal" href="grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.html"><span class="std std-doc">QCI-GXC Paper</span></a>):</p>
+<ul>
+<li><p>The occupied spin-up and spin-down orbitals form an unrestricted pair of orthogonal projection matrices <span class="math notranslate nohighlight">\((P_\alpha, P_\beta) \in \mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)\)</span>, evolved along curved Grassmannian geodesics via unitary <strong>Cayley retractions</strong> <span class="math notranslate nohighlight">\((I - K/2)(I + K/2)^{-1}\)</span>.</p></li>
+<li><p>The <strong>work function</strong> is the energy gap between the vacuum electrostatic plateau <span class="math notranslate nohighlight">\(E_{\mathrm{vac}}\)</span> far outside the surface and the highest occupied electronic chemical potential (Fermi level <span class="math notranslate nohighlight">\(E_F\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+  \Phi_W = E_{\mathrm{vac}} - E_F[P_\alpha, P_\beta].
+  \]</div>
+</li>
+<li><p><strong>Why Approximate <code class="docutils literal notranslate"><span class="pre">DFT</span></code> Mispredicts <span class="math notranslate nohighlight">\(\Phi_W\)</span>—and How McWeeny Purification Fixes It:</strong> Standard approximate density functionals suffer from <strong>Self-Interaction Error (<code class="docutils literal notranslate"><span class="pre">SIE</span></code>)</strong>, allowing an electron to fractionally smear across orbitals (<span class="math notranslate nohighlight">\(\lambda \in (0, 1)\)</span> instead of <span class="math notranslate nohighlight">\(\lambda \in \{0, 1\}\)</span>), which unphysically softens energy barriers (for example, underestimating the <code class="docutils literal notranslate"><span class="pre">ALD</span></code> <span class="math notranslate nohighlight">\(\mathrm{Al(CH_3)_3 + H_2O}\)</span> reaction barrier as <span class="math notranslate nohighlight">\(11.90\text{ kcal/mol}\)</span> instead of <span class="math notranslate nohighlight">\(18.33\text{ kcal/mol}\)</span>). Applying the cubic <strong>McWeeny purification polynomial</strong> <span class="math notranslate nohighlight">\(f_{\mathrm{McW}}(\lambda) = 3\lambda^2 - 2\lambda^3\)</span> <span class="bibtex-citation" id="id9">[<a class="reference internal" href="references.html#id49" title="Roy McWeeny. Some recent advances in density matrix theory. Reviews of Modern Physics, 32(2):335–369, 1960. URL: https://doi.org/10.1103/RevModPhys.32.335, doi:10.1103/RevModPhys.32.335.">McWeeny, 1960</a>]</span> (<code class="docutils literal notranslate"><span class="pre">mcweenyIdempotencyDefect</span></code> in <a class="reference download internal" download="" href="_downloads/2f0eb384d6ebce8984eaf87630f41fe1/Photoelectric.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Photoelectric.lean</span></code></a>) drives fractional occupations toward exact integer idempotency <span class="math notranslate nohighlight">\(\lambda \in \{0, 1\}\)</span>, restoring sharp piecewise linearity and accurate barrier heights (<code class="docutils literal notranslate"><span class="pre">WTMAD-2</span> <span class="pre">=</span> <span class="pre">1.643</span> <span class="pre">kcal/mol</span> <span class="pre">&lt;</span> <span class="pre">3.0</span> <span class="pre">kcal/mol</span></code> across all 55 <code class="docutils literal notranslate"><span class="pre">GMTKN55</span></code> subsets <span class="bibtex-citation" id="id10">[<a class="reference internal" href="references.html#id40" title="Lars Goerigk, Andreas Hansen, Christoph Bauer, Stephan Ehrlich, Asim Najibi, and Stefan Grimme. A look at the density functional theory zoo with the advanced GMTKN55 database for general main group thermochemistry, kinetics and noncovalent interactions. Physical Chemistry Chemical Physics, 19(48):32184–32215, 2017. URL: https://doi.org/10.1039/C7CP04913G, doi:10.1039/C7CP04913G.">Goerigk <em>et al.</em>, 2017</a>]</span>).</p></li>
+<li><p><strong>Internal Photoelectric Effect (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>):</strong> When a photon has energy <span class="math notranslate nohighlight">\(E_{\mathrm{gap}} &lt; h\nu &lt; \Phi_W\)</span>, the electron cannot escape into vacuum—instead, it enters an excited conduction or excitonic state inside the material (the <strong>internal photoelectric effect</strong>, underlying solar cells, photodetectors, and pump–probe <code class="docutils literal notranslate"><span class="pre">trARPES</span></code>). Our time-linear <strong>Grassmannian Generalized Kadanoff–Baym Ansatz (<code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>)</strong> tracks those light-driven electron, exciton, and phonon reservoirs at <strong><span class="math notranslate nohighlight">\(1.44 \times 10^8\times\)</span></strong> bare (<span class="math notranslate nohighlight">\(1.44 \times 10^7\times\)</span> cumulant-inclusive) speedup over full two-time Kadanoff–Baym equations (<a class="reference internal" href="grassmannian-tuning-materials-with-light-paper.html"><span class="std std-doc">Tuning Materials with Light</span></a>).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="which-light-field-pulls-the-electron-out-twistors-longitudinal-e-z-enz-hotspots-and-oam-dichroism">
+<h2>3. Which Light Field Pulls the Electron Out? Twistors, Longitudinal <span class="math notranslate nohighlight">\(E_z\)</span>, <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> Hotspots, and <code class="docutils literal notranslate"><span class="pre">OAM</span></code> Dichroism<a class="headerlink" href="#which-light-field-pulls-the-electron-out-twistors-longitudinal-e-z-enz-hotspots-and-oam-dichroism" title="Link to this heading">¶</a></h2>
+<p>In textbook optics, light is drawn as a purely transverse wave (<span class="math notranslate nohighlight">\(E_z = 0\)</span>) with two flat polarization components <span class="math notranslate nohighlight">\((E_x, E_y)\)</span>. That 2D approximation misses critical physics in surface photoemission (<a class="reference internal" href="grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.html"><span class="std std-doc">Maxwell &amp; Twistors Paper</span></a>):</p>
+<ol class="arabic">
+<li><p><strong>Gauss’s Law Forces Longitudinal <span class="math notranslate nohighlight">\(E_z \neq 0\)</span> for Any Focused or Structured Beam:</strong>
+In wavevector space, <span class="math notranslate nohighlight">\(\nabla \cdot \mathbf{E} = 0\)</span> reads <span class="math notranslate nohighlight">\(k_x E_x + k_y E_y + k_z E_z = 0\)</span>, so:</p>
+<div class="math notranslate nohighlight">
+\[
+   E_z = -\frac{k_x E_x + k_y E_y}{k_z}.
+   \]</div>
+<p>When a radially polarized laser beam is tightly focused onto a photocathode via <strong>Debye–Wolf vector diffraction</strong> <span class="bibtex-citation" id="id11">[<a class="reference internal" href="references.html#id165" title="Ralf Dorn, Susanne Quabis, and Gerd Leuchs. Sharper focus for a radially polarized light beam. Physical Review Letters, 91(23):233901, 2003. URL: https://doi.org/10.1103/PhysRevLett.91.233901, doi:10.1103/PhysRevLett.91.233901.">Dorn <em>et al.</em>, 2003</a>, <a class="reference internal" href="references.html#id246" title="B. Richards and E. Wolf. Electromagnetic diffraction in optical systems, II. structure of the image field in an aplanatic system. Proceedings of the Royal Society of London. Series A, 253(1274):358–379, 1959. URL: https://doi.org/10.1098/rspa.1959.0200, doi:10.1098/rspa.1959.0200.">Richards and Wolf, 1959</a>]</span>, opposite rays cancel their sideways fields (<span class="math notranslate nohighlight">\(E_x, E_y \to 0\)</span>) right on the optical axis while doubling their vertical surface-normal component (<span class="math notranslate nohighlight">\(E_z = 2 E_0 \sin\theta\)</span>). A 2D paraxial Jones model predicts <span class="math notranslate nohighlight">\(E_z = 0\)</span>—a <strong><code class="docutils literal notranslate"><span class="pre">100%</span></code> error</strong> on the very field component pulling electrons perpendicular to the metal!</p>
+</li>
+<li><p><strong><span class="math notranslate nohighlight">\(400\times\)</span> Epsilon-Near-Zero (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code>) Surface Photoemission Amplification:</strong>
+Across an interface between air (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{air}} = 1\)</span>) and a plasmonic or <strong>Epsilon-Near-Zero (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code>)</strong> photocathode film (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{ENZ}} \to 0\)</span>) <span class="bibtex-citation" id="id12">[<a class="reference internal" href="references.html#id156" title="Salvatore Campione, Igal Brener, and Francois Marquier. Theory of epsilon-near-zero modes in ultrathin films. Physical Review B, 91(12):121408, 2015. URL: https://doi.org/10.1103/PhysRevB.91.121408, doi:10.1103/PhysRevB.91.121408.">Campione <em>et al.</em>, 2015</a>]</span>, Maxwell’s normal displacement continuity <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{air}} E_{z,\mathrm{air}} = \varepsilon_{\mathrm{ENZ}} E_{z,\mathrm{ENZ}}\)</span> boosts the internal normal electric field intensity by:</p>
+<div class="math notranslate nohighlight">
+\[
+   \frac{|E_{z,\mathrm{ENZ}}|^2}{|E_{z,\mathrm{air}}|^2} = \left(\frac{\varepsilon_{\mathrm{air}}}{\varepsilon_{\mathrm{ENZ}}}\right)^2 = 400\times \qquad \text{at } \varepsilon_{\mathrm{ENZ}} = 0.05.
+   \]</div>
+<p><em>(Note: Realistic rough/lossy <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> films experience Drude damping <span class="math notranslate nohighlight">\(\operatorname{Im}\varepsilon &gt; 0\)</span>, which caps lossless <span class="math notranslate nohighlight">\(400\times\)</span> enhancement at finite saturation <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{air}}^2 / (\varepsilon_{\mathrm{re}}^2 + \varepsilon_{\mathrm{im}}^2) = 200\times\)</span> at <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{re}} = \varepsilon_{\mathrm{im}} = 0.05\)</span> via <code class="docutils literal notranslate"><span class="pre">enzDissipativeIntensityEnhancement</span></code>, tracked inside <code class="docutils literal notranslate"><span class="pre">PhotoelectricEmissionPendingBoundary</span></code>.)</em></p>
+</li>
+<li><p><strong>Why Penrose Twistors &amp; Spinors Eliminate Gimbal Lock and Native-Encode <code class="docutils literal notranslate"><span class="pre">OAM</span></code> Helical Photoemission:</strong>
+When a 3D polarization frame <span class="math notranslate nohighlight">\((\hat{\mathbf{e}}_1, \hat{\mathbf{e}}_2, \hat{\mathbf{k}})\)</span> is parameterized by yaw–pitch–roll Euler angles, tilting a beam by <span class="math notranslate nohighlight">\(\theta_{\mathrm{pitch}} = \pm\pi/2\)</span> causes <strong>gimbal lock</strong>: <span class="math notranslate nohighlight">\(\det J_{\mathrm{Euler}}(\pm\pi/2) = \cos(\pm\pi/2) = 0\)</span>. Lifting electromagnetic rays to <strong>Penrose twistors</strong> on <span class="math notranslate nohighlight">\(\mathbb{CP}^3 = \mathrm{Gr}_{\mathbb{C}}(1,4)\)</span> and 3D focal envelopes to <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span> eliminates gimbal lock everywhere (unit spinor norm <span class="math notranslate nohighlight">\(\|q(\theta)\|^2 = 1\)</span> and Poincaré Fisher metric <span class="math notranslate nohighlight">\(F_{\theta\theta} = 4\,g_{\theta\theta}^{\mathrm{FS}} = 1 &gt; 0\)</span>). Moreover, a shifted twistor automatically forms a helical <strong>Robinson congruence</strong>—an <strong>Orbital Angular Momentum (<code class="docutils literal notranslate"><span class="pre">OAM</span></code>)</strong> vortex beam <span class="bibtex-citation" id="id13">[<a class="reference internal" href="references.html#id446" title="L. Allen, M. W. Beijersbergen, R. J. C. Spreeuw, and J. P. Woerdman. Orbital angular momentum of light and the transformation of laguerre-gaussian laser modes. Physical Review A, 45(11):8185–8189, 1992. URL: https://doi.org/10.1103/PhysRevA.45.8185, doi:10.1103/PhysRevA.45.8185.">Allen <em>et al.</em>, 1992</a>]</span> whose spin and OAM combine upon tight focusing into a helical longitudinal field <span class="math notranslate nohighlight">\(E_z \propto e^{i(\ell_{\mathrm{in}} + \sigma_{\mathrm{SAM}})\varphi}\)</span> (<code class="docutils literal notranslate"><span class="pre">samToOamLongitudinalTopologicalCharge</span></code>, <span class="bibtex-citation" id="id14">[<a class="reference internal" href="references.html#id447" title="Konstantin Y. Bliokh, Francisco J. Rodríguez-Fortuño, Franco Nori, and Anatoly V. Zayats. Spin–orbit interactions of light. Nature Photonics, 9(12):796–808, 2015. URL: https://doi.org/10.1038/nphoton.2015.201, doi:10.1038/nphoton.2015.201.">Bliokh <em>et al.</em>, 2015</a>]</span>) with <span class="math notranslate nohighlight">\(F_{\varphi\varphi}^{\mathrm{OAM}}(\ell) = 4\ell^2\)</span> angular precision.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="polaritons-and-plasmons-in-the-photoelectric-effect-surface-plasmons-spps-volume-plasmon-satellites-pole-free-vrc-hybridization">
+<h2>4. Polaritons and Plasmons in the Photoelectric Effect: Surface Plasmons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>), Volume-Plasmon Satellites, &amp; Pole-Free <code class="docutils literal notranslate"><span class="pre">VRC</span></code> Hybridization<a class="headerlink" href="#polaritons-and-plasmons-in-the-photoelectric-effect-surface-plasmons-spps-volume-plasmon-satellites-pole-free-vrc-hybridization" title="Link to this heading">¶</a></h2>
+<p>In textbook accounts, photons strike bare single-particle electrons inside a metal. In real metals, 2D semiconductors, and nanophotonic cathodes, light first couples to collective charge and dipole excitations—<strong>plasmons</strong> and <strong>polaritons</strong>—which fundamentally reshape when, where, and at what energy photoelectrons emerge (<a class="reference internal" href="grassmannian-polariton-spp-mechanics-paper.html"><span class="std std-doc">Polariton &amp; SPP Paper</span></a>; <code class="docutils literal notranslate"><span class="pre">Signals.Photoelectric.photoelectric_polariton_plasmon_spp_vrc_identities</span></code>):</p>
+<section id="surface-plasmon-polaritons-spps-hot-electron-photoemission-pihc">
+<h3>4.1 Surface Plasmon Polaritons (<code class="docutils literal notranslate"><span class="pre">SPPs</span></code>) &amp; Hot-Electron Photoemission (<code class="docutils literal notranslate"><span class="pre">PIHC</span></code>)<a class="headerlink" href="#surface-plasmon-polaritons-spps-hot-electron-photoemission-pihc" title="Link to this heading">¶</a></h3>
+<p>When light hits a flat interface between a dielectric (<span class="math notranslate nohighlight">\(\varepsilon_d &gt; 0\)</span>) and a conductor (<span class="math notranslate nohighlight">\(\varepsilon_m = -|\varepsilon_m| &lt; -\varepsilon_d &lt; 0\)</span>), the electron sea oscillates together with the electromagnetic field as a <strong>Surface Plasmon Polariton (<code class="docutils literal notranslate"><span class="pre">SPP</span></code>)</strong> <span class="bibtex-citation" id="id15">[<a class="reference internal" href="references.html#id536" title="Rufus H. Ritchie. Plasma losses by fast electrons in thin films. Physical Review, 106(5):874–881, 1957. URL: https://doi.org/10.1103/PhysRev.106.874, doi:10.1103/PhysRev.106.874.">Ritchie, 1957</a>, <a class="reference internal" href="references.html#id537" title="Mark L. Brongersma, Naomi J. Halas, and Peter Nordlander. Plasmon-induced hot carrier science and technology. Nature Nanotechnology, 10(1):25–34, 2015. URL: https://doi.org/10.1038/nnano.2014.311, doi:10.1038/nnano.2014.311.">Brongersma <em>et al.</em>, 2015</a>]</span>:</p>
+<ul>
+<li><p><strong>Outside-the-Light-Cone Momentum Boost (<span class="math notranslate nohighlight">\(n_{\mathrm{SPP}}^2 &gt; \varepsilon_d\)</span>):</strong> The effective SPP index squared satisfies:</p>
+<div class="math notranslate nohighlight">
+\[
+  n_{\mathrm{SPP}}^2 = \frac{\varepsilon_d|\varepsilon_m|}{|\varepsilon_m| - \varepsilon_d} = \varepsilon_d + \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} &gt; \varepsilon_d.
+  \]</div>
+<p>Because <span class="math notranslate nohighlight">\(k_{\mathrm{SPP}} = k_0 n_{\mathrm{SPP}}\)</span> exceeds the dielectric light-cone momentum <span class="math notranslate nohighlight">\(k_0\sqrt{\varepsilon_d}\)</span>, corrugated gratings, nanoparticles, or sharp tips supply extra surface momentum <span class="math notranslate nohighlight">\(\hbar k_{\mathrm{SPP}}\)</span> and drive <strong>plasmon-induced hot-carrier (<code class="docutils literal notranslate"><span class="pre">PIHC</span></code>) photoemission</strong> <span class="bibtex-citation" id="id16">[<a class="reference internal" href="references.html#id537" title="Mark L. Brongersma, Naomi J. Halas, and Peter Nordlander. Plasmon-induced hot carrier science and technology. Nature Nanotechnology, 10(1):25–34, 2015. URL: https://doi.org/10.1038/nnano.2014.311, doi:10.1038/nnano.2014.311.">Brongersma <em>et al.</em>, 2015</a>]</span> via Landau damping even for sub-threshold or grazing-incidence illumination.</p>
+</li>
+<li><p><strong>Why <code class="docutils literal notranslate"><span class="pre">SPPs</span></code> Pack Evanescent Energy <em>Inside</em> the Metal Skin Depth (<span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Duality):</strong> Embedding the SPP permittivity contrast <span class="math notranslate nohighlight">\(\chi_{\mathrm{SPP}} = \frac{|\varepsilon_m| - \varepsilon_d}{|\varepsilon_m| + \varepsilon_d} \in (0, 1)\)</span> into <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> (<code class="docutils literal notranslate"><span class="pre">sppGr24Matrix</span></code>) sets the Plücker channel ratio equal to the skin-depth ratio <span class="math notranslate nohighlight">\(\frac{\kappa_m}{\kappa_d} = \frac{\delta_d}{\delta_m} = \frac{|\varepsilon_m|}{\varepsilon_d} &gt; 1\)</span>, so the conductor-side evanescent quantum energy density is <strong><span class="math notranslate nohighlight">\((|\varepsilon_m|/\varepsilon_d)^2\)</span> times larger</strong> than on the dielectric side (<code class="docutils literal notranslate"><span class="pre">16×</span></code> at <span class="math notranslate nohighlight">\(|\varepsilon_m|/\varepsilon_d = 4\)</span>, and <span class="math notranslate nohighlight">\(\sim 580\times\)</span> for Au at <span class="math notranslate nohighlight">\(\lambda_0 = 800\text{ nm}\)</span> where <span class="math notranslate nohighlight">\(|\varepsilon_m| \approx 24.1\)</span> <span class="bibtex-citation" id="id17">[<a class="reference internal" href="references.html#id233" title="H Raether. Surface Plasmons on Smooth and Rough Surfaces and on Gratings. Springer, 1988. Referenced in docs/grassmannian-polariton-spp-mechanics-paper.md. URL: https://doi.org/10.1007/BFb0048317, doi:10.1007/BFb0048317.">Raether, 1988</a>, <a class="reference internal" href="references.html#id232" title="Stefan A. Maier. Plasmonics: Fundamentals and Applications. Springer, 2007. URL: https://doi.org/10.1007/0-387-37825-1, doi:10.1007/0-387-37825-1.">Maier, 2007</a>, <a class="reference internal" href="references.html#id540" title="P. B. Johnson and R. W. Christy. Optical constants of the noble metals. Physical Review B, 6(12):4370–4379, 1972. URL: https://doi.org/10.1103/PhysRevB.6.4370, doi:10.1103/PhysRevB.6.4370.">Johnson and Christy, 1972</a>]</span>)—focusing the vertical <span class="math notranslate nohighlight">\(E_z\)</span> pull right inside the first few nanometers of the metal where escaping electrons live!</p></li>
+<li><p><strong>Hotspot Mode Compression Ignites Low-Power Keldysh Tunneling:</strong> Modeling a plasmonic tip or grating hotspot as an anisotropic 2D <strong>Normed Tensor Gaussian Splat</strong> (<code class="docutils literal notranslate"><span class="pre">sppHotspotTensorSplat</span></code>, <span class="math notranslate nohighlight">\(\sigma_1 = \lambda_0 / n_{\mathrm{SPP}}\)</span>, <span class="math notranslate nohighlight">\(\sigma_2 = \lambda_0 / (n_{\mathrm{SPP}}\kappa_{\mathrm{ratio}})\)</span>) compresses the optical mode area by <span class="math notranslate nohighlight">\(\mathcal{C}_{\mathrm{SPP}} = n_{\mathrm{SPP}}^2 \kappa_{\mathrm{ratio}}\)</span>. At fixed laser power, this scales the local ponderomotive energy to <span class="math notranslate nohighlight">\(U_p^{\mathrm{SPP}} = n_{\mathrm{SPP}}^2\kappa_{\mathrm{ratio}}\,U_p\)</span> and shrinks the squared Keldysh parameter <span class="math notranslate nohighlight">\(\gamma_K^2\)</span> by <span class="math notranslate nohighlight">\((n_{\mathrm{SPP}}^2\kappa_{\mathrm{ratio}})^{-1}\)</span> (<code class="docutils literal notranslate"><span class="pre">16/3</span> <span class="pre">×</span></code> compression at <span class="math notranslate nohighlight">\(\varepsilon_d=1, |\varepsilon_m|=4\)</span>), pushing low-power continuous or picosecond lasers straight into <strong>plasmon-assisted optical tunneling</strong>!</p></li>
+</ul>
+</section>
+<section id="volume-plasmons-enz-at-omega-omega-p-and-photoemission-loss-satellites">
+<h3>4.2 Volume Plasmons (<code class="docutils literal notranslate"><span class="pre">ENZ</span></code> at <span class="math notranslate nohighlight">\(\omega = \omega_p\)</span>) and Photoemission Loss Satellites<a class="headerlink" href="#volume-plasmons-enz-at-omega-omega-p-and-photoemission-loss-satellites" title="Link to this heading">¶</a></h3>
+<p>Inside the bulk electron gas (<code class="docutils literal notranslate"><span class="pre">dftElectronDensityPermittivity</span></code>: <span class="math notranslate nohighlight">\(\varepsilon_r(\rho_e, \omega) = 1 - \alpha_{\mathrm{pol}}\rho_e/\omega^2\)</span>), setting <span class="math notranslate nohighlight">\(\omega = \omega_p = \sqrt{\alpha_{\mathrm{pol}}\rho_e}\)</span> hits the <strong>bulk plasmon <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> zero <span class="math notranslate nohighlight">\(\varepsilon_r = 0\)</span></strong>, turning on a purely longitudinal bulk charge-density oscillation (<span class="math notranslate nohighlight">\(\mathbf{E} \parallel \mathbf{k}\)</span>). As an escaping photoelectron traverses the solid on its way to the surface, it can scatter inelastically by emitting <span class="math notranslate nohighlight">\(m_{\mathrm{pl}} = 1, 2, \dots\)</span> bulk plasmons of energy <span class="math notranslate nohighlight">\(\hbar\omega_p\)</span> <span class="bibtex-citation" id="id18">[<a class="reference internal" href="references.html#id536" title="Rufus H. Ritchie. Plasma losses by fast electrons in thin films. Physical Review, 106(5):874–881, 1957. URL: https://doi.org/10.1103/PhysRev.106.874, doi:10.1103/PhysRev.106.874.">Ritchie, 1957</a>, <a class="reference internal" href="references.html#id539" title="C. J. Powell and J. B. Swan. Origin of the characteristic electron energy losses in aluminum. Physical Review, 115(4):869–875, 1959. URL: https://doi.org/10.1103/PhysRev.115.869, doi:10.1103/PhysRev.115.869.">Powell and Swan, 1959</a>]</span> (for example, <span class="math notranslate nohighlight">\(\hbar\omega_p \approx 15.0\text{ eV}\)</span> in aluminum against <span class="math notranslate nohighlight">\(\Phi_W^{\mathrm{Al}} = 4.28\text{ eV}\)</span>), creating a comb of <strong>plasmon-loss satellite peaks</strong> in X-ray and UV photoemission (<code class="docutils literal notranslate"><span class="pre">XPS</span></code>/<code class="docutils literal notranslate"><span class="pre">UPS</span></code>) spectra:</p>
+<div class="math notranslate nohighlight">
+\[
+E_{\mathrm{sat}}(m_{\mathrm{pl}}) = h\nu - \Phi_W - m_{\mathrm{pl}}\,\hbar\omega_p \qquad (\text{spaced by } \hbar\omega_p).
+\]</div>
+</section>
+<section id="exciton-and-phonon-polaritons-in-arpes-and-pole-free-complex-vrc-x-x-1">
+<h3>4.3 Exciton- and Phonon-Polaritons in <code class="docutils literal notranslate"><span class="pre">ARPES</span></code> and Pole-Free Complex <code class="docutils literal notranslate"><span class="pre">VRC</span></code> (<span class="math notranslate nohighlight">\(x_X = -1\)</span>)<a class="headerlink" href="#exciton-and-phonon-polaritons-in-arpes-and-pole-free-complex-vrc-x-x-1" title="Link to this heading">¶</a></h3>
+<p>When photons couple strongly (<span class="math notranslate nohighlight">\(g_{\mathrm{Rabi}} &gt; 0\)</span>) to excitons in microcavities or 2D materials (<span class="math notranslate nohighlight">\(\mathrm{GaAs}/\mathrm{AlGaAs}\)</span> <span class="math notranslate nohighlight">\(\sim 3.5\text{ meV}\)</span> vacuum Rabi splitting <span class="bibtex-citation" id="id19">[<a class="reference internal" href="references.html#id235" title="C. Weisbuch, M. Nishioka, A Ishikawa, and Y Arakawa. Observation of the coupled exciton-photon mode splitting in a semiconductor quantum microcavity. Physical Review Letters, 1992. Referenced in docs/grassmannian-polariton-spp-mechanics-paper.md. URL: https://doi.org/10.1103/PhysRevLett.69.3314, doi:10.1103/PhysRevLett.69.3314.">Weisbuch <em>et al.</em>, 1992</a>]</span>, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span>) or optical phonons in polar crystals (<span class="math notranslate nohighlight">\(\mathrm{SiC}, \mathrm{hBN}, \mathrm{GaAs}, \mathrm{SiO}_2\)</span>), they form <strong>Upper (<code class="docutils literal notranslate"><span class="pre">UP</span></code>) and Lower (<code class="docutils literal notranslate"><span class="pre">LP</span></code>) Polaritons</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.Scattering.polariton_hopfield_rabi_and_lst_identities</span></code>, <span class="bibtex-citation" id="id20">[<a class="reference internal" href="references.html#id227" title="J. J. Hopfield. Theory of the contribution of excitons to the complex dielectric constant of crystals. Physical Review, 112(5):1555–1567, 1958. URL: https://doi.org/10.1103/PhysRev.112.1555, doi:10.1103/PhysRev.112.1555.">Hopfield, 1958</a>]</span>) with splitting <span class="math notranslate nohighlight">\(\Omega_{\mathrm{eff}} = \sqrt{(\omega_{\mathrm{ph}} - \omega_{\mathrm{ex}})^2 + 4g^2} \ge 2g\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Hopfield photon/matter fractions <span class="math notranslate nohighlight">\(|C|^2 + |X|^2 = 1\)</span>, <span class="math notranslate nohighlight">\(4|C|^2|X|^2 = 1 - d_{\mathrm{Hopfield}}^2\)</span>:</p>
+<ul class="simple">
+<li><p><strong>Split Polariton Photoemission Bands:</strong> <code class="docutils literal notranslate"><span class="pre">ARPES</span></code> photoemission tracks the matter component <span class="math notranslate nohighlight">\(|X|^2\)</span>, splitting a bare electronic/excitonic dispersion into two hybrid peaks separated by <span class="math notranslate nohighlight">\(\hbar\,\Omega_{\mathrm{eff}}\)</span> (<code class="docutils literal notranslate"><span class="pre">polaritonBranchKineticEnergy</span></code>).</p></li>
+<li><p><strong>Reststrahlen Surface Phonon-Polaritons (<code class="docutils literal notranslate"><span class="pre">LST</span></code>):</strong> In polar dielectrics governed by <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{pol}}(\omega) = \varepsilon_\infty\frac{\omega^2 - \omega_{\mathrm{LO}}^2}{\omega^2 - \omega_{\mathrm{TO}}^2}\)</span> <span class="bibtex-citation" id="id21">[<a class="reference internal" href="references.html#id231" title="R. H. Lyddane, R. G. Sachs, and E. Teller. On the polar vibrations of alkali halides. Physical Review, 59(8):673–676, 1941. URL: https://doi.org/10.1103/PhysRev.59.673, doi:10.1103/PhysRev.59.673.">Lyddane <em>et al.</em>, 1941</a>]</span>, <span class="math notranslate nohighlight">\(\omega = \omega_{\mathrm{LO}}\)</span> hits the <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> longitudinal cutoff (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{pol}}(\omega_{\mathrm{LO}}) = 0\)</span>), while the entire <strong>Reststrahlen band</strong> <span class="math notranslate nohighlight">\(\omega \in (\omega_{\mathrm{TO}}, \omega_{\mathrm{LO}})\)</span> has <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{pol}}(\omega) &lt; 0\)</span>, sustaining mid-IR surface phonon-polariton photoemission hotspots.</p></li>
+<li><p><strong>Pole-Free Complex Homogeneous <code class="docutils literal notranslate"><span class="pre">VRC</span></code> Across <span class="math notranslate nohighlight">\(x_X = -1\)</span>:</strong> Rational Plabic cluster charts break down (<code class="docutils literal notranslate"><span class="pre">(x_X</span> <span class="pre">+</span> <span class="pre">1)^{-4}</span></code> blow-up) right at the on-shell polariton/exciton resonance <span class="math notranslate nohighlight">\(x_X = -1\)</span>. Lifting the scattering network to a <strong>Complex Homogeneous Plabic <code class="docutils literal notranslate"><span class="pre">VRC</span></code></strong> (<span class="math notranslate nohighlight">\(V K^\top = 0\)</span>, <code class="docutils literal notranslate"><span class="pre">vrcResonantQfimX1</span></code>) keeps the norm <span class="math notranslate nohighlight">\(\rho_{\mathrm{VRC}}^{(-1)} \ge 2\)</span> and projective <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(F_{x_1 x_1}^{\mathrm{VRC}} = 4\,g_{x_1 x_1}^{\mathrm{FS,VRC}} &gt; 0\)</span> (<code class="docutils literal notranslate"><span class="pre">=</span> <span class="pre">2</span></code> at <span class="math notranslate nohighlight">\(x_1 = x_2 = 0\)</span>) completely smooth and singularity-free!</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="strong-field-photoemission-keldysh-tunneling-akns-solitons-and-the-qfim-4-g-mathrm-fs-tunneling-speed-law">
+<h2>5. Strong-Field Photoemission, Keldysh Tunneling, <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Solitons, and the <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> <span class="math notranslate nohighlight">\(= 4\,g^{\mathrm{FS}}\)</span> Tunneling Speed Law<a class="headerlink" href="#strong-field-photoemission-keldysh-tunneling-akns-solitons-and-the-qfim-4-g-mathrm-fs-tunneling-speed-law" title="Link to this heading">¶</a></h2>
+<p>What happens when we hit a solid or gas not with gentle continuous UV light, but with an intense, ultrafast femtosecond laser pulse? Even low-frequency infrared photons (<span class="math notranslate nohighlight">\(h\nu \ll \Phi_W\)</span>) can now liberate electrons through two connected mechanisms discovered by Leonid Keldysh in 1965 <span class="bibtex-citation" id="id22">[<a class="reference internal" href="references.html#id534" title="Leonid V. Keldysh. Ionization in the field of a strong electromagnetic wave. Soviet Physics JETP, 20(5):1307–1314, 1965. URL: http://www.jetp.ras.ru/cgi-bin/e/index/e/20/5/p1307?a=list.">Keldysh, 1965</a>]</span>:</p>
+<section id="ponderomotive-energy-u-p-the-keldysh-parameter-gamma-k-and-ati-combs">
+<h3>5.1 Ponderomotive Energy <span class="math notranslate nohighlight">\(U_p\)</span>, the Keldysh Parameter <span class="math notranslate nohighlight">\(\gamma_K\)</span>, and <code class="docutils literal notranslate"><span class="pre">ATI</span></code> Combs<a class="headerlink" href="#ponderomotive-energy-u-p-the-keldysh-parameter-gamma-k-and-ati-combs" title="Link to this heading">¶</a></h3>
+<p>An electron oscillating in a laser field of amplitude <span class="math notranslate nohighlight">\(E_0\)</span> and angular frequency <span class="math notranslate nohighlight">\(\omega\)</span> acquires an average quiver kinetic energy—the <strong>ponderomotive energy</strong> <span class="math notranslate nohighlight">\(U_p\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+U_p = \frac{e^2 E_0^2}{4 m_e \omega^2}.
+\]</div>
+<p>The dimensionless <strong>Keldysh parameter</strong> <span class="math notranslate nohighlight">\(\gamma_K\)</span> compares the work function to this quiver energy:</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma_K = \sqrt{\frac{\Phi_W}{2 U_p}} = \frac{\omega\sqrt{2 m_e \Phi_W}}{e E_0}.
+\]</div>
+<ul>
+<li><p><strong>Weak-to-Moderate Fields (<span class="math notranslate nohighlight">\(\gamma_K \gg 1\)</span>, Multiphoton / <code class="docutils literal notranslate"><span class="pre">ATI</span></code> Regime):</strong> Electrons absorb <span class="math notranslate nohighlight">\(n\)</span> photons simultaneously (plus <span class="math notranslate nohighlight">\(s\)</span> extra <strong>Above-Threshold Ionization (<code class="docutils literal notranslate"><span class="pre">ATI</span></code>)</strong> photons), emerging with a comb of peaks separated by <span class="math notranslate nohighlight">\(\hbar\omega\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  E_{n,s} = (n + s)\hbar\omega - (\Phi_W + U_p).
+  \]</div>
+<p>Setting <span class="math notranslate nohighlight">\(n = 1, s = 0, U_p \to 0\)</span> recovers Einstein’s exact 1905 law <span class="math notranslate nohighlight">\(K_{\max} = \hbar\omega - \Phi_W\)</span> identically (<code class="docutils literal notranslate"><span class="pre">atiPhotoelectronPeakEnergy</span> <span class="pre">1</span> <span class="pre">0</span> <span class="pre">(h_planck</span> <span class="pre">*</span> <span class="pre">nu_above)</span> <span class="pre">phi_w</span> <span class="pre">0</span></code>).</p>
+</li>
+<li><p><strong>Strong Fields (<span class="math notranslate nohighlight">\(\gamma_K \ll 1\)</span>, Quasi-Static Optical Tunneling Regime):</strong> The laser’s peak electric field tilts the flat work-function step into a finite triangular barrier of width <span class="math notranslate nohighlight">\(x_{\mathrm{turn}} = \Phi_W / (e E_0)\)</span>, letting electrons leak <em>evanescently</em> straight through the surface barrier!</p></li>
+</ul>
+</section>
+<section id="resolving-the-tunneling-speed-paradox-via-three-channel-pluckermadelungqfim">
+<h3>5.2 Resolving the Tunneling Speed Paradox via Three-Channel Plücker–Madelung–<code class="docutils literal notranslate"><span class="pre">QFIM</span></code><a class="headerlink" href="#resolving-the-tunneling-speed-paradox-via-three-channel-pluckermadelungqfim" title="Link to this heading">¶</a></h3>
+<p>How fast does a photoemitted electron travel <em>inside</em> that classically forbidden barrier below <span class="math notranslate nohighlight">\(\Phi_W\)</span>?
+In standard textbooks, a stationary evanescent wavefunction <span class="math notranslate nohighlight">\(\psi(x) = \sqrt{\rho_0}\,e^{-\kappa x}\)</span> (<span class="math notranslate nohighlight">\(\kappa = \sqrt{2 m_e \Phi_W}/\hbar\)</span>) has real amplitude and <strong>zero phase gradient</strong> (<span class="math notranslate nohighlight">\(\partial_x S = 0\)</span>). Consequently, the standard de Broglie–Bohm guiding velocity predicts:</p>
+<div class="math notranslate nohighlight">
+\[
+v_{\mathrm{Bohm}} = \frac{\hbar}{m_e}\partial_x S = 0 \qquad (\mathbf{100\%}\text{ relative error against osmotic/experimental barrier speeds!}).
+\]</div>
+<p>Our recent Sato–Dual-Schubert-QFIM work (<a class="reference internal" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"><span class="std std-doc">Sato Grassmannian Paper</span></a>; <a class="reference internal" href="grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.html"><span class="std std-doc">Quantum Trajectories Paper</span></a>; <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.DualSchubertQFIM</span></code>) resolves this completely using the <strong>Three-Channel Plücker–Madelung–QFIM kinetic identity</strong> (<span class="math notranslate nohighlight">\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\hbar^2}{2 m_e}\|\partial_x\Psi\|^2 =
+\underbrace{\frac{\hbar^2}{2 m_e}\rho\,\mathcal{A}_x^2}_{\text{Ch. 1: Macroscopic phase flow } (v_{\mathrm{Bohm}})} +
+\underbrace{\frac{\hbar^2}{8 m_e}\frac{(\partial_x\rho)^2}{\rho}}_{\text{Ch. 2: Osmotic density Fisher } (v_{\mathrm{osm}})} +
+\underbrace{\frac{\hbar^2}{8 m_e}\rho\,F_{xx}}_{\text{Ch. 3: Projective QFIM } (= 4 g_{xx}^{\mathrm{FS}})}.
+\]</div>
+<p>Inside a single-channel evanescent Keldysh barrier, Channel 1 vanishes (<span class="math notranslate nohighlight">\(v_{\mathrm{Bohm}} = 0\)</span>), while <strong>Channel 2</strong> carries the entire kinetic scale:</p>
+<div class="math notranslate nohighlight">
+\[
+v_{\mathrm{osm}} = \frac{\hbar}{2 m_e}\left|\frac{\partial_x\rho}{\rho}\right| = \frac{\hbar\kappa}{m_e} = \sqrt{\frac{2\Phi_W}{m_e}}, \qquad
+\gamma_K = \frac{\omega\,\hbar\,\kappa}{e E_0} = \omega\,\tau_K,
+\]</div>
+<p>yielding <strong><code class="docutils literal notranslate"><span class="pre">0%</span></code> relative error</strong> (<code class="docutils literal notranslate"><span class="pre">relativePredictiveError</span> <span class="pre">(pluckerThreeChannelSpeedSq</span> <span class="pre">0</span> <span class="pre">v_osm</span> <span class="pre">0)</span> <span class="pre">(2*phi_w/m_e)</span> <span class="pre">=</span> <span class="pre">0</span></code>) and proving that the Keldysh tunneling time <span class="math notranslate nohighlight">\(\tau_K = \gamma_K/\omega = x_{\mathrm{turn}} / (v_{\mathrm{osm}}/2)\)</span> is literally set by the Channel-2 osmotic wavenumber <span class="math notranslate nohighlight">\(\kappa\)</span>! Moreover, when two evanescent modes couple with amplitude <span class="math notranslate nohighlight">\(J_0\)</span> (as in the Sharoglazova–Klaers coupled-waveguide experiment <span class="bibtex-citation" id="id23">[<a class="reference internal" href="references.html#id486" title="Violetta Sharoglazova, Marius Puplauskis, Charlie Mattschas, Chris Toebes, and Jan Klaers. Energy–speed relationship of quantum particles challenges Bohmian mechanics. Nature, 643(8070):67–72, July 2025. URL: https://www.nature.com/articles/s41586-025-09099-4, doi:10.1038/s41586-025-09099-4.">Sharoglazova <em>et al.</em>, 2025</a>]</span>), <strong>Theorem 4.3</strong> (<code class="docutils literal notranslate"><span class="pre">sharoglazova_klaers_evanescent_speed_law</span></code> in <code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.lean</span></code>, proved inside <code class="docutils literal notranslate"><span class="pre">Signals.Photoelectric</span></code>) shows that Channel 2 and Channel 3 (<code class="docutils literal notranslate"><span class="pre">QFIM</span> <span class="pre">=</span> <span class="pre">4</span> <span class="pre">g_FS</span></code>) combine smoothly to yield:</p>
+<div class="math notranslate nohighlight">
+\[
+v_{\mathrm{eff}}^2(x) = \left(\frac{\hbar}{m_e}\right)^2\left[0 + \left(\frac{\partial_x\rho}{2\rho}\right)^2 + \frac{F_{xx}}{4}\right] = \frac{2}{m_e}\bigl(\Phi_W - \hbar J_0\tanh(2\delta\kappa\,x)\bigr).
+\]</div>
+</section>
+<section id="akns-focusing-nls-driver-solitons-defocusing-gpe-surface-kinks-and-two-pathway-rabbitt-qfim">
+<h3>5.3 <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Focusing NLS Driver Solitons, Defocusing GPE Surface Kinks, and Two-Pathway <code class="docutils literal notranslate"><span class="pre">RABBITT</span></code> <code class="docutils literal notranslate"><span class="pre">QFIM</span></code><a class="headerlink" href="#akns-focusing-nls-driver-solitons-defocusing-gpe-surface-kinks-and-two-pathway-rabbitt-qfim" title="Link to this heading">¶</a></h3>
+<p>In ultrafast photoemission, neither the laser pulse nor the surface charge density is a flat plane wave:</p>
+<ul class="simple">
+<li><p><strong>Driver Pulse as an <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Focusing NLS Bright Soliton (<code class="docutils literal notranslate"><span class="pre">brightSoliton_nls_pde</span></code>):</strong> An intense femtosecond driver propagates through dispersive optics or nonlinear waveguides as <span class="math notranslate nohighlight">\(q_{\mathrm{NLS}}(x,t) = A\operatorname{sech}(Ax)e^{i A^2 t}\)</span> solving <span class="math notranslate nohighlight">\(i q_t + q_{xx} + 2|q|^2 q = 0\)</span> <span class="bibtex-citation" id="id24">[<a class="reference internal" href="references.html#id519" title="Mark J. Ablowitz, David J. Kaup, Alan C. Newell, and Harvey Segur. The inverse scattering transform–Fourier analysis for nonlinear problems. Studies in Applied Mathematics, 53(4):249–315, 1974. URL: https://dx.doi.org/10.1002/sapm1974534249, doi:10.1002/sapm1974534249.">Ablowitz <em>et al.</em>, 1974</a>]</span>. Its peak intensity <span class="math notranslate nohighlight">\(|q(0,t)|^2 = A^2\)</span> (<code class="docutils literal notranslate"><span class="pre">nlsBrightSolitonIntensity</span></code>) maximizes <span class="math notranslate nohighlight">\(U_p \propto A^2\)</span> and minimizes <span class="math notranslate nohighlight">\(\gamma_K \propto 1/A\)</span> at the pulse crest, while OAM-carrying driver pulses require nonlocal response <span class="math notranslate nohighlight">\(\sigma_{\mathrm{nl}} &gt; 1/4\)</span> (<code class="docutils literal notranslate"><span class="pre">nonlocalStabilizedAzimuthalMiGain</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>) to suppress ring breakup.</p></li>
+<li><p><strong>Surface Space-Charge / Condensate Depletion as an <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> Defocusing GPE Dark Soliton (<code class="docutils literal notranslate"><span class="pre">darkSoliton_gpe_pde</span></code>) &amp; <code class="docutils literal notranslate"><span class="pre">KP-II</span></code> Positroid Webs:</strong> Across a metal–vacuum boundary or superconducting surface, density drops smoothly across a tanh kink <span class="math notranslate nohighlight">\(q_{\mathrm{GPE}}(x,t) = A\tanh(Ax)e^{-2i A^2 t}\)</span> solving <span class="math notranslate nohighlight">\(i q_t + q_{xx} - 2|q|^2 q = 0\)</span>, while multi-pulse plasma/charge-density waves follow positive <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> <code class="docutils literal notranslate"><span class="pre">KP-II</span></code> soliton webs (<span class="math notranslate nohighlight">\(\tau &gt; 0\)</span> globally via our overflow-proof log-sum-exp <code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code> <span class="bibtex-citation" id="id25">[<a class="reference internal" href="references.html#id517" title="Yuji Kodama and Lauren Williams. KP solitons and total positivity for the Grassmannian. Inventiones Mathematicae, 198(3):637–699, 2014. URL: https://doi.org/10.48550/arXiv.1106.0023, arXiv:1106.0023, doi:10.1007/s00222-014-0506-3.">Kodama and Williams, 2014</a>, <a class="reference internal" href="references.html#id520" title="Ryogo Hirota. The Direct Method in Soliton Theory. Volume 155 of Cambridge Tracts in Mathematics. Cambridge University Press, 2004. URL: https://doi.org/10.1017/CBO9780511543043.">Hirota, 2004</a>]</span>).</p></li>
+<li><p><strong>Attosecond Two-Pathway (<code class="docutils literal notranslate"><span class="pre">RABBITT</span></code>) Interference &amp; <code class="docutils literal notranslate"><span class="pre">QFIM</span> <span class="pre">=</span> <span class="pre">I_class</span> <span class="pre">+</span> <span class="pre">4</span> <span class="pre">Var_p(∂φ)</span></code>:</strong> In attosecond photoemission interferometry (<code class="docutils literal notranslate"><span class="pre">RABBITT</span></code>, <span class="bibtex-citation" id="id26">[<a class="reference internal" href="references.html#id535" title="P. M. Paul, E. S. Toma, P. Breger, G. Mullot, F. Augé, Ph. Balcou, H. G. Muller, and P. Agostini. Observation of a train of attosecond pulses from high harmonic generation. Science, 292(5522):1689–1692, 2001. URL: https://doi.org/10.1126/science.1059413, doi:10.1126/science.1059413.">Paul <em>et al.</em>, 2001</a>]</span>), an electron reaches the same final energy via two quantum pathways (<span class="math notranslate nohighlight">\(\omega_{\mathrm{XUV}} + \omega_{\mathrm{IR}}\)</span> vs. <span class="math notranslate nohighlight">\(\omega'_{\mathrm{XUV}} - \omega_{\mathrm{IR}}\)</span>). An unphased positive <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> model sums probabilities <span class="math notranslate nohighlight">\(p_1 + p_2\)</span> (<code class="docutils literal notranslate"><span class="pre">50%</span></code> constructive error), whereas Complex <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker interference <span class="math notranslate nohighlight">\(p_1 + p_2 + 2\sqrt{p_1 p_2}\cos\Delta\phi\)</span> (<code class="docutils literal notranslate"><span class="pre">0%</span></code> error) maps onto the binary <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> split <span class="math notranslate nohighlight">\(F_{\mu\mu} = I_{\mu\mu}^{\mathrm{class}}(p) + 4\,\operatorname{Var}_p(\partial_\mu\phi)\)</span> (<code class="docutils literal notranslate"><span class="pre">qfim_eq_iclass_plus_4_var_phi</span></code>), bounding attosecond timing uncertainty by the Quantum Cramér–Rao bound <span class="math notranslate nohighlight">\(\Delta\tau^2 \ge \frac{1}{4 N_{\mathrm{probes}} g_{\tau\tau}^{\mathrm{FS}}}\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="related-phenomena-better-described-by-this-model-check-figure-benchmarks">
+<h2>6. Related Phenomena Better Described by This Model (Check-Figure Benchmarks)<a class="headerlink" href="#related-phenomena-better-described-by-this-model-check-figure-benchmarks" title="Link to this heading">¶</a></h2>
+<p>Because the photoelectric effect links electromagnetic geometry, surface/bulk collective excitations (polaritons and plasmons), electronic structure (<code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code>), integrable solitons (<code class="docutils literal notranslate"><span class="pre">SatoGrassmannian</span></code>), and quantum information geometry (<code class="docutils literal notranslate"><span class="pre">QFIM</span> <span class="pre">=</span> <span class="pre">4</span> <span class="pre">g_FS</span></code>), the same mathematical machinery dramatically outperforms standard textbook approximations across <strong>twelve related phenomena</strong>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Phenomenon &amp; Physical Question</p></th>
+<th class="head text-left"><p>Standard / Baseline Model Error or Limitation</p></th>
+<th class="head text-left"><p>Unified Grassmannian / <code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> / Polariton–Plasmon / Soliton / <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> Result</p></th>
+<th class="head text-left"><p>Machine-Checked Check Figure (<code class="docutils literal notranslate"><span class="pre">Lean</span> <span class="pre">4</span></code> / <code class="docutils literal notranslate"><span class="pre">Rust</span></code> / <code class="docutils literal notranslate"><span class="pre">SymPy</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>1. High-NA &amp; <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> Surface Photoemission (<span class="math notranslate nohighlight">\(E_z\)</span>)</strong></p></td>
+<td class="text-left"><p>2D paraxial Jones drops <span class="math notranslate nohighlight">\(E_z\)</span> (<strong><span class="math notranslate nohighlight">\(100\%\)</span> error</strong> at radial focus); Euler frames lock at <span class="math notranslate nohighlight">\(\theta = \pm\pi/2\)</span> (<span class="math notranslate nohighlight">\(\det J = 0\)</span>)</p></td>
+<td class="text-left"><p>Debye–Wolf <span class="math notranslate nohighlight">\(E_z = 2 E_0\sin\theta\)</span>, <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span> volumetric <span class="math notranslate nohighlight">\(E_z\)</span>, &amp; <span class="math notranslate nohighlight">\(400\times\)</span> lossless (<code class="docutils literal notranslate"><span class="pre">200×</span></code> Drude) <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> boost</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">enzBoundaryIntensityEnhancement</span> <span class="pre">1</span> <span class="pre">(1/20)</span> <span class="pre">=</span> <span class="pre">400</span></code>, <code class="docutils literal notranslate"><span class="pre">enzDissipativeIntensityEnhancement</span> <span class="pre">1</span> <span class="pre">(1/20)</span> <span class="pre">(1/20)</span> <span class="pre">=</span> <span class="pre">200</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>2. <code class="docutils literal notranslate"><span class="pre">SPP</span></code> Hot-Electron Photoemission &amp; Keldysh Boost</strong></p></td>
+<td class="text-left"><p>Planar light-cone optics forbids surface momentum transfer &amp; misses sub-wavelength hotspot <span class="math notranslate nohighlight">\(U_p\)</span> gain</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> <code class="docutils literal notranslate"><span class="pre">SPP</span></code> (<span class="math notranslate nohighlight">\(n_{\mathrm{SPP}}^2 &gt; \varepsilon_d\)</span>), <span class="math notranslate nohighlight">\((|\varepsilon_m|/\varepsilon_d)^2\)</span> skin-depth focus, &amp; <span class="math notranslate nohighlight">\(n_{\mathrm{SPP}}^2\kappa_{\mathrm{ratio}}\)</span> <span class="math notranslate nohighlight">\(\gamma_K^2\)</span> drop</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spp_effective_index_sq</span> <span class="pre">=</span> <span class="pre">4/3</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">spp_bohm_ratio</span> <span class="pre">=</span> <span class="pre">16.0</span></code>, <code class="docutils literal notranslate"><span class="pre">spp_keldysh_compression</span> <span class="pre">=</span> <span class="pre">16/3</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>3. Volume-Plasmon Satellites &amp; <code class="docutils literal notranslate"><span class="pre">LST</span></code> Reststrahlen</strong></p></td>
+<td class="text-left"><p>Single-particle model misses plasmon-loss sidebands &amp; polar Reststrahlen windows</p></td>
+<td class="text-left"><p>Bulk <code class="docutils literal notranslate"><span class="pre">ENZ</span></code> (<span class="math notranslate nohighlight">\(\varepsilon_r(\omega_p) = 0\)</span>) <span class="math notranslate nohighlight">\(m\,\hbar\omega_p\)</span> satellites &amp; <code class="docutils literal notranslate"><span class="pre">LST</span></code> <span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{pol}} &lt; 0\)</span> surface polaritons</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">dftElectronDensityPermittivity</span> <span class="pre">4</span> <span class="pre">1</span> <span class="pre">4</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">lst_enz_permittivity_lo</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">lst_reststrahlen_permittivity</span> <span class="pre">&lt;</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>4. Strong-Coupling Polariton Photoemission (<span class="math notranslate nohighlight">\(x_X = -1\)</span>)</strong></p></td>
+<td class="text-left"><p>Rational Plabic charts divide by <span class="math notranslate nohighlight">\(x_X + 1 = 0\)</span>; bare bands miss Hopfield splitting</p></td>
+<td class="text-left"><p>Hopfield UP/LP splitting <span class="math notranslate nohighlight">\(\hbar\Omega_{\mathrm{eff}} \ge 2\hbar g\)</span> &amp; pole-free Complex Homogeneous <code class="docutils literal notranslate"><span class="pre">VRC</span></code> (<span class="math notranslate nohighlight">\(V K^\top = 0\)</span>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">polariton_up_lp_split</span> <span class="pre">=</span> <span class="pre">0.2</span></code>, <code class="docutils literal notranslate"><span class="pre">vrcResonantQfimX1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">vrcResonantFubiniStudyX1</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">1/2</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>5. Evanescent Keldysh &amp; Waveguide Tunneling Speed</strong></p></td>
+<td class="text-left"><p>Standard Bohmian velocity gives <span class="math notranslate nohighlight">\(v_{\mathrm{Bohm}} = 0\)</span> inside barriers (<strong><span class="math notranslate nohighlight">\(100\%\)</span> error</strong>; <span class="math notranslate nohighlight">\(98.5\%\)</span> in <span class="math notranslate nohighlight">\(30\)</span> vs. <span class="math notranslate nohighlight">\(2000\text{ km/s}\)</span> leakage test)</p></td>
+<td class="text-left"><p>Ch. 2 osmotic <span class="math notranslate nohighlight">\(v_{\mathrm{osm}} = \sqrt{2\Phi_W/m_e}\)</span> + Ch. 3 <code class="docutils literal notranslate"><span class="pre">QFIM</span> <span class="pre">=</span> <span class="pre">4</span> <span class="pre">g_FS</span></code> exact <span class="math notranslate nohighlight">\(\tanh\)</span> speed law</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">relativePredictiveError</span> <span class="pre">0</span> <span class="pre">v_osm</span> <span class="pre">=</span> <span class="pre">1</span></code> vs. <strong><code class="docutils literal notranslate"><span class="pre">0.0</span></code></strong>, <code class="docutils literal notranslate"><span class="pre">coupled_speed_law_residual</span> <span class="pre">=</span> <span class="pre">1.78e-15</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>6. Two-Pathway (<code class="docutils literal notranslate"><span class="pre">RABBITT</span></code> / Double-Slit) Interference</strong></p></td>
+<td class="text-left"><p>Unphased real positive <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> misses interference (<strong><span class="math notranslate nohighlight">\(50\%\)</span> on-axis error</strong>)</p></td>
+<td class="text-left"><p>Complex <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> Plücker phases &amp; Turner Model 6 <code class="docutils literal notranslate"><span class="pre">iGPE</span></code> (<code class="docutils literal notranslate"><span class="pre">0%</span></code> error) + <code class="docutils literal notranslate"><span class="pre">QFIM</span></code> phase variance</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">unphased_rel_error</span> <span class="pre">=</span> <span class="pre">0.5</span></code>, <code class="docutils literal notranslate"><span class="pre">coherent_rel_error</span> <span class="pre">=</span> <span class="pre">0.0</span></code>, <code class="docutils literal notranslate"><span class="pre">qfim_over_fs_simplex</span> <span class="pre">=</span> <span class="pre">4.0</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>7. <code class="docutils literal notranslate"><span class="pre">OAM</span></code> Helical Dichroism &amp; Angular Metrology</strong></p></td>
+<td class="text-left"><p>Dipole plane waves ignore <span class="math notranslate nohighlight">\(\ell\)</span> transfer; local Kerr rings break into filaments (<span class="math notranslate nohighlight">\(\Gamma_{\mathrm{MI}} = +2 &gt; 0\)</span>)</p></td>
+<td class="text-left"><p>Spin-to-OAM <span class="math notranslate nohighlight">\(\ell_z = \ell_{\mathrm{in}} + \sigma_{\mathrm{SAM}}\)</span>, nonlocal stabilization (<span class="math notranslate nohighlight">\(\sigma_{\mathrm{nl}} &gt; 1/4\)</span>), &amp; <span class="math notranslate nohighlight">\(F_{\varphi\varphi}^{\mathrm{OAM}} = 4\ell^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">qcrb_variance_at_l1</span> <span class="pre">/</span> <span class="pre">qcrb_variance_at_l</span> <span class="pre">=</span> <span class="pre">9.0</span></code> (at <span class="math notranslate nohighlight">\(\ell=3\)</span>), <code class="docutils literal notranslate"><span class="pre">nonlocalStabilizedAzimuthalMiGain</span> <span class="pre">10</span> <span class="pre">2</span> <span class="pre">5</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">-798/101</span> <span class="pre">&lt;</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>8. Work Function, Schottky Lowering, &amp; <code class="docutils literal notranslate"><span class="pre">SIE</span></code> Barriers</strong></p></td>
+<td class="text-left"><p>Semilocal DFT suffers <code class="docutils literal notranslate"><span class="pre">SIE</span></code> fractional-charge smearing (e.g., <code class="docutils literal notranslate"><span class="pre">ALD</span></code> barrier <span class="math notranslate nohighlight">\(11.90\)</span> vs. <span class="math notranslate nohighlight">\(18.33\text{ kcal/mol}\)</span>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">QCI-GXC</span></code> McWeeny purification (<span class="math notranslate nohighlight">\(3\lambda^2 - 2\lambda^3\)</span>), Schottky barrier lowering, &amp; <code class="docutils literal notranslate"><span class="pre">144×</span></code> Cayley speedup</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">GMTKN55</span></code> <code class="docutils literal notranslate"><span class="pre">WTMAD-2</span> <span class="pre">=</span> <span class="pre">1.643</span> <span class="pre">kcal/mol</span> <span class="pre">&lt;</span> <span class="pre">3.0</span></code>, <code class="docutils literal notranslate"><span class="pre">schottkyEffectiveWorkFunction</span> <span class="pre">&lt;</span> <span class="pre">phi_w</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>9. Intense Femtosecond Soliton Pulses (<code class="docutils literal notranslate"><span class="pre">AKNS</span></code> / <code class="docutils literal notranslate"><span class="pre">KP-II</span></code>)</strong></p></td>
+<td class="text-left"><p>Linear dispersive spreading misses self-trapping; naive <span class="math notranslate nohighlight">\(\sum c_r e^{\theta_r}\)</span> overflows IEEE <code class="docutils literal notranslate"><span class="pre">f64</span></code> at large <span class="math notranslate nohighlight">\((x,y,t)\)</span></p></td>
+<td class="text-left"><p>Overflow-proof log-sum-exp <code class="docutils literal notranslate"><span class="pre">PlabicGr24Solver</span></code> + exact <code class="docutils literal notranslate"><span class="pre">AKNS</span></code> NLS bright &amp; GPE dark solitons</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">nls_bright_pde_residual</span> <span class="pre">=</span> <span class="pre">9.93e-16</span></code>, <code class="docutils literal notranslate"><span class="pre">gpe_dark_pde_residual</span> <span class="pre">=</span> <span class="pre">1.18e-16</span></code>, <code class="docutils literal notranslate"><span class="pre">kp2_residual</span> <span class="pre">=</span> <span class="pre">3.11e-15</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>10. Ultrafast Internal Photoexcitation (<code class="docutils literal notranslate"><span class="pre">trARPES</span></code>, <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code>)</strong></p></td>
+<td class="text-left"><p>Two-time Kadanoff–Baym scales as <span class="math notranslate nohighlight">\(O(N_t^3 N_{\mathrm{basis}}^6)\)</span>, intractable past <span class="math notranslate nohighlight">\(\sim 100\text{ fs}\)</span></p></td>
+<td class="text-left"><p>Time-linear <code class="docutils literal notranslate"><span class="pre">G-GKBA</span></code> on Hubbard chains, <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span> dark excitons, Graphite, &amp; <span class="math notranslate nohighlight">\(\mathrm{MgB}_2\)</span></p></td>
+<td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">1.44</span> <span class="pre">×</span> <span class="pre">10⁸×</span></code></strong> bare (<code class="docutils literal notranslate"><span class="pre">1.44</span> <span class="pre">×</span> <span class="pre">10⁷×</span></code> cumulant) speedup; <span class="math notranslate nohighlight">\(\mathrm{WSe}_2\)</span> ratio <span class="math notranslate nohighlight">\(N_B/N_D = 0.5\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>11. Cuprate &amp; Graphene <code class="docutils literal notranslate"><span class="pre">ARPES</span></code> Photoemission Gaps</strong></p></td>
+<td class="text-left"><p>Single-band Hubbard misses Zhang–Rice <span class="math notranslate nohighlight">\(d\)</span>-wave nodes, pseudogap <span class="math notranslate nohighlight">\(T^*(p)\)</span>, &amp; multilayer boundary modes</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">G-CSC</span></code> on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> (<span class="math notranslate nohighlight">\(g_d(c,c) = 0\)</span>) &amp; <code class="docutils literal notranslate"><span class="pre">G-MGS</span></code> on <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,6)\)</span> / <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,10)\)</span></p></td>
+<td class="text-left"><p>Cuprate 12-target <strong><code class="docutils literal notranslate"><span class="pre">0.79%</span></code> MAPE</strong>; Graphene 8-target <strong><code class="docutils literal notranslate"><span class="pre">0.64%</span></code> MAPE</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>12. Time Double-Slit &amp; 3-Photon Quantum Vortices</strong></p></td>
+<td class="text-left"><p>Linear ITO thermal rise (<span class="math notranslate nohighlight">\(110\text{ fs}\)</span>) vs. <span class="math notranslate nohighlight">\(4.4\text{ fs}\)</span>; pairwise Kerr gives <span class="math notranslate nohighlight">\(-3\pi\)</span> (<strong><span class="math notranslate nohighlight">\(50\%\)</span> error</strong>) &amp; <span class="math notranslate nohighlight">\(4 E_2\)</span> (<strong><span class="math notranslate nohighlight">\(33.3\%\)</span> error</strong>)</p></td>
+<td class="text-left"><p>Space–time <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(2,4)\)</span> (<span class="math notranslate nohighlight">\(\Delta f = 1/S\)</span>, <span class="math notranslate nohighlight">\(2\times\)</span> SHG) &amp; blockade-saturated <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(3,6)\)</span> (<span class="math notranslate nohighlight">\(-2\pi\)</span>, <span class="math notranslate nohighlight">\(3 E_2\)</span>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">timeSlitBandwidthEnvelope</span></code> gain, <code class="docutils literal notranslate"><span class="pre">saturatedBlockadeMultiPhotonPhase</span></code> <strong><code class="docutils literal notranslate"><span class="pre">0%</span></code> error</strong>, <code class="docutils literal notranslate"><span class="pre">g_c^(3)</span> <span class="pre">=</span> <span class="pre">-2.5</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="tri-language-verification-reproducibility">
+<h2>7. Tri-Language Verification &amp; Reproducibility<a class="headerlink" href="#tri-language-verification-reproducibility" title="Link to this heading">¶</a></h2>
+<p>Every equation and check figure in this paper is backed by automated tests across <strong>Lean 4</strong> (<code class="docutils literal notranslate"><span class="pre">Signals.Photoelectric</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Pending.PhotoelectricEmissionPendingBoundary</span></code>), <strong>Rust/PyO3</strong> (<code class="docutils literal notranslate"><span class="pre">photoelectric.rs</span></code>), and <strong>Python/SymPy</strong> (<code class="docutils literal notranslate"><span class="pre">sustainablefactory/photoelectric.py</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Lean 4 full library + Pending + regression test verification (3,835 Lake jobs, zero sorry)</span>
+make<span class="w"> </span>signals_build
+
+<span class="c1"># 2. Rust unit tests (172 passing) &amp; PyO3/maturin editable release wheel</span>
+<span class="nv">TMPDIR</span><span class="o">=</span>/workspaces/sustainablefactory/.tmp<span class="w"> </span>cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--manifest-path<span class="w"> </span>src/signals/numerical_adapter/Cargo.toml
+<span class="nv">TMPDIR</span><span class="o">=</span>/workspaces/sustainablefactory/.tmp<span class="w"> </span>maturin<span class="w"> </span>develop<span class="w"> </span>--manifest-path<span class="w"> </span>src/signals/numerical_adapter/Cargo.toml<span class="w"> </span>--release<span class="w"> </span>--features<span class="w"> </span>extension-module
+
+<span class="c1"># 3. Python + SymPy (21 exact symbolic proofs) + PyO3 cross-verification tests (4/4 passing)</span>
+pytest<span class="w"> </span>-q<span class="w"> </span>tests/test_photoelectric_sympy_pyo3.py
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<ul class="simple" id="id27">
+<li id="id253"><p>J. J. Hopfield. Theory of the contribution of excitons to the complex dielectric constant of crystals. <em>Physical Review</em>, 112(5):1555–1567, 1958. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.112.1555">https://doi.org/10.1103/PhysRev.112.1555</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.112.1555">doi:10.1103/PhysRev.112.1555</a>.</p></li>
+<li id="id261"><p>C. Weisbuch, M. Nishioka, A Ishikawa, and Y Arakawa. Observation of the coupled exciton-photon mode splitting in a semiconductor quantum microcavity. <em>Physical Review Letters</em>, 1992. Referenced in docs/grassmannian-polariton-spp-mechanics-paper.md. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.69.3314">https://doi.org/10.1103/PhysRevLett.69.3314</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.69.3314">doi:10.1103/PhysRevLett.69.3314</a>.</p></li>
+<li id="id257"><p>R. H. Lyddane, R. G. Sachs, and E. Teller. On the polar vibrations of alkali halides. <em>Physical Review</em>, 59(8):673–676, 1941. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.59.673">https://doi.org/10.1103/PhysRev.59.673</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.59.673">doi:10.1103/PhysRev.59.673</a>.</p></li>
+<li id="id259"><p>H Raether. <em>Surface Plasmons on Smooth and Rough Surfaces and on Gratings</em>. Springer, 1988. Referenced in docs/grassmannian-polariton-spp-mechanics-paper.md. URL: <a class="reference external" href="https://doi.org/10.1007/BFb0048317">https://doi.org/10.1007/BFb0048317</a>, <a class="reference external" href="https://doi.org/10.1007/BFb0048317">doi:10.1007/BFb0048317</a>.</p></li>
+<li id="id258"><p>Stefan A. Maier. <em>Plasmonics: Fundamentals and Applications</em>. Springer, 2007. URL: <a class="reference external" href="https://doi.org/10.1007/0-387-37825-1">https://doi.org/10.1007/0-387-37825-1</a>, <a class="reference external" href="https://doi.org/10.1007/0-387-37825-1">doi:10.1007/0-387-37825-1</a>.</p></li>
+<li id="id191"><p>Ralf Dorn, Susanne Quabis, and Gerd Leuchs. Sharper focus for a radially polarized light beam. <em>Physical Review Letters</em>, 91(23):233901, 2003. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.91.233901">https://doi.org/10.1103/PhysRevLett.91.233901</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.91.233901">doi:10.1103/PhysRevLett.91.233901</a>.</p></li>
+<li id="id512"><p>Violetta Sharoglazova, Marius Puplauskis, Charlie Mattschas, Chris Toebes, and Jan Klaers. Energy–speed relationship of quantum particles challenges Bohmian mechanics. <em>Nature</em>, 643(8070):67–72, July 2025. URL: <a class="reference external" href="https://www.nature.com/articles/s41586-025-09099-4">https://www.nature.com/articles/s41586-025-09099-4</a>, <a class="reference external" href="https://doi.org/10.1038/s41586-025-09099-4">doi:10.1038/s41586-025-09099-4</a>.</p></li>
+<li id="id543"><p>Yuji Kodama and Lauren Williams. KP solitons and total positivity for the Grassmannian. <em>Inventiones Mathematicae</em>, 198(3):637–699, 2014. URL: <a class="reference external" href="https://doi.org/10.48550/arXiv.1106.0023">https://doi.org/10.48550/arXiv.1106.0023</a>, <a class="reference external" href="https://arxiv.org/abs/1106.0023">arXiv:1106.0023</a>, <a class="reference external" href="https://doi.org/10.1007/s00222-014-0506-3">doi:10.1007/s00222-014-0506-3</a>.</p></li>
+<li id="id272"><p>B. Richards and E. Wolf. Electromagnetic diffraction in optical systems, II. structure of the image field in an aplanatic system. <em>Proceedings of the Royal Society of London. Series A</em>, 253(1274):358–379, 1959. URL: <a class="reference external" href="https://doi.org/10.1098/rspa.1959.0200">https://doi.org/10.1098/rspa.1959.0200</a>, <a class="reference external" href="https://doi.org/10.1098/rspa.1959.0200">doi:10.1098/rspa.1959.0200</a>.</p></li>
+<li id="id182"><p>Salvatore Campione, Igal Brener, and Francois Marquier. Theory of epsilon-near-zero modes in ultrathin films. <em>Physical Review B</em>, 91(12):121408, 2015. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevB.91.121408">https://doi.org/10.1103/PhysRevB.91.121408</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.91.121408">doi:10.1103/PhysRevB.91.121408</a>.</p></li>
+<li id="id66"><p>Lars Goerigk, Andreas Hansen, Christoph Bauer, Stephan Ehrlich, Asim Najibi, and Stefan Grimme. A look at the density functional theory zoo with the advanced GMTKN55 database for general main group thermochemistry, kinetics and noncovalent interactions. <em>Physical Chemistry Chemical Physics</em>, 19(48):32184–32215, 2017. URL: <a class="reference external" href="https://doi.org/10.1039/C7CP04913G">https://doi.org/10.1039/C7CP04913G</a>, <a class="reference external" href="https://doi.org/10.1039/C7CP04913G">doi:10.1039/C7CP04913G</a>.</p></li>
+<li id="id73"><p>Pierre Hohenberg and Walter Kohn. Inhomogeneous electron gas. <em>Physical Review</em>, 136(3B):B864–B871, 1964. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.136.B864">https://doi.org/10.1103/PhysRev.136.B864</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.136.B864">doi:10.1103/PhysRev.136.B864</a>.</p></li>
+<li id="id74"><p>Walter Kohn and Lu Jeu Sham. Self-consistent equations including exchange and correlation effects. <em>Physical Review</em>, 140(4A):A1133–A1138, 1965. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.140.A1133">https://doi.org/10.1103/PhysRev.140.A1133</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.140.A1133">doi:10.1103/PhysRev.140.A1133</a>.</p></li>
+<li id="id75"><p>Roy McWeeny. Some recent advances in density matrix theory. <em>Reviews of Modern Physics</em>, 32(2):335–369, 1960. URL: <a class="reference external" href="https://doi.org/10.1103/RevModPhys.32.335">https://doi.org/10.1103/RevModPhys.32.335</a>, <a class="reference external" href="https://doi.org/10.1103/RevModPhys.32.335">doi:10.1103/RevModPhys.32.335</a>.</p></li>
+<li id="id473"><p>Konstantin Y. Bliokh, Francisco J. Rodríguez-Fortuño, Franco Nori, and Anatoly V. Zayats. Spin–orbit interactions of light. <em>Nature Photonics</em>, 9(12):796–808, 2015. URL: <a class="reference external" href="https://doi.org/10.1038/nphoton.2015.201">https://doi.org/10.1038/nphoton.2015.201</a>, <a class="reference external" href="https://doi.org/10.1038/nphoton.2015.201">doi:10.1038/nphoton.2015.201</a>.</p></li>
+<li id="id472"><p>L. Allen, M. W. Beijersbergen, R. J. C. Spreeuw, and J. P. Woerdman. Orbital angular momentum of light and the transformation of laguerre-gaussian laser modes. <em>Physical Review A</em>, 45(11):8185–8189, 1992. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevA.45.8185">https://doi.org/10.1103/PhysRevA.45.8185</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevA.45.8185">doi:10.1103/PhysRevA.45.8185</a>.</p></li>
+<li id="id546"><p>Ryogo Hirota. <em>The Direct Method in Soliton Theory</em>. Volume 155 of Cambridge Tracts in Mathematics. Cambridge University Press, 2004. URL: <a class="reference external" href="https://doi.org/10.1017/CBO9780511543043">https://doi.org/10.1017/CBO9780511543043</a>.</p></li>
+<li id="id545"><p>Mark J. Ablowitz, David J. Kaup, Alan C. Newell, and Harvey Segur. The inverse scattering transform–Fourier analysis for nonlinear problems. <em>Studies in Applied Mathematics</em>, 53(4):249–315, 1974. URL: <a class="reference external" href="https://dx.doi.org/10.1002/sapm1974534249">https://dx.doi.org/10.1002/sapm1974534249</a>, <a class="reference external" href="https://doi.org/10.1002/sapm1974534249">doi:10.1002/sapm1974534249</a>.</p></li>
+<li id="id557"><p>Heinrich Hertz. Ueber einen Einfluss des ultravioletten Lichtes auf die electrische Entladung. <em>Annalen der Physik</em>, 267(8):983–1000, 1887. <a class="reference external" href="https://doi.org/10.1002/andp.18872670827">doi:10.1002/andp.18872670827</a>.</p></li>
+<li id="id558"><p>Philipp Lenard. Ueber die lichtelektrische Wirkung (&quot;on the photoelectric effect&quot;). <em>Annalen der Physik</em>, 313(5):149–198, 1902. URL: <a class="reference external" href="https://dx.doi.org/10.1002/andp.19023130510">https://dx.doi.org/10.1002/andp.19023130510</a>, <a class="reference external" href="https://doi.org/10.1002/andp.19023130510">doi:10.1002/andp.19023130510</a>.</p></li>
+<li id="id206"><p>Albert Einstein. Zur elektrodynamik bewegter körper. <em>Annalen der Physik</em>, 322(10):891–921, 1905. title&#64;en: &quot;On the Electrodynamics of Moving Bodies&quot;; Special Relativity. URL: <a class="reference external" href="https://onlinelibrary.wiley.com/doi/10.1002/andp.19053221004">https://onlinelibrary.wiley.com/doi/10.1002/andp.19053221004</a>, <a class="reference external" href="https://doi.org/10.1002/andp.19053221004">doi:10.1002/andp.19053221004</a>.</p></li>
+<li id="id559"><p>Robert Andrews Millikan. A direct photoelectric determination of Planck's “$h$”. <em>Physical Review</em>, 7(3):355–388, 1916. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.7.355">https://doi.org/10.1103/PhysRev.7.355</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.7.355">doi:10.1103/PhysRev.7.355</a>.</p></li>
+<li id="id564"><p>Herbert B. Michaelson. The work function of the elements and its periodicity. <em>Journal of Applied Physics</em>, 48(11):4729–4733, 1977. URL: <a class="reference external" href="https://doi.org/10.1063/1.323539">https://doi.org/10.1063/1.323539</a>, <a class="reference external" href="https://doi.org/10.1063/1.323539">doi:10.1063/1.323539</a>.</p></li>
+<li id="id568"><p>Walter Schottky. Über den Einfluß von Strukturwirkungen, besonders der Thomsonschen Bildkraft, auf die Elektronenemission der Metalle. <em>Physikalische Zeitschrift</em>, 15:872–878, 1914. title&#64;en &quot;On the Influence of Structural Effects, Especially the Thomson Image Force, on the Electron Emission of Metals&quot; (Schottky effect).</p></li>
+<li id="id560"><p>Leonid V. Keldysh. Ionization in the field of a strong electromagnetic wave. <em>Soviet Physics JETP</em>, 20(5):1307–1314, 1965. URL: <a class="reference external" href="http://www.jetp.ras.ru/cgi-bin/e/index/e/20/5/p1307?a=list">http://www.jetp.ras.ru/cgi-bin/e/index/e/20/5/p1307?a=list</a>.</p></li>
+<li id="id567"><p>Michael Krüger, Markus Schenk, and Peter Hommelhoff. Attosecond control of electrons emitted from a nanoscale metal tip. <em>Nature</em>, 475(7354):78–81, 2011. URL: <a class="reference external" href="https://doi.org/10.1038/nature10196">https://doi.org/10.1038/nature10196</a>, <a class="reference external" href="https://doi.org/10.1038/nature10196">doi:10.1038/nature10196</a>.</p></li>
+<li id="id562"><p>Rufus H. Ritchie. Plasma losses by fast electrons in thin films. <em>Physical Review</em>, 106(5):874–881, 1957. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.106.874">https://doi.org/10.1103/PhysRev.106.874</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.106.874">doi:10.1103/PhysRev.106.874</a>.</p></li>
+<li id="id563"><p>Mark L. Brongersma, Naomi J. Halas, and Peter Nordlander. Plasmon-induced hot carrier science and technology. <em>Nature Nanotechnology</em>, 10(1):25–34, 2015. URL: <a class="reference external" href="https://doi.org/10.1038/nnano.2014.311">https://doi.org/10.1038/nnano.2014.311</a>, <a class="reference external" href="https://doi.org/10.1038/nnano.2014.311">doi:10.1038/nnano.2014.311</a>.</p></li>
+<li id="id566"><p>P. B. Johnson and R. W. Christy. Optical constants of the noble metals. <em>Physical Review B</em>, 6(12):4370–4379, 1972. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevB.6.4370">https://doi.org/10.1103/PhysRevB.6.4370</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.6.4370">doi:10.1103/PhysRevB.6.4370</a>.</p></li>
+<li id="id565"><p>C. J. Powell and J. B. Swan. Origin of the characteristic electron energy losses in aluminum. <em>Physical Review</em>, 115(4):869–875, 1959. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.115.869">https://doi.org/10.1103/PhysRev.115.869</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.115.869">doi:10.1103/PhysRev.115.869</a>.</p></li>
+<li id="id561"><p>P. M. Paul, E. S. Toma, P. Breger, G. Mullot, F. Augé, Ph. Balcou, H. G. Muller, and P. Agostini. Observation of a train of attosecond pulses from high harmonic generation. <em>Science</em>, 292(5522):1689–1692, 2001. URL: <a class="reference external" href="https://doi.org/10.1126/science.1059413">https://doi.org/10.1126/science.1059413</a>, <a class="reference external" href="https://doi.org/10.1126/science.1059413">doi:10.1126/science.1059413</a>.</p></li>
+</ul>
+<hr class="docutils" />
+<section id="bibtex-schema-org-provenance-metadata">
+<h3>BibTeX &amp; <a class="reference external" href="http://Schema.org">Schema.org</a> Provenance Metadata<a class="headerlink" href="#bibtex-schema-org-provenance-metadata" title="Link to this heading">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@unpublished</span><span class="p">{</span><span class="nl">turner2026photoelectric_qci_gxc_twistors_solitons_qfim</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wesley}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{The Photoelectric Effect Reimagined: From {E}instein's Quanta to {QCI-GXC} Electronic Density, Twistor Longitudinal {$E_z$} \&amp; {OAM} Light, Strong-Field {K}eldysh Tunneling, {AKNS} Solitons, and {$\mathrm{QFIM} = 4\,g^{\mathrm{FS}}$}}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Research Archive}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Lean 4 (Signals.Photoelectric), Rust/PyO3 (photoelectric.rs), and SymPy (test_photoelectric_sympy_pyo3.py)}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Photoelectric Effect Reimagined: From Einstein's Quanta to QCI-GXC Electronic Density, Twistor Longitudinal E_z &amp; OAM Light, Strong-Field Keldysh Tunneling, AKNS Solitons, and QFIM = 4 g^FS"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-23"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"about"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"Photoelectric Effect"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"QCI-GXC Kohn-Sham DFT and Work Function"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Penrose Twistors, Longitudinal E_z, ENZ Amplification, and Orbital Angular Momentum"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Strong-Field Keldysh Tunneling and Three-Channel Plucker-Madelung-QFIM"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Sato Grassmannian and AKNS Soliton PDEs"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"Quantum Fisher Information Metric QFIM = 4 g^FS"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-unification-applications-roadmap-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"docs/grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Photoelectric.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DFT.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/numerical_adapter/src/photoelectric.rs"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"sustainablefactory/photoelectric.py"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper.html" title="Compressible and Incompressible Navier–Stokes via Three-Channel Plücker–Madelung and Six-Channel Dual-Schubert QFIM (\(F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}\)): Clebsch Spinor Vorticity, Schubert Chart Regularization, Bateman Viscous Audit, Korteweg Stress, and Bresch–Desjardins Equivalence in Lean 4, Rust/PyO3, and SymPy" >previous</a></li>
+        <li><a href="references.html" title="References" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

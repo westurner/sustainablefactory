@@ -2582,4 +2582,18 @@ lemma pending_dual_schubert_navier_stokes_gate_boundary
     ¬ b.allNavierStokesGatesClosed :=
   b.not_allNavierStokesGatesClosed_of_any_refuted h_refuted
 
+@[blueprint "lem:signals-pending-photoelectric-emission-gate-boundary"
+  (title := "Photoelectric emission epistemic gate boundary")
+  (statement := /-- Any refuted work-function calibration, Keldysh yield, ENZ/OAM loss, or attosecond timing gate blocks \texttt{allPhotoelectricGatesClosed}. -/)
+  (proof := /-- Apply \texttt{PhotoelectricEmissionPendingBoundary.not\_allPhotoelectricGatesClosed\_of\_any\_refuted}. -/)
+  (latexEnv := "lemma")]
+lemma pending_photoelectric_emission_gate_boundary
+    (b : PhotoelectricEmissionPendingBoundary)
+    (h_refuted : ¬ b.experimentalWorkFunctionCalibrated ∨
+      ¬ b.experimentalKeldyshYieldValidated ∨
+      ¬ b.experimentalEnzOamEfficiencyValidated ∨
+      ¬ b.experimentalAttosecondTimingValidated) :
+    ¬ b.allPhotoelectricGatesClosed :=
+  b.not_allPhotoelectricGatesClosed_of_any_refuted h_refuted
+
 end SignalsPending

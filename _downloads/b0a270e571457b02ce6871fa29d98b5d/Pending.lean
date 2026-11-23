@@ -4,9 +4,9 @@ import Mathlib.Basic.Complex.Basic
 import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
 import Signals.Acoustics
+import Signals.ActiveOptics
 import Signals.Applications
 import Signals.CavityQED
-import Signals.ActiveOptics
 import Signals.DDF
 import Signals.DFT
 import Signals.ProtocolZ8
@@ -27,6 +27,7 @@ import Signals.MultiArrayImaging
 import Signals.NonDestructive
 import Signals.OAM
 import Signals.PaperModels
+import Signals.Photoelectric
 import Signals.Proca
 import Signals.Propagation
 import Signals.QuantumCausalInference
@@ -9746,6 +9747,80 @@ theorem dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims
       ¬ b.allNavierStokesGatesClosed := by
   dsimp only
   refine ⟨hμ, hζ, ?_⟩
+  intro h
+  exact h.1
+
+/-! ### Photoelectric Effect, Strong-Field Keldysh Tunneling, ENZ/OAM, and AKNS Soliton Pending Boundary -/
+
+/-- Epistemic boundary isolating the machine-checked `Signals.Photoelectric` formalization
+(Einstein threshold/stopping laws, McWeeny `QCI-GXC` work-function restoration, ENZ/OAM $E_z$,
+Keldysh osmotic/QFIM tunneling, and AKNS NLS/GPE soliton PDEs) from unmeasured experimental
+photocathode calibration, dissipative ENZ losses, space-charge saturation, and attosecond
+streaking clock validation. -/
+structure PhotoelectricEmissionPendingBoundary where
+  /-- Modeled Kohn–Sham surface work function `Φ_W = E_vac - E_F` (positive). -/
+  workFunction : ℝ
+  workFunction_pos : 0 < workFunction
+  /-- Modeled ENZ real permittivity target (`> 0`). -/
+  enzPermittivity : ℝ
+  enzPermittivity_pos : 0 < enzPermittivity
+  /-- Open experimental gate: calibrated surface-dipole / UPS / Kelvin-probe work function
+  under controlled UHV surface termination (`QCI-GXC` + `G-IEP` trap density). -/
+  experimentalWorkFunctionCalibrated : Prop
+  /-- Open experimental gate: measured multiphoton / ATI / Keldysh tunneling yield curve
+  with independent laser peak-intensity and carrier-envelope-phase metrology. -/
+  experimentalKeldyshYieldValidated : Prop
+  /-- Open loss & surface gate: measured ENZ film roughness, Drude imaginary loss `Im(ε)`,
+  and OAM photoelectron angular-momentum transfer efficiency. -/
+  experimentalEnzOamEfficiencyValidated : Prop
+  /-- Open ultrafast timing gate: calibrated attosecond RABBITT / streaking timing trace
+  confirming QFIM Cramér–Rao saturation beyond space-charge broadening. -/
+  experimentalAttosecondTimingValidated : Prop
+
+/-- Predicate asserting that every open experimental photocathode, Keldysh, ENZ/OAM,
+and attosecond timing gate is simultaneously closed. -/
+def PhotoelectricEmissionPendingBoundary.allPhotoelectricGatesClosed
+    (b : PhotoelectricEmissionPendingBoundary) : Prop :=
+  b.experimentalWorkFunctionCalibrated ∧
+    b.experimentalKeldyshYieldValidated ∧
+    b.experimentalEnzOamEfficiencyValidated ∧
+    b.experimentalAttosecondTimingValidated
+
+/-- Refuting any single open gate rules out `allPhotoelectricGatesClosed`. -/
+theorem PhotoelectricEmissionPendingBoundary.not_allPhotoelectricGatesClosed_of_any_refuted
+    (b : PhotoelectricEmissionPendingBoundary)
+    (h_refuted : ¬ b.experimentalWorkFunctionCalibrated ∨
+      ¬ b.experimentalKeldyshYieldValidated ∨
+      ¬ b.experimentalEnzOamEfficiencyValidated ∨
+      ¬ b.experimentalAttosecondTimingValidated) :
+    ¬ b.allPhotoelectricGatesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h1, h2, h3, h4⟩
+  rcases h_refuted with hr | hr | hr | hr
+  · exact hr h1
+  · exact hr h2
+  · exact hr h3
+  · exact hr h4
+
+/-- Machine-checked `Signals.Photoelectric` identities do **not** establish calibrated UHV
+photocathode work functions, ENZ optical losses, or attosecond streaking measurements without
+independent experimental data. -/
+theorem photoelectric_identities_do_not_close_experimental_gates
+    (phi_w eps_enz : ℝ) (hphi : 0 < phi_w) (heps : 0 < eps_enz) :
+    let b : PhotoelectricEmissionPendingBoundary :=
+      { workFunction := phi_w
+        workFunction_pos := hphi
+        enzPermittivity := eps_enz
+        enzPermittivity_pos := heps
+        experimentalWorkFunctionCalibrated := False
+        experimentalKeldyshYieldValidated := False
+        experimentalEnzOamEfficiencyValidated := False
+        experimentalAttosecondTimingValidated := False }
+    0 < b.workFunction ∧
+      0 < b.enzPermittivity ∧
+      ¬ b.allPhotoelectricGatesClosed := by
+  dsimp only
+  refine ⟨hphi, heps, ?_⟩
   intro h
   exact h.1
 

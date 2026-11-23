@@ -49,6 +49,7 @@
       "grassmannian-multispectral-hubble-medical-nanoimaging-paper",
       "grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper",
       "grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper",
+      "grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper",
       "grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper",
       "grassmannian-polariton-spp-mechanics-paper",
       "grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper",
@@ -203912,6 +203913,137 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "the-photoelectric-effect-reimagined-from-einsteins-quanta-to-qci-gxc-electronic-density-twistor-longitudinal-e-z-oam-light-strong-field-keldysh-tunneling-akns-solitons-and-qfim-4-g-mathrm-fs",
+              "grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper"
+            ],
+            "level": 1,
+            "title": "The Photoelectric Effect Reimagined: From Einstein\u2019s Quanta to QCI-GXC Electronic Density, Twistor Longitudinal E_z & OAM Light, Strong-Field Keldysh Tunneling, AKNS Solitons, and QFIM = 4\\,g^{\\mathrm{FS}}"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "the-big-picture-why-the-photoelectric-effect-needed-four-upgrades"
+            ],
+            "level": 2,
+            "title": "1. The Big Picture: Why the Photoelectric Effect Needed Four Upgrades"
+          },
+          {
+            "ids": [
+              "how-qci-gxc-computes-the-work-function-phi-w-and-post-excitation-carrier-flow"
+            ],
+            "level": 2,
+            "title": "2. How QCI-GXC Computes the Work Function \\Phi_W and Post-Excitation Carrier Flow"
+          },
+          {
+            "ids": [
+              "which-light-field-pulls-the-electron-out-twistors-longitudinal-e-z-enz-hotspots-and-oam-dichroism"
+            ],
+            "level": 2,
+            "title": "3. Which Light Field Pulls the Electron Out? Twistors, Longitudinal E_z, ENZ Hotspots, and OAM Dichroism"
+          },
+          {
+            "ids": [
+              "polaritons-and-plasmons-in-the-photoelectric-effect-surface-plasmons-spps-volume-plasmon-satellites-pole-free-vrc-hybridization"
+            ],
+            "level": 2,
+            "title": "4. Polaritons and Plasmons in the Photoelectric Effect: Surface Plasmons (SPPs), Volume-Plasmon Satellites, & Pole-Free VRC Hybridization"
+          },
+          {
+            "ids": [
+              "surface-plasmon-polaritons-spps-hot-electron-photoemission-pihc"
+            ],
+            "level": 3,
+            "title": "4.1 Surface Plasmon Polaritons (SPPs) & Hot-Electron Photoemission (PIHC)"
+          },
+          {
+            "ids": [
+              "volume-plasmons-enz-at-omega-omega-p-and-photoemission-loss-satellites"
+            ],
+            "level": 3,
+            "title": "4.2 Volume Plasmons (ENZ at \\omega = \\omega_p) and Photoemission Loss Satellites"
+          },
+          {
+            "ids": [
+              "exciton-and-phonon-polaritons-in-arpes-and-pole-free-complex-vrc-x-x-1"
+            ],
+            "level": 3,
+            "title": "4.3 Exciton- and Phonon-Polaritons in ARPES and Pole-Free Complex VRC (x_X = -1)"
+          },
+          {
+            "ids": [
+              "strong-field-photoemission-keldysh-tunneling-akns-solitons-and-the-qfim-4-g-mathrm-fs-tunneling-speed-law"
+            ],
+            "level": 2,
+            "title": "5. Strong-Field Photoemission, Keldysh Tunneling, AKNS Solitons, and the QFIM = 4\\,g^{\\mathrm{FS}} Tunneling Speed Law"
+          },
+          {
+            "ids": [
+              "ponderomotive-energy-u-p-the-keldysh-parameter-gamma-k-and-ati-combs"
+            ],
+            "level": 3,
+            "title": "5.1 Ponderomotive Energy U_p, the Keldysh Parameter \\gamma_K, and ATI Combs"
+          },
+          {
+            "ids": [
+              "resolving-the-tunneling-speed-paradox-via-three-channel-pluckermadelungqfim"
+            ],
+            "level": 3,
+            "title": "5.2 Resolving the Tunneling Speed Paradox via Three-Channel Pl\u00fccker\u2013Madelung\u2013QFIM"
+          },
+          {
+            "ids": [
+              "akns-focusing-nls-driver-solitons-defocusing-gpe-surface-kinks-and-two-pathway-rabbitt-qfim"
+            ],
+            "level": 3,
+            "title": "5.3 AKNS Focusing NLS Driver Solitons, Defocusing GPE Surface Kinks, and Two-Pathway RABBITT QFIM"
+          },
+          {
+            "ids": [
+              "related-phenomena-better-described-by-this-model-check-figure-benchmarks"
+            ],
+            "level": 2,
+            "title": "6. Related Phenomena Better Described by This Model (Check-Figure Benchmarks)"
+          },
+          {
+            "ids": [
+              "tri-language-verification-reproducibility"
+            ],
+            "level": 2,
+            "title": "7. Tri-Language Verification & Reproducibility"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          },
+          {
+            "ids": [
+              "bibtex-schema-org-provenance-metadata"
+            ],
+            "level": 3,
+            "title": "BibTeX & Schema.org Provenance Metadata"
+          }
+        ]
+      },
+      "source": "grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper.md",
+      "title": "The Photoelectric Effect Reimagined: From Einstein\u2019s Quanta to QCI-GXC Electronic Density, Twistor Longitudinal E_z & OAM Light, Strong-Field Keldysh Tunneling, AKNS Solitons, and QFIM = 4\\,g^{\\mathrm{FS}}",
+      "url": "grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper",
       "doctree": {
         "headings": [
@@ -208604,6 +208736,7 @@
         "grassmannian-multispectral-hubble-medical-nanoimaging-paper",
         "grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper",
         "grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper",
+        "grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper",
         "grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper",
         "grassmannian-polariton-spp-mechanics-paper",
         "grassmannian-pressed-llm-holographic-tape-soliton-qram-steering-kicad-paper",
