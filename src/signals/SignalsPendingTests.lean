@@ -7603,4 +7603,27 @@ example (μ ζ : Signals.Units.DynamicViscosity)
   Signals.Pending.dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims
     μ ζ hμ hζ cv bc
 
+/-! ### Regression Tests: `PhotoelectricEmissionPendingBoundary` -/
+
+example (b : Signals.Pending.PhotoelectricEmissionPendingBoundary)
+    (h : ¬ b.experimentalWorkFunctionCalibrated) :
+    ¬ b.allPhotoelectricGatesClosed :=
+  SignalsPending.pending_photoelectric_emission_gate_boundary b (Or.inl h)
+
+example :
+    let b : Signals.Pending.PhotoelectricEmissionPendingBoundary :=
+      { workFunction := 45 / 10
+        workFunction_pos := by norm_num
+        enzPermittivity := 1 / 20
+        enzPermittivity_pos := by norm_num
+        experimentalWorkFunctionCalibrated := False
+        experimentalKeldyshYieldValidated := False
+        experimentalEnzOamEfficiencyValidated := False
+        experimentalAttosecondTimingValidated := False }
+    0 < b.workFunction ∧
+      0 < b.enzPermittivity ∧
+      ¬ b.allPhotoelectricGatesClosed :=
+  Signals.Pending.photoelectric_identities_do_not_close_experimental_gates
+    (45 / 10) (1 / 20) (by norm_num) (by norm_num)
+
 end SignalsPendingTests

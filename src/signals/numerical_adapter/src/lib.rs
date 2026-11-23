@@ -16,6 +16,7 @@ pub mod multi_array_imaging;
 pub mod multi_reference_noci;
 pub mod navier_stokes;
 pub mod orbital_splat;
+pub mod photoelectric;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
 pub mod quantum_trajectories;
@@ -960,6 +961,239 @@ fn py_audit_bogoliubov_korteweg_stokes_and_rh<'py>(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_einstein_photoelectric<'py>(
+    py: Python<'py>,
+    h_planck: f64,
+    nu: f64,
+    e_vac: f64,
+    e_fermi: f64,
+    intensity: f64,
+    area_atom: f64,
+    occ_lambda: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = photoelectric::evaluate_einstein_photoelectric(
+        h_planck, nu, e_vac, e_fermi, intensity, area_atom, occ_lambda,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("work_function", a.work_function)?;
+    d.set_item("threshold_frequency", a.threshold_frequency)?;
+    d.set_item("kinetic_energy_max", a.kinetic_energy_max)?;
+    d.set_item("emits_electron", a.emits_electron)?;
+    d.set_item("classical_rayleigh_delay", a.classical_rayleigh_delay)?;
+    d.set_item("mcweeny_purified_occupancy", a.mcweeny_purified_occupancy)?;
+    d.set_item("mcweeny_defect_at_half", a.mcweeny_defect_at_half)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_keldysh_strong_field<'py>(
+    py: Python<'py>,
+    phi_w: f64,
+    q_charge: f64,
+    e0_amp: f64,
+    mass_e: f64,
+    omega: f64,
+    hbar: f64,
+    n_photons: f64,
+    s_ati: f64,
+    j0: f64,
+    x_tunnel: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = photoelectric::evaluate_keldysh_strong_field(
+        phi_w, q_charge, e0_amp, mass_e, omega, hbar, n_photons, s_ati, j0, x_tunnel,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("ponderomotive_energy", a.ponderomotive_energy)?;
+    d.set_item("keldysh_gamma_sq", a.keldysh_gamma_sq)?;
+    d.set_item("keldysh_gamma", a.keldysh_gamma)?;
+    d.set_item("ati_peak_energy", a.ati_peak_energy)?;
+    d.set_item("tunneling_width", a.tunneling_width)?;
+    d.set_item("barrier_kappa", a.barrier_kappa)?;
+    d.set_item("osmotic_speed_sq", a.osmotic_speed_sq)?;
+    d.set_item("bohm_relative_error", a.bohm_relative_error)?;
+    d.set_item("plucker_qfim_relative_error", a.plucker_qfim_relative_error)?;
+    d.set_item("coupled_ch1_bohm_speed_sq", a.coupled_ch1_bohm_speed_sq)?;
+    d.set_item("coupled_ch3_qfim_speed_sq", a.coupled_ch3_qfim_speed_sq)?;
+    d.set_item("coupled_speed_law_residual", a.coupled_speed_law_residual)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_enz_oam_photoemission<'py>(
+    py: Python<'py>,
+    eps_air: f64,
+    eps_enz: f64,
+    e0_field: f64,
+    theta_rad: f64,
+    l_in: i64,
+    sigma_sam: i64,
+    n_probes: f64,
+    f_transverse: f64,
+    dp_z: f64,
+    p_z: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = photoelectric::evaluate_enz_oam_photoemission(
+        eps_air,
+        eps_enz,
+        e0_field,
+        theta_rad,
+        l_in,
+        sigma_sam,
+        n_probes,
+        f_transverse,
+        dp_z,
+        p_z,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("enz_intensity_enhancement", a.enz_intensity_enhancement)?;
+    d.set_item("debye_wolf_ez_amplitude", a.debye_wolf_ez_amplitude)?;
+    d.set_item("paraxial_jones_ez_rel_error", a.paraxial_jones_ez_rel_error)?;
+    d.set_item("total_oam_charge_z", a.total_oam_charge_z)?;
+    d.set_item("oam_fubini_study_phi", a.oam_fubini_study_phi)?;
+    d.set_item("oam_qfim_phi", a.oam_qfim_phi)?;
+    d.set_item("qcrb_variance_at_l", a.qcrb_variance_at_l)?;
+    d.set_item("qcrb_variance_at_l1", a.qcrb_variance_at_l1)?;
+    d.set_item("euler_gimbal_lock_det_pi_half", a.euler_gimbal_lock_det_pi_half)?;
+    d.set_item("poincare_qfim_theta", a.poincare_qfim_theta)?;
+    d.set_item("poincare_fs_theta", a.poincare_fs_theta)?;
+    d.set_item("vectorial_3d_fisher", a.vectorial_3d_fisher)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_soliton_two_pathway_photoemission<'py>(
+    py: Python<'py>,
+    amp_nls: f64,
+    x: f64,
+    t: f64,
+    q_charge: f64,
+    mass_e: f64,
+    omega: f64,
+    phi_w: f64,
+    p1: f64,
+    p2: f64,
+    dp1: f64,
+    dphi1: f64,
+    dphi2: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = photoelectric::evaluate_soliton_two_pathway_photoemission(
+        amp_nls, x, t, q_charge, mass_e, omega, phi_w, p1, p2, dp1, dphi1, dphi2,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("nls_bright_abs_sq", a.nls_bright_abs_sq)?;
+    d.set_item("nls_bright_pde_residual", a.nls_bright_pde_residual)?;
+    d.set_item("gpe_dark_pde_residual", a.gpe_dark_pde_residual)?;
+    d.set_item("soliton_peak_ponderomotive", a.soliton_peak_ponderomotive)?;
+    d.set_item("soliton_local_ponderomotive", a.soliton_local_ponderomotive)?;
+    d.set_item("soliton_peak_keldysh_gamma", a.soliton_peak_keldysh_gamma)?;
+    d.set_item("coherent_two_pathway_yield", a.coherent_two_pathway_yield)?;
+    d.set_item("unphased_gr_pos_yield", a.unphased_gr_pos_yield)?;
+    d.set_item("unphased_rel_error", a.unphased_rel_error)?;
+    d.set_item("coherent_rel_error", a.coherent_rel_error)?;
+    d.set_item("two_channel_phase_variance_val", a.two_channel_phase_variance_val)?;
+    d.set_item("qfim_simplex_total", a.qfim_simplex_total)?;
+    d.set_item("fubini_study_simplex_total", a.fubini_study_simplex_total)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+fn py_audit_polariton_plasmon_photoemission<'py>(
+    py: Python<'py>,
+    eps_d: f64,
+    abs_eps_m: f64,
+    wavelength_0: f64,
+    q_charge: f64,
+    e0_amp: f64,
+    mass_e: f64,
+    omega: f64,
+    phi_w: f64,
+    h_nu: f64,
+    m_plasmon: f64,
+    hbar_wp: f64,
+    omega_ph: f64,
+    omega_ex: f64,
+    rabi_g: f64,
+    eps_inf: f64,
+    omega_to: f64,
+    omega_lo: f64,
+    omega_rest: f64,
+    x1: f64,
+    x2: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = photoelectric::evaluate_polariton_plasmon_photoemission(
+        eps_d,
+        abs_eps_m,
+        wavelength_0,
+        q_charge,
+        e0_amp,
+        mass_e,
+        omega,
+        phi_w,
+        h_nu,
+        m_plasmon,
+        hbar_wp,
+        omega_ph,
+        omega_ex,
+        rabi_g,
+        eps_inf,
+        omega_to,
+        omega_lo,
+        omega_rest,
+        x1,
+        x2,
+    )
+    .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("spp_effective_index_sq", a.spp_effective_index_sq)?;
+    d.set_item("spp_skin_depth_ratio", a.spp_skin_depth_ratio)?;
+    d.set_item("spp_gr24_channel_ratio", a.spp_gr24_channel_ratio)?;
+    d.set_item(
+        "spp_conductor_to_dielectric_bohm_ratio",
+        a.spp_conductor_to_dielectric_bohm_ratio,
+    )?;
+    d.set_item("spp_mode_area_compression", a.spp_mode_area_compression)?;
+    d.set_item("spp_keldysh_gamma_sq", a.spp_keldysh_gamma_sq)?;
+    d.set_item("free_keldysh_gamma_sq", a.free_keldysh_gamma_sq)?;
+    d.set_item("bulk_plasmon_enz_permittivity", a.bulk_plasmon_enz_permittivity)?;
+    d.set_item(
+        "plasmon_satellite_kinetic_energy",
+        a.plasmon_satellite_kinetic_energy,
+    )?;
+    d.set_item("polariton_up_lp_splitting", a.polariton_up_lp_splitting)?;
+    d.set_item(
+        "polariton_hopfield_photon_weight",
+        a.polariton_hopfield_photon_weight,
+    )?;
+    d.set_item(
+        "polariton_hopfield_matter_weight",
+        a.polariton_hopfield_matter_weight,
+    )?;
+    d.set_item("lst_enz_permittivity_lo", a.lst_enz_permittivity_lo)?;
+    d.set_item(
+        "lst_reststrahlen_permittivity",
+        a.lst_reststrahlen_permittivity,
+    )?;
+    d.set_item("vrc_resonant_norm_sq", a.vrc_resonant_norm_sq)?;
+    d.set_item("vrc_resonant_fs_x1", a.vrc_resonant_fs_x1)?;
+    d.set_item("vrc_resonant_qfim_x1", a.vrc_resonant_qfim_x1)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -1043,6 +1277,17 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         py_audit_bogoliubov_korteweg_stokes_and_rh,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(py_audit_einstein_photoelectric, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_keldysh_strong_field, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_enz_oam_photoemission, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_soliton_two_pathway_photoemission,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_polariton_plasmon_photoemission,
         m
     )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;

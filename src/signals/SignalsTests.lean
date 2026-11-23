@@ -9497,4 +9497,78 @@ example (H : Matrix (Fin 4) (Fin 4) ℂ) (Z : Signals.NavierStokes.PluckerFrame.
    (Signals.NavierStokes.Compressible.compressible_nsk_bogoliubov_stokes_dispersion hδ hunder).2.1,
    (Signals.NavierStokes.Compressible.rankine_hugoniot_compressible_jump hdiff u_L u_R P_L P_R).1⟩
 
+/-! ### Regression Tests: `Signals.Photoelectric` (Einstein, QCI-GXC, ENZ/OAM, Keldysh, AKNS Solitons, & QFIM) -/
+
+example (amp x t : ℝ) :
+    Signals.Photoelectric.einsteinStoppingKineticEnergy 1 3 4 = 0 ∧
+    Signals.Photoelectric.einsteinStoppingKineticEnergy 1 7 4 = 3 ∧
+    Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 20) = 400 ∧
+    Signals.Photoelectric.atiPhotoelectronPeakEnergy 1 0 7 4 0 = 3 ∧
+    Signals.Photoelectric.keldyshParameterSq 4 (1 / 2) = 4 ∧
+    (Complex.I * deriv (fun s => Signals.SatoGrassmannian.AKNS.brightSoliton amp x s) t +
+        iteratedDeriv 2 (fun r => Signals.SatoGrassmannian.AKNS.brightSoliton amp r t) x +
+        2 * ((‖Signals.SatoGrassmannian.AKNS.brightSoliton amp x t‖ ^ 2 : ℝ) : ℂ) *
+          Signals.SatoGrassmannian.AKNS.brightSoliton amp x t = 0) ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Photoelectric.unphasedTwoPathwayIntensity 1 1)
+      (Signals.Photoelectric.twoPathwayPhotoemissionIntensity 1 1 0) = 1 / 2 := by
+  have h := Signals.Photoelectric.photoelectric_unified_qci_gxc_twistor_akns_qfim_identities
+    1 3 7 4 0 1 1 1 1 1 (1 / 2) amp x t 1 1
+    (by norm_num) (by norm_num [Signals.Photoelectric.kohnShamWorkFunction])
+    (by norm_num [Signals.Photoelectric.kohnShamWorkFunction])
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num [Signals.Photoelectric.kohnShamWorkFunction])
+    (by norm_num) (by norm_num [Signals.Photoelectric.kohnShamWorkFunction]) (by norm_num)
+  refine ⟨by simpa [Signals.Photoelectric.kohnShamWorkFunction] using h.1.1,
+    by have h1 := h.1.2.1; norm_num [Signals.Photoelectric.kohnShamWorkFunction] at h1; exact h1,
+    h.2.2.1.1,
+    by have h2 := h.2.2.2.1.1; norm_num [Signals.Photoelectric.kohnShamWorkFunction] at h2; exact h2,
+    by norm_num [Signals.Photoelectric.keldyshParameterSq],
+    h.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1⟩
+
+example (phi_w delta_e kb_t h_nu omega_ir n_counts : ℝ)
+    (v w : Signals.SatoGrassmannian.Gr24Truncation.C4) (t1 t2 t3 : ℂ) :
+    Signals.Photoelectric.schottkyEffectiveWorkFunction phi_w 1 1 1 < phi_w ∧
+    Signals.Photoelectric.enzDissipativeIntensityEnhancement 1 (1 / 20) (1 / 20) = 200 ∧
+    Signals.Photoelectric.fermiDiracOccupation 0 kb_t = 1 / 2 ∧
+    Signals.Photoelectric.fermiDiracOccupation delta_e kb_t +
+      Signals.Photoelectric.fermiDiracOccupation (-delta_e) kb_t = 1 ∧
+    Signals.Photoelectric.arpesKineticEnergyFromBinding h_nu phi_w 0 = h_nu - phi_w ∧
+    Signals.Photoelectric.rabbittAttosecondQfim omega_ir =
+      4 * Signals.Photoelectric.rabbittAttosecondFubiniStudy omega_ir ∧
+    Signals.DFT.quantumCramerRaoVarianceBound n_counts
+      (Signals.Photoelectric.rabbittAttosecondQfim omega_ir) =
+      1 / (4 * n_counts * omega_ir ^ 2) ∧
+    Signals.SatoGrassmannian.HirotaKP.hirotaKP
+      (Signals.SatoGrassmannian.HirotaKP.tauU v w) t1 t2 t3 = 0 := by
+  rcases Signals.Photoelectric.photoelectric_critique_and_gap_closure_identities
+    phi_w 1 1 1 1 (1 / 20) (1 / 20) delta_e kb_t h_nu omega_ir n_counts v w t1 t2 t3
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) with
+    ⟨h_sch, _, _, _, h_lossy, _, h_fd0, h_fd_sum, h_arpes, h_rab, _, h_qcrb, h_kp2⟩
+  exact ⟨h_sch, h_lossy, h_fd0, h_fd_sum, h_arpes, h_rab, h_qcrb, h_kp2⟩
+
+example (theta_spp phi_w h_nu hbar_wp e_bind x1 x2 : ℝ) :
+    1 < Signals.DDF.sppEffectiveIndexSq 1 4 ∧
+    Signals.Photoelectric.keldyshParameterSq phi_w
+        (Signals.Photoelectric.sppHotspotPonderomotiveEnergy 1 1 1 1 2 3) =
+      Signals.Photoelectric.keldyshParameterSq phi_w
+        (Signals.Photoelectric.ponderomotiveEnergy 1 1 1 1) /
+        Signals.Photoelectric.sppHotspotModeAreaCompression 2 3 ∧
+    Signals.DFT.dftElectronDensityPermittivity 4 1 4 = 0 ∧
+    Signals.Photoelectric.volumePlasmonSatelliteKineticEnergy h_nu phi_w 0 hbar_wp -
+      Signals.Photoelectric.volumePlasmonSatelliteKineticEnergy h_nu phi_w 1 hbar_wp = hbar_wp ∧
+    2 ≤ Signals.DFT.vrcResonantPluckerNormSq x1 x2 ∧
+    0 < Signals.DFT.vrcResonantQfimX1 x1 x2 ∧
+    Signals.DFT.vrcResonantQfimX1 x1 x2 = 4 * Signals.DFT.vrcResonantFubiniStudyX1 x1 x2 := by
+  rcases Signals.Photoelectric.photoelectric_polariton_plasmon_spp_vrc_identities
+    toyMovingSheath 1 4 1 1 1 theta_spp
+    1 1 1 1 phi_w 2 3 h_nu hbar_wp
+    2 2 (1 / 10) 1 1 3 2 e_bind x1 x2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) with
+    ⟨⟨h_nsq, _, _⟩, h_kel_spp, ⟨h_enz, h_sat⟩, _, ⟨h_vrc_norm, h_vrc_pos, h_vrc_qfim⟩⟩
+  exact ⟨h_nsq, h_kel_spp, h_enz, h_sat, h_vrc_norm, h_vrc_pos, h_vrc_qfim⟩
+
 end SignalsTests

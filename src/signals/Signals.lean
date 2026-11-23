@@ -25,6 +25,7 @@ import Signals.Nanolithography
 import Signals.NavierStokes
 import Signals.NonDestructive
 import Signals.OAM
+import Signals.Photoelectric
 import Signals.Physlib
 import Signals.Plabic
 import Signals.Proca

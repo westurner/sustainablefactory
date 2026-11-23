@@ -1054,6 +1054,21 @@ Turner Model 14b:
     M1-M3 TRUE soft-photon bridge
   definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
 
+
+Turner Model 15a:
+  definition: |
+    - No-DDF
+    - Does predict photon deflection
+  definedBy: TODO
+
+
+Turner Model 15b:
+  definition: |
+    - DDF
+    - Does not do deflection
+  definedBy:  TODO
+
+
 Semilatus rectum:
   definition: |
     Length ℓ of the chord through one focus which is perpendicular to the major axis directrix (Latus rectum) times 1/2.
@@ -1100,6 +1115,8 @@ QCI-GXC:
   name_full: Quantum Causal Inference Grassmannian Exchange-Correlation Functional
   synonyms:
   - Quantum Causal Inference Grassmannian Exchange-Correlation Functional
+  definition: |
+    Quantum Causal Inference Grassmannian Exchange-Correlation (`QCI-GXC`) unrestricted spin-polarized Kohn–Sham Density Functional Theory on $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$ with unitary Cayley retractions and McWeeny idempotency purification.
   definedBy: /workspaces/sustainablefactory/docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
 
 
@@ -1205,8 +1222,14 @@ Qudit:
   definition: |
     
     - {cite:p}`deutsch1985churchturing`
-
   wikipedia:
   - https://en.wikipedia.org/wiki/Qudit
   - https://en.wikipedia.org/wiki/Qudit#Qudit_states
   - https://en.wikipedia.org/wiki/Qudit#Physical_implementations
+
+
+
+MAPE:
+  definition: |
+    Mean Absolute Percentage Error
+  wikipedia: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
