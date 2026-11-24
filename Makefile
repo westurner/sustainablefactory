@@ -367,8 +367,8 @@ serve:
 	python3 -m http.server ${HTTP_SERVER_PORT} --directory docs/_build/html
 
 
-TEQUILA_BACKENDS_ALL=signals,qulacs,circ,qiskit
-TEQUILA_BACKENDS ?= ${TEQUILA_BACKENDS_ALL}
+TEQUILA_BACKENDS_ALL ?= signals,qulacs,cirq,qiskit
+TEQUILA_BACKENDS ?= signals
 
 TEQUILA_MAX_RAM_GB ?= 12
 TEQUILA_MAX_RAM_GB_QUICK ?= 4
@@ -377,8 +377,8 @@ TEQUILA_TEST_SUITE=all
 
 TEQUILA_REPORTS_DIR?=./docs/reports/tequila
 
-TEQUILA_REPORT_JSON=${TEQUILA_REPORTS_DIR}/tequila_simulator_benchmark__suite:${TEQUILA_TEST_SUITE}__max:${TEQUILA_MAX_RAM_GB}__backends:${TEQUILA_BACKENDS}.json
-TEQUILA_REPORT_MDMD=${TEQUILA_REPORTS_DIR}/tequila_simulator_benchmark__suite:${TEQUILA_TEST_SUITE}__max:${TEQUILA_MAX_RAM_GB}__backends:${TEQUILA_BACKENDS}.md
+TEQUILA_REPORT_JSON=${TEQUILA_REPORTS_DIR}/tequila_simulator_benchmark__suite:${TEQUILA_TEST_SUITE}__max:${TEQUILA_MAX_RAM_GB}__backends:${TEQUILA_BACKENDS_ALL}.json
+TEQUILA_REPORT_MDMD=${TEQUILA_REPORTS_DIR}/tequila_simulator_benchmark__suite:${TEQUILA_TEST_SUITE}__max:${TEQUILA_MAX_RAM_GB}__backends:${TEQUILA_BACKENDS_ALL}.md
 TEQUILA_REPORT_JSON_QUICK=${TEQUILA_REPORTS_DIR}/tequila_simulator_benchmark__suite:quick__max:${TEQUILA_MAX_RAM_GB}__backends:${TEQUILA_BACKENDS}.json
 TEQUILA_REPORT_MDMD_QUICK=${TEQUILA_REPORTS_DIR}/tequila_simulator_benchmark__suite:quick__max:${TEQUILA_MAX_RAM_GB}__backends:${TEQUILA_BACKENDS}.md
 
@@ -390,7 +390,7 @@ test-tequila-all:
 		--markdown-out ${TEQUILA_REPORT_MDMD} \
 		--suite=${TEQUILA_TEST_SUITE} \
 		--max-dense-ram-gb=${TEQUILA_MAX_RAM_GB} \
-		--backends=${TEQUILA_BACKENDS}
+		--backends=${TEQUILA_BACKENDS_ALL}
 	# ${TEQUILA_REPORT_JSON}
 	# ${TEQUILA_REPORT_MDMD}
 
