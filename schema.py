@@ -14741,9 +14741,9 @@ class QUDT:
         QUDT + "QuantityKindDimensionVector"
     )
     """
-    <p class='lm-para'>A  <em>Quantity Kind Dimension Vector</em> describes the dimensionality of a quantity kind in the context of a system of units. In the SI system of units, the dimensions of a quantity kind are expressed as a product of the basic physical dimensions mass ($M$), length ($L$), time ($T$) current ($I$), amount of substance ($N$), luminous intensity ($J$) and absolute temperature ($\theta$) as $dim \, Q = L^{\alpha} \, M^{\beta} \, T^{\gamma} \, I ^{\delta} \, \theta ^{\epsilon} \, N^{\eta} \, J ^{\nu}$.</p>
+    <p class='lm-para'>A  <em>Quantity Kind Dimension Vector</em> describes the dimensionality of a quantity kind in the context of a system of units. In the SI system of units\, the dimensions of a quantity kind are expressed as a product of the basic physical dimensions mass ($M$)\, length ($L$)\, time ($T$) current ($I$)\, amount of substance ($N$)\, luminous intensity ($J$) and absolute temperature ($\theta$) as $dim \\, Q = L^{\alpha} \\, M^{\beta} \\, T^{\gamma} \\, I ^{\delta} \\, \theta ^{\epsilon} \\, N^{\eta} \\, J ^{\nu}$.</p>
 
-    <p class='lm-para'>The rational powers of the dimensional exponents, $\alpha, \, \beta, \, \gamma, \, \delta, \, \epsilon, \, \eta, \, \nu$, are positive, negative, or zero.</p>
+    <p class='lm-para'>The rational powers of the dimensional exponents\, $\alpha\\, \\, \beta\, \\, \gamma\\, \\, \delta\\, \\, \epsilon\\, \\, \eta\\, \\, \nu$\\, are positive\, negative\, or zero.</p>
 
     <p class='lm-para'>For example, the dimension of the physical quantity kind $\it{speed}$ is $\boxed{length/time}$, $L/T$ or $LT^{-1}$, and the dimension of the physical quantity kind force is $\boxed{mass \times acceleration}$ or $\boxed{mass \times (length/time)/time}$, $ML/T^2$ or $MLT^{-2}$ respectively.</p>
     - Label: Quantity Kind Dimension Vector
