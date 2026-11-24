@@ -349,7 +349,7 @@ test:
 .PHONY: pytest
 pytest:
 	@echo "pytest  #  Run pytest with coverage report"
-	pytest --cov=. --cov-report=term-missing .
+	pytest --cov=. --cov-report=term-missing tests/
 
 
 .PHONY: e2etest
