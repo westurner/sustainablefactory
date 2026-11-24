@@ -1,10 +1,12 @@
 """Tests for sustainablefactory CLI module."""
 
-import pytest
 from pathlib import Path
 from unittest.mock import Mock, patch
+
+import pytest
 from click.testing import CliRunner
-from sustainablefactory.cli import main, parse, export_rdf, batch_export, info
+
+from sustainablefactory.cli import batch_export, export_rdf, info, main, parse
 
 
 @pytest.fixture
