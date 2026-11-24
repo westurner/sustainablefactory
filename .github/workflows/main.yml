@@ -80,8 +80,11 @@ jobs:
           python-version: "3.14"
           cache: pip
           cache-dependency-path: './requirements*.txt'
+
       - name: Install Python dependencies
         run: python -m pip install -e . -r requirements.txt pytest
+        env:
+          PYO3_USE_ABI3_FORWARD_COMPATIBILITY: 1
 
       - name: Run Python tests
         run: python -m pytest -q tests/
