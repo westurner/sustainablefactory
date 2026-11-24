@@ -25,3 +25,6 @@
 ;    path = src/madness
 ;    url = https://github.com/m-a-d-n-e-s-s/madness
 ; rev=73ad2cf
+[submodule "src/wrd_sphinx_theme"]
+	path = src/wrd_sphinx_theme
+	url = https://github.com/westurner/wrd_sphinx_theme
