@@ -1,4 +1,4 @@
-name: Build and test Signals
+name: Python tests
 
 on:
   pull_request:

@@ -1,5 +1,5 @@
 
-name: Build and test numerical_adapter (Rust)
+name: Rust tests
 
 on:
   pull_request:
