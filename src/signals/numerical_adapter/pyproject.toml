@@ -16,8 +16,8 @@ dependencies = [
     "scipy",
     "jax",
     "autograd",
+    "tequila-basic",
     "openfermion",
-    "qulacs-gpu",
 ]
 
 [tool.maturin]
