@@ -141,6 +141,8 @@ class TestExportRdf:
         cli_runner,
         mock_process_step,
         temp_markdown_file,
+        monkeypatch,
+        tmp_path,
     ):
         """Test export_rdf with default output file."""
         mock_parse.return_value = [mock_process_step]
@@ -148,16 +150,16 @@ class TestExportRdf:
             "@prefix ex: <http://example.org/> .\nex:test a ex:Process ."
         )
 
-        with cli_runner.isolated_filesystem():
-            result = cli_runner.invoke(export_rdf, [str(temp_markdown_file)])
+        monkeypatch.chdir(tmp_path)
+        result = cli_runner.invoke(export_rdf, [str(temp_markdown_file)])
 
-            assert result.exit_code == 0
-            assert "Exported RDF-star to process_data.ttl" in result.output
+        assert result.exit_code == 0
+        assert "Exported RDF-star to process_data.ttl" in result.output
 
-            # Verify file was created and contains RDF data
-            output_file = Path("process_data.ttl")
-            assert output_file.exists()
-            assert "@prefix ex:" in output_file.read_text()
+        # Verify file was created and contains RDF data
+        output_file = Path("process_data.ttl")
+        assert output_file.exists()
+        assert "@prefix ex:" in output_file.read_text()
 
     @patch("sustainablefactory.cli.generate_rdf_star")
     @patch("sustainablefactory.cli.parse_and_extract_from_markdown")
@@ -168,19 +170,21 @@ class TestExportRdf:
         cli_runner,
         mock_process_step,
         temp_markdown_file,
+        monkeypatch,
+        tmp_path,
     ):
         """Test export_rdf with custom output file."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = "custom rdf content"
 
-        with cli_runner.isolated_filesystem():
-            result = cli_runner.invoke(
-                export_rdf, [str(temp_markdown_file), "--output", "custom_output.ttl"]
-            )
+        monkeypatch.chdir(tmp_path)
+        result = cli_runner.invoke(
+            export_rdf, [str(temp_markdown_file), "--output", "custom_output.ttl"]
+        )
 
-            assert result.exit_code == 0
-            assert "Exported RDF-star to custom_output.ttl" in result.output
-            assert Path("custom_output.ttl").exists()
+        assert result.exit_code == 0
+        assert "Exported RDF-star to custom_output.ttl" in result.output
+        assert Path("custom_output.ttl").exists()
 
     @patch("sustainablefactory.cli.generate_rdf_star")
     @patch("sustainablefactory.cli.parse_and_extract_from_markdown")
@@ -191,18 +195,20 @@ class TestExportRdf:
         cli_runner,
         mock_process_step,
         temp_markdown_file,
+        monkeypatch,
+        tmp_path,
     ):
         """Test export_rdf with short -o flag."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = "rdf data"
 
-        with cli_runner.isolated_filesystem():
-            result = cli_runner.invoke(
-                export_rdf, [str(temp_markdown_file), "-o", "short_flag_output.ttl"]
-            )
+        monkeypatch.chdir(tmp_path)
+        result = cli_runner.invoke(
+            export_rdf, [str(temp_markdown_file), "-o", "short_flag_output.ttl"]
+        )
 
-            assert result.exit_code == 0
-            assert "short_flag_output.ttl" in result.output
+        assert result.exit_code == 0
+        assert "short_flag_output.ttl" in result.output
 
     @patch("sustainablefactory.cli.generate_rdf_star")
     @patch("sustainablefactory.cli.parse_and_extract_from_markdown")
@@ -213,17 +219,19 @@ class TestExportRdf:
         cli_runner,
         mock_process_step,
         temp_markdown_file,
+        monkeypatch,
+        tmp_path,
     ):
         """Test that generate_rdf_star is called with correct source prefix."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = ""
 
-        with cli_runner.isolated_filesystem():
-            cli_runner.invoke(export_rdf, [str(temp_markdown_file)])
+        monkeypatch.chdir(tmp_path)
+        cli_runner.invoke(export_rdf, [str(temp_markdown_file)])
 
-            mock_rdf_gen.assert_called_once()
-            call_args = mock_rdf_gen.call_args
-            assert call_args[1]["source_prefix"] == temp_markdown_file.stem
+        mock_rdf_gen.assert_called_once()
+        call_args = mock_rdf_gen.call_args
+        assert call_args[1]["source_prefix"] == temp_markdown_file.stem
 
 
 class TestBatchExport:
@@ -238,19 +246,21 @@ class TestBatchExport:
         cli_runner,
         mock_process_step,
         temp_directory_with_files,
+        monkeypatch,
+        tmp_path,
     ):
         """Test batch_export with multiple files in directory."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = "batch rdf"
 
-        with cli_runner.isolated_filesystem():
-            result = cli_runner.invoke(batch_export, [str(temp_directory_with_files)])
+        monkeypatch.chdir(tmp_path)
+        result = cli_runner.invoke(batch_export, [str(temp_directory_with_files)])
 
-            assert result.exit_code == 0
-            assert "Processing process1.md" in result.output
-            assert "Processing process2.json" in result.output
-            assert "Exported" in result.output
-            assert Path("all_processes.ttl").exists()
+        assert result.exit_code == 0
+        assert "Processing process1.md" in result.output
+        assert "Processing process2.json" in result.output
+        assert "Exported" in result.output
+        assert Path("all_processes.ttl").exists()
 
     @patch("sustainablefactory.cli.generate_rdf_star")
     @patch("sustainablefactory.cli.parse_and_extract_from_markdown")
@@ -261,19 +271,21 @@ class TestBatchExport:
         cli_runner,
         mock_process_step,
         temp_directory_with_files,
+        monkeypatch,
+        tmp_path,
     ):
         """Test batch_export with custom output file."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = "rdf"
 
-        with cli_runner.isolated_filesystem():
-            result = cli_runner.invoke(
-                batch_export,
-                [str(temp_directory_with_files), "--output", "custom_batch.ttl"],
-            )
+        monkeypatch.chdir(tmp_path)
+        result = cli_runner.invoke(
+            batch_export,
+            [str(temp_directory_with_files), "--output", "custom_batch.ttl"],
+        )
 
-            assert result.exit_code == 0
-            assert "custom_batch.ttl" in result.output
+        assert result.exit_code == 0
+        assert "custom_batch.ttl" in result.output
 
     @patch("sustainablefactory.cli.generate_rdf_star")
     @patch("sustainablefactory.cli.parse_and_extract_from_markdown")
@@ -284,25 +296,27 @@ class TestBatchExport:
         cli_runner,
         mock_process_step,
         temp_directory_with_files,
+        monkeypatch,
+        tmp_path,
     ):
         """Test that batch_export prefixes step IDs with filename."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = ""
 
-        with cli_runner.isolated_filesystem():
-            cli_runner.invoke(batch_export, [str(temp_directory_with_files)])
+        monkeypatch.chdir(tmp_path)
+        cli_runner.invoke(batch_export, [str(temp_directory_with_files)])
 
-            # Verify that generate_rdf_star was called with empty source_prefix
-            # and that steps were prefixed
-            mock_rdf_gen.assert_called_once()
-            call_args = mock_rdf_gen.call_args
-            assert call_args[1]["source_prefix"] == ""
+        # Verify that generate_rdf_star was called with empty source_prefix
+        # and that steps were prefixed
+        mock_rdf_gen.assert_called_once()
+        call_args = mock_rdf_gen.call_args
+        assert call_args[1]["source_prefix"] == ""
 
-            # Get the steps argument
-            steps = call_args[0][0]
-            # Each step should have been modified with file prefix
-            for step in steps:
-                assert "_" in step.id
+        # Get the steps argument
+        steps = call_args[0][0]
+        # Each step should have been modified with file prefix
+        for step in steps:
+            assert "_" in step.id
 
     @patch("sustainablefactory.cli.generate_rdf_star")
     @patch("sustainablefactory.cli.parse_and_extract_from_markdown")
@@ -313,15 +327,17 @@ class TestBatchExport:
         cli_runner,
         mock_process_step,
         temp_markdown_file,
+        monkeypatch,
+        tmp_path,
     ):
         """Test batch_export when given a single file instead of directory."""
         mock_parse.return_value = [mock_process_step]
         mock_rdf_gen.return_value = ""
 
-        with cli_runner.isolated_filesystem():
-            result = cli_runner.invoke(batch_export, [str(temp_markdown_file)])
+        monkeypatch.chdir(tmp_path)
+        result = cli_runner.invoke(batch_export, [str(temp_markdown_file)])
 
-            assert result.exit_code == 0
+        assert result.exit_code == 0
 
 
 class TestInfoCommand:
