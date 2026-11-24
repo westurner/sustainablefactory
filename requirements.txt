@@ -3,3 +3,4 @@
 -e ./src/wrd-sphinx-theme
 -e ./src/sphinxcontrib-webmcp
 -e ./src/sphinxcontrib-mcp
+-r ./requirements-docindex.txt
