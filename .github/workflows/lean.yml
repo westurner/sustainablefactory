@@ -25,13 +25,13 @@ jobs:
       DISABLE_EQUATIONS: "1"
     steps:
       - name: Check out source
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: recursive
 
       - name: Check out compatible Physlib
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: westurner/physlib
           ref: f6d7fe3d32f1849a153147f2868d6db2d9daf40a
