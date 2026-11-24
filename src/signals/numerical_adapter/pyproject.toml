@@ -14,7 +14,10 @@ dependencies = [
     "sympy",
     "mpmath",
     "scipy",
+    "jax",
+    "autograd",
     "openfermion",
+    "qulacs",
 ]
 
 [tool.maturin]
