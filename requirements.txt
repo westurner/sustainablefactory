@@ -3,4 +3,5 @@
 -e ./src/wrd-sphinx-theme
 -e ./src/sphinxcontrib-webmcp
 -e ./src/sphinxcontrib-mcp
+-e ./src/signals/numerical_adapter
 -r ./requirements-docindex.txt
