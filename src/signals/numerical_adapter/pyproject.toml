@@ -9,6 +9,12 @@ description = "Rust/PyO3 Grassmannian, Plabic VRC, Madelung/DDF, and Quantum Cau
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
 
+dependencies = [
+    "numpy",
+    "sympy",
+    "mpmath"
+]
+
 [tool.maturin]
 features = ["extension-module"]
 module-name = "signals_numerical_adapter"
