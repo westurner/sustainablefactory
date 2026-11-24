@@ -17,7 +17,7 @@ dependencies = [
     "jax",
     "autograd",
     "openfermion",
-    "qulacs",
+    "qulacs-gpu",
 ]
 
 [tool.maturin]
