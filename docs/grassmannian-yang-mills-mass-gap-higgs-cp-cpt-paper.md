@@ -58,8 +58,8 @@ In `Signals.YangMillsHiggsCPT.yang_mills_mass_gap_and_transmutation_identities` 
    For $\mathrm{SU}(N_c)$ with $n_f$ quark flavors, $b_0 = (11 N_c - 2 n_f)/3$ equals $11 > 0$ in pure $\mathrm{SU}(3)$, yielding $0 < \Lambda_{\mathrm{YM}}(\mu) = \mu \exp(-8\pi^2/(b_0 g^2)) < \mu$ (`0.0887 GeV` at $\mu = M_Z, \alpha_s = 0.118, n_f = 5$ in Rust/45-digit `mpmath`).
 2. **Lattice Osterwalder–Schrader Transfer Gap & Exponential Decay:**
    For $0 < \lambda_1 < \lambda_0$, the Euclidean transfer matrix $T = e^{-aH}$ establishes $\Delta_{\mathrm{lat}} = \ln(\lambda_0/\lambda_1) > 0$ and exponential Schwinger clustering $(\lambda_1/\lambda_0)^t = \exp(-t\Delta_{\mathrm{lat}})$, bounded at strong coupling ($\beta < 2N^2$) by `strongCouplingTransferGapLowerBound` $1 - (\beta/(2N^2))^{d_{\min}} \in (0, 1)$ (`TOUQGA-2.pdf` Theorem 11.19, Eq. 11.29) and Peter–Weyl Casimir heat-kernel suppression $c_\lambda(\beta) = e^{-C_2(\lambda)/\beta}$ (`Lemma 11.18`, Eq. 11.27).
-3. **Haar Singlet Projection & Elitzur Confinement:**
-   The normalized group-averaging projector $P_{\mathrm{singlet}} = \int_G d\mu(g)\,U_g$ satisfies $P^2 = P$, $P^\dagger = P$, and exact annihilation of all non-trivial representations, verified algebraically in Lean (`finiteGroupHaarSingletProjector`) and numerically over $Z_4$ in Rust (`idemp_err < 1e-15`, `nonsinglet_max < 1e-14`).
+3. **Haar Singlet Projection & Elitzur Confinement (Abelian & Non-Abelian):**
+   The normalized group-averaging projector $P_{\mathrm{singlet}} = \frac{1}{|G|}\sum_{g \in G} U_g$ satisfies left/right gauge invariance ($U_h P = P U_h = P$), idempotence ($P^2 = P$), Hermiticity ($P^\dagger = P$), and exact annihilation of every zero-sum colored state, verified in Lean 4 both for `ZMod n` (`finiteGroupHaarSingletProjector`) and for **arbitrary finite-group unitary representations** (`FiniteGroupUnitaryRep.haarProjector` in Section 6, `finiteGroup_haarProjector_properties`). In Rust (`verify_zn_haar_singlet_projector`, `verify_s3_nonabelian_haar_singlet_projector`) and SymPy, we explicitly sum all group permutation matrices for both $Z_4$ and the non-Abelian symmetric group $S_3$ ($|S_3| = 6$) acting on $\mathbb{C}^3 = \mathbf{1}_{\mathrm{triv}} \oplus \mathbf{2}_{\mathrm{std}}$, confirming $\operatorname{Tr}(P_{S_3}) = 1$, $P_{S_3}^2 = P_{S_3}$, and annihilation of the 2D standard representation (`< 1e-15`).
 4. **Toupin's Tree-Level GKO / Sugawara Glueball Formula (`TOUTYM` vs. `TOUQGA-2.pdf`):**
    We record and audit the exact algebraic discrepancy between Toupin's 2026 preprint {cite:p}`toupin2026ym` ({download}`chat log <../data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md>`, line 24: $M_k = \frac{2N}{k+N}\Lambda_{\mathrm{QCD}}$, giving $300\text{ MeV}$ for $N=3, k=1, \Lambda_{\mathrm{QCD}} = 200\text{ MeV}$) and Eq. (11.70) vs. Eq. (11.75) of `TOUQGA-2.pdf` (p. 640, where Eq. 11.70 states $\frac{2N}{k+N}\Lambda_{\mathrm{QCD}}$ while Eq. 11.75 and p. 641 evaluate $\frac{N}{k+N}\Lambda_{\mathrm{QCD}} = \frac{3}{4}\Lambda_{\mathrm{QCD}} \approx 165\text{ MeV}$—both below lattice QCD's $m_{0^{++}} \approx 1.61\text{ GeV}$ by a factor of $5\text{–}10$).
 
@@ -93,7 +93,7 @@ $$
 \mathcal{A}_{\mathrm{CP}}(\kappa, \tilde{\kappa}, \alpha_{\mathrm{CP}}) = 2\kappa\tilde{\kappa}\sin\alpha_{\mathrm{CP}}\cos\alpha_{\mathrm{CP}} = \kappa\tilde{\kappa}\sin(2\alpha_{\mathrm{CP}}),
 $$
 
-which vanishes identically for the Standard Model CP-even Higgs ($\tilde{\kappa} = 0$ or $\alpha_{\mathrm{CP}} = 0$) and pure CP-odd pseudoscalar ($\alpha_{\mathrm{CP}} = \pi/2$), alongside the CKM Jarlskog invariant $J_{\mathrm{CP}} \approx 3.09 \times 10^{-5}$ {cite:p}`christenson1964evidence,kobayashi1973cp,jarlskog1985commutator`.
+which vanishes identically for the Standard Model CP-even Higgs ($\tilde{\kappa} = 0$ or $\alpha_{\mathrm{CP}} = 0$) and pure CP-odd pseudoscalar ($\alpha_{\mathrm{CP}} = \pi/2$), alongside the CKM Jarlskog invariant $J_{\mathrm{CP}} \approx 2.996 \times 10^{-5}$ at our benchmark angles $(\theta_{12}=0.227, \theta_{23}=0.0418, \theta_{13}=0.0037, \delta=1.144)$ (consistent with the global PDG fit $J_{\mathrm{CP}} = (3.08^{+0.15}_{-0.13}) \times 10^{-5}$) {cite:p}`christenson1964evidence,kobayashi1973cp,jarlskog1985commutator`. Including the full basis-invariant Jarlskog determinant factor $\prod_{i<j}(m_{u,i}^2 - m_{u,j}^2)\prod_{i<j}(m_{d,i}^2 - m_{d,j}^2) \approx 3.77 \times 10^9\text{ GeV}^{12}$ (`jarlskogQuarkMassSplitting` in Lean Section 6, `jarlskog_quark_mass_splitting` in Rust/SymPy) proves that weak CP violation vanishes identically whenever any two like-charge quarks become mass-degenerate (`jarlskog_degenerate_zero = 0`).
 
 Crucially, under Jost CPT mass equality ($E_k^+ = E_k^-$) and conjugate baryon charges ($B_k^- = -B_k^+$), **the thermal equilibrium baryon trace vanishes identically** for every inverse temperature $\beta$:
 
@@ -101,7 +101,7 @@ $$
 \langle B\rangle_\beta = \sum_{k=1}^n \Bigl(B_k^+ e^{-\beta E_k^+} + (-B_k^+) e^{-\beta E_k^-}\Bigr) = 0,
 $$
 
-proving Sakharov's third condition {cite:p}`sakharov1967violation`: CP violation and baryon-number violation cannot generate a net matter excess in thermal equilibrium—requiring an out-of-equilibrium cosmological phase transition ({download}`Higgs chat log <../data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md>`, lines 61, 82).
+proving Sakharov's third condition {cite:p}`sakharov1967violation`: CP violation and baryon-number violation cannot generate a net matter excess in thermal equilibrium—requiring an out-of-equilibrium cosmological phase transition ({download}`Higgs chat log <../data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md>`, lines 61, 82). Conversely, theorem `jarlskog_degeneracy_and_sakharov_out_of_equilibrium_nonzero` proves that any positive transient energy bias $\Delta E > 0$ at $\beta > 0$ breaks the cancellation and produces $\langle B\rangle_{\mathrm{neq}} = B(e^{-\beta E} - e^{-\beta(E+\Delta E)}) \ne 0$ (`sakharov_out_of_equilibrium_baryon_trace`).
 
 ---
 
@@ -118,7 +118,7 @@ In `Signals.YangMillsHiggsCPT` Section 4 (`AntiUnitaryCPT`, `jost_cpt_antiunitar
    U_{CP} H = H U_{CP} \iff V_T \overline{H} = H V_T.
    $$
 
-Our $4\times 4$ Rust/SymPy benchmark (`audit_yang_mills_higgs_cpt`) confirms anti-unitarity (`< 1e-14`), $\Theta_{\mathrm{ferm}}^2 = -I_4$ and $\Theta_{\mathrm{bos}}^2 = +I_4$ (`< 1e-14`), exact CPT spectral degeneracy (`< 1e-14`), and exact equality of $CP$- and $T$-commutator violation norms (`> 0.1` for $\delta = 0.7$, `< 1e-15` for $\delta = 0$).
+Our $4\times 4$ Rust/SymPy benchmark (`audit_yang_mills_higgs_cpt`) confirms anti-unitarity (`< 1e-14`), $\Theta_{\mathrm{ferm}}^2 = -I_4$ and $\Theta_{\mathrm{bos}}^2 = +I_4$ (`< 1e-14`), exact CPT spectral degeneracy on both the bosonic ($\Theta_{\mathrm{bos}}^2 = +I_4$) and fermionic Kramers ($\Theta_{\mathrm{ferm}}^2 = -I_4$, $H_{\mathrm{lower}} = V_2\overline{H_{\mathrm{upper}}}V_2^T$, `jost_fermionic_kramers_mass_err < 1e-14`) Hamiltonians, and exact equality of $CP$- and $T$-commutator violation norms (`> 0.1` for $\delta = 0.7$, `< 1e-15` for $\delta = 0$).
 
 ---
 

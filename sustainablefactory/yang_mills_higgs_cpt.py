@@ -26,6 +26,33 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
         and sp.simplify(m_gko - 2 * (n_c / (k_lvl + n_c)) * lam_qcd) == 0
     )
 
+    # 1b. Non-Abelian S_3 (|S_3| = 6) Haar singlet projector on C^3 = 1_triv + 2_std
+    s3_perms = [
+        [0, 1, 2],
+        [1, 0, 2],
+        [0, 2, 1],
+        [2, 1, 0],
+        [1, 2, 0],
+        [2, 0, 1],
+    ]
+    s3_mats = []
+    for perm in s3_perms:
+        m = sp.zeros(3, 3)
+        for i in range(3):
+            m[i, perm[i]] = 1
+        s3_mats.append(m)
+    p_s3 = sum(s3_mats, sp.zeros(3, 3)) / 6
+    v_std1 = sp.Matrix([1, -1, 0])
+    v_std2 = sp.Matrix([1, 1, -2])
+    s3_haar_ok = (
+        p_s3 * p_s3 == p_s3
+        and p_s3.H == p_s3
+        and sp.trace(p_s3) == 1
+        and all(m * p_s3 == p_s3 and p_s3 * m == p_s3 for m in s3_mats)
+        and p_s3 * v_std1 == sp.zeros(3, 1)
+        and p_s3 * v_std2 == sp.zeros(3, 1)
+    )
+
     # 2. Higgs Mexican-hat potential unitary-gauge expansion without linear tadpole + rho_EW = 1
     mu_sq, lam_q, h_f, g1, g2 = sp.symbols("mu_sq lam_q h_f g1 g2", positive=True)
     vev = sp.sqrt(mu_sq / lam_q)
@@ -59,6 +86,28 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
         and sp.simplify(sakharov_trace) == 0
     )
 
+    # 3b. Jarlskog quark mass-splitting prefactor & out-of-equilibrium Sakharov nonzero trace
+    mu_q, mc_q, mt_q, md_q, ms_q, mb_q = sp.symbols(
+        "mu_q mc_q mt_q md_q ms_q mb_q", positive=True
+    )
+    jarl_split = (
+        (mu_q**2 - mc_q**2)
+        * (mc_q**2 - mt_q**2)
+        * (mt_q**2 - mu_q**2)
+        * (md_q**2 - ms_q**2)
+        * (ms_q**2 - mb_q**2)
+        * (mb_q**2 - md_q**2)
+    )
+    d_e = sp.Symbol("d_e", positive=True)
+    sakharov_neq = sp.simplify(
+        b1 * sp.exp(-beta * e1) + (-b1) * sp.exp(-beta * (e1 + d_e))
+    )
+    jarl_neq_ok = (
+        jarl_split.subs(mu_q, mc_q) == 0
+        and jarl_split.subs(ms_q, mb_q) == 0
+        and sp.simplify(sakharov_neq - b1 * sp.exp(-beta * e1) * (1 - sp.exp(-beta * d_e))) == 0
+    )
+
     # 4. Exact symbolic 4x4 Jost anti-unitary CPT involution:
     # U_CP = sigma_1 x I_2, V_T_ferm = I_2 x (i sigma_2), V_T_bos = I_4
     u_cp = sp.Matrix(
@@ -81,8 +130,20 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
             [0, 0, c_val, e0],
         ]
     )
-    # CPT commutator [H, Theta_bos] = 0 for all delta (where Theta_bos = U_CP * conj):
+    # Exact fermionic Kramers CPT Hamiltonian: H_lower = V_2 conj(H_upper) V_2^T = [[e0, -c_val], [-c_bar, e0]]
+    h_ferm = sp.Matrix(
+        [
+            [e0, c_val, 0, 0],
+            [c_bar, e0, 0, 0],
+            [0, 0, e0, -c_val],
+            [0, 0, -c_bar, e0],
+        ]
+    )
+    # CPT commutator [H, Theta_bos] = 0 and [H_ferm, Theta_ferm] = 0 for all delta:
     cpt_comm_zero = sp.simplify(u_cp * h_cpv.conjugate() - h_cpv * u_cp) == sp.zeros(4, 4)
+    ferm_cpt_comm_zero = sp.simplify(
+        u_theta_ferm * h_ferm.conjugate() - h_ferm * u_theta_ferm
+    ) == sp.zeros(4, 4)
     # CP commutator = -(T commutator) up to unitary conjugation: both vanish iff sin(delta) = 0
     cp_comm = sp.simplify(u_cp * h_cpv - h_cpv * u_cp)
     t_comm = sp.simplify(h_cpv.conjugate() - h_cpv)
@@ -91,12 +152,15 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
         and t_comm.subs(delta, 0) == sp.zeros(4, 4)
         and theta_ferm_sq == -sp.eye(4)
         and cpt_comm_zero
+        and ferm_cpt_comm_zero
     )
 
     return {
         "ym_mass_gap_sym_ok": bool(ym_ok),
+        "s3_nonabelian_haar_sym_ok": bool(s3_haar_ok),
         "higgs_ssb_sym_ok": bool(higgs_ok),
         "cp_sakharov_sym_ok": bool(cp_sakharov_ok),
+        "jarlskog_and_neq_sakharov_sym_ok": bool(jarl_neq_ok),
         "jost_cpt_4x4_sym_ok": bool(cp_t_equiv_ok),
     }
 

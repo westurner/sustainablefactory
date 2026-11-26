@@ -44,39 +44,116 @@ pub fn strong_coupling_transfer_gap_lower_bound(beta: f64, n_color: f64, d_min: 
 }
 
 /// Verify the normalized `Z_N` finite-group Haar singlet projector `P_singlet = (1/N) sum_{g in Z_N} U_g`
-/// in the `N`-dimensional regular representation:
-/// returns `(idempotent_err, hermitian_err, trace_val, max_nonsinglet_norm)`.
+/// by explicitly constructing all `N` cyclic shift permutation matrices `U_g` (`g = 0..N-1`),
+/// summing them, and measuring `(idempotent_err, hermitian_err, gauge_inv_err, max_nonsinglet_norm)`.
 pub fn verify_zn_haar_singlet_projector(n: usize) -> (f64, f64, f64, f64) {
     let nf = n as f64;
-    let p_entry = 1.0 / nf;
-    // P^2 - P
+    let mut p_mat = vec![vec![0.0_f64; n]; n];
+    for g in 0..n {
+        for i in 0..n {
+            let j = (i + g) % n;
+            p_mat[i][j] += 1.0 / nf;
+        }
+    }
     let mut idemp_err = 0.0_f64;
     let mut herm_err = 0.0_f64;
-    let mut trace_val = 0.0_f64;
-    for _i in 0..n {
-        trace_val += p_entry;
-        for _j in 0..n {
+    let mut gauge_inv_err = 0.0_f64;
+    for i in 0..n {
+        for j in 0..n {
             let mut sum = 0.0_f64;
-            for _k in 0..n {
-                sum += p_entry * p_entry;
+            for k in 0..n {
+                sum += p_mat[i][k] * p_mat[k][j];
             }
-            idemp_err = idemp_err.max((sum - p_entry).abs());
-            herm_err = herm_err.max((p_entry - p_entry).abs());
+            idemp_err = idemp_err.max((sum - p_mat[i][j]).abs());
+            herm_err = herm_err.max((p_mat[j][i] - p_mat[i][j]).abs());
+            // Check U_h * P = P for generator h = 1 (cyclic shift)
+            let shifted_row = (i + 1) % n;
+            gauge_inv_err = gauge_inv_err.max((p_mat[shifted_row][j] - p_mat[i][j]).abs());
         }
     }
     // Check annihilation of all non-singlet Fourier modes m = 1..n-1
     let mut max_nonsinglet = 0.0_f64;
     for m in 1..n {
-        let mut re_sum = 0.0_f64;
-        let mut im_sum = 0.0_f64;
-        for j in 0..n {
-            let angle = 2.0 * PI * (m as f64) * (j as f64) / nf;
-            re_sum += p_entry * angle.cos();
-            im_sum += p_entry * angle.sin();
+        for i in 0..n {
+            let mut re_sum = 0.0_f64;
+            let mut im_sum = 0.0_f64;
+            for j in 0..n {
+                let angle = 2.0 * PI * (m as f64) * (j as f64) / nf;
+                re_sum += p_mat[i][j] * angle.cos();
+                im_sum += p_mat[i][j] * angle.sin();
+            }
+            max_nonsinglet = max_nonsinglet.max((re_sum * re_sum + im_sum * im_sum).sqrt());
         }
-        max_nonsinglet = max_nonsinglet.max((re_sum * re_sum + im_sum * im_sum).sqrt());
     }
-    (idemp_err, herm_err, trace_val, max_nonsinglet)
+    (idemp_err, herm_err, gauge_inv_err, max_nonsinglet)
+}
+
+/// Verify the non-Abelian `S_3` (`|S_3| = 6`) Haar singlet projector
+/// `P_singlet = (1/6) sum_{g in S_3} U_g` acting on `C^3 = 1_triv + 2_std`,
+/// returning `(idempotent_err, hermitian_err, trace_val, max_2d_irrep_residual)`.
+pub fn verify_s3_nonabelian_haar_singlet_projector() -> (f64, f64, f64, f64) {
+    let perms: [[usize; 3]; 6] = [
+        [0, 1, 2],
+        [1, 0, 2],
+        [0, 2, 1],
+        [2, 1, 0],
+        [1, 2, 0],
+        [2, 0, 1],
+    ];
+    let mut p = [[0.0_f64; 3]; 3];
+    for perm in &perms {
+        for i in 0..3 {
+            p[i][perm[i]] += 1.0 / 6.0;
+        }
+    }
+    let mut idemp_err = 0.0_f64;
+    let mut herm_err = 0.0_f64;
+    let mut tr = 0.0_f64;
+    for i in 0..3 {
+        tr += p[i][i];
+        for j in 0..3 {
+            let mut sum = 0.0_f64;
+            for k in 0..3 {
+                sum += p[i][k] * p[k][j];
+            }
+            idemp_err = idemp_err.max((sum - p[i][j]).abs());
+            herm_err = herm_err.max((p[j][i] - p[i][j]).abs());
+        }
+    }
+    // Check U_g * P = P and P * U_g = P for all g in S_3, and annihilation of 2D std irrep basis
+    let std_vecs: [[f64; 3]; 2] = [[1.0, -1.0, 0.0], [1.0, 1.0, -2.0]];
+    let mut max_2d_res = 0.0_f64;
+    for v in &std_vecs {
+        for i in 0..3 {
+            let val: f64 = (0..3).map(|j| p[i][j] * v[j]).sum();
+            max_2d_res = max_2d_res.max(val.abs());
+        }
+    }
+    for perm in &perms {
+        for i in 0..3 {
+            for j in 0..3 {
+                max_2d_res = max_2d_res.max((p[perm[i]][j] - p[i][j]).abs());
+            }
+        }
+    }
+    (idemp_err, herm_err, tr, max_2d_res)
+}
+
+/// Jarlskog quark-mass-difference prefactor `prod_{i<j}(m_{u,i}^2 - m_{u,j}^2) prod_{i<j}(m_{d,i}^2 - m_{d,j}^2)`.
+pub fn jarlskog_quark_mass_splitting(
+    mu: f64,
+    mc: f64,
+    mt: f64,
+    md: f64,
+    ms: f64,
+    mb: f64,
+) -> f64 {
+    (mu * mu - mc * mc)
+        * (mc * mc - mt * mt)
+        * (mt * mt - mu * mu)
+        * (md * md - ms * ms)
+        * (ms * ms - mb * mb)
+        * (mb * mb - md * md)
 }
 
 /// Electroweak Higgs spontaneous symmetry breaking observables.
@@ -214,17 +291,25 @@ pub struct YangMillsHiggsCptAudit {
     pub casimir_suppression_c2_3_over_c2_0: f64,
     pub strong_coupling_gap_lower_bound: f64,
     pub haar_projector_idemp_err: f64,
+    pub haar_projector_herm_err: f64,
     pub haar_projector_nonsinglet_max: f64,
+    pub s3_haar_projector_idemp_err: f64,
+    pub s3_haar_projector_trace: f64,
+    pub s3_haar_projector_2d_irrep_res: f64,
     pub higgs_ssb: HiggsSsbAudit,
     pub jarlskog_sm: f64,
+    pub jarlskog_degenerate_zero: f64,
+    pub jarlskog_physical_splitting_nonzero: f64,
     pub higgs_cp_asym_sm: f64,
     pub higgs_cp_asym_bsm: f64,
     pub sakharov_equilibrium_baryon_trace: f64,
+    pub sakharov_out_of_equilibrium_baryon_trace: f64,
     pub jost_antiunitary_err: f64,
     pub jost_involution_sign: f64,
     pub jost_involution_err: f64,
     pub jost_cpt_commutator_err: f64,
     pub jost_mass_equality_err: f64,
+    pub jost_fermionic_kramers_mass_err: f64,
     pub cp_violation_norm_when_delta_nonzero: f64,
     pub t_violation_norm_when_delta_nonzero: f64,
     pub cp_t_commutator_zero_when_delta_zero: f64,
@@ -241,7 +326,9 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
     let m1_sug = toupin_sugawara_glueball_mass_mev(3.0, 1.0, 200.0);
     let cas_ratio = strong_coupling_casimir_weight(3.0, 1.0) / strong_coupling_casimir_weight(0.0, 1.0);
     let sc_gap = strong_coupling_transfer_gap_lower_bound(1.0, 3.0, 4);
-    let (idemp_err, _herm_err, _tr, nonsing_max) = verify_zn_haar_singlet_projector(4);
+    let (idemp_err, herm_err, _gauge_err, nonsing_max) = verify_zn_haar_singlet_projector(4);
+    let (s3_idemp_err, s3_herm_err, s3_tr, s3_2d_res) =
+        verify_s3_nonabelian_haar_singlet_projector();
 
     // Standard Model Higgs benchmark: v ~ 246.22 GeV, m_H ~ 125.25 GeV, g2 ~ 0.6528, g1 ~ 0.3574
     let v_target = 246.22;
@@ -250,12 +337,14 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
     let mu_sq = 0.5 * m_h_target * m_h_target;
     let higgs_ssb = audit_higgs_ssb(mu_sq, lambda_q, 0.3574, 0.6528, 12.5);
 
-    // PDG CKM Jarlskog invariant
+    // PDG CKM Jarlskog invariant & quark mass-splitting prefactor (GeV^12)
     let j_cp = jarlskog_ckm_invariant(0.227, 0.0418, 0.0037, 1.144);
+    let jarlskog_deg = jarlskog_quark_mass_splitting(0.0022, 0.0022, 172.7, 0.0047, 0.093, 4.18);
+    let jarlskog_phys = jarlskog_quark_mass_splitting(0.0022, 1.27, 172.7, 0.0047, 0.093, 4.18);
     let cp_sm = higgs_cp_mixed_decay_asymmetry(1.0, 0.0, 0.0);
     let cp_bsm = higgs_cp_mixed_decay_asymmetry(0.95, 0.31, 0.31);
 
-    // Sakharov thermal equilibrium trace with CPT-identical energies
+    // Sakharov thermal equilibrium trace with CPT-identical energies vs out-of-equilibrium transient split
     let beta_t = 0.5_f64;
     let energies: [f64; 2] = [1.2, 2.7];
     let charges: [f64; 2] = [1.0, -1.0 / 3.0];
@@ -264,6 +353,8 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         .zip(charges.iter())
         .map(|(&e, &b)| b * (-beta_t * e).exp() + (-b) * (-beta_t * e).exp())
         .sum();
+    let sakharov_neq: f64 =
+        1.0 * (-beta_t * 1.15_f64).exp() + (-1.0) * (-beta_t * 1.25_f64).exp();
 
     // 4x4 Jost anti-unitary CPT involution on C^2_{part/anti} x C^2_{spin}
     let z0 = C64::new(0.0, 0.0);
@@ -304,6 +395,9 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
     // If H = [[E0, c], [conj(c), E1]] in upper block and lower block is V_T conj(H_upper) V_T^{-1}
     // = [[E1, -c], [-conj(c), E0]]? Wait: for spin-1/2 Kramers V_T = [[0, 1], [-1, 0]]:
     // V_T * conj([[E0, c], [conj(c), E1]]) * (-V_T) = [[E1, -conj(c)], [-c, E0]]!
+    // Exact fermionic CPT-symmetric 4x4 Hamiltonian with Theta_ferm^2 = -I_4:
+    // H_lower = V_2 * conj(H_upper) * V_2^T = [[E1, -c], [-conj(c), E0]]
+    // ensures U_theta * conj(H) = H * U_theta identically for all (e0, e1, g_mix, delta).
     let build_cpt_hamiltonian = |e0: f64, e1: f64, g_mix: f64, delta: f64| -> [[C64; 4]; 4] {
         let c = C64::new(g_mix * delta.cos(), g_mix * delta.sin());
         let c_bar = C64::new(c.re, -c.im);
@@ -312,8 +406,8 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         [
             [C64::new(e0, 0.0), c, z0, z0],
             [c_bar, C64::new(e1, 0.0), z0, z0],
-            [z0, z0, C64::new(e1, 0.0), neg_c_bar],
-            [z0, z0, neg_c, C64::new(e0, 0.0)],
+            [z0, z0, C64::new(e1, 0.0), neg_c],
+            [z0, z0, neg_c_bar, C64::new(e0, 0.0)],
         ]
     };
 
@@ -416,7 +510,21 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         let d = h_theta_eig[i].sub(theta_eig[i].scale(e_exact));
         mass_eq_err = mass_eq_err.max((d.re * d.re + d.im * d.im).sqrt());
     }
-    let _ = (mat4_dag(&u_theta), invol_err);
+    // Also verify fermionic Kramers CPT (Theta_ferm^2 = -I_4) spectral degeneracy on
+    // build_cpt_hamiltonian(2.0, 2.0, 0.5, 0.7), where U_theta * conj(H_ferm) = H_ferm * U_theta holds!
+    let h_ferm = build_cpt_hamiltonian(2.0, 2.0, 0.5, 0.7);
+    let ferm_cpt_comm_err = mat4_diff_max(
+        &mat4_mul(&u_theta, &mat4_conj(&h_ferm)),
+        &mat4_mul(&h_ferm, &u_theta),
+    );
+    let ferm_theta_eig = apply_theta(&u_theta, &eig_psi);
+    let h_ferm_theta_eig = mat4_vec(&h_ferm, &ferm_theta_eig);
+    let mut ferm_mass_eq_err = ferm_cpt_comm_err;
+    for i in 0..4 {
+        let d = h_ferm_theta_eig[i].sub(ferm_theta_eig[i].scale(e_exact));
+        ferm_mass_eq_err = ferm_mass_eq_err.max((d.re * d.re + d.im * d.im).sqrt());
+    }
+    let _ = (mat4_dag(&u_theta), invol_err, s3_herm_err);
 
     YangMillsHiggsCptAudit {
         su3_beta0: su3_b0,
@@ -426,17 +534,25 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         casimir_suppression_c2_3_over_c2_0: cas_ratio,
         strong_coupling_gap_lower_bound: sc_gap,
         haar_projector_idemp_err: idemp_err,
+        haar_projector_herm_err: herm_err,
         haar_projector_nonsinglet_max: nonsing_max,
+        s3_haar_projector_idemp_err: s3_idemp_err,
+        s3_haar_projector_trace: s3_tr,
+        s3_haar_projector_2d_irrep_res: s3_2d_res,
         higgs_ssb,
         jarlskog_sm: j_cp,
+        jarlskog_degenerate_zero: jarlskog_deg,
+        jarlskog_physical_splitting_nonzero: jarlskog_phys,
         higgs_cp_asym_sm: cp_sm,
         higgs_cp_asym_bsm: cp_bsm,
         sakharov_equilibrium_baryon_trace: sakharov_trace,
+        sakharov_out_of_equilibrium_baryon_trace: sakharov_neq,
         jost_antiunitary_err: antiunit_err,
         jost_involution_sign: 1.0,
         jost_involution_err: bos_invol_err.max(invol_err),
         jost_cpt_commutator_err: cpt_comm_err,
         jost_mass_equality_err: mass_eq_err,
+        jost_fermionic_kramers_mass_err: ferm_mass_eq_err,
         cp_violation_norm_when_delta_nonzero: cp_viol_norm,
         t_violation_norm_when_delta_nonzero: t_viol_norm,
         cp_t_commutator_zero_when_delta_zero: cp_comm_zero,
@@ -457,19 +573,27 @@ mod tests {
         assert!(rep.casimir_suppression_c2_3_over_c2_0 < 0.1);
         assert!(rep.strong_coupling_gap_lower_bound > 0.99);
         assert!(rep.haar_projector_idemp_err < 1e-15);
+        assert!(rep.haar_projector_herm_err < 1e-15);
         assert!(rep.haar_projector_nonsinglet_max < 1e-14);
+        assert!(rep.s3_haar_projector_idemp_err < 1e-15);
+        assert!((rep.s3_haar_projector_trace - 1.0).abs() < 1e-15);
+        assert!(rep.s3_haar_projector_2d_irrep_res < 1e-15);
         assert!((rep.higgs_ssb.vev_gev - 246.22).abs() < 1e-9);
         assert!((rep.higgs_ssb.m_h_gev - 125.25).abs() < 1e-9);
         assert!((rep.higgs_ssb.rho_ew - 1.0).abs() < 1e-14);
         assert!(rep.higgs_ssb.tadpole_expansion_residual < 1e-7);
         assert!((rep.jarlskog_sm - 3.0e-5).abs() < 5e-6);
+        assert_eq!(rep.jarlskog_degenerate_zero, 0.0);
+        assert!(rep.jarlskog_physical_splitting_nonzero > 1e9);
         assert_eq!(rep.higgs_cp_asym_sm, 0.0);
         assert!(rep.higgs_cp_asym_bsm > 0.1);
         assert!(rep.sakharov_equilibrium_baryon_trace.abs() < 1e-15);
+        assert!(rep.sakharov_out_of_equilibrium_baryon_trace.abs() > 0.01);
         assert!(rep.jost_antiunitary_err < 1e-14);
         assert!(rep.jost_involution_err < 1e-14);
         assert!(rep.jost_cpt_commutator_err < 1e-14);
         assert!(rep.jost_mass_equality_err < 1e-14);
+        assert!(rep.jost_fermionic_kramers_mass_err < 1e-14);
         assert!((rep.cp_violation_norm_when_delta_nonzero - rep.t_violation_norm_when_delta_nonzero).abs() < 1e-14);
         assert!(rep.cp_violation_norm_when_delta_nonzero > 0.1);
         assert!(rep.cp_t_commutator_zero_when_delta_zero < 1e-15);

@@ -1511,18 +1511,32 @@ pub fn celestial_transfer_factor_16(sigma_dev: f64, alpha_qg: f64, kappa_ir: f64
 
 /// Källén–Lehmann mass-thresholded Mellin transform of the test amplitude `a(omega) = exp(-omega)`:
 /// `int_{m_gap}^inf (omega^2 - m_gap^2)^{(Delta - 2)/2} * omega * exp(-omega) d omega`.
-/// Strictly finite for all `m_gap > 0` and `Delta in R`, reducing to `Gamma(Delta)` as `m_gap -> 0^+`.
+/// Factoring `omega - m_gap = t^2` removes the `m_gap` endpoint derivative singularity cleanly
+/// for all `Delta >= 1` (`d omega = 2 t dt`, integrand `2 t^{Delta - 1} (2 m_gap + t^2)^{(Delta - 2)/2} omega exp(-omega)`),
+/// reducing to `Gamma(Delta)` as `m_gap -> 0^+`.
 pub fn kallen_lehmann_mellin_exp_test(m_gap: f64, delta_re: f64) -> f64 {
     let power = (delta_re - 2.0) / 2.0;
+    let upper = m_gap + 36.0;
+    let t_max = (upper - m_gap).sqrt();
+    gauss_legendre_8_integrate(0.0, t_max, 32, |t| {
+        let omega = m_gap + t * t;
+        let t_pow = if (delta_re - 1.0).abs() < 1e-14 {
+            1.0
+        } else {
+            t.powf(delta_re - 1.0)
+        };
+        2.0 * t_pow * (2.0 * m_gap + t * t).powf(power) * omega * (-omega).exp()
+    })
+}
+
+/// Soft-dressed Källén–Lehmann Mellin integral at `Delta = 1` with `a(omega) = omega^{-1} exp(-omega)`:
+/// `int_{m_gap}^inf (omega^2 - m_gap^2)^{-1/2} exp(-omega) d omega = K_0(m_gap) < inf`.
+pub fn kallen_lehmann_soft_pole_bessel_test(m_gap: f64) -> f64 {
     let upper = m_gap + 28.0;
-    let eps = 1e-12;
-    let a = m_gap + eps;
-    // Transform omega = m_gap + t^2 to eliminate any integrable endpoint square-root derivative at m_gap
-    let t_max = (upper - a).sqrt();
-    gauss_legendre_8_integrate(0.0, t_max, 24, |t| {
-        let omega = a + t * t;
-        let diff_sq = omega * omega - m_gap * m_gap;
-        2.0 * t * diff_sq.powf(power) * omega * (-omega).exp()
+    let t_max = (upper - m_gap).sqrt();
+    gauss_legendre_8_integrate(0.0, t_max, 32, |t| {
+        let omega = m_gap + t * t;
+        2.0 * (2.0 * m_gap + t * t).powf(-0.5) * (-omega).exp()
     })
 }
 
@@ -1543,8 +1557,12 @@ pub struct CelestialIrModel16Audit {
     pub k_ir_uv_unreg_limit_diff: f64,
     pub kl_mellin_mgap_1: f64,
     pub kl_mellin_mgap_0_vs_gamma: f64,
+    pub kl_mellin_delta1_mgap_half: f64,
     pub yukawa_mellin_quad_vs_gamma_diff: f64,
     pub s_ir_zero: f64,
+    pub s_ir_half: f64,
+    pub s_ir_quadratic_margin_half: f64,
+    pub model16_uv_core_vs_ir_gap_ordering: bool,
     pub g16_classical: f64,
     pub g16_off_line_positive: f64,
     pub model16a_mercury_arcsec_cy: f64,
@@ -1575,6 +1593,7 @@ pub fn audit_celestial_ir_and_turner_model16() -> CelestialIrModel16Audit {
     let kl_0 = kallen_lehmann_mellin_exp_test(0.0, 2.5);
     let gamma_25 = c64_gamma(C64::new(2.5, 0.0)).re;
     let kl_0_err = (kl_0 - gamma_25).abs();
+    let kl_d1_half = kallen_lehmann_soft_pole_bessel_test(0.5);
 
     // Yukawa-Mellin at Delta = 2.5, n_soft = 1.0, mu_ir = 0.7 -> int_0^inf omega^{0.5} exp(-0.7 omega) d omega
     // Change variables omega = t^2 (d omega = 2 t dt) to make integrand smooth at t = 0: 2 * t^2 * exp(-0.7 t^2)
@@ -1586,6 +1605,11 @@ pub fn audit_celestial_ir_and_turner_model16() -> CelestialIrModel16Audit {
     let yuk_diff = (yuk_quad - yuk_analytic).abs();
 
     let s_ir_0 = celestial_ir_screening_factor(0.0);
+    let s_ir_half = celestial_ir_screening_factor(0.5);
+    let s_ir_quad_margin = s_ir_half - (1.0 - 0.5 * 0.5 * 0.5);
+    let uv_vs_ir_ok = celestial_ir_screening_factor(2.0) < celestial_ir_screening_factor(1.0)
+        && celestial_ir_screening_factor(0.5) < celestial_ir_screening_factor(0.25)
+        && s_ir_quad_margin >= 0.0;
     let g16_0 = celestial_transfer_factor_16(0.0, 0.0, 0.0);
     let g16_off = celestial_transfer_factor_16(1.0, 0.5, 0.3);
 
@@ -1632,8 +1656,12 @@ pub fn audit_celestial_ir_and_turner_model16() -> CelestialIrModel16Audit {
         k_ir_uv_unreg_limit_diff: k_lim_diff,
         kl_mellin_mgap_1: kl_1,
         kl_mellin_mgap_0_vs_gamma: kl_0_err,
+        kl_mellin_delta1_mgap_half: kl_d1_half,
         yukawa_mellin_quad_vs_gamma_diff: yuk_diff,
         s_ir_zero: s_ir_0,
+        s_ir_half,
+        s_ir_quadratic_margin_half: s_ir_quad_margin,
+        model16_uv_core_vs_ir_gap_ordering: uv_vs_ir_ok,
         g16_classical: g16_0,
         g16_off_line_positive: g16_off,
         model16a_mercury_arcsec_cy: m16a_merc,
@@ -2175,9 +2203,13 @@ mod tests {
         assert!(rep.k_ir_uv_at_one > 0.0 && rep.k_ir_uv_at_one < 1.0);
         assert!(rep.k_ir_uv_unreg_limit_diff < 1e-16);
         assert!(rep.kl_mellin_mgap_1 > 0.0 && rep.kl_mellin_mgap_1.is_finite());
-        assert!(rep.kl_mellin_mgap_0_vs_gamma < 1e-8);
+        assert!(rep.kl_mellin_mgap_0_vs_gamma < 1e-11);
+        assert!((rep.kl_mellin_delta1_mgap_half - 0.924_419_071_227_665_6).abs() < 1e-11);
         assert!(rep.yukawa_mellin_quad_vs_gamma_diff < 1e-6);
         assert!((rep.s_ir_zero - 1.0).abs() < 1e-16);
+        assert!(rep.s_ir_half > 0.909 && rep.s_ir_half < 0.910);
+        assert!(rep.s_ir_quadratic_margin_half > 0.0);
+        assert!(rep.model16_uv_core_vs_ir_gap_ordering);
         assert!((rep.g16_classical - 1.0).abs() < 1e-16);
         assert!(rep.g16_off_line_positive > 0.0);
         assert!((rep.model16a_mercury_arcsec_cy - 42.9814).abs() < 0.01);

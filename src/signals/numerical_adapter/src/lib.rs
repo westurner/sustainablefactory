@@ -1253,11 +1253,21 @@ fn py_audit_celestial_ir_and_turner_model16<'py>(py: Python<'py>) -> PyResult<Bo
     d.set_item("k_ir_uv_unreg_limit_diff", rep.k_ir_uv_unreg_limit_diff)?;
     d.set_item("kl_mellin_mgap_1", rep.kl_mellin_mgap_1)?;
     d.set_item("kl_mellin_mgap_0_vs_gamma", rep.kl_mellin_mgap_0_vs_gamma)?;
+    d.set_item("kl_mellin_delta1_mgap_half", rep.kl_mellin_delta1_mgap_half)?;
     d.set_item(
         "yukawa_mellin_quad_vs_gamma_diff",
         rep.yukawa_mellin_quad_vs_gamma_diff,
     )?;
     d.set_item("s_ir_zero", rep.s_ir_zero)?;
+    d.set_item("s_ir_half", rep.s_ir_half)?;
+    d.set_item(
+        "s_ir_quadratic_margin_half",
+        rep.s_ir_quadratic_margin_half,
+    )?;
+    d.set_item(
+        "model16_uv_core_vs_ir_gap_ordering",
+        rep.model16_uv_core_vs_ir_gap_ordering,
+    )?;
     d.set_item("g16_classical", rep.g16_classical)?;
     d.set_item("g16_off_line_positive", rep.g16_off_line_positive)?;
     d.set_item(
@@ -1305,9 +1315,19 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
         rep.strong_coupling_gap_lower_bound,
     )?;
     d.set_item("haar_projector_idemp_err", rep.haar_projector_idemp_err)?;
+    d.set_item("haar_projector_herm_err", rep.haar_projector_herm_err)?;
     d.set_item(
         "haar_projector_nonsinglet_max",
         rep.haar_projector_nonsinglet_max,
+    )?;
+    d.set_item(
+        "s3_haar_projector_idemp_err",
+        rep.s3_haar_projector_idemp_err,
+    )?;
+    d.set_item("s3_haar_projector_trace", rep.s3_haar_projector_trace)?;
+    d.set_item(
+        "s3_haar_projector_2d_irrep_res",
+        rep.s3_haar_projector_2d_irrep_res,
     )?;
     d.set_item("vev_gev", rep.higgs_ssb.vev_gev)?;
     d.set_item("m_h_gev", rep.higgs_ssb.m_h_gev)?;
@@ -1320,17 +1340,30 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
         rep.higgs_ssb.tadpole_expansion_residual,
     )?;
     d.set_item("jarlskog_sm", rep.jarlskog_sm)?;
+    d.set_item("jarlskog_degenerate_zero", rep.jarlskog_degenerate_zero)?;
+    d.set_item(
+        "jarlskog_physical_splitting_nonzero",
+        rep.jarlskog_physical_splitting_nonzero,
+    )?;
     d.set_item("higgs_cp_asym_sm", rep.higgs_cp_asym_sm)?;
     d.set_item("higgs_cp_asym_bsm", rep.higgs_cp_asym_bsm)?;
     d.set_item(
         "sakharov_equilibrium_baryon_trace",
         rep.sakharov_equilibrium_baryon_trace,
     )?;
+    d.set_item(
+        "sakharov_out_of_equilibrium_baryon_trace",
+        rep.sakharov_out_of_equilibrium_baryon_trace,
+    )?;
     d.set_item("jost_antiunitary_err", rep.jost_antiunitary_err)?;
     d.set_item("jost_involution_sign", rep.jost_involution_sign)?;
     d.set_item("jost_involution_err", rep.jost_involution_err)?;
     d.set_item("jost_cpt_commutator_err", rep.jost_cpt_commutator_err)?;
     d.set_item("jost_mass_equality_err", rep.jost_mass_equality_err)?;
+    d.set_item(
+        "jost_fermionic_kramers_mass_err",
+        rep.jost_fermionic_kramers_mass_err,
+    )?;
     d.set_item(
         "cp_violation_norm_when_delta_nonzero",
         rep.cp_violation_norm_when_delta_nonzero,

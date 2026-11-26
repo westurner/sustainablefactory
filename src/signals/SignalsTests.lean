@@ -9706,4 +9706,34 @@ example (b0 gCoupling gamma dBulk sigmaNeg : ℝ)
     ⟨h1, _, _, h4, h5, _, h7⟩
   exact ⟨h1, h4, h5, h7⟩
 
+example (kappa1 kappa2 kappa a1 a2 lambdaGap xiPhi : ℝ)
+    (hk1 : 0 ≤ kappa1) (hk12 : kappa1 < kappa2) (hk : 0 ≤ kappa)
+    (ha1 : 0 < a1) (ha12 : a1 < a2) (hlam : 0 < lambdaGap) (hxi : 0 < xiPhi) :
+    Signals.DDF.celestialIrScreeningFactor kappa2 <
+        Signals.DDF.celestialIrScreeningFactor kappa1 ∧
+      1 - kappa ^ 2 / 2 ≤ Signals.DDF.celestialIrScreeningFactor kappa ∧
+      Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16aIrYukawaParam a2 lambdaGap) <
+        Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16aIrYukawaParam a1 lambdaGap) ∧
+      Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16bCoreRegularizationParam xiPhi a1) <
+        Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16bCoreRegularizationParam xiPhi a2) :=
+  Signals.DDF.turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities
+    kappa1 kappa2 kappa a1 a2 lambdaGap xiPhi hk1 hk12 hk ha1 ha12 hlam hxi
+
+example {G : Type*} [Group G] [Fintype G] [Nonempty G] {m : ℕ}
+    (rho : Signals.YangMillsHiggsCPT.FiniteGroupUnitaryRep G m) (h : G) (v : Fin m → ℂ)
+    (h_colored : ∑ g : G, (rho.rep g).mulVec v = 0)
+    (mu mc mt md ms mb beta ePlus eMinus bCharge : ℝ)
+    (h_beta : 0 < beta) (h_neq : ePlus ≠ eMinus) (hb : bCharge ≠ 0) :
+    rho.haarProjector * rho.haarProjector = rho.haarProjector ∧
+      rho.haarProjector.conjTranspose = rho.haarProjector ∧
+      rho.haarProjector.mulVec v = 0 ∧
+      Signals.YangMillsHiggsCPT.jarlskogQuarkMassSplitting mu mu mt md ms mb = 0 ∧
+      Signals.YangMillsHiggsCPT.thermalEquilibriumBaryonTrace beta
+        (fun _ : Fin 1 => ePlus) (fun _ : Fin 1 => eMinus) (fun _ : Fin 1 => bCharge) ≠ 0 := by
+  rcases Signals.YangMillsHiggsCPT.finiteGroup_haarProjector_properties rho h v h_colored with
+    ⟨_, _, h_idem, h_herm, h_ann⟩
+  rcases Signals.YangMillsHiggsCPT.jarlskog_degeneracy_and_sakharov_out_of_equilibrium_nonzero
+    mu mc mt md ms mb beta ePlus eMinus bCharge h_beta h_neq hb with ⟨h_jar, _, _, h_sakh⟩
+  exact ⟨h_idem, h_herm, h_ann, h_jar, h_sakh⟩
+
 end SignalsTests

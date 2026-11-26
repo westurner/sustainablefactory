@@ -882,6 +882,23 @@ def audit_celestial_ir_and_turner_model16(dps: int = 45) -> dict[str, Any]:
     s_ir_taylor_ok = (
         sp.simplify(s_ir_series - (1 - sp.Rational(1, 2) * kappa_ir**2 + sp.Rational(1, 3) * kappa_ir**3)) == 0
     )
+    # Exact monotonicity & quadratic lower-bound derivatives:
+    # d/dk S_IR(k) = -k exp(-k), d/dk (S_IR(k) - (1 - k^2/2)) = k (1 - exp(-k))
+    s_ir_deriv_ok = (
+        sp.simplify(sp.diff(s_ir_expr, kappa_ir) + kappa_ir * sp.exp(-kappa_ir)) == 0
+        and sp.simplify(
+            sp.diff(s_ir_expr - (1 - kappa_ir**2 / 2), kappa_ir)
+            - kappa_ir * (1 - sp.exp(-kappa_ir))
+        )
+        == 0
+    )
+    a_orb, lam_gap_s, xi_phi_s = sp.symbols("a_orb lam_gap_s xi_phi_s", positive=True)
+    # Opposite asymptotic scaling: Model 16a IR Yukawa param a/lam_gap grows with a;
+    # Model 16b UV core param xi_phi/a shrinks with a.
+    model16_opposite_a_scaling_ok = (
+        sp.simplify(sp.diff(a_orb / lam_gap_s, a_orb) - 1 / lam_gap_s) == 0
+        and sp.simplify(sp.diff(xi_phi_s / a_orb, a_orb) + xi_phi_s / a_orb**2) == 0
+    )
 
     g16_expr = (
         (1 / (1 + 4 * sig_sym**2))
@@ -901,6 +918,7 @@ def audit_celestial_ir_and_turner_model16(dps: int = 45) -> dict[str, Any]:
             lambda x: mp.exp(-m_gap_val * mp.cosh(x)),
             [0, 2, 5, 10],
         )
+        kl_crit_bessel_val = float(mp.besselk(0, m_gap_val))
         kl_crit_bessel_err = float(abs(kl_crit_val - mp.besselk(0, m_gap_val)))
 
         # Conformal limit m_gap -> 0 at Delta = 2.5: approaches Gamma(2.5) = 3*sqrt(pi)/4
@@ -936,8 +954,11 @@ def audit_celestial_ir_and_turner_model16(dps: int = 45) -> dict[str, Any]:
         "toutrr_intertwine_ok": bool(toutrr_intertwine_ok),
         "ir_kernel_sym_ok": bool(ir_kernel_sym_ok),
         "s_ir_taylor_ok": bool(s_ir_taylor_ok),
+        "s_ir_deriv_ok": bool(s_ir_deriv_ok),
+        "model16_opposite_a_scaling_ok": bool(model16_opposite_a_scaling_ok),
         "g16_reduction_ok": bool(g16_reduction_ok),
         "kl_crit_soft_finite_abs": float(abs(kl_crit_val)),
+        "kl_crit_bessel_val": kl_crit_bessel_val,
         "kl_crit_bessel_err": kl_crit_bessel_err,
         "kl_m0_gamma_err": kl_m0_gamma_err,
         "yukawa_complex_gamma_err": yukawa_complex_gamma_err,

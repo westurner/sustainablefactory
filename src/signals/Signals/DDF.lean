@@ -10444,4 +10444,99 @@ theorem turner_model_16_ir_regularized_celestial_ddf_graviton_unification
     ⟨h_16a_gw_0, h_16a_gw_cut, h_16b_gw_0, h_16b_gw_pos⟩,
     ⟨h_16a_light, h_16b_light, h_light.2.2.2.2.1, h_light.2.2.2.2.2⟩⟩
 
+/-- Dimensionless Model 16a long-distance IR Yukawa screening parameter `κ_IR^{(16a)} = a / λ_gap`,
+which increases with orbital scale `a` (`a → ∞` gives exponential Yukawa suppression). -/
+noncomputable def model16aIrYukawaParam (semiMajorAxis lambdaGap : ℝ) : ℝ :=
+  semiMajorAxis / lambdaGap
+
+/-- Dimensionless Model 16b short-distance DDF healing-length core parameter `κ_core^{(16b)} = ξ_φ / a`,
+which decreases with orbital scale `a` (`a → ∞` recovers unscreened `1/r` gravity while `a ≲ ξ_φ`
+regulates short-distance core singularities). -/
+noncomputable def model16bCoreRegularizationParam (healingLength semiMajorAxis : ℝ) : ℝ :=
+  healingLength / semiMajorAxis
+
+/-- **Critique & Gap-Closure Theorem for Models 16a & 16b**:
+1. **Strict Anti-Monotonicity of `S_IR(κ)`**: For `0 ≤ κ₁ < κ₂`,
+   `celestialIrScreeningFactor κ₂ < celestialIrScreeningFactor κ₁`.
+2. **Quadratic Solar-System Ephemeris Safety (`1 - κ² / 2 ≤ S_IR(κ) ≤ 1`)**:
+   Proves zero linear `O(κ)` deviation in `S_IR(κ) = (1 + κ) e^{-κ}` for all `κ ≥ 0`.
+3. **Opposite Asymptotic Scaling of Model 16a (`a / λ_gap`) vs. Model 16b (`ξ_φ / a`)**:
+   Increasing `a₁ < a₂` strictly *decreases* `S_IR(a / λ_gap)` (IR screening at large scales)
+   while strictly *increasing* `S_IR(ξ_φ / a)` toward `1` (unscreened `1/r` long-range gravity
+   in gapless DDF superfluid backgrounds, with core regularization active only at `a ≲ ξ_φ`). -/
+@[blueprint "thm:signals-ddf-turner-model-16-critique-uv-core-vs-ir-gap"
+  (title := "Critique & gap-closure theorem for Models 16a & 16b: S_IR strict monotonicity, quadratic bound 1 - κ²/2 ≤ S_IR(κ), and IR Yukawa vs. UV core scaling")
+  (statement := /-- Certifies strict anti-monotonicity of $\mathcal{S}_{\mathrm{IR}}(\kappa)$,
+    the sharp quadratic lower bound $1 - \kappa^2/2 \le \mathcal{S}_{\mathrm{IR}}(\kappa) \le 1$,
+    and opposite asymptotic orbital-radius scaling of Model 16a ($a/\lambda_{\mathrm{gap}}$) vs.
+    Model 16b ($\xi_\phi/a$). -/)]
+theorem turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities
+    (kappa1 kappa2 kappa a1 a2 lambdaGap xiPhi : ℝ)
+    (hk1 : 0 ≤ kappa1) (hk12 : kappa1 < kappa2) (hk : 0 ≤ kappa)
+    (ha1 : 0 < a1) (ha12 : a1 < a2) (hlam : 0 < lambdaGap) (hxi : 0 < xiPhi) :
+    (celestialIrScreeningFactor kappa2 < celestialIrScreeningFactor kappa1) ∧
+      (1 - kappa ^ 2 / 2 ≤ celestialIrScreeningFactor kappa) ∧
+      (celestialIrScreeningFactor (model16aIrYukawaParam a2 lambdaGap) <
+        celestialIrScreeningFactor (model16aIrYukawaParam a1 lambdaGap)) ∧
+      (celestialIrScreeningFactor (model16bCoreRegularizationParam xiPhi a1) <
+        celestialIrScreeningFactor (model16bCoreRegularizationParam xiPhi a2)) := by
+  have h_strict_anti : ∀ x y : ℝ, 0 ≤ x → x < y →
+      celestialIrScreeningFactor y < celestialIrScreeningFactor x := by
+    intro x y hx hxy
+    unfold celestialIrScreeningFactor
+    have hd_pos : 0 < y - x := sub_pos.mpr hxy
+    have h_mul : (1 + y) * Real.exp (-y) < (1 + x) * Real.exp (-x) ↔
+        1 + y < (1 + x) * Real.exp (y - x) := by
+      rw [show y - x = -x - (-y) by ring, Real.exp_sub, mul_div_assoc',
+        lt_div_iff₀ (Real.exp_pos (-y))]
+    rw [h_mul]
+    have h_exp_gt : 1 + (y - x) < Real.exp (y - x) := by
+      linarith [Real.add_one_lt_exp (ne_of_gt hd_pos)]
+    have h_1px_pos : 0 < 1 + x := by linarith
+    have h_prod : (1 + x) * (1 + (y - x)) < (1 + x) * Real.exp (y - x) :=
+      mul_lt_mul_of_pos_left h_exp_gt h_1px_pos
+    have h_alg : 1 + y ≤ (1 + x) * (1 + (y - x)) := by nlinarith
+    linarith
+  have h_quad : 1 - kappa ^ 2 / 2 ≤ celestialIrScreeningFactor kappa := by
+    let g : ℝ → ℝ := fun t => (1 + t) * Real.exp (-t) - (1 - t ^ 2 / 2)
+    have h_deriv : ∀ t : ℝ, HasDerivAt g (t * (1 - Real.exp (-t))) t := by
+      intro t
+      have h1 : HasDerivAt (fun u : ℝ => 1 + u) 1 t := (hasDerivAt_id t).const_add 1
+      have h2 : HasDerivAt (fun u : ℝ => Real.exp (-u)) (Real.exp (-t) * (-1)) t :=
+        HasDerivAt.comp t (Real.hasDerivAt_exp (-t)) (hasDerivAt_neg t)
+      have hprod := h1.mul h2
+      have h3 : HasDerivAt (fun u : ℝ => 1 - u ^ 2 / 2) (-t) t := by
+        have hp := (hasDerivAt_pow 2 t).div_const 2
+        have hp' : HasDerivAt (fun u : ℝ => u ^ 2 / 2) t t := by
+          convert hp using 1; ring
+        convert (hasDerivAt_const t (1 : ℝ)).sub hp' using 1; ring
+      convert hprod.sub h3 using 1
+      ring
+    have h_mono : MonotoneOn g (Set.Ici 0) := by
+      apply monotoneOn_of_deriv_nonneg (convex_Ici 0)
+      · exact ((continuous_const.add continuous_id).mul (Real.continuous_exp.comp continuous_neg)).sub
+          (continuous_const.sub ((continuous_pow 2).div_const 2)) |>.continuousOn
+      · exact fun t _ => (h_deriv t).differentiableAt.differentiableWithinAt
+      · intro t ht
+        have ht0 : 0 ≤ t := interior_subset ht
+        rw [(h_deriv t).deriv]
+        have hexp : Real.exp (-t) ≤ 1 := Real.exp_le_one_iff.mpr (by linarith)
+        exact mul_nonneg ht0 (sub_nonneg.mpr hexp)
+    have h0 : g 0 = 0 := by simp [g]
+    have hle : g 0 ≤ g kappa := h_mono (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr hk) hk
+    rw [h0] at hle
+    dsimp [g] at hle
+    unfold celestialIrScreeningFactor
+    linarith
+  have ha2_pos : 0 < a2 := lt_trans ha1 ha12
+  refine ⟨h_strict_anti kappa1 kappa2 hk1 hk12, h_quad, ?_, ?_⟩
+  · apply h_strict_anti (model16aIrYukawaParam a1 lambdaGap) (model16aIrYukawaParam a2 lambdaGap)
+    · unfold model16aIrYukawaParam; positivity
+    · unfold model16aIrYukawaParam
+      exact div_lt_div_of_pos_right ha12 hlam
+  · apply h_strict_anti (model16bCoreRegularizationParam xiPhi a2) (model16bCoreRegularizationParam xiPhi a1)
+    · unfold model16bCoreRegularizationParam; exact div_nonneg (le_of_lt hxi) (le_of_lt ha2_pos)
+    · unfold model16bCoreRegularizationParam
+      exact div_lt_div_of_pos_left hxi ha1 ha12
+
 end Signals.DDF

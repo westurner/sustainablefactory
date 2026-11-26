@@ -360,9 +360,11 @@ def test_celestial_ir_regularization_and_turner_model16_sympy_mpmath_pyo3():
     assert 0.0 < rust_16["k_ir_uv_at_one"] < 1.0
     assert rust_16["k_ir_uv_unreg_limit_diff"] < 1e-16
     assert rust_16["kl_mellin_mgap_1"] > 0.0
-    assert rust_16["kl_mellin_mgap_0_vs_gamma"] < 1e-8
+    assert rust_16["kl_mellin_mgap_0_vs_gamma"] < 1e-11
     assert rust_16["yukawa_mellin_quad_vs_gamma_diff"] < 1e-11
     assert abs(rust_16["s_ir_zero"] - 1.0) < 1e-16
+    assert rust_16["s_ir_quadratic_margin_half"] > 0.0
+    assert rust_16["model16_uv_core_vs_ir_gap_ordering"] is True
     assert abs(rust_16["g16_classical"] - 1.0) < 1e-16
     assert rust_16["g16_off_line_positive"] > 0.0
     assert abs(rust_16["model16a_mercury_arcsec_cy"] - 42.9814) < 0.01
@@ -380,9 +382,13 @@ def test_celestial_ir_regularization_and_turner_model16_sympy_mpmath_pyo3():
     assert py_16["toutrr_intertwine_ok"]
     assert py_16["ir_kernel_sym_ok"]
     assert py_16["s_ir_taylor_ok"]
+    assert py_16["s_ir_deriv_ok"]
+    assert py_16["model16_opposite_a_scaling_ok"]
     assert py_16["g16_reduction_ok"]
     assert py_16["kl_crit_soft_finite_abs"] > 0.0
     assert py_16["kl_crit_bessel_err"] < 1e-35
+    assert abs(rust_16["kl_mellin_delta1_mgap_half"] - py_16["kl_crit_bessel_val"]) < 1e-11
+    assert abs(rust_16["s_ir_half"] - py_16["s_ir_half"]) < 1e-15
     assert py_16["kl_m0_gamma_err"] < 1e-25
     assert py_16["yukawa_complex_gamma_err"] < 1e-25
     assert abs(rust_16["g16_off_line_positive"] - py_16["g16_off_line"]) < 1e-15

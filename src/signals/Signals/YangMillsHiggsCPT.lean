@@ -659,6 +659,160 @@ theorem toupin_strong_coupling_casimir_and_gko_ratio_identities
   · unfold strongCouplingTransferGapLowerBound; linarith
   · unfold toupinTreeGlueballMass; ring
 
+/-! ## Section 6: Finite-Group Unitary Haar Singlet Projector (`P = |G|⁻¹ ∑_g ρ(g)`), Jarlskog Mass-Splitting, & Out-of-Equilibrium Sakharov Theorem -/
+
+/-- Unitary representation of a finite group `G` on `ℂ^m`, carrying `ρ(g * h) = ρ(g) * ρ(h)`,
+`ρ(1) = 1`, and unitarity `ρ(g)† = ρ(g⁻¹)`. -/
+structure FiniteGroupUnitaryRep (G : Type*) [Group G] (m : ℕ) where
+  rep : G → Matrix (Fin m) (Fin m) ℂ
+  rep_one : rep 1 = 1
+  rep_mul : ∀ g h : G, rep (g * h) = rep g * rep h
+  rep_conjTranspose : ∀ g : G, (rep g).conjTranspose = rep g⁻¹
+
+/-- Normalized Haar singlet projector `P_singlet = (|G|⁻¹ : ℂ) • ∑ g : G, ρ(g)`. -/
+def FiniteGroupUnitaryRep.haarProjector {G : Type*} [Group G] [Fintype G] {m : ℕ}
+    (rho : FiniteGroupUnitaryRep G m) : Matrix (Fin m) (Fin m) ℂ :=
+  ((Fintype.card G : ℂ)⁻¹) • (∑ g : G, rho.rep g)
+
+/-- **Peter–Weyl / Haar Singlet Projector Theorem for Arbitrary Finite Groups (Abelian or Non-Abelian)**:
+For any finite group `G` (`SU(N)` finite subgroup proxy such as `S_3` or `Z_N`) and unitary
+representation `ρ : G → U(m)`:
+1. **Left & Right Gauge Invariance**: `ρ(h) * P = P` and `P * ρ(h) = P` for all `h : G`.
+2. **Idempotence**: `P * P = P`.
+3. **Hermiticity**: `P† = P`.
+4. **Annihilation of Zero-Sum Colored Modes**: Any mode `v : Fin m → ℂ` satisfying `∑ g : G, ρ(g) v = 0`
+   is annihilated identically (`P.mulVec v = 0`). -/
+@[blueprint "thm:signals-ym-finite-group-haar-projector"
+  (title := "Unitary finite-group Haar singlet projector: gauge invariance, idempotence, Hermiticity, and colored-mode annihilation")
+  (statement := /-- For any finite group $G$ and unitary representation $\rho : G \to \mathrm{U}(m)$,
+    $P = |G|^{-1}\sum_{g\in G}\rho(g)$ satisfies $\rho(h)P = P\rho(h) = P$, $P^2 = P$,
+    $P^\dagger = P$, and $Pv = 0$ whenever $\sum_{g\in G}\rho(g)v = 0$. -/)]
+theorem finiteGroup_haarProjector_properties
+    {G : Type*} [Group G] [Fintype G] [Nonempty G] {m : ℕ}
+    (rho : FiniteGroupUnitaryRep G m) (h : G) (v : Fin m → ℂ)
+    (h_colored : ∑ g : G, (rho.rep g).mulVec v = 0) :
+    rho.rep h * rho.haarProjector = rho.haarProjector ∧
+      rho.haarProjector * rho.rep h = rho.haarProjector ∧
+      rho.haarProjector * rho.haarProjector = rho.haarProjector ∧
+      rho.haarProjector.conjTranspose = rho.haarProjector ∧
+      rho.haarProjector.mulVec v = 0 := by
+  have hcard_ne : (Fintype.card G : ℂ) ≠ 0 := by exact_mod_cast Fintype.card_ne_zero
+  have h_left : rho.rep h * rho.haarProjector = rho.haarProjector := by
+    unfold FiniteGroupUnitaryRep.haarProjector
+    rw [Matrix.mul_smul, Finset.mul_sum]
+    have h_shift : ∑ g : G, rho.rep h * rho.rep g = ∑ g : G, rho.rep g := by
+      calc
+        ∑ g : G, rho.rep h * rho.rep g = ∑ g : G, rho.rep (h * g) := by
+          refine Finset.sum_congr rfl ?_
+          intro g _; exact (rho.rep_mul h g).symm
+        _ = ∑ g : G, rho.rep g := Fintype.sum_bijective (h * ·) (Group.mulLeft_bijective h) _ _ (fun _ => rfl)
+    rw [h_shift]
+  have h_right_all : ∀ k : G, rho.haarProjector * rho.rep k = rho.haarProjector := by
+    intro k
+    unfold FiniteGroupUnitaryRep.haarProjector
+    rw [Matrix.smul_mul, Finset.sum_mul]
+    have h_shift : ∑ g : G, rho.rep g * rho.rep k = ∑ g : G, rho.rep g := by
+      calc
+        ∑ g : G, rho.rep g * rho.rep k = ∑ g : G, rho.rep (g * k) := by
+          refine Finset.sum_congr rfl ?_
+          intro g _; exact (rho.rep_mul g k).symm
+        _ = ∑ g : G, rho.rep g := Fintype.sum_bijective (· * k) (Group.mulRight_bijective k) _ _ (fun _ => rfl)
+    rw [h_shift]
+  have h_right : rho.haarProjector * rho.rep h = rho.haarProjector := h_right_all h
+  have h_idem : rho.haarProjector * rho.haarProjector = rho.haarProjector := by
+    calc
+      rho.haarProjector * rho.haarProjector =
+          rho.haarProjector * (((Fintype.card G : ℂ)⁻¹) • ∑ g : G, rho.rep g) := rfl
+      _ = ((Fintype.card G : ℂ)⁻¹) • (rho.haarProjector * ∑ g : G, rho.rep g) := Matrix.mul_smul _ _ _
+      _ = ((Fintype.card G : ℂ)⁻¹) • ∑ g : G, (rho.haarProjector * rho.rep g) := by
+        rw [Finset.mul_sum]
+      _ = ((Fintype.card G : ℂ)⁻¹) • ∑ _g : G, rho.haarProjector := by
+        refine congrArg _ (Finset.sum_congr rfl fun g _ => h_right_all g)
+      _ = ((Fintype.card G : ℂ)⁻¹) • ((Fintype.card G : ℕ) • rho.haarProjector) := by
+        rw [Finset.sum_const, Finset.card_univ]
+      _ = ((Fintype.card G : ℂ)⁻¹) • ((Fintype.card G : ℂ) • rho.haarProjector) := by
+        rw [Nat.cast_smul_eq_nsmul]
+      _ = (((Fintype.card G : ℂ)⁻¹) * (Fintype.card G : ℂ)) • rho.haarProjector := smul_smul _ _ _
+      _ = rho.haarProjector := by rw [inv_mul_cancel₀ hcard_ne, one_smul]
+  have h_herm : rho.haarProjector.conjTranspose = rho.haarProjector := by
+    unfold FiniteGroupUnitaryRep.haarProjector
+    rw [Matrix.conjTranspose_smul, star_inv₀]
+    have h_star_card : star (Fintype.card G : ℂ) = (Fintype.card G : ℂ) := by simp
+    rw [h_star_card]
+    congr 1
+    rw [Matrix.conjTranspose_sum]
+    calc
+      ∑ g : G, (rho.rep g).conjTranspose = ∑ g : G, rho.rep g⁻¹ := by
+        refine Finset.sum_congr rfl ?_
+        intro g _; exact rho.rep_conjTranspose g
+      _ = ∑ g : G, rho.rep g :=
+        Fintype.sum_bijective Inv.inv inv_involutive.bijective _ _ (fun _ => rfl)
+  have h_ann : rho.haarProjector.mulVec v = 0 := by
+    unfold FiniteGroupUnitaryRep.haarProjector
+    have h_smul_mv :
+        (((Fintype.card G : ℂ)⁻¹) • (∑ g : G, rho.rep g)).mulVec v =
+          ((Fintype.card G : ℂ)⁻¹) • ((∑ g : G, rho.rep g).mulVec v) := by
+      ext i
+      simp only [Matrix.mulVec, dotProduct, Matrix.smul_apply, Pi.smul_apply, smul_eq_mul,
+        Finset.mul_sum]
+      refine Finset.sum_congr rfl ?_
+      intro j _
+      ring
+    rw [h_smul_mv]
+    have h_sum_vec : (∑ g : G, rho.rep g).mulVec v = ∑ g : G, (rho.rep g).mulVec v := by
+      ext i
+      simp only [Matrix.mulVec, dotProduct, Matrix.sum_apply, Finset.sum_apply]
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl ?_
+      intro j _
+      rw [Finset.sum_mul]
+    rw [h_sum_vec, h_colored, smul_zero]
+  exact ⟨h_left, h_right, h_idem, h_herm, h_ann⟩
+
+/-- Standard Model fermion mass-difference prefactor multiplying `J_CP` in the full
+CP-violating determinant `Im det[M_u M_u†, M_d M_d†]`:
+vanishes if any two up-type quarks (`m_u, m_c, m_t`) or any two down-type quarks (`m_d, m_s, m_b`)
+are mass-degenerate. -/
+def jarlskogQuarkMassSplitting (mu mc mt md ms mb : ℝ) : ℝ :=
+  (mu ^ 2 - mc ^ 2) * (mc ^ 2 - mt ^ 2) * (mt ^ 2 - mu ^ 2) *
+    (md ^ 2 - ms ^ 2) * (ms ^ 2 - mb ^ 2) * (mb ^ 2 - md ^ 2)
+
+/-- **Jarlskog Degeneracy Null Law & Out-of-Equilibrium Sakharov Theorem**:
+1. `jarlskogQuarkMassSplitting` vanishes if `mu = mc` (or `md = ms`), and is nonzero whenever all
+   up-type masses and down-type masses have distinct nonnegative values.
+2. For a single particle/antiparticle doublet with nonzero baryon charge `b ≠ 0`, `β > 0`, and
+   strictly out-of-equilibrium effective energies `E_plus ≠ E_minus` (such as a transient Higgs-wall
+   bias during a first-order electroweak phase transition), `thermalEquilibriumBaryonTrace ≠ 0`. -/
+theorem jarlskog_degeneracy_and_sakharov_out_of_equilibrium_nonzero
+    (mu mc mt md ms mb beta ePlus eMinus bCharge : ℝ)
+    (h_beta : 0 < beta) (h_neq : ePlus ≠ eMinus) (hb : bCharge ≠ 0) :
+    jarlskogQuarkMassSplitting mu mu mt md ms mb = 0 ∧
+      jarlskogQuarkMassSplitting mu mc mt md md mb = 0 ∧
+      (mu ^ 2 ≠ mc ^ 2 → mc ^ 2 ≠ mt ^ 2 → mt ^ 2 ≠ mu ^ 2 →
+        md ^ 2 ≠ ms ^ 2 → ms ^ 2 ≠ mb ^ 2 → mb ^ 2 ≠ md ^ 2 →
+        jarlskogQuarkMassSplitting mu mc mt md ms mb ≠ 0) ∧
+      thermalEquilibriumBaryonTrace beta (fun _ : Fin 1 => ePlus) (fun _ : Fin 1 => eMinus)
+        (fun _ : Fin 1 => bCharge) ≠ 0 := by
+  refine ⟨by unfold jarlskogQuarkMassSplitting; ring,
+    by unfold jarlskogQuarkMassSplitting; ring, ?_, ?_⟩
+  · intro h1 h2 h3 h4 h5 h6
+    unfold jarlskogQuarkMassSplitting
+    exact mul_ne_zero (mul_ne_zero (mul_ne_zero (mul_ne_zero (mul_ne_zero
+      (sub_ne_zero.mpr h1) (sub_ne_zero.mpr h2)) (sub_ne_zero.mpr h3))
+      (sub_ne_zero.mpr h4)) (sub_ne_zero.mpr h5)) (sub_ne_zero.mpr h6)
+  · unfold thermalEquilibriumBaryonTrace
+    simp only [Finset.univ_unique, Fin.default_eq_zero, Fin.isValue, Finset.sum_singleton]
+    have h_fact :
+        bCharge * Real.exp (-beta * ePlus) + (-bCharge) * Real.exp (-beta * eMinus) =
+          bCharge * (Real.exp (-beta * ePlus) - Real.exp (-beta * eMinus)) := by ring
+    rw [h_fact]
+    apply mul_ne_zero hb
+    apply sub_ne_zero.mpr
+    intro h_exp
+    have h_arg : -beta * ePlus = -beta * eMinus := Real.exp_injective h_exp
+    have h_nbeta : -beta ≠ 0 := neg_ne_zero.mpr (ne_of_gt h_beta)
+    exact h_neq (mul_left_cancel₀ h_nbeta h_arg)
+
 end
 
 end Signals.YangMillsHiggsCPT

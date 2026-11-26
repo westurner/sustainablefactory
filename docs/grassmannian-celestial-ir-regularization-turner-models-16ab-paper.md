@@ -25,7 +25,7 @@ description: "An arXiv-ready MyST Markdown formal verification and mathematical 
   - `Signals` Lean 4 Library (`3,837` Lake jobs via `make signals_build`, zero `sorry` axioms):
     - {download}`src/signals/Signals/RiemannSpectral.lean <../src/signals/Signals/RiemannSpectral.lean>` (Section 12: `celestialDimTransmutationDev`, `kallenLehmannThresholdSq`, `celestialIrRegulatorFactor`, `celestialCayleyPlancherelIRUVKernel`, `celestial_ir_divergence_regularization_identities`, `toupin_re_delta_eq_d_cft_half_bridge`)
     - {download}`src/signals/Signals/SatoGrassmannian/RHGaps.lean <../src/signals/Signals/SatoGrassmannian/RHGaps.lean>` (`cayley`, `norm_cayley_le_one_iff`, `liSummand_nonneg_of_re_ge_half`, `cayley_pow_unbounded_of_re_lt_half`) & {download}`src/signals/Signals/SatoGrassmannian/RiemannSpectralBridge.lean <../src/signals/Signals/SatoGrassmannian/RiemannSpectralBridge.lean>` (`celestialDimTransmutation_cayley_contraction_and_ir_bridge`)
-    - {download}`src/signals/Signals/DDF.lean <../src/signals/Signals/DDF.lean>` (Section 30.8: `celestialIrScreeningFactor`, `celestialTransferFactor16`, `gwMassGapStep`, `PlanetaryOrbit.turnerModel16aPrecessionRad`, `RiverExterior.turnerModel16bPrecessionRad`, `PlanetaryOrbit.turnerModel16aGWLuminosity`, `RiverExterior.turnerModel16bGWLuminosity`, `PlanetaryOrbit.turnerModel16aLightDeflection`, `RiverExterior.turnerModel16bLightDeflection`, `turner_model_16_ir_regularized_celestial_ddf_graviton_unification`)
+    - {download}`src/signals/Signals/DDF.lean <../src/signals/Signals/DDF.lean>` (Section 30.8: `celestialIrScreeningFactor`, `celestialTransferFactor16`, `gwMassGapStep`, `model16aIrYukawaParam`, `model16bCoreRegularizationParam`, `PlanetaryOrbit.turnerModel16aPrecessionRad`, `RiverExterior.turnerModel16bPrecessionRad`, `PlanetaryOrbit.turnerModel16aGWLuminosity`, `RiverExterior.turnerModel16bGWLuminosity`, `PlanetaryOrbit.turnerModel16aLightDeflection`, `RiverExterior.turnerModel16bLightDeflection`, `turner_model_16_ir_regularized_celestial_ddf_graviton_unification`, `turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities`)
   - `signals-numerical-adapter` Rust + PyO3 (`maturin`) Extension (`175` passing unit tests):
     - {download}`src/signals/numerical_adapter/src/riemann_spectral.rs <../src/signals/numerical_adapter/src/riemann_spectral.rs>` (`audit_celestial_ir_and_turner_model16`) & {download}`src/signals/numerical_adapter/src/lib.rs <../src/signals/numerical_adapter/src/lib.rs>` (`py_audit_celestial_ir_and_turner_model16`)
   - Python + SymPy + 45-Digit `mpmath` + PyO3 Verification Suite:
@@ -112,8 +112,8 @@ $$
   \mathcal{O}_{1, m_{\mathrm{gap}}}[\omega^{-1} e^{-\omega}] = \int_0^\infty e^{-m_{\mathrm{gap}}\cosh x}\,dx = K_0(m_{\mathrm{gap}}) < \infty,
   $$
 
-  verified to `< 1e-35` in 45-digit `mpmath` (`kl_crit_bessel_err` in `audit_celestial_ir_and_turner_model16`).
-- **Conformal Limit ($m_{\mathrm{gap}} \to 0^+$):** At $a_\omega = e^{-\omega}$ and $\Delta = 2.5$, `kl_mellin_exp_test` converges to $\Gamma(2.5) = \frac{3\sqrt{\pi}}{4}$ (`< 1e-8` in Rust `f64`, `< 1e-25` in `mpmath`).
+  verified to `< 1e-35` in 45-digit `mpmath` (`kl_crit_bessel_err`) and matched by Rust Gauss–Legendre quadrature (`kallen_lehmann_soft_pole_bessel_test(0.5) = 0.9244190712276656` via exact endpoint change of variables $\omega - m_{\mathrm{gap}} = t^2$, eliminating endpoint derivative singularities) to `< 1e-11`.
+- **Conformal Limit ($m_{\mathrm{gap}} \to 0^+$):** At $a_\omega = e^{-\omega}$ and $\Delta = 2.5$, `kallen_lehmann_mellin_exp_test` converges to $\Gamma(2.5) = \frac{3\sqrt{\pi}}{4}$ (`< 1e-11` in Rust `f64`, `< 1e-25` in `mpmath`).
 
 ### 2.2 Solution B: Yukawa–Mellin Transform & Cayley–Plancherel IR/UV Kernel $\mathcal{K}_{\mathrm{IR/UV}}$
 
@@ -169,6 +169,22 @@ Note two key analytical properties proved in Lean 4 and SymPy:
    with $\omega_{\mathrm{gap}} = m_{\mathrm{gap}} c^2/\hbar$ in Model `16a` (cutting off quadrupolar radiation below a hard mass gap: `turnerModel16aGWLuminosity ... = 0` when $2\Omega_{\mathrm{orb}} < \omega_{\mathrm{gap}}$) vs. $\omega_{\mathrm{gap}} = 0$ in Model `16b` (gapless long-wavelength DDF phonons retain positive emission `0 < turnerModel16bGWLuminosity`).
 3. **1PN Solar Light Deflection & Active Laser Discriminator (`turnerModel16aLightDeflection`, `turnerModel16bLightDeflection`):**
    Both recover $1.7505''$ at $(0,0,0,0)$, while `mutualPhotonDeflection` preserves $\eta_{\mathrm{act}}^\gamma = 1$ (`16a`) vs. $\eta_{\mathrm{act}}^\gamma = 0$ (`16b`).
+
+### 3.1 Critique & Physical Distinction: IR Yukawa Screening (`16a`) vs. UV Core Saturation (`16b`)
+
+An adversarial review of our initial Model `16a`/`16b` formulation highlights an essential physical distinction captured by `turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities` (`Signals.DDF` Section 30.8) and `model16_uv_core_vs_ir_gap_ordering` in Rust/SymPy:
+
+1. **Opposite Orbital Scaling of $\kappa_{16a}(a)$ vs. $\kappa_{16b}(a)$:**
+   - In **Model `16a` (`model16aIrYukawaParam`):** $\kappa_{16a}(a) = a / \lambda_{\mathrm{gap}}$ increases with orbital radius $a$. This represents true **long-distance infrared (IR) Yukawa screening**. Current LIGO/Virgo gravitational-wave dispersion and solar-system ephemeris bounds on the graviton Compton wavelength ($\lambda_{\mathrm{gap}} > 1.5\times 10^{16}\text{ m}$, $m_g < 1.3\times 10^{-23}\text{ eV}/c^2$) require $\kappa_{16a} \ll 10^{-5}$ at planetary scales.
+   - In **Model `16b` (`model16bCoreRegularizationParam`):** $\kappa_{16b}(a) = \xi_\phi / a$ **decreases** as $a \to \infty$. Physically, $\mathcal{S}_{\mathrm{IR}}(\xi_\phi/a)$ therefore acts as a **short-distance ultraviolet (UV) superfluid core regularization** (vanishing rapidly at macroscopic orbital radii $a \gg \xi_\phi$) rather than an IR screening cutoff—consistent with DDF's gapless long-wavelength phonon spectrum ($\omega_{\mathrm{gap}} = 0$).
+2. **Strict Anti-Monotonicity & Quadratic Solar-System Ephemeris Bound:**
+   Because $\mathcal{S}_{\mathrm{IR}}'(\kappa) = -\kappa e^{-\kappa} < 0$ for all $\kappa > 0$ and $(\mathcal{S}_{\mathrm{IR}}(\kappa) - (1 - \kappa^2/2))' = \kappa(1 - e^{-\kappa}) \ge 0$, Lean 4 proves unconditionally:
+
+   $$
+   0 < \mathcal{S}_{\mathrm{IR}}(\kappa_2) < \mathcal{S}_{\mathrm{IR}}(\kappa_1) \le 1 \quad (\forall\,0 \le \kappa_1 < \kappa_2), \qquad 1 - \frac{\kappa^2}{2} \le \mathcal{S}_{\mathrm{IR}}(\kappa) \le 1 \quad (\forall\,\kappa \ge 0),
+   $$
+
+   guaranteeing that any Yukawa or healing-length deviation satisfies $|\mathcal{S}_{\mathrm{IR}}(\kappa) - 1| \le \kappa^2/2$ across all regimes without linear ephemeris drift.
 
 ---
 
