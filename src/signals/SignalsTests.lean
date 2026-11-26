@@ -9571,4 +9571,32 @@ example (theta_spp phi_w h_nu hbar_wp e_bind x1 x2 : ℝ) :
     ⟨⟨h_nsq, _, _⟩, h_kel_spp, ⟨h_enz, h_sat⟩, _, ⟨h_vrc_norm, h_vrc_pos, h_vrc_qfim⟩⟩
   exact ⟨h_nsq, h_kel_spp, h_enz, h_sat, h_vrc_norm, h_vrc_pos, h_vrc_qfim⟩
 
+/-! ### Regression Tests: `Signals.AntimatterGravity` (Annihilation & CERN `ALPHA-g`) -/
+
+example (m_e c f_contract gamma_conf c_sq g0 bias_g sigma_b s_m t_m u_m : ℝ)
+    (hm : 0 < m_e) (hc : 0 < c) (hσ : 0 < sigma_b) :
+    Signals.AntimatterGravity.twoPhotonInvariantMassSq
+        (Signals.AntimatterGravity.annihilationPhotonEnergy m_e c) = (2 * m_e * c ^ 2) ^ 2 ∧
+      Signals.AntimatterGravity.annihilationActiveMassDeficit m_e 1 = 0 ∧
+      0 < Signals.AntimatterGravity.annihilationActiveMassDeficit m_e 0 ∧
+      Signals.AntimatterGravity.alphaGChiSq
+        Signals.AntimatterGravity.einsteinGRAntihydrogenAccelRatio = 25 / 17 ∧
+      Signals.AntimatterGravity.alphaGChiSq
+        Signals.AntimatterGravity.einsteinGRAntihydrogenAccelRatio < 4 ∧
+      (36 / 10 : ℝ) ^ 2 < Signals.AntimatterGravity.alphaGChiSq
+        (Signals.AntimatterGravity.wittenConformalAntihydrogenAccelRatio 0 0 c_sq g0) ∧
+      64 < Signals.AntimatterGravity.alphaGChiSq
+        (Signals.AntimatterGravity.ddfAntihydrogenAccelRatio (-1)) ∧
+      Signals.AntimatterGravity.cachazoSkinnerAntihydrogenAccelRatio 1 gamma_conf c_sq g0 = 1 ∧
+      Signals.AntimatterGravity.turnerModel15aAntihydrogenAccelRatio 0 0 0 = 1 ∧
+      Signals.AntimatterGravity.turnerModel15bAntihydrogenAccelRatio 1 0 0 0 = 1 ∧
+      Signals.AntimatterGravity.alphaGTrapDownwardFraction bias_g (-1) sigma_b <
+        Signals.AntimatterGravity.alphaGTrapDownwardFraction bias_g 0 sigma_b ∧
+      Signals.AntimatterGravity.alphaGTrapDownwardFraction bias_g 0 sigma_b <
+        Signals.AntimatterGravity.alphaGTrapDownwardFraction bias_g 1 sigma_b := by
+  rcases Signals.AntimatterGravity.antimatter_annihilation_and_alpha_g_unification_identities
+    m_e c f_contract gamma_conf c_sq g0 bias_g sigma_b s_m t_m u_m hm hc hσ with
+    ⟨h1, _, _, _, h5, _, h7, _, _, h10, h11, _, h13, _, h15, h16, _, _, _, _, _, _, h23, h24, h25, h26⟩
+  exact ⟨h1, h5, h7, h10, h11, h13, h15, h16, h23, h24, h25, h26⟩
+
 end SignalsTests

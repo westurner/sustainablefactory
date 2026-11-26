@@ -2596,4 +2596,18 @@ lemma pending_photoelectric_emission_gate_boundary
     ¬ b.allPhotoelectricGatesClosed :=
   b.not_allPhotoelectricGatesClosed_of_any_refuted h_refuted
 
+@[blueprint "lem:signals-pending-antimatter-alpha-g-gate-boundary"
+  (title := "Antimatter annihilation and CERN ALPHA-g epistemic gate boundary")
+  (statement := /-- Any refuted sub-percent WEP, positronium free-fall, active photon-sourcing, or Plancherel loop gate blocks \texttt{allAntimatterGatesClosed}. -/)
+  (proof := /-- Apply \texttt{AntimatterAnnihilationAlphaGPendingBoundary.not\_allAntimatterGatesClosed\_of\_any\_refuted}. -/)
+  (latexEnv := "lemma")]
+lemma pending_antimatter_alpha_g_gate_boundary
+    (b : AntimatterAnnihilationAlphaGPendingBoundary)
+    (h_refuted : ¬ b.subPercentAlphaGWepValidated ∨
+      ¬ b.positroniumFreeFallMeasured ∨
+      ¬ b.activePhotonSourcingResolved ∨
+      ¬ b.plancherelLoopCouplingMeasured) :
+    ¬ b.allAntimatterGatesClosed :=
+  b.not_allAntimatterGatesClosed_of_any_refuted h_refuted
+
 end SignalsPending

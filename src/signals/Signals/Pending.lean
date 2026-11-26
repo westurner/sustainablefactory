@@ -9824,4 +9824,76 @@ theorem photoelectric_identities_do_not_close_experimental_gates
   intro h
   exact h.1
 
+/-! ### Antimatter Annihilation, Active Photon-Sourcing, and CERN `ALPHA-g` Pending Boundary -/
+
+/-- Epistemic boundary isolating machine-checked kinematic, active-mass-conservation, and
+CERN `ALPHA-g` (2023) summary statistical comparisons in `Signals.AntimatterGravity` from
+open experimental and theoretical gates:
+1. Sub-$1\%$ `ALPHA-g` WEP precision (beyond Anderson et al. 2023 $0.75 \pm 0.21\,g_0$),
+2. Direct gravitational free-fall measurement on pure leptonic antimatter / positronium ($e^+e^-$),
+3. Laboratory resolution of DDF active photon-sourcing ($\eta_{\mathrm{act}}^\gamma = 0$ vs. $1$)
+   in crossed-laser or sealed annihilation cavities, and
+4. Experimental bounds on Plancherel–Unruh quantum-gravity loops at $(E/M_P)^2$. -/
+structure AntimatterAnnihilationAlphaGPendingBoundary where
+  /-- Published CERN `ALPHA-g` (2023) central acceleration ratio `a_gbar / g_0 = 0.75`. -/
+  alphaGRatio : ℝ
+  alphaGRatio_eq : alphaGRatio = 3 / 4
+  /-- Published CERN `ALPHA-g` (2023) combined variance `(0.13)^2 + (0.16)^2 = 17/400`. -/
+  alphaGVariance : ℝ
+  alphaGVariance_pos : 0 < alphaGVariance
+  /-- Open experimental gate: achieving sub-$1\%$ WEP precision on antihydrogen free fall. -/
+  subPercentAlphaGWepValidated : Prop
+  /-- Open experimental gate: direct gravitational free-fall measurement of positronium ($e^+e^-$). -/
+  positroniumFreeFallMeasured : Prop
+  /-- Open discriminator gate: laboratory resolution of active photon sourcing ($\eta_{\mathrm{act}}^\gamma = 0$ vs. $1$)
+  in crossed-laser deflection or confined $e^-e^+ \to 2\gamma$ annihilation cavities. -/
+  activePhotonSourcingResolved : Prop
+  /-- Open UV quantum-gravity gate: empirical constraint on Plancherel–Unruh loop couplings ($M_1 = 1/8, M_2 = 1/90$). -/
+  plancherelLoopCouplingMeasured : Prop
+
+/-- Predicate asserting that every open antimatter-gravity and active-radiation gate is closed. -/
+def AntimatterAnnihilationAlphaGPendingBoundary.allAntimatterGatesClosed
+    (b : AntimatterAnnihilationAlphaGPendingBoundary) : Prop :=
+  b.subPercentAlphaGWepValidated ∧
+    b.positroniumFreeFallMeasured ∧
+    b.activePhotonSourcingResolved ∧
+    b.plancherelLoopCouplingMeasured
+
+/-- Refuting any single open gate rules out `allAntimatterGatesClosed`. -/
+theorem AntimatterAnnihilationAlphaGPendingBoundary.not_allAntimatterGatesClosed_of_any_refuted
+    (b : AntimatterAnnihilationAlphaGPendingBoundary)
+    (h_refuted : ¬ b.subPercentAlphaGWepValidated ∨
+      ¬ b.positroniumFreeFallMeasured ∨
+      ¬ b.activePhotonSourcingResolved ∨
+      ¬ b.plancherelLoopCouplingMeasured) :
+    ¬ b.allAntimatterGatesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h1, h2, h3, h4⟩
+  rcases h_refuted with hr | hr | hr | hr
+  · exact hr h1
+  · exact hr h2
+  · exact hr h3
+  · exact hr h4
+
+/-- Machine-checked `Signals.AntimatterGravity` theorems and CERN `ALPHA-g` (2023) checks do **not**
+close sub-$1\%$ WEP bounds, positronium free fall, DDF active photon-sourcing ($\eta_{\mathrm{act}}^\gamma$),
+or Plancherel loop measurements. -/
+theorem antimatter_alpha_g_identities_do_not_close_pending_gates :
+    let b : AntimatterAnnihilationAlphaGPendingBoundary :=
+      { alphaGRatio := 3 / 4
+        alphaGRatio_eq := rfl
+        alphaGVariance := 17 / 400
+        alphaGVariance_pos := by norm_num
+        subPercentAlphaGWepValidated := False
+        positroniumFreeFallMeasured := False
+        activePhotonSourcingResolved := False
+        plancherelLoopCouplingMeasured := False }
+    b.alphaGRatio = 3 / 4 ∧
+      0 < b.alphaGVariance ∧
+      ¬ b.allAntimatterGatesClosed := by
+  dsimp only
+  refine ⟨rfl, by norm_num, ?_⟩
+  intro h
+  exact h.1
+
 end Signals.Pending
