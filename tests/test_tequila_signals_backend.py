@@ -99,7 +99,7 @@ def test_tequila_signals_sampling_noisy_density_and_mcweeny_purification():
     assert np.isclose(total_shots, 2000.0)
     # Only |000> (0) and |111> (7) can appear in ideal GHZ sampling
     for k in sampled_wfn:
-        assert k.integer in (0, 7)
+        assert int(k) in (0, 7)
 
     # 2. Noisy Kraus density-matrix evolution + McWeeny cubic purification
     noise = DepolarizingError(p=0.06, level=1) + PhaseFlip(p=0.02, level=1)
