@@ -404,3 +404,14 @@ test-tequila-quick:
 		--backends=${TEQUILA_BACKENDS}
 	# ${TEQUILA_REPORT_JSON_QUICK}
 	# ${TEQUILA_REPORT_MDMD_QUICK}
+
+patch-css:
+	$(MAKE) -C src/wrd_sphinx_theme localcss
+	cp src/wrd_sphinx_theme/wrd_sphinx_theme/template/static/css/custom.css docs/_build/html/_static/css/
+	cp src/wrd_sphinx_theme/wrd_sphinx_theme/template/static/css/local.css docs/_build/html/_static/css/
+
+patch-js:
+	$(MAKE) -C src/wrd_sphinx_theme localjs
+	cp src/wrd_sphinx_theme/wrd_sphinx_theme/template/static/js/local.js docs/_build/html/_static/js/
+
+patch-theme: patch-css patch-js

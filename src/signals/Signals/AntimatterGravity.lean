@@ -300,6 +300,90 @@ theorem antimatter_annihilation_and_alpha_g_unification_identities
     h_trap_1,
     h_trap_2⟩
 
+/-- **Photonic Deflection & Active Annihilation Mass Bridge (`annihilation_and_photonic_deflection_bridge`)**:
+Links `Signals.DDF.ActiveRadiationSourcing` (`mutualPhotonDeflection`, `gr_photon_deflection_active`,
+`ddf_photon_deflection_null`) and `Signals.DFT` / `Signals.DDF` passive solar light deflection
+(`gravitationalLightDeflectionPPN`, `cachazoSkinnerLightDeflection`, `turnerPluckerKahlerLightDeflection`,
+`turnerDualGr24IGPEDDFLightDeflection`, `turnerCelestialPluckerGravitonLightDeflection`,
+`turnerCelestialDualGr24DDFGravitonLightDeflection`) directly to `annihilationActiveMassDeficit`:
+1. In `ActiveRadiationSourcing.generalRelativity` (`GR`, `Cachazo–Skinner`, `QED`, `Models 12/14a/15a`),
+   $\eta_{\mathrm{act}}^\gamma = 1$ yields both `0 < mutualPhotonDeflection` and zero annihilation active-mass
+   deficit (`annihilationActiveMassDeficit m_e _ = 0`).
+2. In `ActiveRadiationSourcing.dilatantDarkFluid` (`DDF`, `Models 13/14b/15b`),
+   $\eta_{\mathrm{act}}^\gamma = 0$ yields both `mutualPhotonDeflection = 0` and the non-zero active-mass
+   deficit `annihilationActiveMassDeficit m_e _ = 2 * m_e > 0`.
+3. Passive solar light deflection matches $\Delta\theta_{\mathrm{GR}} = \frac{4 G_\phi M}{c^2 b}$ across
+   GR, Cachazo–Skinner ($\pi_I = 1$), DDF, and Turner Models 14a/14b/15a/15b, while Nordström ($\gamma_{\mathrm{PPN}} = -1$)
+   predicts `0` and Newtonian/spin-1 ($\gamma_{\mathrm{PPN}} = 0$) has $50\%$ error. -/
+@[blueprint "thm:signals-antimatter-photonic-deflection-bridge"
+  (title := "Photonic deflection (passive solar lensing vs. active photon-photon deflection) and annihilation active-mass bridge")
+  (statement := /-- Proves that $\eta_{\mathrm{act}}^\gamma = 1$ simultaneously gives positive mutual
+    photon--photon gravitational deflection and zero $e^-e^+\to 2\gamma$ active-mass deficit, whereas
+    $\eta_{\mathrm{act}}^\gamma = 0$ gives null mutual photon deflection and $\Delta M_{\mathrm{act}} = 2 m_e > 0$,
+    alongside exact $\Delta\theta_{\mathrm{GR}}$ passive solar lensing across GR, Cachazo--Skinner, DDF, and Turner Models 14a--15b. -/)
+  (proof := /-- Combine \texttt{gr\_photon\_deflection\_active}, \texttt{ddf\_photon\_deflection\_null},
+    \texttt{turnerDualGr24IGPEDDFLightDeflection\_eq\_model14a\_of\_ddf}, and
+    \texttt{turner\_model\_15\_critique\_cayley\_shadow\_all\_loop\_and\_light\_deflection\_identities}. -/)]
+theorem annihilation_and_photonic_deflection_bridge
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (m_e impactParam beamEnergy kernel gamma_conf deltaVarpi : ℝ)
+    (hm : 0 < m_e) (hb : 0 < impactParam) (hE : 0 < beamEnergy) (hK : 0 < kernel) :
+    let Δθ_GR := 4 * re.G_phi * re.sourceMass / (sub.c ^ 2 * impactParam)
+    let e_ecc := orb.eccentricity
+    0 < mutualPhotonDeflection ActiveRadiationSourcing.generalRelativity
+          re.G_phi sub.c beamEnergy impactParam kernel ∧
+      annihilationActiveMassDeficit m_e ActiveRadiationSourcing.generalRelativity.eta = 0 ∧
+      mutualPhotonDeflection ActiveRadiationSourcing.dilatantDarkFluid
+        re.G_phi sub.c beamEnergy impactParam kernel = 0 ∧
+      annihilationActiveMassDeficit m_e ActiveRadiationSourcing.dilatantDarkFluid.eta = 2 * m_e ∧
+      0 < annihilationActiveMassDeficit m_e ActiveRadiationSourcing.dilatantDarkFluid.eta ∧
+      gravitationalLightDeflectionPPN re.G_phi re.sourceMass sub.c impactParam 1 = Δθ_GR ∧
+      gravitationalLightDeflectionPPN re.G_phi re.sourceMass sub.c impactParam (-1) = 0 ∧
+      Signals.Huygens.relativePredictiveError
+          (gravitationalLightDeflectionPPN 1 1 1 1 0)
+          (gravitationalLightDeflectionPPN 1 1 1 1 1) = 1 / 2 ∧
+      cachazoSkinnerLightDeflection Δθ_GR 1 gamma_conf impactParam = Δθ_GR ∧
+      turnerPluckerKahlerLightDeflection Δθ_GR (4 - e_ecc ^ 2) e_ecc 0 = Δθ_GR ∧
+      turnerDualGr24IGPEDDFLightDeflection
+          re.G_phi re.sourceMass (1 / sub.c ^ 2) 1 impactParam (4 - e_ecc ^ 2) e_ecc 0 = Δθ_GR ∧
+      PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection orb Δθ_GR deltaVarpi 0 0 0 = Δθ_GR ∧
+      re.turnerCelestialDualGr24DDFGravitonLightDeflection orb impactParam deltaVarpi 0 0 0 = Δθ_GR := by
+  intro Δθ_GR e_ecc
+  have he0 := orb.eccentricity_nonneg
+  have he1 := orb.eccentricity_lt_one
+  have he_pos : 0 < 1 - e_ecc ^ 2 := by nlinarith
+  have he_ne : 1 - e_ecc ^ 2 ≠ 0 := ne_of_gt he_pos
+  have h_m15 := turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities
+    re orb 0 1 deltaVarpi impactParam beamEnergy kernel
+    (by norm_num) (by norm_num) hb hE hK
+  have h_14b := (turnerDualGr24IGPEDDFLightDeflection_eq_model14a_of_ddf
+    re.G_phi re.sourceMass (1 / sub.c ^ 2) 1 sub.c impactParam (4 - e_ecc ^ 2) e_ecc 0 he_ne).2
+  have h_gr_ppn :
+      gravitationalLightDeflectionPPN re.G_phi re.sourceMass sub.c impactParam 1 = Δθ_GR := by
+    unfold gravitationalLightDeflectionPPN
+    dsimp [Δθ_GR]
+    ring
+  have h_14a :
+      turnerPluckerKahlerLightDeflection Δθ_GR (4 - e_ecc ^ 2) e_ecc 0 = Δθ_GR := by
+    unfold turnerPluckerKahlerLightDeflection
+    have h_sub : 4 - e_ecc ^ 2 - 3 = 1 - e_ecc ^ 2 := by ring
+    rw [h_sub, div_self he_ne]
+    ring
+  refine ⟨
+    h_m15.2.2.2.2.1,
+    by unfold annihilationActiveMassDeficit activeGravitationalMassBefore activeGravitationalMassAfter ActiveRadiationSourcing.eta; ring,
+    h_m15.2.2.2.2.2,
+    by unfold annihilationActiveMassDeficit activeGravitationalMassBefore activeGravitationalMassAfter ActiveRadiationSourcing.eta; ring,
+    by unfold annihilationActiveMassDeficit activeGravitationalMassBefore activeGravitationalMassAfter ActiveRadiationSourcing.eta; linarith,
+    h_gr_ppn,
+    by unfold gravitationalLightDeflectionPPN; ring,
+    by unfold Signals.Huygens.relativePredictiveError gravitationalLightDeflectionPPN; norm_num,
+    by unfold cachazoSkinnerLightDeflection; ring,
+    h_14a,
+    by rw [h_14b, add_zero]; exact h_gr_ppn,
+    h_m15.2.2.1,
+    h_m15.2.2.2.1⟩
+
 end
 
 end Signals.AntimatterGravity

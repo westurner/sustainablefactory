@@ -9599,4 +9599,20 @@ example (m_e c f_contract gamma_conf c_sq g0 bias_g sigma_b s_m t_m u_m : ℝ)
     ⟨h1, _, _, _, h5, _, h7, _, _, h10, h11, _, h13, _, h15, h16, _, _, _, _, _, _, h23, h24, h25, h26⟩
   exact ⟨h1, h5, h7, h10, h11, h13, h15, h16, h23, h24, h25, h26⟩
 
+example {sub : Signals.DDF.DDFSubstrate} (re : Signals.DDF.RiverExterior sub)
+    (orb : Signals.QEDGravity.PlanetaryOrbit)
+    (m_e impactParam beamEnergy kernel gamma_conf deltaVarpi : ℝ)
+    (hm : 0 < m_e) (hb : 0 < impactParam) (hE : 0 < beamEnergy) (hK : 0 < kernel) :
+    0 < Signals.DDF.mutualPhotonDeflection Signals.DDF.ActiveRadiationSourcing.generalRelativity
+          re.G_phi sub.c beamEnergy impactParam kernel ∧
+      Signals.AntimatterGravity.annihilationActiveMassDeficit m_e
+        Signals.DDF.ActiveRadiationSourcing.generalRelativity.eta = 0 ∧
+      Signals.DDF.mutualPhotonDeflection Signals.DDF.ActiveRadiationSourcing.dilatantDarkFluid
+        re.G_phi sub.c beamEnergy impactParam kernel = 0 ∧
+      0 < Signals.AntimatterGravity.annihilationActiveMassDeficit m_e
+        Signals.DDF.ActiveRadiationSourcing.dilatantDarkFluid.eta := by
+  have h := Signals.AntimatterGravity.annihilation_and_photonic_deflection_bridge
+    re orb m_e impactParam beamEnergy kernel gamma_conf deltaVarpi hm hb hE hK
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.1⟩
+
 end SignalsTests
