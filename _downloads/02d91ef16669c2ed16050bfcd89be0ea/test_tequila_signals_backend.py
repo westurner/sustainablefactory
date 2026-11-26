@@ -6,17 +6,15 @@ for Tequila (`sustainablefactory/tequila_signals_backend.py`,
 `src/signals/numerical_adapter/src/tequila_simulator.rs`).
 """
 
-from __future__ import annotations
-
 import numpy as np
-import tequila as tq
-from tequila.circuit.noise import BitFlip, DepolarizingError, PhaseFlip
+import signals_numerical_adapter as sna
+from tequila.circuit.noise import DepolarizingError, PhaseFlip
 
+import tequila as tq
 from sustainablefactory.tequila_signals_backend import (
     SignalsTequilaGrassmannSimulator,
     ensure_tequila_signals_backend_registered,
 )
-import signals_numerical_adapter as sna
 
 
 def test_tequila_signals_backend_registration_and_universal_gates():
@@ -100,8 +98,8 @@ def test_tequila_signals_sampling_noisy_density_and_mcweeny_purification():
     total_shots = sum(abs(v) for v in sampled_wfn.values())
     assert np.isclose(total_shots, 2000.0)
     # Only |000> (0) and |111> (7) can appear in ideal GHZ sampling
-    for k in sampled_wfn.keys():
-        assert k.integer in (0, 7)
+    for k in sampled_wfn:
+        assert int(k) in (0, 7)
 
     # 2. Noisy Kraus density-matrix evolution + McWeeny cubic purification
     noise = DepolarizingError(p=0.06, level=1) + PhaseFlip(p=0.02, level=1)
@@ -253,7 +251,9 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     import json
     import subprocess
     import sys
+
     from tequila.simulators import benchmark_signals, simulator_signals
+
     from sustainablefactory.tequila_signals_backend import (
         benchmark_dense_expectation_scaling,
         benchmark_dense_memory_wall_limit,

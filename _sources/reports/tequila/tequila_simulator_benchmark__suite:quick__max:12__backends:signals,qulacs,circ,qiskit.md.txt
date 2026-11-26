@@ -1,0 +1,59 @@
+### Table 1: Dense $2^n$ Parametrized Circuit + Pauli Hamiltonian Scaling
+
+| Qubits $n$ | $2^n$ | Terms $M$ | Backend | Status | Median (ms) | Speedup vs `signals` | $\langle H \rangle$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 4 | 16 | 16 | `signals` | OK | 0.236 | 1.00x | 2.919638 |
+| 4 | 16 | 16 | `qulacs` | OK | 4.784 | 20.27x | 2.919638 |
+| 4 | 16 | 16 | `qiskit` | OK | 171.869 | 728.25x | 2.919638 |
+| 6 | 64 | 24 | `signals` | OK | 0.444 | 1.00x | 5.113512 |
+| 6 | 64 | 24 | `qulacs` | OK | 5.791 | 13.03x | 5.113512 |
+| 6 | 64 | 24 | `qiskit` | OK | 183.756 | 413.49x | 5.113512 |
+| 10 | 1024 | 40 | `signals` | OK | 1.004 | 1.00x | 13.033999 |
+| 10 | 1024 | 40 | `qulacs` | OK | 69.989 | 69.70x | 13.033999 |
+| 10 | 1024 | 40 | `qiskit` | OK | 512.848 | 510.76x | 13.033999 |
+
+### Table 2: High-$n$ Dense $2^n$ Statevector Hardware RAM Ceiling
+
+| Qubits $n$ | Statevector (GiB) | Backend | Status | Cold (ms) | Warm (ms) | Speedup vs `signals` | $\langle H \rangle$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 12 | 0.0001 | `signals` | OK | 0.53 | 0.38 | 1.00x | 5.727970 |
+| 12 | 0.0001 | `qulacs` | OK | 24.52 | 31.04 | 82.10x | 5.727970 |
+| 12 | 0.0001 | `circ` | FAILED | — | — | — | — |
+| 12 | 0.0001 | `qiskit` | OK | 1205.92 | 1110.78 | 2938.37x | 5.727970 |
+| 14 | 0.0002 | `signals` | OK | 2.70 | 1.41 | 1.00x | 6.682261 |
+| 14 | 0.0002 | `qulacs` | OK | 131.57 | 20.74 | 14.73x | 6.682261 |
+| 14 | 0.0002 | `circ` | FAILED | — | — | — | — |
+| 14 | 0.0002 | `qiskit` | OK | 3783.75 | 3666.44 | 2604.07x | 6.682261 |
+
+### Table 3: Particle-Number-Conserving `HCB-SPA` / `MRA-PNO` Chemistry Scaling ($n \le 126$ Qubits)
+
+| Active Space | Qubits $n$ | Support $\|\mathrm{supp}\|$ | Backend | Status | Median (ms) | Speedup vs `signals` | $\langle H \rangle$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| $\mathrm{Gr}_{\mathbb{C}}(2,6)$ | 6 | 4 | `signals` | OK | 0.060 | 1.00x | -25.379441 |
+| $\mathrm{Gr}_{\mathbb{C}}(2,6)$ | 6 | 64 | `qulacs` | OK | 5.143 | 85.89x | -25.379441 |
+| $\mathrm{Gr}_{\mathbb{C}}(2,6)$ | 6 | 64 | `qiskit` | OK | 122.254 | 2041.71x | -25.379441 |
+| $\mathrm{Gr}_{\mathbb{C}}(4,14)$ | 14 | 16 | `signals` | OK | 0.103 | 1.00x | -117.674525 |
+| $\mathrm{Gr}_{\mathbb{C}}(4,14)$ | 14 | 16384 | `qulacs` | OK | 76.196 | 741.69x | -117.674525 |
+| $\mathrm{Gr}_{\mathbb{C}}(4,14)$ | 14 | 16384 | `qiskit` | OK | 526.979 | 5129.60x | -117.674525 |
+| $\mathrm{Gr}_{\mathbb{C}}(6,64)$ | 64 | 64 | `signals` | OK | 1.373 | 1.00x | -166.144938 |
+| $\mathrm{Gr}_{\mathbb{C}}(6,64)$ | 64 | — | `qulacs` | SKIPPED_DENSE_WALL | — | — | — |
+| $\mathrm{Gr}_{\mathbb{C}}(6,64)$ | 64 | — | `qiskit` | SKIPPED_DENSE_WALL | — | — | — |
+| $\mathrm{Gr}_{\mathbb{C}}(8,126)$ | 126 | 256 | `signals` | OK | 2.881 | 1.00x | -158.569069 |
+| $\mathrm{Gr}_{\mathbb{C}}(8,126)$ | 126 | — | `qulacs` | SKIPPED_DENSE_WALL | — | — | — |
+| $\mathrm{Gr}_{\mathbb{C}}(8,126)$ | 126 | — | `qiskit` | SKIPPED_DENSE_WALL | — | — | — |
+
+### Table 4: Full VQE BFGS Optimization (`tq.minimize`) & Wavefunction Simulation
+
+| Backend | Status | VQE `tq.minimize` (ms) | Wavefunction (ms) | Sampling (ms) | Speedup vs `signals` | $E_{\mathrm{opt}}$ (Ha) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `signals` | OK | 49.395 | 1.501 | 1.471 | 1.00x | -1.40998396 |
+| `qulacs` | OK | 802.851 | 8.658 | 9.435 | 16.25x | -1.40998396 |
+| `qiskit` | OK | 24735.020 | 115.803 | 175.329 | 500.76x | -1.40998396 |
+
+### Table 5: Grassmannian Plücker Fermionic Determinant ($\det$) vs. Bosonic Permanent ($\operatorname{perm}$)
+
+| Manifold | $2^{n_{\mathrm{orb}}}$ | $\binom{n_{\mathrm{orb}}}{n_{\mathrm{occ}}}$ | Compression | $\det$ Norm$^2$ | $\det$ (ms) | $\operatorname{perm}$ (ms) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| $\mathrm{Gr}_{\mathbb{C}}(2,4)$ | 16 | 6 | 2.67x | 1.000000 | 0.040 | 0.009 |
+| $\mathrm{Gr}_{\mathbb{C}}(2,6)$ | 64 | 15 | 4.27x | 1.000000 | 0.020 | 0.011 |
+| $\mathrm{Gr}_{\mathbb{C}}(2,10)$ | 1024 | 45 | 22.76x | 1.000000 | 0.038 | 0.021 |

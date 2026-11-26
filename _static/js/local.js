@@ -988,7 +988,7 @@ $(document).ready(function() {
             settingsPanel = document.createElement('div');
             settingsPanel.className = 'theme-settings-panel';
             settingsPanel.setAttribute('role', 'group');
-            settingsPanel.setAttribute('aria-label', 'Display settings');
+            settingsPanel.setAttribute('aria-label', 'Sidebar visibility');
             details.appendChild(settingsPanel);
             menuItem.appendChild(details);
             navigation.appendChild(menuItem);

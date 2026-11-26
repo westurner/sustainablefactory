@@ -7626,4 +7626,26 @@ example :
   Signals.Pending.photoelectric_identities_do_not_close_experimental_gates
     (45 / 10) (1 / 20) (by norm_num) (by norm_num)
 
+/-! ### Regression Tests: `AntimatterAnnihilationAlphaGPendingBoundary` -/
+
+example (b : Signals.Pending.AntimatterAnnihilationAlphaGPendingBoundary)
+    (h : ¬ b.subPercentAlphaGWepValidated) :
+    ¬ b.allAntimatterGatesClosed :=
+  SignalsPending.pending_antimatter_alpha_g_gate_boundary b (Or.inl h)
+
+example :
+    let b : Signals.Pending.AntimatterAnnihilationAlphaGPendingBoundary :=
+      { alphaGRatio := 3 / 4
+        alphaGRatio_eq := rfl
+        alphaGVariance := 17 / 400
+        alphaGVariance_pos := by norm_num
+        subPercentAlphaGWepValidated := False
+        positroniumFreeFallMeasured := False
+        activePhotonSourcingResolved := False
+        plancherelLoopCouplingMeasured := False }
+    b.alphaGRatio = 3 / 4 ∧
+      0 < b.alphaGVariance ∧
+      ¬ b.allAntimatterGatesClosed :=
+  Signals.Pending.antimatter_alpha_g_identities_do_not_close_pending_gates
+
 end SignalsPendingTests

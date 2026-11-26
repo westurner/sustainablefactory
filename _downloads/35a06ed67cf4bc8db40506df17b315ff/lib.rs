@@ -4,6 +4,7 @@
 
 use std::fmt;
 
+pub mod antimatter_gravity;
 pub mod arc_dsl;
 pub mod cannon_mask_cad;
 pub mod finite_constraint_solvers;
@@ -1194,6 +1195,52 @@ fn py_audit_polariton_plasmon_photoemission<'py>(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_antimatter_alpha_g<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let suite = antimatter_gravity::evaluate_alpha_g_model_suite()
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("total_sigma", suite.total_sigma)?;
+    d.set_item("calibrated_sigma_b", suite.calibrated_sigma_b)?;
+    d.set_item("e_gamma_kev", suite.e_gamma_kev)?;
+    d.set_item("two_photon_invariant_mass_kev", suite.two_photon_invariant_mass_kev)?;
+    d.set_item(
+        "witten_gamma_conf_2sigma_upper_bound_inv_m",
+        suite.witten_gamma_conf_2sigma_upper_bound_inv_m,
+    )?;
+    d.set_item(
+        "witten_gamma_conf_2sigma_lower_bound_inv_m",
+        suite.witten_gamma_conf_2sigma_lower_bound_inv_m,
+    )?;
+    d.set_item("bias_scan_g", suite.bias_scan_g)?;
+    d.set_item("p_down_normal_wep", suite.p_down_normal_wep)?;
+    d.set_item("p_down_zero_g", suite.p_down_zero_g)?;
+    d.set_item("p_down_antigravity", suite.p_down_antigravity)?;
+    let model_list = PyList::empty(py);
+    for m_eval in suite.models {
+        let md = PyDict::new(py);
+        md.set_item("model_name", m_eval.model_name)?;
+        md.set_item("predicted_a_over_g0", m_eval.predicted_a_over_g0)?;
+        md.set_item("eta_act_gamma", m_eval.eta_act_gamma)?;
+        md.set_item(
+            "active_mass_deficit_fraction",
+            m_eval.active_mass_deficit_fraction,
+        )?;
+        md.set_item("z_score", m_eval.z_score)?;
+        md.set_item("chi_sq", m_eval.chi_sq)?;
+        md.set_item("consistent_within_2sigma", m_eval.consistent_within_2sigma)?;
+        md.set_item("active_mass_conserved", m_eval.active_mass_conserved)?;
+        md.set_item(
+            "zero_bias_downward_fraction",
+            m_eval.zero_bias_downward_fraction,
+        )?;
+        model_list.append(md)?;
+    }
+    d.set_item("models", model_list)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -1290,6 +1337,7 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         py_audit_polariton_plasmon_photoemission,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(py_audit_antimatter_alpha_g, m)?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;

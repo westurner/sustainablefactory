@@ -11,6 +11,7 @@
   "navigation": {
     "children": [
       "anti-fire-cannon-review",
+      "antimatter-annihilation-alpha-g-plan",
       "chat-markdown-warning-remediation-plan",
       "chat-physics-catalog",
       "cli_reference",
@@ -23,6 +24,7 @@
       "gaussian-splat-tensors-normed-paper",
       "glossary",
       "grassmannian-ads-cft-ddf-paper",
+      "grassmannian-antimatter-annihilation-alpha-g-models-paper",
       "grassmannian-celestial-holography-graviton-turner-riemann-paper",
       "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
       "grassmannian-cuprate-superconductivity-paper",
@@ -756,6 +758,74 @@
       "source": "anti-fire-cannon-review.md",
       "title": "Anti-Fire Cannon Review",
       "url": "anti-fire-cannon-review.html"
+    },
+    {
+      "children": [],
+      "docname": "antimatter-annihilation-alpha-g-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "written-plan-antimatter-annihilation-electron-gravity-mechanics-across-gr-cachazowitten-twistor-strings-qed-scattering-gravity-ddf-and-turner-models-315b-tested-against-cern-alpha-g-data",
+              "antimatter-annihilation-alpha-g-plan"
+            ],
+            "level": 1,
+            "title": "Written Plan: Antimatter Annihilation, Electron & Gravity Mechanics Across GR, Cachazo\u2013Witten Twistor Strings, QED Scattering Gravity, DDF, and Turner Models 3\u201315b \u2014 Tested Against CERN ALPHA-g Data"
+          },
+          {
+            "ids": [
+              "scientific-questions-core-diagnostic-thesis"
+            ],
+            "level": 2,
+            "title": "1. Scientific Questions & Core Diagnostic Thesis"
+          },
+          {
+            "ids": [
+              "epistemic-scope-signals-pending-contract"
+            ],
+            "level": 2,
+            "title": "2. Epistemic Scope & Signals.Pending Contract"
+          },
+          {
+            "ids": [
+              "phased-workstreams-ag-1-through-ag-5"
+            ],
+            "level": 2,
+            "title": "3. Phased Workstreams (AG-1 Through AG-5)"
+          },
+          {
+            "ids": [
+              "ag-1-lean-4-formalization-signals-antimattergravity-signals-pending"
+            ],
+            "level": 3,
+            "title": "AG-1: Lean 4 Formalization (Signals.AntimatterGravity & Signals.Pending)"
+          },
+          {
+            "ids": [
+              "ag-2-rust-pyo3-numerical-auditor-antimatter-gravity-rs"
+            ],
+            "level": 3,
+            "title": "AG-2: Rust + PyO3 Numerical Auditor (antimatter_gravity.rs)"
+          },
+          {
+            "ids": [
+              "ag-3-sympy-exact-proofs-pytest-cern-alpha-g-suite"
+            ],
+            "level": 3,
+            "title": "AG-3: SymPy Exact Proofs & pytest CERN ALPHA-g Suite"
+          },
+          {
+            "ids": [
+              "ag-4-myst-markdown-paper-documentation-integration"
+            ],
+            "level": 3,
+            "title": "AG-4: MyST Markdown Paper & Documentation Integration"
+          }
+        ]
+      },
+      "source": "antimatter-annihilation-alpha-g-plan.md",
+      "title": "Written Plan: Antimatter Annihilation, Electron & Gravity Mechanics Across GR, Cachazo\u2013Witten Twistor Strings, QED Scattering Gravity, DDF, and Turner Models 3\u201315b \u2014 Tested Against CERN ALPHA-g Data",
+      "url": "antimatter-annihilation-alpha-g-plan.html"
     },
     {
       "children": [],
@@ -200190,6 +200260,137 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-antimatter-annihilation-alpha-g-models-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "antimatter-annihilation-electron-gravity-mechanics-across-general-relativity-cachazowitten-twistor-strings-qed-scattering-gravity-dilatant-dark-fluid-ddf-and-turner-models-315b-tested-against-cern-alpha-g-data",
+              "grassmannian-antimatter-annihilation-alpha-g-models-paper"
+            ],
+            "level": 1,
+            "title": "Antimatter Annihilation, Electron & Gravity Mechanics Across General Relativity, Cachazo\u2013Witten Twistor Strings, QED Scattering Gravity, Dilatant Dark Fluid (DDF), and Turner Models 3\u201315b: Tested Against CERN ALPHA-g Data"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "executive-verdict-across-all-models"
+            ],
+            "level": 2,
+            "title": "1. Executive Verdict Across All Models"
+          },
+          {
+            "ids": [
+              "table-1-1-master-correspondence-contradiction-matrix-across-electron-gravity-and-turner-models"
+            ],
+            "level": 3,
+            "title": "Table 1.1: Master Correspondence & Contradiction Matrix Across Electron, Gravity, and Turner Models"
+          },
+          {
+            "ids": [
+              "electronpositron-annihilation-mechanics-across-twistors-qed-ddf-and-turner-models"
+            ],
+            "level": 2,
+            "title": "2. Electron\u2013Positron Annihilation Mechanics Across Twistors, QED, DDF, and Turner Models"
+          },
+          {
+            "ids": [
+              "dirac-spinors-pair-annihilation-kinematics-and-charge-conjugation"
+            ],
+            "level": 3,
+            "title": "2.1 Dirac Spinors, Pair Annihilation Kinematics, and Charge Conjugation"
+          },
+          {
+            "ids": [
+              "crossing-symmetry-on-mathrm-gr-mathbb-c-2-4-and-two-twistor-e-pm-to-2-gamma-decomposition"
+            ],
+            "level": 3,
+            "title": "2.2 Crossing Symmetry on \\mathrm{Gr}_{\\mathbb{C}}(2,4) and Two-Twistor e^\\pm \\to 2\\gamma Decomposition"
+          },
+          {
+            "ids": [
+              "active-gravitational-mass-conservation-and-photonic-deflection-across-e-e-to-2-gamma-connecting-docs-grass-md-photonphoton-deflection-laws-to-antimatter-annihilation"
+            ],
+            "level": 2,
+            "title": "3. Active Gravitational Mass Conservation and Photonic Deflection Across e^- e^+ \\to 2\\gamma: Connecting docs/grass*.md Photon\u2013Photon Deflection Laws to Antimatter Annihilation"
+          },
+          {
+            "ids": [
+              "the-sealed-box-annihilation-thought-experiment-and-annihilation-and-photonic-deflection-bridge"
+            ],
+            "level": 3,
+            "title": "3.1 The Sealed-Box Annihilation Thought Experiment and annihilation_and_photonic_deflection_bridge"
+          },
+          {
+            "ids": [
+              "table-3-1-photonic-deflection-annihilation-active-mass-bridge-across-docs-grass-md-models"
+            ],
+            "level": 3,
+            "title": "Table 3.1: Photonic Deflection & Annihilation Active-Mass Bridge Across docs/grass*.md Models"
+          },
+          {
+            "ids": [
+              "quantitative-testing-against-cern-alpha-g-2023-data"
+            ],
+            "level": 2,
+            "title": "4. Quantitative Testing Against CERN ALPHA-g (2023) Data"
+          },
+          {
+            "ids": [
+              "published-cern-alpha-g-observable-complementary-cpt-constraints-and-test-methodology"
+            ],
+            "level": 3,
+            "title": "4.1 Published CERN ALPHA-g Observable, Complementary CPT Constraints, and Test Methodology"
+          },
+          {
+            "ids": [
+              "exact-chi-2-z-score-and-p-value-results-across-all-gravity-and-turner-models"
+            ],
+            "level": 3,
+            "title": "4.2 Exact \\chi^2, z-Score, and p-Value Results Across All Gravity and Turner Models"
+          },
+          {
+            "ids": [
+              "quantitative-alpha-g-parameter-bounds-on-witten-gamma-mathrm-conf-ddf-anti-sinks-and-dual-schubert-delta-mathrm-jos-bar-mathrm-h"
+            ],
+            "level": 3,
+            "title": "4.3 Quantitative ALPHA-g Parameter Bounds on Witten \\gamma_{\\mathrm{conf}}, DDF Anti-Sinks, and Dual-Schubert \\delta_{\\mathrm{Jos}}^{\\bar{\\mathrm{H}}}"
+          },
+          {
+            "ids": [
+              "calibrated-7-point-alpha-g-bias-scan-logistic-escape-curve-turner-models-3-6"
+            ],
+            "level": 3,
+            "title": "4.4 Calibrated 7-Point ALPHA-g Bias-Scan Logistic Escape Curve (Turner Models 3 & 6)"
+          },
+          {
+            "ids": [
+              "reproducible-tri-language-verification"
+            ],
+            "level": 2,
+            "title": "5. Reproducible Tri-Language Verification"
+          },
+          {
+            "ids": [
+              "scholarly-references-provenance-metadata"
+            ],
+            "level": 2,
+            "title": "6. Scholarly References & Provenance Metadata"
+          }
+        ]
+      },
+      "source": "grassmannian-antimatter-annihilation-alpha-g-models-paper.md",
+      "title": "Antimatter Annihilation, Electron & Gravity Mechanics Across General Relativity, Cachazo\u2013Witten Twistor Strings, QED Scattering Gravity, Dilatant Dark Fluid (DDF), and Turner Models 3\u201315b: Tested Against CERN ALPHA-g Data",
+      "url": "grassmannian-antimatter-annihilation-alpha-g-models-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-celestial-holography-graviton-turner-riemann-paper",
       "doctree": {
         "headings": [
@@ -208698,6 +208899,7 @@
     {
       "children": [
         "anti-fire-cannon-review",
+        "antimatter-annihilation-alpha-g-plan",
         "chat-markdown-warning-remediation-plan",
         "chat-physics-catalog",
         "cli_reference",
@@ -208710,6 +208912,7 @@
         "gaussian-splat-tensors-normed-paper",
         "glossary",
         "grassmannian-ads-cft-ddf-paper",
+        "grassmannian-antimatter-annihilation-alpha-g-models-paper",
         "grassmannian-celestial-holography-graviton-turner-riemann-paper",
         "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
         "grassmannian-cuprate-superconductivity-paper",
@@ -210226,6 +210429,52 @@
       "source": "references.md",
       "title": "References",
       "url": "references.html"
+    },
+    {
+      "children": [],
+      "docname": "reports/tequila/tequila_simulator_benchmark__suite:quick__max:12__backends:signals,qulacs,circ,qiskit",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "table-1-dense-2-n-parametrized-circuit-pauli-hamiltonian-scaling"
+            ],
+            "level": 1,
+            "title": "Table 1: Dense 2^n Parametrized Circuit + Pauli Hamiltonian Scaling"
+          },
+          {
+            "ids": [
+              "table-2-high-n-dense-2-n-statevector-hardware-ram-ceiling"
+            ],
+            "level": 1,
+            "title": "Table 2: High-n Dense 2^n Statevector Hardware RAM Ceiling"
+          },
+          {
+            "ids": [
+              "table-3-particle-number-conserving-hcb-spa-mra-pno-chemistry-scaling-n-le-126-qubits"
+            ],
+            "level": 1,
+            "title": "Table 3: Particle-Number-Conserving HCB-SPA / MRA-PNO Chemistry Scaling (n \\le 126 Qubits)"
+          },
+          {
+            "ids": [
+              "table-4-full-vqe-bfgs-optimization-tq-minimize-wavefunction-simulation"
+            ],
+            "level": 1,
+            "title": "Table 4: Full VQE BFGS Optimization (tq.minimize) & Wavefunction Simulation"
+          },
+          {
+            "ids": [
+              "table-5-grassmannian-plucker-fermionic-determinant-det-vs-bosonic-permanent-operatorname-perm"
+            ],
+            "level": 1,
+            "title": "Table 5: Grassmannian Pl\u00fccker Fermionic Determinant (\\det) vs. Bosonic Permanent (\\operatorname{perm})"
+          }
+        ]
+      },
+      "source": "reports/tequila/tequila_simulator_benchmark__suite:quick__max:12__backends:signals,qulacs,circ,qiskit.md",
+      "title": "Table 1: Dense 2^n Parametrized Circuit + Pauli Hamiltonian Scaling",
+      "url": "reports/tequila/tequila_simulator_benchmark__suite%3Aquick__max%3A12__backends%3Asignals%2Cqulacs%2Ccirc%2Cqiskit.html"
     },
     {
       "children": [],

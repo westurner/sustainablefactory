@@ -63,6 +63,8 @@ button.navbar-toggle {
 div.sidebar ul ul {
     padding-left: 12px;
     list-style-type: none;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
  
@@ -92,28 +94,31 @@ div.sidebar h3 {
     font-size: 20px;
 }
 
+/* TODO: make this not vary the left padding/margin of the `li a` links,
+*/
+
 div.sidebar ul ul li {
-    border-left: 2px solid #ccc;
+    border-left: 0px solid #ccc;
     padding-left: 4px;
     margin-bottom: 4px;
     margin-left: -10px;
 }
 
 div.sidebar ul ul li.current {
-    border-left: 4px solid #ccc;
+    border-left: 0px solid #ccc;
     padding-left: 2px;
 }
 
 div.sidebar ul ul li:hover {
-    border-left: 4px solid #aaa !important;
+    border-left: 0px solid #aaa !important;
 }
 
 div.sidebar ul ul li.current:hover {
-    border-left: 4px solid #999 !important;
+    border-left: 0px solid #999 !important;
 }
 
 div.sidebar ul ul li.youarehere {
-    border-left: 4px solid #777 !important;
+    border-left: 0px solid #777 !important;
 }
 
 div.body {
@@ -407,11 +412,15 @@ div.citation span.label {
 }
 
 
-a:focus {
+/* a:focus {
 /* outline-offset: -2px; */
-outline-offset: 2px;
-}
+/* outline-offset: 2px; */
+/* } */
 
+
+a {
+    text-decoration: underline !important;
+}
 
 
 .theme-settings-theme {
