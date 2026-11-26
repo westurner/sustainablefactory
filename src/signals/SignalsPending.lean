@@ -2610,4 +2610,18 @@ lemma pending_antimatter_alpha_g_gate_boundary
     ¬ b.allAntimatterGatesClosed :=
   b.not_allAntimatterGatesClosed_of_any_refuted h_refuted
 
+@[blueprint "lem:signals-pending-yang-mills-higgs-cpt-gate-boundary"
+  (title := "Yang-Mills mass gap, Higgs CP, and Jost CPT epistemic gate boundary")
+  (statement := /-- Any refuted continuum 4D Yang--Mills OS, celestial confining reconstruction, BSM Higgs CP, or baryogenesis/Model 16 gate blocks \texttt{allYangMillsHiggsCptGatesClosed}. -/)
+  (proof := /-- Apply \texttt{YangMillsMassGapHiggsCPTPendingBoundary.not\_allGatesClosed\_of\_any\_refuted}. -/)
+  (latexEnv := "lemma")]
+lemma pending_yang_mills_higgs_cpt_gate_boundary
+    (b : YangMillsMassGapHiggsCPTPendingBoundary)
+    (h_refuted : ¬ b.continuum4DYangMillsOSConstructed ∨
+      ¬ b.celestialConfiningWightmanReconstructed ∨
+      ¬ b.bsmHiggsCpViolationObserved ∨
+      ¬ b.electroweakBaryogenesisAndModel16Resolved) :
+    ¬ b.allYangMillsHiggsCptGatesClosed :=
+  b.not_allGatesClosed_of_any_refuted h_refuted
+
 end SignalsPending

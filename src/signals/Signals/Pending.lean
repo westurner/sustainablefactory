@@ -9896,4 +9896,79 @@ theorem antimatter_alpha_g_identities_do_not_close_pending_gates :
   intro h
   exact h.1
 
+/-! ### Yang–Mills Mass Gap, Higgs Symmetry Breaking, CP Violation, and Jost CPT Pending Boundary -/
+
+/-- Epistemic boundary isolating the finite/algebraic and IR-regularized theorems in
+`Signals.YangMillsHiggsCPT`, `Signals.RiemannSpectral` (Sec. 12), and `Signals.DDF` (Sec. 30.8)
+from the open constructive-QFT and collider/cosmological gates:
+1. Clay Millennium 4D continuum $\mathrm{SU}(N)$ Yang–Mills Osterwalder–Schrader existence,
+   reflection positivity, temperedness, and continuum mass gap $\Delta > 0$ (Jaffe–Witten 2000;
+   Toupin 2026 PhilArchive preprint remains unverified),
+2. Celestial CFT infrared/LSZ reconstruction gap in confining theories with no asymptotic
+   colored massless gluon states,
+3. Beyond-Standard-Model (BSM) Higgs CP-violating coupling discovery ($\tilde{\kappa}\sin(2\alpha_{\mathrm{CP}}) \ne 0$)
+   at ATLAS/CMS beyond Standard Model CKM $J_{\mathrm{CP}}$, and
+4. Experimental realization of a first-order electroweak phase transition for baryogenesis
+   and Model 16a/16b laboratory discrimination ($\eta_{\mathrm{act}}^\gamma \in \{0, 1\}$, $\kappa_{\mathrm{IR}}$). -/
+structure YangMillsMassGapHiggsCPTPendingBoundary where
+  /-- Verified finite lattice gap or tree-level GKO mass parameter `> 0`. -/
+  finiteGapMeV : ℝ
+  finiteGapMeV_pos : 0 < finiteGapMeV
+  /-- Verified Higgs vacuum expectation value `v > 0` (GeV). -/
+  higgsVevGeV : ℝ
+  higgsVevGeV_pos : 0 < higgsVevGeV
+  /-- Open Clay Millennium gate: 4D continuum Yang–Mills Osterwalder–Schrader axioms & mass gap `Δ > 0`. -/
+  continuum4DYangMillsOSConstructed : Prop
+  /-- Open Celestial-QCD gate: non-perturbative 4D confining Wightman reconstruction from 2D WZW/KZ correlators. -/
+  celestialConfiningWightmanReconstructed : Prop
+  /-- Open collider gate: BSM CP-violating Higgs decay asymmetry (`κ̃ sin(2 α_CP) ≠ 0`) measured at ATLAS/CMS. -/
+  bsmHiggsCpViolationObserved : Prop
+  /-- Open cosmological/discriminator gate: electroweak baryogenesis phase transition & Model 16a/16b resolution. -/
+  electroweakBaryogenesisAndModel16Resolved : Prop
+
+/-- Predicate asserting that every open Clay Millennium, celestial-QCD, collider, and cosmological gate is closed. -/
+def YangMillsMassGapHiggsCPTPendingBoundary.allYangMillsHiggsCptGatesClosed
+    (b : YangMillsMassGapHiggsCPTPendingBoundary) : Prop :=
+  b.continuum4DYangMillsOSConstructed ∧
+    b.celestialConfiningWightmanReconstructed ∧
+    b.bsmHiggsCpViolationObserved ∧
+    b.electroweakBaryogenesisAndModel16Resolved
+
+/-- Refuting any single open gate rules out `allYangMillsHiggsCptGatesClosed`. -/
+theorem YangMillsMassGapHiggsCPTPendingBoundary.not_allGatesClosed_of_any_refuted
+    (b : YangMillsMassGapHiggsCPTPendingBoundary)
+    (h_refuted : ¬ b.continuum4DYangMillsOSConstructed ∨
+      ¬ b.celestialConfiningWightmanReconstructed ∨
+      ¬ b.bsmHiggsCpViolationObserved ∨
+      ¬ b.electroweakBaryogenesisAndModel16Resolved) :
+    ¬ b.allYangMillsHiggsCptGatesClosed := by
+  intro h_closed
+  rcases h_closed with ⟨h1, h2, h3, h4⟩
+  rcases h_refuted with hr | hr | hr | hr
+  · exact hr h1
+  · exact hr h2
+  · exact hr h3
+  · exact hr h4
+
+/-- Machine-checked `Signals.YangMillsHiggsCPT` theorems (lattice gap, Higgs SSB, Sakharov equilibrium
+null theorem, and finite Jost CPT involution) do **not** close the Clay Millennium continuum 4D Yang–Mills
+problem, celestial-QCD Wightman reconstruction, BSM Higgs CP discovery, or electroweak baryogenesis. -/
+theorem yang_mills_higgs_cpt_identities_do_not_close_pending_gates :
+    let b : YangMillsMassGapHiggsCPTPendingBoundary :=
+      { finiteGapMeV := 300
+        finiteGapMeV_pos := by norm_num
+        higgsVevGeV := 246
+        higgsVevGeV_pos := by norm_num
+        continuum4DYangMillsOSConstructed := False
+        celestialConfiningWightmanReconstructed := False
+        bsmHiggsCpViolationObserved := False
+        electroweakBaryogenesisAndModel16Resolved := False }
+    0 < b.finiteGapMeV ∧
+      0 < b.higgsVevGeV ∧
+      ¬ b.allYangMillsHiggsCptGatesClosed := by
+  dsimp only
+  refine ⟨by norm_num, by norm_num, ?_⟩
+  intro h
+  exact h.1
+
 end Signals.Pending

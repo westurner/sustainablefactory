@@ -224,4 +224,63 @@ theorem celestialChiralCasimir_and_cayley_critical_line_equiv
   have hcay := (li_cayley_critical_line_bridge sigmaDev gamma h_rho_ne).1
   exact ⟨hcas_iff.trans hcay.symm, hcay⟩
 
+/-- **Dimensional Transmutation RG Shift & Cayley Contraction Bridge**:
+Connects `Signals.RiemannSpectral.celestialDimTransmutationDev`, `toupin_re_delta_eq_d_cft_half_bridge`,
+and `RHGaps.norm_cayley_le_one_iff` / `liSummand_nonneg_of_re_ge_half` / `cayley_pow_unbounded_of_re_lt_half`:
+1. In an asymptotically free gauge theory (`b0 > 0, g ≠ 0`), `σ_rg = celestialDimTransmutationDev b0 g > 0`,
+   so `s_rg = (1/2 + σ_rg) + i γ` satisfies `Re(s_rg) > 1/2`, `‖cayley s_rg‖ < 1` (contractive interior
+   of the Cayley disk), and `0 ≤ liSummand s_rg n` for all `n`, while breaking chiral Casimir reality
+   (`celestialChiralCasimirIm σ_rg γ ≠ 0`) and shifting `Δ_re = d_CFT * (1/2 + σ_rg) > d_CFT / 2`.
+2. Conversely, any negative shift `σ_neg < 0` gives `Re(s) < 1/2`, triggering exponential blowup
+   `‖(cayley s)^n‖ → ∞` (`RHGaps.cayley_pow_unbounded_of_re_lt_half`). -/
+theorem celestialDimTransmutation_cayley_contraction_and_ir_bridge
+    (b0 gCoupling gamma dBulk sigmaNeg : ℝ)
+    (hb0 : 0 < b0) (hg : gCoupling ≠ 0) (hgam : gamma ≠ 0)
+    (hd : 2 < dBulk) (h_neg : sigmaNeg < 0) :
+    let σ_rg := celestialDimTransmutationDev b0 gCoupling
+    let s_rg : ℂ := ⟨1 / 2 + σ_rg, gamma⟩
+    let s_neg : ℂ := ⟨1 / 2 + sigmaNeg, gamma⟩
+    let dCft := dBulk - 2
+    0 < σ_rg ∧
+      celestialChiralCasimirIm σ_rg gamma ≠ 0 ∧
+      dCft / 2 < dCft * s_rg.re ∧
+      ‖cayley s_rg‖ ≤ 1 ∧
+      ‖cayley s_rg‖ ≠ 1 ∧
+      (∀ n : ℕ, 0 ≤ liSummand s_rg n) ∧
+      Filter.Tendsto (fun n : ℕ => ‖(cayley s_neg) ^ n‖) Filter.atTop Filter.atTop := by
+  intro σ_rg s_rg s_neg dCft
+  have h_rg_pos : 0 < σ_rg := by
+    dsimp [σ_rg, celestialDimTransmutationDev]
+    have hg2 : 0 < gCoupling ^ 2 := sq_pos_of_ne_zero hg
+    have hpi : 0 < Real.pi := Real.pi_pos
+    positivity
+  have h_cas_ne : celestialChiralCasimirIm σ_rg gamma ≠ 0 := by
+    unfold celestialChiralCasimirIm
+    exact mul_ne_zero (mul_ne_zero two_ne_zero (ne_of_gt h_rg_pos)) hgam
+  have h_dcft_pos : 0 < dCft := by dsimp [dCft]; linarith
+  have h_srg_re : (1 / 2 : ℝ) < s_rg.re := by simp [s_rg]; linarith
+  have h_delta_gt : dCft / 2 < dCft * s_rg.re := by
+    calc
+      dCft / 2 = dCft * (1 / 2 : ℝ) := by ring
+      _ < dCft * s_rg.re := mul_lt_mul_of_pos_left h_srg_re h_dcft_pos
+  have h_srg_ne : s_rg ≠ 0 := by
+    intro h0
+    have him : gamma = 0 := congrArg Complex.im h0
+    exact hgam him
+  have h_sneg_ne : s_neg ≠ 0 := by
+    intro h0
+    have him : gamma = 0 := congrArg Complex.im h0
+    exact hgam him
+  have h_cay_le : ‖cayley s_rg‖ ≤ 1 :=
+    (norm_cayley_le_one_iff h_srg_ne).mpr (le_of_lt h_srg_re)
+  have h_cay_ne1 : ‖cayley s_rg‖ ≠ 1 := by
+    intro h1
+    have hre := (norm_cayley_eq_one_iff h_srg_ne).mp h1
+    linarith
+  have h_li_nn : ∀ n : ℕ, 0 ≤ liSummand s_rg n :=
+    liSummand_nonneg_of_re_ge_half h_srg_ne (le_of_lt h_srg_re)
+  have h_sneg_lt : s_neg.re < 1 / 2 := by simp [s_neg]; linarith
+  have h_blowup := cayley_pow_unbounded_of_re_lt_half h_sneg_ne h_sneg_lt
+  exact ⟨h_rg_pos, h_cas_ne, h_delta_gt, h_cay_le, h_cay_ne1, h_li_nn, h_blowup⟩
+
 end Signals.SatoGrassmannian.RiemannSpectralBridge

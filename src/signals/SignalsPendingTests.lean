@@ -7648,4 +7648,26 @@ example :
       ¬ b.allAntimatterGatesClosed :=
   Signals.Pending.antimatter_alpha_g_identities_do_not_close_pending_gates
 
+/-! ### Regression Tests: `YangMillsMassGapHiggsCPTPendingBoundary` -/
+
+example (b : Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary)
+    (h : ¬ b.continuum4DYangMillsOSConstructed) :
+    ¬ b.allYangMillsHiggsCptGatesClosed :=
+  SignalsPending.pending_yang_mills_higgs_cpt_gate_boundary b (Or.inl h)
+
+example :
+    let b : Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary :=
+      { finiteGapMeV := 300
+        finiteGapMeV_pos := by norm_num
+        higgsVevGeV := 246
+        higgsVevGeV_pos := by norm_num
+        continuum4DYangMillsOSConstructed := False
+        celestialConfiningWightmanReconstructed := False
+        bsmHiggsCpViolationObserved := False
+        electroweakBaryogenesisAndModel16Resolved := False }
+    0 < b.finiteGapMeV ∧
+      0 < b.higgsVevGeV ∧
+      ¬ b.allYangMillsHiggsCptGatesClosed :=
+  Signals.Pending.yang_mills_higgs_cpt_identities_do_not_close_pending_gates
+
 end SignalsPendingTests

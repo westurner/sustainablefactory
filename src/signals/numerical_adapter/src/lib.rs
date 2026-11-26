@@ -26,6 +26,7 @@ pub mod sato_grassmannian;
 pub mod slavnov_dpp;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
+pub mod yang_mills_higgs_cpt;
 
 #[cfg(feature = "python")]
 use pyo3::exceptions::PyValueError;
@@ -1241,6 +1242,111 @@ fn py_audit_antimatter_alpha_g<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDi
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_celestial_ir_and_turner_model16<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let rep = riemann_spectral::audit_celestial_ir_and_turner_model16();
+    let d = PyDict::new(py);
+    d.set_item("rg_sigma_dev_su3", rep.rg_sigma_dev_su3)?;
+    d.set_item("rg_casimir_im_nonzero", rep.rg_casimir_im_nonzero)?;
+    d.set_item("k_ir_uv_at_zero", rep.k_ir_uv_at_zero)?;
+    d.set_item("k_ir_uv_at_one", rep.k_ir_uv_at_one)?;
+    d.set_item("k_ir_uv_unreg_limit_diff", rep.k_ir_uv_unreg_limit_diff)?;
+    d.set_item("kl_mellin_mgap_1", rep.kl_mellin_mgap_1)?;
+    d.set_item("kl_mellin_mgap_0_vs_gamma", rep.kl_mellin_mgap_0_vs_gamma)?;
+    d.set_item(
+        "yukawa_mellin_quad_vs_gamma_diff",
+        rep.yukawa_mellin_quad_vs_gamma_diff,
+    )?;
+    d.set_item("s_ir_zero", rep.s_ir_zero)?;
+    d.set_item("g16_classical", rep.g16_classical)?;
+    d.set_item("g16_off_line_positive", rep.g16_off_line_positive)?;
+    d.set_item(
+        "model16a_mercury_arcsec_cy",
+        rep.model16a_mercury_arcsec_cy,
+    )?;
+    d.set_item(
+        "model16b_mercury_arcsec_cy",
+        rep.model16b_mercury_arcsec_cy,
+    )?;
+    d.set_item("model16_rel_err_vs_gr", rep.model16_rel_err_vs_gr)?;
+    d.set_item(
+        "model16_solar_light_bending_arcsec",
+        rep.model16_solar_light_bending_arcsec,
+    )?;
+    d.set_item("model16a_gw_below_gap", rep.model16a_gw_below_gap)?;
+    d.set_item("model16b_gw_gapless_ratio", rep.model16b_gw_gapless_ratio)?;
+    d.set_item(
+        "model16a_active_laser_deflection",
+        rep.model16a_active_laser_deflection,
+    )?;
+    d.set_item(
+        "model16b_active_laser_deflection",
+        rep.model16b_active_laser_deflection,
+    )?;
+    d.set_item("d_cft_4d_re_delta", rep.d_cft_4d_re_delta)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let rep = yang_mills_higgs_cpt::audit_yang_mills_higgs_cpt();
+    let d = PyDict::new(py);
+    d.set_item("su3_beta0", rep.su3_beta0)?;
+    d.set_item("lambda_ym_gev", rep.lambda_ym_gev)?;
+    d.set_item("toupin_m1_mev", rep.toupin_m1_mev)?;
+    d.set_item("toupin_sugawara_m1_mev", rep.toupin_sugawara_m1_mev)?;
+    d.set_item(
+        "casimir_suppression_c2_3_over_c2_0",
+        rep.casimir_suppression_c2_3_over_c2_0,
+    )?;
+    d.set_item(
+        "strong_coupling_gap_lower_bound",
+        rep.strong_coupling_gap_lower_bound,
+    )?;
+    d.set_item("haar_projector_idemp_err", rep.haar_projector_idemp_err)?;
+    d.set_item(
+        "haar_projector_nonsinglet_max",
+        rep.haar_projector_nonsinglet_max,
+    )?;
+    d.set_item("vev_gev", rep.higgs_ssb.vev_gev)?;
+    d.set_item("m_h_gev", rep.higgs_ssb.m_h_gev)?;
+    d.set_item("m_w_gev", rep.higgs_ssb.m_w_gev)?;
+    d.set_item("m_z_gev", rep.higgs_ssb.m_z_gev)?;
+    d.set_item("sin_sq_theta_w", rep.higgs_ssb.sin_sq_theta_w)?;
+    d.set_item("rho_ew", rep.higgs_ssb.rho_ew)?;
+    d.set_item(
+        "tadpole_expansion_residual",
+        rep.higgs_ssb.tadpole_expansion_residual,
+    )?;
+    d.set_item("jarlskog_sm", rep.jarlskog_sm)?;
+    d.set_item("higgs_cp_asym_sm", rep.higgs_cp_asym_sm)?;
+    d.set_item("higgs_cp_asym_bsm", rep.higgs_cp_asym_bsm)?;
+    d.set_item(
+        "sakharov_equilibrium_baryon_trace",
+        rep.sakharov_equilibrium_baryon_trace,
+    )?;
+    d.set_item("jost_antiunitary_err", rep.jost_antiunitary_err)?;
+    d.set_item("jost_involution_sign", rep.jost_involution_sign)?;
+    d.set_item("jost_involution_err", rep.jost_involution_err)?;
+    d.set_item("jost_cpt_commutator_err", rep.jost_cpt_commutator_err)?;
+    d.set_item("jost_mass_equality_err", rep.jost_mass_equality_err)?;
+    d.set_item(
+        "cp_violation_norm_when_delta_nonzero",
+        rep.cp_violation_norm_when_delta_nonzero,
+    )?;
+    d.set_item(
+        "t_violation_norm_when_delta_nonzero",
+        rep.t_violation_norm_when_delta_nonzero,
+    )?;
+    d.set_item(
+        "cp_t_commutator_zero_when_delta_zero",
+        rep.cp_t_commutator_zero_when_delta_zero,
+    )?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -1338,6 +1444,11 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(py_audit_antimatter_alpha_g, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_celestial_ir_and_turner_model16,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(py_audit_yang_mills_higgs_cpt, m)?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;

@@ -9615,4 +9615,95 @@ example {sub : Signals.DDF.DDFSubstrate} (re : Signals.DDF.RiverExterior sub)
     re orb m_e impactParam beamEnergy kernel gamma_conf deltaVarpi hm hb hE hK
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.1⟩
 
+/-! ### Regression Tests: Celestial IR Regularization (`RiemannSpectral` Sec. 12), Models `16a` & `16b` (`DDF` Sec. 30.8), & `Signals.YangMillsHiggsCPT` -/
+
+example (b0 gCoupling gamma omega mGap lambda irScaleProd plancherelVal sigmaDevVal : ℝ)
+    (hb0 : 0 < b0) (hg : gCoupling ≠ 0) (hgam : gamma ≠ 0)
+    (hm_nn : 0 ≤ mGap) (h_om : mGap ≤ omega)
+    (h_lam : lambda ≠ 0) (hp_nn : 0 ≤ plancherelVal) (hp_le : plancherelVal ≤ 1) :
+    0 < Signals.RiemannSpectral.celestialDimTransmutationDev b0 gCoupling ∧
+      0 ≤ Signals.RiemannSpectral.kallenLehmannThresholdSq omega mGap ∧
+      Signals.RiemannSpectral.celestialIrRegulatorFactor 0 irScaleProd = 0 ∧
+      Signals.RiemannSpectral.celestialIrRegulatorFactor lambda 0 = 1 ∧
+      Signals.RiemannSpectral.celestialCayleyPlancherelIRUVKernel
+        sigmaDevVal plancherelVal 0 irScaleProd = 0 := by
+  rcases Signals.RiemannSpectral.celestial_ir_divergence_regularization_identities
+    b0 gCoupling gamma omega mGap lambda irScaleProd plancherelVal sigmaDevVal
+    hb0 hg hgam hm_nn h_om h_lam hp_nn hp_le with ⟨⟨h1, _, _⟩, ⟨h2, _, _⟩, ⟨h3, _, _, h4, h5, _, _⟩⟩
+  exact ⟨h1, h2, h3, h4, h5⟩
+
+example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
+    (re : Signals.DDF.RiverExterior sub) (orb : Signals.QEDGravity.PlanetaryOrbit)
+    (s_pl : Signals.DDF.PluckerMadelungState)
+    (orbitalPhase deltaVarpi m2 sigmaDev alphaQG kappaIR twoOmegaOrb omegaGap
+      impactParam beamEnergy kernel : ℝ)
+    (hm2 : 0 < m2) (h_alpha_nn : 0 ≤ alphaQG) (h_kappa_nn : 0 ≤ kappaIR)
+    (h_orb_pos : 0 ≤ twoOmegaOrb) (h_below_gap : twoOmegaOrb < omegaGap)
+    (hb : 0 < impactParam) (hE : 0 < beamEnergy) (hK : 0 < kernel) :
+    Signals.DDF.celestialIrScreeningFactor 0 = 1 ∧
+      0 < Signals.DDF.celestialTransferFactor16 sigmaDev alphaQG kappaIR ∧
+      Signals.DDF.PlanetaryOrbit.turnerModel16aPrecessionRad
+        orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 0 = re.perihelionPrecessionRad orb ∧
+      re.turnerModel16bPrecessionRad orb deltaVarpi 0 0 0 0 = re.perihelionPrecessionRad orb ∧
+      Signals.DDF.PlanetaryOrbit.turnerModel16aGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi sigmaDev alphaQG kappaIR
+        twoOmegaOrb omegaGap 0 = 0 ∧
+      0 < re.turnerModel16bGWLuminosity orb m2 sigmaDev alphaQG kappaIR 0 := by
+  rcases Signals.DDF.turner_model_16_ir_regularized_celestial_ddf_graviton_unification
+    s re orb s_pl orbitalPhase deltaVarpi m2 sigmaDev alphaQG kappaIR twoOmegaOrb omegaGap
+    impactParam beamEnergy kernel hm2 h_alpha_nn h_kappa_nn h_orb_pos h_below_gap hb hE hK with
+    ⟨⟨h_ir0, _, _⟩, ⟨_, h_g16⟩, ⟨h_p16a, _, h_p16b, _⟩, ⟨_, h_gw_cut, _, h_gw_pos⟩, _⟩
+  exact ⟨h_ir0, h_g16, h_p16a, h_p16b, h_gw_cut, h_gw_pos⟩
+
+example (muSq lam hField g1 g2 kappa kappaTilde alphaCP beta : ℝ)
+    (h_mu : 0 < muSq) (h_lam : 0 < lam) (hg1 : g1 ≠ 0) (hg2 : 0 < g2)
+    (energy baryonCharge : Fin 2 → ℝ) :
+    Signals.YangMillsHiggsCPT.suNOneLoopBeta0 3 0 = 11 ∧
+      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass 3 1 200 = 300 ∧
+      Signals.YangMillsHiggsCPT.electroweakRhoParam g1 g2
+        (Signals.YangMillsHiggsCPT.higgsVev muSq lam) = 1 ∧
+      Signals.YangMillsHiggsCPT.chargeConjugateElectricCharge 0 = 0 ∧
+      Signals.YangMillsHiggsCPT.higgsCpMixedDecayAsymmetry kappa kappaTilde 0 = 0 ∧
+      Signals.YangMillsHiggsCPT.thermalEquilibriumBaryonTrace beta energy energy baryonCharge = 0 := by
+  have hym := Signals.YangMillsHiggsCPT.yang_mills_mass_gap_and_transmutation_identities
+    1000 11 1 1 (1 / 2) 1 3 1 2 200 0 1 1 1 0
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have hhiggs := Signals.YangMillsHiggsCPT.higgs_ssb_electroweak_masses_and_self_conjugacy
+    muSq lam hField g1 g2 h_mu h_lam hg1 hg2
+  have hcp := Signals.YangMillsHiggsCPT.higgs_cp_asymmetry_and_sakharov_equilibrium_zero
+    kappa kappaTilde alphaCP beta energy energy baryonCharge (fun _ => rfl)
+  exact ⟨hym.1, hym.2.2.2.2.2.1, hhiggs.2.2.2.2.2.2.1, hhiggs.2.2.2.2.2.2.2,
+    hcp.2.2.1, hcp.2.2.2.2.2⟩
+
+example (sRe lambdaQCD : ℝ) :
+    (4 - 2) * (1 - sRe) = (4 - 2) - (4 - 2) * sRe ∧
+      ((4 - 2 : ℝ) * sRe = (4 - 2) / 2 ↔ sRe = 1 / 2) ∧
+      0 < Signals.YangMillsHiggsCPT.strongCouplingCasimirWeight 3 1 ∧
+      0 < Signals.YangMillsHiggsCPT.strongCouplingTransferGapLowerBound 1 3 4 ∧
+      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass 3 1 lambdaQCD =
+        2 * ((3 / (1 + 3 : ℝ)) * lambdaQCD) := by
+  have h_rr := Signals.RiemannSpectral.toupin_re_delta_eq_d_cft_half_bridge 4 sRe (by norm_num)
+  have h_sc := Signals.YangMillsHiggsCPT.toupin_strong_coupling_casimir_and_gko_ratio_identities
+    1 3 1 3 lambdaQCD 4 (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_rr.1.symm, h_rr.2.1, h_sc.1, h_sc.2.2.2.1, h_sc.2.2.2.2.2⟩
+
+example (b0 gCoupling gamma dBulk sigmaNeg : ℝ)
+    (hb0 : 0 < b0) (hg : gCoupling ≠ 0) (hgam : gamma ≠ 0)
+    (hd : 2 < dBulk) (h_neg : sigmaNeg < 0) :
+    let σ_rg := Signals.RiemannSpectral.celestialDimTransmutationDev b0 gCoupling
+    let s_rg : ℂ := ⟨1 / 2 + σ_rg, gamma⟩
+    let s_neg : ℂ := ⟨1 / 2 + sigmaNeg, gamma⟩
+    0 < σ_rg ∧
+      ‖Signals.SatoGrassmannian.RHGaps.cayley s_rg‖ ≤ 1 ∧
+      ‖Signals.SatoGrassmannian.RHGaps.cayley s_rg‖ ≠ 1 ∧
+      Filter.Tendsto (fun n : ℕ => ‖(Signals.SatoGrassmannian.RHGaps.cayley s_neg) ^ n‖)
+        Filter.atTop Filter.atTop := by
+  rcases Signals.SatoGrassmannian.RiemannSpectralBridge.celestialDimTransmutation_cayley_contraction_and_ir_bridge
+    b0 gCoupling gamma dBulk sigmaNeg hb0 hg hgam hd h_neg with
+    ⟨h1, _, _, h4, h5, _, h7⟩
+  exact ⟨h1, h4, h5, h7⟩
+
 end SignalsTests
