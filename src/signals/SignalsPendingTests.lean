@@ -7670,4 +7670,14 @@ example :
       ¬ b.allYangMillsHiggsCptGatesClosed :=
   Signals.Pending.yang_mills_higgs_cpt_identities_do_not_close_pending_gates
 
+example
+    (c1 : Signals.Pending.ContinuumYangMillsOSCertificate)
+    (c2 : Signals.Pending.CelestialConfiningSpectralCertificate)
+    (c3 : Signals.Pending.BsmHiggsCpDiscoveryCertificate)
+    (c4 : Signals.Pending.ElectroweakBaryogenesisModel16Certificate)
+    (vGeV : ℝ) (hv : 0 < vGeV) :
+    (Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates
+      c1 c2 c3 c4 vGeV hv).allYangMillsHiggsCptGatesClosed :=
+  SignalsPending.pending_yang_mills_higgs_cpt_solved_of_certificates c1 c2 c3 c4 vGeV hv
+
 end SignalsPendingTests

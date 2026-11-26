@@ -155,6 +155,47 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
         and ferm_cpt_comm_zero
     )
 
+    # 5. Gap-closure contracts (YM-4):
+    # (a) 2-state OS reflection positivity exact factorization
+    w1, w2, e_a, e_b, t1, t2 = sp.symbols("w1 w2 e_a e_b t1 t2", positive=True)
+    f1, f2 = sp.symbols("f1 f2", complex=True)
+    s2 = lambda tau: w1 * sp.exp(-e_a * tau) + w2 * sp.exp(-e_b * tau)
+    os_lhs = (
+        sp.conjugate(f1) * f1 * s2(t1 + t1)
+        + sp.conjugate(f1) * f2 * s2(t1 + t2)
+        + sp.conjugate(f2) * f1 * s2(t2 + t1)
+        + sp.conjugate(f2) * f2 * s2(t2 + t2)
+    )
+    os_rhs = w1 * sp.conjugate(f1 * sp.exp(-e_a * t1) + f2 * sp.exp(-e_a * t2)) * (
+        f1 * sp.exp(-e_a * t1) + f2 * sp.exp(-e_a * t2)
+    ) + w2 * sp.conjugate(f1 * sp.exp(-e_b * t1) + f2 * sp.exp(-e_b * t2)) * (
+        f1 * sp.exp(-e_b * t1) + f2 * sp.exp(-e_b * t2)
+    )
+    os_reflection_sym_ok = sp.simplify(sp.expand(os_lhs - os_rhs)) == 0
+
+    # (b) Effective running GKO level matching + EWPT first-order degeneracy at T_c
+    m_phys_s = sp.Symbol("m_phys_s", positive=True)
+    k_eff_expr = n_c * (2 * lam_qcd / m_phys_s - 1)
+    gko_match_ok = sp.simplify(m_gko.subs(k_lvl, k_eff_expr) - m_phys_s) == 0
+
+    d_ew, e_ew, lam_ew, t0_ew, tc_ew = sp.symbols("d_ew e_ew lam_ew t0_ew tc_ew", positive=True)
+    phic_expr = 2 * e_ew * tc_ew / lam_ew
+    v_eff_tc = (
+        d_ew * (tc_ew**2 - t0_ew**2) * phic_expr**2
+        - e_ew * tc_ew * phic_expr**3
+        + (lam_ew / 4) * phic_expr**4
+    )
+    v_eff_factored = phic_expr**2 * (d_ew * (tc_ew**2 - t0_ew**2) - e_ew**2 * tc_ew**2 / lam_ew)
+    ewpt_sym_ok = sp.simplify(v_eff_tc - v_eff_factored) == 0
+
+    # (c) Higgs CP EFT identity: (sqrt(mu)*cos)^2 + (sqrt(mu)*sin)^2 = mu, 2*kap*kapt = mu*sin(2*alpha)
+    kap_eft = sp.sqrt(mu_sq) * sp.cos(alpha_cp)
+    kapt_eft = sp.sqrt(mu_sq) * sp.sin(alpha_cp)
+    higgs_eft_sym_ok = (
+        sp.simplify(kap_eft**2 + kapt_eft**2 - mu_sq) == 0
+        and sp.simplify(2 * kap_eft * kapt_eft - mu_sq * sp.sin(2 * alpha_cp)) == 0
+    )
+
     return {
         "ym_mass_gap_sym_ok": bool(ym_ok),
         "s3_nonabelian_haar_sym_ok": bool(s3_haar_ok),
@@ -162,6 +203,9 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
         "cp_sakharov_sym_ok": bool(cp_sakharov_ok),
         "jarlskog_and_neq_sakharov_sym_ok": bool(jarl_neq_ok),
         "jost_cpt_4x4_sym_ok": bool(cp_t_equiv_ok),
+        "os_reflection_sym_ok": bool(os_reflection_sym_ok),
+        "gko_running_level_and_ewpt_sym_ok": bool(gko_match_ok and ewpt_sym_ok),
+        "higgs_eft_cp_sym_ok": bool(higgs_eft_sym_ok),
     }
 
 
@@ -195,6 +239,8 @@ def audit_yang_mills_higgs_cpt_high_precision(dps: int = 45) -> dict[str, Any]:
             * mp.sin(mp.mpf("0.0037"))
             * mp.sin(mp.mpf("1.144"))
         )
+        a_62_mp = mp.exp(-(4 * mp.pi**2 * mp.mpf("6.2")) / (11 * 3))
+        atlas_kt_mp = mp.sin(28 * mp.pi / 180)
 
     return {
         **sym_checks,
@@ -204,4 +250,6 @@ def audit_yang_mills_higgs_cpt_high_precision(dps: int = 45) -> dict[str, Any]:
         "m_z_diff": float(abs(rust_rep["m_z_gev"] - float(m_z_mp))),
         "rho_ew_diff": float(abs(rust_rep["rho_ew"] - float(rho_mp))),
         "jarlskog_diff": float(abs(rust_rep["jarlskog_sm"] - float(j_cp_mp))),
+        "lattice_a62_diff": float(abs(rust_rep["lattice_spacing_beta62"] - float(a_62_mp))),
+        "atlas_kt_diff": float(abs(rust_rep["atlas_higgs_cp_max_kappatilde"] - float(atlas_kt_mp))),
     }

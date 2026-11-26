@@ -2624,4 +2624,18 @@ lemma pending_yang_mills_higgs_cpt_gate_boundary
     ¬ b.allYangMillsHiggsCptGatesClosed :=
   b.not_allGatesClosed_of_any_refuted h_refuted
 
+@[blueprint "lem:signals-pending-yang-mills-higgs-cpt-solved-of-certificates"
+  (title := "Constructive certificate closure of YangMillsMassGapHiggsCPTPendingBoundary")
+  (statement := /-- Given verified witness certificates $(c_1, c_2, c_3, c_4)$, \texttt{YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates} discharges \texttt{allYangMillsHiggsCptGatesClosed}. -/)
+  (proof := /-- Apply \texttt{YangMillsMassGapHiggsCPTPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_yang_mills_higgs_cpt_solved_of_certificates
+    (c1 : ContinuumYangMillsOSCertificate)
+    (c2 : CelestialConfiningSpectralCertificate)
+    (c3 : BsmHiggsCpDiscoveryCertificate)
+    (c4 : ElectroweakBaryogenesisModel16Certificate)
+    (vGeV : ℝ) (hv : 0 < vGeV) :
+    (YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates c1 c2 c3 c4 vGeV hv).allYangMillsHiggsCptGatesClosed :=
+  (YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates c1 c2 c3 c4 vGeV hv).1
+
 end SignalsPending

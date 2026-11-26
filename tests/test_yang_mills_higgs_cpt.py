@@ -11,7 +11,7 @@ from sustainablefactory.yang_mills_higgs_cpt import (
 
 def test_symbolic_yang_mills_higgs_cp_jost_cpt_identities():
     sym_res = verify_symbolic_yang_mills_higgs_cpt_identities()
-    assert len(sym_res) == 6
+    assert len(sym_res) == 9
     assert all(sym_res.values()), f"Failed symbolic checks: {sym_res}"
 
 
@@ -23,11 +23,16 @@ def test_pyo3_and_mpmath_yang_mills_higgs_cp_jost_cpt_audit():
     assert rep["cp_sakharov_sym_ok"]
     assert rep["jarlskog_and_neq_sakharov_sym_ok"]
     assert rep["jost_cpt_4x4_sym_ok"]
+    assert rep["os_reflection_sym_ok"]
+    assert rep["gko_running_level_and_ewpt_sym_ok"]
+    assert rep["higgs_eft_cp_sym_ok"]
     assert rep["lambda_ym_diff"] < 1e-14
     assert rep["m_w_diff"] < 1e-13
     assert rep["m_z_diff"] < 1e-13
     assert rep["rho_ew_diff"] < 1e-14
     assert rep["jarlskog_diff"] < 1e-16
+    assert rep["lattice_a62_diff"] < 1e-16
+    assert rep["atlas_kt_diff"] < 1e-15
 
     rust = rep["rust_report"]
     assert abs(rust["su3_beta0"] - 11.0) < 1e-12
@@ -57,3 +62,14 @@ def test_pyo3_and_mpmath_yang_mills_higgs_cp_jost_cpt_audit():
     assert abs(rust["cp_violation_norm_when_delta_nonzero"] - rust["t_violation_norm_when_delta_nonzero"]) < 1e-14
     assert rust["cp_violation_norm_when_delta_nonzero"] > 0.1
     assert rust["cp_t_commutator_zero_when_delta_zero"] < 1e-15
+    assert 0.0 < rust["lattice_spacing_beta62"] < rust["lattice_spacing_beta58"] < 1.0
+    assert rust["strong_coupling_breakdown_at_18"] == 0.0
+    assert rust["os_reflection_factorization_err"] < 1e-15
+    assert rust["os_reflection_min_quad"] > 0.0
+    assert rust["os_clustering_excess"] <= 1e-15
+    assert abs(rust["toupin_gko_max_mev_at_220"] - 440.0) < 1e-12
+    assert rust["toupin_k_eff_for_lattice_1610"] < 0.0
+    assert rust["toupin_k_eff_mass_err"] < 1e-11
+    assert rust["ewpt_sm_phic_over_tc"] < 0.25
+    assert rust["ewpt_bsm_phic_over_tc"] >= 1.0
+    assert rust["ewpt_bsm_degeneracy_err"] < 1e-8

@@ -1376,6 +1376,34 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
         "cp_t_commutator_zero_when_delta_zero",
         rep.cp_t_commutator_zero_when_delta_zero,
     )?;
+    d.set_item("lattice_spacing_beta58", rep.lattice_spacing_beta58)?;
+    d.set_item("lattice_spacing_beta62", rep.lattice_spacing_beta62)?;
+    d.set_item(
+        "strong_coupling_breakdown_at_18",
+        rep.strong_coupling_breakdown_at_18,
+    )?;
+    d.set_item(
+        "os_reflection_factorization_err",
+        rep.os_reflection_factorization_err,
+    )?;
+    d.set_item("os_reflection_min_quad", rep.os_reflection_min_quad)?;
+    d.set_item("os_clustering_excess", rep.os_clustering_excess)?;
+    d.set_item(
+        "toupin_gko_max_mev_at_220",
+        rep.toupin_gko_max_mev_at_220,
+    )?;
+    d.set_item(
+        "toupin_k_eff_for_lattice_1610",
+        rep.toupin_k_eff_for_lattice_1610,
+    )?;
+    d.set_item("toupin_k_eff_mass_err", rep.toupin_k_eff_mass_err)?;
+    d.set_item(
+        "atlas_higgs_cp_max_kappatilde",
+        rep.atlas_higgs_cp_max_kappatilde,
+    )?;
+    d.set_item("ewpt_sm_phic_over_tc", rep.ewpt_sm_phic_over_tc)?;
+    d.set_item("ewpt_bsm_phic_over_tc", rep.ewpt_bsm_phic_over_tc)?;
+    d.set_item("ewpt_bsm_degeneracy_err", rep.ewpt_bsm_degeneracy_err)?;
     Ok(d)
 }
 

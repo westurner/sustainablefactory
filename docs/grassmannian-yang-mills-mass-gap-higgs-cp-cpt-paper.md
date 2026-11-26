@@ -16,7 +16,8 @@ description: "An arXiv-ready MyST Markdown formal verification and physics synth
   - {download}`data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md <../data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md>` (lines 13–84: Higgs self-conjugacy, ATLAS/CMS CP-violating Higgs decays, Jost's CPT theorem, Sakharov non-equilibrium constraint, and Yang–Mills Mass Gap comparison) {cite:p}`chat_higgs_antimatter_2026`.
   - {download}`data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md <../data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md>` (lines 13–45, 60–90: audit of Toupin's `TOUTYM` 2026 preprint, celestial CFT rigor, IR soft-gluon tension, $k$ vs. $\Lambda_{\mathrm{QCD}}$, and CPT/Jost/Higgs synthesis) {cite:p}`chat_toupin_mass_gap_2026`.
   - Toupin's primary works audited: {cite:p}`toupin2026ym`, {cite:p}`toupin2026riemann`, and {cite:p}`toupin2025quantum` ({download}`data/papers/TOUQGA-2.pdf <../data/papers/TOUQGA-2.pdf>`, Ch. 11, pp. 613–658).
-  - Companion repository papers:
+  - Companion repository plans & papers:
+    - [Constructive Gap-Closure Plan & Certificate Solver for `YangMillsMassGapHiggsCPTPendingBoundary`](yang-mills-higgs-cpt-pending-closure-plan.md)
     - [Infrared Divergence Resolution in Celestial Holography, $\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2$ Bridging, and Integrated Turner Models `16a` & `16b`](grassmannian-celestial-ir-regularization-turner-models-16ab-paper.md)
     - [Celestial Holography, Plancherel–Unruh Loop Weights, & Integrated Turner Models `15a` & `15b`](grassmannian-celestial-holography-graviton-turner-riemann-paper.md)
     - [Antimatter Annihilation, Photonic Deflection, & CERN `ALPHA-g` Evaluation](grassmannian-antimatter-annihilation-alpha-g-models-paper.md)
@@ -70,6 +71,25 @@ Following our chat audit ({download}`chat log <../data/chats/Google Search AI - 
 2. **Celestial Soft-Gluon vs. Confinement Tension:** Celestial Kac–Moody Ward identities rely on massless soft gluons at $\mathcal{I}^\pm$, which do not exist as asymptotic LSZ states in a confining theory with $\Delta > 0$ (remediated in our [IR Regularization & Models `16a`/`16b` paper](grassmannian-celestial-ir-regularization-turner-models-16ab-paper.md) via Källén–Lehmann thresholding).
 3. **Kac–Moody Level $k$ vs. Dimensional Transmutation:** Pure Yang–Mills trades its dimensionless coupling $g^2$ for $\Lambda_{\mathrm{QCD}}$, leaving no independent integer level $k$.
 4. **Unverified Peer-Review Status:** {cite:p}`toupin2026ym` is an unrefereed PhilArchive preprint and does not establish 4D Osterwalder–Schrader reflection positivity or temperedness from 2D WZW/KZ correlators (`Spectral Transfer Conjecture 11.32`).
+
+### 2.3 Constructive Gap-Closure Contracts & Certificate Solver (`Signals.YangMillsHiggsCPT` Sec. 7 & `Signals.Pending`)
+
+Following our [Gap-Closure Plan](yang-mills-higgs-cpt-pending-closure-plan.md), we close every finite, asymptotic-scaling, and conditional contract attached to the four gates of `YangMillsMassGapHiggsCPTPendingBoundary`:
+
+1. **Continuum RG Scaling, Strong-Coupling Breakdown, & Finite OS Reflection Positivity (Gate 1):**
+   Theorem `lattice_rg_continuum_scaling_and_strong_coupling_breakdown` proves that 1-loop asymptotic freedom $a(\beta)\Lambda_{\mathrm{YM}} = \exp(-4\pi^2\beta/(b_0 N_c))$ contracts monotonically to $0$ as $\beta \to \infty$, while the strong-coupling gap bound $-\ln(\beta/(2N_c^2))$ vanishes at $\beta = 2N_c^2$ (`18` for $\mathrm{SU}(3)$) and turns negative above it. Under a uniform physical scaling bound $0 < M_0 \le \Delta_{\mathrm{lat}}(i)/a_i$, any continuum limit obeys $M_\infty \ge M_0 > 0$. Theorem `osReflectionPositivity_and_clustering_of_spectral_weights` proves exact Euclidean Osterwalder–Schrader reflection positivity:
+
+   $$
+   \sum_{i,j=1}^r \overline{f_i}\,f_j\,S_2(t_i + t_j) = \sum_{k=0}^{m-1} w_k \left|\sum_{i=1}^r f_i e^{-E_k t_i}\right|^2 \ge 0 \qquad (w_k \ge 0),
+   $$
+
+   with exponential clustering $0 \le S_2(\tau) \le (\sum_k w_k)e^{-E_{\mathrm{gap}}\tau}$, verified on a $4\times 4$ glueball spectrum Gram matrix in Rust and SymPy (`os_reflection_factorization_err < 1e-15`).
+2. **Confined Källén–Lehmann Integrability & Tree-Level GKO Obstruction (Gaps 2 & 3 / Gate 2):**
+   Theorem `kallenLehmann_confined_envelope_and_gko_obstruction` proves that on $[m_{\mathrm{gap}}, \infty)$ ($m_{\mathrm{gap}} > 0$), massless soft-gluon poles ($\omega = 0$) are excluded and the thresholded Mellin integrand is dominated by an integrable exponential tail for all $\Delta \ge 2$. Simultaneously, it proves the exact algebraic obstruction $M_k(N_c, 220\text{ MeV}) \le 440\text{ MeV} < 1610\text{ MeV}$ for **every** nonnegative integer level $k \ge 0$, fixing the continuous effective level $k_{\mathrm{eff}} = N_c(2\Lambda_{\mathrm{QCD}}/M_{\mathrm{phys}} - 1) < 0$ required to reach lattice QCD's $0^{++}$ scalar mass.
+3. **ATLAS/CMS Higgs CP Exclusion Envelope & First-Order EWPT Sphaleron Washout (Gates 3 & 4):**
+   Theorem `higgsCpEftExclusion_envelope` proves $\kappa_f^2 + \tilde{\kappa}_f^2 = \mu_{\mathrm{sig}}$, $2\kappa_f\tilde{\kappa}_f = \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}})$, and $|\tilde{\kappa}_f| \le \sqrt{\mu_{\max}}\sin\alpha_{\max}$ (`<= 0.4695` at ATLAS/CMS $|\alpha_{\mathrm{CP}}| \le 28^\circ, \mu_{\max}=1$). Theorem `electroweak_first_order_washout_criterion` proves that at $V_{\mathrm{eff}}(\phi_c, T_c) = 0$, the sphaleron-washout ratio obeys $\phi_c/T_c = 2E/\lambda_T \ge 1 \iff \lambda_T \le 2E$—quantifying why the pure SM ($m_H = 125.25\text{ GeV}$, $2E_{\mathrm{SM}}/\lambda_{\mathrm{SM}} \approx 0.149 < 1$) is a smooth crossover while BSM barrier extensions ($2E/\lambda_T \ge 1$, e.g. $1.25$) enable electroweak baryogenesis.
+4. **Constructive Certificate Solver (`YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates`):**
+   In `Signals.Pending`, four verified witness certificates (`ContinuumYangMillsOSCertificate`, `CelestialConfiningSpectralCertificate`, `BsmHiggsCpDiscoveryCertificate`, `ElectroweakBaryogenesisModel16Certificate`) feed into `YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates`, constructively discharging `allYangMillsHiggsCptGatesClosed` whenever external continuum and experimental witnesses are supplied, while `yang_mills_higgs_cpt_identities_do_not_close_pending_gates` preserves the negative epistemic witness in their absence.
 
 ---
 

@@ -156,6 +156,85 @@ pub fn jarlskog_quark_mass_splitting(
         * (mb * mb - md * md)
 }
 
+/// 1-loop asymptotic lattice spacing `a(beta) * Lambda_YM = exp(-4 pi^2 beta / (b0 * N_c))`.
+pub fn lattice_asymptotic_spacing(b0: f64, n_color: f64, beta: f64) -> f64 {
+    (-(4.0 * PI * PI * beta) / (b0 * n_color)).exp()
+}
+
+/// Strong-coupling transfer-matrix logarithmic gap bound `-ln(beta / (2 N_c^2))`.
+pub fn strong_coupling_log_gap(beta: f64, n_color: f64) -> f64 {
+    -(beta / (2.0 * n_color * n_color)).ln()
+}
+
+/// Effective continuous GKO level `k_eff = N_c (2 Lambda_QCD / M_phys - 1)` matching `M_{k_eff} = M_phys`.
+pub fn toupin_effective_running_level(n_color: f64, lambda_qcd_mev: f64, m_phys_mev: f64) -> f64 {
+    n_color * (2.0 * lambda_qcd_mev / m_phys_mev - 1.0)
+}
+
+/// Audit finite Osterwalder–Schrader reflection positivity on a 4x4 Euclidean Schwinger matrix
+/// `G_{ij} = sum_k w_k exp(-E_k (t_i + t_j))` for a 3-state glueball spectrum, returning
+/// `(factorization_err, min_quad_form, clustering_ratio_excess)`.
+pub fn audit_os_reflection_positivity_gram() -> (f64, f64, f64) {
+    let weights = [0.60_f64, 0.25, 0.15];
+    let energies = [1.61_f64, 2.22, 2.60];
+    let times = [0.2_f64, 0.5, 0.9, 1.4];
+
+    let s2 = |tau: f64| -> f64 {
+        weights
+            .iter()
+            .zip(energies.iter())
+            .map(|(&w, &e)| w * (-e * tau).exp())
+            .sum()
+    };
+
+    let mut g_mat = [[0.0_f64; 4]; 4];
+    for i in 0..4 {
+        for j in 0..4 {
+            g_mat[i][j] = s2(times[i] + times[j]);
+        }
+    }
+
+    let test_vecs: [[f64; 4]; 4] = [
+        [1.0, 0.0, 0.0, 0.0],
+        [1.0, -2.0, 1.5, -0.5],
+        [0.4, -1.2, 1.8, -0.9],
+        [-0.7, 0.3, -0.2, 1.1],
+    ];
+    let mut max_fact_err = 0.0_f64;
+    let mut min_quad = f64::INFINITY;
+    for v in &test_vecs {
+        let mut lhs = 0.0_f64;
+        for i in 0..4 {
+            for j in 0..4 {
+                lhs += v[i] * v[j] * g_mat[i][j];
+            }
+        }
+        let mut rhs = 0.0_f64;
+        for k in 0..3 {
+            let amp: f64 = (0..4).map(|i| v[i] * (-energies[k] * times[i]).exp()).sum();
+            rhs += weights[k] * amp * amp;
+        }
+        max_fact_err = max_fact_err.max((lhs - rhs).abs());
+        min_quad = min_quad.min(lhs);
+    }
+    let w_sum: f64 = weights.iter().sum();
+    let cluster_excess = s2(2.0) - w_sum * (-energies[0] * 2.0).exp();
+    (max_fact_err, min_quad, cluster_excess)
+}
+
+/// First-order electroweak phase transition degeneracy & sphaleron washout evaluator:
+/// returns `(phi_c_over_Tc, degeneracy_potential_residual)`.
+pub fn audit_ewpt_sphaleron_washout(d_coeff: f64, e_coeff: f64, lam_t: f64, t0: f64) -> (f64, f64) {
+    // At T_c, D (T_c^2 - T_0^2) = E^2 T_c^2 / lam_t => T_c^2 = D T_0^2 / (D - E^2 / lam_t)
+    let tc_sq = (d_coeff * t0 * t0) / (d_coeff - (e_coeff * e_coeff) / lam_t);
+    let tc = tc_sq.sqrt();
+    let phic = (2.0 * e_coeff * tc) / lam_t;
+    let v_eff_at_phic = d_coeff * (tc * tc - t0 * t0) * phic * phic
+        - e_coeff * tc * phic.powi(3)
+        + 0.25 * lam_t * phic.powi(4);
+    (phic / tc, v_eff_at_phic.abs())
+}
+
 /// Electroweak Higgs spontaneous symmetry breaking observables.
 #[derive(Clone, Debug, PartialEq)]
 pub struct HiggsSsbAudit {
@@ -313,6 +392,19 @@ pub struct YangMillsHiggsCptAudit {
     pub cp_violation_norm_when_delta_nonzero: f64,
     pub t_violation_norm_when_delta_nonzero: f64,
     pub cp_t_commutator_zero_when_delta_zero: f64,
+    pub lattice_spacing_beta58: f64,
+    pub lattice_spacing_beta62: f64,
+    pub strong_coupling_breakdown_at_18: f64,
+    pub os_reflection_factorization_err: f64,
+    pub os_reflection_min_quad: f64,
+    pub os_clustering_excess: f64,
+    pub toupin_gko_max_mev_at_220: f64,
+    pub toupin_k_eff_for_lattice_1610: f64,
+    pub toupin_k_eff_mass_err: f64,
+    pub atlas_higgs_cp_max_kappatilde: f64,
+    pub ewpt_sm_phic_over_tc: f64,
+    pub ewpt_bsm_phic_over_tc: f64,
+    pub ewpt_bsm_degeneracy_err: f64,
 }
 
 /// Run the full Yang–Mills Mass Gap, Higgs SSB, CP, Sakharov, and Jost CPT audit.
@@ -526,6 +618,19 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
     }
     let _ = (mat4_dag(&u_theta), invol_err, s3_herm_err);
 
+    // Gap-closure audits (`YM-3`)
+    let a_58 = lattice_asymptotic_spacing(11.0, 3.0, 5.8);
+    let a_62 = lattice_asymptotic_spacing(11.0, 3.0, 6.2);
+    let sc_18 = strong_coupling_log_gap(18.0, 3.0);
+    let (os_fact_err, os_min_q, os_clust_exc) = audit_os_reflection_positivity_gram();
+    let gko_max_220 = toupin_tree_glueball_mass_mev(3.0, 0.0, 220.0);
+    let k_eff_1610 = toupin_effective_running_level(3.0, 220.0, 1610.0);
+    let k_eff_err = (toupin_tree_glueball_mass_mev(3.0, k_eff_1610, 220.0) - 1610.0).abs();
+    let alpha_max_rad = 28.0 * PI / 180.0;
+    let atlas_max_kt = 1.0_f64.sqrt() * alpha_max_rad.sin();
+    let (sm_ratio, _sm_deg) = audit_ewpt_sphaleron_washout(0.35, 0.0096, 0.129, 90.0);
+    let (bsm_ratio, bsm_deg) = audit_ewpt_sphaleron_washout(0.35, 0.075, 0.120, 90.0);
+
     YangMillsHiggsCptAudit {
         su3_beta0: su3_b0,
         lambda_ym_gev: lam_ym,
@@ -556,6 +661,19 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         cp_violation_norm_when_delta_nonzero: cp_viol_norm,
         t_violation_norm_when_delta_nonzero: t_viol_norm,
         cp_t_commutator_zero_when_delta_zero: cp_comm_zero,
+        lattice_spacing_beta58: a_58,
+        lattice_spacing_beta62: a_62,
+        strong_coupling_breakdown_at_18: sc_18,
+        os_reflection_factorization_err: os_fact_err,
+        os_reflection_min_quad: os_min_q,
+        os_clustering_excess: os_clust_exc,
+        toupin_gko_max_mev_at_220: gko_max_220,
+        toupin_k_eff_for_lattice_1610: k_eff_1610,
+        toupin_k_eff_mass_err: k_eff_err,
+        atlas_higgs_cp_max_kappatilde: atlas_max_kt,
+        ewpt_sm_phic_over_tc: sm_ratio,
+        ewpt_bsm_phic_over_tc: bsm_ratio,
+        ewpt_bsm_degeneracy_err: bsm_deg,
     }
 }
 
@@ -597,5 +715,17 @@ mod tests {
         assert!((rep.cp_violation_norm_when_delta_nonzero - rep.t_violation_norm_when_delta_nonzero).abs() < 1e-14);
         assert!(rep.cp_violation_norm_when_delta_nonzero > 0.1);
         assert!(rep.cp_t_commutator_zero_when_delta_zero < 1e-15);
+        assert!(rep.lattice_spacing_beta62 > 0.0 && rep.lattice_spacing_beta62 < rep.lattice_spacing_beta58);
+        assert_eq!(rep.strong_coupling_breakdown_at_18, 0.0);
+        assert!(rep.os_reflection_factorization_err < 1e-15);
+        assert!(rep.os_reflection_min_quad > 0.0);
+        assert!(rep.os_clustering_excess <= 1e-15);
+        assert!((rep.toupin_gko_max_mev_at_220 - 440.0).abs() < 1e-12);
+        assert!(rep.toupin_k_eff_for_lattice_1610 < 0.0);
+        assert!(rep.toupin_k_eff_mass_err < 1e-11);
+        assert!((rep.atlas_higgs_cp_max_kappatilde - (28.0 * PI / 180.0).sin()).abs() < 1e-15);
+        assert!(rep.ewpt_sm_phic_over_tc < 0.25);
+        assert!(rep.ewpt_bsm_phic_over_tc >= 1.0);
+        assert!(rep.ewpt_bsm_degeneracy_err < 1e-8);
     }
 }
