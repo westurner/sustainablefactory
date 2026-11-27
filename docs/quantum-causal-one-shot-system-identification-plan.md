@@ -61,7 +61,7 @@ From our applied quantum physics and Grassmannian Quantum Causal Inference (`QCI
   6. Expose PyO3 bindings `py_audit_qci_one_shot_sysid` and `py_audit_qci_one_shot_sysid_literature_benchmarks` in `lib.rs`, run `cargo test --lib quantum_causal_inference`, and rebuild wheel via `maturin develop --release --features extension-module`.
 
 ### `OSID-4`: SymPy + 45-Digit `mpmath` + PyO3 Cross-Verification & Literature Check Figures
-- **Files:** `sustainablefactory/one_shot_sysid.py`, `tests/test_one_shot_sysid_sympy_pyo3.py`
+- **Files:** `src/signals/numerical_adapter/python/signals_numerical_adapter/one_shot_sysid.py` (`signals_numerical_adapter.one_shot_sysid`), `tests/test_one_shot_sysid_sympy_pyo3.py`
 - **Deliverables:** Symbolic SymPy verification of Cauchy–Binet Plücker sum-of-squares, Hankel rank-deficit ($n < 2n-1$), Pearl $\operatorname{do}$-deconfounding, Quantum Switch $\mathrm{Gr}_{\mathbb{C}}(2,4)$ commutator/anticommutator recovery, `QFIM = 4 g_FS` QCRB + Landauer laws, and cross-literature benchmarks (Boullé et al.'s Forced Duffing, 2D Allen–Cahn, 2D Elliptic Prop. 36, 2D Navier–Stokes continuity + 16-term momentum, and $40\times 40$ / $1000\times 1000$ Circulant/Hankel; Qi & Ranard 2019 / Bairey et al. 2019 single-eigenstate Hamiltonian identification & Davis–Kahan perturbation bound; Zhao et al. 2020 super-Heisenberg Quantum Switch metrology; and Goswami et al. 2018 / Rubino et al. 2017 photonic causal witness margins), plus 45-digit `mpmath` vs. Rust/PyO3 numerical assertions via `pytest`.
 
 ### `OSID-5`: MyST Paper & Documentation Integration
@@ -70,6 +70,40 @@ From our applied quantum physics and Grassmannian Quantum Causal Inference (`QCI
 
 ### `OSID-6`: Full Validation Loop
 - **Checks:** Markdown math/table scanners (`tools/fix_markdown_table_math_pipes.py`, `tools/fix_markdown_display_math_spacing.py`), `pytest -q tests/test_one_shot_sysid_sympy_pyo3.py tests/test_markdown_display_math_spacing.py tests/test_markdown_table_math_pipes.py`, `make signals_build`, `make -C docs html > .tmp/docs-html.log 2>&1`, browser inspection for MathJax rendering and zero `mjx-merror`, and `git diff --check`.
+
+---
+
+## 3. Part II: Integrating `QCI-OSID` with `Tequila` and Our `signals` / `grassmann` Backend (`OSID-TQ`)
+
+### 3.1 Motivation
+
+Sections `OSID-1`–`OSID-6` established `QCI-OSID` in standalone Lean 4, Rust/PyO3 (`quantum_causal_inference.rs`), and SymPy/`mpmath`. However, practical quantum system identification in chemistry and many-body hardware requires executing probes, variational eigenstates, noise channels, and expectation-value batches directly inside an operator/circuit compiler stack. Integrating `QCI-OSID` with **Tequila** {cite:p}`tequila2021,kottmann2021direct` and our native Rust/PyO3 **`signals` / `grassmann` Tequila backend** (`sustainablefactory/tequila_signals_backend.py`, `src/signals/numerical_adapter/src/tequila_simulator.rs`, and [the Tequila Rust/PyO3 simulator paper](grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md)) bridges symbolic quantum circuits (`QCircuit`, `QubitHamiltonian`, `ExpectationValue`, `BraKet`, `tq.minimize`) with `QCI-OSID` recovery.
+
+### 3.2 Advantages vs. Disadvantages Trade-Off Analysis
+
+| Dimension | Advantages of `Tequila` + `signals`/`grassmann` Integration | Disadvantages, Costs, & Pitfalls |
+| --- | --- | --- |
+| **Circuit & Hamiltonian Compilation** | `BackendCircuitSignals` compiles `ExpPauli`, controlled rotations, `SWAP`, and `Toffoli` natively into `RustFastCircuit` without CNOT decomposition ladders; `RustFastHamiltonianSet` evaluates all $\{L_i, L_j\}$ and $[L_m, \mathcal{O}_j]$ batches in one Rayon-parallelized pass. | Adds Python/FFI + `sympy` lambdify marshaling overhead (~ms scale) on tiny $n \le 6$ systems compared to raw Rust `quantum_causal_inference.rs`; requires editable workspace installs (`-e .`, `-e ./src/tequila`, `-e ./src/signals/numerical_adapter`) in `requirements.txt`. |
+| **Hilbert Space vs. Continuous PDEs** | Unlocks **128-bit sparse Plücker `HCB-SPA` identification** (`16 * 2^n_occ` bytes) up to $n_{\mathrm{orb}} = 126$ qubits (`Master Theorem 11.2`), beating the $2^n$ dense memory wall (`qulacs`, `cirq`, `qiskit`). | Tequila operates on discrete qubit Hilbert spaces, **not** continuous Banach/Sobolev spaces $H^1(\Omega)$; classical PDEs/ODEs (`Duffing`, `Allen–Cahn`, `Navier–Stokes`) still belong in weak-form `CPQR` (`WIAS`), avoiding $O(2^n)$ QRAM loading. |
+| **Shot Noise vs. Exact Quadrature** | `tq.simulate(..., backend="signals")` supports both exact statevectors and realistic Born-rule shot sampling (`samples=S`) for hardware emulation. | Finite-shot sampling introduces $O(1/\sqrt{S})$ matrix noise $\Delta M$, amplified by $1/\lambda_2(v)$ via Davis–Kahan (`osidTequilaShotCountRequired`: halving $\lambda_2$ causes a $4\times$ shot penalty), vs. $10^{-11}\text{–}10^{-15}$ deterministic quadrature. |
+| **Noise & McWeeny Purification** | `do_simulate_density(mcweeny_passes=k)` (`3ρ² - 2ρ³`) and `MCWF`/homodyne/heterodyne trajectories heal weakly depolarized **pure eigenstates** ($p \in (1/2, 1)$), shrinking eigenstate `OSID` error (`Master Theorem 11.2`). | Dense density matrices scale as $O(4^n)$ (`16 * 4^n` bytes, limit $n \lesssim 12$); **crucially, McWeeny purification distorts genuine mixed/Gibbs states** ($p \in (0, 1/2) \implies 3p^2 - 2p^3 < p$), corrupting thermal-state `OSID`. |
+| **VQE, Quantum Switch, & Non-Unitary Gates** | `tq.minimize(..., backend="signals")` + `compute_natural_gradient` (`QFIM = 4 g_FS`) enables VQE-eigenstate `OSID` + circuit-level $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch control-qubit readout $\langle Z_c\rangle = E_+ - E_-$. | Non-unitary `CausalDo` and `NonlinearKerr` gates sit outside Tequila's two-term unitary `tq.grad` parameter-shift rule; symmetry-unbroken states ($\lambda_2 = 0$) and overall scale/identity shifts ($H \mapsto \alpha H + \beta I$) remain unidentifiable from a single eigenstate. |
+
+### 3.3 Phased Tequila Integration Workstreams (`OSID-TQ-1`–`OSID-TQ-5`)
+
+1. **`OSID-TQ-1`: Editable Workspace Packaging & Backend Registration (`requirements.txt`, `src/signals/numerical_adapter/pyproject.toml`, `sustainablefactory/tequila_signals_backend.py`):**
+   - Replace custom `sys.path` / `sys.modules` manipulation in `conftest.py`, `sustainablefactory/tequila_signals_backend.py`, and `sustainablefactory/qci_grassmannian_dft.py` with standard `pip install -e` editable entries in `requirements.txt` (`-e .`, `-e ./src/tequila`, `-e ./src/signals/numerical_adapter`) and `maturin` Python-source packaging (`src/signals/numerical_adapter/python/signals_numerical_adapter/`), ensuring the `signals` and `grassmann` backends load cleanly across `pytest`, subprocesses, and Python entrypoints.
+2. **`OSID-TQ-2`: Lean 4 Formalization of Tequila Integration Bounds (`Signals.QuantumCausalInference` Sec. 16.2 & `SignalsTests.lean`):**
+   - Formalize `osidTequilaSparsePluckerBytes < osidTequilaStatevectorBytes < osidTequilaDensityMatrixBytes`, McWeeny pure-state healing ($p \in (1/2, 1)$) vs. thermal-state distortion ($p \in (0, 1/2)$), exact shot-count inversion $S_{\mathrm{req}} = (\sigma_1 N / (\lambda_2 \theta_{\mathrm{target}}))^2$, and $4\times$ shot inflation under $\lambda_2 \mapsto \lambda_2 / 2$ (`qci_osid_tequila_backend_advantages_and_disadvantages_identities`).
+3. **`OSID-TQ-3`: Tequila-Compiled `QCI-OSID` Engine (`src/signals/numerical_adapter/python/signals_numerical_adapter/one_shot_sysid.py`):**
+   - `tequila_osid_single_eigenstate_recovery`: Builds Qi–Ranard connected correlation $\{L_i, L_j\}/2$ and Bairey–Arad–Lindner commutator $i[L_m, \mathcal{O}_j]$ `QubitHamiltonian` batches, compiles once via `BackendExpectationValueSignals` (`RustFastHamiltonianSet`), and recovers $\hat{\mathbf{c}}$ from exact, VQE-converged (`tq.minimize` + `compute_natural_gradient`), and shot-sampled (`samples=S`) Tequila circuits.
+   - `tequila_osid_quantum_switch_circuit`: Compiles a 2-qubit Tequila `QCircuit` Quantum Switch extracting $\langle Z_0\rangle = E_+ - E_-$ and Plücker ratio $E_- / E_+$ across `signals`, `grassmann`, `symbolic`, and `qulacs`.
+   - `tequila_osid_sparse_plucker_126qubit_audit`: Executes 128-bit sparse Plücker `RustFastCircuit` + `RustFastHamiltonianSet` `OSID` relation recovery at $n = 126$ qubits ($n_{\mathrm{occ}} = 6$, support $= 64$ vs. $2^{126}$).
+   - `tequila_osid_noisy_mcweeny_pure_vs_mixed_audit`: Quantifies McWeeny purification's advantage on depolarized pure eigenstates vs. its spectral distortion disadvantage on mixed thermal states.
+4. **`OSID-TQ-4`: Pytest Verification (`tests/test_tequila_signals_backend.py` & `tests/test_one_shot_sysid_sympy_pyo3.py`):**
+   - Verify all Tequila-OSID workflows, cross-backend numerical parity, and quantitative advantage/disadvantage assertions.
+5. **`OSID-TQ-5`: Paper Update & Full Validation (`docs/grassmannian-quantum-causal-one-shot-system-identification-paper.md`):**
+   - Add Section 5 documenting the Tequila integration architecture, trade-offs, Lean 4 theorem, and empirical benchmark ledger, followed by `make signals_build`, `cargo test`, `pytest`, Markdown scanners, `make -C docs html`, browser check, and `"ENH: "` commit.
 
 ---
 

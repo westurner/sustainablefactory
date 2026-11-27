@@ -23,5 +23,6 @@ dependencies = [
 
 [tool.maturin]
 features = ["extension-module"]
-module-name = "signals_numerical_adapter"
+module-name = "signals_numerical_adapter.signals_numerical_adapter"
+python-source = "python"
 manifest-path = "Cargo.toml"

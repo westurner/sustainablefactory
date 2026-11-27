@@ -98,7 +98,7 @@ def test_tequila_signals_sampling_noisy_density_and_mcweeny_purification():
     total_shots = sum(abs(v) for v in sampled_wfn.values())
     assert np.isclose(total_shots, 2000.0)
     # Only |000> (0) and |111> (7) can appear in ideal GHZ sampling
-    for k in sampled_wfn:
+    for k in sampled_wfn.keys():
         assert int(k) in (0, 7)
 
     # 2. Noisy Kraus density-matrix evolution + McWeeny cubic purification

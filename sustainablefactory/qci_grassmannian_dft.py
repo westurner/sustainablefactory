@@ -5854,13 +5854,14 @@ class MadnessTequilaVRCQuantumChemistryEngine:
         2. Bug 1B (Line 544): `make_pno_upccgsd_ansatz(generalized=True)` appends `(i.idx, a.idx)`
            instead of `(a.idx, b.idx)` inside the intra-pair virtual-virtual `for a ... for b ...` loop.
         """
-        import sys
-
-        repo_root = Path(__file__).resolve().parents[1]
-        tequila_src = repo_root / "src" / "tequila" / "src"
-        madness_iface_file = (
-            tequila_src / "tequila" / "quantumchemistry" / "madness_interface.py"
+        from tequila.circuit import gates
+        from tequila.quantumchemistry import ParametersQC
+        from tequila.quantumchemistry import madness_interface
+        from tequila.quantumchemistry.madness_interface import (
+            QuantumChemistryMadness,
         )
+
+        madness_iface_file = Path(madness_interface.__file__)
         source_text = (
             madness_iface_file.read_text(encoding="utf-8")
             if madness_iface_file.exists()
@@ -5868,15 +5869,6 @@ class MadnessTequilaVRCQuantumChemistryEngine:
         )
         has_gtensor_dot_typo = '"molecule.gtensor.bin"' in source_text and (
             '"molecule_gtensor.bin"' in source_text
-        )
-
-        if tequila_src.exists() and str(tequila_src) not in sys.path:
-            sys.path.insert(0, str(tequila_src))
-
-        from tequila.circuit import gates
-        from tequila.quantumchemistry import ParametersQC
-        from tequila.quantumchemistry.madness_interface import (
-            QuantumChemistryMadness,
         )
 
         params = ParametersQC(

@@ -9,17 +9,9 @@ and McWeeny Cubic Idempotency Purification.
 from __future__ import annotations
 
 from pathlib import Path
-import sys
-import types
 from typing import Any, Union
 
 import numpy as np
-
-ROOT_DIR = Path(__file__).resolve().parent.parent
-TEQUILA_SRC = ROOT_DIR / "src" / "tequila" / "src"
-if TEQUILA_SRC.exists() and str(TEQUILA_SRC) not in sys.path:
-    sys.path.insert(0, str(TEQUILA_SRC))
-
 import signals_numerical_adapter as sna
 import tequila as tq
 from tequila import BitNumbering, BitString, QubitWaveFunction, TequilaException
@@ -893,35 +885,27 @@ class SignalsTequilaGrassmannSimulator:
         }
 
 
-try:
-    from tequila.simulators.simulator_signals import (  # noqa: E402
-        DEFAULT_CHEMISTRY_CONFIGS,
-        DEFAULT_DENSE_CONFIGS,
-        DEFAULT_MEMORY_WALL_QUBITS,
-        QUICK_CHEMISTRY_CONFIGS,
-        QUICK_DENSE_CONFIGS,
-        QUICK_MEMORY_WALL_QUBITS,
-        benchmark_dense_expectation_scaling,
-        benchmark_dense_memory_wall_limit,
-        benchmark_grassmann_plucker_permanent_vs_determinant,
-        benchmark_plucker_hcb_chemistry_scaling,
-        benchmark_vqe_optimization_and_wavefunction,
-        build_arg_parser,
-        build_dense_benchmark_circuit_and_hamiltonian,
-        build_plucker_hcb_chemistry_circuit_and_hamiltonian,
-        configure_logging,
-        format_benchmark_markdown_tables,
-        logger,
-        main as _tequila_signals_main,
-        run_all_benchmarks,
-    )
-except ImportError:  # pragma: no cover
-    _mod = types.ModuleType("tequila.simulators.simulator_signals")
-    _mod.BackendCircuitSignals = BackendCircuitSignals
-    _mod.BackendExpectationValueSignals = BackendExpectationValueSignals
-    _mod.BackendBraKetSignals = BackendBraKetSignals
-    _mod.TequilaSignalsException = TequilaSignalsException
-    sys.modules["tequila.simulators.simulator_signals"] = _mod
+from tequila.simulators.simulator_signals import (  # noqa: E402
+    DEFAULT_CHEMISTRY_CONFIGS,
+    DEFAULT_DENSE_CONFIGS,
+    DEFAULT_MEMORY_WALL_QUBITS,
+    QUICK_CHEMISTRY_CONFIGS,
+    QUICK_DENSE_CONFIGS,
+    QUICK_MEMORY_WALL_QUBITS,
+    benchmark_dense_expectation_scaling,
+    benchmark_dense_memory_wall_limit,
+    benchmark_grassmann_plucker_permanent_vs_determinant,
+    benchmark_plucker_hcb_chemistry_scaling,
+    benchmark_vqe_optimization_and_wavefunction,
+    build_arg_parser,
+    build_dense_benchmark_circuit_and_hamiltonian,
+    build_plucker_hcb_chemistry_circuit_and_hamiltonian,
+    configure_logging,
+    format_benchmark_markdown_tables,
+    logger,
+    main as _tequila_signals_main,
+    run_all_benchmarks,
+)
 
 
 def main(argv: list[str] | None = None) -> int:

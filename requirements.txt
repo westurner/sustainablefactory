@@ -1,3 +1,5 @@
+-e .
+-e ./src/tequila
 -e ./src/schematool
 -e ./src/transform_md
 -e ./src/wrd-sphinx-theme

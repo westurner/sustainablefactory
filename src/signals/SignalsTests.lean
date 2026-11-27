@@ -9919,4 +9919,26 @@ example (theta_j theta_udd lam a b w0 w1 eps delta_m lam2_lo lam2_hi : ℝ)
   exact ⟨h.1, h.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example (n_occ n_orb : ℕ) (h_occ_lt : n_occ < n_orb) (h_orb_pos : 0 < n_orb)
+    (p_pure p_mix : ℝ)
+    (hp_pure_lo : (1 / 2 : ℝ) < p_pure) (hp_pure_hi : p_pure < 1)
+    (hp_mix_lo : 0 < p_mix) (hp_mix_hi : p_mix < (1 / 2 : ℝ))
+    (sigma_1 dim_basis lambda2 theta_target : ℝ)
+    (hsig : 0 < sigma_1) (hdim : 0 < dim_basis) (hl2 : 0 < lambda2) (hth : 0 < theta_target) :
+    Signals.QuantumCausalInference.osidTequilaSparsePluckerBytes n_occ <
+        Signals.QuantumCausalInference.osidTequilaStatevectorBytes n_orb ∧
+      Signals.QuantumCausalInference.osidTequilaStatevectorBytes n_orb <
+        Signals.QuantumCausalInference.osidTequilaDensityMatrixBytes n_orb ∧
+      p_pure < Signals.QuantumCausalInference.osidTequilaMcWeenyPoly p_pure ∧
+      Signals.QuantumCausalInference.osidTequilaMcWeenyPoly p_mix < p_mix ∧
+      Signals.QuantumCausalInference.osidTequilaShotNoiseDavisKahanBound sigma_1 dim_basis lambda2
+        (Signals.QuantumCausalInference.osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target) =
+          theta_target ∧
+      Signals.QuantumCausalInference.osidTequilaShotCountRequired sigma_1 dim_basis (lambda2 / 2) theta_target =
+        4 * Signals.QuantumCausalInference.osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target := by
+  have h := Signals.QuantumCausalInference.qci_osid_tequila_backend_advantages_and_disadvantages_identities
+    n_occ n_orb h_occ_lt h_orb_pos p_pure p_mix hp_pure_lo hp_pure_hi hp_mix_lo hp_mix_hi
+    sigma_1 dim_basis lambda2 theta_target hsig hdim hl2 hth
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

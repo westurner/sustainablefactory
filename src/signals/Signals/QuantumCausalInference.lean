@@ -3143,6 +3143,145 @@ theorem qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_ide
       unfold osidGoswamiWitnessSigmaMargin
       norm_num⟩
 
+/-! ### Section 16.2: Tequila & `signals` / `grassmann` Backend Integration — Advantages & Disadvantages Bounds -/
+
+/-- Tequila dense statevector memory footprint `16 * 2^n` bytes (for `Complex64` entries). -/
+def osidTequilaStatevectorBytes (n_qubits : ℕ) : ℕ :=
+  16 * 2 ^ n_qubits
+
+/-- Tequila dense Kraus density-matrix memory footprint `16 * 4^n` bytes. -/
+def osidTequilaDensityMatrixBytes (n_qubits : ℕ) : ℕ :=
+  16 * 4 ^ n_qubits
+
+/-- Tequila 128-bit sparse Plücker `HCB-SPA` memory footprint `16 * 2^n_occ` bytes
+(independent of total orbital count `n_orb ≤ 126`). -/
+def osidTequilaSparsePluckerBytes (n_occ : ℕ) : ℕ :=
+  16 * 2 ^ n_occ
+
+/-- Born-rule shot-noise amplification under Qi–Ranard Davis–Kahan recovery:
+if `S` shots produce per-entry fluctuation `sigma_1 / √S` over `N` local observables,
+the angular error bound scales as `(sigma_1 * N) / (√S * λ_2)`. -/
+noncomputable def osidTequilaShotNoiseDavisKahanBound
+    (sigma_1 dim_basis lambda2 n_shots : ℝ) : ℝ :=
+  sigma_1 * dim_basis / (Real.sqrt n_shots * lambda2)
+
+/-- Required shot count `S_req = (sigma_1 * N / (λ_2 * θ_target))^2` to achieve angular
+error `≤ θ_target`: quadratic $O(λ_2^{-2} θ_{\mathrm{target}}^{-2})$ sampling cost
+(a primary disadvantage of shot-sampled circuits vs. deterministic weak quadrature). -/
+noncomputable def osidTequilaShotCountRequired
+    (sigma_1 dim_basis lambda2 theta_target : ℝ) : ℝ :=
+  (sigma_1 * dim_basis / (lambda2 * theta_target)) ^ 2
+
+/-- McWeeny cubic purification polynomial `3 * p^2 - 2 * p^3` governing pure vs. mixed
+state eigenvalues inside `BackendCircuitSignals.do_simulate_density(..., mcweeny_passes=...)`. -/
+def osidTequilaMcWeenyPoly (p : ℝ) : ℝ :=
+  3 * p ^ 2 - 2 * p ^ 3
+
+/-- **Master Theorem 11.2 (Tequila & `signals` / `grassmann` Backend Advantages & Disadvantages)**:
+Formalizes both sides of integrating `QCI-OSID` with `Tequila` and our Rust/PyO3 backend:
+1. **Advantage — Sparse 128-Bit Plücker vs. Dense Memory Wall**:
+   Whenever `n_occ < n_orb`, `osidTequilaSparsePluckerBytes n_occ < osidTequilaStatevectorBytes n_orb`
+   and `osidTequilaStatevectorBytes n_orb < osidTequilaDensityMatrixBytes n_orb` (`n_orb ≥ 1`),
+   allowing `n_orb = 126` (`n_occ = 8`) sparse `HCB-SPA` identification in `4096` bytes while
+   dense statevectors (`16 * 2^126`) and density matrices (`16 * 4^126`) are intractable.
+2. **Advantage — McWeeny Purification Healing for Noisy Pure Eigenstates (`p ∈ (1/2, 1)`)**:
+   For `1/2 < p < 1`, `p < osidTequilaMcWeenyPoly p < 1` and `1 - osidTequilaMcWeenyPoly p < 1 - p`,
+   driving a weakly depolarized pure eigenstate back toward rank-1 purity (`p = 0.90 ↦ 0.972`).
+3. **Disadvantage — McWeeny Spectral Distortion on Mixed Thermal/Gibbs States (`p ∈ (0, 1/2)`)**:
+   For `0 < p < 1/2`, `0 < osidTequilaMcWeenyPoly p < p`, while `osidTequilaMcWeenyPoly (1/2) = 1/2`,
+   suppressing minor thermal Boltzmann populations and corrupting mixed-state `OSID`.
+4. **Disadvantage — Shot-Noise Amplification by Spectral Gap `1 / λ_2`**:
+   At `n_shots = osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target`,
+   `osidTequilaShotNoiseDavisKahanBound` equals `theta_target`, while halving `lambda2`
+   quadruples the required shot count `osidTequilaShotCountRequired` (`4×` cost penalty). -/
+@[blueprint "thm:signals-qci-osid-tequila-advantages-disadvantages"
+  (title := "Tequila & signals/grassmann Backend Advantages and Disadvantages Bounds")
+  (statement := /-- Proves sparse 128-bit Plücker memory dominance over dense statevectors
+    and $4^n$ density matrices, McWeeny pure-eigenstate healing on $(1/2, 1)$ vs.\ thermal
+    mixed-state distortion on $(0, 1/2)$, exact shot-count inversion at
+    $S_{\mathrm{req}} = (\sigma_1 N / (\lambda_2 \theta_{\mathrm{target}}))^2$, and $4\times$
+    shot inflation when $\lambda_2 \mapsto \lambda_2 / 2$. -/)
+  (proof := /-- Close power monotonicity by \texttt{Nat.pow\_lt\_pow\_right}, McWeeny cubic
+    identities by factoring $p(1-p)(2p-1)$, and shot-count inversion by \texttt{Real.sqrt\_sq}
+    and \texttt{field\_simp}. -/)]
+theorem qci_osid_tequila_backend_advantages_and_disadvantages_identities
+    (n_occ n_orb : ℕ) (h_occ_lt : n_occ < n_orb) (h_orb_pos : 0 < n_orb)
+    (p_pure p_mix : ℝ)
+    (hp_pure_lo : (1 / 2 : ℝ) < p_pure) (hp_pure_hi : p_pure < 1)
+    (hp_mix_lo : 0 < p_mix) (hp_mix_hi : p_mix < (1 / 2 : ℝ))
+    (sigma_1 dim_basis lambda2 theta_target : ℝ)
+    (hsig : 0 < sigma_1) (hdim : 0 < dim_basis) (hl2 : 0 < lambda2) (hth : 0 < theta_target) :
+    osidTequilaSparsePluckerBytes n_occ < osidTequilaStatevectorBytes n_orb ∧
+      osidTequilaStatevectorBytes n_orb < osidTequilaDensityMatrixBytes n_orb ∧
+      p_pure < osidTequilaMcWeenyPoly p_pure ∧
+      osidTequilaMcWeenyPoly p_pure < 1 ∧
+      1 - osidTequilaMcWeenyPoly p_pure < 1 - p_pure ∧
+      0 < osidTequilaMcWeenyPoly p_mix ∧
+      osidTequilaMcWeenyPoly p_mix < p_mix ∧
+      osidTequilaMcWeenyPoly (1 / 2) = 1 / 2 ∧
+      osidTequilaShotNoiseDavisKahanBound sigma_1 dim_basis lambda2
+        (osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target) = theta_target ∧
+      osidTequilaShotCountRequired sigma_1 dim_basis (lambda2 / 2) theta_target =
+        4 * osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target := by
+  have h_mem1 : osidTequilaSparsePluckerBytes n_occ < osidTequilaStatevectorBytes n_orb := by
+    unfold osidTequilaSparsePluckerBytes osidTequilaStatevectorBytes
+    have hpow : 2 ^ n_occ < 2 ^ n_orb := Nat.pow_lt_pow_right (by decide : 1 < 2) h_occ_lt
+    omega
+  have h_mem2 : osidTequilaStatevectorBytes n_orb < osidTequilaDensityMatrixBytes n_orb := by
+    unfold osidTequilaStatevectorBytes osidTequilaDensityMatrixBytes
+    have hpow : 2 ^ n_orb < 4 ^ n_orb := Nat.pow_lt_pow_left (by decide : 2 < 4) (Nat.ne_of_gt h_orb_pos)
+    omega
+  have h_pure_gt : p_pure < osidTequilaMcWeenyPoly p_pure := by
+    unfold osidTequilaMcWeenyPoly
+    have h_diff : (3 * p_pure ^ 2 - 2 * p_pure ^ 3) - p_pure =
+        p_pure * (1 - p_pure) * (2 * p_pure - 1) := by ring
+    have h_pos : 0 < p_pure * (1 - p_pure) * (2 * p_pure - 1) := by
+      have hp0 : 0 < p_pure := by linarith
+      have h1mp : 0 < 1 - p_pure := by linarith
+      have h2pm1 : 0 < 2 * p_pure - 1 := by linarith
+      positivity
+    linarith
+  have h_pure_lt1 : osidTequilaMcWeenyPoly p_pure < 1 := by
+    unfold osidTequilaMcWeenyPoly
+    have h_diff : 1 - (3 * p_pure ^ 2 - 2 * p_pure ^ 3) =
+        (1 - p_pure) ^ 2 * (1 + 2 * p_pure) := by ring
+    have h_pos : 0 < (1 - p_pure) ^ 2 * (1 + 2 * p_pure) := by
+      have h1mp : 0 < 1 - p_pure := by linarith
+      have h1p2 : 0 < 1 + 2 * p_pure := by linarith
+      positivity
+    linarith
+  have h_mix_pos : 0 < osidTequilaMcWeenyPoly p_mix := by
+    unfold osidTequilaMcWeenyPoly
+    have h_fac : 3 * p_mix ^ 2 - 2 * p_mix ^ 3 = p_mix ^ 2 * (3 - 2 * p_mix) := by ring
+    rw [h_fac]
+    have h3m : 0 < 3 - 2 * p_mix := by linarith
+    positivity
+  have h_mix_lt : osidTequilaMcWeenyPoly p_mix < p_mix := by
+    unfold osidTequilaMcWeenyPoly
+    have h_diff : p_mix - (3 * p_mix ^ 2 - 2 * p_mix ^ 3) =
+        p_mix * (1 - p_mix) * (1 - 2 * p_mix) := by ring
+    have h_pos : 0 < p_mix * (1 - p_mix) * (1 - 2 * p_mix) := by
+      have h1mp : 0 < 1 - p_mix := by linarith
+      have h1m2 : 0 < 1 - 2 * p_mix := by linarith
+      positivity
+    linarith
+  have h_shot_inv :
+      osidTequilaShotNoiseDavisKahanBound sigma_1 dim_basis lambda2
+        (osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target) = theta_target := by
+    unfold osidTequilaShotNoiseDavisKahanBound osidTequilaShotCountRequired
+    have h_inner_pos : 0 < sigma_1 * dim_basis / (lambda2 * theta_target) := by positivity
+    rw [Real.sqrt_sq (le_of_lt h_inner_pos)]
+    field_simp [hsig.ne', hdim.ne', hl2.ne', hth.ne']
+  have h_shot_quad :
+      osidTequilaShotCountRequired sigma_1 dim_basis (lambda2 / 2) theta_target =
+        4 * osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target := by
+    unfold osidTequilaShotCountRequired
+    field_simp [hl2.ne', hth.ne']
+    ring
+  refine ⟨h_mem1, h_mem2, h_pure_gt, h_pure_lt1, by linarith,
+    h_mix_pos, h_mix_lt, by unfold osidTequilaMcWeenyPoly; norm_num,
+    h_shot_inv, h_shot_quad⟩
+
 end
 
 end Signals.QuantumCausalInference
