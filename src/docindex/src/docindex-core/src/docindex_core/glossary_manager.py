@@ -6,11 +6,13 @@ The glossary.yaml file is the single source of truth for project term
 definitions.  The generated MyST file is consumed directly by Sphinx.
 """
 
-from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from string import punctuation
+from typing import Any
+from urllib.parse import quote, urlsplit
 
 import yaml
 
@@ -46,7 +48,7 @@ class GlossaryManager:
     # -------------------------------------------------------------------------
 
     @staticmethod
-    def load(path: Path) -> Dict[str, Any]:
+    def load(path: Path) -> dict[str, Any]:
         """Load a glossary YAML file.
 
         Args:
@@ -74,7 +76,7 @@ class GlossaryManager:
         return data
 
     @staticmethod
-    def save(data: Dict[str, Any], path: Path) -> None:
+    def save(data: dict[str, Any], path: Path) -> None:
         """Save glossary data to a YAML file (sorted by category then term).
 
         Note: YAML comments are not preserved on round-trip.
@@ -86,9 +88,9 @@ class GlossaryManager:
         path.parent.mkdir(parents=True, exist_ok=True)
 
         # Re-order terms: category order first, then alphabetical within category
-        categories: Dict[str, str] = data.get("categories", {})
+        categories: dict[str, str] = data.get("categories", {})
         cat_order = {k: i for i, k in enumerate(categories)}
-        terms: Dict[str, Any] = data.get("terms", {})
+        terms: dict[str, Any] = data.get("terms", {})
 
         def _sort_key(item):
             entry = item[1] if isinstance(item[1], dict) else {}
@@ -110,13 +112,13 @@ class GlossaryManager:
 
     @staticmethod
     def merge_synonyms(
-        data: Dict[str, Any],
-        synonyms: Dict[str, List[str]],
-    ) -> Dict[str, Any]:
+        data: dict[str, Any],
+        synonyms: dict[str, list[str]],
+    ) -> dict[str, Any]:
         """Fold synonym mappings into the glossary term entries.
 
         For each synonym key that matches (case-insensitively) an existing
-        glossary term, the synonym values are added to that term's ``synonyms``
+        glossary term, the syList[nonym values are added to that term's ``synonyms``
         list.  Unmatched synonym keys are silently skipped (they are
         Meilisearch-only entries with no glossary definition yet).
 
@@ -133,7 +135,7 @@ class GlossaryManager:
         terms = result.setdefault("terms", {})
 
         # Build a lowercase key → canonical key lookup
-        lower_map: Dict[str, str] = {k.lower(): k for k in terms}
+        lower_map: dict[str, str] = {k.lower(): k for k in terms}
 
         for syn_key, syn_values in synonyms.items():
             canonical = lower_map.get(syn_key.lower())
@@ -152,9 +154,94 @@ class GlossaryManager:
     # -------------------------------------------------------------------------
 
     @staticmethod
+    def _escape_markdown(value: Any, allowed_punctuation: str = "") -> str:
+        text = str(value).replace("\r", " ").replace("\n", " ").replace("\t", " ")
+        return "".join(
+            f"\\{char}"
+            if char in punctuation and char not in allowed_punctuation
+            else char
+            for char in text
+        )
+
+    @staticmethod
+    def _render_attribute_scalar(
+        attribute: str, value: Any, categories: dict[str, str]
+    ) -> str:
+        attribute_name = attribute.lower()
+        if attribute_name == "wikipedia" and isinstance(value, str):
+            parsed_url = urlsplit(value)
+            if parsed_url.scheme.lower() in {"http", "https"} and parsed_url.netloc:
+                safe_url = quote(value, safe=":/?#[]@!$&'()*+,;=%")
+                return f"<{safe_url}>"
+
+        if attribute_name == "related" and isinstance(value, str):
+            target = value.strip()
+            if target and all(char.isalnum() or char in " _'.-" for char in target):
+                return f"{{term}}`{target}`"
+        if attribute_name == "definedby":
+            return GlossaryManager._escape_markdown(
+                value, allowed_punctuation="{}:`"
+            )
+        if attribute_name == "synonyms":
+            return f"*{GlossaryManager._escape_markdown(value)}*"
+        if attribute_name == "category" and isinstance(value, str):
+            value = categories.get(value, value)
+
+        return GlossaryManager._escape_markdown(value)
+
+    @staticmethod
+    def _render_attribute_items(
+        attribute: str,
+        value: Any,
+        categories: dict[str, str],
+        indent: str,
+    ) -> list[str]:
+        lines: list[str] = []
+        if isinstance(value, (list, tuple)):
+            for item in value:
+                if item is None or item == "" or item == [] or item == {}:
+                    continue
+                if isinstance(item, (list, tuple, dict)):
+                    lines.append(f"{indent}-")
+                    lines.extend(
+                        GlossaryManager._render_attribute_items(
+                            attribute, item, categories, indent + "  "
+                        )
+                    )
+                else:
+                    rendered = GlossaryManager._render_attribute_scalar(
+                        attribute, item, categories
+                    )
+                    lines.append(f"{indent}- {rendered}")
+            return lines
+
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if item is None or item == "" or item == [] or item == {}:
+                    continue
+                if isinstance(item, (list, tuple, dict)):
+                    lines.append(
+                        f"{indent}- **{GlossaryManager._escape_markdown(key)}:**"
+                    )
+                    lines.extend(
+                        GlossaryManager._render_attribute_items(
+                            str(key), item, categories, indent + "  "
+                        )
+                    )
+                else:
+                    rendered = GlossaryManager._render_attribute_scalar(
+                        str(key), item, categories
+                    )
+                    lines.append(
+                        f"{indent}- **{GlossaryManager._escape_markdown(key)}:** "
+                        f"{rendered}"
+                    )
+        return lines
+
+    @staticmethod
     def to_myst(
-        data: Dict[str, Any],
-        source_path: Optional[Path] = None,
+        data: dict[str, Any],
+        source_path: Path|None = None,
         label: str = "glossary",
         title: str = "Glossary",
     ) -> str:
@@ -172,11 +259,11 @@ class GlossaryManager:
         Returns:
             String containing the complete MyST document.
         """
-        categories: Dict[str, str] = data.get("categories", {})
-        terms: Dict[str, Any] = data.get("terms", {})
+        categories: dict[str, str] = data.get("categories", {})
+        terms: dict[str, Any] = data.get("terms", {})
 
         source_name = source_path.name if source_path else "glossary.yaml"
-        lines: List[str] = []
+        lines: list[str] = []
 
         # ── Header ────────────────────────────────────────────────────────────
         lines += [
@@ -191,7 +278,7 @@ class GlossaryManager:
 
         # ── Group terms by category ───────────────────────────────────────────
         cat_order = list(categories.keys())
-        groups: Dict[str, List[str]] = {k: [] for k in cat_order}
+        groups: dict[str, list[str]] = {k: [] for k in cat_order}
         groups["_uncategorised"] = []
 
         for term_key in sorted(terms.keys(), key=str.lower):
@@ -211,7 +298,7 @@ class GlossaryManager:
                 continue
 
             lines += [f"## {cat_label}", ""]
-            lines += ["```{glossary}"]
+            category_lines: List[str] = []
 
             for term_key in term_keys:
                 entry = terms[term_key]
@@ -223,27 +310,55 @@ class GlossaryManager:
                     continue
 
                 # Term line
-                lines.append(term_key)
+                category_lines.append(term_key)
 
                 # Definition — each line indented three spaces
                 for def_line in definition.splitlines():
-                    lines.append(f"   {def_line}" if def_line.strip() else "")
+                    category_lines.append(
+                        f"   {def_line}" if def_line.strip() else ""
+                    )
 
-                # Optional synonym note (inline, italic)
-                synonyms = entry.get("synonyms")
-                if synonyms:
-                    syn_str = ", ".join(f"*{s}*" for s in synonyms)
-                    lines.append(f"   *Also known as*: {syn_str}.")
+                attributes = [
+                    (name, value)
+                    for name, value in entry.items()
+                    if name != "definition"
+                    and value is not None
+                    and value != ""
+                    and value != []
+                    and value != {}
+                ]
+                if attributes:
+                    category_lines.append("")
+                    for name, value in attributes:
+                        label = {"synonyms": "Also known as", "related": "See also"}.get(
+                            name, name
+                        )
+                        escaped_label = GlossaryManager._escape_markdown(label)
+                        if isinstance(value, (list, tuple, dict)):
+                            category_lines.append(f"   - **{escaped_label}:**")
+                            category_lines.extend(
+                                GlossaryManager._render_attribute_items(
+                                    name, value, categories, "     "
+                                )
+                            )
+                        else:
+                            rendered = GlossaryManager._render_attribute_scalar(
+                                name, value, categories
+                            )
+                            category_lines.append(
+                                f"   - **{escaped_label}:** {rendered}"
+                            )
 
-                # Optional related terms cross-reference
-                related = entry.get("related")
-                if related:
-                    rel_str = ", ".join(f"{{term}}`{r}`" for r in related)
-                    lines.append(f"   *See also*: {rel_str}.")
+                category_lines.append("")  # blank line between entries
 
-                lines.append("")  # blank line between entries
-
-            lines.append("```")
+            longest_fence = max(
+                (len(run) for run in re.findall(r"`+", "\n".join(category_lines))),
+                default=0,
+            )
+            fence = "`" * max(3, longest_fence + 1)
+            lines.append(f"{fence}{{glossary}}")
+            lines.extend(category_lines)
+            lines.append(fence)
             lines.append("")  # blank line after block
 
         return "\n".join(lines)
@@ -254,9 +369,9 @@ class GlossaryManager:
 
     @staticmethod
     def write_myst_if_changed(
-        data: Dict[str, Any],
+        data: dict[str, Any],
         output_path: Path,
-        source_path: Optional[Path] = None,
+        source_path: Path|None = None,
         **kwargs,
     ) -> bool:
         """Write the MyST file only when the content has changed.
@@ -288,7 +403,7 @@ class GlossaryManager:
     # -------------------------------------------------------------------------
 
     @staticmethod
-    def extract_synonyms(data: Dict[str, Any]) -> Dict[str, List[str]]:
+    def extract_synonyms(data: dict[str, Any]) -> dict[str, list[str]]:
         """Extract synonym mappings from glossary data.
 
         Useful for seeding or updating ``synonyms.yaml`` from glossary entries.
@@ -299,7 +414,7 @@ class GlossaryManager:
         Returns:
             Dict compatible with :class:`~docindex_core.SynonymsManager`.
         """
-        result: Dict[str, List[str]] = {}
+        result: dict[str, list[str]] = {}
         for term_key, entry in data.get("terms", {}).items():
             if not isinstance(entry, dict):
                 continue

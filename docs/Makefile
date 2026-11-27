@@ -13,6 +13,11 @@ export MATHJAX_CDN
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+.PHONY: html
+html:
+	$(MAKE) -C .. generate_glossary
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(SPHINXEXTRAOPTS) $(O)
+
 .PHONY: help Makefile docs docs_local docs_deploy
 
 docs docs_local docs_deploy:

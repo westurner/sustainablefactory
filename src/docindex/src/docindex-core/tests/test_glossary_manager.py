@@ -1,14 +1,10 @@
 """Tests for GlossaryManager."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 import pytest
 import yaml
-
-from docindex_core.glossary_manager import GlossaryManager, _GENERATED_MARKER
-
+from docindex_core.glossary_manager import _GENERATED_MARKER, GlossaryManager
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -121,10 +117,71 @@ def test_to_myst_includes_synonyms_note():
     assert "*carbon nanotube*" in myst
 
 
+def test_to_myst_preserves_synonym_case():
+    data = {
+        "categories": {},
+        "terms": {
+            "Term": {
+                "definition": "A test term.",
+                "synonyms": ["NASA", "Newtonian Mechanics", "MiXeD Case"],
+            }
+        },
+    }
+
+    myst = GlossaryManager.to_myst(data)
+
+    assert "*NASA*" in myst
+    assert "*Newtonian Mechanics*" in myst
+    assert "*MiXeD Case*" in myst
+    assert "*nasa*" not in myst
+
+
 def test_to_myst_includes_see_also():
     myst = GlossaryManager.to_myst(MINIMAL_DATA)
     assert "See also" in myst
     assert "{term}`Lignin`" in myst
+
+
+def test_to_myst_renders_wikipedia_and_other_attributes_as_list_items():
+    data = {
+        "categories": {"theories": "Physics & Theories"},
+        "terms": {
+            "Classical mechanics": {
+                "definition": "A framework for describing motion.",
+                "category": "theories",
+                "abbreviation": "CM",
+                "wikipedia": [
+                    "https://en.wikipedia.org/wiki/Classical_mechanics",
+                    "https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion",
+                ],
+                "source": "historical mechanics",
+                "notes": ["Newton", "Leibniz", "Euler"],
+                "unsafe": "value <script>alert('x')</script> &lt;img&gt; $x$",
+                "definedBy": ["{cite:p}`einstein1915perihelion`"],
+            }
+        },
+    }
+
+    myst = GlossaryManager.to_myst(data)
+
+    assert "A framework for describing motion.\n\n   - **category:**" in myst
+    assert "   - **abbreviation:** CM" in myst
+    assert r"   - **category:** Physics \& Theories" in myst
+    assert "   - **source:** historical mechanics" in myst
+    assert "     - Newton\n     - Leibniz\n     - Euler" in myst
+    assert (
+        "     - <https://en.wikipedia.org/wiki/Classical_mechanics>"
+    ) in myst
+    assert (
+        "     - <https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion>"
+    ) in myst
+    assert "     - {cite:p}`einstein1915perihelion`" in myst
+    assert r"\{cite" not in myst
+    assert r"\<script\>" in myst
+    assert r"\&lt\;img\&gt\;" in myst
+    assert r"\$x\$" in myst
+    assert "<ul>" not in myst
+    assert "<li>" not in myst
 
 
 def test_to_myst_uses_category_sections():
@@ -136,6 +193,23 @@ def test_to_myst_uses_category_sections():
 def test_to_myst_contains_glossary_fence():
     myst = GlossaryManager.to_myst(MINIMAL_DATA)
     assert "```{glossary}" in myst
+
+
+def test_to_myst_glossary_fence_exceeds_embedded_code_fence():
+    data = {
+        "categories": {},
+        "terms": {
+            "Formula": {
+                "definition": "Example:\n\n```\nx = 2\n```\n\nContinues after code."
+            }
+        },
+    }
+
+    myst = GlossaryManager.to_myst(data)
+
+    assert myst.count("````") == 2
+    assert "   ```\n   x = 2\n   ```" in myst
+    assert "Continues after code." in myst
 
 
 def test_to_myst_custom_label_and_title():

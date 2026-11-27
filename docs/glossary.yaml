@@ -71,6 +71,11 @@ terms:
       - RDF
       - SPARQL
 
+  Linked Data:
+    definition: |
+      - https://5stardata.info/
+    wikipedia: https://en.wikipedia.org/wiki/Linked_data
+
   Ontology:
     definition: |
       A formal, machine-readable specification of the concepts within a domain
@@ -105,9 +110,9 @@ terms:
       as subject–predicate–object triples, forming the basis of linked data and
       knowledge graphs.
     synonyms:
-      - resource description framework
+      - Resource Description Framework
       - semantic web
-      - linked data
+      - {term}`Linked Data`
     abbreviation: RDF
     category: knowledge-representation
     related:
@@ -120,6 +125,8 @@ terms:
       An extension of RDF that allows triples to be used as the subject or object
       of another triple, enabling metadata (such as confidence scores or
       provenance) to be attached directly to individual statements.
+
+      RDF-star is now part of {term}`RDF` 1.2.
     category: knowledge-representation
     related:
       - RDF
@@ -178,7 +185,6 @@ terms:
     synonyms:
       - kraft lignin
       - kraft-lignin
-      - lig
       - organosolv lignin
       - soda lignin
     category: materials
@@ -195,11 +201,18 @@ terms:
     synonyms:
       - vitrimer polymer
       - vitrimeric
-      - covalent adaptable network
-      - can polymer
+      - Covalent Adaptable Network
+      - CAN polymer
     category: materials
     related:
       - CNT
+
+  LIG:
+    definition: |
+      Laser-Induced Graphene is {term}`Graphene` which is manufactured by laser processing.
+    synonyms:
+    - Laser-Induced Graphene
+    wikipedia: https://en.wikipedia.org/wiki/Graphene_production_techniques#Laser-Induced_Graphene_(LIG)
 
   # ── Industrial Processes ─────────────────────────────────────────────────────
 
@@ -210,10 +223,10 @@ terms:
       and other techniques.  Enables complex geometries and low-waste production.
     synonyms:
       - 3d printing
-      - fused deposition modeling
-      - fdm
-      - selective laser sintering
-      - sls
+      - Fused Deposition Modeling
+      - FDM
+      - Selective Laser Sintering
+      - SLS
     category: processes
     related:
       - Sintering
@@ -272,8 +285,8 @@ terms:
       rapid densification.
     synonyms:
       - solid-state sintering
-      - spark plasma sintering
-      - sps
+      - Spark Plasma Sintering
+      - SPS
     category: processes
     related:
       - Additive Manufacturing
@@ -389,847 +402,846 @@ terms:
       - RDF-star
 
 
-# Existing Theories
 
-pi:
-  definition: |
-    - pi (`π`) is approximately equal to 3.14159265359... in radix-10 (decimal notation).
-    - pi is a universal constant.
-    . pi is a transcendental number: in any radix other than pi,
-      pi has a nonterminating decimal representation.
-    - pi is the ratio of the circumference of a perfect circle to its radius/diameter:  
-      `circumference = (2*radius)*pi`.
-    - Approximations of pi:
-      ```
-      pi      = 3.14159265359
-      22/7    = 
-      355/113 = 
-      666/212 = 3.14150...
-      ```
-  synonyms:
-  - π
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Pi
-  - https://en.wikipedia.org/wiki/Approximations_of_pi
+  pi:
+    definition: |
+      - pi (`π`) is approximately equal to 3.14159265359... in radix-10 (decimal notation).
+      - pi is a universal constant.
+      . pi is a transcendental number: in any radix other than pi,
+        pi has a nonterminating decimal representation.
+      - pi is the ratio of the circumference of a perfect circle to its radius/diameter:  
+        `circumference = (2*radius)*pi`.
+      - Approximations of pi:
+        ```
+        pi      = 3.14159265359
+        22/7    = 
+        355/113 = 
+        666/212 = 3.14150...
+        ```
+    synonyms:
+    - π
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Pi
+    - https://en.wikipedia.org/wiki/Approximations_of_pi
 
-e:
-  definition: |
-    - e is a unversal constant
-    - e is a transcendental number: in any radix other than e,
-      e has a nonterminating decimal representation
-    - 2.718... tran
-  synonyms:
-  - e
-  - Euler's number
-  - Napier's constant
-  wikipedia: https://en.wikipedia.org/wiki/E_(mathematical_constant)
+  e:
+    definition: |
+      - e is a unversal constant
+      - e is a transcendental number: in any radix other than e,
+        e has a nonterminating decimal representation
+      - 2.718... tran
+    synonyms:
+    - e
+    - Euler's number
+    - Napier's constant
+    wikipedia: https://en.wikipedia.org/wiki/E_(mathematical_constant)
 
-Eulerian mechanics:
-  definition: |
-    - Compressible and incompressible fluid flows
+  Eulerian mechanics:
+    definition: |
+      - Compressible and incompressible fluid flows
 
-  synonyms:
-  - Euler equations
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)
-  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
-  - https://en.wikipedia.org/wiki/Continuum_mechanics#Eulerian_description
+    synonyms:
+    - Euler equations
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Euler_equations_(fluid_dynamics)
+    - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
+    - https://en.wikipedia.org/wiki/Continuum_mechanics#Eulerian_description
 
-Lagrangian mechanics:
-  definition: |
-
-
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Lagrangian_mechanics
-  - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
-  - https://en.wikipedia.org/wiki/Continuum_mechanics#Lagrangian_description
+  Lagrangian mechanics:
+    definition: |
 
 
-Newton's laws of motion:
-  definition: |
-    Newton's laws:
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Lagrangian_mechanics
+    - https://en.wikipedia.org/wiki/Lagrangian_and_Eulerian_specification_of_the_flow_field
+    - https://en.wikipedia.org/wiki/Continuum_mechanics#Lagrangian_description
 
-    1. inertia / conservation symmetry
-    2. `F = ma` Force = mass \* acceleration
-    3. equal and opposite forces
-  synonyms:
-    - Newton's laws
+
+  Newton's laws of motion:
+    definition: |
+      Newton's laws:
+
+      1. inertia / conservation symmetry
+      2. `F = ma` Force = mass \* acceleration
+      3. equal and opposite forces
+    synonyms:
+      - Newton's laws
+      - Newtonian mechanics
+
+    wikipedia: https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion
+
+  Classical mechanics:
+    definition: |
+
+      - Newton, Leibniz, Euler
+
+      - Newtonian mechanics: {term}`Newton's laws`
+
+    synonyms:
+    - CM
+    - NM
     - Newtonian mechanics
-
-  wikipedia: https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion
-
-Classical mechanics:
-  definition: |
-
-    - Newton, Leibniz, Euler
-
-    - Newtonian mechanics: {term}`Newton's laws`
-
-  synonyms:
-  - CM
-  - NM
-  - Newtonian mechanics
-  wikipedia: https://en.wikipedia.org/wiki/Classical_mechanics
+    wikipedia: https://en.wikipedia.org/wiki/Classical_mechanics
 
 
-Gravity:
-  definition: |
-    The behavior of objects with mass in motion.
+  Gravity:
+    definition: |
+      The behavior of objects with mass in motion.
 
-    Newton's calculus and Newtonian mechanics were developed
-    to model the movements and the forces of massful bodies.
+      Newton's calculus and Newtonian mechanics were developed
+      to model the movements and the forces of massful bodies.
 
-    See also:
-    - {term}`QG` (Quantum gravity)
-      - {term}`Turner models`
-  synonyms:
-  - G 
-  wikipedia: https://en.wikipedia.org/Gravity
+      See also:
+      - {term}`QG` (Quantum gravity)
+        - {term}`Turner models`
+    synonyms:
+    - G 
+    wikipedia: https://en.wikipedia.org/Gravity
 
-Orbit:
-  definition: |
+  Orbit:
+    definition: |
 
-    - Copernicus
-    - Ptolemy
-    - Galileo proposed that the universe revolves around the sun 
-      (heliocentrism) which was heretical at the time.
-    - Kepler
-    - Einstein ({term}`GR` {term}`1PN`, {term}`2.5PN`)
-  wikipedia: https://en.wikipedia.org/wiki/Orbit
+      - Copernicus
+      - Ptolemy
+      - Galileo proposed that the universe revolves around the sun 
+        (heliocentrism) which was heretical at the time.
+      - Kepler
+      - Einstein ({term}`GR` {term}`1PN`, {term}`2.5PN`)
+    wikipedia: https://en.wikipedia.org/wiki/Orbit
 
-Perihelion:
-  synonyms:
-  - Perihelion of Mercury
-  - Perihelion procession of Mercury
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Tests_of_general_relativity#Perihelion_precession_of_Mercury
-  - https://en.wikipedia.org/wiki/MESSENGER
-
-
-Orbital resonance:
-  wikipedia: https://en.wikipedia.org/wiki/Orbital_resonance
-
-GW:
-  synonyms:
-  - Gravitational wave
-  wikipedia: https://en.wikipedia.org/Gravitational_wave
-
-Post-Newtonian expansion:
-  definition: |
-
-    - 1PN: {term}`GR` {term}`Gravity`
-    - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
-    - TODO: on 3 and 3.5PN
-
-  synonyms:
-  - 1PN
-  - 2.5PN
-  - 3PN
-  - 3.5PN
-  wikipedia: https://en.wikipedia.org/wiki/Post-Newtonian_expansion
-
-1PN:
-  definition: |
-    {term}`Post-Newtonian expansion` of the {term}`GR` metric tensor
-    (for predicting the orbits of celestial bodies including Perihelion of Mercury)
-
-    - 1PN: {term}`GR` {term}`Gravity`
+  Perihelion:
+    synonyms:
+    - Perihelion of Mercury
+    - Perihelion procession of Mercury
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Tests_of_general_relativity#Perihelion_precession_of_Mercury
+    - https://en.wikipedia.org/wiki/MESSENGER
 
 
-2.5PN:
-  definition: |
-    {term}`Post-Newtonian expansion` of the {term}`GR` metric tensor
-    (for predicting the {term}`Gravitational waves <GW>`
-    of celestial bodies including Perihelion of Mercury)
-    GW gravity
+  Orbital resonance:
+    wikipedia: https://en.wikipedia.org/wiki/Orbital_resonance
 
-    - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
+  GW:
+    synonyms:
+    - Gravitational wave
+    wikipedia: https://en.wikipedia.org/Gravitational_wave
 
+  Post-Newtonian expansion:
+    definition: |
 
-Post-Minkowskian expansion:
-  wikipedia: https://en.wikipedia.org/wiki/Post-Minkowskian_expansion
+      - 1PN: {term}`GR` {term}`Gravity`
+      - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
+      - TODO: on 3 and 3.5PN
 
+    synonyms:
+    - 1PN
+    - 2.5PN
+    - 3PN
+    - 3.5PN
+    wikipedia: https://en.wikipedia.org/wiki/Post-Newtonian_expansion
 
-## Exterior algebra
+  1PN:
+    definition: |
+      {term}`Post-Newtonian expansion` of the {term}`GR` metric tensor
+      (for predicting the orbits of celestial bodies including Perihelion of Mercury)
 
-Grassmann number:
-  definition: |
-
-
-  wikipedia: https://en.wikipedia.org/wiki/Grassmann_number
-
-Exterior algebgra:
-  definition: |
-    Exterior algebra (or Grassmann algebra) of a vector space
-    which defines a *wedge product* (*exterior product*).
-
-
-  wikipedia: https://en.wikipedia.org/wiki/Exterior_algebra
-
-
-Grassmannian manifold:
-  definition: |
-
-  synonyms:
-  - Grassmannian
-  - Grassmannian metric
-  wikipedia: https://en.wikipedia.org/wiki/Exterior_algebra
-
-Gr>0:
-  definition: |
-    The Positive Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ of real $k$-planes in $\mathbb{R}^n$ whose ordered $k \times k$ Plücker minors are all non-negative ($\Delta_I \ge 0$, {cite:p}`postnikov2006plabic,arkani2014amplituhedron`).
-
-  synonyms:
-  - Positive Grassmannian
-  - Non-negative Grassmannian
+      - 1PN: {term}`GR` {term}`Gravity`
 
 
-GrC:
-  definition: |
-    The Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n) = \mathrm{U}(n)/(\mathrm{U}(k)\times\mathrm{U}(n-k))$ of complex $k$-planes in $\mathbb{C}^n$, a compact Einstein–Kähler manifold of real dimension $2k(n-k)$, Plücker coordinate count $\binom{n}{k}$, and scalar curvature $R_{\mathrm{Gr}}(k, n) = n k (n - k)$.
+  2.5PN:
+    definition: |
+      {term}`Post-Newtonian expansion` of the {term}`GR` metric tensor
+      (for predicting the {term}`Gravitational waves <GW>`
+      of celestial bodies including Perihelion of Mercury)
+      GW gravity
 
-  synonyms:
-  - Complex Grassmannian
-
-GrC(2,4):
-  definition: |
-    The Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5$ ($\dim_{\mathbb{R}} = 8$, $\binom{4}{2} = 6$ Plücker coordinates, $1$ quadratic Klein quadric relation $p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0$, Kähler scalar curvature $R_{\mathrm{Gr}}(2,4) = 16$).
-
-    See Section 2 (Master Taxonomy Table of Lower Grassmannians) in `docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`.
+      - 2.5PN: {term}`GR` {term}`Gravitational waves<GW>` 
 
 
-## Physics theories
-
-Planck constant:
-  definition: |
-    
-    - `h = 1 quanta`
-    - Unit of mass (`Joule-second = kg*m^2*s^{-1}`)
-    - Is now the basis for the kilogram SI unit
-
-  synonyms:
-  - h
-  - quantum of action
-  - 1 quanta
-  symbol:
-  - h
-
-  year: 1900
-  wikipedia: https://en.wikipedia.org/wiki/Planck_constant
-
-Reduced Planck constant:
-  definition: |
-    {term}`Planck constant` divided by 2 times {term}`Pi`
-
-    - ℏ = h/2*pi
-    - hbar = h/2*pi
-
-  synonyms:
-  - ℏ
-  - h-bar 
-  symbol:
-  - ℏ
-
-Minkowski spacetime:
-  definition: |
-
-    flat space
-  wikipedia: https://en.wikipedia.org/wiki/Minkowski_spacetime
-
-SR:
-  definition: |
-    Special Relativity (Einstein, Galilei, Michelson, Lorentz, Poincaré, Planck, Minkowski,)
+  Post-Minkowskian expansion:
+    wikipedia: https://en.wikipedia.org/wiki/Post-Minkowskian_expansion
 
 
-  synonyms:
-    - Special Relativity
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Special_relativity
-  - https://en.wikipedia.org/wiki/History_of_special_relativity
-  - https://en.wikipedia.org/wiki/Tests_of_special_relativity
-  - https://en.wikipedia.org/wiki/Minkowski_spacetime
-  definedBy:
-  - "{cite:p}`Einstein1905`"
-  - https://en.wikipedia.org/wiki/Annus_mirabilis_papers#Special_relativity
+  ## Exterior algebra
 
-Mass-energy equivalance:
-  definition: |
-    Theory that Energy (E) equal mass (m) times the speed of light squared (c^2),
-    wherein "times" is the (metric) tensor product operator.
+  Grassmann number:
+    definition: |
 
-    ```
-    E = mc^2
-    ```
 
-    $$
+    wikipedia: https://en.wikipedia.org/wiki/Grassmann_number
+
+  Exterior algebgra:
+    definition: |
+      Exterior algebra (or Grassmann algebra) of a vector space
+      which defines a *wedge product* (*exterior product*).
+
+
+    wikipedia: https://en.wikipedia.org/wiki/Exterior_algebra
+
+
+  Grassmannian manifold:
+    definition: |
+
+    synonyms:
+    - Grassmannian
+    - Grassmannian metric
+    wikipedia: https://en.wikipedia.org/wiki/Exterior_algebra
+
+  Gr>0:
+    definition: |
+      The Positive Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ of real $k$-planes in $\mathbb{R}^n$ whose ordered $k \times k$ Plücker minors are all non-negative ($\Delta_I \ge 0$, {cite:p}`postnikov2006plabic,arkani2014amplituhedron`).
+
+    synonyms:
+    - Positive Grassmannian
+    - Non-negative Grassmannian
+
+
+  GrC:
+    definition: |
+      The Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n) = \mathrm{U}(n)/(\mathrm{U}(k)\times\mathrm{U}(n-k))$ of complex $k$-planes in $\mathbb{C}^n$, a compact Einstein–Kähler manifold of real dimension $2k(n-k)$, Plücker coordinate count $\binom{n}{k}$, and scalar curvature $R_{\mathrm{Gr}}(k, n) = n k (n - k)$.
+
+    synonyms:
+    - Complex Grassmannian
+
+  GrC(2,4):
+    definition: |
+      The Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5$ ($\dim_{\mathbb{R}} = 8$, $\binom{4}{2} = 6$ Plücker coordinates, $1$ quadratic Klein quadric relation $p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0$, Kähler scalar curvature $R_{\mathrm{Gr}}(2,4) = 16$).
+
+      See Section 2 (Master Taxonomy Table of Lower Grassmannians) in `docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`.
+
+
+  ## Physics theories
+
+  Planck constant:
+    definition: |
+      
+      - `h = 1 quanta`
+      - Unit of mass (`Joule-second = kg*m^2*s^{-1}`)
+      - Is now the basis for the kilogram SI unit
+
+    synonyms:
+    - h
+    - quantum of action
+    - 1 quanta
+    symbol:
+    - h
+
+    year: 1900
+    wikipedia: https://en.wikipedia.org/wiki/Planck_constant
+
+  Reduced Planck constant:
+    definition: |
+      {term}`Planck constant` divided by 2 times {term}`Pi`
+
+      - ℏ = h/2*pi
+      - hbar = h/2*pi
+
+    synonyms:
+    - ℏ
+    - h-bar 
+    symbol:
+    - ℏ
+
+  Minkowski spacetime:
+    definition: |
+
+      flat space
+    wikipedia: https://en.wikipedia.org/wiki/Minkowski_spacetime
+
+  SR:
+    definition: |
+      Special Relativity (Einstein, Galilei, Michelson, Lorentz, Poincaré, Planck, Minkowski,)
+
+
+    synonyms:
+      - Special Relativity
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Special_relativity
+    - https://en.wikipedia.org/wiki/History_of_special_relativity
+    - https://en.wikipedia.org/wiki/Tests_of_special_relativity
+    - https://en.wikipedia.org/wiki/Minkowski_spacetime
+    definedBy:
+    - "{cite:p}`Einstein1905`"
+    - https://en.wikipedia.org/wiki/Annus_mirabilis_papers#Special_relativity
+
+  Mass-energy equivalance:
+    definition: |
+      Theory that Energy (E) equal mass (m) times the speed of light squared (c^2),
+      wherein "times" is the (metric) tensor product operator.
+
+      ```
       E = mc^2
-    $$
+      ```
 
-  wikipedia: https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence
+      $$
+        E = mc^2
+      $$
 
-Energy-momentum relation:
-  definition: |
-    More complete form of the {term}`Mass-energy equivalence`
+    wikipedia: https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence
 
-    ```
-    E^2 = (pc)^2 + (mc^2)^2
+  Energy-momentum relation:
+    definition: |
+      More complete form of the {term}`Mass-energy equivalence`
 
-    E  = ((pc)^2 + (mc^2)^2)^(1/2)
-    ```
-
-    $$
+      ```
       E^2 = (pc)^2 + (mc^2)^2
-    $$
 
-    $$
       E  = ((pc)^2 + (mc^2)^2)^(1/2)
-    $$
+      ```
 
-  wikipedia: https://en.wikipedia.org/wiki/Energy%E2%80%93momentum_relation
+      $$
+        E^2 = (pc)^2 + (mc^2)^2
+      $$
 
-GR:
-  definition: |
-    General Relativity (Einstein)
+      $$
+        E  = ((pc)^2 + (mc^2)^2)^(1/2)
+      $$
 
-    Post-Newtonian expansions of the GR metric tensor:
-    - {term}`1PN`
-    - {term}`2.5PN`
+    wikipedia: https://en.wikipedia.org/wiki/Energy%E2%80%93momentum_relation
 
-  synonyms:
-    - General Relativity
-  wikipedia:
-  - https://en.wikipedia.org/wiki/General_relativity
-  - https://en.wikipedia.org/wiki/Tests_of_general_relativity
-  definedBy:
-  - "{cite:p}`einstein1915perihelion`"
-  - "{cite:p}`einstein1916grundlage`"
-  - "{cite:p}`einstein1917relativitat`"
-  - "{cite:p}`einstein1920relativity`"
-  - https://en.wikipedia.org/wiki/Relativity:_The_Special_and_the_General_Theory
+  GR:
+    definition: |
+      General Relativity (Einstein)
 
-BEC:
-  definition: |
-    Bose-Einstein Condensate
-  synonyms:
-    - Bose-Einstein Condensate
-    - Superfluid
-  wikipedia: https://en.wikipedia.org/wiki/Bose%E2%80%93Einstein_condensate
+      Post-Newtonian expansions of the GR metric tensor:
+      - {term}`1PN`
+      - {term}`2.5PN`
 
-BEC vacuum theory:
-  definition: |
+    synonyms:
+      - General Relativity
+    wikipedia:
+    - https://en.wikipedia.org/wiki/General_relativity
+    - https://en.wikipedia.org/wiki/Tests_of_general_relativity
+    definedBy:
+    - "{cite:p}`einstein1915perihelion`"
+    - "{cite:p}`einstein1916grundlage`"
+    - "{cite:p}`einstein1917relativitat`"
+    - "{cite:p}`einstein1920relativity`"
+    - https://en.wikipedia.org/wiki/Relativity:_The_Special_and_the_General_Theory
 
+  BEC:
+    definition: |
+      Bose-Einstein Condensate
+    synonyms:
+      - Bose-Einstein Condensate
+      - Superfluid
+    wikipedia: https://en.wikipedia.org/wiki/Bose%E2%80%93Einstein_condensate
 
-  synonyms:
-  - Bose-Einstein Condensate vacuum theory
-  - SVT 
-  - Superfluid Vacuum Theory
-  wikipedia: https://en.wikipedia.org/wiki/Superfluid_vacuum_theory
+  BEC vacuum theory:
+    definition: |
 
-QG:
-  definition: |
-    Quantum Gravity
 
+    synonyms:
+    - Bose-Einstein Condensate vacuum theory
+    - SVT 
+    - Superfluid Vacuum Theory
+    wikipedia: https://en.wikipedia.org/wiki/Superfluid_vacuum_theory
 
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Quantum_gravity
+  QG:
+    definition: |
+      Quantum Gravity
 
-QFT:
-  definition: |
-    Quantum Field theory
 
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Quantum_gravity
 
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_field_theory
+  QFT:
+    definition: |
+      Quantum Field theory
 
-QFTCS:
-  definition: |
-    Quantum Field theory in curved Minkowski spacetime
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_field_theory_in_curved_spacetime
 
-QED:
-  definition: |
-    Quantum Electrodynamics
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_electrodynamics
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_field_theory
 
+  QFTCS:
+    definition: |
+      Quantum Field theory in curved Minkowski spacetime
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_field_theory_in_curved_spacetime
 
-Probability_amplitude:
-  wikipedia: https://en.wikipedia.org/wiki/Probability_amplitude
+  QED:
+    definition: |
+      Quantum Electrodynamics
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_electrodynamics
 
-Scattering amplitudes:
-  wikipedia: https://en.wikipedia.org/wiki/Scattering_amplitude
 
-de Broglie-Bohm theory:
-  definition: |
+  Probability_amplitude:
+    wikipedia: https://en.wikipedia.org/wiki/Probability_amplitude
 
+  Scattering amplitudes:
+    wikipedia: https://en.wikipedia.org/wiki/Scattering_amplitude
 
+  de Broglie-Bohm theory:
+    definition: |
 
-  synonyms:
-  - Pilot Wave Theory
-  - PWT
-  - de Broglie-Bohm mechanics
-  - Bohmian mechanics 
-  definedBy:
-  - "{cite:p}`bohm1952a`"
-  - "{cite:p}`bohm1952b`"
-  - "{cite:p}`bohm1982`"
-  wikipedia:
-  - https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory
 
 
-Feynman diagram:
-  wikipedia: https://en.wikipedia.org/wiki/Feynman_diagram
+    synonyms:
+    - Pilot Wave Theory
+    - PWT
+    - de Broglie-Bohm mechanics
+    - Bohmian mechanics 
+    definedBy:
+    - "{cite:p}`bohm1952a`"
+    - "{cite:p}`bohm1952b`"
+    - "{cite:p}`bohm1982`"
+    wikipedia:
+    - https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory
 
 
-Standard Model:
-  definition: |
-    Standard Model of particle physics
+  Feynman diagram:
+    wikipedia: https://en.wikipedia.org/wiki/Feynman_diagram
 
-    https://en.wikipedia.org/wiki/Elementary_particle#Beyond_the_Standard_Model
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Standard_Model
 
-SU:
-  definition: |
-    Special Unitary group
+  Standard Model:
+    definition: |
+      Standard Model of particle physics
 
-    SU(4) is a Special Unitary group of degree 4.
-  wikipedia: https://en.wikipedia.org/wiki/Special_unitary_group
+      https://en.wikipedia.org/wiki/Elementary_particle#Beyond_the_Standard_Model
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Standard_Model
 
-SU(4):
-  definition: |
-    Special Unitary group of degree 4 (the Lie group of 4x4 matrices with determinant 1)
+  SU:
+    definition: |
+      Special Unitary group
 
-    SU(4) has a real dimension of 15 (n^2-1).
+      SU(4) is a Special Unitary group of degree 4.
+    wikipedia: https://en.wikipedia.org/wiki/Special_unitary_group
 
-    SU(4) is locally isomorphic to spin group Spin(6).
+  SU(4):
+    definition: |
+      Special Unitary group of degree 4 (the Lie group of 4x4 matrices with determinant 1)
 
-    SU(4) is the R-symmetry group in 4D N=4 supersymmetric Yang-Mills theory.
+      SU(4) has a real dimension of 15 (n^2-1).
 
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Special_unitary_group#SU(4)
+      SU(4) is locally isomorphic to spin group Spin(6).
 
-SYM:
-  definition: |
-    N=4 supersymmetric Yang-Mills theory
+      SU(4) is the R-symmetry group in 4D N=4 supersymmetric Yang-Mills theory.
 
-    SYM does not model gravity.
-  wikipedia:
-  - https://en.wikipedia.org/wiki/N_%3D_4_supersymmetric_Yang%E2%80%93Mills_theory
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Special_unitary_group#SU(4)
 
+  SYM:
+    definition: |
+      N=4 supersymmetric Yang-Mills theory
 
-Spinor:
-  definition: |
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Spinor
+      SYM does not model gravity.
+    wikipedia:
+    - https://en.wikipedia.org/wiki/N_%3D_4_supersymmetric_Yang%E2%80%93Mills_theory
 
-Spinor space:
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Spin_group#Spinor_space
-  - https://en.wikipedia.org/wiki/Grassmann_number#Spinor_space
 
-Weyl spinor:
-  wikipedia: https://en.wikipedia.org/wiki/Weyl_equation#Weyl_spinors
+  Spinor:
+    definition: |
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Spinor
 
-Majorana equation:
-  definition: |
+  Spinor space:
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Spin_group#Spinor_space
+    - https://en.wikipedia.org/wiki/Grassmann_number#Spinor_space
 
+  Weyl spinor:
+    wikipedia: https://en.wikipedia.org/wiki/Weyl_equation#Weyl_spinors
 
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Majorana_equation
-  - https://en.wikipedia.org/wiki/Majorana_equation#Spin_eigenstates
-  synonyms:
-  - Majorana spinor equation
+  Majorana equation:
+    definition: |
 
-MZM:
-  definition: |
-    Majorana Zero Fermion; topologically protected quantum state
-  synonyms:
-  - Majorana near-zero Fermion
-  wikipedia: 
-  - https://en.wikipedia.org/wiki/Majorana_fermion
 
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Majorana_equation
+    - https://en.wikipedia.org/wiki/Majorana_equation#Spin_eigenstates
+    synonyms:
+    - Majorana spinor equation
 
-Twistor:
-  definition: |
+  MZM:
+    definition: |
+      Majorana Zero Fermion; topologically protected quantum state
+    synonyms:
+    - Majorana near-zero Fermion
+    wikipedia: 
+    - https://en.wikipedia.org/wiki/Majorana_fermion
 
 
-  wikipedia: https://en.wikipedia.org/wiki/Twistor_theory
+  Twistor:
+    definition: |
 
-Twistor space:
-  definition: |
 
+    wikipedia: https://en.wikipedia.org/wiki/Twistor_theory
 
-  wikipedia: https://en.wikipedia.org/wiki/Twistor_space
+  Twistor space:
+    definition: |
 
 
-String theory:
-  definition: |
-    Theory of physics with strings instead of point-like particles
-  wikipedia:
-  - https://en.wikipedia.org/wiki/String_theory
+    wikipedia: https://en.wikipedia.org/wiki/Twistor_space
 
 
-Twistor string theory:
-  definition: |
+  String theory:
+    definition: |
+      Theory of physics with strings instead of point-like particles
+    wikipedia:
+    - https://en.wikipedia.org/wiki/String_theory
 
 
-  synonyms:
-  - Witten's String Theory (2004)
-  wikipedia: https://en.wikipedia.org/wiki/Twistor_string_theory
+  Twistor string theory:
+    definition: |
 
-BCFW:
-  definition: |
 
-    Britto-Cachazo-Feng-Witten recursion method (2012) calculate
-    {term}`Scattering amplitudes <Scattering amplitude>`
+    synonyms:
+    - Witten's String Theory (2004)
+    wikipedia: https://en.wikipedia.org/wiki/Twistor_string_theory
 
-  synonyms:
-  - Britto-Cachazo-Feng-Witten
-  - BCFW recursion
-  wikipedia: https://en.wikipedia.org/wiki/BCFW_recursion
+  BCFW:
+    definition: |
 
+      Britto-Cachazo-Feng-Witten recursion method (2012) calculate
+      {term}`Scattering amplitudes <Scattering amplitude>`
 
-BCJ:
-  definition: |
+    synonyms:
+    - Britto-Cachazo-Feng-Witten
+    - BCFW recursion
+    wikipedia: https://en.wikipedia.org/wiki/BCFW_recursion
 
 
-    Gravity = Gauge x Gauge
-  synonyms:
-  - BCJ Double-Copy
-  - BCJ Duality
-  - Double copy theory
-  wikipedia: https://en.wikipedia.org/wiki/Double_copy_theory
+  BCJ:
+    definition: |
 
-Cachazo-Geyer gravity:
-  definition: |
-    1PN-equivalent gravity from SU(4) {term}`Twistor string theory`
-  definedBy:
-  - "{cite:p}`su4-cachazogeyer2012`"
 
-Amplituhedron:
-  definition: |
-    Grassmannian Yang-Mills Twistor String theory method for
-    calculating scattering amplitude path integrals
-    (without Feynman diagrams).
+      Gravity = Gauge x Gauge
+    synonyms:
+    - BCJ Double-Copy
+    - BCJ Duality
+    - Double copy theory
+    wikipedia: https://en.wikipedia.org/wiki/Double_copy_theory
 
-    - Tree-level $n$-point $\mathrm{N}^{k-2}\mathrm{MHV}$ amplitudes live in the positive Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ mapped into $\mathrm{Gr}(k, k+4)$ (with $k=2, n=4$ MHV amplitudes on $\mathrm{Gr}_{\ge 0}(2,4)$ and lifted to $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ for complex phase interference).
+  Cachazo-Geyer gravity:
+    definition: |
+      1PN-equivalent gravity from SU(4) {term}`Twistor string theory`
+    definedBy:
+    - "{cite:p}`su4-cachazogeyer2012`"
 
-    Our work here (with the "Turner models" etc.)
-    gratefully extends from the Amplituhedron
-    to additional applied domains of particle simulation.
+  Amplituhedron:
+    definition: |
+      Grassmannian Yang-Mills Twistor String theory method for
+      calculating scattering amplitude path integrals
+      (without Feynman diagrams).
 
-    FWIU, Amplituhedron is integrated with B-model string theories,
-    and our work with Witten {term}`Twistor string theory`
-    and Cachazo's $\mathrm{SU}(4)$-based models (`CSW`, `BCFW`, `Cachazo–Skinner`, `CHY`)
-    is unified via $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`).
+      - Tree-level $n$-point $\mathrm{N}^{k-2}\mathrm{MHV}$ amplitudes live in the positive Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ mapped into $\mathrm{Gr}(k, k+4)$ (with $k=2, n=4$ MHV amplitudes on $\mathrm{Gr}_{\ge 0}(2,4)$ and lifted to $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ for complex phase interference).
 
-  wikipedia: https://en.wikipedia.org/wiki/Amplituhedron
-  definedBy:
-  - "{cite:p}`arkani2014amplituhedron`"
-  - "{cite:p}`arkani-hamed-bai-lam2017`"
-  - "{cite:p}`su4-arkani2016`"
+      Our work here (with the "Turner models" etc.)
+      gratefully extends from the Amplituhedron
+      to additional applied domains of particle simulation.
 
+      FWIU, Amplituhedron is integrated with B-model string theories,
+      and our work with Witten {term}`Twistor string theory`
+      and Cachazo's $\mathrm{SU}(4)$-based models (`CSW`, `BCFW`, `Cachazo–Skinner`, `CHY`)
+      is unified via $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ (`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`).
 
+    wikipedia: https://en.wikipedia.org/wiki/Amplituhedron
+    definedBy:
+    - "{cite:p}`arkani2014amplituhedron`"
+    - "{cite:p}`arkani-hamed-bai-lam2017`"
+    - "{cite:p}`su4-arkani2016`"
 
-Plabic Graphs:
-  author: Postnikov
-  definedBy: "{cite:p}`postnikov2006plabic`"
-  
 
-VRC:
-  name: VRC
-  name_full: Vector Relation Configuration
-  description: Plabic graphs extended to Complex space
-  appliedBy: docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
-  definedBy: "{cite:p}`affolter2024vrc`"
 
-SPH:
-  definition: |
-    Smoothed-Particle Hydrodynamics — a meshfree Lagrangian particle method for simulating continuum fluid flows.
-  wikipedia: https://en.wikipedia.org/wiki/Smoothed-particle_hydrodynamics
-
-SQG:
-  definition: |
-    Superfluid Quantum Gravity; post-SPH Smoothed Particle Hydrodynamics (1970s) theories of gravity:
-
-    - Fedi's SQG (2016, 2017)
-
-  definedBy:
-  - "{cite:p}`fedi2017darksuperfluid`"
-  - "{cite:p}`unif-fedi2017`"
-
-DDF:
-  definition: |
-    Dilatant Dark Fluid is a quantum superhydrodynamic theory 
-    of quantum mechanics with psi and phi and GPE,
-    which has E_rel=0 against 1PN ({term}`GR` Gravity)
-
-  synonyms:
-  - Dilatant Dark Fluid
-
-  definedBy: "{cite:p}`fedi2026ddf`"
-
-
-Madelung equations:
-  definition: |
-    Equations of quantum hydrodynamics
-
-    - The Madelung equations are a quantum mechanical implementation of the Euler equations.
-    - The Madelung equations are an alternative to the Schrödinger equation.
-    - The Madelung equations can be simulated with {term}`Euler equations <Eulerian mechanics>`:
-      - Runga-Kutta (RK) + Euler-Korteweg equations
-      - Lifted onto $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5$ in `docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md`, `docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`, `src/signals/Signals/DDF.lean`, and `src/signals/numerical_adapter/src/madelung_lagrangian.rs`.
-    - The {term}`Madelung equations` map the {term}`GPE` into Eulerian quantum hydrodynamic equations.
-
-  wikipedia: https://en.wikipedia.org/wiki/Madelung_equations
-
-GPE:
-  definition: |
-    Gross-Pitaevskii Equation; a nonlinear Schrödinger equation for simulating {term}`BEC` ("superfluids")
-
-    - The {term}`Madelung equations` map the GPE into Eulerian quantum hydrodynamic equations.
-      - However, in scalar representations there is {term}`Bohmian blowup` ($1/\rho$ divergence at $\rho \to 0$).
-      - Our Homogeneous Plücker $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ Kähler formulation (`det(I_2 + W W^\dagger) >= 1`) and Three-Channel Plücker–Madelung–QFIM decomposition ($F_{\mu\nu} = 4 g_{\mu\nu}^{\mathrm{FS}}$) regularize vortex cores and dark fringes (`docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`, `docs/grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md`, `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`).
-
-  synonyms:
-  - Gross-Pitaevskii Equation
-  wikipedia: https://en.wikipedia.org/wiki/Gross%E2%80%93Pitaevskii_equation
-
-iGPE:
-  definition: |
-    Four distinct formulations unified in `Signals`: (1) Interactive GPE (`InteractiveGPEPoint`), (2) Inhomogeneous GPE (`InhomogeneousGPEPoint`), (3) Inverse GPE (`InverseGPEPoint`, `pluckerInversePotentialReconstruction`), and (4) Coupled Dual-Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ iGPE (`CoupledDualGrassmannianState`).
-  synonyms:
-  - inverse GPE
-  - interactive GPE
-  - inhomogeneous GPE
-
-
-Turner Models:
-  definition: |
-    Models of Electrons, Photons, and Gravity (and Polaritons, Plasmons)
-
-    These "Turner Models" are currently named
-    according to the table row number in:
-    - `docs/grassmannian-gravity-from-qed-scattering-paper.md` (Section 6.2 & Section 8.2, Models `1`–`13`, `14a`, & `14b`)
-
-    They are further compared in, for example:
-    - `docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md` (Section 3, `#sec-em-master-table`)
-    - `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md` (Section 2, `#sec-qt-master-comparison-table`)
-
-
-Turner Model 6:
-  definition: |
-    Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-`iGPE` Superposition (`Signals.DDF.pluckerMadelungSuperpositionOAMDoubleSlit`, `SlitModelKind::PluckerMadelungDualIgpe`).
-  definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
-
-Turner Model 12:
-  definition: |
-    Flat-Space GrC(2,4) BCJ Double Copy + Splats, No DDF
-
-    Gimbal-lock-free spinor splat orientation + 3D GrC(3,6) focal E_z
-  definedBy: docs/grassmannian-gravity-from-qed-scattering-paper.md
-
-Turner Model 13:
-  definition: |
-    Unified GrC(2,4) + Conservative DDF + 3D Splat
-
-    Combines 3D splat Bohm–Fisher core 
-    1/2 Q_core(Σ) with nonlocal DDF tubular soliton stability
-  definedBy: docs/grassmannian-gravity-from-qed-scattering-paper.md
-
-Turner Model 14a:
-  definition: |
-    Klein Quadric Q_4 Kähler (without DDF)
-
-    Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
-    ghost-free 2-derivative Kähler action,
-    M1-M3 TRUE soft-photon bridge
-  definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
-
-Turner Model 14b:
-  definition: |
-    Klein Quadric Q_4 Kähler (with DDF)
-
-    Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
-    ghost-free 2-derivative Kähler action,
-    M1-M3 TRUE soft-photon bridge
-  definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
-
-
-Turner Model 15a:
-  definition: |
-    - No-DDF
-    - Does predict photon deflection
-  definedBy: TODO
-
-
-Turner Model 15b:
-  definition: |
-    - DDF
-    - Does not do deflection
-  definedBy:  TODO
-
-
-Semilatus rectum:
-  definition: |
-    Length ℓ of the chord through one focus which is perpendicular to the major axis directrix (Latus rectum) times 1/2.
-  symbol: ℓ
-  mathworld: https://mathworld.wolfram.com/SemilatusRectum.html
-  wikipedia: https://en.wikipedia.org/wiki/Ellipse#Semi-latus_rectum
-
-
-G-CSC:
-  definition: |
-    Grassmannian Cuprate Superconductivity theory of superconductivity in Copper superconductors
-  definedBy: docs/grassmannian-cuprate-superconductivity-paper.md
-
-
-G-IEP:
-  name_full: Grassmannian Interfacial Electrical Model
-  definedBy: docs/grassmannian-interfacial-electrical-properties-paper.md
-
-
-G-MGS:
-  name_full: Grassmannian Multilayer Graphene Superconductivity (G-MGS) framework
-  definedBy: docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md
-
-
-G-GKBA:
-  hame: GGKBA
-  hame_lower: ggkba
-  name_full: Grassmannian Generialized Kadanoff-Baym Ansatz
-  definedBy: docs/grassmannian-tuning-materials-with-light-paper.md
-
-
-G-TBC:
-  name: G-TBC
-  hame: GTBC
-  hame_lower: gtbc
-  name_full: Grassmannian Thermal Boundary Conductance
-  definedBy: docs/grassmannian-thermo-electro-magnetics-lord-shulman-paper.md
-
-
-QCI-GXC:
-  name: QCI-GXC
-  hame: QCIGXC
-  hame_lower: qcigxc
-  name_full: Quantum Causal Inference Grassmannian Exchange-Correlation Functional
-  synonyms:
-  - Quantum Causal Inference Grassmannian Exchange-Correlation Functional
-  definition: |
-    Quantum Causal Inference Grassmannian Exchange-Correlation (`QCI-GXC`) unrestricted spin-polarized Kohn–Sham Density Functional Theory on $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$ with unitary Cayley retractions and McWeeny idempotency purification.
-  definedBy: /workspaces/sustainablefactory/docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
-
-
-G-NCM:
-  name: G-NCM
-  name_full: Grassmannian Next Concept Modeling
-  definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
-
-QCI-NCM:
-  name: QCI-NCM
-  name_full: Quantum Causual Next Concept Modeling
-  definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
-
-QCI-G-NCM:
-  name: QCI-G-NCM
-  name_full: Quantum Causual Grassmannian Next Concept Modeling
-  definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
-
-
-G-DDF-TEM:
-  name: G-DDF-TEM
-  name_full: Grassmannian Thermo-Electro-Magnetics
-  definedBy: docs/grassmannian-thermo-electro-magnetics-lord-shulman-paper.md
-
-
-
-Operator:
- wikipedia:
- - https://en.wikipedia.org/wiki/Operator_(physics)
- - https://en.wikipedia.org/wiki/Operator_(physics)#Table_of_classical_mechanics_operators
- - https://en.wikipedia.org/wiki/Operator_(physics)#Operators_in_quantum_mechanics
- - https://en.wikipedia.org/wiki/Operator_(physics)#Table_of_Quantum_Mechanics_operators
-
-
-Constructive interference:
-  wikipedia: 
-  - https://en.wikipedia.org/wiki/Wave_interference#Optical_wave_interference
-
-Young's experiment:
-  wikipedia: https://en.wikipedia.org/wiki/Young's_interference_experiment
-
-Double-slit experiment:
-  wikipedia: https://en.wikipedia.org/wiki/Double-slit_experiment
-
-Quantum superposition:
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_superposition
-
-Quantum mechanics:
-  definition: |
-
-    - {term}`Scattering amplitudes`
-    - {term}`Probability_amplitude`
-    - {term}`Quantum superposition`
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Quantum_mechanics
-  - https://en.wikipedia.org/wiki/Mathematical_formulation_of_quantum_mechanics
-
-Quantum simulator:
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_simulator
-
-Quantum computing:
-  synonyms:
-  - QC
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_computing
-
-Quantum circuit:
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_circuit
-
-Circuit QED:
-  wikipedia: https://en.wikipedia.org/wiki/Circuit_quantum_electrodynamics
-
-Bohmian blowup:
-  definition: |
-    The blowup of $Q = -\frac{\hbar^2}{2m}\frac{\nabla^2\sqrt{\rho}}{\sqrt{\rho}}$ and $V = j/\rho$ as $\rho \to 0$ in
-    {term}`de Broglie-Bohm theory` ({cite:p}`hirschfelder1974streamlines,hirschfelder1976vortices,philippidis1979quantum,wyatt1999quantum`),
-    which causes nodal singularities and numerical instability in quantum trajectory simulation,
-    alongside the vanishing of phase-gradient velocity $v_S = 0$ in stationary evanescent barriers ({cite:p}`sharoglazova_energyspeed_2025`).
-    Resolved in our Three-Channel Plücker–Madelung–QFIM and Dual-`iGPE` trajectory model (`docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`).
-
-QTT:
-  definition: |
-    Quantum Trajectory Theory ({cite:p}`carmichael1993open,dalibard1992wave,plenio1998quantum,murch2013observing,roch2014observation,campagne2016observing,santos2012quantum,minev2019catch`).
-    See `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`.
-  synonyms:
-  - Quantum Trajectory Theory
-  - quantum jump method
-  - Monte Carlo Wave Function method
-  - MCWF
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_Trajectory_Theory
-
-Quantum state:
-  wikipedia: https://en.wikipedia.org/wiki/Quantum_state
-
-Expectation value:
-  wikipedia:
-  - https://en.wikipedia.org/wiki/Expectation_value_(quantum_mechanics)
-  - https://en.wikipedia.org/wiki/Classical_limit#Time-evolution_of_expectation_values
-
-Qubit:
-  wikipedia: https://en.wikipedia.org/wiki/Qubit
-
-Qudit:
-  definition: |
+  Plabic Graphs:
+    author: Postnikov
+    definedBy: "{cite:p}`postnikov2006plabic`"
     
-    - {cite:p}`deutsch1985churchturing`
+
+  VRC:
+    name: VRC
+    name_full: Vector Relation Configuration
+    description: Plabic graphs extended to Complex space
+    appliedBy: docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
+    definedBy: "{cite:p}`affolter2024vrc`"
+
+  SPH:
+    definition: |
+      Smoothed-Particle Hydrodynamics — a meshfree Lagrangian particle method for simulating continuum fluid flows.
+    wikipedia: https://en.wikipedia.org/wiki/Smoothed-particle_hydrodynamics
+
+  SQG:
+    definition: |
+      Superfluid Quantum Gravity; post-SPH Smoothed Particle Hydrodynamics (1970s) theories of gravity:
+
+      - Fedi's SQG (2016, 2017)
+
+    definedBy:
+    - "{cite:p}`fedi2017darksuperfluid`"
+    - "{cite:p}`unif-fedi2017`"
+
+  DDF:
+    definition: |
+      Dilatant Dark Fluid is a quantum superhydrodynamic theory 
+      of quantum mechanics with psi and phi and GPE,
+      which has E_rel=0 against 1PN ({term}`GR` Gravity)
+
+    synonyms:
+    - Dilatant Dark Fluid
+
+    definedBy: "{cite:p}`fedi2026ddf`"
+
+
+  Madelung equations:
+    definition: |
+      Equations of quantum hydrodynamics
+
+      - The Madelung equations are a quantum mechanical implementation of the Euler equations.
+      - The Madelung equations are an alternative to the Schrödinger equation.
+      - The Madelung equations can be simulated with {term}`Euler equations <Eulerian mechanics>`:
+        - Runga-Kutta (RK) + Euler-Korteweg equations
+        - Lifted onto $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{CP}^5$ in `docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md`, `docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`, `src/signals/Signals/DDF.lean`, and `src/signals/numerical_adapter/src/madelung_lagrangian.rs`.
+      - The {term}`Madelung equations` map the {term}`GPE` into Eulerian quantum hydrodynamic equations.
+
+    wikipedia: https://en.wikipedia.org/wiki/Madelung_equations
+
+  GPE:
+    definition: |
+      Gross-Pitaevskii Equation; a nonlinear Schrödinger equation for simulating {term}`BEC` ("superfluids")
+
+      - The {term}`Madelung equations` map the GPE into Eulerian quantum hydrodynamic equations.
+        - However, in scalar representations there is {term}`Bohmian blowup` ($1/\rho$ divergence at $\rho \to 0$).
+        - Our Homogeneous Plücker $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ Kähler formulation (`det(I_2 + W W^\dagger) >= 1`) and Three-Channel Plücker–Madelung–QFIM decomposition ($F_{\mu\nu} = 4 g_{\mu\nu}^{\mathrm{FS}}$) regularize vortex cores and dark fringes (`docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`, `docs/grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md`, `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`).
+
+    synonyms:
+    - Gross-Pitaevskii Equation
+    wikipedia: https://en.wikipedia.org/wiki/Gross%E2%80%93Pitaevskii_equation
+
+  iGPE:
+    definition: |
+      Four distinct formulations unified in `Signals`: (1) Interactive GPE (`InteractiveGPEPoint`), (2) Inhomogeneous GPE (`InhomogeneousGPEPoint`), (3) Inverse GPE (`InverseGPEPoint`, `pluckerInversePotentialReconstruction`), and (4) Coupled Dual-Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ iGPE (`CoupledDualGrassmannianState`).
+    synonyms:
+    - inverse GPE
+    - interactive GPE
+    - inhomogeneous GPE
+
+
+  Turner Models:
+    definition: |
+      Models of Electrons, Photons, and Gravity (and Polaritons, Plasmons)
+
+      These "Turner Models" are currently named
+      according to the table row number in:
+      - `docs/grassmannian-gravity-from-qed-scattering-paper.md` (Section 6.2 & Section 8.2, Models `1`–`13`, `14a`, & `14b`)
+
+      They are further compared in, for example:
+      - `docs/grassmannian-maxwell-electromagnetism-twistors-ez-oam-solitons-gravity-models-paper.md` (Section 3, `#sec-em-master-table`)
+      - `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md` (Section 2, `#sec-qt-master-comparison-table`)
+
+
+  Turner Model 6:
+    definition: |
+      Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-`iGPE` Superposition (`Signals.DDF.pluckerMadelungSuperpositionOAMDoubleSlit`, `SlitModelKind::PluckerMadelungDualIgpe`).
+    definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
+
+  Turner Model 12:
+    definition: |
+      Flat-Space GrC(2,4) BCJ Double Copy + Splats, No DDF
+
+      Gimbal-lock-free spinor splat orientation + 3D GrC(3,6) focal E_z
+    definedBy: docs/grassmannian-gravity-from-qed-scattering-paper.md
+
+  Turner Model 13:
+    definition: |
+      Unified GrC(2,4) + Conservative DDF + 3D Splat
+
+      Combines 3D splat Bohm–Fisher core 
+      1/2 Q_core(Σ) with nonlocal DDF tubular soliton stability
+    definedBy: docs/grassmannian-gravity-from-qed-scattering-paper.md
+
+  Turner Model 14a:
+    definition: |
+      Klein Quadric Q_4 Kähler (without DDF)
+
+      Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
+      ghost-free 2-derivative Kähler action,
+      M1-M3 TRUE soft-photon bridge
+    definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
+
+  Turner Model 14b:
+    definition: |
+      Klein Quadric Q_4 Kähler (with DDF)
+
+      Exact Heaviside–Larmor duality norm ∣Ψ′∣^2 + ∣Φ′∣^2,
+      ghost-free 2-derivative Kähler action,
+      M1-M3 TRUE soft-photon bridge
+    definedBy: docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md
+
+
+  Turner Model 15a:
+    definition: |
+      - No-DDF
+      - Does predict photon deflection
+    definedBy: TODO
+
+
+  Turner Model 15b:
+    definition: |
+      - DDF
+      - Does not do deflection
+    definedBy:  TODO
+
+
+  Semilatus rectum:
+    definition: |
+      Length ℓ of the chord through one focus which is perpendicular to the major axis directrix (Latus rectum) times 1/2.
+    symbol: ℓ
+    mathworld: https://mathworld.wolfram.com/SemilatusRectum.html
+    wikipedia: https://en.wikipedia.org/wiki/Ellipse#Semi-latus_rectum
+
+
+  G-CSC:
+    definition: |
+      Grassmannian Cuprate Superconductivity theory of superconductivity in Copper superconductors
+    definedBy: docs/grassmannian-cuprate-superconductivity-paper.md
+
+
+  G-IEP:
+    name_full: Grassmannian Interfacial Electrical Model
+    definedBy: docs/grassmannian-interfacial-electrical-properties-paper.md
+
+
+  G-MGS:
+    name_full: Grassmannian Multilayer Graphene Superconductivity (G-MGS) framework
+    definedBy: docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md
+
+
+  G-GKBA:
+    hame: GGKBA
+    hame_lower: ggkba
+    name_full: Grassmannian Generialized Kadanoff-Baym Ansatz
+    definedBy: docs/grassmannian-tuning-materials-with-light-paper.md
+
+
+  G-TBC:
+    name: G-TBC
+    hame: GTBC
+    hame_lower: gtbc
+    name_full: Grassmannian Thermal Boundary Conductance
+    definedBy: docs/grassmannian-thermo-electro-magnetics-lord-shulman-paper.md
+
+
+  QCI-GXC:
+    name: QCI-GXC
+    hame: QCIGXC
+    hame_lower: qcigxc
+    name_full: Quantum Causal Inference Grassmannian Exchange-Correlation Functional
+    synonyms:
+    - Quantum Causal Inference Grassmannian Exchange-Correlation Functional
+    definition: |
+      Quantum Causal Inference Grassmannian Exchange-Correlation (`QCI-GXC`) unrestricted spin-polarized Kohn–Sham Density Functional Theory on $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$ with unitary Cayley retractions and McWeeny idempotency purification.
+    definedBy: /workspaces/sustainablefactory/docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md
+
+
+  G-NCM:
+    name: G-NCM
+    name_full: Grassmannian Next Concept Modeling
+    definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
+
+  QCI-NCM:
+    name: QCI-NCM
+    name_full: Quantum Causual Next Concept Modeling
+    definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
+
+  QCI-G-NCM:
+    name: QCI-G-NCM
+    name_full: Quantum Causual Grassmannian Next Concept Modeling
+    definedBy: docs/grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md
+
+
+  G-DDF-TEM:
+    name: G-DDF-TEM
+    name_full: Grassmannian Thermo-Electro-Magnetics
+    definedBy: docs/grassmannian-thermo-electro-magnetics-lord-shulman-paper.md
+
+
+
+  Operator:
   wikipedia:
-  - https://en.wikipedia.org/wiki/Qudit
-  - https://en.wikipedia.org/wiki/Qudit#Qudit_states
-  - https://en.wikipedia.org/wiki/Qudit#Physical_implementations
+  - https://en.wikipedia.org/wiki/Operator_(physics)
+  - https://en.wikipedia.org/wiki/Operator_(physics)#Table_of_classical_mechanics_operators
+  - https://en.wikipedia.org/wiki/Operator_(physics)#Operators_in_quantum_mechanics
+  - https://en.wikipedia.org/wiki/Operator_(physics)#Table_of_Quantum_Mechanics_operators
+
+
+  Constructive interference:
+    wikipedia: 
+    - https://en.wikipedia.org/wiki/Wave_interference#Optical_wave_interference
+
+  Young's experiment:
+    wikipedia: https://en.wikipedia.org/wiki/Young's_interference_experiment
+
+  Double-slit experiment:
+    wikipedia: https://en.wikipedia.org/wiki/Double-slit_experiment
+
+  Quantum superposition:
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_superposition
+
+  Quantum mechanics:
+    definition: |
+
+      - {term}`Scattering amplitudes`
+      - {term}`Probability_amplitude`
+      - {term}`Quantum superposition`
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Quantum_mechanics
+    - https://en.wikipedia.org/wiki/Mathematical_formulation_of_quantum_mechanics
+
+  Quantum simulator:
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_simulator
+
+  Quantum computing:
+    synonyms:
+    - QC
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_computing
+
+  Quantum circuit:
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_circuit
+
+  Circuit QED:
+    wikipedia: https://en.wikipedia.org/wiki/Circuit_quantum_electrodynamics
+
+  Bohmian blowup:
+    definition: |
+      The blowup of $Q = -\frac{\hbar^2}{2m}\frac{\nabla^2\sqrt{\rho}}{\sqrt{\rho}}$ and $V = j/\rho$ as $\rho \to 0$ in
+      {term}`de Broglie-Bohm theory` ({cite:p}`hirschfelder1974streamlines,hirschfelder1976vortices,philippidis1979quantum,wyatt1999quantum`),
+      which causes nodal singularities and numerical instability in quantum trajectory simulation,
+      alongside the vanishing of phase-gradient velocity $v_S = 0$ in stationary evanescent barriers ({cite:p}`sharoglazova_energyspeed_2025`).
+      Resolved in our Three-Channel Plücker–Madelung–QFIM and Dual-`iGPE` trajectory model (`docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`).
+
+  QTT:
+    definition: |
+      Quantum Trajectory Theory ({cite:p}`carmichael1993open,dalibard1992wave,plenio1998quantum,murch2013observing,roch2014observation,campagne2016observing,santos2012quantum,minev2019catch`).
+      See `docs/grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.md`.
+    synonyms:
+    - Quantum Trajectory Theory
+    - quantum jump method
+    - Monte Carlo Wave Function method
+    - MCWF
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_Trajectory_Theory
+
+  Quantum state:
+    wikipedia: https://en.wikipedia.org/wiki/Quantum_state
+
+  Expectation value:
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Expectation_value_(quantum_mechanics)
+    - https://en.wikipedia.org/wiki/Classical_limit#Time-evolution_of_expectation_values
+
+  Qubit:
+    wikipedia: https://en.wikipedia.org/wiki/Qubit
+
+  Qudit:
+    definition: |
+      
+      - {cite:p}`deutsch1985churchturing`
+    wikipedia:
+    - https://en.wikipedia.org/wiki/Qudit
+    - https://en.wikipedia.org/wiki/Qudit#Qudit_states
+    - https://en.wikipedia.org/wiki/Qudit#Physical_implementations
 
 
 
-MAPE:
-  definition: |
-    Mean Absolute Percentage Error
-  wikipedia: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
+  MAPE:
+    definition: |
+      Mean Absolute Percentage Error
+    wikipedia: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
