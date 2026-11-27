@@ -404,3 +404,49 @@ def audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust(
         "fdet_blk_err": float(rust_fdet["block_lower_err"]),
         "fdet_conj_err": float(rust_fdet["conj_invariance_err"]),
     }
+
+
+def audit_unified_pending_closures_mpmath_vs_rust(dps: int = 60) -> Dict[str, float]:
+    """Cross-verify `UP-1`–`UP-5` across all seven `PendingBoundary` domains:
+    1. `finiteRankDet` invariant subspace `V = range(F) ⊔ (ker F)ᗮ` vs. `tau_U / p23`;
+    2. Strip sub-Gaussian `gaussianCombo` decay & 30-zero density convergence;
+    3. Cross-domain checks for Navier–Stokes, Photoelectric, Antimatter `ALPHA-g`,
+       Toupin Model 16 Plancherel loops, and Yang–Mills/Higgs/CPT.
+    """
+    mp.mp.dps = dps
+    inv = sna.py_audit_finite_rank_invariant_det(
+        [0.4, -0.7, 1.2, 0.3], [0.9, 0.2, -0.5, 1.1], 0.35, -0.2, 0.15
+    )
+
+    zeros_raw = sna.py_find_first_n_riemann_zeros(30)
+    gammas = [float(z["gamma"]) for z in zeros_raw]
+    strip = sna.py_audit_strip_gaussian_combo_decay(gammas, [1.0, -0.35, 0.2], 0.3, 0.5)
+
+    # Exact mpmath sub-Gaussian 30-zero density sum `∑ 2 exp(-γ_n²)` (around ~1e-87)
+    mp_subgauss = sum(2 * mp.exp(-(mp.mpf(repr(g)) ** 2)) for g in gammas)
+
+    # Cross-domain Rust checks matching the 7 PendingBoundary solvers
+    ns_tg = sna.py_audit_taylor_green_2d(1.2, 1.5, 0.08, 1.1, 0.4, -0.3, 0.25)
+    pe_enz = sna.py_audit_enz_oam_photoemission(1.0, 0.05, 1.0, 0.7, 2, 1, 10.0, 1.0, 0.5, 2.0)
+    ag = sna.py_audit_antimatter_alpha_g()
+    ym = sna.py_audit_yang_mills_higgs_cpt()
+
+    ag_models = {m["model_name"]: m for m in ag["models"]}
+    gr_chi2 = float(ag_models["Einstein GR (gamma_PPN=1, beta_PPN=1)"]["chi_sq"])
+
+    return {
+        "inv_ambient_dim": float(inv["ambient_dim"]),
+        "inv_subspace_dim": float(inv["invariant_dim"]),
+        "inv_invariance_residual": float(inv["invariance_residual"]),
+        "inv_orth_ker_residual": float(inv["orth_ker_residual"]),
+        "inv_subspace_indep_err": float(inv["subspace_indep_err"]),
+        "inv_det_vs_tau_err": float(inv["det_vs_tau_err"]),
+        "strip_max_bound_ratio": float(strip["max_bound_ratio"]),
+        "strip_subgauss_log10": float(mp.log10(mp_subgauss)),
+        "strip_weil_re": float(strip["weil_strip_re"]),
+        "ns_tg_energy_diss_err": float(ns_tg["energy_enstrophy_decay_residual"]),
+        "pe_enz_gain": float(pe_enz["enz_intensity_enhancement"]),
+        "pe_oam_qfim_ratio": float(pe_enz["oam_qfim_phi"] / pe_enz["oam_fubini_study_phi"]),
+        "ag_gr_chi2_err": abs(gr_chi2 - 25.0 / 17.0),
+        "ym_jost_err": float(ym["jost_involution_err"]),
+    }

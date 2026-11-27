@@ -752,6 +752,51 @@ fn py_audit_finite_dim_fredholm_det<'py>(
 
 #[cfg(feature = "python")]
 #[pyfunction]
+fn py_audit_finite_rank_invariant_det<'py>(
+    py: Python<'py>,
+    v: [f64; 4],
+    w: [f64; 4],
+    t1: f64,
+    t2: f64,
+    t3: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = sato_grassmannian::evaluate_finite_rank_invariant_det(v, w, t1, t2, t3)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("ambient_dim", r.ambient_dim)?;
+    d.set_item("invariant_dim", r.invariant_dim)?;
+    d.set_item("invariance_residual", r.invariance_residual)?;
+    d.set_item("orth_ker_residual", r.orth_ker_residual)?;
+    d.set_item("det_v_re", r.det_v_re)?;
+    d.set_item("det_w_re", r.det_w_re)?;
+    d.set_item("tau_over_p23_re", r.tau_over_p23_re)?;
+    d.set_item("subspace_indep_err", r.subspace_indep_err)?;
+    d.set_item("det_vs_tau_err", r.det_vs_tau_err)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_strip_gaussian_combo_decay<'py>(
+    py: Python<'py>,
+    gammas: Vec<f64>,
+    coeffs: Vec<f64>,
+    delta: f64,
+    strip_b: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = sato_grassmannian::evaluate_strip_gaussian_combo_decay(
+        &gammas, &coeffs, delta, strip_b,
+    );
+    let d = PyDict::new(py);
+    d.set_item("strip_constant", r.strip_constant)?;
+    d.set_item("max_bound_ratio", r.max_bound_ratio)?;
+    d.set_item("subgaussian_density_sum", r.subgaussian_density_sum)?;
+    d.set_item("weil_strip_re", r.weil_strip_re)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
 fn py_audit_schubert_chart_transition_vortex<'py>(
     py: Python<'py>,
     eps: f64,
@@ -1551,6 +1596,8 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_carleman_det3_anomaly, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_weil_infinite_tail, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_finite_dim_fredholm_det, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_finite_rank_invariant_det, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_strip_gaussian_combo_decay, m)?)?;
     m.add_function(wrap_pyfunction!(
         py_audit_schubert_chart_transition_vortex,
         m

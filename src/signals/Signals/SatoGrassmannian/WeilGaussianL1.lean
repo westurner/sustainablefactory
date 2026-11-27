@@ -222,6 +222,112 @@ theorem norm_mellinTransform_shiftedGaussian_strip (a : ℝ) {B : ℝ}
       _ ≤ |a| * B := mul_le_mul_of_nonneg_left hz (abs_nonneg a)
   linarith
 
+/-- Uniform strip constant for `gaussianCombo δ P` on `|z.im| ≤ B`. -/
+noncomputable def gaussianComboStripConst (δ : ℝ) (P : Polynomial ℂ) (B : ℝ) : ℝ :=
+  ∑ j ∈ Finset.range (P.natDegree + 1),
+    ‖P.coeff j‖ * Real.sqrt (2 * Real.pi) * Real.exp (B ^ 2 / 2 + |(j : ℝ) * δ| * B)
+
+lemma gaussianComboStripConst_nonneg (δ : ℝ) (P : Polynomial ℂ) (B : ℝ) :
+    0 ≤ gaussianComboStripConst δ P B :=
+  Finset.sum_nonneg fun _ _ => by positivity
+
+/-- **Strip Super-Gaussian Decay for Any `gaussianCombo δ P`:**
+On any horizontal strip `|z.im| ≤ B`,
+`‖mellinTransform (gaussianCombo δ P) z‖ ≤ gaussianComboStripConst δ P B * exp(-z.re² / 2)`. -/
+theorem norm_mellinTransform_gaussianCombo_strip (δ : ℝ) (P : Polynomial ℂ) {B : ℝ}
+    {z : ℂ} (hz : |z.im| ≤ B) :
+    ‖mellinTransform (gaussianCombo δ P) z‖ ≤
+      gaussianComboStripConst δ P B * Real.exp (-(z.re ^ 2 / 2)) := by
+  have heq : mellinTransform (gaussianCombo δ P) z =
+      ∑ j ∈ Finset.range (P.natDegree + 1),
+        P.coeff j * mellinTransform (shiftedGaussian ((j : ℝ) * δ)) z := by
+    rw [mellinTransform_gaussianCombo δ P z, Polynomial.eval_eq_sum_range, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    rw [mellinTransform_shiftedGaussian ((j : ℝ) * δ) z, ← Complex.exp_nat_mul]
+    have hexp : Complex.I * z * (((j : ℝ) * δ : ℝ) : ℂ) = (j : ℂ) * (Complex.I * z * (δ : ℂ)) := by
+      push_cast; ring
+    rw [hexp]; ring
+  rw [heq]
+  calc ‖∑ j ∈ Finset.range (P.natDegree + 1),
+        P.coeff j * mellinTransform (shiftedGaussian ((j : ℝ) * δ)) z‖
+      ≤ ∑ j ∈ Finset.range (P.natDegree + 1),
+          ‖P.coeff j * mellinTransform (shiftedGaussian ((j : ℝ) * δ)) z‖ :=
+        norm_sum_le (Finset.range (P.natDegree + 1))
+          (fun j => P.coeff j * mellinTransform (shiftedGaussian ((j : ℝ) * δ)) z)
+    _ ≤ gaussianComboStripConst δ P B * Real.exp (-(z.re ^ 2 / 2)) := by
+        unfold gaussianComboStripConst
+        rw [Finset.sum_mul]
+        refine Finset.sum_le_sum fun j _ => ?_
+        rw [norm_mul, mul_assoc, mul_assoc]
+        refine mul_le_mul_of_nonneg_left ?_ (norm_nonneg (P.coeff j))
+        have hsg := norm_mellinTransform_shiftedGaussian_strip ((j : ℝ) * δ) hz
+        rwa [show -(z.re ^ 2 / 2) + B ^ 2 / 2 + |(j : ℝ) * δ| * B =
+            (B ^ 2 / 2 + |(j : ℝ) * δ| * B) + -(z.re ^ 2 / 2) by ring, Real.exp_add] at hsg
+
+/-- Automatic summability of `(m n) * ‖M_f(z n)‖²` for every `f = gaussianCombo δ P` on any
+horizontal strip `|z.im| ≤ B` satisfying sub-Gaussian zero-density convergence. -/
+theorem summable_weilInfinite_normSq_gaussianCombo_of_strip
+    (z : ℕ → ℂ) (m : ℕ → ℕ) {B : ℝ} (hStrip : ∀ n : ℕ, |(z n).im| ≤ B)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ) :
+    Summable (fun n : ℕ => (m n : ℝ) * ‖mellinTransform (gaussianCombo δ P) (z n)‖ ^ 2) := by
+  let C : ℝ := gaussianComboStripConst δ P B
+  have hC : 0 ≤ C := gaussianComboStripConst_nonneg δ P B
+  refine Summable.of_nonneg_of_le
+    (fun n => mul_nonneg (Nat.cast_nonneg _) (sq_nonneg _))
+    (fun n => ?_)
+    (hGauss.mul_left (C ^ 2))
+  have hbd := norm_mellinTransform_gaussianCombo_strip δ P (hStrip n)
+  have hsq : ‖mellinTransform (gaussianCombo δ P) (z n)‖ ^ 2 ≤
+      C ^ 2 * Real.exp (-((z n).re ^ 2)) := by
+    calc ‖mellinTransform (gaussianCombo δ P) (z n)‖ ^ 2
+        ≤ (C * Real.exp (-((z n).re ^ 2 / 2))) ^ 2 :=
+          pow_le_pow_left₀ (norm_nonneg _) hbd 2
+      _ = C ^ 2 * (Real.exp (-((z n).re ^ 2 / 2))) ^ 2 := mul_pow _ _ _
+      _ = C ^ 2 * Real.exp (-((z n).re ^ 2)) := by
+          congr 1; rw [← Real.exp_nat_mul]; congr 1; push_cast; ring
+  calc (m n : ℝ) * ‖mellinTransform (gaussianCombo δ P) (z n)‖ ^ 2
+      ≤ (m n : ℝ) * (C ^ 2 * Real.exp (-((z n).re ^ 2))) :=
+        mul_le_mul_of_nonneg_left hsq (Nat.cast_nonneg _)
+    _ = C ^ 2 * ((m n : ℝ) * Real.exp (-((z n).re ^ 2))) := by ring
+
+/-- Automatic summability of the full complex Weil infinite series
+`∑' n, m(n) * M_{f * f̃}(z n)` for every `f = gaussianCombo δ P` on any strip `|z.im| ≤ B`
+satisfying sub-Gaussian zero-density convergence (no per-`f` summability hypothesis needed). -/
+theorem summable_weilInfinite_gaussianCombo_of_strip
+    (z : ℕ → ℂ) (m : ℕ → ℕ) {B : ℝ} (hStrip : ∀ n : ℕ, |(z n).im| ≤ B)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ) :
+    Summable (fun n : ℕ =>
+      (m n : ℂ) * mellinTransform (weilConv (gaussianCombo δ P) (weilInvol (gaussianCombo δ P))) (z n)) := by
+  let f : ℝ → ℂ := gaussianCombo δ P
+  let C : ℝ := gaussianComboStripConst δ P B
+  have hC : 0 ≤ C := gaussianComboStripConst_nonneg δ P B
+  refine Summable.of_norm_bounded (hGauss.mul_left (C ^ 2)) fun n => ?_
+  have hconv : mellinTransform (weilConv f (weilInvol f)) (z n) =
+      mellinTransform f (z n) * starRingEnd ℂ (mellinTransform f (starRingEnd ℂ (z n))) :=
+    mellinTransform_weilConv_invol
+      (integrable_gaussianCombo_mul_cexp δ P (z n))
+      (integrable_gaussianCombo_mul_cexp δ P (starRingEnd ℂ (z n)))
+  have hStripConj : |(starRingEnd ℂ (z n)).im| ≤ B := by
+    simpa [Complex.conj_im, abs_neg] using hStrip n
+  have hb1 := norm_mellinTransform_gaussianCombo_strip δ P (hStrip n)
+  have hb2 := norm_mellinTransform_gaussianCombo_strip δ P hStripConj
+  rw [show (starRingEnd ℂ (z n)).re = (z n).re by simp] at hb2
+  rw [norm_mul, hconv, norm_mul, Complex.norm_natCast, RCLike.norm_conj]
+  calc (m n : ℝ) * (‖mellinTransform f (z n)‖ * ‖mellinTransform f (starRingEnd ℂ (z n))‖)
+      ≤ (m n : ℝ) * ((C * Real.exp (-((z n).re ^ 2 / 2))) * (C * Real.exp (-((z n).re ^ 2 / 2)))) :=
+        mul_le_mul_of_nonneg_left
+          (mul_le_mul hb1 hb2 (norm_nonneg _) (mul_nonneg hC (Real.exp_pos _).le))
+          (Nat.cast_nonneg _)
+    _ = C ^ 2 * ((m n : ℝ) * Real.exp (-((z n).re ^ 2))) := by
+        have hexp : Real.exp (-((z n).re ^ 2 / 2)) * Real.exp (-((z n).re ^ 2 / 2)) =
+            Real.exp (-((z n).re ^ 2)) := by
+          rw [← Real.exp_add]; congr 1; ring
+        calc (m n : ℝ) * ((C * Real.exp (-((z n).re ^ 2 / 2))) * (C * Real.exp (-((z n).re ^ 2 / 2))))
+            = C ^ 2 * ((m n : ℝ) * (Real.exp (-((z n).re ^ 2 / 2)) * Real.exp (-((z n).re ^ 2 / 2)))) := by ring
+          _ = C ^ 2 * ((m n : ℝ) * Real.exp (-((z n).re ^ 2))) := by rw [hexp]
+
 /-- Reusable shifted-Gaussian Lagrange witness on any finite conjugation-invariant zero set `Z`
 containing an off-line zero `z₀` (`z₀.im ≠ 0`). -/
 theorem exists_gaussianCombo_offline_finite_witness {Z : Finset ℂ} {m : ℂ → ℕ}
@@ -441,6 +547,98 @@ theorem weilInfiniteSum_neg_of_offline_pair_tail_lt
       Finset.sum_congr rfl fun n hn => by rw [hmZ_at n hn]
     rw [← hEqF, ← hImg, hSumZ, hmZ_at n₀ hn₀]
   refine ⟨f, hf_all, hSumF, fun hSumm hTail => ?_⟩
+  unfold weilInfiniteSum
+  have hSplit := hSumm.sum_add_tsum_compl (s := F)
+  have hReSplit :
+      (∑' n : ℕ, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)).re =
+      (∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)).re +
+      (∑' k : ↑(F : Set ℕ)ᶜ, (m k.1 : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z k.1)).re := by
+    rw [← hSplit, Complex.add_re]
+  have hTailSumm : Summable (fun k : ↑(F : Set ℕ)ᶜ =>
+      (m k.1 : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z k.1)) :=
+    hSumm.subtype _
+  rw [hReSplit, hSumF, Complex.re_tsum hTailSumm]
+  have hCoreRe : (-4 * (Real.pi : ℂ) * (m n₀ : ℂ)).re = -4 * Real.pi * (m n₀ : ℝ) := by norm_cast
+  rw [hCoreRe]
+  linarith
+
+/-- **Upgraded Theorem 3.3 (Automatic Infinite-Zero Critical-Line Weil Positivity on `gaussianCombo`):**
+Under only real-axis zeros (`∀ n, (z n).im = 0`) and sub-Gaussian zero-density convergence
+`Summable (fun n => (m n : ℝ) * exp(-((z n).re)^2))`, `weilInfiniteSum z m (gaussianCombo δ P)`
+converges automatically and is real and nonnegative for **every** `δ : ℝ` and `P : Polynomial ℂ`. -/
+theorem weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros
+    (z : ℕ → ℂ) (m : ℕ → ℕ)
+    (hReal : ∀ n : ℕ, (z n).im = 0)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ) :
+    0 ≤ (weilInfiniteSum z m (gaussianCombo δ P)).re ∧
+      (weilInfiniteSum z m (gaussianCombo δ P)).im = 0 := by
+  have hStrip : ∀ n : ℕ, |(z n).im| ≤ (0 : ℝ) := fun n => by simp [hReal n]
+  exact weilInfiniteSum_nonneg_of_allRealZeros z m hReal (admissibleL1All_gaussianCombo δ P)
+    (summable_weilInfinite_normSq_gaussianCombo_of_strip z m hStrip hGauss δ P)
+
+/-- **Upgraded Theorem 3.4 (Automatic-Summability Strip Off-Line Weil Disproof Witness):**
+For any strip zero sequence (`∀ n, |(z n).im| ≤ B`) with sub-Gaussian density convergence
+`Summable (fun n => (m n : ℝ) * exp(-((z n).re)^2))` and an injective conjugation-invariant finite
+core `F` containing an off-line zero `n₀ ∈ F` (`(z n₀).im ≠ 0`), there exists an explicit witness
+`f = gaussianCombo δ P` that **automatically** makes the infinite Weil series summable, gives
+core sum `-4π m(n₀)`, and makes `(weilInfiniteSum z m f).re < 0` whenever the tail real part is
+`< 4π m(n₀)`. -/
+theorem weilInfiniteSum_gaussianCombo_neg_of_offline_pair_tail_lt
+    (z : ℕ → ℂ) (m : ℕ → ℕ) {B : ℝ} (hStrip : ∀ n : ℕ, |(z n).im| ≤ B)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (F : Finset ℕ) (hInj : Set.InjOn z (F : Set ℕ))
+    (hConj : ∀ n ∈ F, ∃ k ∈ F, z k = starRingEnd ℂ (z n) ∧ m k = m n)
+    {n₀ : ℕ} (hn₀ : n₀ ∈ F) (him_ne : (z n₀).im ≠ 0) :
+    ∃ (δ : ℝ) (P : Polynomial ℂ), 0 < δ ∧
+      let f : ℝ → ℂ := gaussianCombo δ P
+      AdmissibleL1All f ∧
+      Summable (fun n : ℕ => (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)) ∧
+      (∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) =
+        -4 * (Real.pi : ℂ) * (m n₀ : ℂ)) ∧
+      ((∑' k : ↑(F : Set ℕ)ᶜ,
+        ((m k.1 : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z k.1)).re) <
+          4 * Real.pi * (m n₀ : ℝ) →
+        (weilInfiniteSum z m f).re < 0) := by
+  classical
+  let Z : Finset ℂ := F.image z
+  let mZ : ℂ → ℕ := fun w => ∑ n ∈ F, if z n = w then m n else 0
+  have hZ_conj : ∀ w ∈ Z, starRingEnd ℂ w ∈ Z := by
+    intro w hw
+    obtain ⟨n, hn, rfl⟩ := Finset.mem_image.mp hw
+    obtain ⟨k, hk, hzk, _⟩ := hConj n hn
+    exact Finset.mem_image.mpr ⟨k, hk, hzk⟩
+  have hmZ_at : ∀ n ∈ F, mZ (z n) = m n := by
+    intro n hn
+    dsimp [mZ]
+    rw [Finset.sum_eq_single n]
+    · simp
+    · intro k hk hkn
+      simp only [ite_eq_right_iff]
+      intro heq
+      exact absurd (hInj hk hn heq) hkn
+    · intro hnot; exact absurd hn hnot
+  have hmZ_symm : ∀ w ∈ Z, mZ (starRingEnd ℂ w) = mZ w := by
+    intro w hw
+    obtain ⟨n, hn, rfl⟩ := Finset.mem_image.mp hw
+    obtain ⟨k, hk, hzk, hmk⟩ := hConj n hn
+    rw [← hzk, hmZ_at k hk, hmZ_at n hn, hmk]
+  have hz₀_mem : z n₀ ∈ Z := Finset.mem_image.mpr ⟨n₀, hn₀, rfl⟩
+  obtain ⟨δ, P, hδ_pos, hf_all, hSumZ⟩ :=
+    exists_gaussianCombo_offline_finite_witness hZ_conj hmZ_symm hz₀_mem him_ne
+  let f : ℝ → ℂ := gaussianCombo δ P
+  have hSumm : Summable (fun n : ℕ => (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)) :=
+    summable_weilInfinite_gaussianCombo_of_strip z m hStrip hGauss δ P
+  have hSumF : ∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) =
+      -4 * (Real.pi : ℂ) * (m n₀ : ℂ) := by
+    have hImg : ∑ w ∈ Z, (mZ w : ℂ) * mellinTransform (weilConv f (weilInvol f)) w =
+        ∑ n ∈ F, (mZ (z n) : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) :=
+      Finset.sum_image (fun a ha b hb hab => hInj ha hb hab)
+    have hEqF : ∑ n ∈ F, (mZ (z n) : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) =
+        ∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) :=
+      Finset.sum_congr rfl fun n hn => by rw [hmZ_at n hn]
+    rw [← hEqF, ← hImg, hSumZ, hmZ_at n₀ hn₀]
+  refine ⟨δ, P, hδ_pos, hf_all, hSumm, hSumF, fun hTail => ?_⟩
   unfold weilInfiniteSum
   have hSplit := hSumm.sum_add_tsum_compl (s := F)
   have hReSplit :

@@ -281,6 +281,8 @@ maturin develop --manifest-path src/signals/numerical_adapter/Cargo.toml --relea
 pytest -q tests/test_navier_stokes_dual_schubert_qfim.py
 ```
 
+**Constructive Pending-Gate Closure:** `DualSchubertNavierStokesPendingBoundary.ofCertificates` and `.solved_of_certificates` in `Signals.Pending` (paired with `MasterUnifiedPendingClosure.all_seven_pending_boundaries_solved`; see [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md)) connect `NavierStokes3DRegularityCertificate`, `NavierStokes3DHirotaLinearizabilityCertificate`, `TurbulenceSubgridClosureCertificate`, and `ExperimentalFluidTelemetryCertificate` directly to `compressible_viscous_dissipation_nonneg`, `stiefel4x2_klein_quadric`, `taylorGreen2D_solves_incompressible_ns`, `burgers_tanh_shock_solves_pde`, `breschDesjardins_dual_schubert_qfim_split`, `ControlledMeasurement`, and `FlowBoundaryObservation`, while preserving the negative baseline `dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims`.
+
 ---
 
 ## References

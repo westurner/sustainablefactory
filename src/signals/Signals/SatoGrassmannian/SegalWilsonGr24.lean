@@ -1160,4 +1160,544 @@ theorem segalWilson_tau_gr24_eq_tauU
 
 end CircleSegalWilsonReduction
 
+/-! ### Section 4: Axiom-Free Finite-Rank Segal–Wilson `det = τ_U / p₂₃` -/
+
+section AxiomFreeFiniteRankSegalWilson
+
+private lemma finiteRankMonoid_id_add {E : Type*}
+    [NormedAddCommGroup E] [InnerProductSpace ℂ E]
+    {K : E →L[ℂ] E} (hK : FiniteDimensional ℂ (LinearMap.range K.toLinearMap)) :
+    ContinuousLinearMap.id ℂ E + K ∈ FiniteRankMonoid E := by
+  change FiniteDimensional ℂ
+    (LinearMap.range ((ContinuousLinearMap.id ℂ E + K) - ContinuousLinearMap.id ℂ E).toLinearMap)
+  rw [add_sub_cancel_left]
+  exact hK
+
+lemma blockLower2_mem_finiteRankMonoid {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    {P : PolarizedHilbertSpace ℂ H} (eP : HilbertBasis ℕ ℂ P.HPlus)
+    (a b c d : ℂ) (b₀ b₁ : P.HPlus) :
+    blockLower2 eP a b c d b₀ b₁ ∈ FiniteRankMonoid P.HPlus := by
+  let v₀ := (a - 1) • eP 0 + c • eP 1 + b₀
+  let v₁ := b • eP 0 + (d - 1) • eP 1 + b₁
+  let F : P.HPlus →L[ℂ] P.HPlus := (innerSL ℂ (eP 0)).smulRight v₀ + (innerSL ℂ (eP 1)).smulRight v₁
+  have hsub : blockLower2 eP a b c d b₀ b₁ - ContinuousLinearMap.id ℂ P.HPlus = F := by
+    unfold blockLower2; dsimp [F, v₀, v₁]; abel
+  change FiniteDimensional ℂ
+    (LinearMap.range (blockLower2 eP a b c d b₀ b₁ - ContinuousLinearMap.id ℂ P.HPlus).toLinearMap)
+  rw [hsub]
+  have hle : LinearMap.range F.toLinearMap ≤ Submodule.span ℂ ({v₀, v₁} : Set P.HPlus) := by
+    rintro _ ⟨x, rfl⟩
+    exact Submodule.add_mem _
+      (Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert v₀ _)))
+      (Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert_of_mem v₀ rfl)))
+  have _ : FiniteDimensional ℂ (Submodule.span ℂ ({v₀, v₁} : Set P.HPlus)) :=
+    FiniteDimensional.span_of_finite ℂ ((Set.finite_singleton v₁).insert v₀)
+  exact Submodule.finiteDimensional_of_le hle
+
+/-- **Axiom-Free Unipotent Shear Determinant = 1** using `finiteRankDet`. -/
+theorem finiteRankDet_rankOne_nilpotent_eq_one {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    {P : PolarizedHilbertSpace ℂ H} (eP : HilbertBasis ℕ ℂ P.HPlus)
+    (j : ℕ) (v : P.HPlus) (hv : ⟪eP j, v⟫_ℂ = 0) :
+    let N : P.HPlus →L[ℂ] P.HPlus := (innerSL ℂ (eP j)).smulRight v
+    have hMem : ContinuousLinearMap.id ℂ P.HPlus + N ∈ FiniteRankMonoid P.HPlus := by
+      refine finiteRankMonoid_id_add ?_
+      have hle : LinearMap.range N.toLinearMap ≤ Submodule.span ℂ ({v} : Set P.HPlus) := by
+        rintro _ ⟨x, rfl⟩; exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
+      have _ : FiniteDimensional ℂ (Submodule.span ℂ ({v} : Set P.HPlus)) :=
+        FiniteDimensional.span_of_finite ℂ (Set.finite_singleton v)
+      exact Submodule.finiteDimensional_of_le hle
+    finiteRankDet ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ = 1 := by
+  intro N hMem
+  have hN2 : N * N = 0 := by
+    apply ContinuousLinearMap.ext; intro x
+    change N (N x) = 0
+    simp only [N, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
+      inner_smul_right, hv, mul_zero, zero_smul]
+  have hBij : Function.Bijective (ContinuousLinearMap.id ℂ P.HPlus + N) := by
+    refine Function.bijective_iff_has_inverse.mpr ⟨ContinuousLinearMap.id ℂ P.HPlus - N, ?_, ?_⟩
+    · intro x
+      change ((1 - N) * (1 + N)) x = x
+      have h1 : (1 - N) * (1 + N) = (1 : P.HPlus →L[ℂ] P.HPlus) := by
+        rw [sub_mul, one_mul, mul_add, mul_one, hN2, add_zero, add_sub_cancel_right]
+      rw [h1]; rfl
+    · intro x
+      change ((1 + N) * (1 - N)) x = x
+      have h1 : (1 + N) * (1 - N) = (1 : P.HPlus →L[ℂ] P.HPlus) := by
+        rw [add_mul, one_mul, mul_sub, mul_one, hN2, sub_zero, sub_add_cancel]
+      rw [h1]; rfl
+  have hNe : finiteRankDet ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ ≠ 0 :=
+    (finiteRankDet_ne_zero_iff _).mpr hBij
+  have hjj : ⟪eP j, eP j⟫_ℂ = 1 := by
+    rw [inner_self_eq_norm_sq_to_K, eP.orthonormal.1 j]; norm_num
+  have hScaleMul : ∀ (a b : ℂ), a * b = 1 →
+      ∀ x : P.HPlus, rankOneScale P eP j a (rankOneScale P eP j b x) = x := by
+    intro a b hab x
+    simp only [rankOneScale, add_apply, ContinuousLinearMap.id_apply, smul_apply,
+      ContinuousLinearMap.smulRight_apply, innerSL_apply_apply, inner_add_right,
+      inner_smul_right, hjj, mul_one]
+    have hcoeff : (b - 1) * ⟪eP j, x⟫_ℂ +
+        (a - 1) * (⟪eP j, x⟫_ℂ + (b - 1) * ⟪eP j, x⟫_ℂ) = 0 := by
+      calc (b - 1) * ⟪eP j, x⟫_ℂ + (a - 1) * (⟪eP j, x⟫_ℂ + (b - 1) * ⟪eP j, x⟫_ℂ)
+          = (a * b - 1) * ⟪eP j, x⟫_ℂ := by ring
+        _ = 0 := by rw [hab, sub_self, zero_mul]
+    simp only [smul_smul]
+    calc x + ((b - 1) * ⟪eP j, x⟫_ℂ) • eP j +
+          ((a - 1) * (⟪eP j, x⟫_ℂ + (b - 1) * ⟪eP j, x⟫_ℂ)) • eP j
+        = x + ((b - 1) * ⟪eP j, x⟫_ℂ +
+            (a - 1) * (⟪eP j, x⟫_ℂ + (b - 1) * ⟪eP j, x⟫_ℂ)) • eP j := by module
+      _ = x := by rw [hcoeff, zero_smul, add_zero]
+  let q : P.HPlus ≃L[ℂ] P.HPlus :=
+    { toLinearEquiv :=
+        { toFun := rankOneScale P eP j (1 / 2 : ℂ)
+          invFun := rankOneScale P eP j (2 : ℂ)
+          left_inv := hScaleMul 2 (1 / 2) (by norm_num)
+          right_inv := hScaleMul (1 / 2) 2 (by norm_num)
+          map_add' := map_add (rankOneScale P eP j (1 / 2 : ℂ))
+          map_smul' := map_smul (rankOneScale P eP j (1 / 2 : ℂ)) }
+      continuous_toFun := (rankOneScale P eP j (1 / 2 : ℂ)).continuous
+      continuous_invFun := (rankOneScale P eP j (2 : ℂ)).continuous }
+  have hConjEq : (q : P.HPlus →L[ℂ] P.HPlus) * (ContinuousLinearMap.id ℂ P.HPlus + N) *
+      (q.symm : P.HPlus →L[ℂ] P.HPlus) =
+      (ContinuousLinearMap.id ℂ P.HPlus + N) * (ContinuousLinearMap.id ℂ P.HPlus + N) := by
+    apply ContinuousLinearMap.ext; intro x
+    have hq_v : q v = v := by
+      change rankOneScale P eP j (1 / 2 : ℂ) v = v
+      simp [rankOneScale, hv]
+    have hq_inv : ⟪eP j, q.symm x⟫_ℂ = 2 * ⟪eP j, x⟫_ℂ := by
+      change ⟪eP j, rankOneScale P eP j (2 : ℂ) x⟫_ℂ = _
+      simp only [rankOneScale, add_apply, ContinuousLinearMap.id_apply, smul_apply,
+        ContinuousLinearMap.smulRight_apply, innerSL_apply_apply, inner_add_right,
+        inner_smul_right, hjj, mul_one]
+      ring
+    have hLHS : ((q : P.HPlus →L[ℂ] P.HPlus) * (ContinuousLinearMap.id ℂ P.HPlus + N) *
+        (q.symm : P.HPlus →L[ℂ] P.HPlus)) x = x + (2 * ⟪eP j, x⟫_ℂ) • v := by
+      change q (q.symm x + N (q.symm x)) = _
+      rw [map_add, q.apply_symm_apply]
+      simp only [N, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply, map_smul, hq_v, hq_inv]
+    have hRHS : ((ContinuousLinearMap.id ℂ P.HPlus + N) * (ContinuousLinearMap.id ℂ P.HPlus + N)) x =
+        x + (2 * ⟪eP j, x⟫_ℂ) • v := by
+      have hsq : (1 + N) * (1 + N) = (1 : P.HPlus →L[ℂ] P.HPlus) + (2 : ℂ) • N := by
+        have h1 : (1 + N) * (1 + N) = (1 : P.HPlus →L[ℂ] P.HPlus) + N + N + N * N := by noncomm_ring
+        rw [h1, hN2, add_zero, add_assoc, ← two_smul ℂ N]
+      change ((1 + N) * (1 + N)) x = _
+      rw [hsq]
+      simp [N, smul_smul]
+    rw [hLHS, hRHS]
+  have hDetSq : finiteRankDet ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ =
+      finiteRankDet ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ *
+      finiteRankDet ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ := by
+    have hc := finiteRankDet_conj q ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩
+    have hm := (finiteRankDet (E := P.HPlus)).map_mul
+      ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩
+    calc finiteRankDet ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩
+        = finiteRankDet
+            ⟨(q : P.HPlus →L[ℂ] P.HPlus) * (ContinuousLinearMap.id ℂ P.HPlus + N) *
+              (q.symm : P.HPlus →L[ℂ] P.HPlus),
+              finiteRankMonoid_conj q hMem⟩ := hc.symm
+      _ = finiteRankDet
+            (⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩ *
+             ⟨ContinuousLinearMap.id ℂ P.HPlus + N, hMem⟩) :=
+          congrArg _ (Subtype.ext hConjEq)
+      _ = _ := hm
+  exact mul_left_cancel₀ hNe (by simpa [mul_one] using hDetSq.symm)
+
+/-- **Axiom-Free Exact 2×2 Block Reduction** using `finiteRankDet`. -/
+theorem finiteRankDet_blockLowerTriangular_two {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    {P : PolarizedHilbertSpace ℂ H} (eP : HilbertBasis ℕ ℂ P.HPlus)
+    (a b c d : ℂ) (b₀ b₁ : P.HPlus)
+    (hb00 : ⟪eP 0, b₀⟫_ℂ = 0) (hb10 : ⟪eP 1, b₀⟫_ℂ = 0)
+    (hb01 : ⟪eP 0, b₁⟫_ℂ = 0) (hb11 : ⟪eP 1, b₁⟫_ℂ = 0) :
+    finiteRankDet ⟨blockLower2 eP a b c d b₀ b₁,
+      blockLower2_mem_finiteRankMonoid eP a b c d b₀ b₁⟩ =
+      a * d - b * c := by
+  have h00 : ⟪eP 0, eP 0⟫_ℂ = 1 := by simpa using orthonormal_iff_ite.mp eP.orthonormal 0 0
+  have h11 : ⟪eP 1, eP 1⟫_ℂ = 1 := by simpa using orthonormal_iff_ite.mp eP.orthonormal 1 1
+  have h01 : ⟪eP 0, eP 1⟫_ℂ = 0 := by simpa using orthonormal_iff_ite.mp eP.orthonormal 0 1
+  have h10 : ⟪eP 1, eP 0⟫_ℂ = 0 := by simpa using orthonormal_iff_ite.mp eP.orthonormal 1 0
+  let detF := finiteRankDet (E := P.HPlus)
+  have hDiag : ∀ lam₀ lam₁ : ℂ,
+      detF ⟨blockLower2 eP lam₀ 0 0 lam₁ 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ =
+        lam₀ * lam₁ := by
+    intro lam₀ lam₁
+    have heq : blockLower2 eP lam₀ 0 0 lam₁ 0 0 = rankOneScale P eP 0 lam₀ * rankOneScale P eP 1 lam₁ := by
+      apply ContinuousLinearMap.ext; intro x
+      change blockLower2 eP lam₀ 0 0 lam₁ 0 0 x = rankOneScale P eP 0 lam₀ (rankOneScale P eP 1 lam₁ x)
+      simp only [blockLower2, rankOneScale, add_apply, ContinuousLinearMap.id_apply, smul_apply,
+        ContinuousLinearMap.smulRight_apply, innerSL_apply_apply, zero_smul, add_zero, zero_add,
+        inner_add_right, inner_smul_right, h01, mul_zero, smul_smul]
+      module
+    have hmul := detF.map_mul
+      ⟨rankOneScale P eP 0 lam₀, rankOneScale_mem_finiteRankMonoid P eP 0 lam₀⟩
+      ⟨rankOneScale P eP 1 lam₁, rankOneScale_mem_finiteRankMonoid P eP 1 lam₁⟩
+    rw [finiteRankDet_rankOneScale P eP 0 lam₀, finiteRankDet_rankOneScale P eP 1 lam₁] at hmul
+    convert hmul using 1; congr 1; exact Subtype.ext heq
+  have hLowerShear : ∀ α : ℂ,
+      detF ⟨blockLower2 eP 1 0 α 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = 1 := by
+    intro α
+    have heq : blockLower2 eP 1 0 α 1 0 0 =
+        ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 0)).smulRight (α • eP 1) := by
+      apply ContinuousLinearMap.ext; intro x; simp [blockLower2]
+    have hv : ⟪eP 0, α • eP 1⟫_ℂ = 0 := by rw [inner_smul_right, h01, mul_zero]
+    convert finiteRankDet_rankOne_nilpotent_eq_one eP 0 (α • eP 1) hv using 1
+    congr 1; exact Subtype.ext heq
+  have hUpperShear : ∀ β : ℂ,
+      detF ⟨blockLower2 eP 1 β 0 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = 1 := by
+    intro β
+    have heq : blockLower2 eP 1 β 0 1 0 0 =
+        ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 1)).smulRight (β • eP 0) := by
+      apply ContinuousLinearMap.ext; intro x; simp [blockLower2]
+    have hv : ⟪eP 1, β • eP 0⟫_ℂ = 0 := by rw [inner_smul_right, h10, mul_zero]
+    convert finiteRankDet_rankOne_nilpotent_eq_one eP 1 (β • eP 0) hv using 1
+    congr 1; exact Subtype.ext heq
+  have hOffBlock : ∀ (u₀ u₁ : P.HPlus),
+      ⟪eP 0, u₀⟫_ℂ = 0 → ⟪eP 0, u₁⟫_ℂ = 0 → ⟪eP 1, u₁⟫_ℂ = 0 →
+      detF ⟨blockLower2 eP 1 0 0 1 u₀ u₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = 1 := by
+    intro u₀ u₁ hu00 hu01 hu11
+    have hfac : blockLower2 eP 1 0 0 1 u₀ u₁ =
+        (ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 0)).smulRight u₀) *
+        (ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 1)).smulRight u₁) := by
+      apply ContinuousLinearMap.ext; intro x
+      change blockLower2 eP 1 0 0 1 u₀ u₁ x =
+        (ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 0)).smulRight u₀)
+          ((ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 1)).smulRight u₁) x)
+      simp only [blockLower2, add_apply, ContinuousLinearMap.id_apply,
+        ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
+        sub_self, zero_smul, add_zero, zero_add, inner_add_right, inner_smul_right, hu01,
+        mul_zero]
+      abel
+    have h0 := finiteRankDet_rankOne_nilpotent_eq_one eP 0 u₀ hu00
+    have h1 := finiteRankDet_rankOne_nilpotent_eq_one eP 1 u₁ hu11
+    have hEq0 : ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 0)).smulRight u₀ =
+        blockLower2 eP 1 0 0 1 u₀ 0 := by
+      apply ContinuousLinearMap.ext; intro x; simp [blockLower2]
+    have hEq1 : ContinuousLinearMap.id ℂ P.HPlus + (innerSL ℂ (eP 1)).smulRight u₁ =
+        blockLower2 eP 1 0 0 1 0 u₁ := by
+      apply ContinuousLinearMap.ext; intro x; simp [blockLower2]
+    have hfac' : blockLower2 eP 1 0 0 1 u₀ u₁ =
+        blockLower2 eP 1 0 0 1 u₀ 0 * blockLower2 eP 1 0 0 1 0 u₁ := by
+      rw [hfac, hEq0, hEq1]
+    have h0' : detF ⟨blockLower2 eP 1 0 0 1 u₀ 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = 1 := by
+      convert h0 using 1; congr 1; exact Subtype.ext hEq0.symm
+    have h1' : detF ⟨blockLower2 eP 1 0 0 1 0 u₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = 1 := by
+      convert h1 using 1; congr 1; exact Subtype.ext hEq1.symm
+    calc detF ⟨blockLower2 eP 1 0 0 1 u₀ u₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩
+        = detF (⟨blockLower2 eP 1 0 0 1 u₀ 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                ⟨blockLower2 eP 1 0 0 1 0 u₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩) := by
+          congr 1; exact Subtype.ext hfac'
+      _ = 1 * 1 := by rw [map_mul, h0', h1']
+      _ = 1 := mul_one 1
+  by_cases hdet : a * d - b * c = 0
+  · rw [hdet]
+    by_contra hne
+    have hBij := (finiteRankDet_ne_zero_iff _).mp hne
+    have hSing : ∃ c₀ c₁ : ℂ, (c₀ ≠ 0 ∨ c₁ ≠ 0) ∧
+        a * c₀ + b * c₁ = 0 ∧ c * c₀ + d * c₁ = 0 := by
+      by_cases hab : a = 0 ∧ b = 0
+      · by_cases hd : d = 0
+        · exact ⟨0, 1, Or.inr one_ne_zero, by simp [hab.1, hab.2], by simp [hd]⟩
+        · exact ⟨-d, c, Or.inl (neg_ne_zero.mpr hd), by simp [hab.1, hab.2], by ring⟩
+      · by_cases hb : b = 0
+        · have ha : a ≠ 0 := fun h => hab ⟨h, hb⟩
+          have hd : d = 0 := (mul_eq_zero.mp (by linear_combination hdet + hb * c)).resolve_left ha
+          exact ⟨0, 1, Or.inr one_ne_zero, by simp [hb], by simp [hd]⟩
+        · exact ⟨-b, a, Or.inl (neg_ne_zero.mpr hb), by ring, by linear_combination hdet⟩
+    obtain ⟨c₀, c₁, hnz, heq1, heq2⟩ := hSing
+    let x : P.HPlus := c₀ • eP 0 + c₁ • eP 1 - c₀ • b₀ - c₁ • b₁
+    have hx0 : ⟪eP 0, x⟫_ℂ = c₀ := by
+      simp only [x, inner_sub_right, inner_add_right, inner_smul_right, h00, h01, hb00, hb01]
+      ring
+    have hx1 : ⟪eP 1, x⟫_ℂ = c₁ := by
+      simp only [x, inner_sub_right, inner_add_right, inner_smul_right, h10, h11, hb10, hb11]
+      ring
+    have hLx : blockLower2 eP a b c d b₀ b₁ x = 0 := by
+      simp only [blockLower2, add_apply, ContinuousLinearMap.id_apply,
+        ContinuousLinearMap.smulRight_apply, innerSL_apply_apply, hx0, hx1]
+      dsimp [x]
+      have hvec : c₀ • eP 0 + c₁ • eP 1 - c₀ • b₀ - c₁ • b₁ +
+          c₀ • ((a - 1) • eP 0 + c • eP 1 + b₀) +
+          c₁ • (b • eP 0 + (d - 1) • eP 1 + b₁) =
+          (a * c₀ + b * c₁) • eP 0 + (c * c₀ + d * c₁) • eP 1 := by module
+      rw [hvec, heq1, heq2, zero_smul, zero_smul, add_zero]
+    have hx_zero : x = 0 := hBij.1 (by rw [hLx, map_zero])
+    rw [hx_zero, inner_zero_right] at hx0 hx1
+    exact hnz.elim (fun h => h hx0.symm) (fun h => h hx1.symm)
+  · let Δ := a * d - b * c
+    let u₀ : P.HPlus := (d / Δ) • b₀ + (-c / Δ) • b₁
+    let u₁ : P.HPlus := (-b / Δ) • b₀ + (a / Δ) • b₁
+    have hSplitB : blockLower2 eP a b c d b₀ b₁ =
+        blockLower2 eP 1 0 0 1 u₀ u₁ * blockLower2 eP a b c d 0 0 := by
+      apply ContinuousLinearMap.ext; intro x
+      change blockLower2 eP a b c d b₀ b₁ x =
+        blockLower2 eP 1 0 0 1 u₀ u₁ (blockLower2 eP a b c d 0 0 x)
+      simp only [blockLower2, add_apply, ContinuousLinearMap.id_apply,
+        ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
+        sub_self, zero_smul, add_zero, zero_add, inner_add_right, inner_smul_right,
+        h00, h11, h01, h10, mul_one, mul_zero]
+      dsimp [u₀, u₁]
+      have hc0 : a * (d / Δ) + c * (-b / Δ) = 1 := by dsimp [Δ]; field_simp [hdet]; ring
+      have hc1 : b * (d / Δ) + d * (-b / Δ) = 0 := by dsimp [Δ]; field_simp [hdet]; ring
+      have hd0 : a * (-c / Δ) + c * (a / Δ) = 0 := by dsimp [Δ]; field_simp [hdet]; ring
+      have hd1 : b * (-c / Δ) + d * (a / Δ) = 1 := by dsimp [Δ]; field_simp [hdet]; ring
+      set α0 : ℂ := ⟪eP 0, x⟫_ℂ
+      set α1 : ℂ := ⟪eP 1, x⟫_ℂ
+      change x + α0 • ((a - 1) • eP 0 + c • eP 1 + b₀) + α1 • (b • eP 0 + (d - 1) • eP 1 + b₁) =
+        x + α0 • ((a - 1) • eP 0 + c • eP 1) + α1 • (b • eP 0 + (d - 1) • eP 1) +
+        (α0 + α0 * (a - 1) + α1 * b) • ((d / Δ) • b₀ + (-c / Δ) • b₁) +
+        (α1 + α0 * c + α1 * (d - 1)) • ((-b / Δ) • b₀ + (a / Δ) • b₁)
+      have hcomb :
+          α0 • b₀ + α1 • b₁ =
+          (a * α0 + b * α1) • ((d / Δ) • b₀ + (-c / Δ) • b₁) +
+          (c * α0 + d * α1) • ((-b / Δ) • b₀ + (a / Δ) • b₁) := by
+        have h1 : (a * α0 + b * α1) * (d / Δ) + (c * α0 + d * α1) * (-b / Δ) = α0 := by
+          linear_combination α0 * hc0 + α1 * hc1
+        have h2 : (a * α0 + b * α1) * (-c / Δ) + (c * α0 + d * α1) * (a / Δ) = α1 := by
+          linear_combination α0 * hd0 + α1 * hd1
+        calc α0 • b₀ + α1 • b₁
+            = ((a * α0 + b * α1) * (d / Δ) + (c * α0 + d * α1) * (-b / Δ)) • b₀ +
+              ((a * α0 + b * α1) * (-c / Δ) + (c * α0 + d * α1) * (a / Δ)) • b₁ := by rw [h1, h2]
+          _ = _ := by module
+      have hrearr :
+          x + α0 • ((a - 1) • eP 0 + c • eP 1 + b₀) + α1 • (b • eP 0 + (d - 1) • eP 1 + b₁) =
+          (x + α0 • ((a - 1) • eP 0 + c • eP 1) + α1 • (b • eP 0 + (d - 1) • eP 1)) +
+          (α0 • b₀ + α1 • b₁) := by module
+      rw [hrearr, hcomb]; module
+    have hDetB : detF ⟨blockLower2 eP 1 0 0 1 u₀ u₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = 1 :=
+      hOffBlock u₀ u₁ (by simp [u₀, inner_add_right, inner_smul_right, hb00, hb01])
+        (by simp [u₁, inner_add_right, inner_smul_right, hb00, hb01])
+        (by simp [u₁, inner_add_right, inner_smul_right, hb10, hb11])
+    have hDetM : detF ⟨blockLower2 eP a b c d 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ = Δ := by
+      by_cases ha : a = 0
+      · have hb : b ≠ 0 := by intro h0; apply hdet; rw [ha, h0]; ring
+        have hfac : blockLower2 eP a b c d 0 0 =
+            blockLower2 eP 1 0 (d / b) 1 0 0 *
+            (blockLower2 eP 1 1 0 1 0 0 *
+            (blockLower2 eP 1 0 (-1) 1 0 0 *
+            (blockLower2 eP 1 1 0 1 0 0 * blockLower2 eP (-c) 0 0 b 0 0))) := by
+          simp only [blockLower2_mul_zero]
+          congr 1 <;> [ (rw [ha]; ring); ring; ring; (field_simp [hb]; ring) ]
+        have hEq : detF ⟨blockLower2 eP a b c d 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ =
+            1 * (1 * (1 * (1 * (-c * b)))) := by
+          calc _ = detF
+                (⟨blockLower2 eP 1 0 (d / b) 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                (⟨blockLower2 eP 1 1 0 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                (⟨blockLower2 eP 1 0 (-1) 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                (⟨blockLower2 eP 1 1 0 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                 ⟨blockLower2 eP (-c) 0 0 b 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩)))) := by
+                congr 1; exact Subtype.ext hfac
+            _ = _ := by
+                simp only [map_mul, hLowerShear, hUpperShear, hDiag]
+        rw [hEq]; dsimp [Δ]; rw [ha]; ring
+      · have hfac : blockLower2 eP a b c d 0 0 =
+            blockLower2 eP 1 0 (c / a) 1 0 0 *
+            (blockLower2 eP a 0 0 (Δ / a) 0 0 * blockLower2 eP 1 (b / a) 0 1 0 0) := by
+          simp only [blockLower2_mul_zero]
+          congr 1 <;> [ ring; (field_simp [ha]; ring); (field_simp [ha]; ring); (dsimp [Δ]; field_simp [ha]; ring) ]
+        have hEq : detF ⟨blockLower2 eP a b c d 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ =
+            1 * ((a * (Δ / a)) * 1) := by
+          calc _ = detF
+                (⟨blockLower2 eP 1 0 (c / a) 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                (⟨blockLower2 eP a 0 0 (Δ / a) 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+                 ⟨blockLower2 eP 1 (b / a) 0 1 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩)) := by
+                congr 1; exact Subtype.ext hfac
+            _ = _ := by simp only [map_mul, hLowerShear, hUpperShear, hDiag]
+        rw [hEq]; field_simp [ha]
+    calc detF ⟨blockLower2 eP a b c d b₀ b₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩
+        = detF
+            (⟨blockLower2 eP 1 0 0 1 u₀ u₁, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩ *
+             ⟨blockLower2 eP a b c d 0 0, blockLower2_mem_finiteRankMonoid eP _ _ _ _ _ _⟩) := by
+          congr 1; exact Subtype.ext hSplitB
+      _ = 1 * Δ := by rw [map_mul, hDetB, hDetM]
+      _ = Δ := one_mul Δ
+
+/-- Finite-rank monoid membership of `1 + g(t)₊₋ T_U g(t)₊₊⁻¹` without `[FredholmDetTheory]`. -/
+lemma segalWilson_gr24_op_mem_finiteRank (v w : C4) (t₁ t₂ t₃ : ℂ) :
+    ContinuousLinearMap.id ℂ hardyPolarization.HPlus +
+      ((blockPM hardyPolarization ((kpFlow (kpTime3 t₁ t₂ t₃)).1 : HCircle →L[ℂ] HCircle)).comp
+        (gr24GraphOp v w)).comp
+        ((kpFlow3PlusEquiv t₁ t₂ t₃).symm : hardyPolarization.HPlus →L[ℂ] hardyPolarization.HPlus) ∈
+      FiniteRankMonoid hardyPolarization.HPlus := by
+  refine finiteRankMonoid_id_add ?_
+  let p23 := pluckerCoord v w 2 3
+  let u0 := (pluckerCoord v w 0 3 / p23) • hardyMinusBasis 1 +
+    (pluckerCoord v w 1 3 / p23) • hardyMinusBasis 0
+  let u1 := (-pluckerCoord v w 0 2 / p23) • hardyMinusBasis 1 +
+    (-pluckerCoord v w 1 2 / p23) • hardyMinusBasis 0
+  let gPM := blockPM hardyPolarization ((kpFlow (kpTime3 t₁ t₂ t₃)).1 : HCircle →L[ℂ] HCircle)
+  let S : Submodule ℂ hardyPolarization.HPlus :=
+    Submodule.span ℂ ({gPM u0, gPM u1} : Set hardyPolarization.HPlus)
+  have _ : FiniteDimensional ℂ S :=
+    FiniteDimensional.span_of_finite ℂ ((Set.finite_singleton (gPM u1)).insert (gPM u0))
+  have hle : LinearMap.range
+      (((gPM.comp (gr24GraphOp v w)).comp
+        ((kpFlow3PlusEquiv t₁ t₂ t₃).symm : hardyPolarization.HPlus →L[ℂ] hardyPolarization.HPlus)).toLinearMap) ≤ S := by
+    rintro _ ⟨x, rfl⟩
+    change gPM (gr24GraphOp v w ((kpFlow3PlusEquiv t₁ t₂ t₃).symm x)) ∈ S
+    dsimp [gr24GraphOp]
+    rw [add_apply, ContinuousLinearMap.smulRight_apply,
+      ContinuousLinearMap.smulRight_apply, map_add, map_smul, map_smul]
+    exact Submodule.add_mem _
+      (Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert (gPM u0) _)))
+      (Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert_of_mem (gPM u0) rfl)))
+  exact Submodule.finiteDimensional_of_le hle
+
+/-- **Axiom-Free Segal–Wilson `finiteRankDet` = `tauU v w t₁ t₂ t₃ / p₂₃`:**
+Removes the `[FredholmDetTheory hardyPolarization hardyPlusBasis hardyMinusBasis]` assumption
+from `segalWilson_tau_gr24_eq_tauU` on infinite-dimensional `L²(S¹)` via `finiteRankDet`. -/
+theorem segalWilson_tau_gr24_eq_tauU_axiomFree
+    (v w : C4) (hp23 : pluckerCoord v w 2 3 ≠ 0) (t₁ t₂ t₃ : ℂ) :
+    finiteRankDet ⟨_, segalWilson_gr24_op_mem_finiteRank v w t₁ t₂ t₃⟩ =
+      tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3 := by
+  let t := kpTime3 t₁ t₂ t₃
+  let T := gr24GraphOp v w
+  let q := kpFlow3PlusEquiv t₁ t₂ t₃
+  let p1 := elemSchur1 t₁ t₂ t₃
+  let p2 := elemSchur2 t₁ t₂ t₃
+  let p3 := elemSchur3 t₁ t₂ t₃
+  let p01 := pluckerCoord v w 0 1
+  let p02 := pluckerCoord v w 0 2
+  let p03 := pluckerCoord v w 0 3
+  let p12 := pluckerCoord v w 1 2
+  let p13 := pluckerCoord v w 1 3
+  let p23 := pluckerCoord v w 2 3
+  have hb0 : (hardyPlusBasis 0 : HCircle) = eBasis 0 := by simp [hardyPlusBasis]
+  have hb1 : (hardyPlusBasis 1 : HCircle) = eBasis 1 := by simp [hardyPlusBasis]
+  have hm0 : (hardyMinusBasis 0 : HCircle) = eBasis (-1) := by simp [hardyMinusBasis]
+  have hm1 : (hardyMinusBasis 1 : HCircle) = eBasis (-2) := by simp [hardyMinusBasis]
+  have hgeNeg2_m2 : (hardyMinusBasis 1 : HCircle) ∈ hardyGeNeg2 := by
+    intro n hn; rw [hm1, HilbertBasis.repr_self, lp.single_apply]; simp [show n ≠ -2 by omega]
+  have hgeNeg2_m1 : (hardyMinusBasis 0 : HCircle) ∈ hardyGeNeg2 := by
+    intro n hn; rw [hm0, HilbertBasis.repr_self, lp.single_apply]; simp [show n ≠ -1 by omega]
+  let w_m2 : hardyPolarization.HPlus :=
+    blockPM hardyPolarization ((kpFlow t).1 : HCircle →L[ℂ] HCircle) (hardyMinusBasis 1)
+  let w_m1 : hardyPolarization.HPlus :=
+    blockPM hardyPolarization ((kpFlow t).1 : HCircle →L[ℂ] HCircle) (hardyMinusBasis 0)
+  have hwin_m2 : windowEval (hardyMinusBasis 1 : HCircle) = ![1, 0, 0, 0] := by
+    rw [hm1]; ext j; rw [windowEval_apply, HilbertBasis.repr_self]
+    fin_cases j <;> simp [lp.single_apply]
+  have hwin_m1 : windowEval (hardyMinusBasis 0 : HCircle) = ![0, 1, 0, 0] := by
+    rw [hm0]; ext j; rw [windowEval_apply, HilbertBasis.repr_self]
+    fin_cases j <;> simp [lp.single_apply]
+  have hwm2_0 : ⟪hardyPlusBasis 0, w_m2⟫_ℂ = p2 := by
+    change ⟪(hardyPlusBasis 0 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 1 : HCircle)) : HCircle)⟫_ℂ = p2
+    rw [hb0, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ le_rfl]
+    have h := congrFun (windowEval_kpFlow t hgeNeg2_m2) 2
+    have hM := (kpMatrix4_apply_eq t ![1, 0, 0, 0]).2.2.1
+    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
+    simpa [windowEval_apply, hwin_m2, p2, hM] using h
+  have hwm2_1 : ⟪hardyPlusBasis 1, w_m2⟫_ℂ = p3 := by
+    change ⟪(hardyPlusBasis 1 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 1 : HCircle)) : HCircle)⟫_ℂ = p3
+    rw [hb1, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ zero_le_one]
+    have h := congrFun (windowEval_kpFlow t hgeNeg2_m2) 3
+    have hM := (kpMatrix4_apply_eq t ![1, 0, 0, 0]).2.2.2
+    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
+    simpa [windowEval_apply, hwin_m2, p3, hM] using h
+  have hwm1_0 : ⟪hardyPlusBasis 0, w_m1⟫_ℂ = p1 := by
+    change ⟪(hardyPlusBasis 0 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 0 : HCircle)) : HCircle)⟫_ℂ = p1
+    rw [hb0, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ le_rfl]
+    have h := congrFun (windowEval_kpFlow t hgeNeg2_m1) 2
+    have hM := (kpMatrix4_apply_eq t ![0, 1, 0, 0]).2.2.1
+    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
+    simpa [windowEval_apply, hwin_m1, p1, hM] using h
+  have hwm1_1 : ⟪hardyPlusBasis 1, w_m1⟫_ℂ = p2 := by
+    change ⟪(hardyPlusBasis 1 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 0 : HCircle)) : HCircle)⟫_ℂ = p2
+    rw [hb1, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ zero_le_one]
+    have h := congrFun (windowEval_kpFlow t hgeNeg2_m1) 3
+    have hM := (kpMatrix4_apply_eq t ![0, 1, 0, 0]).2.2.2
+    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
+    simpa [windowEval_apply, hwin_m1, p2, hM] using h
+  have hqinv_coords : ∀ f : hardyPolarization.HPlus,
+      ⟪hardyPlusBasis 0, q.symm f⟫_ℂ = ⟪hardyPlusBasis 0, f⟫_ℂ ∧
+      ⟪hardyPlusBasis 1, q.symm f⟫_ℂ = ⟪hardyPlusBasis 1, f⟫_ℂ - p1 * ⟪hardyPlusBasis 0, f⟫_ℂ := by
+    intro f
+    have hf_ge : f.1 ∈ hardyGeNeg2 := fun n hn => (mem_hardyPlus_iff f.1).mp f.2 n (by omega)
+    have hwin0 : windowEval f.1 0 = 0 := by rw [windowEval_apply]; exact (mem_hardyPlus_iff f.1).mp f.2 (-2) (by norm_num)
+    have hwin1 : windowEval f.1 1 = 0 := by rw [windowEval_apply]; exact (mem_hardyPlus_iff f.1).mp f.2 (-1) (by norm_num)
+    have h2 := congrFun (windowEval_kpFlow (-t) hf_ge) 2
+    have h3 := congrFun (windowEval_kpFlow (-t) hf_ge) 3
+    have hM := kpMatrix4_apply_eq (-t) (windowEval f.1)
+    have ht1 : (-t) idx1 = -t₁ := by simp [t, kpTime3_idx1]
+    constructor
+    · change ⟪(hardyPlusBasis 0 : HCircle), (kpFlow (-t)).1 f.1⟫_ℂ = ⟪(hardyPlusBasis 0 : HCircle), f.1⟫_ℂ
+      rw [hb0, ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply]
+      have h2' : eBasis.repr ((kpFlow (-t)).1 f.1) 0 = kpMatrix4 (-t) (windowEval f.1) 2 := by
+        simpa [windowEval_apply] using h2
+      rw [h2', hM.2.2.1, hwin0, hwin1, windowEval_apply]; simp
+    · change ⟪(hardyPlusBasis 1 : HCircle), (kpFlow (-t)).1 f.1⟫_ℂ =
+        ⟪(hardyPlusBasis 1 : HCircle), f.1⟫_ℂ - p1 * ⟪(hardyPlusBasis 0 : HCircle), f.1⟫_ℂ
+      rw [hb1, hb0, ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply]
+      have h3' : eBasis.repr ((kpFlow (-t)).1 f.1) 1 = kpMatrix4 (-t) (windowEval f.1) 3 := by
+        simpa [windowEval_apply] using h3
+      rw [h3', hM.2.2.2, hwin0, hwin1, windowEval_apply, windowEval_apply]
+      simp [elemSchur1, p1, ht1]; ring
+  let v0 : hardyPolarization.HPlus :=
+    (p03 / p23) • w_m2 + (p13 / p23) • w_m1 - p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)
+  let v1 : hardyPolarization.HPlus :=
+    (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1
+  let a : ℂ := 1 + ⟪hardyPlusBasis 0, v0⟫_ℂ
+  let b : ℂ := ⟪hardyPlusBasis 0, v1⟫_ℂ
+  let c : ℂ := ⟪hardyPlusBasis 1, v0⟫_ℂ
+  let d : ℂ := 1 + ⟪hardyPlusBasis 1, v1⟫_ℂ
+  let b₀ : hardyPolarization.HPlus :=
+    v0 - ⟪hardyPlusBasis 0, v0⟫_ℂ • hardyPlusBasis 0 - ⟪hardyPlusBasis 1, v0⟫_ℂ • hardyPlusBasis 1
+  let b₁ : hardyPolarization.HPlus :=
+    v1 - ⟪hardyPlusBasis 0, v1⟫_ℂ • hardyPlusBasis 0 - ⟪hardyPlusBasis 1, v1⟫_ℂ • hardyPlusBasis 1
+  have hOpEq : ContinuousLinearMap.id ℂ hardyPolarization.HPlus +
+      ((blockPM hardyPolarization ((kpFlow t).1 : HCircle →L[ℂ] HCircle)).comp T).comp
+        (q.symm : hardyPolarization.HPlus →L[ℂ] hardyPolarization.HPlus) =
+      blockLower2 hardyPlusBasis a b c d b₀ b₁ := by
+    apply ContinuousLinearMap.ext; intro f
+    have hq0 := (hqinv_coords f).1
+    have hq1 := (hqinv_coords f).2
+    simp only [add_apply, ContinuousLinearMap.id_apply, ContinuousLinearMap.comp_apply,
+      T, gr24GraphOp, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
+      ContinuousLinearEquiv.coe_coe, hq0, hq1, map_add, map_smul, blockLower2]
+    change f + (⟪hardyPlusBasis 0, f⟫_ℂ • ((p03 / p23) • w_m2 + (p13 / p23) • w_m1) +
+        (⟪hardyPlusBasis 1, f⟫_ℂ - p1 * ⟪hardyPlusBasis 0, f⟫_ℂ) •
+          ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)) =
+        f + ⟪hardyPlusBasis 0, f⟫_ℂ • ((a - 1) • hardyPlusBasis 0 + c • hardyPlusBasis 1 + b₀) +
+            ⟪hardyPlusBasis 1, f⟫_ℂ • (b • hardyPlusBasis 0 + (d - 1) • hardyPlusBasis 1 + b₁)
+    have hv0 : (a - 1) • hardyPlusBasis 0 + c • hardyPlusBasis 1 + b₀ = v0 := by
+      dsimp [a, c, b₀]; module
+    have hv1 : b • hardyPlusBasis 0 + (d - 1) • hardyPlusBasis 1 + b₁ = v1 := by
+      dsimp [b, d, b₁]; module
+    rw [hv0, hv1]; dsimp [v0, v1]; module
+  have h00 : ⟪hardyPlusBasis 0, hardyPlusBasis 0⟫_ℂ = 1 := by
+    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 0 0
+  have h11 : ⟪hardyPlusBasis 1, hardyPlusBasis 1⟫_ℂ = 1 := by
+    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 1 1
+  have h01 : ⟪hardyPlusBasis 0, hardyPlusBasis 1⟫_ℂ = 0 := by
+    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 0 1
+  have h10 : ⟪hardyPlusBasis 1, hardyPlusBasis 0⟫_ℂ = 0 := by
+    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 1 0
+  have hDet := finiteRankDet_blockLowerTriangular_two hardyPlusBasis a b c d b₀ b₁
+    (by simp only [b₀, inner_sub_right, inner_smul_right, h00, h01]; ring)
+    (by simp only [b₀, inner_sub_right, inner_smul_right, h10, h11]; ring)
+    (by simp only [b₁, inner_sub_right, inner_smul_right, h00, h01]; ring)
+    (by simp only [b₁, inner_sub_right, inner_smul_right, h10, h11]; ring)
+  have hEqDet : finiteRankDet ⟨_, segalWilson_gr24_op_mem_finiteRank v w t₁ t₂ t₃⟩ = a * d - b * c :=
+    (finiteRankDet_congr hOpEq).trans hDet
+  rw [hEqDet, tauU_eq_schurTau]
+  have ha : a = 1 + ((p03 / p23) * p2 + (p13 / p23) * p1 - p1 * ((-p02 / p23) * p2 + (-p12 / p23) * p1)) := by
+    change 1 + ⟪hardyPlusBasis 0, (p03 / p23) • w_m2 + (p13 / p23) • w_m1 -
+      p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)⟫_ℂ = _
+    simp only [inner_sub_right, inner_add_right, inner_smul_right, hwm2_0, hwm1_0]
+  have hb : b = (-p02 / p23) * p2 + (-p12 / p23) * p1 := by
+    change ⟪hardyPlusBasis 0, (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1⟫_ℂ = _
+    simp only [inner_add_right, inner_smul_right, hwm2_0, hwm1_0]
+  have hc : c = (p03 / p23) * p3 + (p13 / p23) * p2 - p1 * ((-p02 / p23) * p3 + (-p12 / p23) * p2) := by
+    change ⟪hardyPlusBasis 1, (p03 / p23) • w_m2 + (p13 / p23) • w_m1 -
+      p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)⟫_ℂ = _
+    simp only [inner_sub_right, inner_add_right, inner_smul_right, hwm2_1, hwm1_1]
+  have hd : d = 1 + ((-p02 / p23) * p3 + (-p12 / p23) * p2) := by
+    change 1 + ⟪hardyPlusBasis 1, (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1⟫_ℂ = _
+    simp only [inner_add_right, inner_smul_right, hwm2_1, hwm1_1]
+  rw [ha, hb, hc, hd]
+  have hQ : p01 * p23 - p02 * p13 + p03 * p12 = 0 := kleinQuadric_relation v w
+  exact segalWilson_gr24_det_poly p01 p02 p03 p12 p13 p23 t₁ t₂ t₃ hp23 hQ
+
+end AxiomFreeFiniteRankSegalWilson
+
 end Signals.SatoGrassmannian.SegalWilsonGr24

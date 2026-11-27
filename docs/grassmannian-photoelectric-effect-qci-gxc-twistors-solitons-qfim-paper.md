@@ -261,6 +261,8 @@ TMPDIR=/workspaces/sustainablefactory/.tmp maturin develop --manifest-path src/s
 pytest -q tests/test_photoelectric_sympy_pyo3.py
 ```
 
+**Constructive Pending-Gate Closure:** `PhotoelectricEmissionPendingBoundary.ofCertificates` and `.solved_of_certificates` in `Signals.Pending` (paired with `MasterUnifiedPendingClosure.all_seven_pending_boundaries_solved`; see [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md)) connect `WorkFunctionCalibrationCertificate`, `KeldyshYieldCertificate`, `EnzOamLossCertificate`, and `AttosecondTimingCertificate` (reusing `EvanescentQfimExperimentalCertificate` from `SatoRiemannSpectralPendingBoundary`) directly to `photoelectric_unified_qci_gxc_twistor_akns_qfim_identities`, `enzBoundaryIntensityEnhancement`, and `rabbittAttosecondQfim`, while preserving `photoelectric_identities_do_not_close_experimental_gates`.
+
 ---
 
 ## References

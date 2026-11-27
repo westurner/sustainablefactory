@@ -95,3 +95,8 @@ $$
 2. `ENH: Formalize compressible and incompressible Navier-Stokes via Dual-Schubert QFIM in Lean 4` (`Signals.NavierStokes.*`, `Signals.lean`, `Pending.lean`, `SignalsPending.lean`, tests).
 3. `ENH: Implement Rust/PyO3 Navier-Stokes Dual-Schubert QFIM solvers and SymPy/pytest cross-verification` (`navier_stokes.rs`, `lib.rs`, `sustainablefactory/navier_stokes.py`, `tests/test_navier_stokes_dual_schubert_qfim.py`).
 4. `DOCS: Add Paper 53 on Dual-Schubert QFIM compressible/incompressible Navier-Stokes and update roadmap` (Paper 53, `citations.bib`, `_toc.yml`, roadmap).
+
+### `NS-6`: Constructive Certificate Closure & Cross-Boundary Unification (`DualSchubertNavierStokesPendingBoundary`)
+Integrated with [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md):
+- Add `NavierStokes3DRegularityCertificate`, `NavierStokes3DHirotaLinearizabilityCertificate`, `TurbulenceSubgridClosureCertificate`, and `ExperimentalFluidTelemetryCertificate` in `Signals.Pending`.
+- Prove `DualSchubertNavierStokesPendingBoundary.solved_of_certificates`, tying `Signals.NavierStokes` (`taylorGreen2D_solves_incompressible_ns`, `korteweg_stress_div_eq_quantum_force`, `breschDesjardins_dual_schubert_qfim_split`, `coleHopf_burgers_solves_viscous_burgers`), `FlowBoundaryObservation`, and `ControlledMeasurement` into `MasterUnifiedPendingBoundaryClosure`.

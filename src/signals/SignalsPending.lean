@@ -2700,4 +2700,99 @@ lemma pending_toupin_celestial_millennium_solved_of_certificates
   (ToupinCelestialMillenniumPendingBoundary.solved_of_certificates
     c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2 tCrit).1
 
+@[blueprint "lem:signals-pending-sato-axiom-free-finite-rank-strip-solved"
+  (title := "Axiom-free finite-rank and strip sub-Gaussian closure of SatoRiemannSpectralPendingBoundary")
+  (statement := /-- Uses the axiom-free infinite-dimensional finite-rank determinant \texttt{finiteRankDet}
+    and automatic strip sub-Gaussian \texttt{gaussianCombo} summability to discharge \texttt{allSatoGatesClosed}. -/)
+  (proof := /-- Apply \texttt{SatoRiemannSpectralPendingBoundary.solved\_of\_axiomFree\_finiteRank\_and\_strip\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_sato_riemann_spectral_solved_of_axiomFree_finiteRank_and_strip_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (v w : Signals.SatoGrassmannian.Gr24Truncation.C4)
+    (hp23 : Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 ≠ 0)
+    (t1 t2 t3 : ℂ)
+    (cStrip : StripGaussianWeilCertificate)
+    (cEv : EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (SatoRiemannSpectralPendingBoundary.ofAxiomFreeFiniteRankAndStripCertificates
+      c1 c2 c3 c4 v w hp23 t1 t2 t3 cStrip cEv mult hMult).allSatoGatesClosed :=
+  (SatoRiemannSpectralPendingBoundary.solved_of_axiomFree_finiteRank_and_strip_certificates
+    c1 c2 c3 c4 v w hp23 t1 t2 t3 cStrip cEv mult hMult tCrit).1
+
+@[blueprint "lem:signals-pending-dual-schubert-navier-stokes-solved-of-certificates"
+  (title := "Constructive certificate closure of DualSchubertNavierStokesPendingBoundary")
+  (statement := /-- Given verified witness certificates $(c_1, c_2, c_3, c_4)$, \texttt{DualSchubertNavierStokesPendingBoundary.ofCertificates} discharges \texttt{allNavierStokesGatesClosed}. -/)
+  (proof := /-- Apply \texttt{DualSchubertNavierStokesPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_dual_schubert_navier_stokes_solved_of_certificates
+    (c1 : NavierStokes3DRegularityCertificate)
+    (c2 : NavierStokes3DHirotaLinearizabilityCertificate)
+    (c3 : TurbulenceSubgridClosureCertificate)
+    (c4 : ExperimentalFluidTelemetryCertificate) :
+    (DualSchubertNavierStokesPendingBoundary.ofCertificates c1 c2 c3 c4).allNavierStokesGatesClosed :=
+  (DualSchubertNavierStokesPendingBoundary.solved_of_certificates c1 c2 c3 c4).1
+
+@[blueprint "lem:signals-pending-photoelectric-emission-solved-of-certificates"
+  (title := "Constructive certificate closure of PhotoelectricEmissionPendingBoundary")
+  (statement := /-- Given verified witness certificates $(c_1, c_2, c_3, c_4)$, \texttt{PhotoelectricEmissionPendingBoundary.ofCertificates} discharges \texttt{allPhotoelectricGatesClosed}. -/)
+  (proof := /-- Apply \texttt{PhotoelectricEmissionPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_photoelectric_emission_solved_of_certificates
+    (c1 : WorkFunctionCalibrationCertificate)
+    (c2 : KeldyshYieldCertificate)
+    (c3 : EnzOamLossCertificate)
+    (c4 : AttosecondTimingCertificate)
+    (hGap : c2.hbar * c2.j0 ≤ Signals.Photoelectric.kohnShamWorkFunction c1.eVac c1.eFermi) :
+    (PhotoelectricEmissionPendingBoundary.ofCertificates c1 c2 c3 c4).allPhotoelectricGatesClosed :=
+  (PhotoelectricEmissionPendingBoundary.solved_of_certificates c1 c2 c3 c4 hGap).1
+
+@[blueprint "lem:signals-pending-antimatter-alpha-g-solved-of-certificates"
+  (title := "Constructive certificate closure of AntimatterAnnihilationAlphaGPendingBoundary")
+  (statement := /-- Given verified witness certificates $(c_1, c_2, c_3, c_4)$, \texttt{AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates} discharges \texttt{allAntimatterGatesClosed}. -/)
+  (proof := /-- Apply \texttt{AntimatterAnnihilationAlphaGPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_antimatter_alpha_g_solved_of_certificates
+    (c1 : AlphaGWepPrecisionCertificate)
+    (c2 : PositroniumFreeFallCertificate)
+    (c3 : ActivePhotonSourcingCertificate)
+    (c4 : PlancherelLoopMeasurementCertificate) :
+    (AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates c1 c2 c3 c4).allAntimatterGatesClosed :=
+  (AntimatterAnnihilationAlphaGPendingBoundary.solved_of_certificates c1 c2 c3 c4).1
+
+@[blueprint "lem:signals-pending-master-all-seven-solved"
+  (title := "Master simultaneous closure of all seven PendingBoundary gates")
+  (statement := /-- From a single unified bundle \texttt{u : MasterUnifiedPendingClosure H2 H4}, all seven epistemic \texttt{PendingBoundary} structures in \texttt{Signals.Pending} are simultaneously closed. -/)
+  (proof := /-- Apply \texttt{MasterUnifiedPendingClosure.all\_seven\_pending\_boundaries\_solved}. -/)
+  (latexEnv := "lemma")]
+lemma pending_master_all_seven_pending_boundaries_solved
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (u : MasterUnifiedPendingClosure H2 H4) (tCrit : ℝ) :
+    (RiemannHypothesisPendingBoundary.ofCertificates u.rh1 u.rh2 u.rh3 u.rh4).allFourBridgesClosed ∧
+      (SatoRiemannSpectralPendingBoundary.ofAxiomFreeFiniteRankAndStripCertificates
+        u.rh1 u.rh2 u.rh3 u.rh4 u.satoV u.satoW u.satoHp23 u.satoT1 u.satoT2 u.satoT3
+        u.satoStripWeil u.sharedEvanescent u.satoMult u.satoMult_pos).allSatoGatesClosed ∧
+      (ToupinCelestialMillenniumPendingBoundary.ofCertificates
+        u.rh1 u.rh2 u.rh3 u.rh4 u.meyer u.bsd u.ym1 u.ym2).allMillenniumBridgesClosed ∧
+      (DualSchubertNavierStokesPendingBoundary.ofCertificates
+        u.ns1 u.ns2 u.ns3 u.ns4).allNavierStokesGatesClosed ∧
+      (PhotoelectricEmissionPendingBoundary.ofCertificates u.pe1 u.pe2 u.pe3
+        { omegaIr := u.pe4OmegaIr
+          hOmegaIr := u.pe4OmegaIr_ne
+          evanescentCert := u.sharedEvanescent
+          attosecondValidated := u.pe4AttoValidated
+          attosecondValidated_holds := u.pe4AttoValidated_holds }).allPhotoelectricGatesClosed ∧
+      (AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates
+        u.ag1 u.ag2 u.sharedActivePhoton u.sharedPlancherel).allAntimatterGatesClosed ∧
+      (YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates
+        u.ym1 u.ym2 u.ym3 u.ym4 u.higgsVevGeV u.higgsVevGeV_pos).allYangMillsHiggsCptGatesClosed :=
+  u.all_seven_pending_boundaries_solved tCrit
+
 end SignalsPending

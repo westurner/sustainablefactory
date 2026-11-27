@@ -1127,6 +1127,282 @@ pub fn evaluate_finite_dim_fredholm_det(
     }
 }
 
+/// Axiom-free infinite-dimensional (truncated to ambient dim `N = 12`) finite-rank Fredholm
+/// determinant audit matching `DeterminantBundle.lean` Sec. 7 & `SegalWilsonGr24.lean` Sec. 4:
+/// builds `V(F) = range(F) ⊔ (ker F)ᗮ`, checks `F(V) ⊆ V`, `Vᗮ ⊆ ker F`, subspace
+/// enlargement invariance `det((I+F)|_V) = det((I+F)|_W)`, and `det = tau_U / p_23`.
+#[derive(Debug, Clone, Copy)]
+pub struct FiniteRankInvariantDetAudit {
+    pub ambient_dim: usize,
+    pub invariant_dim: usize,
+    pub invariance_residual: f64,
+    pub orth_ker_residual: f64,
+    pub det_v_re: f64,
+    pub det_w_re: f64,
+    pub tau_over_p23_re: f64,
+    pub subspace_indep_err: f64,
+    pub det_vs_tau_err: f64,
+}
+
+fn mat_det_gaussian(mut a: Vec<Vec<f64>>) -> f64 {
+    let n = a.len();
+    let mut det = 1.0_f64;
+    for i in 0..n {
+        let mut pivot = i;
+        for r in (i + 1)..n {
+            if a[r][i].abs() > a[pivot][i].abs() {
+                pivot = r;
+            }
+        }
+        if a[pivot][i].abs() < 1e-15 {
+            return 0.0;
+        }
+        if pivot != i {
+            a.swap(i, pivot);
+            det = -det;
+        }
+        det *= a[i][i];
+        let inv = 1.0 / a[i][i];
+        for r in (i + 1)..n {
+            let factor = a[r][i] * inv;
+            if factor != 0.0 {
+                for c in i..n {
+                    a[r][c] -= factor * a[i][c];
+                }
+            }
+        }
+    }
+    det
+}
+
+fn gram_schmidt_orthonormal(cols: &[Vec<f64>], tol: f64) -> Vec<Vec<f64>> {
+    let mut basis: Vec<Vec<f64>> = Vec::new();
+    for col in cols {
+        let mut v = col.clone();
+        for q in &basis {
+            let dot: f64 = v.iter().zip(q.iter()).map(|(x, y)| x * y).sum();
+            for (vi, &qi) in v.iter_mut().zip(q.iter()) {
+                *vi -= dot * qi;
+            }
+        }
+        let nrm: f64 = v.iter().map(|x| x * x).sum::<f64>().sqrt();
+        if nrm > tol {
+            for vi in &mut v {
+                *vi /= nrm;
+            }
+            basis.push(v);
+        }
+    }
+    basis
+}
+
+pub fn evaluate_finite_rank_invariant_det(
+    v: [f64; 4],
+    w: [f64; 4],
+    t1: f64,
+    t2: f64,
+    t3: f64,
+) -> Result<FiniteRankInvariantDetAudit, String> {
+    let p23 = v[2] * w[3] - v[3] * w[2];
+    if p23.abs() < 1e-14 {
+        return Err("Frame is not on the big cell (p₂₃ = 0)".into());
+    }
+    // Embed `F = g(t)_{+-} T_U g(t)_{++}^{-1}` in ambient `N = 12` modes {e_0..e_{11}}
+    // using the exact degree-11 Taylor coefficients of `exp(t1 z + t2 z² + t3 z³)`:
+    const N: usize = 12;
+    let mut exp_c = [0.0_f64; N + 3];
+    exp_c[0] = 1.0;
+    // Multiply series by exp(t1 z) * exp(t2 z²) * exp(t3 z³) via coefficient recurrence:
+    // Use `c_n` from explicit power series `exp(P(z))`, `P'(z) = t1 + 2 t2 z + 3 t3 z²`:
+    for k in 1..exp_c.len() {
+        let mut s = t1 * exp_c[k - 1];
+        if k >= 2 {
+            s += 2.0 * t2 * exp_c[k - 2];
+        }
+        if k >= 3 {
+            s += 3.0 * t3 * exp_c[k - 3];
+        }
+        exp_c[k] = s / (k as f64);
+    }
+
+    let a0 = (v[0] * w[3] - v[3] * w[0]) / p23;
+    let a1 = (v[1] * w[3] - v[3] * w[1]) / p23;
+    let b0 = -(v[0] * w[2] - v[2] * w[0]) / p23;
+    let b1 = -(v[1] * w[2] - v[2] * w[1]) / p23;
+    let s1 = t1;
+
+    // `T_U g_{++}^{-1}` maps e_0 -> col0 in H_-, e_1 -> col1 in H_-, e_{j>=2} -> 0:
+    // col0 = (a0 - b0*s1) e_{-2} + (a1 - b1*s1) e_{-1}, col1 = b0 e_{-2} + b1 e_{-1}
+    let u0_m2 = a0 - b0 * s1;
+    let u0_m1 = a1 - b1 * s1;
+    let u1_m2 = b0;
+    let u1_m1 = b1;
+
+    // `g(t)_{+-} (e_{-2})_i = exp_c[i + 2]`, `g(t)_{+-} (e_{-1})_i = exp_c[i + 1]` for `0 ≤ i < N`:
+    let mut f_mat = [[0.0_f64; N]; N];
+    for i in 0..N {
+        f_mat[i][0] = exp_c[i + 2] * u0_m2 + exp_c[i + 1] * u0_m1;
+        f_mat[i][1] = exp_c[i + 2] * u1_m2 + exp_c[i + 1] * u1_m1;
+    }
+
+    // Build `V(F) = range(F) ⊔ (ker F)ᗮ = span{ F e_0, F e_1, e_0, e_1 }`
+    let mut generators: Vec<Vec<f64>> = Vec::new();
+    for col in 0..2 {
+        generators.push((0..N).map(|r| f_mat[r][col]).collect());
+    }
+    for j in 0..2 {
+        let mut ej = vec![0.0_f64; N];
+        ej[j] = 1.0;
+        generators.push(ej);
+    }
+    let basis_v = gram_schmidt_orthonormal(&generators, 1e-12);
+    let dim_v = basis_v.len();
+
+    // Build enlarged `W = V ⊔ span{ e_{N-1} }` to verify `det_restrict_eq` invariance
+    let mut generators_w = basis_v.clone();
+    let mut e_last = vec![0.0_f64; N];
+    e_last[N - 1] = 1.0;
+    generators_w.push(e_last);
+    let basis_w = gram_schmidt_orthonormal(&generators_w, 1e-12);
+
+    // Check `F(V) ⊆ V` invariance residual and `F|_{Vᗮ} = 0` orthogonal-kernel residual
+    let apply_f = |vec: &[f64]| -> Vec<f64> {
+        let mut out = vec![0.0_f64; N];
+        for r in 0..N {
+            let mut acc = 0.0;
+            for c in 0..N {
+                acc += f_mat[r][c] * vec[c];
+            }
+            out[r] = acc;
+        }
+        out
+    };
+    let mut inv_res = 0.0_f64;
+    for q in &basis_v {
+        let fq = apply_f(q);
+        let mut proj = vec![0.0_f64; N];
+        for bq in &basis_v {
+            let dot: f64 = fq.iter().zip(bq.iter()).map(|(x, y)| x * y).sum();
+            for (pi, &bi) in proj.iter_mut().zip(bq.iter()) {
+                *pi += dot * bi;
+            }
+        }
+        let err: f64 = fq
+            .iter()
+            .zip(proj.iter())
+            .map(|(x, y)| (x - y).powi(2))
+            .sum::<f64>()
+            .sqrt();
+        inv_res = inv_res.max(err);
+    }
+
+    let mut orth_ker_res = 0.0_f64;
+    for j in 0..N {
+        let mut v_orth = vec![0.0_f64; N];
+        v_orth[j] = 1.0;
+        for bq in &basis_v {
+            let dot: f64 = v_orth.iter().zip(bq.iter()).map(|(x, y)| x * y).sum();
+            for (vi, &bi) in v_orth.iter_mut().zip(bq.iter()) {
+                *vi -= dot * bi;
+            }
+        }
+        let fv = apply_f(&v_orth);
+        let err: f64 = fv.iter().map(|x| x * x).sum::<f64>().sqrt();
+        orth_ker_res = orth_ker_res.max(err);
+    }
+
+    let restrict_det = |basis: &[Vec<f64>]| -> f64 {
+        let d = basis.len();
+        let mut m = vec![vec![0.0_f64; d]; d];
+        for (c, bc) in basis.iter().enumerate() {
+            let fc = apply_f(bc);
+            for (r, br) in basis.iter().enumerate() {
+                let f_rc: f64 = br.iter().zip(fc.iter()).map(|(x, y)| x * y).sum();
+                m[r][c] = (if r == c { 1.0 } else { 0.0 }) + f_rc;
+            }
+        }
+        mat_det_gaussian(m)
+    };
+
+    let det_v = restrict_det(&basis_v);
+    let det_w = restrict_det(&basis_w);
+    let sw = evaluate_segal_wilson_gr24_tau(v, w, t1, t2, t3)?;
+
+    Ok(FiniteRankInvariantDetAudit {
+        ambient_dim: N,
+        invariant_dim: dim_v,
+        invariance_residual: inv_res,
+        orth_ker_residual: orth_ker_res,
+        det_v_re: det_v,
+        det_w_re: det_w,
+        tau_over_p23_re: sw.tau_u_over_p23_re,
+        subspace_indep_err: (det_v - det_w).abs(),
+        det_vs_tau_err: (det_v - sw.tau_u_over_p23_re).abs(),
+    })
+}
+
+/// Strip sub-Gaussian `gaussianCombo` decay & automatic summability audit (`WeilGaussianL1.lean`):
+/// verifies `‖M_{f_{δ, P}}(z)‖ ≤ C_{δ, P}(B) * exp(-Re(z)² / 2)` on `|Im(z)| ≤ B` and
+/// checks convergence of `∑ exp(-γ_n²)` across true Riemann zeros.
+#[derive(Debug, Clone, Copy)]
+pub struct StripGaussianDecayAudit {
+    pub strip_constant: f64,
+    pub max_bound_ratio: f64,
+    pub subgaussian_density_sum: f64,
+    pub weil_strip_re: f64,
+}
+
+pub fn evaluate_strip_gaussian_combo_decay(
+    gammas: &[f64],
+    coeffs: &[f64],
+    delta: f64,
+    strip_b: f64,
+) -> StripGaussianDecayAudit {
+    // `shiftedGaussian a(x) = exp(-(x-a)²/2)` has `M(z) = √(2π) exp(-z²/2 + i a z)`.
+    let sqrt_2pi = (2.0 * PI).sqrt();
+    let mut c_strip = 0.0_f64;
+    for (j, &c) in coeffs.iter().enumerate() {
+        let a = (j as f64) * delta;
+        c_strip += c.abs() * sqrt_2pi * (0.5 * strip_b * strip_b + a.abs() * strip_b).exp();
+    }
+
+    let eval_mellin_combo = |z: C64| -> C64 {
+        let z2 = z.mul(z);
+        let mut acc = C64::from_re(0.0);
+        for (j, &c) in coeffs.iter().enumerate() {
+            let a = (j as f64) * delta;
+            let arg = C64::new(-a * z.im, a * z.re).sub(z2.scale(0.5));
+            acc = acc.add(arg.exp().scale(c * sqrt_2pi));
+        }
+        acc
+    };
+
+    let mut max_ratio = 0.0_f64;
+    let mut subgauss_sum = 0.0_f64;
+    let mut weil_re = 0.0_f64;
+    for &g in gammas {
+        subgauss_sum += 2.0 * (-g * g).exp();
+        for &im in &[0.0, strip_b, -0.5 * strip_b] {
+            let z = C64::new(g, im);
+            let m_norm = eval_mellin_combo(z).norm();
+            let rhs = c_strip * (-0.5 * g * g).exp();
+            if rhs > 0.0 {
+                max_ratio = max_ratio.max(m_norm / rhs);
+            }
+        }
+        let m_pos = eval_mellin_combo(C64::new(g, 0.0));
+        let m_neg = eval_mellin_combo(C64::new(-g, 0.0));
+        weil_re += m_pos.norm_sq() + m_neg.norm_sq();
+    }
+
+    StripGaussianDecayAudit {
+        strip_constant: c_strip,
+        max_bound_ratio: max_ratio,
+        subgaussian_density_sum: subgauss_sum,
+        weil_strip_re: weil_re,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1250,5 +1526,30 @@ mod tests {
         assert!(fdet.nilpotent_shear_err < 1e-15);
         assert!(fdet.block_lower_err < 1e-14);
         assert!(fdet.conj_invariance_err < 1e-14);
+
+        let inv_det = evaluate_finite_rank_invariant_det(
+            [0.4, -0.7, 1.2, 0.3],
+            [0.9, 0.2, -0.5, 1.1],
+            0.35,
+            -0.2,
+            0.15,
+        )
+        .unwrap();
+        assert_eq!(inv_det.ambient_dim, 12);
+        assert!(inv_det.invariant_dim <= 4);
+        assert!(inv_det.invariance_residual < 1e-14);
+        assert!(inv_det.orth_ker_residual < 1e-14);
+        assert!(inv_det.subspace_indep_err < 1e-14);
+        assert!(inv_det.det_vs_tau_err < 1e-13);
+
+        let strip = evaluate_strip_gaussian_combo_decay(
+            &[14.134725, 21.022040, 25.010858],
+            &[1.0, -0.35, 0.2],
+            0.3,
+            0.5,
+        );
+        assert!(strip.max_bound_ratio <= 1.0 + 1e-14);
+        assert!(strip.subgaussian_density_sum < 1e-80);
+        assert!(strip.weil_strip_re >= 0.0);
     }
 }

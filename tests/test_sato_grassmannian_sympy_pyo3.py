@@ -10,6 +10,7 @@ from sustainablefactory.sato_grassmannian import (
     audit_carleman_mpmath_vs_rust,
     audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust,
     audit_riemann_spectral_bridge_on_true_zeros,
+    audit_unified_pending_closures_mpmath_vs_rust,
     verify_symbolic_sato_pde_identities,
 )
 
@@ -127,3 +128,21 @@ def test_det3_anomaly_weil_infinite_tail_and_finite_fredholm_det():
     assert res["fdet_nilp_err"] < 1e-15
     assert res["fdet_blk_err"] < 1e-14
     assert res["fdet_conj_err"] < 1e-14
+
+
+def test_unified_finite_rank_invariant_det_strip_weil_and_seven_boundaries():
+    u = audit_unified_pending_closures_mpmath_vs_rust(dps=60)
+    assert u["inv_ambient_dim"] == 12.0
+    assert u["inv_subspace_dim"] <= 4.0
+    assert u["inv_invariance_residual"] < 1e-14
+    assert u["inv_orth_ker_residual"] < 1e-14
+    assert u["inv_subspace_indep_err"] < 1e-14
+    assert u["inv_det_vs_tau_err"] < 1e-13
+    assert u["strip_max_bound_ratio"] <= 1.0 + 1e-14
+    assert u["strip_subgauss_log10"] < -80.0
+    assert u["strip_weil_re"] >= 0.0
+    assert u["ns_tg_energy_diss_err"] < 1e-13
+    assert math.isclose(u["pe_enz_gain"], 400.0, rel_tol=1e-13)
+    assert math.isclose(u["pe_oam_qfim_ratio"], 4.0, rel_tol=1e-14)
+    assert u["ag_gr_chi2_err"] < 1e-13
+    assert u["ym_jost_err"] < 1e-14

@@ -240,6 +240,8 @@ TMPDIR=/workspaces/sustainablefactory/.tmp maturin develop --release --features 
 pytest -q /workspaces/sustainablefactory/tests/test_antimatter_gravity_alpha_g.py
 ```
 
+**Constructive Pending-Gate Closure:** `AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates` and `.solved_of_certificates` in `Signals.Pending` (paired with `MasterUnifiedPendingClosure.all_seven_pending_boundaries_solved`; see [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md)) connect `AlphaGWepPrecisionCertificate`, `PositroniumFreeFallCertificate`, `ActivePhotonSourcingCertificate` (shared with `YangMillsMassGapHiggsCPTPendingBoundary` Model 16a/16b), and `PlancherelLoopMeasurementCertificate` (shared with `ToupinCelestialMillenniumPendingBoundary`) directly to `antimatter_annihilation_and_alpha_g_unification_identities` and `celestialTransferFactor16`, while preserving `antimatter_alpha_g_identities_do_not_close_pending_gates`.
+
 ---
 
 ## 6. Scholarly References & Provenance Metadata

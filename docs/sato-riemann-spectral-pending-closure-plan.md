@@ -81,6 +81,11 @@ In Section 7 of [grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-pape
 - **Files:** `docs/grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.md`, `docs/grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md`, `docs/grassmannian-celestial-holography-graviton-turner-riemann-paper.md`, `docs/plan-index.md`, `docs/_toc.yml`
 - **Gate:** Zero Markdown scanner findings, `make -C docs html` clean, browser inspection confirms MathJax rendering and zero `mjx-merror`, `git diff --check` clean.
 
+### `SRS-6` & `SRS-7`: Unified Extension (Finite-Rank Axiom-Free `finiteRankDet` & Strip Sub-Gaussian `WeilGaussianL1`)
+Integrated with [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md):
+- **`SRS-6` (`DeterminantBundle.lean`, `SegalWilsonGr24.lean`):** Prove `finiteRankDet` on arbitrary infinite-dimensional `HPlus` via $V(F) = \operatorname{range} F \sqcup (\ker F)^\perp$ and discharge `segalWilson_tau_gr24_eq_tauU_axiomFree` without `[FredholmDetTheory]`.
+- **`SRS-7` (`WeilGaussianL1.lean`, `Pending.lean`):** Prove `norm_mellinTransform_gaussianCombo_strip` and `summable_weilInfinite_gaussianCombo_of_strip` so `GlobalInfiniteZeroWeilCertificate` drops per-function `hSumm` and joins `MasterUnifiedPendingBoundaryClosure`.
+
 ---
 
 ## References

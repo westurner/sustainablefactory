@@ -9812,4 +9812,37 @@ example (t : ℝ) (z : ℕ → ℂ) (m : ℕ → ℕ) (hReal : ∀ n : ℕ, (z n
     z m hReal hf hSumm
   exact ⟨h1.1, h1.2.2.1, h1.2.2.2, h2.1, h2.2⟩
 
+/-! Axiom-Free Infinite-Dimensional `finiteRankDet`, `segalWilson_tau_gr24_eq_tauU_axiomFree`,
+and Automatic Strip Sub-Gaussian `WeilGaussianL1` Checks. -/
+example {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (i₀ : ιP) (c : ℂ) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+      ⟨Signals.SatoGrassmannian.DeterminantBundle.rankOneScale P eP i₀ c,
+        Signals.SatoGrassmannian.DeterminantBundle.rankOneScale_mem_finiteRankMonoid P eP i₀ c⟩ = c :=
+  Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet_rankOneScale P eP i₀ c
+
+example (v w : Signals.SatoGrassmannian.Gr24Truncation.C4)
+    (hp23 : Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 ≠ 0)
+    (t₁ t₂ t₃ : ℂ) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+        ⟨_, Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_gr24_op_mem_finiteRank
+          v w t₁ t₂ t₃⟩ =
+      Signals.SatoGrassmannian.HirotaKP.tauU v w t₁ t₂ t₃ /
+        Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 :=
+  Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_tau_gr24_eq_tauU_axiomFree
+    v w hp23 t₁ t₂ t₃
+
+example (z : ℕ → ℂ) (m : ℕ → ℕ)
+    (hReal : ∀ n : ℕ, (z n).im = 0)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ) :
+    0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m
+      (Signals.SatoGrassmannian.WeilGaussianL1.gaussianCombo δ P)).re ∧
+      (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m
+        (Signals.SatoGrassmannian.WeilGaussianL1.gaussianCombo δ P)).im = 0 :=
+  Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros
+    z m hReal hGauss δ P
+
 end SignalsTests

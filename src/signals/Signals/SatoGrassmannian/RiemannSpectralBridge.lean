@@ -349,4 +349,38 @@ theorem weil_infinite_real_vs_evanescent_qfim_bridge
   have hsk := DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law hℏ hm hkp hkm x
   exact ⟨hweil.1, hweil.2, hsk.2.2.1, hsk.2.2.2⟩
 
+/-- **Upgraded Strip-Automatic `L¹(ℝ)` Weil Positivity & Evanescent QFIM Bridge**:
+Replaces the per-test-function `hSumm` hypothesis with the intrinsic sub-Gaussian zero-density
+condition `Summable (fun n => (m n : ℝ) * Real.exp (-((z n).re ^ 2)))`, proving `Re ≥ 0, Im = 0`
+for every `gaussianCombo δ P` automatically while pairing with the Sharoglazova–Klaers QFIM
+evanescent speed law. -/
+theorem weil_infinite_gaussianCombo_strip_vs_evanescent_qfim_bridge
+    (z : ℕ → ℂ) (m : ℕ → ℕ) (hReal : ∀ n : ℕ, (z n).im = 0)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ)
+    {ℏ mass eAbs j0 kPlus kMinus : ℝ} (hℏ : 0 < ℏ) (hm : 0 < mass)
+    (hkp : kPlus ^ 2 = 2 * mass * (eAbs - ℏ * j0) / ℏ ^ 2)
+    (hkm : kMinus ^ 2 = 2 * mass * (eAbs + ℏ * j0) / ℏ ^ 2) (x : ℝ) :
+    0 ≤ (weilInfiniteSum z m (gaussianCombo δ P)).re ∧
+      (weilInfiniteSum z m (gaussianCombo δ P)).im = 0 ∧
+      (let κbar : ℝ := (kMinus + kPlus) / 2
+       let δκ : ℝ := (kMinus - kPlus) / 2
+       let ρ : ℝ := Real.exp (-2 * κbar * x) * Real.cosh (2 * δκ * x)
+       let dρ : ℝ := 2 * ρ * (-κbar + δκ * Real.tanh (2 * δκ * x))
+       let r : ℝ := Real.sqrt (Real.cosh (2 * δκ * x))
+       let p : DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((Real.cosh (δκ * x) / r : ℝ) : ℂ)
+         else if i = 1 then ((Real.sinh (δκ * x) / r : ℝ) : ℂ)
+         else 0)
+       let dp : DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((-(δκ * Real.sinh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+         else if i = 1 then (((δκ * Real.cosh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+         else 0)
+       DualSchubertQFIM.fubiniStudy p dp = δκ ^ 2 / Real.cosh (2 * δκ * x) ^ 2 ∧
+       (ℏ / mass) ^ 2 * ((⟪p, dp⟫_ℂ).im ^ 2 + (dρ / (2 * ρ)) ^ 2 + DualSchubertQFIM.qfim p dp / 4) =
+         (2 / mass) * (eAbs - ℏ * j0 * Real.tanh (2 * δκ * x))) := by
+  have hweil := weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros z m hReal hGauss δ P
+  have hsk := DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law hℏ hm hkp hkm x
+  exact ⟨hweil.1, hweil.2, hsk.2.2.1, hsk.2.2.2⟩
+
 end Signals.SatoGrassmannian.RiemannSpectralBridge

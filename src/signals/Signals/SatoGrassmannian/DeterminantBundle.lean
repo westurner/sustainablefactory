@@ -4,6 +4,7 @@ import Mathlib.Analysis.InnerProductSpace.Projection.Basic
 import Mathlib.GroupTheory.QuotientGroup.Basic
 import Mathlib.LinearAlgebra.Determinant
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.LinearAlgebra.Matrix.Block
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Signals.SatoGrassmannian.Base
 import Signals.SatoGrassmannian.RieszSchauder
@@ -1775,5 +1776,530 @@ noncomputable instance instFredholmDetTheoryOfFiniteDimensional
       fun h => h.1⟩
 
 end FiniteDimensionalFredholmDet
+
+/-! ============================================================================
+## Section 7: Axiom-Free Finite-Rank Fredholm Determinant on Infinite-Dimensional Hilbert Spaces
+============================================================================ -/
+
+section InfiniteDimFiniteRankDet
+
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
+
+/-- Multiplicative submonoid of finite-rank perturbations `1 + F` (`dim range(F) < ∞`)
+on an arbitrary (possibly infinite-dimensional) complex Hilbert space `E`. -/
+def FiniteRankMonoid (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℂ E] :
+    Submonoid (E →L[ℂ] E) where
+  carrier := { A | FiniteDimensional ℂ (LinearMap.range (A - ContinuousLinearMap.id ℂ E).toLinearMap) }
+  one_mem' := by
+    change FiniteDimensional ℂ
+      (LinearMap.range (ContinuousLinearMap.id ℂ E - ContinuousLinearMap.id ℂ E).toLinearMap)
+    rw [sub_self]
+    change FiniteDimensional ℂ (LinearMap.range (0 : E →ₗ[ℂ] E))
+    rw [LinearMap.range_zero]
+    infer_instance
+  mul_mem' := fun {A B} hA hB => by
+    let FA := A - ContinuousLinearMap.id ℂ E
+    let FB := B - ContinuousLinearMap.id ℂ E
+    have hsplit : (A.comp B - ContinuousLinearMap.id ℂ E).toLinearMap =
+        A.toLinearMap.comp FB.toLinearMap + FA.toLinearMap := by
+      ext x; simp [FA, FB]
+    have hle : LinearMap.range (A.comp B - ContinuousLinearMap.id ℂ E).toLinearMap ≤
+        (LinearMap.range FB.toLinearMap).map A.toLinearMap ⊔ LinearMap.range FA.toLinearMap := by
+      rw [hsplit]
+      refine le_trans (LinearMap.range_add_le _ _) (sup_le_sup_right ?_ _)
+      rw [LinearMap.range_comp]
+    have _ : FiniteDimensional ℂ (LinearMap.range FA.toLinearMap) := hA
+    have _ : FiniteDimensional ℂ (LinearMap.range FB.toLinearMap) := hB
+    exact Submodule.finiteDimensional_of_le hle
+
+lemma finiteRankMonoid_le_traceClassMonoid {ιP ιM : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    {A : P.HPlus →L[ℂ] P.HPlus} (hA : A ∈ FiniteRankMonoid P.HPlus) :
+    A ∈ TraceClassMonoid P eP eM := by
+  have _ : FiniteDimensional ℂ
+      (LinearMap.range (A - ContinuousLinearMap.id ℂ P.HPlus).toLinearMap) := hA
+  exact TraceClassIdeal.of_finiteDimensional_range (A - ContinuousLinearMap.id ℂ P.HPlus)
+
+omit [CompleteSpace E] in
+lemma finiteRankMonoid_conj (q : E ≃L[ℂ] E) {A : E →L[ℂ] E} (hA : A ∈ FiniteRankMonoid E) :
+    (q : E →L[ℂ] E) * A * (q.symm : E →L[ℂ] E) ∈ FiniteRankMonoid E := by
+  let FA := A - ContinuousLinearMap.id ℂ E
+  have hsplit : ((q : E →L[ℂ] E).comp A).comp (q.symm : E →L[ℂ] E) -
+      ContinuousLinearMap.id ℂ E =
+      ((q : E →L[ℂ] E).comp FA).comp (q.symm : E →L[ℂ] E) := by
+    ext x; simp [FA]
+  change FiniteDimensional ℂ
+    (LinearMap.range (((q : E →L[ℂ] E).comp A).comp (q.symm : E →L[ℂ] E) -
+      ContinuousLinearMap.id ℂ E).toLinearMap)
+  rw [hsplit]
+  have hle : LinearMap.range
+      (((q : E →L[ℂ] E).comp FA).comp (q.symm : E →L[ℂ] E)).toLinearMap ≤
+      (LinearMap.range FA.toLinearMap).map q.toLinearEquiv.toLinearMap := by
+    rintro _ ⟨x, rfl⟩
+    exact ⟨FA (q.symm x), ⟨q.symm x, rfl⟩, rfl⟩
+  have _ : FiniteDimensional ℂ (LinearMap.range FA.toLinearMap) := hA
+  exact Submodule.finiteDimensional_of_le hle
+
+omit [CompleteSpace E] in
+private lemma isClosed_ker_clm (F : E →L[ℂ] E) : IsClosed (LinearMap.ker F.toLinearMap : Set E) :=
+  isClosed_singleton.preimage F.continuous
+
+private lemma mem_ker_of_mem_orth_orth (F : E →L[ℂ] E) {y : E}
+    (hy : y ∈ (LinearMap.ker F.toLinearMap)ᗮᗮ) :
+    F y = 0 := by
+  let K := LinearMap.ker F.toLinearMap
+  have hKcl : IsClosed (K : Set E) := isClosed_ker_clm F
+  have _ : CompleteSpace K := hKcl.completeSpace_coe
+  have hcompl := K.isCompl_orthogonal
+  have hy_sup : y ∈ K ⊔ Kᗮ := by rw [hcompl.sup_eq_top]; trivial
+  obtain ⟨yk, hyk, yp, hyp, rfl⟩ := Submodule.mem_sup.mp hy_sup
+  have horth1 : ⟪yk, yp⟫_ℂ = 0 := hyp yk hyk
+  have horth2 : ⟪yp, yk + yp⟫_ℂ = 0 := hy yp hyp
+  have hnorm0 : ⟪yp, yp⟫_ℂ = 0 := by
+    rw [inner_add_right, inner_eq_zero_symm.mpr horth1, zero_add] at horth2
+    exact horth2
+  have hyp0 : yp = 0 := inner_self_eq_zero.mp hnorm0
+  rw [hyp0, add_zero]
+  exact hyk
+
+private lemma finiteDimensional_ker_orth (F : E →L[ℂ] E)
+    (hF : FiniteDimensional ℂ (LinearMap.range F.toLinearMap)) :
+    FiniteDimensional ℂ (LinearMap.ker F.toLinearMap)ᗮ := by
+  let K := LinearMap.ker F.toLinearMap
+  have hKcl : IsClosed (K : Set E) := isClosed_ker_clm F
+  have _ : CompleteSpace K := hKcl.completeSpace_coe
+  have e1 : (E ⧸ K) ≃ₗ[ℂ] Kᗮ := Submodule.quotientEquivOfIsCompl K Kᗮ K.isCompl_orthogonal
+  have e2 : (E ⧸ K) ≃ₗ[ℂ] LinearMap.range F.toLinearMap := LinearMap.quotKerEquivRange F.toLinearMap
+  exact (e2.symm.trans e1).finiteDimensional
+
+/-- Finite-dimensional invariant subspace `V` containing `range F` and orthogonal to `Vᗮ ⊆ ker F`. -/
+structure FiniteRankInvSubspace (F : E →L[ℂ] E) where
+  V : Submodule ℂ E
+  finDim : FiniteDimensional ℂ V
+  range_le : LinearMap.range F.toLinearMap ≤ V
+  orth_ker : Vᗮ ≤ LinearMap.ker F.toLinearMap
+
+attribute [instance] FiniteRankInvSubspace.finDim
+
+/-- Canonical finite-dimensional invariant subspace `V(F) = range F ⊔ (ker F)ᗮ`. -/
+noncomputable def canonicalInvSubspace (F : E →L[ℂ] E)
+    (hF : FiniteDimensional ℂ (LinearMap.range F.toLinearMap)) :
+    FiniteRankInvSubspace F where
+  V := LinearMap.range F.toLinearMap ⊔ (LinearMap.ker F.toLinearMap)ᗮ
+  finDim := by
+    have _ : FiniteDimensional ℂ (LinearMap.range F.toLinearMap) := hF
+    have _ : FiniteDimensional ℂ (LinearMap.ker F.toLinearMap)ᗮ := finiteDimensional_ker_orth F hF
+    exact Submodule.finiteDimensional_sup _ _
+  range_le := le_sup_left
+  orth_ker := fun _ hy => mem_ker_of_mem_orth_orth F fun _ hz =>
+    hy _ ((le_sup_right : (LinearMap.ker F.toLinearMap)ᗮ ≤ _) hz)
+
+/-- Join of two finite-dimensional invariant subspaces for the same perturbation `F`. -/
+noncomputable def FiniteRankInvSubspace.sup {F : E →L[ℂ] E}
+    (S₁ S₂ : FiniteRankInvSubspace F) : FiniteRankInvSubspace F where
+  V := S₁.V ⊔ S₂.V
+  finDim := Submodule.finiteDimensional_sup S₁.V S₂.V
+  range_le := le_trans S₁.range_le le_sup_left
+  orth_ker := fun _ hy => S₁.orth_ker fun _ hx =>
+    hy _ ((le_sup_left : S₁.V ≤ S₁.V ⊔ S₂.V) hx)
+
+/-- Restriction of `1 + F` to a finite-dimensional invariant subspace `S.V`. -/
+noncomputable def restrictIdAdd (F : E →L[ℂ] E) (S : FiniteRankInvSubspace F) :
+    S.V →ₗ[ℂ] S.V where
+  toFun x := ⟨x.1 + F x.1, S.V.add_mem x.2 (S.range_le ⟨x.1, rfl⟩)⟩
+  map_add' x y := Subtype.ext (by simp [map_add]; abel)
+  map_smul' c x := Subtype.ext (by simp [map_smul, smul_add])
+
+omit [CompleteSpace E] in
+private lemma det_restrict_eq_of_le (F : E →L[ℂ] E) (S₁ S₂ : FiniteRankInvSubspace F)
+    (h12 : S₁.V ≤ S₂.V) :
+    LinearMap.det (restrictIdAdd F S₁) = LinearMap.det (restrictIdAdd F S₂) := by
+  classical
+  let V₁₂ : Submodule ℂ S₂.V := S₁.V.comap S₂.V.subtype
+  let e12 : S₁.V ≃ₗ[ℂ] V₁₂ :=
+    { toFun := fun x => ⟨⟨x.1, h12 x.2⟩, x.2⟩
+      invFun := fun y => ⟨y.1.1, y.2⟩
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  have hV₁₂_orth : ∀ y : V₁₂ᗮ, F (y.1.1 : E) = 0 := by
+    intro y
+    refine S₁.orth_ker ?_
+    intro x hx
+    exact y.2 (e12 ⟨x, hx⟩) (e12 ⟨x, hx⟩).2
+  let b1 := Module.finBasis ℂ S₁.V
+  let b1' := b1.map e12
+  let b2 := Module.finBasis ℂ V₁₂ᗮ
+  let eqv : (V₁₂ × V₁₂ᗮ) ≃ₗ[ℂ] S₂.V :=
+    Submodule.prodEquivOfIsCompl V₁₂ V₁₂ᗮ V₁₂.isCompl_orthogonal
+  let b := (b1'.prod b2).map eqv
+  have heqv_inl : ∀ u : S₁.V, (eqv (e12 u, 0) : E) = (u : E) := by
+    intro u
+    have hcoe := Submodule.coe_prodEquivOfIsCompl V₁₂ V₁₂ᗮ V₁₂.isCompl_orthogonal
+    have hval := congrArg (fun f : V₁₂ × V₁₂ᗮ →ₗ[ℂ] S₂.V => (f (e12 u, 0) : E)) hcoe
+    rw [LinearMap.coprod_apply, map_zero, add_zero] at hval
+    exact hval
+  have hb_inl : ∀ i, (b (Sum.inl i) : E) = (b1 i : E) := by
+    intro i
+    have hb0 : b (Sum.inl i) = eqv (b1' i, 0) := by
+      simp [b, Module.Basis.map_apply, Module.Basis.prod_apply]
+    rw [hb0]
+    exact heqv_inl (b1 i)
+  have hb_inr : ∀ j, b (Sum.inr j) = (b2 j : S₂.V) := by
+    intro j
+    have hb0 : b (Sum.inr j) = eqv (0, b2 j) := by
+      simp [b, Module.Basis.map_apply, Module.Basis.prod_apply]
+    have hcoe := Submodule.coe_prodEquivOfIsCompl V₁₂ V₁₂ᗮ V₁₂.isCompl_orthogonal
+    have hval := congrArg (fun f : V₁₂ × V₁₂ᗮ →ₗ[ℂ] S₂.V => f (0, b2 j)) hcoe
+    rw [LinearMap.coprod_apply, map_zero, zero_add] at hval
+    rw [hb0]
+    exact hval
+  have hMap_inl : ∀ i, restrictIdAdd F S₂ (b (Sum.inl i)) =
+      eqv (e12 (restrictIdAdd F S₁ (b1 i)), 0) := by
+    intro i
+    apply Subtype.ext
+    rw [heqv_inl (restrictIdAdd F S₁ (b1 i))]
+    change (b (Sum.inl i) : E) + F (b (Sum.inl i) : E) = (b1 i : E) + F (b1 i : E)
+    rw [hb_inl i]
+  have hMap_inr : ∀ j, restrictIdAdd F S₂ (b (Sum.inr j)) = b (Sum.inr j) := by
+    intro j
+    apply Subtype.ext
+    change (b (Sum.inr j) : E) + F (b (Sum.inr j) : E) = (b (Sum.inr j) : E)
+    rw [hb_inr j, hV₁₂_orth (b2 j), add_zero]
+  have hMat : LinearMap.toMatrix b b (restrictIdAdd F S₂) =
+      Matrix.fromBlocks (LinearMap.toMatrix b1 b1 (restrictIdAdd F S₁)) 0 0 1 := by
+    ext i j
+    rw [LinearMap.toMatrix_apply]
+    rcases j with j | j
+    · rw [hMap_inl j]
+      have hinl : eqv (e12 (restrictIdAdd F S₁ (b1 j)), 0) =
+          ∑ k, (b1.repr (restrictIdAdd F S₁ (b1 j)) k) • b (Sum.inl k) := by
+        have hsum := b1.sum_repr (restrictIdAdd F S₁ (b1 j))
+        apply Subtype.ext
+        rw [heqv_inl (restrictIdAdd F S₁ (b1 j))]
+        conv_lhs => rw [← hsum]
+        simp only [Submodule.coe_sum, Submodule.coe_smul, hb_inl]
+      rw [hinl, map_sum]
+      simp only [Finsupp.coe_finsetSum, Finset.sum_apply, map_smul, b.repr_self,
+        Finsupp.smul_single, smul_eq_mul, mul_one]
+      rcases i with i | i
+      · simp [Matrix.fromBlocks_apply₁₁, LinearMap.toMatrix_apply, Finsupp.single_apply]
+      · simp [Matrix.fromBlocks_apply₂₁]
+    · rw [hMap_inr j, b.repr_self]
+      rcases i with i | i
+      · simp [Matrix.fromBlocks_apply₁₂]
+      · by_cases hij : i = j
+        · subst hij; simp [Matrix.fromBlocks_apply₂₂]
+        · simp [Matrix.fromBlocks_apply₂₂, hij]
+  rw [← LinearMap.det_toMatrix b (restrictIdAdd F S₂), hMat, Matrix.det_fromBlocks_zero₁₂,
+    Matrix.det_one, mul_one, LinearMap.det_toMatrix]
+
+omit [CompleteSpace E] in
+/-- Independence of `LinearMap.det (restrictIdAdd F S)` on the invariant subspace `S`. -/
+theorem det_restrict_eq (F : E →L[ℂ] E) (S₁ S₂ : FiniteRankInvSubspace F) :
+    LinearMap.det (restrictIdAdd F S₁) = LinearMap.det (restrictIdAdd F S₂) :=
+  (det_restrict_eq_of_le F S₁ (S₁.sup S₂) le_sup_left).trans
+    (det_restrict_eq_of_le F S₂ (S₁.sup S₂) le_sup_right).symm
+
+/-- **Axiom-Free Coordinate-Free Finite-Rank Fredholm Determinant** on an arbitrary
+(possibly infinite-dimensional) complex Hilbert space `E`:
+`finiteRankDet A := det((A)|_{V(A-1)})` where `V(F) = range F ⊔ (ker F)ᗮ`. -/
+noncomputable def finiteRankDetVal (A : FiniteRankMonoid E) : ℂ :=
+  LinearMap.det
+    (restrictIdAdd (A.1 - ContinuousLinearMap.id ℂ E)
+      (canonicalInvSubspace (A.1 - ContinuousLinearMap.id ℂ E) A.2))
+
+lemma finiteRankDetVal_eq_of_subspace (A : FiniteRankMonoid E)
+    (S : FiniteRankInvSubspace (A.1 - ContinuousLinearMap.id ℂ E)) :
+    finiteRankDetVal A = LinearMap.det (restrictIdAdd (A.1 - ContinuousLinearMap.id ℂ E) S) :=
+  det_restrict_eq _ _ S
+
+/-- Multiplicative monoid homomorphism `finiteRankDet : FiniteRankMonoid E →* ℂ` with zero axioms. -/
+noncomputable def finiteRankDet : FiniteRankMonoid E →* ℂ where
+  toFun := finiteRankDetVal
+  map_one' := by
+    let S0 : FiniteRankInvSubspace ((1 : FiniteRankMonoid E).1 - ContinuousLinearMap.id ℂ E) :=
+      { V := ⊥
+        finDim := inferInstance
+        range_le := by
+          intro x hx
+          rcases hx with ⟨y, rfl⟩
+          simp
+        orth_ker := by
+          intro y _
+          simp [LinearMap.mem_ker] }
+    change finiteRankDetVal (1 : FiniteRankMonoid E) = 1
+    rw [finiteRankDetVal_eq_of_subspace (1 : FiniteRankMonoid E) S0]
+    have hId : restrictIdAdd ((1 : FiniteRankMonoid E).1 - ContinuousLinearMap.id ℂ E) S0 =
+        LinearMap.id := by
+      ext x
+    rw [hId, LinearMap.det_id]
+  map_mul' A B := by
+    let FA := A.1 - ContinuousLinearMap.id ℂ E
+    let FB := B.1 - ContinuousLinearMap.id ℂ E
+    let FAB := (A * B).1 - ContinuousLinearMap.id ℂ E
+    let SA := canonicalInvSubspace FA A.2
+    let SB := canonicalInvSubspace FB B.2
+    let V : Submodule ℂ E := SA.V ⊔ SB.V
+    have _ : FiniteDimensional ℂ V := Submodule.finiteDimensional_sup SA.V SB.V
+    have hFA_le : LinearMap.range FA.toLinearMap ≤ V := le_trans SA.range_le le_sup_left
+    have hFB_le : LinearMap.range FB.toLinearMap ≤ V := le_trans SB.range_le le_sup_right
+    have hFAB_eq : ∀ x : E, FAB x = FA x + (FB x + FA (FB x)) := fun x => by
+      simp [FAB, FA, FB, map_sub]; abel
+    have hFAB_le : LinearMap.range FAB.toLinearMap ≤ V := by
+      rintro _ ⟨x, rfl⟩
+      change FAB x ∈ V
+      rw [hFAB_eq x]
+      exact V.add_mem (hFA_le ⟨x, rfl⟩) (V.add_mem (hFB_le ⟨x, rfl⟩) (hFA_le ⟨FB x, rfl⟩))
+    have hFAB_orth : Vᗮ ≤ LinearMap.ker FAB.toLinearMap := by
+      intro y hy
+      have hyA : y ∈ SA.Vᗮ := fun z hz => hy z ((le_sup_left : SA.V ≤ V) hz)
+      have hyB : y ∈ SB.Vᗮ := fun z hz => hy z ((le_sup_right : SB.V ≤ V) hz)
+      change FAB y = 0
+      rw [hFAB_eq y]
+      have hAy : FA y = 0 := SA.orth_ker hyA
+      have hBy : FB y = 0 := SB.orth_ker hyB
+      rw [hAy, hBy, map_zero, add_zero, add_zero]
+    let SA' : FiniteRankInvSubspace FA :=
+      { V := V, finDim := inferInstance, range_le := hFA_le,
+        orth_ker := fun y hy => SA.orth_ker fun z hz => hy z ((le_sup_left : SA.V ≤ V) hz) }
+    let SB' : FiniteRankInvSubspace FB :=
+      { V := V, finDim := inferInstance, range_le := hFB_le,
+        orth_ker := fun y hy => SB.orth_ker fun z hz => hy z ((le_sup_right : SB.V ≤ V) hz) }
+    let SAB' : FiniteRankInvSubspace FAB :=
+      { V := V, finDim := inferInstance, range_le := hFAB_le, orth_ker := hFAB_orth }
+    change finiteRankDetVal (A * B) = finiteRankDetVal A * finiteRankDetVal B
+    rw [finiteRankDetVal_eq_of_subspace (A * B) SAB',
+      finiteRankDetVal_eq_of_subspace A SA',
+      finiteRankDetVal_eq_of_subspace B SB']
+    have hComp : restrictIdAdd FAB SAB' = (restrictIdAdd FA SA').comp (restrictIdAdd FB SB') := by
+      ext x
+      change (x.1 + FAB x.1) = (x.1 + FB x.1) + FA (x.1 + FB x.1)
+      rw [hFAB_eq x.1, map_add]; abel
+    rw [hComp, LinearMap.det_comp]
+
+/-- Conjugation invariance `finiteRankDet (q * A * q⁻¹) = finiteRankDet A` for every `q ∈ GL(E)`. -/
+theorem finiteRankDet_conj (q : E ≃L[ℂ] E) (A : FiniteRankMonoid E) :
+    finiteRankDet ⟨(q : E →L[ℂ] E) * A.1 * (q.symm : E →L[ℂ] E),
+      finiteRankMonoid_conj q A.2⟩ = finiteRankDet A := by
+  let FA := A.1 - ContinuousLinearMap.id ℂ E
+  let FC := ((q : E →L[ℂ] E) * A.1 * (q.symm : E →L[ℂ] E)) - ContinuousLinearMap.id ℂ E
+  have hFC_mem : (q : E →L[ℂ] E) * A.1 * (q.symm : E →L[ℂ] E) ∈ FiniteRankMonoid E :=
+    finiteRankMonoid_conj q A.2
+  let SA := canonicalInvSubspace FA A.2
+  let SC := canonicalInvSubspace FC hFC_mem
+  let W : Submodule ℂ E := SA.V ⊔ (SC.V.map q.symm.toLinearEquiv.toLinearMap)
+  have _ : FiniteDimensional ℂ (SC.V.map q.symm.toLinearEquiv.toLinearMap) :=
+    (SC.V.equivMapOfInjective _ q.symm.toLinearEquiv.injective).finiteDimensional
+  have _ : FiniteDimensional ℂ W := Submodule.finiteDimensional_sup _ _
+  have hFA_le : LinearMap.range FA.toLinearMap ≤ W := le_trans SA.range_le le_sup_left
+  have hW_orth : Wᗮ ≤ LinearMap.ker FA.toLinearMap := fun y hy =>
+    SA.orth_ker fun z hz => hy z ((le_sup_left : SA.V ≤ W) hz)
+  let SW : FiniteRankInvSubspace FA :=
+    { V := W, finDim := inferInstance, range_le := hFA_le, orth_ker := hW_orth }
+  let Wc : Submodule ℂ E := W.map q.toLinearEquiv.toLinearMap
+  have _ : FiniteDimensional ℂ Wc :=
+    (W.equivMapOfInjective _ q.toLinearEquiv.injective).finiteDimensional
+  have hFC_eq : ∀ x : E, FC x = q (FA (q.symm x)) := fun x => by simp [FC, FA]
+  have hFC_le : LinearMap.range FC.toLinearMap ≤ Wc := by
+    rintro _ ⟨x, rfl⟩
+    change FC x ∈ Wc
+    rw [hFC_eq x]
+    exact ⟨FA (q.symm x), hFA_le ⟨q.symm x, rfl⟩, rfl⟩
+  have hSC_le_Wc : SC.V ≤ Wc := by
+    intro y hy
+    refine ⟨q.symm y, (le_sup_right : SC.V.map q.symm.toLinearEquiv.toLinearMap ≤ W) ⟨y, hy, rfl⟩, ?_⟩
+    simp
+  have hWc_orth : Wcᗮ ≤ LinearMap.ker FC.toLinearMap := fun y hy =>
+    SC.orth_ker fun z hz => hy z (hSC_le_Wc hz)
+  let SWc : FiniteRankInvSubspace FC :=
+    { V := Wc, finDim := inferInstance, range_le := hFC_le, orth_ker := hWc_orth }
+  let eW : W ≃ₗ[ℂ] Wc := W.equivMapOfInjective q.toLinearEquiv.toLinearMap q.toLinearEquiv.injective
+  have hConj : restrictIdAdd FC SWc =
+      eW.toLinearMap ∘ₗ restrictIdAdd FA SW ∘ₗ eW.symm.toLinearMap := by
+    ext y
+    obtain ⟨x, hx, hy⟩ := y.2
+    have hsy : (eW.symm y : E) = x := by
+      apply q.injective
+      change (q : E →L[ℂ] E) (eW.symm y : E) = (q : E →L[ℂ] E) x
+      have h1 : (eW (eW.symm y) : E) = (q : E →L[ℂ] E) (eW.symm y : E) := rfl
+      rw [← h1, eW.apply_symm_apply]
+      exact hy.symm
+    change (y : E) + FC (y : E) = (q : E →L[ℂ] E) ((eW.symm y : E) + FA (eW.symm y : E))
+    rw [map_add, hsy, ← hy]
+    have hFC_qx := hFC_eq ((q : E →L[ℂ] E) x)
+    change (q : E →L[ℂ] E) x + FC ((q : E →L[ℂ] E) x) = (q : E →L[ℂ] E) x + (q : E →L[ℂ] E) (FA x)
+    rw [hFC_qx]
+    simp
+  change finiteRankDetVal ⟨_, hFC_mem⟩ = finiteRankDetVal A
+  rw [finiteRankDetVal_eq_of_subspace ⟨_, hFC_mem⟩ SWc,
+    finiteRankDetVal_eq_of_subspace A SW, hConj, LinearMap.det_conj]
+
+/-- Membership of `rankOneScale P eP i₀ c` in `FiniteRankMonoid P.HPlus`. -/
+lemma rankOneScale_mem_finiteRankMonoid {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus)
+    (i₀ : ιP) (c : ℂ) :
+    rankOneScale P eP i₀ c ∈ FiniteRankMonoid P.HPlus := by
+  change FiniteDimensional ℂ
+    (LinearMap.range (rankOneScale P eP i₀ c - ContinuousLinearMap.id ℂ P.HPlus).toLinearMap)
+  have hsub : rankOneScale P eP i₀ c - ContinuousLinearMap.id ℂ P.HPlus =
+      (c - 1) • (innerSL ℂ (eP i₀)).smulRight (eP i₀) := by unfold rankOneScale; abel
+  rw [hsub]
+  have hle : LinearMap.range (((c - 1) • (innerSL ℂ (eP i₀)).smulRight (eP i₀)).toLinearMap) ≤
+      Submodule.span ℂ ({eP i₀} : Set P.HPlus) := by
+    rintro _ ⟨x, rfl⟩
+    exact Submodule.smul_mem _ _ (Submodule.smul_mem _ _ (Submodule.subset_span rfl))
+  have _ : FiniteDimensional ℂ (Submodule.span ℂ ({eP i₀} : Set P.HPlus)) :=
+    FiniteDimensional.span_of_finite ℂ (Set.finite_singleton _)
+  exact Submodule.finiteDimensional_of_le hle
+
+/-- Rank-1 scaling determinant `finiteRankDet (rankOneScale P eP i₀ c) = c` on any
+(possibly infinite-dimensional) complex Hilbert space. -/
+theorem finiteRankDet_rankOneScale {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus)
+    (i₀ : ιP) (c : ℂ) :
+    finiteRankDet ⟨rankOneScale P eP i₀ c, rankOneScale_mem_finiteRankMonoid P eP i₀ c⟩ = c := by
+  let F := rankOneScale P eP i₀ c - ContinuousLinearMap.id ℂ P.HPlus
+  have hF_eq : ∀ x : P.HPlus, F x = ((c - 1) * ⟪eP i₀, x⟫_ℂ) • eP i₀ := fun x => by
+    have hsub : F = (c - 1) • (innerSL ℂ (eP i₀)).smulRight (eP i₀) := by
+      dsimp [F, rankOneScale]; abel
+    rw [hsub]
+    simp [smul_smul]
+  let S : Submodule ℂ P.HPlus := Submodule.span ℂ ({eP i₀} : Set P.HPlus)
+  have _ : FiniteDimensional ℂ S := FiniteDimensional.span_of_finite ℂ (Set.finite_singleton _)
+  let invS : FiniteRankInvSubspace F :=
+    { V := S
+      finDim := inferInstance
+      range_le := by
+        rintro _ ⟨x, rfl⟩
+        change F x ∈ S
+        rw [hF_eq x]
+        exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
+      orth_ker := fun y hy => by
+        change F y = 0
+        rw [hF_eq y]
+        have horth : ⟪eP i₀, y⟫_ℂ = 0 := hy (eP i₀) (Submodule.subset_span rfl)
+        simp [horth] }
+  change finiteRankDetVal ⟨rankOneScale P eP i₀ c, rankOneScale_mem_finiteRankMonoid P eP i₀ c⟩ = c
+  rw [finiteRankDetVal_eq_of_subspace ⟨rankOneScale P eP i₀ c,
+    rankOneScale_mem_finiteRankMonoid P eP i₀ c⟩ invS]
+  have hne : eP i₀ ≠ 0 := by
+    intro h0
+    have hn : ‖eP i₀‖ = 1 := eP.orthonormal.1 i₀
+    rw [h0, norm_zero] at hn; norm_num at hn
+  let bS : Module.Basis (Fin 1) ℂ S :=
+    Module.Basis.mk (v := fun _ : Fin 1 => (⟨eP i₀, Submodule.subset_span rfl⟩ : S))
+      (by rw [linearIndependent_unique_iff]; intro h0; exact hne (congrArg Subtype.val h0))
+      (by
+        intro ⟨y, hy⟩ _
+        rw [Set.range_const, Submodule.mem_span_singleton]
+        rw [Submodule.mem_span_singleton] at hy
+        obtain ⟨k, hk⟩ := hy
+        exact ⟨k, Subtype.ext hk⟩)
+  have hself : ⟪eP i₀, eP i₀⟫_ℂ = 1 := by
+    rw [inner_self_eq_norm_sq_to_K, eP.orthonormal.1 i₀]; norm_num
+  have hMap : restrictIdAdd F invS (bS 0) = c • bS 0 := by
+    apply Subtype.ext
+    have hb0 : (bS 0 : P.HPlus) = eP i₀ := by simp [bS]
+    change (bS 0 : P.HPlus) + F (bS 0 : P.HPlus) = c • (bS 0 : P.HPlus)
+    rw [hb0, hF_eq (eP i₀), hself, mul_one]
+    module
+  have hMat : LinearMap.toMatrix bS bS (restrictIdAdd F invS) = Matrix.diagonal (fun _ => c) := by
+    ext i j
+    have hi0 : i = 0 := Fin.eq_zero i
+    have hj0 : j = 0 := Fin.eq_zero j
+    subst hi0 hj0
+    rw [LinearMap.toMatrix_apply, Matrix.diagonal_apply_eq, hMap, map_smul, bS.repr_self]
+    simp
+  rw [← LinearMap.det_toMatrix bS (restrictIdAdd F invS), hMat, Matrix.det_diagonal]
+  simp
+
+/-- Invertibility equivalence `finiteRankDet A ≠ 0 ↔ Function.Bijective A.1` on any
+(possibly infinite-dimensional) complex Hilbert space. -/
+theorem finiteRankDet_ne_zero_iff (A : FiniteRankMonoid E) :
+    finiteRankDet A ≠ 0 ↔ Function.Bijective A.1 := by
+  classical
+  let F := A.1 - ContinuousLinearMap.id ℂ E
+  let S := canonicalInvSubspace F A.2
+  have hScl : IsClosed (S.V : Set E) := Submodule.closed_of_finiteDimensional S.V
+  have _ : CompleteSpace S.V := hScl.completeSpace_coe
+  have hcompl := S.V.isCompl_orthogonal
+  let eqv : (S.V × S.Vᗮ) ≃ₗ[ℂ] E := Submodule.prodEquivOfIsCompl S.V S.Vᗮ hcompl
+  have hA_eq : ∀ x : E, A.1 x = x + F x := fun x => by simp [F]
+  have hA_prod : ∀ u : S.V, ∀ v : S.Vᗮ,
+      A.1 (eqv (u, v)) = eqv (restrictIdAdd F S u, v) := by
+    intro u v
+    have hcoe := Submodule.coe_prodEquivOfIsCompl S.V S.Vᗮ hcompl
+    have h1 : eqv (u, v) = (u : E) + (v : E) := by
+      have hval := congrArg (fun f : S.V × S.Vᗮ →ₗ[ℂ] E => f (u, v)) hcoe
+      rw [LinearMap.coprod_apply] at hval
+      exact hval
+    have h2 : eqv (restrictIdAdd F S u, v) = ((restrictIdAdd F S u : S.V) : E) + (v : E) := by
+      have hval := congrArg (fun f : S.V × S.Vᗮ →ₗ[ℂ] E => f (restrictIdAdd F S u, v)) hcoe
+      rw [LinearMap.coprod_apply] at hval
+      exact hval
+    rw [hA_eq, h1, map_add]
+    have hv0 : F (v : E) = 0 := S.orth_ker v.2
+    rw [hv0, add_zero, h2]
+    change (u : E) + (v : E) + F (u : E) = (u : E) + F (u : E) + (v : E)
+    abel
+  let b := Module.finBasis ℂ S.V
+  let Mat := LinearMap.toMatrixAlgEquiv b
+  have hDetNe : finiteRankDet A ≠ 0 ↔ Function.Bijective (restrictIdAdd F S) := by
+    change finiteRankDetVal A ≠ 0 ↔ Function.Bijective (restrictIdAdd F S)
+    rw [finiteRankDetVal_eq_of_subspace A S, ← LinearMap.det_toMatrix b (restrictIdAdd F S)]
+    have h1 : (LinearMap.toMatrix b b (restrictIdAdd F S)).det ≠ 0 ↔
+        IsUnit (LinearMap.toMatrix b b (restrictIdAdd F S)).det := isUnit_iff_ne_zero.symm
+    rw [h1, ← Matrix.isUnit_iff_isUnit_det]
+    have hMat : IsUnit (Mat (restrictIdAdd F S)) ↔ IsUnit (restrictIdAdd F S) :=
+      MulEquiv.isUnit_map Mat
+    change IsUnit (Mat (restrictIdAdd F S)) ↔ Function.Bijective (restrictIdAdd F S)
+    rw [hMat, LinearMap.isUnit_iff_ker_eq_bot, LinearMap.ker_eq_bot]
+    exact ⟨fun h => ⟨h, (LinearMap.injective_iff_surjective_of_finrank_eq_finrank rfl).mp h⟩,
+      fun h => h.1⟩
+  rw [hDetNe]
+  constructor
+  · intro hBij
+    have hBijProd : Function.Bijective (Prod.map (restrictIdAdd F S) (id : S.Vᗮ → S.Vᗮ)) :=
+      hBij.prodMap Function.bijective_id
+    have hComp : (fun x : S.V × S.Vᗮ => A.1 (eqv x)) =
+        (eqv : S.V × S.Vᗮ → E) ∘ Prod.map (restrictIdAdd F S) (id : S.Vᗮ → S.Vᗮ) := by
+      funext ⟨u, v⟩; exact hA_prod u v
+    have hCompBij : Function.Bijective ((A.1 : E → E) ∘ (eqv : S.V × S.Vᗮ → E)) := by
+      change Function.Bijective (fun x : S.V × S.Vᗮ => A.1 (eqv x))
+      rw [hComp]; exact eqv.bijective.comp hBijProd
+    exact (Function.Bijective.of_comp_iff A.1 eqv.bijective).mp hCompBij
+  · intro hBijA
+    have hCompBij : Function.Bijective ((A.1 : E → E) ∘ (eqv : S.V × S.Vᗮ → E)) :=
+      hBijA.comp eqv.bijective
+    have hComp : (A.1 : E → E) ∘ (eqv : S.V × S.Vᗮ → E) =
+        (eqv : S.V × S.Vᗮ → E) ∘ Prod.map (restrictIdAdd F S) (id : S.Vᗮ → S.Vᗮ) := by
+      funext ⟨u, v⟩; exact hA_prod u v
+    rw [hComp] at hCompBij
+    have hBijProd : Function.Bijective (Prod.map (restrictIdAdd F S) (id : S.Vᗮ → S.Vᗮ)) :=
+      (Function.Bijective.of_comp_iff' eqv.bijective (Prod.map (restrictIdAdd F S) id)).mp hCompBij
+    constructor
+    · intro x₁ x₂ hx
+      have heq := congrArg Prod.fst
+        (hBijProd.1 (by simp [hx] :
+          Prod.map (restrictIdAdd F S) id (x₁, (0 : S.Vᗮ)) =
+            Prod.map (restrictIdAdd F S) id (x₂, (0 : S.Vᗮ))))
+      exact heq
+    · intro y
+      obtain ⟨⟨x, v⟩, hxv⟩ := hBijProd.2 (y, (0 : S.Vᗮ))
+      exact ⟨x, congrArg Prod.fst hxv⟩
+
+lemma finiteRankDet_congr {A B : FiniteRankMonoid E} (h : A.1 = B.1) :
+    finiteRankDet A = finiteRankDet B :=
+  congrArg finiteRankDet (Subtype.ext h)
+
+end InfiniteDimFiniteRankDet
 
 end Signals.SatoGrassmannian.DeterminantBundle
