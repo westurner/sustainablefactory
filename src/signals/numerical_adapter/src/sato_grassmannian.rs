@@ -185,99 +185,16 @@ impl PlabicGr24Solver {
     /// Evaluates `u(x, y, t)` and all analytical derivatives up to 4th order using
     /// overflow-proof log-sum-exp cumulants of `log τ`.
     pub fn eval_jet_rust(&self, x: f64, y: f64, t: f64) -> Kp2Jet {
-        let mut phases = [f64::NEG_INFINITY; 6];
-        let mut max_phase = f64::NEG_INFINITY;
-        for r in 0..6 {
-            if self.coeffs[r] > 0.0 {
-                let ph = self.coeffs[r].ln()
-                    + self.alpha[r] * x
-                    + self.beta[r] * y
-                    + self.gamma[r] * t;
-                phases[r] = ph;
-                if ph > max_phase {
-                    max_phase = ph;
-                }
-            }
-        }
-
-        let mut w = [0.0_f64; 6];
-        let mut z = 0.0_f64;
-        for r in 0..6 {
-            if phases[r].is_finite() {
-                w[r] = (phases[r] - max_phase).exp();
-                z += w[r];
-            }
-        }
-        for wr in &mut w {
-            *wr /= z;
-        }
-        let log_tau = max_phase + z.ln();
-
-        let (mut ma, mut mb, mut mg) = (0.0, 0.0, 0.0);
-        for r in 0..6 {
-            ma += w[r] * self.alpha[r];
-            mb += w[r] * self.beta[r];
-            mg += w[r] * self.gamma[r];
-        }
-
-        let (mut m2a, mut m3a, mut m4a, mut m5a, mut m6a) = (0.0, 0.0, 0.0, 0.0, 0.0);
-        let (mut m2b, mut mab, mut ma2b, mut ma2b2) = (0.0, 0.0, 0.0, 0.0);
-        let (mut mag, mut ma2g, mut ma3g) = (0.0, 0.0, 0.0);
-
-        for r in 0..6 {
-            let wr = w[r];
-            if wr == 0.0 {
-                continue;
-            }
-            let da = self.alpha[r] - ma;
-            let db = self.beta[r] - mb;
-            let dg = self.gamma[r] - mg;
-            let da2 = da * da;
-            let da3 = da2 * da;
-            let da4 = da2 * da2;
-
-            m2a += wr * da2;
-            m3a += wr * da3;
-            m4a += wr * da4;
-            m5a += wr * da4 * da;
-            m6a += wr * da4 * da2;
-
-            m2b += wr * db * db;
-            mab += wr * da * db;
-            ma2b += wr * da2 * db;
-            ma2b2 += wr * da2 * db * db;
-
-            mag += wr * da * dg;
-            ma2g += wr * da2 * dg;
-            ma3g += wr * da3 * dg;
-        }
-
-        let u = 2.0 * m2a;
-        let u_x = 2.0 * m3a;
-        let u_xx = 2.0 * (m4a - 3.0 * m2a * m2a);
-        let u_xxx = 2.0 * (m5a - 10.0 * m3a * m2a);
-        let u_xxxx =
-            2.0 * (m6a - 15.0 * m4a * m2a - 10.0 * m3a * m3a + 30.0 * m2a * m2a * m2a);
-        let u_y = 2.0 * ma2b;
-        let u_yy = 2.0 * (ma2b2 - m2a * m2b - 2.0 * mab * mab);
-        let u_t = 2.0 * ma2g;
-        let u_xt = 2.0 * (ma3g - 3.0 * m2a * mag);
-
-        let kp2_residual = 4.0 * u_xt - u_xxxx - 6.0 * (u_x * u_x + u * u_xx) - 3.0 * u_yy;
-
-        Kp2Jet {
-            u,
-            u_x,
-            u_xx,
-            u_xxx,
-            u_xxxx,
-            u_y,
-            u_yy,
-            u_t,
-            u_xt,
-            log_tau,
-            kp2_residual,
-        }
+        eval_boltzmann_kp2_jet(
+            &self.coeffs,
+            &[0.0; 6],
+            &self.alpha,
+            &self.beta,
+            &self.gamma,
+            x,
+            y,
+            t,
+        )
     }
 
     pub fn eval_grid_rust(&self, xs: &[f64], ys: &[f64], t: f64) -> Vec<f64> {

@@ -12,7 +12,7 @@ description: "An arXiv-ready MyST Markdown formal verification and applied quant
 - **Primary External Attribution:**
   - Nicolas Boullé, Diana Halikias, Samuel E. Otto, & Alex Townsend (2026), *"A zero-one law for one-shot system identification"*, *Proceedings of the National Academy of Sciences* (`PNAS`) **123**(47), e2624491123 {cite:p}`boulle2026zeroone`, and companion manuscript *"One-shot identification of analytic systems"* {cite:p}`boulle2026oneshot_full`.
 - **Written Implementation Plan:**
-  - [Written Plan: Quantum-Causal Grassmannian One-Shot System Identification (`QCI-OSID`)](quantum-causal-one-shot-system-identification-plan.md) (`OSID-1`–`OSID-6` & `OSID-TQ-1`–`OSID-TQ-5`)
+  - [Written Plan: Quantum-Causal Grassmannian One-Shot System Identification (`QCI-OSID`)](quantum-causal-one-shot-system-identification-plan.md) (`OSID-1`–`OSID-6`, `OSID-TQ-1`–`OSID-TQ-5`, & `OSID-SATO-1`–`OSID-SATO-4`)
 - **Companion Causal & Operator-Learning Papers:**
   - [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md)
   - [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)

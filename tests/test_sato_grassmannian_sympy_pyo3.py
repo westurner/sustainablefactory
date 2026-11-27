@@ -148,3 +148,41 @@ def test_unified_finite_rank_invariant_det_strip_weil_and_seven_boundaries():
     assert math.isclose(u["pe_oam_qfim_ratio"], 4.0, rel_tol=1e-14)
     assert u["ag_gr_chi2_err"] < 1e-13
     assert u["ym_jost_err"] < 1e-14
+
+
+def test_pyo3_plabic_grkn_arbitrary_n_soliton_solver():
+    # 1. KdV N = 3, 4, 5 exact Hirota N-solitons (y-invariant, overflow-proof Boltzmann cumulants)
+    for amps, shifts, pt in [
+        ([0.4, 0.8, 1.3], [0.2, -0.3, 0.1], (0.5, 9.0, -0.4)),
+        ([0.35, 0.7, 1.05, 1.45], [0.1, -0.2, 0.3, -0.1], (-0.7, -4.0, 0.3)),
+        ([0.3, 0.6, 0.9, 1.2, 1.5], [0.0] * 5, (80.0, 0.0, 15.0)),
+    ]:
+        s_kdv = sna.PlabicGrKNSolver.from_kdv_n_soliton(amps, shifts)
+        assert s_kdv.num_terms == 1 << len(amps)
+        j = s_kdv.eval_jet(*pt)
+        assert j.u >= 0.0 and math.isfinite(j.u)
+        assert abs(j.u_y) < 1e-14
+        assert abs(j.u_yy) < 1e-14
+        assert abs(j.kp2_residual) < 1e-11
+
+    # 2. Totally positive Gr_>0(2, 5) (10 terms) & Gr_>0(3, 6) (20 terms) KP-II N-soliton webs
+    s25 = sna.PlabicGrKNSolver.from_totally_positive_vandermonde(
+        [-1.6, -0.8, 0.1, 0.9, 1.7], [-0.4, 0.5]
+    )
+    assert s25.k == 2 and s25.n == 5 and s25.num_terms == 10
+    j25 = s25.eval_jet(0.6, -0.4, 0.3)
+    assert j25.u > 0.0 and abs(j25.kp2_residual) < 1e-11
+
+    s36 = sna.PlabicGrKNSolver.from_totally_positive_vandermonde(
+        [-1.8, -1.0, -0.2, 0.5, 1.2, 1.9], [-0.5, 0.1, 0.6]
+    )
+    assert s36.k == 3 and s36.n == 6 and s36.num_terms == 20
+    j36 = s36.eval_jet(-0.3, 0.7, -0.2)
+    assert j36.u > 0.0 and abs(j36.kp2_residual) < 1e-11
+
+    # 3. Negative Plücker minor must be rejected cleanly
+    with pytest.raises(ValueError):
+        sna.PlabicGrKNSolver.from_frame(
+            [-1.0, 0.0, 1.0, 2.0],
+            [[0.0, 1.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]],
+        )

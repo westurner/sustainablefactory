@@ -107,6 +107,19 @@ Sections `OSID-1`–`OSID-6` established `QCI-OSID` in standalone Lean 4, Rust/P
 
 ---
 
+## 4. Part III: Sato Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$ & Arbitrary $N$-Soliton Integration (`OSID-SATO`)
+
+1. **`OSID-SATO-1`: Lean 4 Arbitrary $(k, n)$ & KdV $N$-Soliton Theorems (`Signals.SatoGrassmannian.PDESolver` Sec. 5, `Signals.QuantumCausalInference` Sec. 16.3, `SignalsTests.lean`):**
+   - Prove `solitonTauKN_pos_of_totallyNonneg` (global $\tau > 0$ on $\mathrm{Gr}_{\ge 0}(k, n)$), `kdvNSolitonTau_pos_and_y_invariant` (global $\tau > 0$ and $y$-invariance for arbitrary $N$-soliton Hirota KdV with Sato's $\gamma_r = 2 k_r^3$ dispersion normalization), `hirotaKP_kdv3SolitonTau_eq_zero`, and `qci_osid_sato_positroid_akns_and_qfim_bridge_identities` (`Master Theorem 11.3`).
+2. **`OSID-SATO-2`: Rust/PyO3 `PlabicGrKNSolver` & Weak-Form `QCI-OSID` Integration (`sato_grassmannian.rs`, `quantum_causal_inference.rs`, `lib.rs`):**
+   - Implement `PlabicGrKNSolver` (`from_frame`, `from_totally_positive_vandermonde`, `from_kdv_n_soliton`) sharing the overflow-proof `eval_boltzmann_kp2_jet` cumulant engine with `PlabicGr24Solver`, plus `audit_osid_sato_kp2_kdv_akns_solitons` (`py_audit_qci_one_shot_sysid_sato_pdes`) using composite 16-point Gauss–Legendre weak-form `CPQR` over $\mathrm{Gr}_{>0}(2,4)$, $\mathrm{Gr}_{>0}(2,5)$, $\mathrm{Gr}_{>0}(3,6)$, KdV $N=1,2,3,4$, AKNS bright/dark solitons, and 6-channel `DualSchubertQFIM`.
+3. **`OSID-SATO-3`: SymPy + 45-Digit `mpmath` + Pytest (`one_shot_sysid.py`, `test_one_shot_sysid_sympy_pyo3.py`, `test_sato_grassmannian_sympy_pyo3.py`):**
+   - Cross-verify Hirota KdV 3-soliton dispersion cancellation in SymPy, 45-digit `mpmath` far-field & 3-soliton values, and `PlabicGrKNSolver` Python bindings.
+4. **`OSID-SATO-4`: Paper Updates & Validation (`grassmannian-quantum-causal-one-shot-system-identification-paper.md` Sec. 6, `grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md`, `plan-index.md`):**
+   - Document positroid / $N$-soliton zero-one stratification, far-field extrapolation, AKNS separation, and 6-channel `QFIM` QCRB tightening, verified across Lean, Rust, `pytest`, Sphinx HTML, and browser MathJax checks.
+
+---
+
 ## References
 
 ```{bibliography}
