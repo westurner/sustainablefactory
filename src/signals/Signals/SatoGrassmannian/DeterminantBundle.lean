@@ -2300,6 +2300,65 @@ lemma finiteRankDet_congr {A B : FiniteRankMonoid E} (h : A.1 = B.1) :
     finiteRankDet A = finiteRankDet B :=
   congrArg finiteRankDet (Subtype.ext h)
 
+/-- When `P.HPlus` is finite-dimensional, the coordinate-free infinite-dimensional
+`finiteRankDet` agrees identically with `instFredholmDetTheoryOfFiniteDimensional.detFr`. -/
+theorem finiteRankDet_eq_detFr_of_finiteDimensional {ιP ιM : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    [FiniteDimensional ℂ P.HPlus]
+    (A : FiniteRankMonoid P.HPlus) :
+    finiteRankDet A =
+      @FredholmDetTheory.detFr _ _ H _ _ _ P eP eM
+        (instFredholmDetTheoryOfFiniteDimensional P eP eM)
+        ⟨A.1, finiteRankMonoid_le_traceClassMonoid P eP eM A.2⟩ := by
+  let F : P.HPlus →L[ℂ] P.HPlus := A.1 - ContinuousLinearMap.id ℂ P.HPlus
+  let S_top : FiniteRankInvSubspace F :=
+    { V := ⊤
+      finDim := inferInstance
+      range_le := fun _ _ => Submodule.mem_top
+      orth_ker := fun y hy => by
+        have hy0 : (y : P.HPlus) = 0 := by
+          have htop : (⊤ : Submodule ℂ P.HPlus)ᗮ = ⊥ := Submodule.top_orthogonal_eq_bot
+          rw [htop, Submodule.mem_bot] at hy
+          exact hy
+        change F y = 0
+        rw [hy0, map_zero] }
+  change finiteRankDetVal A = LinearMap.det A.1.toLinearMap
+  rw [finiteRankDetVal_eq_of_subspace A S_top]
+  let eTop : (⊤ : Submodule ℂ P.HPlus) ≃ₗ[ℂ] P.HPlus := Submodule.topEquiv
+  have hConj : A.1.toLinearMap =
+      eTop.toLinearMap ∘ₗ restrictIdAdd F S_top ∘ₗ eTop.symm.toLinearMap := by
+    refine LinearMap.ext fun x => ?_
+    change A.1 x = (restrictIdAdd F S_top ⟨x, Submodule.mem_top⟩ : P.HPlus)
+    change A.1 x = x + F x
+    simp [F]
+  rw [hConj, LinearMap.det_conj]
+
+/-- Ordered finite product of rank-1 scaling operators in `FiniteRankMonoid P.HPlus`. -/
+noncomputable def rankOneScaleProd {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : PolarizedHilbertSpace ℂ H) (eP : HilbertBasis ιP ℂ P.HPlus) :
+    List (ιP × ℂ) → FiniteRankMonoid P.HPlus
+  | [] => 1
+  | p :: ps =>
+      ⟨rankOneScale P eP p.1 p.2, rankOneScale_mem_finiteRankMonoid P eP p.1 p.2⟩ *
+        rankOneScaleProd P eP ps
+
+/-- Multiplicativity of `finiteRankDet` over arbitrary ordered finite products of `rankOneScale`. -/
+theorem finiteRankDet_rankOneScaleProd {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : PolarizedHilbertSpace ℂ H) (eP : HilbertBasis ιP ℂ P.HPlus) :
+    ∀ l : List (ιP × ℂ),
+      finiteRankDet (rankOneScaleProd P eP l) = (l.map Prod.snd).prod
+  | [] => by
+      rw [rankOneScaleProd, map_one, List.map_nil, List.prod_nil]
+  | p :: ps => by
+      rw [rankOneScaleProd, map_mul,
+        finiteRankDet_rankOneScale P eP p.1 p.2,
+        finiteRankDet_rankOneScaleProd P eP ps,
+        List.map_cons, List.prod_cons]
+
 end InfiniteDimFiniteRankDet
 
 end Signals.SatoGrassmannian.DeterminantBundle

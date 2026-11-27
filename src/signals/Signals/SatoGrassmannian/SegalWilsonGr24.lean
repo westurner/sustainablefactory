@@ -1000,15 +1000,19 @@ lemma segalWilson_gr24_op_mem (v w : C4) (t₁ t₂ t₃ : ℂ) :
     (TraceClassIdeal.comp_right
       (TraceClassIdeal.of_hs_cross (kpFlow3_blockPM_isHS t₁ t₂ t₃) (gr24GraphOp_isHS v w)) _)
 
-/-- **Theorem 2.4 (Segal–Wilson `det_Fr` = Finite `Gr_ℂ(2, 4)` Schur `τ`-Function):**
-On the big cell (`p₂₃ ≠ 0`), the infinite-dimensional Segal–Wilson Fredholm determinant
-`det_Fr(1 + g(t)₊₋ T_U g(t)₊₊⁻¹)` from `segalWilson_tau_bigCell` reduces identically to
-`tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3`. -/
-theorem segalWilson_tau_gr24_eq_tauU
-    [FredholmDetTheory hardyPolarization hardyPlusBasis hardyMinusBasis]
+/-- Shared `Gr_ℂ(2,4)` KP operator reduction: expresses `1 + g(t)₊₋ T_U g(t)₊₊⁻¹` as
+`blockLower2 hardyPlusBasis a b c d b₀ b₁` with `b₀, b₁ ⊥ {e₀, e₁}` and `a d - b c = tauU / p₂₃`. -/
+private lemma segalWilson_gr24_op_eq_blockLower2
     (v w : C4) (hp23 : pluckerCoord v w 2 3 ≠ 0) (t₁ t₂ t₃ : ℂ) :
-    FredholmDetTheory.detFr ⟨_, segalWilson_gr24_op_mem v w t₁ t₂ t₃⟩ =
-      tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3 := by
+    ∃ (a b c d : ℂ) (b₀ b₁ : hardyPolarization.HPlus),
+      ⟪hardyPlusBasis 0, b₀⟫_ℂ = 0 ∧ ⟪hardyPlusBasis 1, b₀⟫_ℂ = 0 ∧
+      ⟪hardyPlusBasis 0, b₁⟫_ℂ = 0 ∧ ⟪hardyPlusBasis 1, b₁⟫_ℂ = 0 ∧
+      (ContinuousLinearMap.id ℂ hardyPolarization.HPlus +
+        ((blockPM hardyPolarization ((kpFlow (kpTime3 t₁ t₂ t₃)).1 : HCircle →L[ℂ] HCircle)).comp
+          (gr24GraphOp v w)).comp
+          ((kpFlow3PlusEquiv t₁ t₂ t₃).symm : hardyPolarization.HPlus →L[ℂ] hardyPolarization.HPlus) =
+        blockLower2 hardyPlusBasis a b c d b₀ b₁) ∧
+      a * d - b * c = tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3 := by
   let t := kpTime3 t₁ t₂ t₃
   let T := gr24GraphOp v w
   let q := kpFlow3PlusEquiv t₁ t₂ t₃
@@ -1131,15 +1135,6 @@ theorem segalWilson_tau_gr24_eq_tauU
     simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 0 1
   have h10 : ⟪hardyPlusBasis 1, hardyPlusBasis 0⟫_ℂ = 0 := by
     simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 1 0
-  have hDet := detFr_blockLowerTriangular_two (P := hardyPolarization) (eP := hardyPlusBasis)
-    (eM := hardyMinusBasis) a b c d b₀ b₁
-    (by simp only [b₀, inner_sub_right, inner_smul_right, h00, h01]; ring)
-    (by simp only [b₀, inner_sub_right, inner_smul_right, h10, h11]; ring)
-    (by simp only [b₁, inner_sub_right, inner_smul_right, h00, h01]; ring)
-    (by simp only [b₁, inner_sub_right, inner_smul_right, h10, h11]; ring)
-  have hEqDet : FredholmDetTheory.detFr ⟨_, segalWilson_gr24_op_mem v w t₁ t₂ t₃⟩ = a * d - b * c := by
-    rw [← hDet]; congr 1; exact Subtype.ext hOpEq
-  rw [hEqDet, tauU_eq_schurTau]
   have ha : a = 1 + ((p03 / p23) * p2 + (p13 / p23) * p1 - p1 * ((-p02 / p23) * p2 + (-p12 / p23) * p1)) := by
     change 1 + ⟪hardyPlusBasis 0, (p03 / p23) • w_m2 + (p13 / p23) • w_m1 -
       p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)⟫_ℂ = _
@@ -1154,9 +1149,32 @@ theorem segalWilson_tau_gr24_eq_tauU
   have hd : d = 1 + ((-p02 / p23) * p3 + (-p12 / p23) * p2) := by
     change 1 + ⟪hardyPlusBasis 1, (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1⟫_ℂ = _
     simp only [inner_add_right, inner_smul_right, hwm2_1, hwm1_1]
-  rw [ha, hb, hc, hd]
-  have hQ : p01 * p23 - p02 * p13 + p03 * p12 = 0 := kleinQuadric_relation v w
-  exact segalWilson_gr24_det_poly p01 p02 p03 p12 p13 p23 t₁ t₂ t₃ hp23 hQ
+  refine ⟨a, b, c, d, b₀, b₁,
+    (by simp only [b₀, inner_sub_right, inner_smul_right, h00, h01]; ring),
+    (by simp only [b₀, inner_sub_right, inner_smul_right, h10, h11]; ring),
+    (by simp only [b₁, inner_sub_right, inner_smul_right, h00, h01]; ring),
+    (by simp only [b₁, inner_sub_right, inner_smul_right, h10, h11]; ring),
+    hOpEq, ?_⟩
+  rw [tauU_eq_schurTau, ha, hb, hc, hd]
+  exact segalWilson_gr24_det_poly p01 p02 p03 p12 p13 p23 t₁ t₂ t₃ hp23
+    (kleinQuadric_relation v w)
+
+/-- **Theorem 2.4 (Segal–Wilson `det_Fr` = Finite `Gr_ℂ(2, 4)` Schur `τ`-Function):**
+On the big cell (`p₂₃ ≠ 0`), the infinite-dimensional Segal–Wilson Fredholm determinant
+`det_Fr(1 + g(t)₊₋ T_U g(t)₊₊⁻¹)` from `segalWilson_tau_bigCell` reduces identically to
+`tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3`. -/
+theorem segalWilson_tau_gr24_eq_tauU
+    [FredholmDetTheory hardyPolarization hardyPlusBasis hardyMinusBasis]
+    (v w : C4) (hp23 : pluckerCoord v w 2 3 ≠ 0) (t₁ t₂ t₃ : ℂ) :
+    FredholmDetTheory.detFr ⟨_, segalWilson_gr24_op_mem v w t₁ t₂ t₃⟩ =
+      tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3 := by
+  obtain ⟨a, b, c, d, b₀, b₁, hb00, hb10, hb01, hb11, hOpEq, hPoly⟩ :=
+    segalWilson_gr24_op_eq_blockLower2 v w hp23 t₁ t₂ t₃
+  have hDet := detFr_blockLowerTriangular_two (P := hardyPolarization) (eP := hardyPlusBasis)
+    (eM := hardyMinusBasis) a b c d b₀ b₁ hb00 hb10 hb01 hb11
+  have hEqDet : FredholmDetTheory.detFr ⟨_, segalWilson_gr24_op_mem v w t₁ t₂ t₃⟩ = a * d - b * c := by
+    rw [← hDet]; congr 1; exact Subtype.ext hOpEq
+  exact hEqDet.trans hPoly
 
 end CircleSegalWilsonReduction
 
@@ -1550,153 +1568,11 @@ theorem segalWilson_tau_gr24_eq_tauU_axiomFree
     (v w : C4) (hp23 : pluckerCoord v w 2 3 ≠ 0) (t₁ t₂ t₃ : ℂ) :
     finiteRankDet ⟨_, segalWilson_gr24_op_mem_finiteRank v w t₁ t₂ t₃⟩ =
       tauU v w t₁ t₂ t₃ / pluckerCoord v w 2 3 := by
-  let t := kpTime3 t₁ t₂ t₃
-  let T := gr24GraphOp v w
-  let q := kpFlow3PlusEquiv t₁ t₂ t₃
-  let p1 := elemSchur1 t₁ t₂ t₃
-  let p2 := elemSchur2 t₁ t₂ t₃
-  let p3 := elemSchur3 t₁ t₂ t₃
-  let p01 := pluckerCoord v w 0 1
-  let p02 := pluckerCoord v w 0 2
-  let p03 := pluckerCoord v w 0 3
-  let p12 := pluckerCoord v w 1 2
-  let p13 := pluckerCoord v w 1 3
-  let p23 := pluckerCoord v w 2 3
-  have hb0 : (hardyPlusBasis 0 : HCircle) = eBasis 0 := by simp [hardyPlusBasis]
-  have hb1 : (hardyPlusBasis 1 : HCircle) = eBasis 1 := by simp [hardyPlusBasis]
-  have hm0 : (hardyMinusBasis 0 : HCircle) = eBasis (-1) := by simp [hardyMinusBasis]
-  have hm1 : (hardyMinusBasis 1 : HCircle) = eBasis (-2) := by simp [hardyMinusBasis]
-  have hgeNeg2_m2 : (hardyMinusBasis 1 : HCircle) ∈ hardyGeNeg2 := by
-    intro n hn; rw [hm1, HilbertBasis.repr_self, lp.single_apply]; simp [show n ≠ -2 by omega]
-  have hgeNeg2_m1 : (hardyMinusBasis 0 : HCircle) ∈ hardyGeNeg2 := by
-    intro n hn; rw [hm0, HilbertBasis.repr_self, lp.single_apply]; simp [show n ≠ -1 by omega]
-  let w_m2 : hardyPolarization.HPlus :=
-    blockPM hardyPolarization ((kpFlow t).1 : HCircle →L[ℂ] HCircle) (hardyMinusBasis 1)
-  let w_m1 : hardyPolarization.HPlus :=
-    blockPM hardyPolarization ((kpFlow t).1 : HCircle →L[ℂ] HCircle) (hardyMinusBasis 0)
-  have hwin_m2 : windowEval (hardyMinusBasis 1 : HCircle) = ![1, 0, 0, 0] := by
-    rw [hm1]; ext j; rw [windowEval_apply, HilbertBasis.repr_self]
-    fin_cases j <;> simp [lp.single_apply]
-  have hwin_m1 : windowEval (hardyMinusBasis 0 : HCircle) = ![0, 1, 0, 0] := by
-    rw [hm0]; ext j; rw [windowEval_apply, HilbertBasis.repr_self]
-    fin_cases j <;> simp [lp.single_apply]
-  have hwm2_0 : ⟪hardyPlusBasis 0, w_m2⟫_ℂ = p2 := by
-    change ⟪(hardyPlusBasis 0 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 1 : HCircle)) : HCircle)⟫_ℂ = p2
-    rw [hb0, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ le_rfl]
-    have h := congrFun (windowEval_kpFlow t hgeNeg2_m2) 2
-    have hM := (kpMatrix4_apply_eq t ![1, 0, 0, 0]).2.2.1
-    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
-    simpa [windowEval_apply, hwin_m2, p2, hM] using h
-  have hwm2_1 : ⟪hardyPlusBasis 1, w_m2⟫_ℂ = p3 := by
-    change ⟪(hardyPlusBasis 1 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 1 : HCircle)) : HCircle)⟫_ℂ = p3
-    rw [hb1, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ zero_le_one]
-    have h := congrFun (windowEval_kpFlow t hgeNeg2_m2) 3
-    have hM := (kpMatrix4_apply_eq t ![1, 0, 0, 0]).2.2.2
-    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
-    simpa [windowEval_apply, hwin_m2, p3, hM] using h
-  have hwm1_0 : ⟪hardyPlusBasis 0, w_m1⟫_ℂ = p1 := by
-    change ⟪(hardyPlusBasis 0 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 0 : HCircle)) : HCircle)⟫_ℂ = p1
-    rw [hb0, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ le_rfl]
-    have h := congrFun (windowEval_kpFlow t hgeNeg2_m1) 2
-    have hM := (kpMatrix4_apply_eq t ![0, 1, 0, 0]).2.2.1
-    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
-    simpa [windowEval_apply, hwin_m1, p1, hM] using h
-  have hwm1_1 : ⟪hardyPlusBasis 1, w_m1⟫_ℂ = p2 := by
-    change ⟪(hardyPlusBasis 1 : HCircle), (hardyPlus.orthogonalProjectionOnto ((kpFlow t).1 (hardyMinusBasis 0 : HCircle)) : HCircle)⟫_ℂ = p2
-    rw [hb1, ← HilbertBasis.repr_apply_apply, repr_projPlus_of_nonneg _ zero_le_one]
-    have h := congrFun (windowEval_kpFlow t hgeNeg2_m1) 3
-    have hM := (kpMatrix4_apply_eq t ![0, 1, 0, 0]).2.2.2
-    rw [kpTime3_idx1, kpTime3_idx2, kpTime3_idx3] at hM
-    simpa [windowEval_apply, hwin_m1, p2, hM] using h
-  have hqinv_coords : ∀ f : hardyPolarization.HPlus,
-      ⟪hardyPlusBasis 0, q.symm f⟫_ℂ = ⟪hardyPlusBasis 0, f⟫_ℂ ∧
-      ⟪hardyPlusBasis 1, q.symm f⟫_ℂ = ⟪hardyPlusBasis 1, f⟫_ℂ - p1 * ⟪hardyPlusBasis 0, f⟫_ℂ := by
-    intro f
-    have hf_ge : f.1 ∈ hardyGeNeg2 := fun n hn => (mem_hardyPlus_iff f.1).mp f.2 n (by omega)
-    have hwin0 : windowEval f.1 0 = 0 := by rw [windowEval_apply]; exact (mem_hardyPlus_iff f.1).mp f.2 (-2) (by norm_num)
-    have hwin1 : windowEval f.1 1 = 0 := by rw [windowEval_apply]; exact (mem_hardyPlus_iff f.1).mp f.2 (-1) (by norm_num)
-    have h2 := congrFun (windowEval_kpFlow (-t) hf_ge) 2
-    have h3 := congrFun (windowEval_kpFlow (-t) hf_ge) 3
-    have hM := kpMatrix4_apply_eq (-t) (windowEval f.1)
-    have ht1 : (-t) idx1 = -t₁ := by simp [t, kpTime3_idx1]
-    constructor
-    · change ⟪(hardyPlusBasis 0 : HCircle), (kpFlow (-t)).1 f.1⟫_ℂ = ⟪(hardyPlusBasis 0 : HCircle), f.1⟫_ℂ
-      rw [hb0, ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply]
-      have h2' : eBasis.repr ((kpFlow (-t)).1 f.1) 0 = kpMatrix4 (-t) (windowEval f.1) 2 := by
-        simpa [windowEval_apply] using h2
-      rw [h2', hM.2.2.1, hwin0, hwin1, windowEval_apply]; simp
-    · change ⟪(hardyPlusBasis 1 : HCircle), (kpFlow (-t)).1 f.1⟫_ℂ =
-        ⟪(hardyPlusBasis 1 : HCircle), f.1⟫_ℂ - p1 * ⟪(hardyPlusBasis 0 : HCircle), f.1⟫_ℂ
-      rw [hb1, hb0, ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply]
-      have h3' : eBasis.repr ((kpFlow (-t)).1 f.1) 1 = kpMatrix4 (-t) (windowEval f.1) 3 := by
-        simpa [windowEval_apply] using h3
-      rw [h3', hM.2.2.2, hwin0, hwin1, windowEval_apply, windowEval_apply]
-      simp [elemSchur1, p1, ht1]; ring
-  let v0 : hardyPolarization.HPlus :=
-    (p03 / p23) • w_m2 + (p13 / p23) • w_m1 - p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)
-  let v1 : hardyPolarization.HPlus :=
-    (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1
-  let a : ℂ := 1 + ⟪hardyPlusBasis 0, v0⟫_ℂ
-  let b : ℂ := ⟪hardyPlusBasis 0, v1⟫_ℂ
-  let c : ℂ := ⟪hardyPlusBasis 1, v0⟫_ℂ
-  let d : ℂ := 1 + ⟪hardyPlusBasis 1, v1⟫_ℂ
-  let b₀ : hardyPolarization.HPlus :=
-    v0 - ⟪hardyPlusBasis 0, v0⟫_ℂ • hardyPlusBasis 0 - ⟪hardyPlusBasis 1, v0⟫_ℂ • hardyPlusBasis 1
-  let b₁ : hardyPolarization.HPlus :=
-    v1 - ⟪hardyPlusBasis 0, v1⟫_ℂ • hardyPlusBasis 0 - ⟪hardyPlusBasis 1, v1⟫_ℂ • hardyPlusBasis 1
-  have hOpEq : ContinuousLinearMap.id ℂ hardyPolarization.HPlus +
-      ((blockPM hardyPolarization ((kpFlow t).1 : HCircle →L[ℂ] HCircle)).comp T).comp
-        (q.symm : hardyPolarization.HPlus →L[ℂ] hardyPolarization.HPlus) =
-      blockLower2 hardyPlusBasis a b c d b₀ b₁ := by
-    apply ContinuousLinearMap.ext; intro f
-    have hq0 := (hqinv_coords f).1
-    have hq1 := (hqinv_coords f).2
-    simp only [add_apply, ContinuousLinearMap.id_apply, ContinuousLinearMap.comp_apply,
-      T, gr24GraphOp, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
-      ContinuousLinearEquiv.coe_coe, hq0, hq1, map_add, map_smul, blockLower2]
-    change f + (⟪hardyPlusBasis 0, f⟫_ℂ • ((p03 / p23) • w_m2 + (p13 / p23) • w_m1) +
-        (⟪hardyPlusBasis 1, f⟫_ℂ - p1 * ⟪hardyPlusBasis 0, f⟫_ℂ) •
-          ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)) =
-        f + ⟪hardyPlusBasis 0, f⟫_ℂ • ((a - 1) • hardyPlusBasis 0 + c • hardyPlusBasis 1 + b₀) +
-            ⟪hardyPlusBasis 1, f⟫_ℂ • (b • hardyPlusBasis 0 + (d - 1) • hardyPlusBasis 1 + b₁)
-    have hv0 : (a - 1) • hardyPlusBasis 0 + c • hardyPlusBasis 1 + b₀ = v0 := by
-      dsimp [a, c, b₀]; module
-    have hv1 : b • hardyPlusBasis 0 + (d - 1) • hardyPlusBasis 1 + b₁ = v1 := by
-      dsimp [b, d, b₁]; module
-    rw [hv0, hv1]; dsimp [v0, v1]; module
-  have h00 : ⟪hardyPlusBasis 0, hardyPlusBasis 0⟫_ℂ = 1 := by
-    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 0 0
-  have h11 : ⟪hardyPlusBasis 1, hardyPlusBasis 1⟫_ℂ = 1 := by
-    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 1 1
-  have h01 : ⟪hardyPlusBasis 0, hardyPlusBasis 1⟫_ℂ = 0 := by
-    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 0 1
-  have h10 : ⟪hardyPlusBasis 1, hardyPlusBasis 0⟫_ℂ = 0 := by
-    simpa using orthonormal_iff_ite.mp hardyPlusBasis.orthonormal 1 0
+  obtain ⟨a, b, c, d, b₀, b₁, hb00, hb10, hb01, hb11, hOpEq, hPoly⟩ :=
+    segalWilson_gr24_op_eq_blockLower2 v w hp23 t₁ t₂ t₃
   have hDet := finiteRankDet_blockLowerTriangular_two hardyPlusBasis a b c d b₀ b₁
-    (by simp only [b₀, inner_sub_right, inner_smul_right, h00, h01]; ring)
-    (by simp only [b₀, inner_sub_right, inner_smul_right, h10, h11]; ring)
-    (by simp only [b₁, inner_sub_right, inner_smul_right, h00, h01]; ring)
-    (by simp only [b₁, inner_sub_right, inner_smul_right, h10, h11]; ring)
-  have hEqDet : finiteRankDet ⟨_, segalWilson_gr24_op_mem_finiteRank v w t₁ t₂ t₃⟩ = a * d - b * c :=
-    (finiteRankDet_congr hOpEq).trans hDet
-  rw [hEqDet, tauU_eq_schurTau]
-  have ha : a = 1 + ((p03 / p23) * p2 + (p13 / p23) * p1 - p1 * ((-p02 / p23) * p2 + (-p12 / p23) * p1)) := by
-    change 1 + ⟪hardyPlusBasis 0, (p03 / p23) • w_m2 + (p13 / p23) • w_m1 -
-      p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)⟫_ℂ = _
-    simp only [inner_sub_right, inner_add_right, inner_smul_right, hwm2_0, hwm1_0]
-  have hb : b = (-p02 / p23) * p2 + (-p12 / p23) * p1 := by
-    change ⟪hardyPlusBasis 0, (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1⟫_ℂ = _
-    simp only [inner_add_right, inner_smul_right, hwm2_0, hwm1_0]
-  have hc : c = (p03 / p23) * p3 + (p13 / p23) * p2 - p1 * ((-p02 / p23) * p3 + (-p12 / p23) * p2) := by
-    change ⟪hardyPlusBasis 1, (p03 / p23) • w_m2 + (p13 / p23) • w_m1 -
-      p1 • ((-p02 / p23) • w_m2 + (-p12 / p23) • w_m1)⟫_ℂ = _
-    simp only [inner_sub_right, inner_add_right, inner_smul_right, hwm2_1, hwm1_1]
-  have hd : d = 1 + ((-p02 / p23) * p3 + (-p12 / p23) * p2) := by
-    change 1 + ⟪hardyPlusBasis 1, (-p02 / p23) • w_m2 + (-p12 / p23) • w_m1⟫_ℂ = _
-    simp only [inner_add_right, inner_smul_right, hwm2_1, hwm1_1]
-  rw [ha, hb, hc, hd]
-  have hQ : p01 * p23 - p02 * p13 + p03 * p12 = 0 := kleinQuadric_relation v w
-  exact segalWilson_gr24_det_poly p01 p02 p03 p12 p13 p23 t₁ t₂ t₃ hp23 hQ
+    hb00 hb10 hb01 hb11
+  exact ((finiteRankDet_congr hOpEq).trans hDet).trans hPoly
 
 end AxiomFreeFiniteRankSegalWilson
 

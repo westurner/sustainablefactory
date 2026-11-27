@@ -420,9 +420,33 @@ def audit_unified_pending_closures_mpmath_vs_rust(dps: int = 60) -> Dict[str, fl
 
     zeros_raw = sna.py_find_first_n_riemann_zeros(30)
     gammas = [float(z["gamma"]) for z in zeros_raw]
-    strip = sna.py_audit_strip_gaussian_combo_decay(gammas, [1.0, -0.35, 0.2], 0.3, 0.5)
+    coeffs = [1.0, -0.35, 0.2]
+    delta = 0.3
+    strip_b = 0.5
+    strip = sna.py_audit_strip_gaussian_combo_decay(gammas, coeffs, delta, strip_b)
 
-    # Exact mpmath sub-Gaussian 30-zero density sum `∑ 2 exp(-γ_n²)` (around ~1e-87)
+    # Exact 60-digit mpmath cross-check of strip_constant, strip_weil_re, & sub-Gaussian density
+    sqrt_2pi = mp.sqrt(2 * mp.pi)
+    mp_strip_const = sum(
+        abs(mp.mpf(repr(c)))
+        * sqrt_2pi
+        * mp.exp(
+            mp.mpf("0.5") * mp.mpf(repr(strip_b)) ** 2
+            + abs(mp.mpf(j) * mp.mpf(repr(delta))) * mp.mpf(repr(strip_b))
+        )
+        for j, c in enumerate(coeffs)
+    )
+    def _mp_mellin_combo(z: mp.mpc) -> mp.mpc:
+        return sum(
+            mp.mpf(repr(c)) * sqrt_2pi * mp.exp(mp.j * mp.mpf(j) * mp.mpf(repr(delta)) * z - z**2 / 2)
+            for j, c in enumerate(coeffs)
+        )
+
+    mp_strip_weil_re = sum(
+        abs(_mp_mellin_combo(mp.mpc(mp.mpf(repr(g)), 0))) ** 2
+        + abs(_mp_mellin_combo(mp.mpc(-mp.mpf(repr(g)), 0))) ** 2
+        for g in gammas
+    )
     mp_subgauss = sum(2 * mp.exp(-(mp.mpf(repr(g)) ** 2)) for g in gammas)
 
     # Cross-domain Rust checks matching the 7 PendingBoundary solvers
@@ -442,6 +466,8 @@ def audit_unified_pending_closures_mpmath_vs_rust(dps: int = 60) -> Dict[str, fl
         "inv_subspace_indep_err": float(inv["subspace_indep_err"]),
         "inv_det_vs_tau_err": float(inv["det_vs_tau_err"]),
         "strip_max_bound_ratio": float(strip["max_bound_ratio"]),
+        "strip_constant_diff": float(abs(mp_strip_const - mp.mpf(repr(strip["strip_constant"])))),
+        "strip_weil_re_diff": float(abs(mp_strip_weil_re - mp.mpf(repr(strip["weil_strip_re"])))),
         "strip_subgauss_log10": float(mp.log10(mp_subgauss)),
         "strip_weil_re": float(strip["weil_strip_re"]),
         "ns_tg_energy_diss_err": float(ns_tg["energy_enstrophy_decay_residual"]),

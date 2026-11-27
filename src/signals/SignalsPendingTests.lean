@@ -7805,4 +7805,25 @@ example
         u.ym1 u.ym2 u.ym3 u.ym4 u.higgsVevGeV u.higgsVevGeV_pos).allYangMillsHiggsCptGatesClosed :=
   SignalsPending.pending_master_all_seven_pending_boundaries_solved u tCrit
 
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : Signals.Pending.LidskiiFredholmDetCertificate)
+    (cStrip : Signals.Pending.StripGaussianWeilCertificate)
+    (cEv : Signals.Pending.EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (Signals.Pending.SatoRiemannSpectralPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cLidskii
+      (Signals.Pending.GlobalInfiniteZeroWeilCertificate.ofStripGaussian cStrip)
+      cEv mult hMult).allSatoGatesClosed :=
+  SignalsPending.pending_sato_riemann_spectral_solved_of_certificates
+    c1 c2 c3 c4 cLidskii
+    (Signals.Pending.GlobalInfiniteZeroWeilCertificate.ofStripGaussian cStrip)
+    cEv mult hMult tCrit
+
 end SignalsPendingTests

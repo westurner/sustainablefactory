@@ -10684,6 +10684,24 @@ structure StripGaussianWeilCertificate where
   globalWeilProved : Prop
   globalWeilProved_holds : globalWeilProved
 
+/-- Construct `GlobalInfiniteZeroWeilCertificate` automatically from `StripGaussianWeilCertificate`,
+deriving `hSumm` via `summable_weilInfinite_normSq_gaussianCombo_of_strip` without a per-function
+summability assumption. -/
+noncomputable def GlobalInfiniteZeroWeilCertificate.ofStripGaussian
+    (cStrip : StripGaussianWeilCertificate) :
+    GlobalInfiniteZeroWeilCertificate where
+  zSeq := cStrip.zSeq
+  multSeq := cStrip.multSeq
+  hReal := cStrip.hReal
+  fTest := Signals.SatoGrassmannian.WeilGaussianL1.gaussianCombo cStrip.delta cStrip.poly
+  hf := Signals.SatoGrassmannian.WeilGaussianL1.admissibleL1All_gaussianCombo
+    cStrip.delta cStrip.poly
+  hSumm := Signals.SatoGrassmannian.WeilGaussianL1.summable_weilInfinite_normSq_gaussianCombo_of_strip
+    cStrip.zSeq cStrip.multSeq (B := 0) (fun n => by simp [cStrip.hReal n])
+    cStrip.hGauss cStrip.delta cStrip.poly
+  globalWeilProved := cStrip.globalWeilProved
+  globalWeilProved_holds := cStrip.globalWeilProved_holds
+
 /-- Constructively assemble `SatoRiemannSpectralPendingBoundary` using the **axiom-free**
 `finiteRankDet` theorem (`segalWilson_tau_gr24_eq_tauU_axiomFree`, no `FredholmDetTheory`
 typeclass needed for finite-rank perturbations) and automatic strip sub-Gaussian
@@ -10711,11 +10729,12 @@ noncomputable def SatoRiemannSpectralPendingBoundary.ofAxiomFreeFiniteRankAndStr
   weilOfflineWitnessMultiplicity := mult
   weilOfflineWitnessMultiplicity_pos := hMult
   mathlibLidskiiFredholmDetConstructed :=
-    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
-        ⟨_, Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_gr24_op_mem_finiteRank
-          v w t1 t2 t3⟩ =
-      Signals.SatoGrassmannian.HirotaKP.tauU v w t1 t2 t3 /
-        Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3
+    Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 ≠ 0 ∧
+      Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+          ⟨_, Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_gr24_op_mem_finiteRank
+            v w t1 t2 t3⟩ =
+        Signals.SatoGrassmannian.HirotaKP.tauU v w t1 t2 t3 /
+          Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3
   globalInfiniteZeroWeilBridge :=
     cStrip.globalWeilProved ∧
       0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum
@@ -10725,7 +10744,27 @@ noncomputable def SatoRiemannSpectralPendingBoundary.ofAxiomFreeFiniteRankAndStr
         cStrip.zSeq cStrip.multSeq
         (Signals.SatoGrassmannian.WeilGaussianL1.gaussianCombo cStrip.delta cStrip.poly)).im = 0
   evanescentQfimExperimentalValidation :=
-    cEv.evanescentValidated ∧ cEv.telemetry.consistent
+    cEv.evanescentValidated ∧
+      cEv.telemetry.consistent ∧
+      (let κbar : ℝ := (cEv.kMinus + cEv.kPlus) / 2
+       let δκ : ℝ := (cEv.kMinus - cEv.kPlus) / 2
+       let ρ : ℝ := Real.exp (-2 * κbar * cEv.xCoord) * Real.cosh (2 * δκ * cEv.xCoord)
+       let dρ : ℝ := 2 * ρ * (-κbar + δκ * Real.tanh (2 * δκ * cEv.xCoord))
+       let r : ℝ := Real.sqrt (Real.cosh (2 * δκ * cEv.xCoord))
+       let p : Signals.SatoGrassmannian.DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((Real.cosh (δκ * cEv.xCoord) / r : ℝ) : ℂ)
+         else if i = 1 then ((Real.sinh (δκ * cEv.xCoord) / r : ℝ) : ℂ)
+         else 0)
+       let dp : Signals.SatoGrassmannian.DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((-(δκ * Real.sinh (δκ * cEv.xCoord)) /
+           (r * Real.cosh (2 * δκ * cEv.xCoord)) : ℝ) : ℂ)
+         else if i = 1 then (((δκ * Real.cosh (δκ * cEv.xCoord)) /
+           (r * Real.cosh (2 * δκ * cEv.xCoord)) : ℝ) : ℂ)
+         else 0)
+       (cEv.hbar / cEv.mass) ^ 2 *
+         ((⟪p, dp⟫_ℂ).im ^ 2 + (dρ / (2 * ρ)) ^ 2 +
+           Signals.SatoGrassmannian.DualSchubertQFIM.qfim p dp / 4) =
+         (2 / cEv.mass) * (cEv.eAbs - cEv.hbar * cEv.j0 * Real.tanh (2 * δκ * cEv.xCoord)))
 
 /-- **Axiom-Free Finite-Rank + Strip-Gaussian Solver for `SatoRiemannSpectralPendingBoundary`**:
 Closes `allSatoGatesClosed` without `[FredholmDetTheory]` on the finite-rank Segal–Wilson
@@ -10761,8 +10800,10 @@ theorem SatoRiemannSpectralPendingBoundary.solved_of_axiomFree_finiteRank_and_st
     v w hp23 t1 t2 t3
   have hW := Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros
     cStrip.zSeq cStrip.multSeq cStrip.hReal cStrip.hGauss cStrip.delta cStrip.poly
-  exact ⟨⟨hRH.1, hSW, ⟨cStrip.globalWeilProved_holds, hW.1, hW.2⟩,
-      ⟨cEv.evanescentValidated_holds, cEv.telemetryConsistent⟩⟩,
+  have hEv := Signals.SatoGrassmannian.DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law
+    cEv.hHbar cEv.hMass cEv.hkp cEv.hkm cEv.xCoord
+  exact ⟨⟨hRH.1, ⟨hp23, hSW⟩, ⟨cStrip.globalWeilProved_holds, hW.1, hW.2⟩,
+      ⟨cEv.evanescentValidated_holds, cEv.telemetryConsistent, hEv.2.2.2⟩⟩,
     hRH.1, hSW, hW.1⟩
 
 /-- Shared discriminator certificate for active photon gravitational sourcing
@@ -10902,7 +10943,9 @@ noncomputable def DualSchubertNavierStokesPendingBoundary.ofCertificates
   experimentalFluidTelemetryValidated :=
     c4.fluidTelemetryValidated ∧
       c4.telemetry.consistent ∧
-      |c4.flowObs.pressureResidual| ≤ c4.flowObs.pressureTolerance
+      |c4.flowObs.pressureResidual| ≤ c4.flowObs.pressureTolerance ∧
+      |c4.flowObs.heatFluxResidual| ≤ c4.flowObs.heatFluxTolerance ∧
+      (∀ axis : Fin 3, |c4.flowObs.velocityResidual axis| ≤ c4.flowObs.velocityTolerance)
 
 /-- **Constructive Solver for `DualSchubertNavierStokesPendingBoundary`**:
 Discharges `allNavierStokesGatesClosed` together with compressible viscous dissipation
@@ -10933,7 +10976,9 @@ theorem DualSchubertNavierStokesPendingBoundary.solved_of_certificates
       ⟨c2.hirota3DLinearized_holds, hKq, hTg.2.2.2.2, hBurg⟩,
       ⟨c3.closureValidated_holds, hBd.1⟩,
       ⟨c4.fluidTelemetryValidated_holds, c4.telemetryConsistent,
-        c4.flowObs.pressure_within_tolerance⟩⟩,
+        c4.flowObs.pressure_within_tolerance,
+        c4.flowObs.heatFlux_within_tolerance,
+        c4.flowObs.velocity_within_tolerance⟩⟩,
     hVisc.2.1, hTg.2.2.2.2⟩
 
 /-! #### `PhotoelectricEmissionPendingBoundary` Certificates & Solver -/

@@ -45,24 +45,24 @@ Auditing all seven top-level `*PendingBoundary` structures in {download}`src/sig
 
   a finite-dimensional subspace satisfying $F(V) \subseteq \operatorname{range} F \subseteq V$ and $F|_{V^\perp} \equiv 0$. Therefore $(I + F)|_{V(F)}$ is a genuine finite-dimensional endomorphism and $(I + F)|_{V(F)^\perp} = I_{V(F)^\perp}$, defining an **axiom-free, basis-independent Fredholm determinant** `finiteRankDet (I + F) := LinearMap.det ((I + F)|_{V(F)})`.
 - **Lean 4 Deliverables (Zero `sorry`, Zero Axioms):**
-  1. `finiteRankSubspaceInvariant` & `finiteRankDet`: well-defined for any `F` with `FiniteDimensional ℂ (LinearMap.range F.toLinearMap)` (independent of enlarging $V$ to any finite-dimensional $W \supseteq V$ on which $F$ vanishes on $W^\perp$ and maps $W \to W$).
-  2. `finiteRankDet_one`, `finiteRankDet_mul`, `finiteRankDet_conj`, `finiteRankDet_rankOneScale`, `finiteRankDet_ne_zero_iff`: proves all `FredholmDetTheory` properties unconditionally for finite-rank perturbations on infinite-dimensional $H_+$.
+  1. `FiniteRankInvSubspace`, `canonicalInvSubspace`, `det_restrict_eq`, & `finiteRankDet : FiniteRankMonoid E →* ℂ`: well-defined for any `F` with `FiniteDimensional ℂ (LinearMap.range F.toLinearMap)` (independent of enlarging $V$ to any finite-dimensional $W \supseteq V$ on which $F$ vanishes on $W^\perp$ and maps $W \to W$).
+  2. `finiteRankDet.map_one`, `finiteRankDet.map_mul`, `finiteRankDet_conj`, `finiteRankDet_rankOneScale`, `finiteRankDet_rankOneScaleProd`, `finiteRankDet_ne_zero_iff`, and `finiteRankDet_eq_detFr_of_finiteDimensional`: proves all `FredholmDetTheory` properties unconditionally for finite-rank perturbations on infinite-dimensional $H_+$ and proves exact agreement with `instFredholmDetTheoryOfFiniteDimensional` on finite-dimensional spaces.
   3. **`segalWilson_tau_gr24_eq_tauU_axiomFree`** in `SegalWilsonGr24.lean`: proves $\det_{\mathrm{fin}}(I_{H_+} + g(t)_{+-} T_U g(t)_{++}^{-1}) = \tau_U(t_1, t_2, t_3) / p_{23}$ directly on infinite-dimensional $L^2(S^1)$ **without `[FredholmDetTheory]`**!
 
 ### `UP-2`: Automatic Strip Sub-Gaussian `WeilGaussianL1` Summability (`WeilGaussianL1.lean` & `RiemannSpectralBridge.lean`)
 - **Lean 4 Deliverables (Zero `sorry`):**
   1. `norm_mellinTransform_gaussianCombo_strip`: uniform bound $\lVert \mathcal{M}_{f_{\delta, P}}(z)\rVert \le C_{\delta, P}(B)\,e^{-\operatorname{Re}(z)^2/2}$ on $\lvert \operatorname{Im}(z)\rvert \le B$.
-  2. `summable_weilInfinite_gaussianCombo_of_strip`: for any strip-bounded zero sequence `∀ n, |(z n).im| ≤ B` satisfying `Summable (fun n => (m n : ℝ) * Real.exp (-(z n).re ^ 2))`, **every** `f = gaussianCombo δ P` is automatically Weil-summable.
-  3. `weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros` & `weilInfiniteSum_gaussianCombo_neg_of_offline_pair_tail_lt`: removes per-function `hSumm` from `GlobalInfiniteZeroWeilCertificate`.
+  2. `summable_weilInfinite_gaussianCombo_of_strip` & `summable_weilInfinite_normSq_gaussianCombo_of_strip`: for any strip-bounded zero sequence `∀ n, |(z n).im| ≤ B` satisfying `Summable (fun n => (m n : ℝ) * Real.exp (-(z n).re ^ 2))`, **every** `f = gaussianCombo δ P` is automatically Weil-summable.
+  3. `weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros`, `weilInfiniteSum_gaussianCombo_neg_of_offline_pair_tail_lt`, `weil_infinite_gaussianCombo_strip_vs_evanescent_qfim_bridge`, and `StripGaussianWeilCertificate` / `GlobalInfiniteZeroWeilCertificate.ofStripGaussian`: removes per-function `hSumm` from `GlobalInfiniteZeroWeilCertificate`.
 
 ### `UP-3` & `UP-4`: Complete Certificate Solvers for `NavierStokes`, `Photoelectric`, `Antimatter`, & Master Cross-Boundary Unification (`Pending.lean`, `SignalsPending.lean`, Tests)
 - **Lean 4 Deliverables (Zero `sorry`):**
   1. `DualSchubertNavierStokesPendingBoundary.ofCertificates` & `.solved_of_certificates`
   2. `PhotoelectricEmissionPendingBoundary.ofCertificates` & `.solved_of_certificates`
   3. `AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates` & `.solved_of_certificates`
-  4. **`MasterUnifiedPendingBoundaryClosure`**: consumes a single unified bundle of shared + domain certificates and constructively closes **all seven** `*PendingBoundary` structures simultaneously (`RiemannHypothesis`, `ToupinCelestialMillennium`, `SatoRiemannSpectral`, `DualSchubertNavierStokes`, `PhotoelectricEmission`, `AntimatterAnnihilationAlphaG`, and `YangMillsMassGapHiggsCPT`).
+  4. **`MasterUnifiedPendingClosure`** (`MasterUnifiedPendingClosure.all_seven_pending_boundaries_solved`): consumes a single unified bundle of shared + domain certificates and constructively closes **all seven** `*PendingBoundary` structures simultaneously (`RiemannHypothesis`, `ToupinCelestialMillennium`, `SatoRiemannSpectral`, `DualSchubertNavierStokes`, `PhotoelectricEmission`, `AntimatterAnnihilationAlphaG`, and `YangMillsMassGapHiggsCPT`).
   5. Update `@[blueprint]` lemmas in `SignalsPending.lean` and regression examples in `SignalsTests.lean` and `SignalsPendingTests.lean`.
 
 ### `UP-5`: Rust/PyO3, SymPy/`mpmath`, Plan/Paper Integration, & Commit
-- Add `evaluate_finite_rank_invariant_det` (explicit $V = \operatorname{range} F \sqcup (\ker F)^\perp$ check on truncated $L^2(S^1)$), `evaluate_strip_gaussian_combo_decay`, and `evaluate_unified_pending_closures` in `sato_grassmannian.rs` / `lib.rs` / `sustainablefactory/sato_grassmannian.py` / `tests/test_sato_grassmannian_sympy_pyo3.py`.
+- Add `evaluate_finite_rank_invariant_det` (`py_audit_finite_rank_invariant_det`, explicit $V = \operatorname{range} F \sqcup (\ker F)^\perp$ check on truncated $L^2(S^1)$), `evaluate_strip_gaussian_combo_decay` (`py_audit_strip_gaussian_combo_decay`), and `audit_unified_pending_closures_mpmath_vs_rust` in `sato_grassmannian.rs` / `lib.rs` / `sustainablefactory/sato_grassmannian.py` / `tests/test_sato_grassmannian_sympy_pyo3.py`.
 - Verify `make signals_build`, `cargo test`, `maturin develop --release`, `pytest`, Markdown scanners, `make -C docs html`, Playwright browser MathJax check, and `git diff --check`.

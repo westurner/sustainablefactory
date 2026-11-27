@@ -83,8 +83,8 @@ In Section 7 of [grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-pape
 
 ### `SRS-6` & `SRS-7`: Unified Extension (Finite-Rank Axiom-Free `finiteRankDet` & Strip Sub-Gaussian `WeilGaussianL1`)
 Integrated with [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md):
-- **`SRS-6` (`DeterminantBundle.lean`, `SegalWilsonGr24.lean`):** Prove `finiteRankDet` on arbitrary infinite-dimensional `HPlus` via $V(F) = \operatorname{range} F \sqcup (\ker F)^\perp$ and discharge `segalWilson_tau_gr24_eq_tauU_axiomFree` without `[FredholmDetTheory]`.
-- **`SRS-7` (`WeilGaussianL1.lean`, `Pending.lean`):** Prove `norm_mellinTransform_gaussianCombo_strip` and `summable_weilInfinite_gaussianCombo_of_strip` so `GlobalInfiniteZeroWeilCertificate` drops per-function `hSumm` and joins `MasterUnifiedPendingBoundaryClosure`.
+- **`SRS-6` (`DeterminantBundle.lean`, `SegalWilsonGr24.lean`):** Prove `finiteRankDet` on arbitrary infinite-dimensional `HPlus` via $V(F) = \operatorname{range} F \sqcup (\ker F)^\perp$, prove agreement with `instFredholmDetTheoryOfFiniteDimensional` (`finiteRankDet_eq_detFr_of_finiteDimensional`), and discharge `segalWilson_tau_gr24_eq_tauU_axiomFree` without `[FredholmDetTheory]`.
+- **`SRS-7` (`WeilGaussianL1.lean`, `Pending.lean`):** Prove `norm_mellinTransform_gaussianCombo_strip` and `summable_weilInfinite_gaussianCombo_of_strip` so `StripGaussianWeilCertificate` / `GlobalInfiniteZeroWeilCertificate.ofStripGaussian` drops per-function `hSumm` and joins `MasterUnifiedPendingClosure`.
 
 ---
 

@@ -9834,6 +9834,29 @@ example (v w : Signals.SatoGrassmannian.Gr24Truncation.C4)
   Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_tau_gr24_eq_tauU_axiomFree
     v w hp23 t₁ t₂ t₃
 
+example {ιP ιM : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    [FiniteDimensional ℂ P.HPlus]
+    (A : Signals.SatoGrassmannian.DeterminantBundle.FiniteRankMonoid P.HPlus) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet A =
+      @Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr _ _ H _ _ _ P eP eM
+        (Signals.SatoGrassmannian.DeterminantBundle.instFredholmDetTheoryOfFiniteDimensional P eP eM)
+        ⟨A.1, Signals.SatoGrassmannian.DeterminantBundle.finiteRankMonoid_le_traceClassMonoid
+          P eP eM A.2⟩ :=
+  Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet_eq_detFr_of_finiteDimensional
+    P eP eM A
+
+example {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (l : List (ιP × ℂ)) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+        (Signals.SatoGrassmannian.DeterminantBundle.rankOneScaleProd P eP l) =
+      (l.map Prod.snd).prod :=
+  Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet_rankOneScaleProd P eP l
+
 example (z : ℕ → ℂ) (m : ℕ → ℕ)
     (hReal : ∀ n : ℕ, (z n).im = 0)
     (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))

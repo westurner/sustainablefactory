@@ -139,6 +139,8 @@ def test_unified_finite_rank_invariant_det_strip_weil_and_seven_boundaries():
     assert u["inv_subspace_indep_err"] < 1e-14
     assert u["inv_det_vs_tau_err"] < 1e-13
     assert u["strip_max_bound_ratio"] <= 1.0 + 1e-14
+    assert u["strip_constant_diff"] < 1e-14
+    assert u["strip_weil_re_diff"] < 1e-55
     assert u["strip_subgauss_log10"] < -80.0
     assert u["strip_weil_re"] >= 0.0
     assert u["ns_tg_energy_diss_err"] < 1e-13
