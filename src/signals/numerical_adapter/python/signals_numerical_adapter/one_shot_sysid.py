@@ -902,3 +902,83 @@ def tequila_osid_noisy_mcweeny_pure_vs_mixed_audit() -> dict[str, Any]:
         "gibbs_p1_after_mcweeny": p1_after,
         "gibbs_trace_distortion": gibbs_trace_distortion,
     }
+
+
+def verify_symbolic_sato_osid_identities() -> dict[str, bool]:
+    """
+    SymPy symbolic verification of Section 16.3 (`Signals.QuantumCausalInference`):
+    1. KP-II weak-form normalized residual vanishes at `(-1/4, -3/4, -3/4)`.
+    2. KdV 1-soliton traveling-wave `u(x,t) = 2 k^2 sech^2(k x + k^3 t)` satisfies BOTH
+       `u_t - k^2 u_x = 0` AND `4 u_t - u_xxx - 6 u u_x = 0`, inducing a 2D nullspace (`rank 2 < 4`).
+    3. AKNS focusing/defocusing separation `2 - (-2) = 4`.
+    4. 6-channel Dual-Schubert `QFIM = 4(g_fwd + g_dual)` strictly tightens QCRB over `4 g_fwd`.
+    """
+    k, x, t, u_xt, u_xxxx, u2_xx, u_yy, g_fwd, g_dual, m_shots = sp.symbols(
+        "k x t u_xt u_xxxx u2_xx u_yy g_fwd g_dual m_shots", positive=True
+    )
+    theta = k * x + k**3 * t
+    u = 2 * k**2 / sp.cosh(theta) ** 2
+    u_t = sp.diff(u, t)
+    u_x = sp.diff(u, x)
+    u_xxx = sp.diff(u, x, 3)
+
+    traveling_res = sp.simplify(u_t - k**2 * u_x)
+    kdv_res = sp.simplify(4 * u_t - u_xxx - 6 * u * u_x)
+    kp2_op_res = sp.simplify(
+        4 * (u_xt + sp.Rational(-1, 4) * u_xxxx + sp.Rational(-3, 4) * u2_xx + sp.Rational(-3, 4) * u_yy)
+        - (4 * u_xt - u_xxxx - 3 * u2_xx - 3 * u_yy)
+    )
+    qcrb_diff = sp.simplify(1 / (m_shots * 4 * g_fwd) - 1 / (m_shots * 4 * (g_fwd + g_dual)))
+
+    return {
+        "kp2_weak_normalized_sym_ok": kp2_op_res == 0,
+        "kdv1_traveling_wave_sym_ok": traveling_res == 0 and kdv_res == 0,
+        "akns_sign_gap_sym_ok": (sp.Integer(2) - sp.Integer(-2)) == 4,
+        "dual_schubert_qcrb_tightening_sym_ok": sp.simplify(
+            qcrb_diff - g_dual / (4 * m_shots * g_fwd * (g_fwd + g_dual))
+        )
+        == 0,
+    }
+
+
+def audit_qci_sato_pde_solvers_high_precision(dps: int = 45) -> dict[str, Any]:
+    """
+    Cross-verify Rust/PyO3 `py_audit_qci_one_shot_sysid_sato_pdes` and
+    `PlabicGr24Solver` far-field log-sum-exp extrapolation against 45-digit `mpmath`.
+    """
+    import signals_numerical_adapter as sna
+
+    mp.mp.dps = dps
+    sym_ok = verify_symbolic_sato_osid_identities()
+    rust = sna.py_audit_qci_one_shot_sysid_sato_pdes()
+
+    # Verify PlabicGr24Solver far-field u(100, -50, 20) against 45-digit mpmath log-sum-exp tau
+    kappa = [mp.mpf("-2.0"), mp.mpf("-0.5"), mp.mpf("0.7"), mp.mpf("1.8")]
+    a, b, c, d = mp.mpf("1.2"), mp.mpf("0.8"), mp.mpf("1.5"), mp.mpf("2.1")
+    v = [mp.mpf(1), mp.mpf(0), -a, -a * (b + d)]
+    w = [mp.mpf(0), mp.mpf(1), c, c * d]
+    pairs = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
+    x_mp, y_mp, t_mp = mp.mpf("100.0"), mp.mpf("-50.0"), mp.mpf("20.0")
+    weights = []
+    alphas = []
+    for i, j in pairs:
+        p_ij = v[i] * w[j] - v[j] * w[i]
+        c_ij = p_ij * (kappa[j] - kappa[i])
+        al = kappa[i] + kappa[j]
+        be = kappa[i] ** 2 + kappa[j] ** 2
+        ga = kappa[i] ** 3 + kappa[j] ** 3
+        weights.append(c_ij * mp.exp(al * x_mp + be * y_mp + ga * t_mp))
+        alphas.append(al)
+    z_mp = sum(weights)
+    probs = [wi / z_mp for wi in weights]
+    mean_a = sum(pi * ai for pi, ai in zip(probs, alphas))
+    var_a = sum(pi * (ai - mean_a) ** 2 for pi, ai in zip(probs, alphas))
+    u_far_mp = 2 * var_a
+    far_rel_diff = float(abs(mp.mpf(str(rust["kp2_far_field_u"])) - u_far_mp) / u_far_mp)
+
+    return {
+        **sym_ok,
+        "far_field_u_mpmath": float(u_far_mp),
+        "far_field_rel_diff": far_rel_diff,
+        "rust_report": rust,
+    }

@@ -9941,4 +9941,19 @@ example (n_occ n_orb : ℕ) (h_occ_lt : n_occ < n_orb) (h_orb_pos : 0 < n_orb)
     sigma_1 dim_basis lambda2 theta_target hsig hdim hl2 hth
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2⟩
 
+example (u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual : ℝ)
+    (m_shots : ℕ) (hm : 0 < m_shots)
+    (hfwd : 0 < g_fs_fwd) (hdual : 0 < g_fs_dual) :
+    4 * Signals.QuantumCausalInference.osidSatoKp2WeakOperatorCombination
+          u_xt u_xxxx u2_xx u_yy (-1 / 4) (-3 / 4) (-3 / 4) =
+        4 * u_xt - u_xxxx - 3 * u2_xx - 3 * u_yy ∧
+      Signals.QuantumCausalInference.osidSatoKdv1SolitonGalileanKernel alpha c_wave u_x = 0 ∧
+      Signals.QuantumCausalInference.osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual =
+        4 * (g_fs_fwd + g_fs_dual) ∧
+      ((m_shots : ℝ) * Signals.QuantumCausalInference.osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual)⁻¹ <
+        Signals.QuantumCausalInference.osidQcrbVarianceLowerBound m_shots g_fs_fwd := by
+  have h := Signals.QuantumCausalInference.qci_osid_sato_positroid_akns_and_qfim_bridge_identities
+    u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual m_shots hm hfwd hdual
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2⟩
+
 end SignalsTests

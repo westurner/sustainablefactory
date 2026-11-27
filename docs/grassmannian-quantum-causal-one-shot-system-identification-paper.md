@@ -19,15 +19,16 @@ description: "An arXiv-ready MyST Markdown formal verification and applied quant
   - [Beyond $6{,}400\times$ Volumetric Efficiency: Jeffrey's Kinematic Engine, Normed Tensor Gaussian Splat Nanoimaging & Surgical Navigation, and Quantum Causal Semantic GraphRAG](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md)
   - [Quantum Causal Next-Concept Modeling (`QCI-NCM`): Coarse-to-Fine Parallel LLM Inference, Multiscale Residual Counterfactuals, Plücker/`VRC` Constraint Coupling, and Pressed-`LHAT` Scale-Selective Steering Hardware](grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper.md)
   - [Tequila Quantum Simulation Backend in Rust (`PyO3` / `maturin`): Complex Grassmannians, Plabic `VRC`, Madelung/DDF, & Quantum Causal Inference](grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md)
+  - [Formalizing the Infinite-Dimensional Sato Grassmannian $\mathrm{Gr}_p(H)$, Plabic $\mathrm{Gr}_{\ge 0}(2,4)$ KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy](grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md)
 - **Formal Verification & Computational Artifacts:**
   - `Signals` Lean 4 Library (`3,837` Lake jobs via `make signals_build`, zero `sorry`):
-    - {download}`src/signals/Signals/QuantumCausalInference.lean <../src/signals/Signals/QuantumCausalInference.lean>` (Section 16: `qci_osid_cauchy_binet_hankel_do_qfim_and_landauer_identities`; Section 16.1: `qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_identities`; Section 16.2: `qci_osid_tequila_backend_advantages_and_disadvantages_identities`)
+    - {download}`src/signals/Signals/QuantumCausalInference.lean <../src/signals/Signals/QuantumCausalInference.lean>` (Section 16: `qci_osid_cauchy_binet_hankel_do_qfim_and_landauer_identities`; Section 16.1: `qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_identities`; Section 16.2: `qci_osid_tequila_backend_advantages_and_disadvantages_identities`; Section 16.3: `qci_osid_sato_positroid_akns_and_qfim_bridge_identities`)
     - {download}`src/signals/Signals/Pending.lean <../src/signals/Signals/Pending.lean>` (`OneShotQuantumSysIdPendingBoundary`, `BanachZeroOneAnalyticCertificate`, `NoisyDoProbeCalibrationCertificate`, `QuantumSwitchInterferometricProbeCertificate`, `.ofCertificates`, `.solved_of_certificates`, and `osid_finite_certs_do_not_close_banach_or_lab_gates`)
     - {download}`src/signals/SignalsPending.lean <../src/signals/SignalsPending.lean>`, {download}`src/signals/SignalsTests.lean <../src/signals/SignalsTests.lean>`, {download}`src/signals/SignalsPendingTests.lean <../src/signals/SignalsPendingTests.lean>`
-  - `signals-numerical-adapter` Rust + PyO3 (`maturin`) Extension (`quantum_causal_inference` unit tests `7/7` passing):
-    - {download}`src/signals/numerical_adapter/src/quantum_causal_inference.rs <../src/signals/numerical_adapter/src/quantum_causal_inference.rs>` (Sections 11 & 11.1) and {download}`src/signals/numerical_adapter/src/tequila_simulator.rs <../src/signals/numerical_adapter/src/tequila_simulator.rs>` (`RustFastCircuit`, `RustFastHamiltonianSet`, `py_mcweeny_purify_density_matrix`, `MCWF`)
-    - {download}`src/signals/numerical_adapter/src/lib.rs <../src/signals/numerical_adapter/src/lib.rs>` (`py_audit_qci_one_shot_sysid`, `py_audit_qci_one_shot_sysid_literature_benchmarks`)
-  - Python + Tequila + SymPy + 45-Digit `mpmath` + PyO3 Verification Suite (`6/6` + `7/7` `pytest` tests passing):
+  - `signals-numerical-adapter` Rust + PyO3 (`maturin`) Extension (`quantum_causal_inference` unit tests `8/8` passing):
+    - {download}`src/signals/numerical_adapter/src/quantum_causal_inference.rs <../src/signals/numerical_adapter/src/quantum_causal_inference.rs>` (Sections 11, 11.1, & 11.2), {download}`src/signals/numerical_adapter/src/sato_grassmannian.rs <../src/signals/numerical_adapter/src/sato_grassmannian.rs>` (`PlabicGr24Solver`, `evaluate_akns_solitons`, `evaluate_dual_schubert_qfim`), and {download}`src/signals/numerical_adapter/src/tequila_simulator.rs <../src/signals/numerical_adapter/src/tequila_simulator.rs>` (`RustFastCircuit`, `RustFastHamiltonianSet`, `py_mcweeny_purify_density_matrix`, `MCWF`)
+    - {download}`src/signals/numerical_adapter/src/lib.rs <../src/signals/numerical_adapter/src/lib.rs>` (`py_audit_qci_one_shot_sysid`, `py_audit_qci_one_shot_sysid_literature_benchmarks`, `py_audit_qci_one_shot_sysid_sato_pdes`)
+  - Python + Tequila + SymPy + 45-Digit `mpmath` + PyO3 Verification Suite (`7/7` + `7/7` `pytest` tests passing):
     - {download}`src/signals/numerical_adapter/python/signals_numerical_adapter/one_shot_sysid.py <../src/signals/numerical_adapter/python/signals_numerical_adapter/one_shot_sysid.py>`
     - {download}`sustainablefactory/tequila_signals_backend.py <../sustainablefactory/tequila_signals_backend.py>`
     - {download}`tests/test_one_shot_sysid_sympy_pyo3.py <../tests/test_one_shot_sysid_sympy_pyo3.py>` & {download}`tests/test_tequila_signals_backend.py <../tests/test_tequila_signals_backend.py>`
@@ -146,7 +147,7 @@ Addressing the open noise and irreversibility questions highlighted in {cite:p}`
 
 ## 4. Tri-Language Verification Ledger (Lean 4, Rust/PyO3, SymPy, & 45-Digit `mpmath`)
 
-Running `make signals_build` (`3,837` Lake jobs, zero `sorry`), `cargo test --lib quantum_causal_inference` (`7/7` tests passing), and `pytest -q tests/test_one_shot_sysid_sympy_pyo3.py tests/test_tequila_signals_backend.py` (`6/6` + `7/7` tests passing) yields exact agreement across all core, Tequila-integrated, and literature benchmarks:
+Running `make signals_build` (`3,837` Lake jobs, zero `sorry`), `cargo test --lib quantum_causal_inference` (`8/8` tests passing), and `pytest -q tests/test_one_shot_sysid_sympy_pyo3.py tests/test_tequila_signals_backend.py` (`7/7` + `7/7` tests passing) yields exact agreement across all core, Tequila-integrated, Sato-soliton, and literature benchmarks:
 
 | Benchmark / Quantity Audited | Parameters / Setting | Lean 4 / Exact Theory | Rust/PyO3 (`f64`) | Discrepancy vs. 45-Digit `mpmath` / Exact |
 | --- | --- | --- | --- | --- |
@@ -224,7 +225,7 @@ Section 16.2 of `Signals.QuantumCausalInference` (`qci_osid_tequila_backend_adva
 | **Shot Sampling & Davis–Kahan $1/\lambda_2$ Amplification** | `tq.simulate(..., samples=S, backend="signals")` and `compute_natural_gradient` (`QFIM = 4 g_FS`) integrate realistic Born-rule hardware sampling directly with `VQE` eigenstate preparation. | Finite-shot variance scales as $1/S$: achieving angular error $\theta_{\mathrm{target}}$ requires $S_{\mathrm{req}} = (\sigma_1 N / (\lambda_2 \theta_{\mathrm{target}}))^2$ (`osidTequilaShotCountRequired`), so halving spectral gap $\lambda_2$ causes an exact **$4\times$ shot penalty** (and symmetry-unbroken states with $\lambda_2 = 0$ remain unidentifiable). |
 | **McWeeny Purification: Pure Eigenstates vs. Mixed Gibbs States** | For a weakly depolarized **pure eigenstate** ($p \in (\tfrac{1}{2}, 1)$), `osidTequilaMcWeenyPoly p = 3 p^2 - 2 p^3 > p` (`do_simulate_density(mcweeny_passes=k)`), strictly healing purity and shrinking `OSID` angle error. | For a genuine **mixed/thermal Gibbs spectrum** ($p \in (0, \tfrac{1}{2})$), `3 p^2 - 2 p^3 < p` pushes the density matrix toward an unphysical rank-1 projector, distorting Boltzmann weights and corrupting thermal-state `OSID`. |
 
-### 5.2 Empirical Tequila-OSID Verification Ledger (`6/6` + `7/7` Pytest Passing)
+### 5.2 Empirical Tequila-OSID Verification Ledger (`7/7` + `7/7` Pytest Passing)
 
 Executing `tequila_osid_vqe_davis_kahan_audit`, `tequila_osid_quantum_switch_circuit`, `tequila_osid_sparse_plucker_126qubit_audit`, and `tequila_osid_noisy_mcweeny_pure_vs_mixed_audit` in `signals_numerical_adapter.one_shot_sysid` yields the following verified metrics:
 
@@ -238,7 +239,34 @@ Executing `tequila_osid_vqe_davis_kahan_audit`, `tequila_osid_quantum_switch_cir
 
 ---
 
-## 6. Epistemic Boundary (`Signals.Pending.OneShotQuantumSysIdPendingBoundary`)
+## 6. Sato Grassmannian $\mathrm{Gr}_{\ge 0}(2,4)$ Soliton PDE Solvers (`KP-II`, `KdV`, `AKNS`) & 6-Channel `QFIM` Conditioning in `QCI-OSID`
+
+Our integrable soliton PDE solvers in [the Sato Grassmannian PDE Solver paper](grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md) (`Signals.SatoGrassmannian.*` and `src/signals/numerical_adapter/src/sato_grassmannian.rs`) connect directly to `QCI-OSID` in three complementary ways:
+
+1. **Exact Analytic Weak-Form Ground Truth & Closed-Loop Far-Field Rollout (`PlabicGr24Solver`):** Unlike generic grid/FEM PDE discretizations whose truncation error contaminates `WIAS` benchmarks, `PlabicGr24Solver` evaluates exact $\mathrm{Gr}_{\ge 0}(2,4)$ Kodama–Williams KP-II soliton webs ($u = 2\,\partial_x^2\log\tau$) via overflow-proof log-sum-exp Boltzmann cumulants ($< 10^{-14}$ residual). Integrating the scalar field $u$ and $u^2$ against compactly supported $C^4$ bump functions $\phi_{\mathbf{m}}(\xi, \eta, \tau) = (1 - \xi^2)^4 \xi^{m_x} (1 - \eta^2)^4 \eta^{m_y} (1 - \tau^2)^4 \tau^{m_t}$ on composite 16-point Gauss–Legendre quadrature transfers **all spatial and temporal derivatives onto $\phi_{\mathbf{m}}$** with zero boundary terms:
+
+   $$
+   \iiint \Bigl(4\,u\,\phi_{xt} - u\,\phi_{xxxx} - 3\,u^2\,\phi_{xx} - 3\,u\,\phi_{yy}\Bigr)\,dx\,dy\,dt = 0.
+   $$
+
+   Once `QCI-OSID` recovers the normalized PDE coefficients `(-1/4, -3/4, -3/4)` from a single localized soliton patch near the origin, `PlabicGr24Solver` extrapolates the identified soliton web overflow-free to extreme far-field coordinates $(x, y, t) = (100, -50, 20)$ where naive $\exp(\theta_r)$ overflows IEEE-754 `f64` (`kp2_far_field_u = 1.5637e-50`, relative error vs. 45-digit `mpmath` `1.214e-14`, `kp2_residual = 4.748e-66`).
+2. **Positroid Stratification as an Exact Zero-One Dichotomy (`Master Theorem 11.3`):** The Kodama–Williams positroid stratification inside $\mathrm{Gr}_{\ge 0}(2,4)$ provides a geometric realization of Boullé et al.'s zero-one law {cite:p}`boulle2026zeroone`:
+   - **KdV 1-Soliton Traveling Wave ($u = 2k^2\operatorname{sech}^2(kx + k^3 t)$):** Satisfies both $u_t = k^2 u_x$ and $4 u_t - u_{xxx} - 6 u u_x = 0$, creating a 2-dimensional Galilean nullspace (`rank = 2 < 4` on $\{u_t, u_x, u_{xxx}, u u_x\}$ and `rank = 2 < 3` on $\{u_x, u_{xxx}, u u_x\}$ with $\sigma_3 = 1.17 \times 10^{-16}$): a single soliton lies strictly inside $\mathcal{F}_{\mathrm{deg}}$.
+   - **KdV 2-Soliton Symmetric Positroid Cell (`kdv2Soliton`):** Two distinct soliton speeds break Galilean collinearity (`rank = 2/2` on $\{u_{xxxx}, (u^2)_{xx}\}$ relative to $u_{xt}$, max error $3.03 \times 10^{-14}$), yet $y$-invariance ($u_y \equiv 0$) collapses the KP-II $u_{yy}$ column ($\sigma_3 = 1.19 \times 10^{-16}$), trapping the 2-soliton inside $\mathcal{F}_{\mathrm{deg}}^{\mathrm{KP-II}}$.
+   - **Top Positroid Cell $\mathrm{Gr}_{>0}(2,4)$ (`PlabicGr24Solver.from_plabic_weights`):** Breaks both Galilean and $y$-invariance symmetries, achieving full `rank = 3/3` ($\sigma_{\min} = 0.2148$) and recovering the complete $(2+1)$-D KP-II operator with max error $3.13 \times 10^{-10}$.
+3. **AKNS Nonlinear Optical / BEC Solitons & 6-Channel Dual-Schubert `QFIM` Conditioning:** Applying weak-form `CPQR` to complex AKNS wavefunctions (`evaluate_akns_solitons`) cleanly distinguishes focusing NLS bright solitons (`c_xx = 1.0, g = +2.0`, max error $2.12 \times 10^{-13}$) from defocusing GPE dark solitons (`c_xx = 1.0, g = -2.0`, max error $3.29 \times 10^{-13}$), while `DualSchubertQFIM` (`F_Q = 4 g_FS_fwd + 4 g_FS_dual`, Section 16.3 of `Signals.QuantumCausalInference`) strictly tightens the `QCI-OSID` single-shot Quantum Cramér–Rao variance floor (`0.4718 -> 0.9888` QFIM reduces the 1-shot QCRB variance floor from `2.1197` to `1.0114`).
+
+| Sato PDE / `QFIM` Stratum in `QCI-OSID` | Dictionary / Cell | Lean 4 / Theory | Rust/PyO3 + 45-Digit `mpmath` Result |
+| --- | --- | --- | --- |
+| **KP-II Top Positroid Cell** ($\mathrm{Gr}_{>0}(2,4)$) | Weak $\{u_{xxxx}, (u^2)_{xx}, u_{yy}\}$ vs. $u_{xt}$ | `osidSatoKp2WeakOperatorCombination` (`Master Thm 11.3`) | `rank = 3/3`, $\sigma_{\min} = 0.2148$, max err $3.13 \times 10^{-10}$; far-field $(100,-50,20)$ rel diff $1.21 \times 10^{-14}$ |
+| **KdV 2-Soliton Positroid Cell** ($y$-invariant) | Full KP-II vs. $(1+1)$-D KdV subdict | `kdv2Soliton_y_invariant_and_smooth` ($\partial_y u = 0$) | KP-II `rank = 2/3` ($\sigma_3 = 1.19 \times 10^{-16}$); KdV `rank = 2/2`, max err $3.03 \times 10^{-14}$ |
+| **KdV 1-Soliton Traveling Wave** | $\{u_t, u_x, u_{xxx}, u u_x\}$ / $\{u_x, u_{xxx}, u u_x\}$ | `osidSatoKdv1SolitonGalileanKernel` ($\mathcal{F}_{\mathrm{deg}}$) | `rank = 2/4` and `rank = 2/3` ($\sigma_3 = 1.17 \times 10^{-16}$) |
+| **AKNS Focusing NLS vs. Defocusing GPE** | Weak $i q_t + c_{xx} q_{xx} + g \lvert q\rvert^2 q = 0$ | `brightSoliton_nls_pde` vs. `darkSoliton_gpe_pde` | Bright `(1.0, +2.0)` err $2.12\times 10^{-13}$; Dark `(1.0, -2.0)` err $3.29\times 10^{-13}$ |
+| **6-Channel Dual-Schubert `QFIM` QCRB** | `Gr_C(2,4) × Gr_C(2,4)^∨` (`evaluate_dual_schubert_qfim`) | `osidSatoDualSchubertTotalQfim` (`Master Thm 11.3`) | $F_Q$: $0.4718 \to 0.9888$; 1-shot QCRB floor: $2.1197 \to 1.0114$ |
+
+---
+
+## 7. Epistemic Boundary (`Signals.Pending.OneShotQuantumSysIdPendingBoundary`)
 
 In strict alignment with `AGENTS.md` and our seven-boundary closure architecture ({download}`src/signals/Signals/Pending.lean <../src/signals/Signals/Pending.lean>`), `OneShotQuantumSysIdPendingBoundary` separates what our Lean 4, Rust/PyO3, and `mpmath` stack **proves** from three open external obligations:
 

@@ -1647,6 +1647,38 @@ fn py_audit_qci_one_shot_sysid_literature_benchmarks<'py>(
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_qci_one_shot_sysid_sato_pdes<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let s = quantum_causal_inference::audit_osid_sato_kp2_kdv_akns_solitons();
+    let d = PyDict::new(py);
+    d.set_item("kp2_top_cell_rank", s.kp2_top_cell_rank)?;
+    d.set_item("kp2_top_cell_sigma_min", s.kp2_top_cell_sigma_min)?;
+    d.set_item("kp2_top_cell_max_coeff_err", s.kp2_top_cell_max_coeff_err)?;
+    d.set_item("kp2_far_field_u", s.kp2_far_field_u)?;
+    d.set_item("kp2_far_field_residual", s.kp2_far_field_residual)?;
+    d.set_item("kdv2_on_kp2_dict_rank", s.kdv2_on_kp2_dict_rank)?;
+    d.set_item("kdv2_on_kp2_dict_sigma_min", s.kdv2_on_kp2_dict_sigma_min)?;
+    d.set_item("kdv2_subdict_rank", s.kdv2_subdict_rank)?;
+    d.set_item("kdv2_subdict_max_coeff_err", s.kdv2_subdict_max_coeff_err)?;
+    d.set_item("kdv1_traveling_wave_rank", s.kdv1_traveling_wave_rank)?;
+    d.set_item("kdv1_on_3term_kdv_rank", s.kdv1_on_3term_kdv_rank)?;
+    d.set_item("kdv1_on_3term_sigma_min", s.kdv1_on_3term_sigma_min)?;
+    d.set_item("akns_bright_rank", s.akns_bright_rank)?;
+    d.set_item("akns_bright_cxx", s.akns_bright_cxx)?;
+    d.set_item("akns_bright_g", s.akns_bright_g)?;
+    d.set_item("akns_bright_max_err", s.akns_bright_max_err)?;
+    d.set_item("akns_dark_rank", s.akns_dark_rank)?;
+    d.set_item("akns_dark_cxx", s.akns_dark_cxx)?;
+    d.set_item("akns_dark_g", s.akns_dark_g)?;
+    d.set_item("akns_dark_max_err", s.akns_dark_max_err)?;
+    d.set_item("qfim_forward_only", s.qfim_forward_only)?;
+    d.set_item("qfim_six_channel_total", s.qfim_six_channel_total)?;
+    d.set_item("qcrb_forward_only_1shot", s.qcrb_forward_only_1shot)?;
+    d.set_item("qcrb_six_channel_1shot", s.qcrb_six_channel_1shot)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -1757,6 +1789,10 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_qci_one_shot_sysid, m)?)?;
     m.add_function(wrap_pyfunction!(
         py_audit_qci_one_shot_sysid_literature_benchmarks,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_qci_one_shot_sysid_sato_pdes,
         m
     )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;

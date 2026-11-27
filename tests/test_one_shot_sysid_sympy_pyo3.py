@@ -9,6 +9,7 @@ for `Signals.QuantumCausalInference` Section 16 (`QCI-OSID`),
 from signals_numerical_adapter.one_shot_sysid import (
     audit_qci_literature_benchmarks_high_precision,
     audit_qci_one_shot_sysid_high_precision,
+    audit_qci_sato_pde_solvers_high_precision,
     tequila_osid_noisy_mcweeny_pure_vs_mixed_audit,
     tequila_osid_quantum_switch_circuit,
     tequila_osid_single_eigenstate_recovery,
@@ -16,6 +17,7 @@ from signals_numerical_adapter.one_shot_sysid import (
     tequila_osid_vqe_davis_kahan_audit,
     verify_symbolic_literature_check_figures,
     verify_symbolic_qci_one_shot_sysid_identities,
+    verify_symbolic_sato_osid_identities,
 )
 
 
@@ -250,3 +252,37 @@ def test_tequila_osid_quantum_switch_126qubit_and_mcweeny_tradeoffs():
     assert mcw["gibbs_p0_after_mcweeny"] > 0.65
     assert mcw["gibbs_p1_after_mcweeny"] < 0.35
     assert mcw["gibbs_trace_distortion"] > 0.05
+
+
+def test_qci_osid_sato_kp2_kdv_akns_and_qfim_bridge():
+    sym_sato = verify_symbolic_sato_osid_identities()
+    assert len(sym_sato) == 4
+    assert all(sym_sato.values()), f"Failed Sato-OSID symbolic checks: {sym_sato}"
+
+    rep = audit_qci_sato_pde_solvers_high_precision(dps=45)
+    assert rep["far_field_rel_diff"] < 1e-12
+    rust = rep["rust_report"]
+
+    # Positroid stratification zero-one dichotomy:
+    # Top KP-II cell -> rank 3/3, KdV2 on KP-II -> rank 2/3, KdV2 subdict -> rank 2/2, KdV1 -> rank 2 (degenerate)
+    assert rust["kp2_top_cell_rank"] == 3
+    assert rust["kp2_top_cell_sigma_min"] > 0.1
+    assert rust["kp2_top_cell_max_coeff_err"] < 1e-9
+    assert abs(rust["kp2_far_field_residual"]) < 1e-12
+    assert rust["kdv2_on_kp2_dict_rank"] == 2
+    assert rust["kdv2_on_kp2_dict_sigma_min"] < 1e-12
+    assert rust["kdv2_subdict_rank"] == 2
+    assert rust["kdv2_subdict_max_coeff_err"] < 1e-12
+    assert rust["kdv1_traveling_wave_rank"] == 2
+    assert rust["kdv1_on_3term_kdv_rank"] == 2
+    assert rust["kdv1_on_3term_sigma_min"] < 1e-12
+
+    # AKNS focusing NLS bright (+2) vs defocusing GPE dark (-2)
+    assert rust["akns_bright_rank"] == 2
+    assert rust["akns_bright_max_err"] < 1e-12
+    assert rust["akns_dark_rank"] == 2
+    assert rust["akns_dark_max_err"] < 1e-12
+
+    # 6-channel Dual-Schubert QFIM tightening of QCRB
+    assert rust["qfim_six_channel_total"] > rust["qfim_forward_only"]
+    assert rust["qcrb_six_channel_1shot"] < rust["qcrb_forward_only_1shot"]

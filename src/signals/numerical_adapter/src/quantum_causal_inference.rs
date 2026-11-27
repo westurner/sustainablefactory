@@ -3267,6 +3267,389 @@ pub fn audit_osid_zhao_and_goswami_literature_benchmarks() -> OsidZhaoGoswamiBen
     }
 }
 
+/// 16-point Gauss–Legendre quadrature nodes and weights on `[-1, 1]` (full `f64` precision),
+/// composed over `n_sub` subintervals for machine-precision weak-form IBP integrals.
+fn composite_gl16_grid(n_sub: usize) -> (Vec<f64>, Vec<f64>) {
+    const NODES_16: [f64; 16] = [
+        -0.98940093499164994,
+        -0.94457502307323260,
+        -0.86563120238783176,
+        -0.75540440835500300,
+        -0.61787624440264377,
+        -0.45801677765722737,
+        -0.28160355077925892,
+        -0.09501250983763744,
+        0.09501250983763744,
+        0.28160355077925892,
+        0.45801677765722737,
+        0.61787624440264377,
+        0.75540440835500300,
+        0.86563120238783176,
+        0.94457502307323260,
+        0.98940093499164994,
+    ];
+    const WEIGHTS_16: [f64; 16] = [
+        0.02715245941175418,
+        0.06225352393864746,
+        0.09515851168249261,
+        0.12462897125553407,
+        0.14959598881657671,
+        0.16915651939500265,
+        0.18260341504492364,
+        0.18945061045506864,
+        0.18945061045506864,
+        0.18260341504492364,
+        0.16915651939500265,
+        0.14959598881657671,
+        0.12462897125553407,
+        0.09515851168249261,
+        0.06225352393864746,
+        0.02715245941175418,
+    ];
+    let mut pts = Vec::with_capacity(n_sub * 16);
+    let mut wts = Vec::with_capacity(n_sub * 16);
+    let h_sub = 2.0 / (n_sub as f64);
+    for s in 0..n_sub {
+        let a = -1.0 + (s as f64) * h_sub;
+        let mid = a + 0.5 * h_sub;
+        let half = 0.5 * h_sub;
+        for i in 0..16 {
+            pts.push(mid + half * NODES_16[i]);
+            wts.push(half * WEIGHTS_16[i]);
+        }
+    }
+    (pts, wts)
+}
+
+/// Evaluates `f(u) = (1 - u^2)^4 * u^m` together with its exact 1st, 2nd, 3rd, and 4th derivatives.
+fn c4_bump_jet(u: f64, m: usize) -> [f64; 5] {
+    // Expand `(1 - u^2)^4 = 1 - 4 u^2 + 6 u^4 - 4 u^6 + u^8`.
+    let mut poly = [0.0_f64; 13];
+    let base = [(0usize, 1.0_f64), (2, -4.0), (4, 6.0), (6, -4.0), (8, 1.0)];
+    for &(deg, c) in &base {
+        poly[deg + m] += c;
+    }
+    let mut deriv = [[0.0_f64; 13]; 5];
+    deriv[0] = poly;
+    for d in 1..=4 {
+        for k in 1..13 {
+            deriv[d][k - 1] = (k as f64) * deriv[d - 1][k];
+        }
+    }
+    let mut vals = [0.0_f64; 5];
+    for d in 0..=4 {
+        let mut acc = 0.0_f64;
+        for k in (0..13).rev() {
+            acc = acc * u + deriv[d][k];
+        }
+        vals[d] = acc;
+    }
+    vals
+}
+
+/// Integration of our Sato Grassmannian PDE solvers (`PlabicGr24Solver`, `AKNS`, `DualSchubertQFIM`)
+/// with `QCI-OSID` weak-form `CPQR` recovery, zero-one positroid stratification, far-field
+/// overflow-proof extrapolation, and 6-channel QCRB conditioning.
+#[derive(Clone, Debug)]
+pub struct OsidSatoPdeIntegrationAudit {
+    pub kp2_top_cell_rank: usize,
+    pub kp2_top_cell_sigma_min: f64,
+    pub kp2_top_cell_max_coeff_err: f64,
+    pub kp2_far_field_u: f64,
+    pub kp2_far_field_residual: f64,
+    pub kdv2_on_kp2_dict_rank: usize,
+    pub kdv2_on_kp2_dict_sigma_min: f64,
+    pub kdv2_subdict_rank: usize,
+    pub kdv2_subdict_max_coeff_err: f64,
+    pub kdv1_traveling_wave_rank: usize,
+    pub kdv1_on_3term_kdv_rank: usize,
+    pub kdv1_on_3term_sigma_min: f64,
+    pub akns_bright_rank: usize,
+    pub akns_bright_cxx: f64,
+    pub akns_bright_g: f64,
+    pub akns_bright_max_err: f64,
+    pub akns_dark_rank: usize,
+    pub akns_dark_cxx: f64,
+    pub akns_dark_g: f64,
+    pub akns_dark_max_err: f64,
+    pub qfim_forward_only: f64,
+    pub qfim_six_channel_total: f64,
+    pub qcrb_forward_only_1shot: f64,
+    pub qcrb_six_channel_1shot: f64,
+}
+
+pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
+    use crate::sato_grassmannian::{
+        PlabicGr24Solver, evaluate_akns_solitons, evaluate_dual_schubert_qfim,
+    };
+
+    // 1. Weak-form KP-II recovery across PlabicGr24Solver positroid strata
+    let (pts3, wts3) = composite_gl16_grid(2); // 32 points/axis on [-1, 1]^3 (degree-31 GL-16/half)
+    let n3 = pts3.len();
+    let (hx, hy, ht) = (1.6_f64, 1.6_f64, 0.8_f64);
+    let modes3 = [
+        (0usize, 0usize, 0usize),
+        (1, 0, 0),
+        (0, 1, 0),
+        (0, 0, 1),
+        (2, 0, 0),
+        (1, 1, 0),
+        (1, 0, 1),
+        (0, 1, 1),
+        (0, 2, 0),
+        (0, 0, 2),
+    ];
+    let bx: Vec<[f64; 5]> = modes3
+        .iter()
+        .flat_map(|&(mx, _, _)| pts3.iter().map(move |&xi| c4_bump_jet(xi, mx)))
+        .collect();
+    let by: Vec<[f64; 5]> = modes3
+        .iter()
+        .flat_map(|&(_, my, _)| pts3.iter().map(move |&eta| c4_bump_jet(eta, my)))
+        .collect();
+    let bt: Vec<[f64; 5]> = modes3
+        .iter()
+        .flat_map(|&(_, _, mt)| pts3.iter().map(move |&tau| c4_bump_jet(tau, mt)))
+        .collect();
+
+    let assemble_kp2_weak = |solver: &PlabicGr24Solver| -> (Vec<Vec<f64>>, Vec<f64>) {
+        let mut u_grid = vec![0.0_f64; n3 * n3 * n3];
+        for i in 0..n3 {
+            let x = hx * pts3[i];
+            for j in 0..n3 {
+                let y = hy * pts3[j];
+                for k in 0..n3 {
+                    let t = ht * pts3[k];
+                    u_grid[(i * n3 + j) * n3 + k] = solver.eval_jet_rust(x, y, t).u;
+                }
+            }
+        }
+        let mut g_sub = vec![vec![0.0_f64; 3]; modes3.len()];
+        let mut rhs = vec![0.0_f64; modes3.len()];
+        let vol = hx * hy * ht;
+        for r in 0..modes3.len() {
+            let off = r * n3;
+            let (mut c_xt, mut c_xxxx, mut c_u2xx, mut c_yy) = (0.0, 0.0, 0.0, 0.0);
+            for i in 0..n3 {
+                let fx = bx[off + i];
+                let fx0 = fx[0];
+                let fx1 = fx[1] / hx;
+                let fx2 = fx[2] / (hx * hx);
+                let fx4 = fx[4] / (hx * hx * hx * hx);
+                for j in 0..n3 {
+                    let fy = by[off + j];
+                    let fy0 = fy[0];
+                    let fy2 = fy[2] / (hy * hy);
+                    let wxy = wts3[i] * wts3[j] * vol;
+                    for k in 0..n3 {
+                        let ft = bt[off + k];
+                        let ft0 = ft[0];
+                        let ft1 = ft[1] / ht;
+                        let w3 = wxy * wts3[k];
+                        let u = u_grid[(i * n3 + j) * n3 + k];
+                        c_xt += w3 * u * fx1 * fy0 * ft1;
+                        c_xxxx += w3 * u * fx4 * fy0 * ft0;
+                        c_u2xx += w3 * (u * u) * fx2 * fy0 * ft0;
+                        c_yy += w3 * u * fx0 * fy2 * ft0;
+                    }
+                }
+            }
+            // 4 u_xt - u_xxxx - 3 (u^2)_xx - 3 u_yy = 0 -> [-1/4, -3/4, -3/4] = -col(u_xt)
+            g_sub[r][0] = c_xxxx;
+            g_sub[r][1] = c_u2xx;
+            g_sub[r][2] = c_yy;
+            rhs[r] = -c_xt;
+        }
+        (g_sub, rhs)
+    };
+
+    let solver_kp2 =
+        PlabicGr24Solver::from_plabic_weights_rust([-2.0, -0.5, 0.7, 1.8], 1.2, 0.8, 1.5, 2.1)
+            .unwrap();
+    let (g_kp2, rhs_kp2) = assemble_kp2_weak(&solver_kp2);
+    let qr_kp2 = wias_column_pivoted_qr_solve(&g_kp2, &rhs_kp2, 1e-11).unwrap();
+    let kp2_true = [-0.25_f64, -0.75_f64, -0.75_f64];
+    let kp2_max_err = (0..3)
+        .map(|i| (qr_kp2.coeffs[i] - kp2_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    // Closed-loop overflow-proof far-field rollout at (100, -50, 20)
+    let far_jet = solver_kp2.eval_jet_rust(100.0, -50.0, 20.0);
+
+    // Symmetric KdV 2-soliton positroid cell (y-invariant -> u_yy vanishes -> rank 2 < 3 on KP-II)
+    let (k1, k2, c1, c2) = (0.6_f64, 1.3_f64, 1.4_f64, 0.9_f64);
+    let solver_kdv2 = PlabicGr24Solver::from_frame_rust(
+        [-k2, -k1, k1, k2],
+        [1.0, 0.0, 0.0, -c2],
+        [0.0, 1.0, c1, 0.0],
+    )
+    .unwrap();
+    let (g_kdv2_kp2, rhs_kdv2_kp2) = assemble_kp2_weak(&solver_kdv2);
+    let qr_kdv2_on_kp2 = wias_column_pivoted_qr_solve(&g_kdv2_kp2, &rhs_kdv2_kp2, 1e-11).unwrap();
+    let g_kdv2_sub: Vec<Vec<f64>> = g_kdv2_kp2.iter().map(|r| vec![r[0], r[1]]).collect();
+    let qr_kdv2_sub = wias_column_pivoted_qr_solve(&g_kdv2_sub, &rhs_kdv2_kp2, 1e-11).unwrap();
+    let kdv2_sub_err = (qr_kdv2_sub.coeffs[0] - (-0.25)).abs().max((qr_kdv2_sub.coeffs[1] - (-0.75)).abs());
+
+    // 2. (1+1)-D KdV 1-soliton traveling-wave degeneracy: {u_t, u_x, u_xxx, u u_x} has rank 2 < 4
+    // and {u_x, u_xxx, u u_x} has rank 2 < 3 (cannot uniquely separate speed from dispersion!)
+    let (pts2, wts2) = composite_gl16_grid(2); // 32 points/axis on [-1, 1]^2
+    let n2 = pts2.len();
+    let (hx1, ht1) = (2.2_f64, 0.8_f64);
+    let modes2 = [
+        (0usize, 0usize),
+        (1, 0),
+        (0, 1),
+        (2, 0),
+        (1, 1),
+        (0, 2),
+        (3, 0),
+        (2, 1),
+        (1, 2),
+        (0, 3),
+    ];
+    let k_s = 0.8_f64;
+    let mut g_kdv1_full = vec![vec![0.0_f64; 4]; modes2.len()];
+    for (r, &(mx, mt)) in modes2.iter().enumerate() {
+        for i in 0..n2 {
+            let x = hx1 * pts2[i];
+            let fx = c4_bump_jet(pts2[i], mx);
+            let fx1 = fx[1] / hx1;
+            let fx3 = fx[3] / (hx1 * hx1 * hx1);
+            for k in 0..n2 {
+                let t = ht1 * pts2[k];
+                let ft = c4_bump_jet(pts2[k], mt);
+                let ft1 = ft[1] / ht1;
+                let w2 = wts2[i] * wts2[k] * hx1 * ht1;
+                let ch = (k_s * x + k_s.powi(3) * t).cosh();
+                let u = 2.0 * k_s * k_s / (ch * ch);
+                g_kdv1_full[r][0] += -w2 * u * fx[0] * ft1;
+                g_kdv1_full[r][1] += -w2 * u * fx1 * ft[0];
+                g_kdv1_full[r][2] += -w2 * u * fx3 * ft[0];
+                g_kdv1_full[r][3] += -0.5 * w2 * u * u * fx1 * ft[0];
+            }
+        }
+    }
+    let zeros2 = vec![0.0_f64; modes2.len()];
+    let qr_kdv1_full = wias_column_pivoted_qr_solve(&g_kdv1_full, &zeros2, 1e-11).unwrap();
+    let g_kdv1_3term: Vec<Vec<f64>> = g_kdv1_full
+        .iter()
+        .map(|row| vec![row[1], row[2], row[3]])
+        .collect();
+    let rhs_kdv1_ut: Vec<f64> = g_kdv1_full.iter().map(|row| -row[0]).collect();
+    let qr_kdv1_3term = wias_column_pivoted_qr_solve(&g_kdv1_3term, &rhs_kdv1_ut, 1e-11).unwrap();
+
+    // 3. AKNS focusing NLS bright soliton & defocusing GPE dark soliton weak-form identification
+    //    verified alongside `evaluate_akns_solitons` residuals
+    let akns_check = evaluate_akns_solitons(1.3, 0.7, -0.4);
+    assert!(akns_check.bright_nls_residual_abs < 1e-12);
+    assert!(akns_check.dark_gpe_residual_abs < 1e-12);
+
+    let run_akns_weak = |is_bright: bool| -> WiasQrAudit {
+        let amp = 1.3_f64;
+        let (hx_a, ht_a) = (1.8_f64, 0.6_f64);
+        let modes_a = [(0usize, 0usize), (1, 0), (0, 1), (2, 0), (1, 1), (0, 2), (3, 0), (2, 1)];
+        let mut g_a = vec![vec![0.0_f64; 2]; 2 * modes_a.len()];
+        let mut rhs_a = vec![0.0_f64; 2 * modes_a.len()];
+        for (r, &(mx, mt)) in modes_a.iter().enumerate() {
+            let (mut l0_re, mut l0_im, mut l1_re, mut l1_im, mut rhs_re, mut rhs_im) =
+                (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+            for i in 0..n2 {
+                let x = hx_a * pts2[i];
+                let fx = c4_bump_jet(pts2[i], mx);
+                let fx2 = fx[2] / (hx_a * hx_a);
+                let ax = amp * x;
+                let env = if is_bright {
+                    amp / ax.cosh()
+                } else {
+                    amp * ax.tanh()
+                };
+                for k in 0..n2 {
+                    let t = ht_a * pts2[k];
+                    let ft = c4_bump_jet(pts2[k], mt);
+                    let ft1 = ft[1] / ht_a;
+                    let w2 = wts2[i] * wts2[k] * hx_a * ht_a;
+                    let phase_ang = if is_bright {
+                        amp * amp * t
+                    } else {
+                        -2.0 * amp * amp * t
+                    };
+                    let q_re = env * phase_ang.cos();
+                    let q_im = env * phase_ang.sin();
+                    let q_norm_sq = q_re * q_re + q_im * q_im;
+                    let nl_re = q_norm_sq * q_re;
+                    let nl_im = q_norm_sq * q_im;
+
+                    let phi = fx[0] * ft[0];
+                    let phi_xx = fx2 * ft[0];
+                    let phi_t = fx[0] * ft1;
+                    l0_re += w2 * q_re * phi_xx;
+                    l0_im += w2 * q_im * phi_xx;
+                    l1_re += w2 * nl_re * phi;
+                    l1_im += w2 * nl_im * phi;
+                    // i * int q * phi_t = (-int q_im * phi_t) + i (int q_re * phi_t)
+                    rhs_re += -w2 * q_im * phi_t;
+                    rhs_im += w2 * q_re * phi_t;
+                }
+            }
+            g_a[2 * r][0] = l0_re;
+            g_a[2 * r][1] = l1_re;
+            rhs_a[2 * r] = rhs_re;
+            g_a[2 * r + 1][0] = l0_im;
+            g_a[2 * r + 1][1] = l1_im;
+            rhs_a[2 * r + 1] = rhs_im;
+        }
+        wias_column_pivoted_qr_solve(&g_a, &rhs_a, 1e-11).unwrap()
+    };
+
+    let qr_bright = run_akns_weak(true);
+    let qr_dark = run_akns_weak(false);
+    let bright_err = (qr_bright.coeffs[0] - 1.0)
+        .abs()
+        .max((qr_bright.coeffs[1] - 2.0).abs());
+    let dark_err = (qr_dark.coeffs[0] - 1.0)
+        .abs()
+        .max((qr_dark.coeffs[1] - (-2.0)).abs());
+
+    // 4. 6-channel Dual-Schubert QFIM QCRB conditioning bridge
+    let qfim_audit = evaluate_dual_schubert_qfim(
+        [0.3, 0.2, 0.15, 0.1, 0.15, 0.1],
+        [0.1, -0.05, 0.04, -0.03, -0.04, -0.02],
+        [0.2, 0.5, -0.3, 0.7, -0.1, 0.4],
+        [0.25, 0.25, 0.1, 0.2, 0.1, 0.1],
+        [-0.08, 0.06, 0.02, -0.01, 0.03, -0.02],
+        [-0.4, 0.1, 0.6, -0.2, 0.3, -0.5],
+    );
+    let qcrb_fwd_1 = 1.0 / qfim_audit.fq_forward;
+    let qcrb_tot_1 = 1.0 / qfim_audit.fq_total_six_channel;
+
+    OsidSatoPdeIntegrationAudit {
+        kp2_top_cell_rank: qr_kp2.rank,
+        kp2_top_cell_sigma_min: qr_kp2.sigma_min_est,
+        kp2_top_cell_max_coeff_err: kp2_max_err,
+        kp2_far_field_u: far_jet.u,
+        kp2_far_field_residual: far_jet.kp2_residual,
+        kdv2_on_kp2_dict_rank: qr_kdv2_on_kp2.rank,
+        kdv2_on_kp2_dict_sigma_min: qr_kdv2_on_kp2.sigma_min_est,
+        kdv2_subdict_rank: qr_kdv2_sub.rank,
+        kdv2_subdict_max_coeff_err: kdv2_sub_err,
+        kdv1_traveling_wave_rank: qr_kdv1_full.rank,
+        kdv1_on_3term_kdv_rank: qr_kdv1_3term.rank,
+        kdv1_on_3term_sigma_min: qr_kdv1_3term.sigma_min_est,
+        akns_bright_rank: qr_bright.rank,
+        akns_bright_cxx: qr_bright.coeffs[0],
+        akns_bright_g: qr_bright.coeffs[1],
+        akns_bright_max_err: bright_err,
+        akns_dark_rank: qr_dark.rank,
+        akns_dark_cxx: qr_dark.coeffs[0],
+        akns_dark_g: qr_dark.coeffs[1],
+        akns_dark_max_err: dark_err,
+        qfim_forward_only: qfim_audit.fq_forward,
+        qfim_six_channel_total: qfim_audit.fq_total_six_channel,
+        qcrb_forward_only_1shot: qcrb_fwd_1,
+        qcrb_six_channel_1shot: qcrb_tot_1,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -4108,5 +4491,32 @@ mod tests {
         assert!(zg.zhao_n15_advantage_ratio > 1.3);
         assert!(zg.goswami_z_ideal_bound >= 18.0);
         assert!(zg.goswami_z_misaligned_bound > 14.0);
+    }
+
+    #[test]
+    fn qci_osid_sato_kp2_kdv_akns_integration_holds() {
+        let s = audit_osid_sato_kp2_kdv_akns_solitons();
+        assert_eq!(s.kp2_top_cell_rank, 3);
+        assert!(s.kp2_top_cell_sigma_min > 1e-2);
+        assert!(s.kp2_top_cell_max_coeff_err < 1e-9);
+        assert!(s.kp2_far_field_u.is_finite());
+        assert!(s.kp2_far_field_residual.abs() < 1e-11);
+
+        assert_eq!(s.kdv2_on_kp2_dict_rank, 2);
+        assert!(s.kdv2_on_kp2_dict_sigma_min < 1e-12);
+        assert_eq!(s.kdv2_subdict_rank, 2);
+        assert!(s.kdv2_subdict_max_coeff_err < 1e-12);
+
+        assert_eq!(s.kdv1_traveling_wave_rank, 2);
+        assert_eq!(s.kdv1_on_3term_kdv_rank, 2);
+        assert!(s.kdv1_on_3term_sigma_min < 1e-12);
+
+        assert_eq!(s.akns_bright_rank, 2);
+        assert!(s.akns_bright_max_err < 1e-10);
+        assert_eq!(s.akns_dark_rank, 2);
+        assert!(s.akns_dark_max_err < 1e-10);
+
+        assert!(s.qfim_six_channel_total > s.qfim_forward_only);
+        assert!(s.qcrb_six_channel_1shot < s.qcrb_forward_only_1shot);
     }
 }
