@@ -178,22 +178,35 @@ def verify_symbolic_yang_mills_higgs_cpt_identities() -> dict[str, bool]:
     k_eff_expr = n_c * (2 * lam_qcd / m_phys_s - 1)
     gko_match_ok = sp.simplify(m_gko.subs(k_lvl, k_eff_expr) - m_phys_s) == 0
 
-    d_ew, e_ew, lam_ew, t0_ew, tc_ew = sp.symbols("d_ew e_ew lam_ew t0_ew tc_ew", positive=True)
-    phic_expr = 2 * e_ew * tc_ew / lam_ew
-    v_eff_tc = (
-        d_ew * (tc_ew**2 - t0_ew**2) * phic_expr**2
-        - e_ew * tc_ew * phic_expr**3
-        + (lam_ew / 4) * phic_expr**4
+    d_ew, e_ew, lam_ew, t0_ew, tc_ew, phi_ew = sp.symbols(
+        "d_ew e_ew lam_ew t0_ew tc_ew phi_ew", positive=True
     )
-    v_eff_factored = phic_expr**2 * (d_ew * (tc_ew**2 - t0_ew**2) - e_ew**2 * tc_ew**2 / lam_ew)
-    ewpt_sym_ok = sp.simplify(v_eff_tc - v_eff_factored) == 0
+    phic_expr = 2 * e_ew * tc_ew / lam_ew
+    v_eff_phi = (
+        d_ew * (tc_ew**2 - t0_ew**2) * phi_ew**2
+        - e_ew * tc_ew * phi_ew**3
+        + (lam_ew / 4) * phi_ew**4
+    )
+    v_eff_dw = v_eff_phi.subs(d_ew * (tc_ew**2 - t0_ew**2), e_ew**2 * tc_ew**2 / lam_ew)
+    v_eff_exact_dw = (lam_ew / 4) * phi_ew**2 * (phi_ew - phic_expr) ** 2
+    dv_phic = sp.simplify(sp.diff(v_eff_dw, phi_ew).subs(phi_ew, phic_expr))
+    d2v_phic = sp.simplify(sp.diff(v_eff_dw, phi_ew, 2).subs(phi_ew, phic_expr))
+    v_bar_peak = sp.simplify(v_eff_dw.subs(phi_ew, phic_expr / 2))
+    ewpt_sym_ok = (
+        sp.simplify(v_eff_dw - v_eff_exact_dw) == 0
+        and dv_phic == 0
+        and sp.simplify(d2v_phic - 2 * e_ew**2 * tc_ew**2 / lam_ew) == 0
+        and sp.simplify(v_bar_peak - e_ew**4 * tc_ew**4 / (4 * lam_ew**3)) == 0
+    )
 
-    # (c) Higgs CP EFT identity: (sqrt(mu)*cos)^2 + (sqrt(mu)*sin)^2 = mu, 2*kap*kapt = mu*sin(2*alpha)
+    # (c) Higgs CP EFT identity + convention bridge:
+    # (sqrt(mu)*cos)^2 + (sqrt(mu)*sin)^2 = mu, 2*kap*kapt = mu*sin(2*alpha) = A_CP(1, mu, alpha)
     kap_eft = sp.sqrt(mu_sq) * sp.cos(alpha_cp)
     kapt_eft = sp.sqrt(mu_sq) * sp.sin(alpha_cp)
     higgs_eft_sym_ok = (
         sp.simplify(kap_eft**2 + kapt_eft**2 - mu_sq) == 0
         and sp.simplify(2 * kap_eft * kapt_eft - mu_sq * sp.sin(2 * alpha_cp)) == 0
+        and sp.simplify(2 * kap_eft * kapt_eft - a_cp.subs({kap: 1, kapt: mu_sq})) == 0
     )
 
     return {
@@ -240,7 +253,18 @@ def audit_yang_mills_higgs_cpt_high_precision(dps: int = 45) -> dict[str, Any]:
             * mp.sin(mp.mpf("1.144"))
         )
         a_62_mp = mp.exp(-(4 * mp.pi**2 * mp.mpf("6.2")) / (11 * 3))
+        b1_su3 = mp.mpf(102)
+        a_2loop_62_mp = (
+            (mp.mpf(11) * 3 / (8 * mp.pi**2 * mp.mpf("6.2"))) ** (-b1_su3 / (2 * mp.mpf(11) ** 2))
+        ) * a_62_mp
         atlas_kt_mp = mp.sin(28 * mp.pi / 180)
+        os_w = [mp.mpf("0.55"), mp.mpf("0.25"), mp.mpf("0.12"), mp.mpf("0.08")]
+        os_e = [mp.mpf("1.61"), mp.mpf("2.22"), mp.mpf("2.60"), mp.mpf("3.10")]
+        s2_05 = sum(w * mp.exp(-e * mp.mpf("0.5")) for w, e in zip(os_w, os_e))
+        s2_15 = sum(w * mp.exp(-e * mp.mpf("1.5")) for w, e in zip(os_w, os_e))
+        os_meff_mp = -mp.log(s2_15 / s2_05)
+        ewpt_bsm_bar_mp = mp.mpf("0.075") ** 4 / (4 * mp.mpf("0.120") ** 3)
+        ewpt_bsm_ratio_mp = 2 * mp.mpf("0.075") / mp.mpf("0.120")
 
     return {
         **sym_checks,
@@ -251,5 +275,13 @@ def audit_yang_mills_higgs_cpt_high_precision(dps: int = 45) -> dict[str, Any]:
         "rho_ew_diff": float(abs(rust_rep["rho_ew"] - float(rho_mp))),
         "jarlskog_diff": float(abs(rust_rep["jarlskog_sm"] - float(j_cp_mp))),
         "lattice_a62_diff": float(abs(rust_rep["lattice_spacing_beta62"] - float(a_62_mp))),
+        "lattice_a2loop_62_diff": float(
+            abs(rust_rep["lattice_spacing_two_loop_beta62"] - float(a_2loop_62_mp))
+        ),
         "atlas_kt_diff": float(abs(rust_rep["atlas_higgs_cp_max_kappatilde"] - float(atlas_kt_mp))),
+        "os_meff_diff": float(abs(rust_rep["os_effective_mass_gev"] - float(os_meff_mp))),
+        "ewpt_bsm_ratio_diff": float(abs(rust_rep["ewpt_bsm_phic_over_tc"] - float(ewpt_bsm_ratio_mp))),
+        "ewpt_bsm_bar_diff": float(
+            abs(rust_rep["ewpt_bsm_barrier_height_over_tc4"] - float(ewpt_bsm_bar_mp))
+        ),
     }

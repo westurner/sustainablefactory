@@ -161,6 +161,12 @@ pub fn lattice_asymptotic_spacing(b0: f64, n_color: f64, beta: f64) -> f64 {
     (-(4.0 * PI * PI * beta) / (b0 * n_color)).exp()
 }
 
+/// 2-loop asymptotic lattice spacing `a_2loop(beta) * Lambda_YM`.
+pub fn lattice_asymptotic_spacing_two_loop(b0: f64, b1: f64, n_color: f64, beta: f64) -> f64 {
+    let base = (b0 * n_color) / (8.0 * PI * PI * beta);
+    base.powf(-(b1 / (2.0 * b0 * b0))) * lattice_asymptotic_spacing(b0, n_color, beta)
+}
+
 /// Strong-coupling transfer-matrix logarithmic gap bound `-ln(beta / (2 N_c^2))`.
 pub fn strong_coupling_log_gap(beta: f64, n_color: f64) -> f64 {
     -(beta / (2.0 * n_color * n_color)).ln()
@@ -171,12 +177,36 @@ pub fn toupin_effective_running_level(n_color: f64, lambda_qcd_mev: f64, m_phys_
     n_color * (2.0 * lambda_qcd_mev / m_phys_mev - 1.0)
 }
 
+fn leading_principal_det<const N: usize>(mat: &[[f64; 4]; 4]) -> f64 {
+    let mut a = [[0.0_f64; N]; N];
+    for i in 0..N {
+        for j in 0..N {
+            a[i][j] = mat[i][j];
+        }
+    }
+    let mut det = 1.0_f64;
+    for k in 0..N {
+        let piv = a[k][k];
+        if piv.abs() < 1e-30 {
+            return 0.0;
+        }
+        det *= piv;
+        for i in (k + 1)..N {
+            let factor = a[i][k] / piv;
+            for j in k..N {
+                a[i][j] -= factor * a[k][j];
+            }
+        }
+    }
+    det
+}
+
 /// Audit finite Osterwalder–Schrader reflection positivity on a 4x4 Euclidean Schwinger matrix
-/// `G_{ij} = sum_k w_k exp(-E_k (t_i + t_j))` for a 3-state glueball spectrum, returning
-/// `(factorization_err, min_quad_form, clustering_ratio_excess)`.
-pub fn audit_os_reflection_positivity_gram() -> (f64, f64, f64) {
-    let weights = [0.60_f64, 0.25, 0.15];
-    let energies = [1.61_f64, 2.22, 2.60];
+/// `G_{ij} = sum_k w_k exp(-E_k (t_i + t_j))` for a 4-state glueball spectrum, returning
+/// `(factorization_err, min_quad_form, min_principal_minor, effective_mass_gev, cluster_excess)`.
+pub fn audit_os_reflection_positivity_gram() -> (f64, f64, f64, f64, f64) {
+    let weights = [0.55_f64, 0.25, 0.12, 0.08];
+    let energies = [1.61_f64, 2.22, 2.60, 3.10];
     let times = [0.2_f64, 0.5, 0.9, 1.4];
 
     let s2 = |tau: f64| -> f64 {
@@ -194,6 +224,11 @@ pub fn audit_os_reflection_positivity_gram() -> (f64, f64, f64) {
         }
     }
 
+    let min_minor = leading_principal_det::<1>(&g_mat)
+        .min(leading_principal_det::<2>(&g_mat))
+        .min(leading_principal_det::<3>(&g_mat))
+        .min(leading_principal_det::<4>(&g_mat));
+
     let test_vecs: [[f64; 4]; 4] = [
         [1.0, 0.0, 0.0, 0.0],
         [1.0, -2.0, 1.5, -0.5],
@@ -210,21 +245,27 @@ pub fn audit_os_reflection_positivity_gram() -> (f64, f64, f64) {
             }
         }
         let mut rhs = 0.0_f64;
-        for k in 0..3 {
+        for k in 0..4 {
             let amp: f64 = (0..4).map(|i| v[i] * (-energies[k] * times[i]).exp()).sum();
             rhs += weights[k] * amp * amp;
         }
         max_fact_err = max_fact_err.max((lhs - rhs).abs());
         min_quad = min_quad.min(lhs);
     }
+    let m_eff = -(s2(1.5) / s2(0.5)).ln() / (1.5 - 0.5);
     let w_sum: f64 = weights.iter().sum();
     let cluster_excess = s2(2.0) - w_sum * (-energies[0] * 2.0).exp();
-    (max_fact_err, min_quad, cluster_excess)
+    (max_fact_err, min_quad, min_minor, m_eff, cluster_excess)
 }
 
 /// First-order electroweak phase transition degeneracy & sphaleron washout evaluator:
-/// returns `(phi_c_over_Tc, degeneracy_potential_residual)`.
-pub fn audit_ewpt_sphaleron_washout(d_coeff: f64, e_coeff: f64, lam_t: f64, t0: f64) -> (f64, f64) {
+/// returns `(phi_c_over_Tc, degeneracy_potential_residual, barrier_height_over_Tc4)`.
+pub fn audit_ewpt_sphaleron_washout(
+    d_coeff: f64,
+    e_coeff: f64,
+    lam_t: f64,
+    t0: f64,
+) -> (f64, f64, f64) {
     // At T_c, D (T_c^2 - T_0^2) = E^2 T_c^2 / lam_t => T_c^2 = D T_0^2 / (D - E^2 / lam_t)
     let tc_sq = (d_coeff * t0 * t0) / (d_coeff - (e_coeff * e_coeff) / lam_t);
     let tc = tc_sq.sqrt();
@@ -232,7 +273,11 @@ pub fn audit_ewpt_sphaleron_washout(d_coeff: f64, e_coeff: f64, lam_t: f64, t0: 
     let v_eff_at_phic = d_coeff * (tc * tc - t0 * t0) * phic * phic
         - e_coeff * tc * phic.powi(3)
         + 0.25 * lam_t * phic.powi(4);
-    (phic / tc, v_eff_at_phic.abs())
+    let phi_half = 0.5 * phic;
+    let v_barrier = d_coeff * (tc * tc - t0 * t0) * phi_half * phi_half
+        - e_coeff * tc * phi_half.powi(3)
+        + 0.25 * lam_t * phi_half.powi(4);
+    (phic / tc, v_eff_at_phic.abs(), v_barrier / tc.powi(4))
 }
 
 /// Electroweak Higgs spontaneous symmetry breaking observables.
@@ -394,9 +439,12 @@ pub struct YangMillsHiggsCptAudit {
     pub cp_t_commutator_zero_when_delta_zero: f64,
     pub lattice_spacing_beta58: f64,
     pub lattice_spacing_beta62: f64,
+    pub lattice_spacing_two_loop_beta62: f64,
     pub strong_coupling_breakdown_at_18: f64,
     pub os_reflection_factorization_err: f64,
     pub os_reflection_min_quad: f64,
+    pub os_min_principal_minor: f64,
+    pub os_effective_mass_gev: f64,
     pub os_clustering_excess: f64,
     pub toupin_gko_max_mev_at_220: f64,
     pub toupin_k_eff_for_lattice_1610: f64,
@@ -405,6 +453,7 @@ pub struct YangMillsHiggsCptAudit {
     pub ewpt_sm_phic_over_tc: f64,
     pub ewpt_bsm_phic_over_tc: f64,
     pub ewpt_bsm_degeneracy_err: f64,
+    pub ewpt_bsm_barrier_height_over_tc4: f64,
 }
 
 /// Run the full Yang–Mills Mass Gap, Higgs SSB, CP, Sakharov, and Jost CPT audit.
@@ -621,15 +670,18 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
     // Gap-closure audits (`YM-3`)
     let a_58 = lattice_asymptotic_spacing(11.0, 3.0, 5.8);
     let a_62 = lattice_asymptotic_spacing(11.0, 3.0, 6.2);
+    let b1_su3 = 34.0 * 9.0 / 3.0; // = 102
+    let a_2loop_62 = lattice_asymptotic_spacing_two_loop(11.0, b1_su3, 3.0, 6.2);
     let sc_18 = strong_coupling_log_gap(18.0, 3.0);
-    let (os_fact_err, os_min_q, os_clust_exc) = audit_os_reflection_positivity_gram();
+    let (os_fact_err, os_min_q, os_min_minor, os_m_eff, os_clust_exc) =
+        audit_os_reflection_positivity_gram();
     let gko_max_220 = toupin_tree_glueball_mass_mev(3.0, 0.0, 220.0);
     let k_eff_1610 = toupin_effective_running_level(3.0, 220.0, 1610.0);
     let k_eff_err = (toupin_tree_glueball_mass_mev(3.0, k_eff_1610, 220.0) - 1610.0).abs();
     let alpha_max_rad = 28.0 * PI / 180.0;
     let atlas_max_kt = 1.0_f64.sqrt() * alpha_max_rad.sin();
-    let (sm_ratio, _sm_deg) = audit_ewpt_sphaleron_washout(0.35, 0.0096, 0.129, 90.0);
-    let (bsm_ratio, bsm_deg) = audit_ewpt_sphaleron_washout(0.35, 0.075, 0.120, 90.0);
+    let (sm_ratio, _sm_deg, _sm_bar) = audit_ewpt_sphaleron_washout(0.35, 0.0096, 0.129, 90.0);
+    let (bsm_ratio, bsm_deg, bsm_bar) = audit_ewpt_sphaleron_washout(0.35, 0.075, 0.120, 90.0);
 
     YangMillsHiggsCptAudit {
         su3_beta0: su3_b0,
@@ -663,9 +715,12 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         cp_t_commutator_zero_when_delta_zero: cp_comm_zero,
         lattice_spacing_beta58: a_58,
         lattice_spacing_beta62: a_62,
+        lattice_spacing_two_loop_beta62: a_2loop_62,
         strong_coupling_breakdown_at_18: sc_18,
         os_reflection_factorization_err: os_fact_err,
         os_reflection_min_quad: os_min_q,
+        os_min_principal_minor: os_min_minor,
+        os_effective_mass_gev: os_m_eff,
         os_clustering_excess: os_clust_exc,
         toupin_gko_max_mev_at_220: gko_max_220,
         toupin_k_eff_for_lattice_1610: k_eff_1610,
@@ -674,6 +729,7 @@ pub fn audit_yang_mills_higgs_cpt() -> YangMillsHiggsCptAudit {
         ewpt_sm_phic_over_tc: sm_ratio,
         ewpt_bsm_phic_over_tc: bsm_ratio,
         ewpt_bsm_degeneracy_err: bsm_deg,
+        ewpt_bsm_barrier_height_over_tc4: bsm_bar,
     }
 }
 
@@ -716,9 +772,12 @@ mod tests {
         assert!(rep.cp_violation_norm_when_delta_nonzero > 0.1);
         assert!(rep.cp_t_commutator_zero_when_delta_zero < 1e-15);
         assert!(rep.lattice_spacing_beta62 > 0.0 && rep.lattice_spacing_beta62 < rep.lattice_spacing_beta58);
+        assert!(rep.lattice_spacing_two_loop_beta62 > 0.0);
         assert_eq!(rep.strong_coupling_breakdown_at_18, 0.0);
         assert!(rep.os_reflection_factorization_err < 1e-15);
         assert!(rep.os_reflection_min_quad > 0.0);
+        assert!(rep.os_min_principal_minor > 0.0);
+        assert!(rep.os_effective_mass_gev >= 1.61);
         assert!(rep.os_clustering_excess <= 1e-15);
         assert!((rep.toupin_gko_max_mev_at_220 - 440.0).abs() < 1e-12);
         assert!(rep.toupin_k_eff_for_lattice_1610 < 0.0);
@@ -727,5 +786,11 @@ mod tests {
         assert!(rep.ewpt_sm_phic_over_tc < 0.25);
         assert!(rep.ewpt_bsm_phic_over_tc >= 1.0);
         assert!(rep.ewpt_bsm_degeneracy_err < 1e-8);
+        assert!(
+            (rep.ewpt_bsm_barrier_height_over_tc4
+                - 0.075_f64.powi(4) / (4.0 * 0.120_f64.powi(3)))
+            .abs()
+                < 1e-12
+        );
     }
 }

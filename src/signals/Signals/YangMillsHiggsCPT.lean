@@ -820,6 +820,17 @@ $a(\beta)\,\Lambda_{\mathrm{YM}} = \exp\!\left(-\frac{4\pi^2 \beta}{b_0 N_c}\rig
 def latticeAsymptoticSpacing (b0 nColor beta : ℝ) : ℝ :=
   Real.exp (-(4 * Real.pi ^ 2 * beta) / (b0 * nColor))
 
+/-- Universal pure-gauge 2-loop $\mathrm{SU}(N_c)$ beta-function coefficient $b_1 = 34 N_c^2 / 3$
+(in the normalization $\beta(g) = -\frac{b_0}{16\pi^2} g^3 - \frac{b_1}{(16\pi^2)^2} g^5$). -/
+def suNTwoLoopBeta1PureYM (nColor : ℝ) : ℝ :=
+  34 * nColor ^ 2 / 3
+
+/-- 2-loop $\mathrm{SU}(N_c)$ asymptotic lattice spacing in units of $\Lambda_{\mathrm{YM}}$:
+$a_{2\text{-loop}}(\beta)\,\Lambda_{\mathrm{YM}} = \left(\frac{b_0 N_c}{8\pi^2 \beta}\right)^{-b_1 / (2 b_0^2)} \exp\!\left(-\frac{4\pi^2 \beta}{b_0 N_c}\right)$. -/
+def latticeAsymptoticSpacingTwoLoop (b0 b1 nColor beta : ℝ) : ℝ :=
+  (b0 * nColor / (8 * Real.pi ^ 2 * beta)) ^ (-(b1 / (2 * b0 ^ 2))) *
+    latticeAsymptoticSpacing b0 nColor beta
+
 /-- Strong-coupling transfer-matrix gap lower bound $\Delta_{\mathrm{sc}}(\beta, N_c) = -\ln(\beta / (2 N_c^2))$
 on a unit lattice, vanishing at $\beta = 2 N_c^2$ and turning negative for $\beta > 2 N_c^2$. -/
 def strongCouplingLogGap (beta nColor : ℝ) : ℝ :=
@@ -896,22 +907,26 @@ def finiteOSReflectionForm {m r : ℕ}
 /-- **Gap 1 (Finite Osterwalder–Schrader Reflection Positivity & Exponential Clustering)**:
 1. **Exact OS Reflection Factorization**: for any non-negative spectral weights `w_k ≥ 0`,
    the OS form equals $\sum_k w_k \lvert \sum_i f_i e^{-E_k t_i} \rvert^2$, proving `.im = 0` and `.re ≥ 0`.
-2. **Exponential Clustering**: if all connected states satisfy `0 < E_gap ≤ E_k` and `0 ≤ τ`, then
-   $0 \le S_2(\tau) \le \bigl(\sum_k w_k\bigr) e^{-E_{\mathrm{gap}}\tau}$. -/
+2. **Exponential Clustering & Two-Time Effective-Mass Bound**: if all states satisfy
+   `eGap ≤ E_k` and `0 ≤ tau1 ≤ tau2`, then $0 \le S_2(\tau_2) \le S_2(\tau_1)\,e^{-E_{\mathrm{gap}}(\tau_2 - \tau_1)}$
+   and $S_2(\tau) \le \bigl(\sum_k w_k\bigr) e^{-E_{\mathrm{gap}}\tau}$. -/
 @[blueprint "thm:signals-ym-os-reflection-positivity"
-  (title := "Finite Osterwalder-Schrader reflection positivity and exponential clustering")
-  (statement := /-- Proves $\sum_{i,j}\overline{f_i}f_j S_2(t_i+t_j) = \sum_k w_k\lvert\sum_i f_i e^{-E_k t_i}\rvert^2 \ge 0$
-    and exponential clustering $0 \le S_2(\tau) \le (\sum_k w_k)e^{-E_{\mathrm{gap}}\tau}$ for $E_k \ge E_{\mathrm{gap}}$. -/)]
+  (title := "Finite Osterwalder-Schrader reflection positivity, two-time effective-mass bound, and exponential clustering")
+  (statement := /-- Proves $\sum_{i,j}\overline{f_i}f_j S_2(t_i+t_j) = \sum_k w_k\lvert\sum_i f_i e^{-E_k t_i}\rvert^2 \ge 0$,
+    two-time effective-mass decay $S_2(\tau_2) \le S_2(\tau_1)e^{-E_{\mathrm{gap}}(\tau_2-\tau_1)}$,
+    and $0 \le S_2(\tau) \le (\sum_k w_k)e^{-E_{\mathrm{gap}}\tau}$. -/)]
 theorem osReflectionPositivity_and_clustering_of_spectral_weights
     {m r : ℕ} (weights energies : Fin m → ℝ) (times : Fin r → ℝ) (fTest : Fin r → ℂ)
-    (eGap tau : ℝ)
+    (eGap tau1 tau2 : ℝ)
     (hw : ∀ k : Fin m, 0 ≤ weights k)
-    (hE : ∀ k : Fin m, eGap ≤ energies k) (htau : 0 ≤ tau) :
+    (hE : ∀ k : Fin m, eGap ≤ energies k) (htau1 : 0 ≤ tau1) (htau12 : tau1 ≤ tau2) :
     (finiteOSReflectionForm weights energies times fTest).im = 0 ∧
       0 ≤ (finiteOSReflectionForm weights energies times fTest).re ∧
-      0 ≤ finiteOSSchwingerTwoPoint weights energies tau ∧
-      finiteOSSchwingerTwoPoint weights energies tau ≤
-        (∑ k : Fin m, weights k) * Real.exp (-eGap * tau) := by
+      0 ≤ finiteOSSchwingerTwoPoint weights energies tau2 ∧
+      finiteOSSchwingerTwoPoint weights energies tau2 ≤
+        (∑ k : Fin m, weights k) * Real.exp (-eGap * tau2) ∧
+      finiteOSSchwingerTwoPoint weights energies tau2 ≤
+        finiteOSSchwingerTwoPoint weights energies tau1 * Real.exp (-eGap * (tau2 - tau1)) := by
   have h_factor :
       finiteOSReflectionForm weights energies times fTest =
         ∑ k : Fin m, (weights k : ℂ) *
@@ -997,18 +1012,40 @@ theorem osReflectionPositivity_and_clustering_of_spectral_weights
       (Complex.normSq (∑ i : Fin r, fTest i * (Real.exp (-energies k * times i) : ℂ)) : ℂ)).re
     simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
     exact mul_nonneg (hw k) (Complex.normSq_nonneg _)
-  have h_s2_nn : 0 ≤ finiteOSSchwingerTwoPoint weights energies tau := by
+  have h_s2_nn : 0 ≤ finiteOSSchwingerTwoPoint weights energies tau2 := by
     unfold finiteOSSchwingerTwoPoint
     exact Finset.sum_nonneg fun k _ => mul_nonneg (hw k) (Real.exp_pos _).le
-  have h_s2_le : finiteOSSchwingerTwoPoint weights energies tau ≤
-      (∑ k : Fin m, weights k) * Real.exp (-eGap * tau) := by
+  have htau2_nn : 0 ≤ tau2 := le_trans htau1 htau12
+  have h_s2_le : finiteOSSchwingerTwoPoint weights energies tau2 ≤
+      (∑ k : Fin m, weights k) * Real.exp (-eGap * tau2) := by
     unfold finiteOSSchwingerTwoPoint
     rw [Finset.sum_mul]
     refine Finset.sum_le_sum fun k _ => ?_
     apply mul_le_mul_of_nonneg_left _ (hw k)
     apply Real.exp_le_exp.mpr
-    exact mul_le_mul_of_nonneg_right (neg_le_neg (hE k)) htau
-  exact ⟨h_im, h_re, h_s2_nn, h_s2_le⟩
+    exact mul_le_mul_of_nonneg_right (neg_le_neg (hE k)) htau2_nn
+  have h_s2_two_time : finiteOSSchwingerTwoPoint weights energies tau2 ≤
+      finiteOSSchwingerTwoPoint weights energies tau1 * Real.exp (-eGap * (tau2 - tau1)) := by
+    unfold finiteOSSchwingerTwoPoint
+    rw [Finset.sum_mul]
+    refine Finset.sum_le_sum fun k _ => ?_
+    have h_dt : 0 ≤ tau2 - tau1 := sub_nonneg.mpr htau12
+    have h_exp_split :
+        Real.exp (-energies k * tau2) =
+          Real.exp (-energies k * tau1) * Real.exp (-energies k * (tau2 - tau1)) := by
+      rw [← Real.exp_add]
+      congr 1; ring
+    have h_exp_le : Real.exp (-energies k * (tau2 - tau1)) ≤ Real.exp (-eGap * (tau2 - tau1)) :=
+      Real.exp_le_exp.mpr (mul_le_mul_of_nonneg_right (neg_le_neg (hE k)) h_dt)
+    calc
+      weights k * Real.exp (-energies k * tau2) =
+          weights k * (Real.exp (-energies k * tau1) * Real.exp (-energies k * (tau2 - tau1))) := by
+        rw [h_exp_split]
+      _ ≤ weights k * (Real.exp (-energies k * tau1) * Real.exp (-eGap * (tau2 - tau1))) := by
+        exact mul_le_mul_of_nonneg_left
+          (mul_le_mul_of_nonneg_left h_exp_le (Real.exp_pos _).le) (hw k)
+      _ = weights k * Real.exp (-energies k * tau1) * Real.exp (-eGap * (tau2 - tau1)) := by ring
+  exact ⟨h_im, h_re, h_s2_nn, h_s2_le, h_s2_two_time⟩
 
 /-- Effective continuous level $k_{\mathrm{eff}}(N_c, \Lambda_{\mathrm{QCD}}, M_{\mathrm{phys}}) = N_c (2\Lambda_{\mathrm{QCD}} / M_{\mathrm{phys}} - 1)$
 matching `toupinTreeGlueballMass nColor kEff lambdaQCD = mPhys`. -/
@@ -1088,6 +1125,34 @@ theorem kallenLehmann_confined_envelope_and_gko_obstruction
     nlinarith
   exact ⟨ne_of_gt homega_pos, h_env_le, h_gko_lt, h_keff_eq, h_keff_neg⟩
 
+/-- **Critical Soft-Pole Källén–Lehmann Integrable Endpoint Bound (`Δ = 1`)**:
+For the critical soft-pole case $\Delta = 1$ with soft $1/\omega$ dressing (`a_ω = ω⁻¹ exp(-μ ω)`),
+the thresholded integrand `(ω^2 - mGap^2)^(-1/2) * exp(-μ ω)` obeys the integrable square-root
+endpoint envelope `(2 * mGap * (ω - mGap))^(-1/2) * exp(-μ * mGap)` for every `ω > mGap > 0`,
+and `0 < latticeAsymptoticSpacingTwoLoop b0 b1 nColor beta`. -/
+theorem kallenLehmann_critical_soft_pole_and_two_loop_rg
+    (mGap omega muIr b0 b1 nColor beta : ℝ)
+    (hm : 0 < mGap) (homega : mGap < omega) (hmu : 0 ≤ muIr)
+    (hb0 : 0 < b0) (hN : 0 < nColor) (hbeta : 0 < beta) :
+    (omega ^ 2 - mGap ^ 2) ^ (-(1 / 2 : ℝ)) * Real.exp (-muIr * omega) ≤
+        (2 * mGap * (omega - mGap)) ^ (-(1 / 2 : ℝ)) * Real.exp (-muIr * mGap) ∧
+      0 < latticeAsymptoticSpacingTwoLoop b0 b1 nColor beta := by
+  have h_dm : 0 < omega - mGap := sub_pos.mpr homega
+  have h_2m : 0 < 2 * mGap * (omega - mGap) := by positivity
+  have h_sq_ge : 2 * mGap * (omega - mGap) ≤ omega ^ 2 - mGap ^ 2 := by
+    nlinarith [sq_nonneg (omega - mGap)]
+  have h_rpow :
+      (omega ^ 2 - mGap ^ 2) ^ (-(1 / 2 : ℝ)) ≤ (2 * mGap * (omega - mGap)) ^ (-(1 / 2 : ℝ)) :=
+    Real.rpow_le_rpow_of_nonpos h_2m h_sq_ge (by norm_num)
+  have h_exp : Real.exp (-muIr * omega) ≤ Real.exp (-muIr * mGap) := by
+    apply Real.exp_le_exp.mpr
+    nlinarith
+  have h_two_loop_pos : 0 < latticeAsymptoticSpacingTwoLoop b0 b1 nColor beta := by
+    unfold latticeAsymptoticSpacingTwoLoop latticeAsymptoticSpacing
+    have h_base : 0 < b0 * nColor / (8 * Real.pi ^ 2 * beta) := by positivity
+    exact mul_pos (Real.rpow_pos_of_pos h_base _) (Real.exp_pos _)
+  exact ⟨mul_le_mul h_rpow h_exp (Real.exp_pos _).le (Real.rpow_nonneg h_2m.le _), h_two_loop_pos⟩
+
 /-- CP-even Yukawa modifier $\kappa_f = \sqrt{\mu_{\mathrm{sig}}} \cos\alpha_{\mathrm{CP}}$. -/
 def higgsCpKappa (muSig alphaCP : ℝ) : ℝ :=
   Real.sqrt muSig * Real.cos alphaCP
@@ -1096,22 +1161,27 @@ def higgsCpKappa (muSig alphaCP : ℝ) : ℝ :=
 def higgsCpKappaTilde (muSig alphaCP : ℝ) : ℝ :=
   Real.sqrt muSig * Real.sin alphaCP
 
+/-- Physical ATLAS/CMS CP-odd interference asymmetry in the EFT parameterization
+$\mathcal{A}_{\mathrm{CP}}^{\mathrm{EFT}}(\mu_{\mathrm{sig}}, \alpha_{\mathrm{CP}}) = 2 \kappa_f \tilde{\kappa}_f = \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}})$. -/
+def higgsCpEftSignedAsymmetry (muSig alphaCP : ℝ) : ℝ :=
+  2 * higgsCpKappa muSig alphaCP * higgsCpKappaTilde muSig alphaCP
+
 /-- **Gate 3 (ATLAS/CMS Higgs CP-Mixing EFT & Exclusion-Envelope Theorem)**:
-1. `κ_f^2 + κ̃_f^2 = μ_sig` and `2 κ_f κ̃_f = μ_sig sin(2 α_CP)`.
+1. `κ_f^2 + κ̃_f^2 = μ_sig` and `higgsCpEftSignedAsymmetry μ_sig α_CP = μ_sig sin(2 α_CP) = higgsCpMixedDecayAsymmetry 1 μ_sig α_CP`.
 2. Under experimental upper bounds `0 ≤ μ_sig ≤ μ_max` and `|α_CP| ≤ α_max ≤ π/2`,
    the CP-odd modifier satisfies `|κ̃_f| ≤ √μ_max sin(α_max)`. -/
 @[blueprint "thm:signals-ym-higgs-cp-eft-envelope"
   (title := "Higgs CP-mixing EFT decomposition and ATLAS/CMS exclusion envelope")
   (statement := /-- Proves $\kappa_f^2 + \tilde{\kappa}_f^2 = \mu_{\mathrm{sig}}$,
-    $2\kappa_f\tilde{\kappa}_f = \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}})$, and
+    $2\kappa_f\tilde{\kappa}_f = \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}}) = \mathcal{A}_{\mathrm{CP}}(1,\mu_{\mathrm{sig}},\alpha_{\mathrm{CP}})$, and
     $\lvert\tilde{\kappa}_f\rvert \le \sqrt{\mu_{\max}}\sin\alpha_{\max}$ under $\lvert\alpha_{\mathrm{CP}}\rvert \le \alpha_{\max} \le \pi/2$. -/)]
 theorem higgsCpEftExclusion_envelope
     (muSig muMax alphaCP alphaMax : ℝ)
     (h_mu : 0 ≤ muSig) (h_mu_le : muSig ≤ muMax)
     (h_alpha : |alphaCP| ≤ alphaMax) (h_alpha_le : alphaMax ≤ Real.pi / 2) :
     higgsCpKappa muSig alphaCP ^ 2 + higgsCpKappaTilde muSig alphaCP ^ 2 = muSig ∧
-      2 * higgsCpKappa muSig alphaCP * higgsCpKappaTilde muSig alphaCP =
-        muSig * Real.sin (2 * alphaCP) ∧
+      higgsCpEftSignedAsymmetry muSig alphaCP = muSig * Real.sin (2 * alphaCP) ∧
+      higgsCpEftSignedAsymmetry muSig alphaCP = higgsCpMixedDecayAsymmetry 1 muSig alphaCP ∧
       |higgsCpKappaTilde muSig alphaCP| ≤ Real.sqrt muMax * Real.sin alphaMax := by
   have h_mu_max_nn : 0 ≤ muMax := le_trans h_mu h_mu_le
   have h_alpha_max_nn : 0 ≤ alphaMax := le_trans (abs_nonneg alphaCP) h_alpha
@@ -1125,15 +1195,20 @@ theorem higgsCpEftExclusion_envelope
       _ = muSig * 1 := by rw [h_sq_sqrt, Real.cos_sq_add_sin_sq]
       _ = muSig := mul_one muSig
   have h_cross :
-      2 * higgsCpKappa muSig alphaCP * higgsCpKappaTilde muSig alphaCP =
-        muSig * Real.sin (2 * alphaCP) := by
-    unfold higgsCpKappa higgsCpKappaTilde
+      higgsCpEftSignedAsymmetry muSig alphaCP = muSig * Real.sin (2 * alphaCP) := by
+    unfold higgsCpEftSignedAsymmetry higgsCpKappa higgsCpKappaTilde
     have h_sq_sqrt : Real.sqrt muSig ^ 2 = muSig := Real.sq_sqrt h_mu
     rw [Real.sin_two_mul]
     calc
       2 * (Real.sqrt muSig * Real.cos alphaCP) * (Real.sqrt muSig * Real.sin alphaCP)
         = Real.sqrt muSig ^ 2 * (2 * Real.sin alphaCP * Real.cos alphaCP) := by ring
       _ = muSig * (2 * Real.sin alphaCP * Real.cos alphaCP) := by rw [h_sq_sqrt]
+  have h_bridge :
+      higgsCpEftSignedAsymmetry muSig alphaCP = higgsCpMixedDecayAsymmetry 1 muSig alphaCP := by
+    rw [h_cross]
+    unfold higgsCpMixedDecayAsymmetry
+    rw [Real.sin_two_mul]
+    ring
   have h_abs_sin : |Real.sin alphaCP| ≤ Real.sin alphaMax := by
     have h_eq : |Real.sin alphaCP| = Real.sin |alphaCP| := by
       rcases le_total 0 alphaCP with h_pos | h_neg
@@ -1164,7 +1239,7 @@ theorem higgsCpEftExclusion_envelope
     unfold higgsCpKappaTilde
     rw [abs_mul, abs_of_nonneg (Real.sqrt_nonneg muSig)]
     exact mul_le_mul (Real.sqrt_le_sqrt h_mu_le) h_abs_sin (abs_nonneg _) (Real.sqrt_nonneg muMax)
-  exact ⟨h_sum_sq, h_cross, h_env⟩
+  exact ⟨h_sum_sq, h_cross, h_bridge, h_env⟩
 
 /-- Finite-temperature 1-loop electroweak effective Higgs potential
 $V_{\mathrm{eff}}(\phi, T) = D(T^2 - T_0^2)\phi^2 - E T \phi^3 + \frac{\lambda_T}{4}\phi^4$. -/
@@ -1175,24 +1250,33 @@ def electroweakEffPotential (dCoeff eCoeff lamT t0 temp phi : ℝ) : ℝ :=
 def electroweakCriticalVev (eCoeff lamT tc : ℝ) : ℝ :=
   (2 * eCoeff * tc) / lamT
 
-/-- **Gate 4 (First-Order Electroweak Phase Transition & Sphaleron Washout Bound)**:
+/-- **Gate 4 (First-Order Electroweak Phase Transition, Double-Well Barrier, & Sphaleron Washout Bound)**:
 At the critical temperature `T_c > 0` with `E > 0, λ_T > 0`:
 1. The broken minimum $\phi_c = 2 E T_c / \lambda_T$ is degenerate with the symmetric vacuum
    `V_eff(φ_c, T_c) = 0` iff `D (T_c^2 - T_0^2) = E^2 T_c^2 / λ_T`.
-2. The dimensionless sphaleron-washout ratio equals $\phi_c / T_c = 2 E / \lambda_T$.
-3. Strong first-order transition criterion `φ_c / T_c ≥ 1` holds iff `λ_T ≤ 2 E` (which fails
-   in the pure SM at $m_H = 125.25\text{ GeV}$ where $\lambda_T \approx 0.129 > 2 E_{\mathrm{SM}} \approx 0.0192$). -/
+2. Under that degeneracy relation, the potential factors globally into the exact double-well
+   $V_{\mathrm{eff}}(\phi, T_c) = \frac{\lambda_T}{4} \phi^2 (\phi - \phi_c)^2 \ge 0$ for every $\phi \in \mathbb{R}$,
+   with strictly positive barrier height $V_{\mathrm{eff}}(\phi_c / 2, T_c) = \frac{\lambda_T}{64}\phi_c^4 = \frac{E^4 T_c^4}{4\lambda_T^3} > 0$.
+3. The dimensionless sphaleron-washout ratio equals $\phi_c / T_c = 2 E / \lambda_T$, and
+   `φ_c / T_c ≥ 1` holds iff `λ_T ≤ 2 E`. -/
 @[blueprint "thm:signals-ym-ewpt-sphaleron-washout"
-  (title := "First-order electroweak phase transition degeneracy and sphaleron washout bound")
+  (title := "First-order electroweak phase transition double-well barrier and sphaleron washout bound")
   (statement := /-- Proves degeneracy $V_{\mathrm{eff}}(\phi_c, T_c) = 0 \iff D(T_c^2-T_0^2) = E^2 T_c^2/\lambda_T$,
-    exact order-parameter ratio $\phi_c/T_c = 2E/\lambda_T$, and strong first-order washout avoidance
-    $\phi_c/T_c \ge 1 \iff \lambda_T \le 2E$. -/)]
+    global double-well factorization $V_{\mathrm{eff}}(\phi, T_c) = \frac{\lambda_T}{4}\phi^2(\phi-\phi_c)^2 \ge 0$,
+    positive barrier height at $\phi_c/2$, and strong first-order washout avoidance $\phi_c/T_c \ge 1 \iff \lambda_T \le 2E$. -/)]
 theorem electroweak_first_order_washout_criterion
     (dCoeff eCoeff lamT t0 tc : ℝ)
     (he : 0 < eCoeff) (hlam : 0 < lamT) (htc : 0 < tc) :
     let phic := electroweakCriticalVev eCoeff lamT tc
     (electroweakEffPotential dCoeff eCoeff lamT t0 tc phic = 0 ↔
         dCoeff * (tc ^ 2 - t0 ^ 2) = eCoeff ^ 2 * tc ^ 2 / lamT) ∧
+      (dCoeff * (tc ^ 2 - t0 ^ 2) = eCoeff ^ 2 * tc ^ 2 / lamT →
+        (∀ phi : ℝ, electroweakEffPotential dCoeff eCoeff lamT t0 tc phi =
+            (lamT / 4) * phi ^ 2 * (phi - phic) ^ 2 ∧
+          0 ≤ electroweakEffPotential dCoeff eCoeff lamT t0 tc phi) ∧
+        electroweakEffPotential dCoeff eCoeff lamT t0 tc (phic / 2) =
+          eCoeff ^ 4 * tc ^ 4 / (4 * lamT ^ 3) ∧
+        0 < electroweakEffPotential dCoeff eCoeff lamT t0 tc (phic / 2)) ∧
       phic / tc = 2 * eCoeff / lamT ∧
       (1 ≤ phic / tc ↔ lamT ≤ 2 * eCoeff) := by
   intro phic
@@ -1221,12 +1305,48 @@ theorem electroweak_first_order_washout_criterion
     · intro h
       right
       exact sub_eq_zero.mpr h
+  have h_double_well :
+      dCoeff * (tc ^ 2 - t0 ^ 2) = eCoeff ^ 2 * tc ^ 2 / lamT →
+        (∀ phi : ℝ, electroweakEffPotential dCoeff eCoeff lamT t0 tc phi =
+            (lamT / 4) * phi ^ 2 * (phi - phic) ^ 2 ∧
+          0 ≤ electroweakEffPotential dCoeff eCoeff lamT t0 tc phi) ∧
+        electroweakEffPotential dCoeff eCoeff lamT t0 tc (phic / 2) =
+          eCoeff ^ 4 * tc ^ 4 / (4 * lamT ^ 3) ∧
+        0 < electroweakEffPotential dCoeff eCoeff lamT t0 tc (phic / 2) := by
+    intro h_cond
+    have h_all : ∀ phi : ℝ,
+        electroweakEffPotential dCoeff eCoeff lamT t0 tc phi =
+            (lamT / 4) * phi ^ 2 * (phi - phic) ^ 2 ∧
+          0 ≤ electroweakEffPotential dCoeff eCoeff lamT t0 tc phi := by
+      intro phi
+      have h_fact :
+          electroweakEffPotential dCoeff eCoeff lamT t0 tc phi =
+            (lamT / 4) * phi ^ 2 * (phi - phic) ^ 2 := by
+        unfold electroweakEffPotential
+        rw [h_cond]
+        dsimp [phic, electroweakCriticalVev]
+        field_simp [h_lam_ne]
+        ring
+      refine ⟨h_fact, ?_⟩
+      rw [h_fact]
+      positivity
+    have h_bar_eq :
+        electroweakEffPotential dCoeff eCoeff lamT t0 tc (phic / 2) =
+          eCoeff ^ 4 * tc ^ 4 / (4 * lamT ^ 3) := by
+      rw [(h_all (phic / 2)).1]
+      dsimp [phic, electroweakCriticalVev]
+      field_simp [h_lam_ne]
+      ring
+    have h_bar_pos : 0 < electroweakEffPotential dCoeff eCoeff lamT t0 tc (phic / 2) := by
+      rw [h_bar_eq]
+      positivity
+    exact ⟨h_all, h_bar_eq, h_bar_pos⟩
   have h_ratio : phic / tc = 2 * eCoeff / lamT := by
     dsimp [phic, electroweakCriticalVev]
     field_simp [h_tc_ne, h_lam_ne]
   have h_wash : 1 ≤ phic / tc ↔ lamT ≤ 2 * eCoeff := by
     rw [h_ratio, one_le_div hlam]
-  exact ⟨h_deg, h_ratio, h_wash⟩
+  exact ⟨h_deg, h_double_well, h_ratio, h_wash⟩
 
 end
 

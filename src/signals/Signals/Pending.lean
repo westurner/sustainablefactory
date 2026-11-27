@@ -9974,14 +9974,19 @@ theorem yang_mills_higgs_cpt_identities_do_not_close_pending_gates :
 
 /-- Constructive witness certificate for Gate 1 (`continuum4DYangMillsOSConstructed`):
 carries a verified uniform lattice-to-continuum physical mass gap `m0 ≤ physGap i → mInf ≥ m0 > 0`
-along 1-loop asymptotic freedom (`b0 > 0, nColor > 0`), finite Osterwalder–Schrader
-reflection-positive spectral weights (`0 ≤ weights k`), and an explicit continuum OS
-existence/mass-gap witness proposition. -/
+along 1-loop/2-loop asymptotic freedom (`b0, nColor > 0`, `0 < beta1 < beta2`), finite
+Osterwalder–Schrader reflection-positive spectral weights (`0 ≤ weights k`), two-time
+clustering `0 ≤ tau1 ≤ tau2`, and an explicit continuum OS existence/mass-gap witness. -/
 structure ContinuumYangMillsOSCertificate where
   b0 : ℝ
+  b1 : ℝ
   nColor : ℝ
+  beta1 : ℝ
+  beta2 : ℝ
   hb0 : 0 < b0
   hN : 0 < nColor
+  hb1Pos : 0 < beta1
+  hb12 : beta1 < beta2
   m0 : ℝ
   mInf : ℝ
   hm0 : 0 < m0
@@ -9989,17 +9994,24 @@ structure ContinuumYangMillsOSCertificate where
   hUnif : ∀ i : ℕ, m0 ≤ physGap i
   hLim : ∀ eps : ℝ, 0 < eps → ∃ i : ℕ, |mInf - physGap i| < eps
   nSpec : ℕ
+  nTimes : ℕ
   weights : Fin nSpec → ℝ
   energies : Fin nSpec → ℝ
+  times : Fin nTimes → ℝ
+  fTest : Fin nTimes → ℂ
+  tau1 : ℝ
+  tau2 : ℝ
+  htau1 : 0 ≤ tau1
+  htau12 : tau1 ≤ tau2
   hw : ∀ k : Fin nSpec, 0 ≤ weights k
   hE : ∀ k : Fin nSpec, m0 ≤ energies k
   osContinuumConstructed : Prop
   osContinuumConstructed_holds : osContinuumConstructed
 
 /-- Constructive witness certificate for Gate 2 (`celestialConfiningWightmanReconstructed`):
-carries a positive confining Källén–Lehmann mass gap `mGapMeV > 0`, QCD scale `lambdaQCDMeV > 0`,
-effective running level `toupinEffectiveRunningLevel`, and a verified 4D confining
-Wightman-reconstruction witness from 2D celestial correlators. -/
+carries a positive confining Källén–Lehmann mass gap `mGapMeV > 0`, IR damping scale `muIr > 0`,
+QCD scale `lambdaQCDMeV > 0`, effective running level `toupinEffectiveRunningLevel`, and a
+verified 4D confining Wightman-reconstruction witness from 2D celestial correlators. -/
 structure CelestialConfiningSpectralCertificate where
   nColor : ℝ
   hN : 0 < nColor
@@ -10007,13 +10019,15 @@ structure CelestialConfiningSpectralCertificate where
   hLam : 0 < lambdaQCDMeV
   mGapMeV : ℝ
   hmGap : 0 < mGapMeV
+  muIr : ℝ
+  hMuIr : 0 < muIr
   celestialWightmanConstructed : Prop
   celestialWightmanConstructed_holds : celestialWightmanConstructed
 
 /-- Constructive witness certificate for Gate 3 (`bsmHiggsCpViolationObserved`):
 carries observed collider signal strength `muSig > 0`, CP-mixing angle `alphaCP`,
-consistent with the EFT relation `κ̃_f = √μ_sig sin(α_CP) ≠ 0`, and an observed
-BSM CP-violation witness. -/
+consistent with `higgsCpEftSignedAsymmetry μ_sig α_CP = μ_sig sin(2 α_CP)`, and an
+observed BSM CP-violation witness. -/
 structure BsmHiggsCpDiscoveryCertificate where
   muSig : ℝ
   hMu : 0 < muSig
@@ -10023,19 +10037,33 @@ structure BsmHiggsCpDiscoveryCertificate where
   bsmCpDiscoveryObserved_holds : bsmCpDiscoveryObserved
 
 /-- Constructive witness certificate for Gate 4 (`electroweakBaryogenesisAndModel16Resolved`):
-carries finite-temperature barrier parameters `eCoeff, lamT, tc > 0` satisfying the
-sphaleron-washout avoidance inequality `lamT ≤ 2 * eCoeff` (`φ_c / T_c ≥ 1`), an
-out-of-equilibrium transient bias `ePlus ≠ eMinus`, Model `16a`/`16b` screening
-parameter `kappaIR ≥ 0`, and a verified discriminator/baryogenesis witness. -/
+carries finite-temperature double-well barrier parameters `dCoeff, eCoeff, lamT, t0, tc`
+satisfying `D (T_c^2 - T_0^2) = E^2 T_c^2 / λ_T` and the sphaleron-washout avoidance
+inequality `λ_T ≤ 2 E` (`φ_c / T_c ≥ 1`), an out-of-equilibrium transient bias `ePlus ≠ eMinus`
+with nonzero baryon charge `bCharge ≠ 0` at `β > 0`, and Model `16a`/`16b` transfer parameters
+`(σ_dev, α_QG ≥ 0, κ_IR ≥ 0)` alongside a verified discriminator/baryogenesis witness. -/
 structure ElectroweakBaryogenesisModel16Certificate where
+  dCoeff : ℝ
   eCoeff : ℝ
   lamT : ℝ
+  t0 : ℝ
   tc : ℝ
   he : 0 < eCoeff
   hlam : 0 < lamT
   htc : 0 < tc
+  hDeg : dCoeff * (tc ^ 2 - t0 ^ 2) = eCoeff ^ 2 * tc ^ 2 / lamT
   hWashout : lamT ≤ 2 * eCoeff
+  beta : ℝ
+  ePlus : ℝ
+  eMinus : ℝ
+  bCharge : ℝ
+  hBeta : 0 < beta
+  hBias : ePlus ≠ eMinus
+  hB : bCharge ≠ 0
+  sigmaDev : ℝ
+  alphaQG : ℝ
   kappaIR : ℝ
+  hAlphaQG : 0 ≤ alphaQG
   hKappa : 0 ≤ kappaIR
   etaActGammaResolved : Prop
   etaActGammaResolved_holds : etaActGammaResolved
@@ -10054,27 +10082,44 @@ def YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates
   higgsVevGeV := vGeV
   higgsVevGeV_pos := hv
   continuum4DYangMillsOSConstructed :=
-    c1.osContinuumConstructed ∧ c1.m0 ≤ c1.mInf
+    c1.osContinuumConstructed ∧
+      c1.m0 ≤ c1.mInf ∧
+      Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing c1.b0 c1.nColor c1.beta2 <
+        Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing c1.b0 c1.nColor c1.beta1 ∧
+      0 ≤ (Signals.YangMillsHiggsCPT.finiteOSReflectionForm c1.weights c1.energies c1.times c1.fTest).re ∧
+      Signals.YangMillsHiggsCPT.finiteOSSchwingerTwoPoint c1.weights c1.energies c1.tau2 ≤
+        Signals.YangMillsHiggsCPT.finiteOSSchwingerTwoPoint c1.weights c1.energies c1.tau1 *
+          Real.exp (-c1.m0 * (c1.tau2 - c1.tau1))
   celestialConfiningWightmanReconstructed :=
     c2.celestialWightmanConstructed ∧
       Signals.YangMillsHiggsCPT.toupinTreeGlueballMass c2.nColor
         (Signals.YangMillsHiggsCPT.toupinEffectiveRunningLevel c2.nColor c2.lambdaQCDMeV c2.mGapMeV)
-        c2.lambdaQCDMeV = c2.mGapMeV
+        c2.lambdaQCDMeV = c2.mGapMeV ∧
+      (2 * c2.lambdaQCDMeV < c2.mGapMeV →
+        Signals.YangMillsHiggsCPT.toupinEffectiveRunningLevel c2.nColor c2.lambdaQCDMeV c2.mGapMeV < 0)
   bsmHiggsCpViolationObserved :=
     c3.bsmCpDiscoveryObserved ∧
-      Signals.YangMillsHiggsCPT.higgsCpKappaTilde c3.muSig c3.alphaCP ≠ 0
+      Signals.YangMillsHiggsCPT.higgsCpKappaTilde c3.muSig c3.alphaCP ≠ 0 ∧
+      Signals.YangMillsHiggsCPT.higgsCpEftSignedAsymmetry c3.muSig c3.alphaCP =
+        c3.muSig * Real.sin (2 * c3.alphaCP)
   electroweakBaryogenesisAndModel16Resolved :=
     c4.etaActGammaResolved ∧
       1 ≤ Signals.YangMillsHiggsCPT.electroweakCriticalVev c4.eCoeff c4.lamT c4.tc / c4.tc ∧
-      0 < Signals.DDF.celestialIrScreeningFactor c4.kappaIR
+      0 < Signals.YangMillsHiggsCPT.electroweakEffPotential c4.dCoeff c4.eCoeff c4.lamT c4.t0 c4.tc
+        (Signals.YangMillsHiggsCPT.electroweakCriticalVev c4.eCoeff c4.lamT c4.tc / 2) ∧
+      Signals.YangMillsHiggsCPT.thermalEquilibriumBaryonTrace c4.beta
+        (fun _ : Fin 1 => c4.ePlus) (fun _ : Fin 1 => c4.eMinus)
+        (fun _ : Fin 1 => c4.bCharge) ≠ 0 ∧
+      0 < Signals.DDF.celestialTransferFactor16 c4.sigmaDev c4.alphaQG c4.kappaIR
 
 /-- **Constructive Solver for `YangMillsMassGapHiggsCPTPendingBoundary`**:
 Given verified witness certificates `(c1, c2, c3, c4)` for the four gates,
 `YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates` discharges
-`allYangMillsHiggsCptGatesClosed` identically, together with the continuum uniform-gap
-inequality `c1.m0 ≤ c1.mInf`, effective GKO matching `M_{k_eff} = mGapMeV`, nonzero
-CP-odd Yukawa coupling `κ̃_f ≠ 0`, first-order sphaleron bound `φ_c / T_c ≥ 1`, and
-strictly positive Model 16 screening factor `S_IR(κ_IR) > 0`. -/
+`allYangMillsHiggsCptGatesClosed` identically, together with uniform continuum mass gap,
+2-loop/1-loop RG lattice contraction, OS reflection positivity & two-time effective-mass
+clustering, GKO effective running-level matching & sign obstruction, nonzero EFT CP-odd
+coupling, EWPT double-well barrier positivity & sphaleron washout avoidance, nonzero
+out-of-equilibrium Sakharov baryon excess, and positive Model 16 transfer factor. -/
 theorem YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates
     (c1 : ContinuumYangMillsOSCertificate)
     (c2 : CelestialConfiningSpectralCertificate)
@@ -10084,36 +10129,76 @@ theorem YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates
     let b := YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates c1 c2 c3 c4 vGeV hv
     b.allYangMillsHiggsCptGatesClosed ∧
       c1.m0 ≤ c1.mInf ∧
+      0 < Signals.YangMillsHiggsCPT.latticeAsymptoticSpacingTwoLoop c1.b0 c1.b1 c1.nColor c1.beta2 ∧
+      0 ≤ (Signals.YangMillsHiggsCPT.finiteOSReflectionForm c1.weights c1.energies c1.times c1.fTest).re ∧
       Signals.YangMillsHiggsCPT.higgsCpKappaTilde c3.muSig c3.alphaCP ≠ 0 ∧
       1 ≤ Signals.YangMillsHiggsCPT.electroweakCriticalVev c4.eCoeff c4.lamT c4.tc / c4.tc ∧
-      0 < Signals.DDF.celestialIrScreeningFactor c4.kappaIR := by
-  have hm_inf : c1.m0 ≤ c1.mInf := by
-    by_contra h_lt
-    have h_eps : 0 < c1.m0 - c1.mInf := by linarith
-    rcases c1.hLim (c1.m0 - c1.mInf) h_eps with ⟨i, hi⟩
-    have h_lo := (abs_lt.mp hi).1
-    linarith [c1.hUnif i]
-  have h_gko :
-      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass c2.nColor
-        (Signals.YangMillsHiggsCPT.toupinEffectiveRunningLevel c2.nColor c2.lambdaQCDMeV c2.mGapMeV)
-        c2.lambdaQCDMeV = c2.mGapMeV :=
-    (Signals.YangMillsHiggsCPT.kallenLehmann_confined_envelope_and_gko_obstruction
-      c2.mGapMeV c2.mGapMeV 2 0 1 c2.nColor 0 c2.lambdaQCDMeV c2.mGapMeV
-      c2.hmGap le_rfl le_rfl le_rfl c2.hN le_rfl c2.hLam c2.hmGap).2.2.2.1
+      0 < Signals.YangMillsHiggsCPT.electroweakEffPotential c4.dCoeff c4.eCoeff c4.lamT c4.t0 c4.tc
+        (Signals.YangMillsHiggsCPT.electroweakCriticalVev c4.eCoeff c4.lamT c4.tc / 2) ∧
+      0 < Signals.DDF.celestialTransferFactor16 c4.sigmaDev c4.alphaQG c4.kappaIR := by
+  have h_rg := Signals.YangMillsHiggsCPT.lattice_rg_continuum_scaling_and_strong_coupling_breakdown
+    c1.b0 c1.nColor c1.beta1 c1.beta2 (2 * c1.nColor ^ 2 + 1) c1.m0 c1.mInf c1.physGap
+    c1.hb0 c1.hN c1.hb1Pos c1.hb12 (by linarith) c1.hm0 c1.hUnif c1.hLim
+  have hm_inf : c1.m0 ≤ c1.mInf := h_rg.2.2.2.2.2.2
+  have h_a_lt :
+      Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing c1.b0 c1.nColor c1.beta2 <
+        Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing c1.b0 c1.nColor c1.beta1 := h_rg.2.1
+  have h_os := Signals.YangMillsHiggsCPT.osReflectionPositivity_and_clustering_of_spectral_weights
+    c1.weights c1.energies c1.times c1.fTest c1.m0 c1.tau1 c1.tau2 c1.hw c1.hE c1.htau1 c1.htau12
+  have h_2loop :
+      0 < Signals.YangMillsHiggsCPT.latticeAsymptoticSpacingTwoLoop c1.b0 c1.b1 c1.nColor c1.beta2 :=
+    (Signals.YangMillsHiggsCPT.kallenLehmann_critical_soft_pole_and_two_loop_rg
+      c2.mGapMeV (c2.mGapMeV + 1) c2.muIr c1.b0 c1.b1 c1.nColor c1.beta2
+      c2.hmGap (by linarith) (le_of_lt c2.hMuIr) c1.hb0 c1.hN (lt_trans c1.hb1Pos c1.hb12)).2
+  have h_kl_gko := Signals.YangMillsHiggsCPT.kallenLehmann_confined_envelope_and_gko_obstruction
+    c2.mGapMeV c2.mGapMeV 2 0 c2.muIr c2.nColor 0 c2.lambdaQCDMeV c2.mGapMeV
+    c2.hmGap le_rfl le_rfl le_rfl c2.hN le_rfl c2.hLam c2.hmGap
   have h_kappatilde : Signals.YangMillsHiggsCPT.higgsCpKappaTilde c3.muSig c3.alphaCP ≠ 0 := by
     unfold Signals.YangMillsHiggsCPT.higgsCpKappaTilde
     exact mul_ne_zero (ne_of_gt (Real.sqrt_pos.mpr c3.hMu)) c3.hSin
-  have h_ewpt :
+  have h_eft_asym :
+      Signals.YangMillsHiggsCPT.higgsCpEftSignedAsymmetry c3.muSig c3.alphaCP =
+        c3.muSig * Real.sin (2 * c3.alphaCP) := by
+    unfold Signals.YangMillsHiggsCPT.higgsCpEftSignedAsymmetry
+      Signals.YangMillsHiggsCPT.higgsCpKappa Signals.YangMillsHiggsCPT.higgsCpKappaTilde
+    have h_sq : Real.sqrt c3.muSig ^ 2 = c3.muSig := Real.sq_sqrt (le_of_lt c3.hMu)
+    rw [Real.sin_two_mul]
+    calc
+      2 * (Real.sqrt c3.muSig * Real.cos c3.alphaCP) *
+            (Real.sqrt c3.muSig * Real.sin c3.alphaCP) =
+          Real.sqrt c3.muSig ^ 2 * (2 * Real.sin c3.alphaCP * Real.cos c3.alphaCP) := by ring
+      _ = c3.muSig * (2 * Real.sin c3.alphaCP * Real.cos c3.alphaCP) := by rw [h_sq]
+  have h_ewpt := Signals.YangMillsHiggsCPT.electroweak_first_order_washout_criterion
+    c4.dCoeff c4.eCoeff c4.lamT c4.t0 c4.tc c4.he c4.hlam c4.htc
+  have h_ewpt_ratio :
       1 ≤ Signals.YangMillsHiggsCPT.electroweakCriticalVev c4.eCoeff c4.lamT c4.tc / c4.tc :=
-    ((Signals.YangMillsHiggsCPT.electroweak_first_order_washout_criterion
-      1 c4.eCoeff c4.lamT 0 c4.tc c4.he c4.hlam c4.htc).2.2).mpr c4.hWashout
-  have h_sir : 0 < Signals.DDF.celestialIrScreeningFactor c4.kappaIR := by
-    unfold Signals.DDF.celestialIrScreeningFactor
-    exact mul_pos (by linarith [c4.hKappa]) (Real.exp_pos _)
-  refine ⟨⟨⟨c1.osContinuumConstructed_holds, hm_inf⟩,
-      ⟨c2.celestialWightmanConstructed_holds, h_gko⟩,
-      ⟨c3.bsmCpDiscoveryObserved_holds, h_kappatilde⟩,
-      ⟨c4.etaActGammaResolved_holds, h_ewpt, h_sir⟩⟩,
-    hm_inf, h_kappatilde, h_ewpt, h_sir⟩
+    (h_ewpt.2.2.2).mpr c4.hWashout
+  have h_ewpt_bar :
+      0 < Signals.YangMillsHiggsCPT.electroweakEffPotential c4.dCoeff c4.eCoeff c4.lamT c4.t0 c4.tc
+        (Signals.YangMillsHiggsCPT.electroweakCriticalVev c4.eCoeff c4.lamT c4.tc / 2) :=
+    (h_ewpt.2.1 c4.hDeg).2.2
+  have h_sakh :
+      Signals.YangMillsHiggsCPT.thermalEquilibriumBaryonTrace c4.beta
+        (fun _ : Fin 1 => c4.ePlus) (fun _ : Fin 1 => c4.eMinus)
+        (fun _ : Fin 1 => c4.bCharge) ≠ 0 :=
+    (Signals.YangMillsHiggsCPT.jarlskog_degeneracy_and_sakharov_out_of_equilibrium_nonzero
+      1 2 3 4 5 6 c4.beta c4.ePlus c4.eMinus c4.bCharge c4.hBeta c4.hBias c4.hB).2.2.2
+  have h_m16_pos :
+      0 < Signals.DDF.celestialTransferFactor16 c4.sigmaDev c4.alphaQG c4.kappaIR := by
+    unfold Signals.DDF.celestialTransferFactor16 Signals.DDF.celestialSpinTwoCayleyShadowFactor
+      Signals.DDF.celestialPlancherelLoopCorrectionFactor Signals.DDF.celestialIrScreeningFactor
+    have h_cay : 0 < 1 / (1 + 4 * c4.sigmaDev ^ 2) := by positivity
+    have h_loop : 0 < 1 + (1 / 8 : ℝ) * c4.alphaQG + (1 / 90 : ℝ) * c4.alphaQG ^ 2 := by
+      have ha1 : 0 ≤ (1 / 8 : ℝ) * c4.alphaQG := mul_nonneg (by norm_num) c4.hAlphaQG
+      have ha2 : 0 ≤ (1 / 90 : ℝ) * c4.alphaQG ^ 2 := by positivity
+      linarith
+    have h_sir : 0 < (1 + c4.kappaIR) * Real.exp (-c4.kappaIR) :=
+      mul_pos (by linarith [c4.hKappa]) (Real.exp_pos _)
+    exact mul_pos (mul_pos h_cay h_loop) h_sir
+  refine ⟨⟨⟨c1.osContinuumConstructed_holds, hm_inf, h_a_lt, h_os.2.1, h_os.2.2.2.2⟩,
+      ⟨c2.celestialWightmanConstructed_holds, h_kl_gko.2.2.2.1, h_kl_gko.2.2.2.2⟩,
+      ⟨c3.bsmCpDiscoveryObserved_holds, h_kappatilde, h_eft_asym⟩,
+      ⟨c4.etaActGammaResolved_holds, h_ewpt_ratio, h_ewpt_bar, h_sakh, h_m16_pos⟩⟩,
+    hm_inf, h_2loop, h_os.2.1, h_kappatilde, h_ewpt_ratio, h_ewpt_bar, h_m16_pos⟩
 
 end Signals.Pending

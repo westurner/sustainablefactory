@@ -1379,6 +1379,10 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
     d.set_item("lattice_spacing_beta58", rep.lattice_spacing_beta58)?;
     d.set_item("lattice_spacing_beta62", rep.lattice_spacing_beta62)?;
     d.set_item(
+        "lattice_spacing_two_loop_beta62",
+        rep.lattice_spacing_two_loop_beta62,
+    )?;
+    d.set_item(
         "strong_coupling_breakdown_at_18",
         rep.strong_coupling_breakdown_at_18,
     )?;
@@ -1387,6 +1391,8 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
         rep.os_reflection_factorization_err,
     )?;
     d.set_item("os_reflection_min_quad", rep.os_reflection_min_quad)?;
+    d.set_item("os_min_principal_minor", rep.os_min_principal_minor)?;
+    d.set_item("os_effective_mass_gev", rep.os_effective_mass_gev)?;
     d.set_item("os_clustering_excess", rep.os_clustering_excess)?;
     d.set_item(
         "toupin_gko_max_mev_at_220",
@@ -1404,6 +1410,10 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
     d.set_item("ewpt_sm_phic_over_tc", rep.ewpt_sm_phic_over_tc)?;
     d.set_item("ewpt_bsm_phic_over_tc", rep.ewpt_bsm_phic_over_tc)?;
     d.set_item("ewpt_bsm_degeneracy_err", rep.ewpt_bsm_degeneracy_err)?;
+    d.set_item(
+        "ewpt_bsm_barrier_height_over_tc4",
+        rep.ewpt_bsm_barrier_height_over_tc4,
+    )?;
     Ok(d)
 }
 

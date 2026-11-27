@@ -9737,36 +9737,46 @@ example {G : Type*} [Group G] [Fintype G] [Nonempty G] {m : ℕ}
   exact ⟨h_idem, h_herm, h_ann, h_jar, h_sakh⟩
 
 example {m r : ℕ} (weights energies : Fin m → ℝ) (times : Fin r → ℝ) (fTest : Fin r → ℂ)
-    (b0 nColor beta1 beta2 betaHigh eGap tau mGap omega delta ampBound muIr kLevel lamQ mPhys : ℝ)
+    (b0 b1 nColor beta1 beta2 betaHigh eGap tau1 tau2 mGap omega delta ampBound muIr kLevel lamQ mPhys : ℝ)
     (muSig muMax alphaCP alphaMax dCoeff eCoeff lamT t0 tc : ℝ)
     (physGap : ℕ → ℝ)
     (hb0 : 0 < b0) (hN : 0 < nColor) (hb1 : 0 < beta1) (hb12 : beta1 < beta2)
     (hhigh : 2 * nColor ^ 2 < betaHigh) (hm0 : 0 < eGap)
     (h_unif : ∀ i : ℕ, eGap ≤ physGap i)
     (h_lim : ∀ eps : ℝ, 0 < eps → ∃ i : ℕ, |mPhys - physGap i| < eps)
-    (hw : ∀ k : Fin m, 0 ≤ weights k) (hE : ∀ k : Fin m, eGap ≤ energies k) (htau : 0 ≤ tau)
-    (hmGap : 0 < mGap) (homega : mGap ≤ omega) (hdelta : 2 ≤ delta) (hA : 0 ≤ ampBound)
+    (hw : ∀ k : Fin m, 0 ≤ weights k) (hE : ∀ k : Fin m, eGap ≤ energies k)
+    (htau1 : 0 ≤ tau1) (htau12 : tau1 ≤ tau2)
+    (hmGap : 0 < mGap) (homega : mGap < omega) (hdelta : 2 ≤ delta) (hA : 0 ≤ ampBound) (hMuIr : 0 ≤ muIr)
     (hk : 0 ≤ kLevel) (hL : 0 < lamQ) (hmp : 0 < mPhys)
     (hMu : 0 ≤ muSig) (hMuLe : muSig ≤ muMax) (hAl : |alphaCP| ≤ alphaMax) (hAlLe : alphaMax ≤ Real.pi / 2)
-    (he : 0 < eCoeff) (hlam : 0 < lamT) (htc : 0 < tc) :
+    (he : 0 < eCoeff) (hlam : 0 < lamT) (htc : 0 < tc)
+    (hDeg : dCoeff * (tc ^ 2 - t0 ^ 2) = eCoeff ^ 2 * tc ^ 2 / lamT) :
     Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing b0 nColor beta2 <
         Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing b0 nColor beta1 ∧
+      0 < Signals.YangMillsHiggsCPT.latticeAsymptoticSpacingTwoLoop b0 b1 nColor beta2 ∧
       0 ≤ (Signals.YangMillsHiggsCPT.finiteOSReflectionForm weights energies times fTest).re ∧
+      Signals.YangMillsHiggsCPT.finiteOSSchwingerTwoPoint weights energies tau2 ≤
+        Signals.YangMillsHiggsCPT.finiteOSSchwingerTwoPoint weights energies tau1 *
+          Real.exp (-eGap * (tau2 - tau1)) ∧
       Signals.YangMillsHiggsCPT.toupinTreeGlueballMass nColor kLevel 220 < 1610 ∧
       |Signals.YangMillsHiggsCPT.higgsCpKappaTilde muSig alphaCP| ≤
         Real.sqrt muMax * Real.sin alphaMax ∧
+      0 < Signals.YangMillsHiggsCPT.electroweakEffPotential dCoeff eCoeff lamT t0 tc
+        (Signals.YangMillsHiggsCPT.electroweakCriticalVev eCoeff lamT tc / 2) ∧
       (1 ≤ Signals.YangMillsHiggsCPT.electroweakCriticalVev eCoeff lamT tc / tc ↔
         lamT ≤ 2 * eCoeff) := by
   have h1 := Signals.YangMillsHiggsCPT.lattice_rg_continuum_scaling_and_strong_coupling_breakdown
     b0 nColor beta1 beta2 betaHigh eGap mPhys physGap hb0 hN hb1 hb12 hhigh hm0 h_unif h_lim
   have h2 := Signals.YangMillsHiggsCPT.osReflectionPositivity_and_clustering_of_spectral_weights
-    weights energies times fTest eGap tau hw hE htau
+    weights energies times fTest eGap tau1 tau2 hw hE htau1 htau12
+  have h2l := Signals.YangMillsHiggsCPT.kallenLehmann_critical_soft_pole_and_two_loop_rg
+    mGap omega muIr b0 b1 nColor beta2 hmGap homega hMuIr hb0 hN (lt_trans hb1 hb12)
   have h3 := Signals.YangMillsHiggsCPT.kallenLehmann_confined_envelope_and_gko_obstruction
-    mGap omega delta ampBound muIr nColor kLevel lamQ mPhys hmGap homega hdelta hA hN hk hL hmp
+    mGap omega delta ampBound muIr nColor kLevel lamQ mPhys hmGap (le_of_lt homega) hdelta hA hN hk hL hmp
   have h4 := Signals.YangMillsHiggsCPT.higgsCpEftExclusion_envelope
     muSig muMax alphaCP alphaMax hMu hMuLe hAl hAlLe
   have h5 := Signals.YangMillsHiggsCPT.electroweak_first_order_washout_criterion
     dCoeff eCoeff lamT t0 tc he hlam htc
-  exact ⟨h1.2.1, h2.2.1, h3.2.2.1, h4.2.2, h5.2.2⟩
+  exact ⟨h1.2.1, h2l.2, h2.2.1, h2.2.2.2.2, h3.2.2.1, h4.2.2.2, (h5.2.1 hDeg).2.2, h5.2.2.2⟩
 
 end SignalsTests
