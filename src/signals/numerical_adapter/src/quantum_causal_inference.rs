@@ -3347,9 +3347,9 @@ fn c4_bump_jet(u: f64, m: usize) -> [f64; 5] {
     vals
 }
 
-/// Integration of our Sato Grassmannian PDE solvers (`PlabicGr24Solver`, `AKNS`, `DualSchubertQFIM`)
-/// with `QCI-OSID` weak-form `CPQR` recovery, zero-one positroid stratification, far-field
-/// overflow-proof extrapolation, and 6-channel QCRB conditioning.
+/// Integration of our Sato Grassmannian PDE solvers (`PlabicGr24Solver`, `PlabicGrKNSolver`,
+/// `AKNS`, `DualSchubertQFIM`) with `QCI-OSID` weak-form `CPQR` recovery, zero-one positroid
+/// & `N`-soliton stratification, far-field overflow-proof extrapolation, and 6-channel QCRB.
 #[derive(Clone, Debug)]
 pub struct OsidSatoPdeIntegrationAudit {
     pub kp2_top_cell_rank: usize,
@@ -3364,6 +3364,16 @@ pub struct OsidSatoPdeIntegrationAudit {
     pub kdv1_traveling_wave_rank: usize,
     pub kdv1_on_3term_kdv_rank: usize,
     pub kdv1_on_3term_sigma_min: f64,
+    pub kdv3_on_kp2_dict_rank: usize,
+    pub kdv3_on_3term_kdv_rank: usize,
+    pub kdv3_max_coeff_err: f64,
+    pub kdv3_far_field_residual: f64,
+    pub kdv4_on_3term_kdv_rank: usize,
+    pub kdv4_max_coeff_err: f64,
+    pub gr25_kp2_rank: usize,
+    pub gr25_kp2_max_coeff_err: f64,
+    pub gr36_kp2_rank: usize,
+    pub gr36_kp2_max_coeff_err: f64,
     pub akns_bright_rank: usize,
     pub akns_bright_cxx: f64,
     pub akns_bright_g: f64,
@@ -3380,10 +3390,10 @@ pub struct OsidSatoPdeIntegrationAudit {
 
 pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
     use crate::sato_grassmannian::{
-        PlabicGr24Solver, evaluate_akns_solitons, evaluate_dual_schubert_qfim,
+        PlabicGr24Solver, PlabicGrKNSolver, evaluate_akns_solitons, evaluate_dual_schubert_qfim,
     };
 
-    // 1. Weak-form KP-II recovery across PlabicGr24Solver positroid strata
+    // 1. Weak-form KP-II recovery across PlabicGr24Solver and PlabicGrKNSolver positroid strata
     let (pts3, wts3) = composite_gl16_grid(2); // 32 points/axis on [-1, 1]^3 (degree-31 GL-16/half)
     let n3 = pts3.len();
     let (hx, hy, ht) = (1.6_f64, 1.6_f64, 0.8_f64);
@@ -3412,7 +3422,7 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
         .flat_map(|&(_, _, mt)| pts3.iter().map(move |&tau| c4_bump_jet(tau, mt)))
         .collect();
 
-    let assemble_kp2_weak = |solver: &PlabicGr24Solver| -> (Vec<Vec<f64>>, Vec<f64>) {
+    let assemble_kp2_weak_fn = |u_fn: &dyn Fn(f64, f64, f64) -> f64| -> (Vec<Vec<f64>>, Vec<f64>) {
         let mut u_grid = vec![0.0_f64; n3 * n3 * n3];
         for i in 0..n3 {
             let x = hx * pts3[i];
@@ -3420,7 +3430,7 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
                 let y = hy * pts3[j];
                 for k in 0..n3 {
                     let t = ht * pts3[k];
-                    u_grid[(i * n3 + j) * n3 + k] = solver.eval_jet_rust(x, y, t).u;
+                    u_grid[(i * n3 + j) * n3 + k] = u_fn(x, y, t);
                 }
             }
         }
@@ -3466,7 +3476,7 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
     let solver_kp2 =
         PlabicGr24Solver::from_plabic_weights_rust([-2.0, -0.5, 0.7, 1.8], 1.2, 0.8, 1.5, 2.1)
             .unwrap();
-    let (g_kp2, rhs_kp2) = assemble_kp2_weak(&solver_kp2);
+    let (g_kp2, rhs_kp2) = assemble_kp2_weak_fn(&|x, y, t| solver_kp2.eval_jet_rust(x, y, t).u);
     let qr_kp2 = wias_column_pivoted_qr_solve(&g_kp2, &rhs_kp2, 1e-11).unwrap();
     let kp2_true = [-0.25_f64, -0.75_f64, -0.75_f64];
     let kp2_max_err = (0..3)
@@ -3484,14 +3494,44 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
         [0.0, 1.0, c1, 0.0],
     )
     .unwrap();
-    let (g_kdv2_kp2, rhs_kdv2_kp2) = assemble_kp2_weak(&solver_kdv2);
+    let (g_kdv2_kp2, rhs_kdv2_kp2) =
+        assemble_kp2_weak_fn(&|x, y, t| solver_kdv2.eval_jet_rust(x, y, t).u);
     let qr_kdv2_on_kp2 = wias_column_pivoted_qr_solve(&g_kdv2_kp2, &rhs_kdv2_kp2, 1e-11).unwrap();
     let g_kdv2_sub: Vec<Vec<f64>> = g_kdv2_kp2.iter().map(|r| vec![r[0], r[1]]).collect();
     let qr_kdv2_sub = wias_column_pivoted_qr_solve(&g_kdv2_sub, &rhs_kdv2_kp2, 1e-11).unwrap();
-    let kdv2_sub_err = (qr_kdv2_sub.coeffs[0] - (-0.25)).abs().max((qr_kdv2_sub.coeffs[1] - (-0.75)).abs());
+    let kdv2_sub_err = (qr_kdv2_sub.coeffs[0] - (-0.25))
+        .abs()
+        .max((qr_kdv2_sub.coeffs[1] - (-0.75)).abs());
 
-    // 2. (1+1)-D KdV 1-soliton traveling-wave degeneracy: {u_t, u_x, u_xxx, u u_x} has rank 2 < 4
-    // and {u_x, u_xxx, u u_x} has rank 2 < 3 (cannot uniquely separate speed from dispersion!)
+    // Arbitrary (k, n) N-soliton KP-II webs: Gr_>0(2, 5) (10 terms) and Gr_>0(3, 6) (20 terms)
+    let solver_gr25 = PlabicGrKNSolver::from_totally_positive_vandermonde_rust(
+        vec![-1.6, -0.8, 0.1, 0.9, 1.7],
+        vec![-0.4, 0.5],
+    )
+    .unwrap();
+    let (g_gr25, rhs_gr25) =
+        assemble_kp2_weak_fn(&|x, y, t| solver_gr25.eval_jet_rust(x, y, t).u);
+    let qr_gr25 = wias_column_pivoted_qr_solve(&g_gr25, &rhs_gr25, 1e-11).unwrap();
+    let gr25_err = (0..3)
+        .map(|i| (qr_gr25.coeffs[i] - kp2_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    let solver_gr36 = PlabicGrKNSolver::from_totally_positive_vandermonde_rust(
+        vec![-1.8, -1.0, -0.2, 0.5, 1.2, 1.9],
+        vec![-0.5, 0.1, 0.6],
+    )
+    .unwrap();
+    let (g_gr36, rhs_gr36) =
+        assemble_kp2_weak_fn(&|x, y, t| solver_gr36.eval_jet_rust(x, y, t).u);
+    let qr_gr36 = wias_column_pivoted_qr_solve(&g_gr36, &rhs_gr36, 1e-11).unwrap();
+    let gr36_err = (0..3)
+        .map(|i| (qr_gr36.coeffs[i] - kp2_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    // 2. (1+1)-D KdV N-soliton stratification:
+    //    - N = 1 traveling wave: rank 2 < 3 on {u_x, u_xxx, u u_x} (F_deg)
+    //    - N = 3 (8 terms) & N = 4 (16 terms): break Galilean degeneracy -> rank 3/3 on {u_x, u_xxx, u u_x},
+    //      while still y-invariant -> rank 2/3 on KP-II!
     let (pts2, wts2) = composite_gl16_grid(2); // 32 points/axis on [-1, 1]^2
     let n2 = pts2.len();
     let (hx1, ht1) = (2.2_f64, 0.8_f64);
@@ -3507,28 +3547,35 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
         (1, 2),
         (0, 3),
     ];
-    let k_s = 0.8_f64;
-    let mut g_kdv1_full = vec![vec![0.0_f64; 4]; modes2.len()];
-    for (r, &(mx, mt)) in modes2.iter().enumerate() {
-        for i in 0..n2 {
-            let x = hx1 * pts2[i];
-            let fx = c4_bump_jet(pts2[i], mx);
-            let fx1 = fx[1] / hx1;
-            let fx3 = fx[3] / (hx1 * hx1 * hx1);
-            for k in 0..n2 {
-                let t = ht1 * pts2[k];
-                let ft = c4_bump_jet(pts2[k], mt);
-                let ft1 = ft[1] / ht1;
-                let w2 = wts2[i] * wts2[k] * hx1 * ht1;
-                let ch = (k_s * x + k_s.powi(3) * t).cosh();
-                let u = 2.0 * k_s * k_s / (ch * ch);
-                g_kdv1_full[r][0] += -w2 * u * fx[0] * ft1;
-                g_kdv1_full[r][1] += -w2 * u * fx1 * ft[0];
-                g_kdv1_full[r][2] += -w2 * u * fx3 * ft[0];
-                g_kdv1_full[r][3] += -0.5 * w2 * u * u * fx1 * ft[0];
+    let assemble_kdv1d_weak = |u_fn: &dyn Fn(f64, f64) -> f64| -> Vec<Vec<f64>> {
+        let mut g_full = vec![vec![0.0_f64; 4]; modes2.len()];
+        for (r, &(mx, mt)) in modes2.iter().enumerate() {
+            for i in 0..n2 {
+                let x = hx1 * pts2[i];
+                let fx = c4_bump_jet(pts2[i], mx);
+                let fx1 = fx[1] / hx1;
+                let fx3 = fx[3] / (hx1 * hx1 * hx1);
+                for k in 0..n2 {
+                    let t = ht1 * pts2[k];
+                    let ft = c4_bump_jet(pts2[k], mt);
+                    let ft1 = ft[1] / ht1;
+                    let w2 = wts2[i] * wts2[k] * hx1 * ht1;
+                    let u = u_fn(x, t);
+                    g_full[r][0] += -w2 * u * fx[0] * ft1;
+                    g_full[r][1] += -w2 * u * fx1 * ft[0];
+                    g_full[r][2] += -w2 * u * fx3 * ft[0];
+                    g_full[r][3] += -0.5 * w2 * u * u * fx1 * ft[0];
+                }
             }
         }
-    }
+        g_full
+    };
+
+    let k_s = 0.8_f64;
+    let g_kdv1_full = assemble_kdv1d_weak(&|x, t| {
+        let ch = (k_s * x + k_s.powi(3) * t).cosh();
+        2.0 * k_s * k_s / (ch * ch)
+    });
     let zeros2 = vec![0.0_f64; modes2.len()];
     let qr_kdv1_full = wias_column_pivoted_qr_solve(&g_kdv1_full, &zeros2, 1e-11).unwrap();
     let g_kdv1_3term: Vec<Vec<f64>> = g_kdv1_full
@@ -3537,6 +3584,42 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
         .collect();
     let rhs_kdv1_ut: Vec<f64> = g_kdv1_full.iter().map(|row| -row[0]).collect();
     let qr_kdv1_3term = wias_column_pivoted_qr_solve(&g_kdv1_3term, &rhs_kdv1_ut, 1e-11).unwrap();
+
+    // KdV 3-soliton & 4-soliton
+    let solver_kdv3 =
+        PlabicGrKNSolver::from_kdv_n_soliton_rust(vec![0.45, 0.85, 1.35], vec![0.2, -0.3, 0.1])
+            .unwrap();
+    let (g_kdv3_kp2, rhs_kdv3_kp2) =
+        assemble_kp2_weak_fn(&|x, y, t| solver_kdv3.eval_jet_rust(x, y, t).u);
+    let qr_kdv3_kp2 = wias_column_pivoted_qr_solve(&g_kdv3_kp2, &rhs_kdv3_kp2, 1e-11).unwrap();
+    let g_kdv3_full = assemble_kdv1d_weak(&|x, t| solver_kdv3.eval_jet_rust(x, 0.0, t).u);
+    let g_kdv3_3term: Vec<Vec<f64>> = g_kdv3_full
+        .iter()
+        .map(|row| vec![row[1], row[2], row[3]])
+        .collect();
+    let rhs_kdv3_ut: Vec<f64> = g_kdv3_full.iter().map(|row| -row[0]).collect();
+    let qr_kdv3_3term = wias_column_pivoted_qr_solve(&g_kdv3_3term, &rhs_kdv3_ut, 1e-11).unwrap();
+    let kdv3_true = [0.0_f64, -0.25_f64, -1.5_f64];
+    let kdv3_err = (0..3)
+        .map(|i| (qr_kdv3_3term.coeffs[i] - kdv3_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+    let kdv3_far = solver_kdv3.eval_jet_rust(90.0, 0.0, 15.0);
+
+    let solver_kdv4 = PlabicGrKNSolver::from_kdv_n_soliton_rust(
+        vec![0.35, 0.7, 1.05, 1.45],
+        vec![0.1, -0.2, 0.25, -0.15],
+    )
+    .unwrap();
+    let g_kdv4_full = assemble_kdv1d_weak(&|x, t| solver_kdv4.eval_jet_rust(x, 0.0, t).u);
+    let g_kdv4_3term: Vec<Vec<f64>> = g_kdv4_full
+        .iter()
+        .map(|row| vec![row[1], row[2], row[3]])
+        .collect();
+    let rhs_kdv4_ut: Vec<f64> = g_kdv4_full.iter().map(|row| -row[0]).collect();
+    let qr_kdv4_3term = wias_column_pivoted_qr_solve(&g_kdv4_3term, &rhs_kdv4_ut, 1e-11).unwrap();
+    let kdv4_err = (0..3)
+        .map(|i| (qr_kdv4_3term.coeffs[i] - kdv3_true[i]).abs())
+        .fold(0.0_f64, f64::max);
 
     // 3. AKNS focusing NLS bright soliton & defocusing GPE dark soliton weak-form identification
     //    verified alongside `evaluate_akns_solitons` residuals
@@ -3635,6 +3718,16 @@ pub fn audit_osid_sato_kp2_kdv_akns_solitons() -> OsidSatoPdeIntegrationAudit {
         kdv1_traveling_wave_rank: qr_kdv1_full.rank,
         kdv1_on_3term_kdv_rank: qr_kdv1_3term.rank,
         kdv1_on_3term_sigma_min: qr_kdv1_3term.sigma_min_est,
+        kdv3_on_kp2_dict_rank: qr_kdv3_kp2.rank,
+        kdv3_on_3term_kdv_rank: qr_kdv3_3term.rank,
+        kdv3_max_coeff_err: kdv3_err,
+        kdv3_far_field_residual: kdv3_far.kp2_residual,
+        kdv4_on_3term_kdv_rank: qr_kdv4_3term.rank,
+        kdv4_max_coeff_err: kdv4_err,
+        gr25_kp2_rank: qr_gr25.rank,
+        gr25_kp2_max_coeff_err: gr25_err,
+        gr36_kp2_rank: qr_gr36.rank,
+        gr36_kp2_max_coeff_err: gr36_err,
         akns_bright_rank: qr_bright.rank,
         akns_bright_cxx: qr_bright.coeffs[0],
         akns_bright_g: qr_bright.coeffs[1],
@@ -4510,6 +4603,17 @@ mod tests {
         assert_eq!(s.kdv1_traveling_wave_rank, 2);
         assert_eq!(s.kdv1_on_3term_kdv_rank, 2);
         assert!(s.kdv1_on_3term_sigma_min < 1e-12);
+
+        assert_eq!(s.kdv3_on_kp2_dict_rank, 2);
+        assert_eq!(s.kdv3_on_3term_kdv_rank, 3);
+        assert!(s.kdv3_max_coeff_err < 1e-11, "s={s:?}");
+        assert!(s.kdv3_far_field_residual.abs() < 1e-12);
+        assert_eq!(s.kdv4_on_3term_kdv_rank, 3);
+        assert!(s.kdv4_max_coeff_err < 1e-11, "s={s:?}");
+        assert_eq!(s.gr25_kp2_rank, 3);
+        assert!(s.gr25_kp2_max_coeff_err < 1e-8, "s={s:?}");
+        assert_eq!(s.gr36_kp2_rank, 3);
+        assert!(s.gr36_kp2_max_coeff_err < 1e-8, "s={s:?}");
 
         assert_eq!(s.akns_bright_rank, 2);
         assert!(s.akns_bright_max_err < 1e-10);

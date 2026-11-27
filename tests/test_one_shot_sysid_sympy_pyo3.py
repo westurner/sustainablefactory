@@ -256,15 +256,20 @@ def test_tequila_osid_quantum_switch_126qubit_and_mcweeny_tradeoffs():
 
 def test_qci_osid_sato_kp2_kdv_akns_and_qfim_bridge():
     sym_sato = verify_symbolic_sato_osid_identities()
-    assert len(sym_sato) == 4
+    assert len(sym_sato) == 5
     assert all(sym_sato.values()), f"Failed Sato-OSID symbolic checks: {sym_sato}"
 
     rep = audit_qci_sato_pde_solvers_high_precision(dps=45)
     assert rep["far_field_rel_diff"] < 1e-12
+    assert rep["kdv3_u_diff"] < 1e-14
+    assert abs(rep["kdv3_jet_kp2_res"]) < 1e-12
+    assert rep["gr25_num_terms"] == 10
+    assert abs(rep["gr25_kp2_res"]) < 1e-12
+    assert rep["gr36_num_terms"] == 20
+    assert abs(rep["gr36_kp2_res"]) < 1e-12
     rust = rep["rust_report"]
 
-    # Positroid stratification zero-one dichotomy:
-    # Top KP-II cell -> rank 3/3, KdV2 on KP-II -> rank 2/3, KdV2 subdict -> rank 2/2, KdV1 -> rank 2 (degenerate)
+    # Positroid & N-soliton stratification zero-one dichotomy:
     assert rust["kp2_top_cell_rank"] == 3
     assert rust["kp2_top_cell_sigma_min"] > 0.1
     assert rust["kp2_top_cell_max_coeff_err"] < 1e-9
@@ -276,6 +281,18 @@ def test_qci_osid_sato_kp2_kdv_akns_and_qfim_bridge():
     assert rust["kdv1_traveling_wave_rank"] == 2
     assert rust["kdv1_on_3term_kdv_rank"] == 2
     assert rust["kdv1_on_3term_sigma_min"] < 1e-12
+
+    # Arbitrary N-soliton & Gr_>0(k, n) solvers inside QCI-OSID:
+    assert rust["kdv3_on_kp2_dict_rank"] == 2
+    assert rust["kdv3_on_3term_kdv_rank"] == 3
+    assert rust["kdv3_max_coeff_err"] < 1e-11
+    assert abs(rust["kdv3_far_field_residual"]) < 1e-12
+    assert rust["kdv4_on_3term_kdv_rank"] == 3
+    assert rust["kdv4_max_coeff_err"] < 1e-11
+    assert rust["gr25_kp2_rank"] == 3
+    assert rust["gr25_kp2_max_coeff_err"] < 1e-11
+    assert rust["gr36_kp2_rank"] == 3
+    assert rust["gr36_kp2_max_coeff_err"] < 1e-11
 
     # AKNS focusing NLS bright (+2) vs defocusing GPE dark (-2)
     assert rust["akns_bright_rank"] == 2

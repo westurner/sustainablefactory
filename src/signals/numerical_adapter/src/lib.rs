@@ -1663,6 +1663,16 @@ fn py_audit_qci_one_shot_sysid_sato_pdes<'py>(py: Python<'py>) -> PyResult<Bound
     d.set_item("kdv1_traveling_wave_rank", s.kdv1_traveling_wave_rank)?;
     d.set_item("kdv1_on_3term_kdv_rank", s.kdv1_on_3term_kdv_rank)?;
     d.set_item("kdv1_on_3term_sigma_min", s.kdv1_on_3term_sigma_min)?;
+    d.set_item("kdv3_on_kp2_dict_rank", s.kdv3_on_kp2_dict_rank)?;
+    d.set_item("kdv3_on_3term_kdv_rank", s.kdv3_on_3term_kdv_rank)?;
+    d.set_item("kdv3_max_coeff_err", s.kdv3_max_coeff_err)?;
+    d.set_item("kdv3_far_field_residual", s.kdv3_far_field_residual)?;
+    d.set_item("kdv4_on_3term_kdv_rank", s.kdv4_on_3term_kdv_rank)?;
+    d.set_item("kdv4_max_coeff_err", s.kdv4_max_coeff_err)?;
+    d.set_item("gr25_kp2_rank", s.gr25_kp2_rank)?;
+    d.set_item("gr25_kp2_max_coeff_err", s.gr25_kp2_max_coeff_err)?;
+    d.set_item("gr36_kp2_rank", s.gr36_kp2_rank)?;
+    d.set_item("gr36_kp2_max_coeff_err", s.gr36_kp2_max_coeff_err)?;
     d.set_item("akns_bright_rank", s.akns_bright_rank)?;
     d.set_item("akns_bright_cxx", s.akns_bright_cxx)?;
     d.set_item("akns_bright_g", s.akns_bright_g)?;
@@ -1799,6 +1809,7 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;
     m.add_class::<sato_grassmannian::PlabicGr24Solver>()?;
+    m.add_class::<sato_grassmannian::PlabicGrKNSolver>()?;
     m.add_class::<navier_stokes::IncompressibleSnapshot2D>()?;
     m.add_class::<navier_stokes::IncompressibleDualSchubertSolver2D>()?;
     m.add_class::<navier_stokes::CompressibleSnapshot1D>()?;

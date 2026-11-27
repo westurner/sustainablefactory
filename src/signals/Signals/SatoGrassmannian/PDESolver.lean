@@ -577,4 +577,362 @@ theorem kdv_oneSoliton_pde (k x t : ℝ) :
   field_simp [hne]
   ring
 
+/-! ============================================================================
+## Section 5: Arbitrary `N`-Solitons (`Gr_≥0(k, n)` Positroid Webs & Hirota KdV `N`-Soliton)
+============================================================================ -/
+
+/-- Subset Vandermonde product `∏_{i < j in I} (κ j - κ i)` over any finite index set `I : Finset (Fin n)`. -/
+noncomputable def subsetVandermonde {n : ℕ} (I : Finset (Fin n)) (κ : Fin n → ℝ) : ℝ :=
+  ∏ i ∈ I, ∏ j ∈ I.filter (fun j => i < j), (κ j - κ i)
+
+lemma subsetVandermonde_pos {n : ℕ} (I : Finset (Fin n)) {κ : Fin n → ℝ} (hκ : StrictMono κ) :
+    0 < subsetVandermonde I κ := by
+  unfold subsetVandermonde
+  refine Finset.prod_pos fun i _ => Finset.prod_pos fun j hj => ?_
+  have hij : i < j := (Finset.mem_filter.mp hj).2
+  exact sub_pos.mpr (hκ hij)
+
+/-- General `(k, n)` Kodama–Williams KP-II `N`-soliton `τ`-function on `Gr_≥0(k, n)`
+indexed over all `k`-element subsets `I` of `Fin n`. -/
+noncomputable def solitonTauKN (k n : ℕ) (κ : Fin n → ℝ) (p : Finset (Fin n) → ℝ)
+    (t₁ t₂ t₃ : ℂ) : ℂ :=
+  let S := Finset.univ.powersetCard k
+  let c : Finset (Fin n) → ℂ := fun I => ((p I * subsetVandermonde I κ : ℝ) : ℂ)
+  let α : Finset (Fin n) → ℂ := fun I => ∑ i ∈ I, (κ i : ℂ)
+  let β : Finset (Fin n) → ℂ := fun I => ∑ i ∈ I, (κ i : ℂ) ^ 2
+  let γ : Finset (Fin n) → ℂ := fun I => ∑ i ∈ I, (κ i : ℂ) ^ 3
+  expSum S c α β γ t₁ t₂ t₃
+
+/-- **Theorem 5.1 (Global Smoothness of Arbitrary `(k, n)` Kodama–Williams `N`-Solitons):**
+For ANY `k, n : ℕ`, strictly increasing real wavenumbers `κ : Fin n → ℝ`, and totally
+nonnegative `k × k` Plücker coordinates `p : Finset (Fin n) → ℝ` (`p I ≥ 0` with at least one
+`p I₀ > 0` for `I₀.card = k`), `solitonTauKN k n κ p x y t > 0` globally on all of `ℝ³`. -/
+theorem solitonTauKN_pos_of_totallyNonneg (k n : ℕ) (κ : Fin n → ℝ) (p : Finset (Fin n) → ℝ)
+    (hκ : StrictMono κ)
+    (hNN : ∀ I ∈ Finset.univ.powersetCard k, 0 ≤ p I)
+    (hPos : ∃ I ∈ Finset.univ.powersetCard k, 0 < p I)
+    (x y t : ℝ) :
+    0 < (solitonTauKN k n κ p (x : ℂ) (y : ℂ) (t : ℂ)).re ∧
+    solitonTauKN k n κ p (x : ℂ) (y : ℂ) (t : ℂ) ≠ 0 := by
+  let S : Finset (Finset (Fin n)) := Finset.univ.powersetCard k
+  let term : Finset (Fin n) → ℝ := fun I =>
+    p I * subsetVandermonde I κ *
+      Real.exp ((∑ i ∈ I, κ i) * x + (∑ i ∈ I, κ i ^ 2) * y + (∑ i ∈ I, κ i ^ 3) * t)
+  have hRe : (solitonTauKN k n κ p (x : ℂ) (y : ℂ) (t : ℂ)).re = ∑ I ∈ S, term I := by
+    unfold solitonTauKN expSum
+    dsimp only
+    rw [Complex.re_sum]
+    refine Finset.sum_congr rfl fun I _ => ?_
+    have hsum1 : (∑ i ∈ I, (κ i : ℂ)) = ((∑ i ∈ I, κ i : ℝ) : ℂ) := by push_cast; rfl
+    have hsum2 : (∑ i ∈ I, (κ i : ℂ) ^ 2) = ((∑ i ∈ I, κ i ^ 2 : ℝ) : ℂ) := by push_cast; rfl
+    have hsum3 : (∑ i ∈ I, (κ i : ℂ) ^ 3) = ((∑ i ∈ I, κ i ^ 3 : ℝ) : ℂ) := by push_cast; rfl
+    rw [hsum1, hsum2, hsum3]
+    have harg :
+        (((∑ i ∈ I, κ i : ℝ) : ℂ) * (x : ℂ) +
+         ((∑ i ∈ I, κ i ^ 2 : ℝ) : ℂ) * (y : ℂ) +
+         ((∑ i ∈ I, κ i ^ 3 : ℝ) : ℂ) * (t : ℂ)) =
+        (((∑ i ∈ I, κ i) * x + (∑ i ∈ I, κ i ^ 2) * y + (∑ i ∈ I, κ i ^ 3) * t : ℝ) : ℂ) := by
+      push_cast; ring
+    rw [harg, ← Complex.ofReal_exp, ← Complex.ofReal_mul, Complex.ofReal_re]
+  have hNonneg : ∀ I ∈ S, 0 ≤ term I := fun I hI =>
+    mul_nonneg (mul_nonneg (hNN I hI) (subsetVandermonde_pos I hκ).le) (Real.exp_pos _).le
+  rcases hPos with ⟨I₀, hI₀, hp₀⟩
+  have hPos0 : 0 < term I₀ :=
+    mul_pos (mul_pos hp₀ (subsetVandermonde_pos I₀ hκ)) (Real.exp_pos _)
+  have hSumPos : 0 < ∑ I ∈ S, term I := Finset.sum_pos' hNonneg ⟨I₀, hI₀, hPos0⟩
+  rw [hRe]
+  refine ⟨hSumPos, fun h0 => ?_⟩
+  rw [h0, Complex.zero_re] at hRe
+  linarith
+
+/-- Pairwise Hirota KdV phase-shift coefficient `A_{r,s} = ((k_r - k_s) / (k_r + k_s))²`. -/
+noncomputable def kdvPairInteraction (k_r k_s : ℝ) : ℝ :=
+  ((k_r - k_s) / (k_r + k_s)) ^ 2
+
+/-- Arbitrary `N`-soliton Hirota KdV `τ`-function in Sato KP normalization (`4 u_t - u_{xxx} - 6 u u_x = 0`):
+`τ^{(N)}(x, y, t) = ∑_{I ⊆ Fin N} (∏_{r < s ∈ I} A_{r,s}) exp(∑_{r ∈ I} (2 k_r x + 2 k_r³ t + δ_r))`
+(`y`-independent, matching `kdvOneSoliton` and `hirotaKP` identically for all `N`). -/
+noncomputable def kdvNSolitonTau {N : ℕ} (k δ : Fin N → ℝ) (x y t : ℂ) : ℂ :=
+  let c : Finset (Fin N) → ℂ := fun I =>
+    (((∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+      Real.exp (∑ r ∈ I, δ r) : ℝ) : ℂ)
+  let α : Finset (Fin N) → ℂ := fun I => ∑ r ∈ I, (2 * k r : ℂ)
+  let β : Finset (Fin N) → ℂ := fun _ => 0
+  let γ : Finset (Fin N) → ℂ := fun I => ∑ r ∈ I, (2 * k r ^ 3 : ℂ)
+  expSum Finset.univ c α β γ x y t
+
+/-- **Theorem 5.2 (Global Positivity, Nonvanishing, and `y`-Invariance of Arbitrary KdV `N`-Solitons):**
+For EVERY `N : ℕ`, any amplitude vector `k : Fin N → ℝ`, and any shifts `δ : Fin N → ℝ`:
+1. `0 < (kdvNSolitonTau k δ x y t).re` and `kdvNSolitonTau k δ x y t ≠ 0` for all `x, y, t ∈ ℝ`;
+2. `kdvNSolitonTau k δ x y t = kdvNSolitonTau k δ x 0 t` identically on `ℂ³` (`y`-invariance). -/
+theorem kdvNSolitonTau_pos_and_y_invariant {N : ℕ} (k δ : Fin N → ℝ) :
+    (∀ x y t : ℝ,
+      0 < (kdvNSolitonTau k δ (x : ℂ) (y : ℂ) (t : ℂ)).re ∧
+      kdvNSolitonTau k δ (x : ℂ) (y : ℂ) (t : ℂ) ≠ 0) ∧
+    (∀ x y t : ℂ, kdvNSolitonTau k δ x y t = kdvNSolitonTau k δ x 0 t) := by
+  refine ⟨fun x y t => ?_, fun x y t => ?_⟩
+  · let term : Finset (Fin N) → ℝ := fun I =>
+      (∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+        Real.exp (∑ r ∈ I, δ r) *
+        Real.exp ((∑ r ∈ I, 2 * k r) * x + (∑ r ∈ I, 2 * k r ^ 3) * t)
+    have hRe : (kdvNSolitonTau k δ (x : ℂ) (y : ℂ) (t : ℂ)).re = ∑ I : Finset (Fin N), term I := by
+      unfold kdvNSolitonTau expSum
+      dsimp only
+      rw [Complex.re_sum]
+      refine Finset.sum_congr rfl fun I _ => ?_
+      have ha : (∑ r ∈ I, (2 * (k r : ℂ))) = ((∑ r ∈ I, 2 * k r : ℝ) : ℂ) := by push_cast; rfl
+      have hg : (∑ r ∈ I, (2 * (k r : ℂ) ^ 3)) = ((∑ r ∈ I, 2 * k r ^ 3 : ℝ) : ℂ) := by
+        push_cast; rfl
+      rw [ha, hg]
+      have harg :
+          (((∑ r ∈ I, 2 * k r : ℝ) : ℂ) * (x : ℂ) + 0 * (y : ℂ) +
+            ((∑ r ∈ I, 2 * k r ^ 3 : ℝ) : ℂ) * (t : ℂ)) =
+          (((∑ r ∈ I, 2 * k r) * x + (∑ r ∈ I, 2 * k r ^ 3) * t : ℝ) : ℂ) := by
+        rw [zero_mul, add_zero]; push_cast; ring
+      rw [harg, ← Complex.ofReal_exp, ← Complex.ofReal_mul, Complex.ofReal_re]
+    have hNonneg : ∀ I ∈ (Finset.univ : Finset (Finset (Fin N))), 0 ≤ term I := fun I _ => by
+      refine mul_nonneg (mul_nonneg ?_ (Real.exp_pos _).le) (Real.exp_pos _).le
+      refine Finset.prod_nonneg fun r _ => Finset.prod_nonneg fun s _ => ?_
+      unfold kdvPairInteraction
+      exact sq_nonneg _
+    have hEmpty : 0 < term ∅ := by
+      dsimp [term]
+      simp [Real.exp_zero]
+    have hSumPos : 0 < ∑ I : Finset (Fin N), term I :=
+      Finset.sum_pos' hNonneg ⟨∅, Finset.mem_univ ∅, hEmpty⟩
+    rw [hRe]
+    refine ⟨hSumPos, fun h0 => ?_⟩
+    rw [h0, Complex.zero_re] at hRe
+    linarith
+  · unfold kdvNSolitonTau expSum
+    refine Finset.sum_congr rfl fun I _ => ?_
+    simp [zero_mul]
+
+/-- **Theorem 5.3 (Exact Hirota Bilinear Equation for the KdV 3-Soliton):**
+For any three amplitudes `k₀, k₁, k₂ : ℝ` with pairwise sums `k_i + k_j ≠ 0` and any shifts `δ`,
+the 8-term `kdvNSolitonTau` (`N = 3`) satisfies `hirotaKP (kdvNSolitonTau k δ) x y t = 0`
+identically on `ℂ³` (verifying the general 3-soliton Hirota dispersion cancellation). -/
+theorem hirotaKP_kdv3SolitonTau_eq_zero (k δ : Fin 3 → ℝ)
+    (h01 : k 0 + k 1 ≠ 0) (h02 : k 0 + k 2 ≠ 0) (h12 : k 1 + k 2 ≠ 0)
+    (x y t : ℂ) :
+    hirotaKP (kdvNSolitonTau k δ) x y t = 0 := by
+  unfold kdvNSolitonTau
+  rw [hirotaKP_expSum]
+  dsimp only
+  let E : Fin 3 → ℂ := fun r =>
+    Complex.exp ((2 * (k r : ℂ)) * x + (2 * (k r : ℂ) ^ 3) * t + (δ r : ℂ))
+  let W : Finset (Fin 3) → ℂ := fun I =>
+    ((∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s) : ℝ) : ℂ) *
+      ∏ r ∈ I, E r
+  have hterm : ∀ I J : Finset (Fin 3),
+      (((∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+        Real.exp (∑ r ∈ I, δ r) : ℝ) : ℂ) *
+      (((∏ r ∈ J, ∏ s ∈ J.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+        Real.exp (∑ r ∈ J, δ r) : ℝ) : ℂ) *
+      Complex.exp ((∑ r ∈ I, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ I, (2 * k r ^ 3 : ℂ)) * t) *
+      Complex.exp ((∑ r ∈ J, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) * t) *
+      kpDispersion (∑ r ∈ I, (2 * k r : ℂ)) 0 (∑ r ∈ I, (2 * k r ^ 3 : ℂ))
+        (∑ r ∈ J, (2 * k r : ℂ)) 0 (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) =
+      W I * W J *
+        kpDispersion (∑ r ∈ I, (2 * k r : ℂ)) 0 (∑ r ∈ I, (2 * k r ^ 3 : ℂ))
+          (∑ r ∈ J, (2 * k r : ℂ)) 0 (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) := by
+    have h_single : ∀ I : Finset (Fin 3),
+        (((∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+          Real.exp (∑ r ∈ I, δ r) : ℝ) : ℂ) *
+        Complex.exp ((∑ r ∈ I, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ I, (2 * k r ^ 3 : ℂ)) * t) =
+        W I := by
+      intro I
+      rw [zero_mul, add_zero, Complex.ofReal_mul, Complex.ofReal_exp]
+      have hexp_sum :
+          Complex.exp (∑ r ∈ I, (δ r : ℂ)) *
+            Complex.exp ((∑ r ∈ I, (2 * k r : ℂ)) * x + (∑ r ∈ I, (2 * k r ^ 3 : ℂ)) * t) =
+          ∏ r ∈ I, E r := by
+        rw [← Complex.exp_add]
+        have hlin :
+            (∑ r ∈ I, (δ r : ℂ)) +
+              ((∑ r ∈ I, (2 * k r : ℂ)) * x + (∑ r ∈ I, (2 * k r ^ 3 : ℂ)) * t) =
+            ∑ r ∈ I, ((2 * (k r : ℂ)) * x + (2 * (k r : ℂ) ^ 3) * t + (δ r : ℂ)) := by
+          rw [Finset.sum_mul, Finset.sum_mul, ← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
+          refine Finset.sum_congr rfl fun r _ => by ring
+        rw [hlin]
+        exact Complex.exp_sum _ _
+      dsimp [W]
+      push_cast
+      rw [mul_assoc, hexp_sum]
+    intro I J
+    calc _ =
+        ((((∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+            Real.exp (∑ r ∈ I, δ r) : ℝ) : ℂ) *
+          Complex.exp ((∑ r ∈ I, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ I, (2 * k r ^ 3 : ℂ)) * t)) *
+        ((((∏ r ∈ J, ∏ s ∈ J.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+            Real.exp (∑ r ∈ J, δ r) : ℝ) : ℂ) *
+          Complex.exp ((∑ r ∈ J, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) * t)) *
+        kpDispersion (∑ r ∈ I, (2 * k r : ℂ)) 0 (∑ r ∈ I, (2 * k r ^ 3 : ℂ))
+          (∑ r ∈ J, (2 * k r : ℂ)) 0 (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) := by ring
+      _ = _ := by rw [h_single I, h_single J]
+  rw [Finset.sum_product]
+  have hsum_eq :
+      (∑ I : Finset (Fin 3), ∑ J : Finset (Fin 3),
+        (((∏ r ∈ I, ∏ s ∈ I.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+          Real.exp (∑ r ∈ I, δ r) : ℝ) : ℂ) *
+        (((∏ r ∈ J, ∏ s ∈ J.filter (fun s => r < s), kdvPairInteraction (k r) (k s)) *
+          Real.exp (∑ r ∈ J, δ r) : ℝ) : ℂ) *
+        Complex.exp ((∑ r ∈ I, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ I, (2 * k r ^ 3 : ℂ)) * t) *
+        Complex.exp ((∑ r ∈ J, (2 * k r : ℂ)) * x + 0 * y + (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) * t) *
+        kpDispersion (∑ r ∈ I, (2 * k r : ℂ)) 0 (∑ r ∈ I, (2 * k r ^ 3 : ℂ))
+          (∑ r ∈ J, (2 * k r : ℂ)) 0 (∑ r ∈ J, (2 * k r ^ 3 : ℂ))) =
+      ∑ I : Finset (Fin 3), ∑ J : Finset (Fin 3),
+        W I * W J *
+          kpDispersion (∑ r ∈ I, (2 * k r : ℂ)) 0 (∑ r ∈ I, (2 * k r ^ 3 : ℂ))
+            (∑ r ∈ J, (2 * k r : ℂ)) 0 (∑ r ∈ J, (2 * k r ^ 3 : ℂ)) :=
+    Finset.sum_congr rfl fun I _ => Finset.sum_congr rfl fun J _ => hterm I J
+  rw [hsum_eq]
+  have huniv : (Finset.univ : Finset (Finset (Fin 3))) =
+      {∅, {0}, {1}, {2}, {0, 1}, {0, 2}, {1, 2}, {0, 1, 2}} := by decide
+  have hsum_fin3 : ∀ f : Finset (Fin 3) → ℂ,
+      ∑ I : Finset (Fin 3), f I =
+        f ∅ + f {0} + f {1} + f {2} + f {0, 1} + f {0, 2} + f {1, 2} + f {0, 1, 2} := by
+    intro f
+    rw [huniv]
+    rw [Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_insert (by decide),
+      Finset.sum_insert (by decide), Finset.sum_singleton]
+    ring
+  let k0 : ℂ := k 0
+  let k1 : ℂ := k 1
+  let k2 : ℂ := k 2
+  let A01 : ℂ := ((k0 - k1) / (k0 + k1)) ^ 2
+  let A02 : ℂ := ((k0 - k2) / (k0 + k2)) ^ 2
+  let A12 : ℂ := ((k1 - k2) / (k1 + k2)) ^ 2
+  have hA01 : ((kdvPairInteraction (k 0) (k 1) : ℝ) : ℂ) = A01 := by
+    unfold kdvPairInteraction; push_cast; rfl
+  have hA02 : ((kdvPairInteraction (k 0) (k 2) : ℝ) : ℂ) = A02 := by
+    unfold kdvPairInteraction; push_cast; rfl
+  have hA12 : ((kdvPairInteraction (k 1) (k 2) : ℝ) : ℂ) = A12 := by
+    unfold kdvPairInteraction; push_cast; rfl
+  have hW_e : W ∅ = 1 := by simp [W]
+  have hW_0 : W {0} = E 0 := by
+    have hf : Finset.filter (fun s : Fin 3 => (0 : Fin 3) < s) {0} = ∅ := by decide
+    dsimp [W]; rw [Finset.prod_singleton, hf, Finset.prod_empty, Finset.prod_singleton]; simp
+  have hW_1 : W {1} = E 1 := by
+    have hf : Finset.filter (fun s : Fin 3 => (1 : Fin 3) < s) {1} = ∅ := by decide
+    dsimp [W]; rw [Finset.prod_singleton, hf, Finset.prod_empty, Finset.prod_singleton]; simp
+  have hW_2 : W {2} = E 2 := by
+    have hf : Finset.filter (fun s : Fin 3 => (2 : Fin 3) < s) {2} = ∅ := by decide
+    dsimp [W]; rw [Finset.prod_singleton, hf, Finset.prod_empty, Finset.prod_singleton]; simp
+  have hW_01 : W {0, 1} = A01 * E 0 * E 1 := by
+    have hf0 : Finset.filter (fun s : Fin 3 => (0 : Fin 3) < s) {0, 1} = {1} := by decide
+    have hf1 : Finset.filter (fun s : Fin 3 => (1 : Fin 3) < s) {0, 1} = ∅ := by decide
+    dsimp [W]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, hf0, hf1]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, Finset.prod_singleton, Finset.prod_empty]
+    push_cast; rw [hA01]; ring
+  have hW_02 : W {0, 2} = A02 * E 0 * E 2 := by
+    have hf0 : Finset.filter (fun s : Fin 3 => (0 : Fin 3) < s) {0, 2} = {2} := by decide
+    have hf2 : Finset.filter (fun s : Fin 3 => (2 : Fin 3) < s) {0, 2} = ∅ := by decide
+    dsimp [W]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, hf0, hf2]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, Finset.prod_singleton, Finset.prod_empty]
+    push_cast; rw [hA02]; ring
+  have hW_12 : W {1, 2} = A12 * E 1 * E 2 := by
+    have hf1 : Finset.filter (fun s : Fin 3 => (1 : Fin 3) < s) {1, 2} = {2} := by decide
+    have hf2 : Finset.filter (fun s : Fin 3 => (2 : Fin 3) < s) {1, 2} = ∅ := by decide
+    dsimp [W]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, hf1, hf2]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, Finset.prod_singleton, Finset.prod_empty]
+    push_cast; rw [hA12]; ring
+  have hW_012 : W {0, 1, 2} = A01 * A02 * A12 * E 0 * E 1 * E 2 := by
+    have hf0 : Finset.filter (fun s : Fin 3 => (0 : Fin 3) < s) {0, 1, 2} = {1, 2} := by decide
+    have hf1 : Finset.filter (fun s : Fin 3 => (1 : Fin 3) < s) {0, 1, 2} = {2} := by decide
+    have hf2 : Finset.filter (fun s : Fin 3 => (2 : Fin 3) < s) {0, 1, 2} = ∅ := by decide
+    dsimp [W]
+    rw [Finset.prod_insert (by decide), Finset.prod_insert (by decide), Finset.prod_singleton,
+      hf0, hf1, hf2]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, Finset.prod_singleton, Finset.prod_empty]
+    rw [Finset.prod_insert (by decide), Finset.prod_insert (by decide), Finset.prod_singleton]
+    push_cast; rw [hA01, hA02, hA12]; ring
+  have hα_e : ∑ r ∈ (∅ : Finset (Fin 3)), (2 * k r : ℂ) = 0 := by simp
+  have hγ_e : ∑ r ∈ (∅ : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 0 := by simp
+  have hα_0 : ∑ r ∈ ({0} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k0 := by simp [k0]
+  have hγ_0 : ∑ r ∈ ({0} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 2 * k0 ^ 3 := by simp [k0]
+  have hα_1 : ∑ r ∈ ({1} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k1 := by simp [k1]
+  have hγ_1 : ∑ r ∈ ({1} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 2 * k1 ^ 3 := by simp [k1]
+  have hα_2 : ∑ r ∈ ({2} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k2 := by simp [k2]
+  have hγ_2 : ∑ r ∈ ({2} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 2 * k2 ^ 3 := by simp [k2]
+  have hα_01 : ∑ r ∈ ({0, 1} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k0 + 2 * k1 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_singleton]
+  have hγ_01 : ∑ r ∈ ({0, 1} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 2 * k0 ^ 3 + 2 * k1 ^ 3 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_singleton]
+  have hα_02 : ∑ r ∈ ({0, 2} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k0 + 2 * k2 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_singleton]
+  have hγ_02 : ∑ r ∈ ({0, 2} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 2 * k0 ^ 3 + 2 * k2 ^ 3 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_singleton]
+  have hα_12 : ∑ r ∈ ({1, 2} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k1 + 2 * k2 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_singleton]
+  have hγ_12 : ∑ r ∈ ({1, 2} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) = 2 * k1 ^ 3 + 2 * k2 ^ 3 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_singleton]
+  have hα_012 : ∑ r ∈ ({0, 1, 2} : Finset (Fin 3)), (2 * k r : ℂ) = 2 * k0 + 2 * k1 + 2 * k2 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_insert (by decide), Finset.sum_singleton]; ring
+  have hγ_012 : ∑ r ∈ ({0, 1, 2} : Finset (Fin 3)), (2 * k r ^ 3 : ℂ) =
+      2 * k0 ^ 3 + 2 * k1 ^ 3 + 2 * k2 ^ 3 := by
+    rw [Finset.sum_insert (by decide), Finset.sum_insert (by decide), Finset.sum_singleton]; ring
+  have h01c : k0 + k1 ≠ 0 := by dsimp [k0, k1]; exact_mod_cast h01
+  have h02c : k0 + k2 ≠ 0 := by dsimp [k0, k2]; exact_mod_cast h02
+  have h12c : k1 + k2 ≠ 0 := by dsimp [k1, k2]; exact_mod_cast h12
+  have hg1 : A01 * kpDispersion 0 0 0 (2 * k0 + 2 * k1) 0 (2 * k0 ^ 3 + 2 * k1 ^ 3) +
+      kpDispersion (2 * k0) 0 (2 * k0 ^ 3) (2 * k1) 0 (2 * k1 ^ 3) = 0 := by
+    dsimp [A01]; unfold kpDispersion; field_simp [h01c]; ring
+  have hg2 : A02 * kpDispersion 0 0 0 (2 * k0 + 2 * k2) 0 (2 * k0 ^ 3 + 2 * k2 ^ 3) +
+      kpDispersion (2 * k0) 0 (2 * k0 ^ 3) (2 * k2) 0 (2 * k2 ^ 3) = 0 := by
+    dsimp [A02]; unfold kpDispersion; field_simp [h02c]; ring
+  have hg3 : A12 * kpDispersion 0 0 0 (2 * k1 + 2 * k2) 0 (2 * k1 ^ 3 + 2 * k2 ^ 3) +
+      kpDispersion (2 * k1) 0 (2 * k1 ^ 3) (2 * k2) 0 (2 * k2 ^ 3) = 0 := by
+    dsimp [A12]; unfold kpDispersion; field_simp [h12c]; ring
+  have hg4 :
+      A01 * A02 * A12 *
+        kpDispersion 0 0 0 (2 * k0 + 2 * k1 + 2 * k2) 0 (2 * k0 ^ 3 + 2 * k1 ^ 3 + 2 * k2 ^ 3) +
+      A12 * kpDispersion (2 * k0) 0 (2 * k0 ^ 3) (2 * k1 + 2 * k2) 0 (2 * k1 ^ 3 + 2 * k2 ^ 3) +
+      A02 * kpDispersion (2 * k1) 0 (2 * k1 ^ 3) (2 * k0 + 2 * k2) 0 (2 * k0 ^ 3 + 2 * k2 ^ 3) +
+      A01 * kpDispersion (2 * k2) 0 (2 * k2 ^ 3) (2 * k0 + 2 * k1) 0 (2 * k0 ^ 3 + 2 * k1 ^ 3) =
+      0 := by
+    dsimp [A01, A02, A12]; unfold kpDispersion; field_simp [h01c, h02c, h12c]; ring
+  have hg5 :
+      A01 * A02 * A12 *
+        kpDispersion (2 * k0) 0 (2 * k0 ^ 3) (2 * k0 + 2 * k1 + 2 * k2) 0
+          (2 * k0 ^ 3 + 2 * k1 ^ 3 + 2 * k2 ^ 3) +
+      A01 * A02 *
+        kpDispersion (2 * k0 + 2 * k1) 0 (2 * k0 ^ 3 + 2 * k1 ^ 3) (2 * k0 + 2 * k2) 0
+          (2 * k0 ^ 3 + 2 * k2 ^ 3) = 0 := by
+    dsimp [A01, A02, A12]; unfold kpDispersion; field_simp [h01c, h02c, h12c]; ring
+  have hg6 :
+      A01 * A02 * A12 *
+        kpDispersion (2 * k1) 0 (2 * k1 ^ 3) (2 * k0 + 2 * k1 + 2 * k2) 0
+          (2 * k0 ^ 3 + 2 * k1 ^ 3 + 2 * k2 ^ 3) +
+      A01 * A12 *
+        kpDispersion (2 * k0 + 2 * k1) 0 (2 * k0 ^ 3 + 2 * k1 ^ 3) (2 * k1 + 2 * k2) 0
+          (2 * k1 ^ 3 + 2 * k2 ^ 3) = 0 := by
+    dsimp [A01, A02, A12]; unfold kpDispersion; field_simp [h01c, h02c, h12c]; ring
+  have hg7 :
+      A01 * A02 * A12 *
+        kpDispersion (2 * k2) 0 (2 * k2 ^ 3) (2 * k0 + 2 * k1 + 2 * k2) 0
+          (2 * k0 ^ 3 + 2 * k1 ^ 3 + 2 * k2 ^ 3) +
+      A02 * A12 *
+        kpDispersion (2 * k0 + 2 * k2) 0 (2 * k0 ^ 3 + 2 * k2 ^ 3) (2 * k1 + 2 * k2) 0
+          (2 * k1 ^ 3 + 2 * k2 ^ 3) = 0 := by
+    dsimp [A01, A02, A12]; unfold kpDispersion; field_simp [h01c, h02c, h12c]; ring
+  repeat rw [hsum_fin3]
+  rw [hW_e, hW_0, hW_1, hW_2, hW_01, hW_02, hW_12, hW_012,
+    hα_e, hγ_e, hα_0, hγ_0, hα_1, hγ_1, hα_2, hγ_2,
+    hα_01, hγ_01, hα_02, hγ_02, hα_12, hγ_12, hα_012, hγ_012]
+  unfold kpDispersion at hg1 hg2 hg3 hg4 hg5 hg6 hg7 ⊢
+  linear_combination
+    (2 * E 0 * E 1) * hg1 +
+    (2 * E 0 * E 2) * hg2 +
+    (2 * E 1 * E 2) * hg3 +
+    (2 * E 0 * E 1 * E 2) * hg4 +
+    (2 * E 0 ^ 2 * E 1 * E 2) * hg5 +
+    (2 * E 0 * E 1 ^ 2 * E 2) * hg6 +
+    (2 * E 0 * E 1 * E 2 ^ 2) * hg7
+
 end Signals.SatoGrassmannian.PDESolver

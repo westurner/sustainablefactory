@@ -333,6 +333,394 @@ impl PlabicGr24Solver {
     }
 }
 
+/// Shared overflow-proof log-sum-exp cumulant evaluator for arbitrary finite exponential
+/// KP-II / KdV `N`-soliton `τ`-functions `τ = ∑_r c_r exp(δ_r + α_r x + β_r y + γ_r t)`.
+pub fn eval_boltzmann_kp2_jet(
+    coeffs: &[f64],
+    delta: &[f64],
+    alpha: &[f64],
+    beta: &[f64],
+    gamma: &[f64],
+    x: f64,
+    y: f64,
+    t: f64,
+) -> Kp2Jet {
+    let m = coeffs.len();
+    let mut phases = vec![f64::NEG_INFINITY; m];
+    let mut max_phase = f64::NEG_INFINITY;
+    for r in 0..m {
+        if coeffs[r] > 0.0 {
+            let ph = coeffs[r].ln() + delta[r] + alpha[r] * x + beta[r] * y + gamma[r] * t;
+            phases[r] = ph;
+            if ph > max_phase {
+                max_phase = ph;
+            }
+        }
+    }
+
+    let mut w = vec![0.0_f64; m];
+    let mut z = 0.0_f64;
+    for r in 0..m {
+        if phases[r].is_finite() {
+            w[r] = (phases[r] - max_phase).exp();
+            z += w[r];
+        }
+    }
+    for wr in &mut w {
+        *wr /= z;
+    }
+    let log_tau = max_phase + z.ln();
+
+    let (mut ma, mut mb, mut mg) = (0.0, 0.0, 0.0);
+    for r in 0..m {
+        ma += w[r] * alpha[r];
+        mb += w[r] * beta[r];
+        mg += w[r] * gamma[r];
+    }
+
+    let (mut m2a, mut m3a, mut m4a, mut m5a, mut m6a) = (0.0, 0.0, 0.0, 0.0, 0.0);
+    let (mut m2b, mut mab, mut ma2b, mut ma2b2) = (0.0, 0.0, 0.0, 0.0);
+    let (mut mag, mut ma2g, mut ma3g) = (0.0, 0.0, 0.0);
+
+    for r in 0..m {
+        let wr = w[r];
+        if wr == 0.0 {
+            continue;
+        }
+        let da = alpha[r] - ma;
+        let db = beta[r] - mb;
+        let dg = gamma[r] - mg;
+        let da2 = da * da;
+        let da3 = da2 * da;
+        let da4 = da2 * da2;
+
+        m2a += wr * da2;
+        m3a += wr * da3;
+        m4a += wr * da4;
+        m5a += wr * da4 * da;
+        m6a += wr * da4 * da2;
+
+        m2b += wr * db * db;
+        mab += wr * da * db;
+        ma2b += wr * da2 * db;
+        ma2b2 += wr * da2 * db * db;
+
+        mag += wr * da * dg;
+        ma2g += wr * da2 * dg;
+        ma3g += wr * da3 * dg;
+    }
+
+    let u = 2.0 * m2a;
+    let u_x = 2.0 * m3a;
+    let u_xx = 2.0 * (m4a - 3.0 * m2a * m2a);
+    let u_xxx = 2.0 * (m5a - 10.0 * m3a * m2a);
+    let u_xxxx = 2.0 * (m6a - 15.0 * m4a * m2a - 10.0 * m3a * m3a + 30.0 * m2a * m2a * m2a);
+    let u_y = 2.0 * ma2b;
+    let u_yy = 2.0 * (ma2b2 - m2a * m2b - 2.0 * mab * mab);
+    let u_t = 2.0 * ma2g;
+    let u_xt = 2.0 * (ma3g - 3.0 * m2a * mag);
+    let kp2_residual = 4.0 * u_xt - u_xxxx - 6.0 * (u_x * u_x + u * u_xx) - 3.0 * u_yy;
+
+    Kp2Jet {
+        u,
+        u_x,
+        u_xx,
+        u_xxx,
+        u_xxxx,
+        u_y,
+        u_yy,
+        u_t,
+        u_xt,
+        log_tau,
+        kp2_residual,
+    }
+}
+
+fn enumerate_k_subsets(n: usize, k: usize) -> Vec<Vec<usize>> {
+    fn rec(start: usize, n: usize, k: usize, cur: &mut Vec<usize>, out: &mut Vec<Vec<usize>>) {
+        if cur.len() == k {
+            out.push(cur.clone());
+            return;
+        }
+        let need = k - cur.len();
+        for i in start..=(n - need) {
+            cur.push(i);
+            rec(i + 1, n, k, cur, out);
+            cur.pop();
+        }
+    }
+    let mut out = Vec::new();
+    let mut cur = Vec::with_capacity(k);
+    rec(0, n, k, &mut cur, &mut out);
+    out
+}
+
+/// Arbitrary `(k, n)` Sato Grassmannian `Gr_≥0(k, n)` KP-II `N`-soliton web and
+/// Hirota KdV `N`-soliton solver (`PDESolver.lean` Section 5).
+#[cfg_attr(feature = "python", pyclass)]
+#[derive(Debug, Clone)]
+pub struct PlabicGrKNSolver {
+    pub k: usize,
+    pub n: usize,
+    pub num_terms: usize,
+    pub kappa: Vec<f64>,
+    pub plucker: Vec<f64>,
+    coeffs: Vec<f64>,
+    delta: Vec<f64>,
+    alpha: Vec<f64>,
+    beta: Vec<f64>,
+    gamma: Vec<f64>,
+}
+
+impl PlabicGrKNSolver {
+    pub fn from_frame_rust(kappa: Vec<f64>, frame: Vec<Vec<f64>>) -> Result<Self, String> {
+        let k = frame.len();
+        let n = kappa.len();
+        if k == 0 || n < k || n > 12 {
+            return Err("Require 1 <= k <= n <= 12".into());
+        }
+        if frame.iter().any(|row| row.len() != n) {
+            return Err("Every row of frame must have length n".into());
+        }
+        for i in 0..(n - 1) {
+            if !(kappa[i] < kappa[i + 1]) {
+                return Err("Wavenumbers must be strictly increasing".into());
+            }
+        }
+        let subsets = enumerate_k_subsets(n, k);
+        let mut plucker = Vec::with_capacity(subsets.len());
+        let mut coeffs = Vec::with_capacity(subsets.len());
+        let mut delta = Vec::with_capacity(subsets.len());
+        let mut alpha = Vec::with_capacity(subsets.len());
+        let mut beta = Vec::with_capacity(subsets.len());
+        let mut gamma = Vec::with_capacity(subsets.len());
+        let mut any_pos = false;
+
+        for sub in &subsets {
+            let mut submat = vec![vec![0.0_f64; k]; k];
+            for r in 0..k {
+                for c in 0..k {
+                    submat[r][c] = frame[r][sub[c]];
+                }
+            }
+            let p_sub = mat_det_gaussian(submat);
+            if p_sub < -1e-12 {
+                return Err(format!(
+                    "Negative Plücker minor {p_sub} on subset {sub:?} violates Gr_≥0({k},{n})"
+                ));
+            }
+            let p_clamped = p_sub.max(0.0);
+            if p_clamped > 1e-15 {
+                any_pos = true;
+            }
+            let mut vand = 1.0_f64;
+            for a in 0..k {
+                for b in (a + 1)..k {
+                    vand *= kappa[sub[b]] - kappa[sub[a]];
+                }
+            }
+            let (mut al, mut be, mut ga) = (0.0, 0.0, 0.0);
+            for &idx in sub {
+                let ki = kappa[idx];
+                al += ki;
+                be += ki * ki;
+                ga += ki * ki * ki;
+            }
+            plucker.push(p_clamped);
+            coeffs.push(p_clamped * vand);
+            delta.push(0.0);
+            alpha.push(al);
+            beta.push(be);
+            gamma.push(ga);
+        }
+
+        if !any_pos {
+            return Err("Degenerate frame: all Plücker minors vanish".into());
+        }
+        let num_terms = coeffs.len();
+        Ok(Self {
+            k,
+            n,
+            num_terms,
+            kappa,
+            plucker,
+            coeffs,
+            delta,
+            alpha,
+            beta,
+            gamma,
+        })
+    }
+
+    /// Totally positive Vandermonde top-cell `Gr_>0(k, n)` KP-II `N`-soliton web constructor:
+    /// `frame[r][j] = exp(row_rates[r] * j)` with strictly increasing `row_rates` (`Gantmacher–Krein`).
+    pub fn from_totally_positive_vandermonde_rust(
+        kappa: Vec<f64>,
+        row_rates: Vec<f64>,
+    ) -> Result<Self, String> {
+        let k = row_rates.len();
+        let n = kappa.len();
+        if k == 0 || n < k || n > 12 {
+            return Err("Require 1 <= k <= n <= 12".into());
+        }
+        for i in 0..(k - 1) {
+            if !(row_rates[i] < row_rates[i + 1]) {
+                return Err("row_rates must be strictly increasing for total positivity".into());
+            }
+        }
+        let mut frame = vec![vec![0.0_f64; n]; k];
+        for r in 0..k {
+            let xr = row_rates[r].exp();
+            let mut cur = 1.0_f64;
+            for j in 0..n {
+                frame[r][j] = cur;
+                cur *= xr;
+            }
+        }
+        Self::from_frame_rust(kappa, frame)
+    }
+
+    /// Arbitrary `N`-soliton Hirota KdV solver in Sato KP normalization (`4 u_t - u_xxx - 6 u u_x = 0`):
+    /// `τ^{(N)}(x, y, t) = ∑_{μ ∈ {0,1}^N} (∏_{r<s} A_{r,s}^{μ_r μ_s}) exp(∑_r μ_r (2 k_r x + 2 k_r³ t + δ_r))`.
+    pub fn from_kdv_n_soliton_rust(k_amps: Vec<f64>, shifts: Vec<f64>) -> Result<Self, String> {
+        let n_sol = k_amps.len();
+        if n_sol == 0 || n_sol > 10 || shifts.len() != n_sol {
+            return Err("Require 1 <= N <= 10 and shifts.len() == k_amps.len()".into());
+        }
+        for r in 0..n_sol {
+            for s in (r + 1)..n_sol {
+                if (k_amps[r] + k_amps[s]).abs() < 1e-12 {
+                    return Err("Pairwise sum k_r + k_s must be nonzero".into());
+                }
+            }
+        }
+        let num_terms = 1usize << n_sol;
+        let mut coeffs = Vec::with_capacity(num_terms);
+        let mut delta = Vec::with_capacity(num_terms);
+        let mut alpha = Vec::with_capacity(num_terms);
+        let beta = vec![0.0_f64; num_terms];
+        let mut gamma = Vec::with_capacity(num_terms);
+
+        for mask in 0..num_terms {
+            let mut c_m = 1.0_f64;
+            let mut d_m = 0.0_f64;
+            let mut a_m = 0.0_f64;
+            let mut g_m = 0.0_f64;
+            for r in 0..n_sol {
+                if (mask >> r) & 1 == 1 {
+                    let kr = k_amps[r];
+                    d_m += shifts[r];
+                    a_m += 2.0 * kr;
+                    g_m += 2.0 * kr * kr * kr;
+                    for s in (r + 1)..n_sol {
+                        if (mask >> s) & 1 == 1 {
+                            let ks = k_amps[s];
+                            let ratio = (kr - ks) / (kr + ks);
+                            c_m *= ratio * ratio;
+                        }
+                    }
+                }
+            }
+            coeffs.push(c_m);
+            delta.push(d_m);
+            alpha.push(a_m);
+            gamma.push(g_m);
+        }
+
+        Ok(Self {
+            k: n_sol,
+            n: 2 * n_sol,
+            num_terms,
+            kappa: k_amps,
+            plucker: coeffs.clone(),
+            coeffs,
+            delta,
+            alpha,
+            beta,
+            gamma,
+        })
+    }
+
+    pub fn eval_jet_rust(&self, x: f64, y: f64, t: f64) -> Kp2Jet {
+        eval_boltzmann_kp2_jet(
+            &self.coeffs,
+            &self.delta,
+            &self.alpha,
+            &self.beta,
+            &self.gamma,
+            x,
+            y,
+            t,
+        )
+    }
+
+    pub fn eval_grid_rust(&self, xs: &[f64], ys: &[f64], t: f64) -> Vec<f64> {
+        let mut out = Vec::with_capacity(xs.len() * ys.len());
+        for &y in ys {
+            for &x in xs {
+                out.push(self.eval_jet_rust(x, y, t).u);
+            }
+        }
+        out
+    }
+}
+
+#[cfg(feature = "python")]
+#[pymethods]
+impl PlabicGrKNSolver {
+    #[getter]
+    pub fn k(&self) -> usize {
+        self.k
+    }
+
+    #[getter]
+    pub fn n(&self) -> usize {
+        self.n
+    }
+
+    #[getter]
+    pub fn num_terms(&self) -> usize {
+        self.num_terms
+    }
+
+    #[getter]
+    pub fn kappa(&self) -> Vec<f64> {
+        self.kappa.clone()
+    }
+
+    #[getter]
+    pub fn plucker(&self) -> Vec<f64> {
+        self.plucker.clone()
+    }
+
+    #[staticmethod]
+    pub fn from_frame(kappa: Vec<f64>, frame: Vec<Vec<f64>>) -> PyResult<Self> {
+        Self::from_frame_rust(kappa, frame).map_err(PyValueError::new_err)
+    }
+
+    #[staticmethod]
+    pub fn from_totally_positive_vandermonde(
+        kappa: Vec<f64>,
+        row_rates: Vec<f64>,
+    ) -> PyResult<Self> {
+        Self::from_totally_positive_vandermonde_rust(kappa, row_rates)
+            .map_err(PyValueError::new_err)
+    }
+
+    #[staticmethod]
+    pub fn from_kdv_n_soliton(k_amps: Vec<f64>, shifts: Vec<f64>) -> PyResult<Self> {
+        Self::from_kdv_n_soliton_rust(k_amps, shifts).map_err(PyValueError::new_err)
+    }
+
+    pub fn eval_jet(&self, x: f64, y: f64, t: f64) -> Kp2Jet {
+        self.eval_jet_rust(x, y, t)
+    }
+
+    pub fn eval_grid(&self, xs: Vec<f64>, ys: Vec<f64>, t: f64) -> Vec<f64> {
+        self.eval_grid_rust(&xs, &ys, t)
+    }
+}
+
 /// Baker–Akhiezer Lax pair verification report for `kdvOneSoliton k`.
 #[derive(Debug, Clone, Copy)]
 pub struct BaLaxAudit {
@@ -1447,6 +1835,45 @@ mod tests {
         assert!(j0.u_y.abs() < 1e-13);
         assert!(j0.u_yy.abs() < 1e-13);
         assert!(j0.kp2_residual.abs() < 1e-11);
+    }
+
+    #[test]
+    fn test_arbitrary_kn_and_kdv_n_soliton_solver() {
+        // 1. KdV N=3, N=4, N=5 exact Hirota N-solitons (y-invariant, zero KP-II residual, overflow-proof)
+        for (amps, shifts, pt) in [
+            (vec![0.4, 0.8, 1.3], vec![0.2, -0.3, 0.1], (0.5, 9.0, -0.4)),
+            (vec![0.35, 0.7, 1.05, 1.45], vec![0.1, -0.2, 0.3, -0.1], (-0.7, -4.0, 0.3)),
+            (vec![0.3, 0.6, 0.9, 1.2, 1.5], vec![0.0; 5], (80.0, 0.0, 15.0)),
+        ] {
+            let s_kdv = PlabicGrKNSolver::from_kdv_n_soliton_rust(amps.clone(), shifts).unwrap();
+            assert_eq!(s_kdv.num_terms, 1usize << amps.len());
+            let j = s_kdv.eval_jet_rust(pt.0, pt.1, pt.2);
+            assert!(j.u >= 0.0 && j.u.is_finite());
+            assert!(j.u_y.abs() < 1e-14);
+            assert!(j.u_yy.abs() < 1e-14);
+            assert!(j.kp2_residual.abs() < 1e-11, "KdV N={} res={}", amps.len(), j.kp2_residual);
+        }
+
+        // 2. Gr_>0(2, 5) (10 Plücker terms) and Gr_>0(3, 6) (20 Plücker terms) top-cell KP-II N-soliton webs
+        let s25 = PlabicGrKNSolver::from_totally_positive_vandermonde_rust(
+            vec![-1.6, -0.8, 0.1, 0.9, 1.7],
+            vec![-0.4, 0.5],
+        )
+        .unwrap();
+        assert_eq!(s25.num_terms, 10);
+        let j25 = s25.eval_jet_rust(0.6, -0.4, 0.3);
+        assert!(j25.u > 0.0);
+        assert!(j25.kp2_residual.abs() < 1e-11, "Gr(2,5) res={}", j25.kp2_residual);
+
+        let s36 = PlabicGrKNSolver::from_totally_positive_vandermonde_rust(
+            vec![-1.8, -1.0, -0.2, 0.5, 1.2, 1.9],
+            vec![-0.5, 0.1, 0.6],
+        )
+        .unwrap();
+        assert_eq!(s36.num_terms, 20);
+        let j36 = s36.eval_jet_rust(-0.3, 0.7, -0.2);
+        assert!(j36.u > 0.0);
+        assert!(j36.kp2_residual.abs() < 1e-11, "Gr(3,6) res={}", j36.kp2_residual);
     }
 
     #[test]

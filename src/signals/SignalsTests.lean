@@ -9956,4 +9956,24 @@ example (u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual : ℝ)
     u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual m_shots hm hfwd hdual
   exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2⟩
 
+example {N : ℕ} (k_amps δ : Fin N → ℝ) (k3 δ3 : Fin 3 → ℝ)
+    (h01 : k3 0 + k3 1 ≠ 0) (h02 : k3 0 + k3 2 ≠ 0) (h12 : k3 1 + k3 2 ≠ 0)
+    (k_kn n_kn : ℕ) (κ : Fin n_kn → ℝ) (p : Finset (Fin n_kn) → ℝ)
+    (hκ : StrictMono κ)
+    (hNN : ∀ I ∈ Finset.univ.powersetCard k_kn, 0 ≤ p I)
+    (hPos : ∃ I ∈ Finset.univ.powersetCard k_kn, 0 < p I)
+    (x y t : ℝ) :
+    0 < (Signals.SatoGrassmannian.PDESolver.solitonTauKN k_kn n_kn κ p (x : ℂ) (y : ℂ) (t : ℂ)).re ∧
+      0 < (Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k_amps δ (x : ℂ) (y : ℂ) (t : ℂ)).re ∧
+      Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k_amps δ (x : ℂ) (y : ℂ) (t : ℂ) =
+        Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k_amps δ (x : ℂ) 0 (t : ℂ) ∧
+      Signals.SatoGrassmannian.HirotaKP.hirotaKP
+        (Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k3 δ3) (x : ℂ) (y : ℂ) (t : ℂ) = 0 := by
+  have hkn := Signals.SatoGrassmannian.PDESolver.solitonTauKN_pos_of_totallyNonneg
+    k_kn n_kn κ p hκ hNN hPos x y t
+  have hkdv := Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau_pos_and_y_invariant k_amps δ
+  have h3 := Signals.SatoGrassmannian.PDESolver.hirotaKP_kdv3SolitonTau_eq_zero
+    k3 δ3 h01 h02 h12 (x : ℂ) (y : ℂ) (t : ℂ)
+  exact ⟨hkn.1, (hkdv.1 x y t).1, hkdv.2 (x : ℂ) (y : ℂ) (t : ℂ), h3⟩
+
 end SignalsTests

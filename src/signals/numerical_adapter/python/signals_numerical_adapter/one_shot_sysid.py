@@ -930,6 +930,27 @@ def verify_symbolic_sato_osid_identities() -> dict[str, bool]:
     )
     qcrb_diff = sp.simplify(1 / (m_shots * 4 * g_fwd) - 1 / (m_shots * 4 * (g_fwd + g_dual)))
 
+    # 5. Exact Hirota bilinear cancellation for the 8-term KdV 3-soliton (`PDESolver.lean` Thm 5.3)
+    import itertools
+
+    k0, k1, k2, d0, d1, d2 = sp.symbols("k0 k1 k2 d0 d1 d2", positive=True)
+    ks3 = (k0, k1, k2)
+    ds3 = (d0, d1, d2)
+    tau3 = sp.Integer(0)
+    for bits in itertools.product([0, 1], repeat=3):
+        prod_a = sp.Integer(1)
+        phase = sp.Integer(0)
+        for r in range(3):
+            if bits[r]:
+                phase += 2 * ks3[r] * x + 2 * ks3[r] ** 3 * t + ds3[r]
+                for s in range(r + 1, 3):
+                    if bits[s]:
+                        prod_a *= ((ks3[r] - ks3[s]) / (ks3[r] + ks3[s])) ** 2
+        tau3 += prod_a * sp.exp(phase)
+    d4x = 2 * tau3 * sp.diff(tau3, x, 4) - 8 * sp.diff(tau3, x) * sp.diff(tau3, x, 3) + 6 * sp.diff(tau3, x, 2) ** 2
+    dxdt = 2 * (tau3 * sp.diff(tau3, x, t) - sp.diff(tau3, x) * sp.diff(tau3, t))
+    hirota_kdv3_sym_ok = sp.simplify(d4x - 4 * dxdt) == 0
+
     return {
         "kp2_weak_normalized_sym_ok": kp2_op_res == 0,
         "kdv1_traveling_wave_sym_ok": traveling_res == 0 and kdv_res == 0,
@@ -938,14 +959,17 @@ def verify_symbolic_sato_osid_identities() -> dict[str, bool]:
             qcrb_diff - g_dual / (4 * m_shots * g_fwd * (g_fwd + g_dual))
         )
         == 0,
+        "hirota_kdv3_soliton_sym_ok": hirota_kdv3_sym_ok,
     }
 
 
 def audit_qci_sato_pde_solvers_high_precision(dps: int = 45) -> dict[str, Any]:
     """
-    Cross-verify Rust/PyO3 `py_audit_qci_one_shot_sysid_sato_pdes` and
-    `PlabicGr24Solver` far-field log-sum-exp extrapolation against 45-digit `mpmath`.
+    Cross-verify Rust/PyO3 `py_audit_qci_one_shot_sysid_sato_pdes`,
+    `PlabicGr24Solver` far-field log-sum-exp extrapolation, and arbitrary `N`-soliton
+    `PlabicGrKNSolver` (`KdV N=3,4` and `Gr_>0(2,5)`, `Gr_>0(3,6)`) against 45-digit `mpmath`.
     """
+    import itertools
     import signals_numerical_adapter as sna
 
     mp.mp.dps = dps
@@ -976,9 +1000,55 @@ def audit_qci_sato_pde_solvers_high_precision(dps: int = 45) -> dict[str, Any]:
     u_far_mp = 2 * var_a
     far_rel_diff = float(abs(mp.mpf(str(rust["kp2_far_field_u"])) - u_far_mp) / u_far_mp)
 
+    # Verify PlabicGrKNSolver.from_kdv_n_soliton (N=3 and N=4) against 45-digit mpmath
+    k3_list = [0.45, 0.85, 1.35]
+    d3_list = [0.2, -0.3, 0.1]
+    solver_kdv3 = sna.PlabicGrKNSolver.from_kdv_n_soliton(k3_list, d3_list)
+    jet_kdv3_rust = solver_kdv3.eval_jet(0.4, 7.5, -0.25)
+
+    k3_mp = [mp.mpf(str(val)) for val in k3_list]
+    d3_mp = [mp.mpf(str(val)) for val in d3_list]
+    w3_mp, a3_mp = [], []
+    xk3, tk3 = mp.mpf("0.4"), mp.mpf("-0.25")
+    for bits in itertools.product([0, 1], repeat=3):
+        c_m = mp.mpf(1)
+        ph_m = mp.mpf(0)
+        al_m = mp.mpf(0)
+        for r in range(3):
+            if bits[r]:
+                al_m += 2 * k3_mp[r]
+                ph_m += 2 * k3_mp[r] * xk3 + 2 * k3_mp[r] ** 3 * tk3 + d3_mp[r]
+                for s in range(r + 1, 3):
+                    if bits[s]:
+                        c_m *= ((k3_mp[r] - k3_mp[s]) / (k3_mp[r] + k3_mp[s])) ** 2
+        w3_mp.append(c_m * mp.exp(ph_m))
+        a3_mp.append(al_m)
+    z3_mp = sum(w3_mp)
+    p3_mp = [wi / z3_mp for wi in w3_mp]
+    m3_mp = sum(pi * ai for pi, ai in zip(p3_mp, a3_mp))
+    u_kdv3_mp = 2 * sum(pi * (ai - m3_mp) ** 2 for pi, ai in zip(p3_mp, a3_mp))
+    kdv3_u_diff = float(abs(mp.mpf(str(jet_kdv3_rust.u)) - u_kdv3_mp))
+
+    # Verify PlabicGrKNSolver (2, 5) and (3, 6) residuals via PyO3 bindings
+    s25 = sna.PlabicGrKNSolver.from_totally_positive_vandermonde(
+        [-1.6, -0.8, 0.1, 0.9, 1.7], [-0.4, 0.5]
+    )
+    j25 = s25.eval_jet(0.6, -0.4, 0.3)
+    s36 = sna.PlabicGrKNSolver.from_totally_positive_vandermonde(
+        [-1.8, -1.0, -0.2, 0.5, 1.2, 1.9], [-0.5, 0.1, 0.6]
+    )
+    j36 = s36.eval_jet(-0.3, 0.7, -0.2)
+
     return {
         **sym_ok,
         "far_field_u_mpmath": float(u_far_mp),
         "far_field_rel_diff": far_rel_diff,
+        "kdv3_u_mpmath": float(u_kdv3_mp),
+        "kdv3_u_diff": kdv3_u_diff,
+        "kdv3_jet_kp2_res": float(jet_kdv3_rust.kp2_residual),
+        "gr25_num_terms": int(s25.num_terms),
+        "gr25_kp2_res": float(j25.kp2_residual),
+        "gr36_num_terms": int(s36.num_terms),
+        "gr36_kp2_res": float(j36.kp2_residual),
         "rust_report": rust,
     }
