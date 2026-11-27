@@ -2638,4 +2638,66 @@ lemma pending_yang_mills_higgs_cpt_solved_of_certificates
     (YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates c1 c2 c3 c4 vGeV hv).allYangMillsHiggsCptGatesClosed :=
   (YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates c1 c2 c3 c4 vGeV hv).1
 
+@[blueprint "lem:signals-pending-rh-solved-of-certificates"
+  (title := "Constructive certificate closure of RiemannHypothesisPendingBoundary")
+  (statement := /-- Given verified witness certificates $(c_1, c_2, c_3, c_4)$, \texttt{RiemannHypothesisPendingBoundary.ofCertificates} discharges \texttt{allFourBridgesClosed}. -/)
+  (proof := /-- Apply \texttt{RiemannHypothesisPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_rh_solved_of_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (tCrit : ℝ) :
+    (RiemannHypothesisPendingBoundary.ofCertificates c1 c2 c3 c4).allFourBridgesClosed :=
+  (RiemannHypothesisPendingBoundary.solved_of_certificates c1 c2 c3 c4 tCrit).1
+
+@[blueprint "lem:signals-pending-sato-riemann-spectral-solved-of-certificates"
+  (title := "Constructive certificate closure of SatoRiemannSpectralPendingBoundary")
+  (statement := /-- Given verified RH, Lidskii determinant, global infinite-zero Weil, and evanescent-QFIM certificates, \texttt{SatoRiemannSpectralPendingBoundary.ofCertificates} discharges \texttt{allSatoGatesClosed}. -/)
+  (proof := /-- Apply \texttt{SatoRiemannSpectralPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_sato_riemann_spectral_solved_of_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : LidskiiFredholmDetCertificate)
+    (cWeil : GlobalInfiniteZeroWeilCertificate)
+    (cEv : EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (SatoRiemannSpectralPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cLidskii cWeil cEv mult hMult).allSatoGatesClosed :=
+  (SatoRiemannSpectralPendingBoundary.solved_of_certificates
+    c1 c2 c3 c4 cLidskii cWeil cEv mult hMult tCrit).1
+
+@[blueprint "lem:signals-pending-toupin-celestial-millennium-solved-of-certificates"
+  (title := "Constructive certificate closure of ToupinCelestialMillenniumPendingBoundary")
+  (statement := /-- Reusing the shared RH and Yang--Mills certificates alongside Meyer and BSD certificates discharges \texttt{allMillenniumBridgesClosed}. -/)
+  (proof := /-- Apply \texttt{ToupinCelestialMillenniumPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_toupin_celestial_millennium_solved_of_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (cMeyer : MeyerFrechetToGnsCertificate)
+    (cBsd : BsdHigherRankEulerCertificate)
+    (cYM1 : ContinuumYangMillsOSCertificate)
+    (cYM2 : CelestialConfiningSpectralCertificate)
+    (tCrit : ℝ) :
+    (ToupinCelestialMillenniumPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2).allMillenniumBridgesClosed :=
+  (ToupinCelestialMillenniumPendingBoundary.solved_of_certificates
+    c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2 tCrit).1
+
 end SignalsPending

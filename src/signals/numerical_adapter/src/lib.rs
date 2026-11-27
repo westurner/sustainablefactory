@@ -688,6 +688,70 @@ fn py_audit_riemann_spectral_bridge<'py>(
 
 #[cfg(feature = "python")]
 #[pyfunction]
+fn py_audit_carleman_det3_anomaly<'py>(
+    py: Python<'py>,
+    sigma: f64,
+    t: f64,
+    prime_limit: usize,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_carleman_det3_anomaly(sigma, t, prime_limit);
+    let d = PyDict::new(py);
+    d.set_item("prime_count", a.prime_count)?;
+    d.set_item("det1_mul_residual", a.det1_mul_residual)?;
+    d.set_item("det3_anomaly_residual", a.det3_anomaly_residual)?;
+    d.set_item("det3_a_abs", a.det3_a_abs)?;
+    d.set_item("det3_b_abs", a.det3_b_abs)?;
+    d.set_item("det3_ab_abs", a.det3_ab_abs)?;
+    d.set_item("anomaly_exp_abs", a.anomaly_exp_abs)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_weil_infinite_tail<'py>(
+    py: Python<'py>,
+    gammas: Vec<f64>,
+    off_line_gamma: f64,
+    off_line_eta: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_weil_infinite_tail_audit(
+        &gammas,
+        off_line_gamma,
+        off_line_eta,
+    );
+    let d = PyDict::new(py);
+    d.set_item("core_witness_re", a.core_witness_re)?;
+    d.set_item("tail_abs_sum", a.tail_abs_sum)?;
+    d.set_item("tail_re_sum", a.tail_re_sum)?;
+    d.set_item("full_sum_re", a.full_sum_re)?;
+    d.set_item("theoretical_neg_4pi_bound", a.theoretical_neg_4pi_bound)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_finite_dim_fredholm_det<'py>(
+    py: Python<'py>,
+    a: f64,
+    b: f64,
+    c: f64,
+    d_val: f64,
+    shear: f64,
+    rot_theta: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = sato_grassmannian::evaluate_finite_dim_fredholm_det(a, b, c, d_val, shear, rot_theta);
+    let d = PyDict::new(py);
+    d.set_item("nilpotent_shear_det_re", r.nilpotent_shear_det_re)?;
+    d.set_item("nilpotent_shear_err", r.nilpotent_shear_err)?;
+    d.set_item("block_lower_det_re", r.block_lower_det_re)?;
+    d.set_item("expected_ad_minus_bc", r.expected_ad_minus_bc)?;
+    d.set_item("block_lower_err", r.block_lower_err)?;
+    d.set_item("conj_invariance_err", r.conj_invariance_err)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
 fn py_audit_schubert_chart_transition_vortex<'py>(
     py: Python<'py>,
     eps: f64,
@@ -1484,6 +1548,9 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_weil_gaussian_quad_form, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_segal_wilson_gr24_tau, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_riemann_spectral_bridge, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_carleman_det3_anomaly, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_weil_infinite_tail, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_finite_dim_fredholm_det, m)?)?;
     m.add_function(wrap_pyfunction!(
         py_audit_schubert_chart_transition_vortex,
         m

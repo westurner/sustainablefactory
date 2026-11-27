@@ -756,6 +756,50 @@ theorem detKDiag_ne_zero_iff {ι : Type*} {k : ℕ} (hk : 1 ≤ k)
   · intro h h1; apply h; rw [h1]; ring
   · intro h h0; apply h; exact eq_neg_of_add_eq_zero_right h0
 
+/-- Scalar order-1 trace-class Fredholm determinant `det_1(I + diag(lam)) = ∏' (1 + lam_i)`. -/
+noncomputable abbrev det1Diag {ι : Type*} (lam : ι → ℂ) : ℂ :=
+  detKDiag 1 lam
+
+/-- Scalar order-3 Carleman determinant `det_3(I + diag(lam))`. -/
+noncomputable abbrev det3Diag {ι : Type*} (lam : ι → ℂ) : ℂ :=
+  detKDiag 3 lam
+
+/-- **Theorem 4.2b (Trace-Class `det_1` Multiplicativity on `ℓ¹`):**
+For commuting diagonal trace-class operators `K₁ = diag(lam)` and `K₂ = diag(μ)` (`lam, μ ∈ ℓ¹`),
+`det_1((I + K₁)(I + K₂)) = det_1(I + K₁) * det_1(I + K₂)` with zero trace anomaly. -/
+theorem det1Diag_mul {ι : Type*} {lam μ : ι → ℂ}
+    (hlam : Summable (fun i : ι => ‖lam i‖))
+    (hμ : Summable (fun i : ι => ‖μ i‖)) :
+    det1Diag (fun i => lam i + μ i + lam i * μ i) =
+      det1Diag lam * det1Diag μ := by
+  have hlam1 : Summable (fun i : ι => ‖lam i‖ ^ 1) := by simpa using hlam
+  have hμ1 : Summable (fun i : ι => ‖μ i‖ ^ 1) := by simpa using hμ
+  have hPlam : HasProd (fun i : ι => weierstrassFactor 1 (lam i)) (det1Diag lam) :=
+    (multipliable_weierstrassFactor_of_lk (by norm_num) hlam1).hasProd
+  have hPμ : HasProd (fun i : ι => weierstrassFactor 1 (μ i)) (det1Diag μ) :=
+    (multipliable_weierstrassFactor_of_lk (by norm_num) hμ1).hasProd
+  have hProd := hPlam.mul hPμ
+  have hPointwise : (fun i : ι => weierstrassFactor 1 (lam i) * weierstrassFactor 1 (μ i)) =
+      fun i : ι => weierstrassFactor 1 (lam i + μ i + lam i * μ i) := by
+    funext i
+    rw [weierstrassFactor_one, weierstrassFactor_one, weierstrassFactor_one]
+    ring
+  rw [hPointwise] at hProd
+  exact hProd.tprod_eq
+
+/-- Rank-1 diagonal trace-class scaling determinant `det_1(I + (c - 1) P_{i₀}) = c`. -/
+theorem det1Diag_single {ι : Type*} [DecidableEq ι] (i₀ : ι) (c : ℂ) :
+    det1Diag (Function.update (0 : ι → ℂ) i₀ (c - 1)) = c := by
+  unfold det1Diag detKDiag
+  have hval : (fun i : ι => weierstrassFactor 1 (Function.update (0 : ι → ℂ) i₀ (c - 1) i)) =
+      fun i : ι => if i = i₀ then c else 1 := by
+    funext i
+    rw [weierstrassFactor_one]
+    by_cases hi : i = i₀
+    · subst hi; simp
+    · simp [hi]
+  rw [hval, tprod_ite_eq i₀ (fun _ => c)]
+
 /-- **Theorem 4.3 (Hilbert–Schmidt `det_2` Multiplicative Trace Anomaly):**
 For commuting diagonal Hilbert–Schmidt operators `K₁ = diag(lam)` and `K₂ = diag(μ)`,
 `det_2((I + K₁)(I + K₂)) = det_2(I + K₁) * det_2(I + K₂) * exp(-Tr(K₁ K₂))`. -/
@@ -859,6 +903,135 @@ theorem det3_eulerPrimes_critical_line (t : ℝ) :
     simp [s]; norm_num
   have h := detKDiag_eulerPrimes_converges_and_ne_zero (k := 3) (by norm_num) hs
   exact ⟨h.2.1, h.2.2⟩
+
+/-- **Theorem 4.6 (Order-3 Schatten `ℐ₃` Multiplicative Trace Anomaly on `ℓ³`):**
+For commuting diagonal `ℓ³` operators `K₁ = diag(lam)` and `K₂ = diag(μ)`:
+`det_3((I + K₁)(I + K₂)) = det_3(I + K₁) * det_3(I + K₂) * exp(∑' (lam_i μ_i (lam_i + μ_i + (1/2) lam_i μ_i)))`.
+Unlike `det₂` (which diverges on `Re(s) = 1/2`), this multiplicative anomaly holds directly on
+the critical line `Re(s) = 1/2`. -/
+theorem det3Diag_mul_anomaly {ι : Type*} {lam μ : ι → ℂ}
+    (hlam : Summable (fun i : ι => ‖lam i‖ ^ 3))
+    (hμ : Summable (fun i : ι => ‖μ i‖ ^ 3)) :
+    Summable (fun i : ι => lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)) ∧
+    det3Diag (fun i => lam i + μ i + lam i * μ i) =
+      det3Diag lam * det3Diag μ *
+        Complex.exp (∑' i : ι, lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)) := by
+  let S : ℝ := ∑' i : ι, ‖lam i‖ ^ 3
+  let B : ℝ := max 1 S
+  have hB1 : 1 ≤ B := le_max_left 1 S
+  have hlam_le : ∀ i : ι, ‖lam i‖ ≤ B := by
+    intro i
+    have hpow : ‖lam i‖ ^ 3 ≤ B :=
+      le_trans (hlam.le_tsum i fun j _ => pow_nonneg (norm_nonneg _) 3) (le_max_right 1 S)
+    by_cases h1 : ‖lam i‖ ≤ 1
+    · exact le_trans h1 hB1
+    · push Not at h1
+      exact le_trans (le_self_pow₀ h1.le (by omega)) hpow
+  let C : ℝ := 1 + B
+  have hMaj : Summable (fun i : ι => C * (‖lam i‖ ^ 3 + ‖μ i‖ ^ 3)) :=
+    (hlam.add hμ).mul_left C
+  have hTr : Summable (fun i : ι => lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)) := by
+    refine Summable.of_norm_bounded hMaj fun i => ?_
+    let a : ℝ := ‖lam i‖
+    let b : ℝ := ‖μ i‖
+    have ha : 0 ≤ a := norm_nonneg _
+    have hb : 0 ≤ b := norm_nonneg _
+    have ha_le : a ≤ B := hlam_le i
+    have hab1 : a ^ 2 * b ≤ (2 * a ^ 3 + b ^ 3) / 3 := by
+      nlinarith [sq_nonneg (a - b)]
+    have hab2 : a * b ^ 2 ≤ (a ^ 3 + 2 * b ^ 3) / 3 := by
+      nlinarith [sq_nonneg (a - b)]
+    have hab3 : (1 / 2 : ℝ) * a ^ 2 * b ^ 2 ≤ B * (a ^ 3 + b ^ 3) := by
+      have hhalf : (1 / 2 : ℝ) * a ≤ B := by linarith
+      have hmid : a * b ^ 2 ≤ a ^ 3 + b ^ 3 := by nlinarith [hab2, pow_nonneg ha 3, pow_nonneg hb 3]
+      calc (1 / 2 : ℝ) * a ^ 2 * b ^ 2
+          = ((1 / 2 : ℝ) * a) * (a * b ^ 2) := by ring
+        _ ≤ B * (a ^ 3 + b ^ 3) :=
+            mul_le_mul hhalf hmid (by positivity) (by positivity)
+    have htri : ‖lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)‖ ≤
+        a ^ 2 * b + a * b ^ 2 + (1 / 2 : ℝ) * a ^ 2 * b ^ 2 := by
+      rw [norm_mul, norm_mul]
+      have hinner : ‖lam i + μ i + (1 / 2 : ℂ) * lam i * μ i‖ ≤ a + b + (1 / 2 : ℝ) * a * b := by
+        calc ‖lam i + μ i + (1 / 2 : ℂ) * lam i * μ i‖
+            ≤ ‖lam i + μ i‖ + ‖(1 / 2 : ℂ) * lam i * μ i‖ := norm_add_le _ _
+          _ ≤ (a + b) + ‖(1 / 2 : ℂ) * lam i * μ i‖ :=
+              add_le_add (norm_add_le (lam i) (μ i)) le_rfl
+          _ = a + b + (1 / 2 : ℝ) * a * b := by
+              rw [norm_mul, norm_mul, show ‖(1 / 2 : ℂ)‖ = (1 / 2 : ℝ) by norm_num]
+      calc a * b * ‖lam i + μ i + (1 / 2 : ℂ) * lam i * μ i‖
+          ≤ a * b * (a + b + (1 / 2 : ℝ) * a * b) :=
+            mul_le_mul_of_nonneg_left hinner (mul_nonneg ha hb)
+        _ = a ^ 2 * b + a * b ^ 2 + (1 / 2 : ℝ) * a ^ 2 * b ^ 2 := by ring
+    have hcomb : a ^ 2 * b + a * b ^ 2 + (1 / 2 : ℝ) * a ^ 2 * b ^ 2 ≤
+        C * (a ^ 3 + b ^ 3) := by
+      dsimp [C]
+      linarith [hab1, hab2, hab3]
+    exact le_trans htri hcomb
+  refine ⟨hTr, ?_⟩
+  have hPlam : HasProd (fun i : ι => weierstrassFactor 3 (lam i)) (det3Diag lam) :=
+    (multipliable_weierstrassFactor_of_lk (by norm_num) hlam).hasProd
+  have hPμ : HasProd (fun i : ι => weierstrassFactor 3 (μ i)) (det3Diag μ) :=
+    (multipliable_weierstrassFactor_of_lk (by norm_num) hμ).hasProd
+  have hPexp : HasProd
+      (fun i : ι => Complex.exp (lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)))
+      (Complex.exp (∑' i : ι, lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i))) := by
+    have hTend : Filter.Tendsto
+        (fun s : Finset ι =>
+          Complex.exp (∑ i ∈ s, lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)))
+        Filter.atTop
+        (nhds (Complex.exp (∑' i : ι, lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)))) :=
+      (Complex.continuous_exp.tendsto _).comp hTr.hasSum
+    refine hTend.congr fun s => ?_
+    rw [Complex.exp_sum]
+  have hProd := (hPlam.mul hPμ).mul hPexp
+  have hPointwise : (fun i : ι =>
+      weierstrassFactor 3 (lam i) * weierstrassFactor 3 (μ i) *
+        Complex.exp (lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i))) =
+      fun i : ι => weierstrassFactor 3 (lam i + μ i + lam i * μ i) := by
+    funext i
+    rw [weierstrassFactor_three, weierstrassFactor_three, weierstrassFactor_three]
+    simp only [smul_eq_mul, ← Complex.exp_eq_exp_ℂ]
+    have hexp :
+        Complex.exp (-(lam i) + (1 / 2 : ℂ) * (lam i) ^ 2) *
+          Complex.exp (-(μ i) + (1 / 2 : ℂ) * (μ i) ^ 2) *
+          Complex.exp (lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i)) =
+        Complex.exp (-(lam i + μ i + lam i * μ i) + (1 / 2 : ℂ) * (lam i + μ i + lam i * μ i) ^ 2) := by
+      rw [← Complex.exp_add, ← Complex.exp_add]
+      congr 1
+      ring
+    calc (1 + lam i) * Complex.exp (-(lam i) + (1 / 2 : ℂ) * (lam i) ^ 2) *
+            ((1 + μ i) * Complex.exp (-(μ i) + (1 / 2 : ℂ) * (μ i) ^ 2)) *
+            Complex.exp (lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i))
+        = ((1 + lam i) * (1 + μ i)) *
+            (Complex.exp (-(lam i) + (1 / 2 : ℂ) * (lam i) ^ 2) *
+             Complex.exp (-(μ i) + (1 / 2 : ℂ) * (μ i) ^ 2) *
+             Complex.exp (lam i * μ i * (lam i + μ i + (1 / 2 : ℂ) * lam i * μ i))) := by ring
+      _ = (1 + (lam i + μ i + lam i * μ i)) *
+            Complex.exp (-(lam i + μ i + lam i * μ i) + (1 / 2 : ℂ) * (lam i + μ i + lam i * μ i) ^ 2) := by
+          rw [hexp]; ring
+  rw [hPointwise] at hProd
+  exact hProd.tprod_eq
+
+/-- **Corollary 4.7 (Critical-Line Euler-Prime `det₃` Multiplicative Anomaly):**
+At `s = 1/2 + i t` on the critical line, `lam_p(s) = -p^(-s)` and `μ_p(s) = (1/2) lam_p(s)`
+obey the exact `det₃` multiplicative anomaly without trace divergence. -/
+theorem det3_eulerPrimes_critical_line_anomaly (t : ℝ) :
+    let s : ℂ := (1 / 2 : ℂ) + (t : ℂ) * Complex.I
+    let lam : Nat.Primes → ℂ := fun p => -(((p : ℕ) : ℂ) ^ (-s))
+    let μ : Nat.Primes → ℂ := fun p => (1 / 2 : ℂ) * lam p
+    Summable (fun p : Nat.Primes => lam p * μ p * (lam p + μ p + (1 / 2 : ℂ) * lam p * μ p)) ∧
+    det3Diag (fun p => lam p + μ p + lam p * μ p) =
+      det3Diag lam * det3Diag μ *
+        Complex.exp (∑' p : Nat.Primes, lam p * μ p * (lam p + μ p + (1 / 2 : ℂ) * lam p * μ p)) := by
+  intro s lam μ
+  have hs : (1 / (3 : ℝ)) < s.re := by simp [s]; norm_num
+  have hlam : Summable (fun p : Nat.Primes => ‖lam p‖ ^ 3) :=
+    (detKDiag_eulerPrimes_converges_and_ne_zero (k := 3) (by norm_num) hs).1
+  have hμ : Summable (fun p : Nat.Primes => ‖μ p‖ ^ 3) := by
+    refine (hlam.mul_left ((1 / 2 : ℝ) ^ 3)).congr fun p => ?_
+    dsimp [μ]
+    rw [norm_mul, show ‖(1 / 2 : ℂ)‖ = (1 / 2 : ℝ) by norm_num, mul_pow]
+  exact det3Diag_mul_anomaly hlam hμ
 
 end ScalarCarlemanDeterminant
 

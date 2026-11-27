@@ -112,7 +112,7 @@ terms:
     synonyms:
       - Resource Description Framework
       - semantic web
-      - {term}`Linked Data`
+      - "{term}`Linked Data`"
     abbreviation: RDF
     category: knowledge-representation
     related:

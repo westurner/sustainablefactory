@@ -8,6 +8,7 @@ import signals_numerical_adapter as sna
 
 from sustainablefactory.sato_grassmannian import (
     audit_carleman_mpmath_vs_rust,
+    audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust,
     audit_riemann_spectral_bridge_on_true_zeros,
     verify_symbolic_sato_pde_identities,
 )
@@ -15,7 +16,7 @@ from sustainablefactory.sato_grassmannian import (
 
 def test_symbolic_sato_pde_and_bridge_identities():
     res = verify_symbolic_sato_pde_identities()
-    assert len(res) == 15
+    assert len(res) == 17
     for name, ok in res.items():
         assert ok, f"Symbolic identity failed: {name}"
 
@@ -110,3 +111,19 @@ def test_riemann_spectral_bridge_on_first_10_true_zeros():
     assert abs(rep["weil_critical_line_im"]) < 1e-12
     assert rep["weil_off_line_witness"] < rep["weil_neg_4pi_bound"]
     assert rep["det3_at_first_zero_abs"] > 0.0
+
+
+def test_det3_anomaly_weil_infinite_tail_and_finite_fredholm_det():
+    res = audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust(prime_limit=1500, dps=80)
+    assert res["mp_det3_anom_res"] < 1e-70
+    assert res["rust_det3_anom_res"] < 1e-13
+    assert res["det3_ab_abs_diff"] < 1e-13
+    assert res["rust_det1_mul_res"] < 1e-14
+    assert res["rust_wtail_abs"] < 1e-35
+    assert res["rust_wfull_re"] < -4.0 * math.pi
+    assert res["mp_core_re"] < -4.0 * math.pi
+    assert res["mp_core_zero_resid"] < 1e-60
+    assert res["mp_tail_abs"] < 1e-40
+    assert res["fdet_nilp_err"] < 1e-15
+    assert res["fdet_blk_err"] < 1e-14
+    assert res["fdet_conj_err"] < 1e-14

@@ -7680,4 +7680,54 @@ example
       c1 c2 c3 c4 vGeV hv).allYangMillsHiggsCptGatesClosed :=
   SignalsPending.pending_yang_mills_higgs_cpt_solved_of_certificates c1 c2 c3 c4 vGeV hv
 
+/-! ### Regression Tests: Unified RH / Sato / Toupin Certificate Solvers -/
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (tCrit : ℝ) :
+    (Signals.Pending.RiemannHypothesisPendingBoundary.ofCertificates
+      c1 c2 c3 c4).allFourBridgesClosed :=
+  SignalsPending.pending_rh_solved_of_certificates c1 c2 c3 c4 tCrit
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : Signals.Pending.LidskiiFredholmDetCertificate)
+    (cWeil : Signals.Pending.GlobalInfiniteZeroWeilCertificate)
+    (cEv : Signals.Pending.EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (Signals.Pending.SatoRiemannSpectralPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cLidskii cWeil cEv mult hMult).allSatoGatesClosed :=
+  SignalsPending.pending_sato_riemann_spectral_solved_of_certificates
+    c1 c2 c3 c4 cLidskii cWeil cEv mult hMult tCrit
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (cMeyer : Signals.Pending.MeyerFrechetToGnsCertificate)
+    (cBsd : Signals.Pending.BsdHigherRankEulerCertificate)
+    (cYM1 : Signals.Pending.ContinuumYangMillsOSCertificate)
+    (cYM2 : Signals.Pending.CelestialConfiningSpectralCertificate)
+    (tCrit : ℝ) :
+    (Signals.Pending.ToupinCelestialMillenniumPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2).allMillenniumBridgesClosed :=
+  SignalsPending.pending_toupin_celestial_millennium_solved_of_certificates
+    c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2 tCrit
+
 end SignalsPendingTests

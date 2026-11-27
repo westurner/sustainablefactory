@@ -170,6 +170,146 @@ is integrable at every spectral point `z ∈ Z`. -/
 def AdmissibleL1 (Z : Finset ℂ) (f : ℝ → ℂ) : Prop :=
   ∀ z ∈ Z, Integrable (fun x : ℝ => f x * Complex.exp (Complex.I * z * (x : ℂ))) volume
 
+/-- Globally admissible `L¹(ℝ)` test function class: `x ↦ f(x) exp(i z x)` is integrable
+for every complex spectral point `z ∈ ℂ` (satisfied by every finite `gaussianCombo`). -/
+def AdmissibleL1All (f : ℝ → ℂ) : Prop :=
+  ∀ z : ℂ, Integrable (fun x : ℝ => f x * Complex.exp (Complex.I * z * (x : ℂ))) volume
+
+lemma admissibleL1All_gaussianCombo (δ : ℝ) (P : Polynomial ℂ) :
+    AdmissibleL1All (gaussianCombo δ P) :=
+  fun z => integrable_gaussianCombo_mul_cexp δ P z
+
+/-- **Strip Super-Gaussian Decay Bound:**
+On any horizontal strip `|z.im| ≤ B`, the Mellin–Fourier transform of `shiftedGaussian a`
+decays super-exponentially in `z.re`:
+`‖mellinTransform (shiftedGaussian a) z‖ ≤ √(2π) * exp(-z.re² / 2 + B² / 2 + |a| B)`. -/
+theorem norm_mellinTransform_shiftedGaussian_strip (a : ℝ) {B : ℝ}
+    {z : ℂ} (hz : |z.im| ≤ B) :
+    ‖mellinTransform (shiftedGaussian a) z‖ ≤
+      Real.sqrt (2 * Real.pi) * Real.exp (-(z.re ^ 2 / 2) + B ^ 2 / 2 + |a| * B) := by
+  rw [mellinTransform_shiftedGaussian a z, norm_mul, norm_mul]
+  let C0 : ℂ := (Real.pi / (1 / 2 : ℂ)) ^ (1 / 2 : ℂ)
+  have hC0_real : C0 = ((Real.sqrt (2 * Real.pi) : ℝ) : ℂ) := by
+    have hpos : (0 : ℝ) < 2 * Real.pi := by positivity
+    dsimp [C0]
+    rw [show (Real.pi : ℂ) / (1 / 2 : ℂ) = ((2 * Real.pi : ℝ) : ℂ) by push_cast; ring,
+      show (1 / 2 : ℂ) = ((1 / 2 : ℝ) : ℂ) by norm_num,
+      ← Complex.ofReal_cpow hpos.le, Real.sqrt_eq_rpow]
+  have hC0_norm : ‖C0‖ = Real.sqrt (2 * Real.pi) := by
+    rw [hC0_real, Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (Real.sqrt_nonneg _)]
+  have hexp1 : ‖Complex.exp (-z ^ 2 / 2)‖ = Real.exp (-(z.re ^ 2 / 2) + z.im ^ 2 / 2) := by
+    rw [Complex.norm_exp]
+    have hre : (-z ^ 2 / 2).re = -(z.re ^ 2 / 2) + z.im ^ 2 / 2 := by
+      have : (-z ^ 2 / 2).re = -(z ^ 2).re / 2 := by simp
+      rw [this, sq, Complex.mul_re]
+      ring
+    rw [hre]
+  have hexp2 : ‖Complex.exp (Complex.I * z * (a : ℂ))‖ = Real.exp (-z.im * a) := by
+    rw [Complex.norm_exp]
+    have hre : (Complex.I * z * (a : ℂ)).re = -z.im * a := by
+      simp [Complex.mul_re]
+    rw [hre]
+  change ‖C0‖ * ‖Complex.exp (-z ^ 2 / 2)‖ * ‖Complex.exp (Complex.I * z * (a : ℂ))‖ ≤ _
+  rw [hC0_norm, hexp1, hexp2, mul_assoc, ← Real.exp_add]
+  refine mul_le_mul_of_nonneg_left (Real.exp_le_exp.mpr ?_) (Real.sqrt_nonneg _)
+  have hzim_sq : z.im ^ 2 ≤ B ^ 2 := by
+    have h1 : |z.im| ^ 2 ≤ B ^ 2 := pow_le_pow_left₀ (abs_nonneg _) hz 2
+    simpa [sq_abs] using h1
+  have ha_im : -z.im * a ≤ |a| * B := by
+    calc -z.im * a ≤ |-z.im * a| := le_abs_self _
+      _ = |z.im| * |a| := by rw [abs_mul, abs_neg]
+      _ = |a| * |z.im| := mul_comm _ _
+      _ ≤ |a| * B := mul_le_mul_of_nonneg_left hz (abs_nonneg a)
+  linarith
+
+/-- Reusable shifted-Gaussian Lagrange witness on any finite conjugation-invariant zero set `Z`
+containing an off-line zero `z₀` (`z₀.im ≠ 0`). -/
+theorem exists_gaussianCombo_offline_finite_witness {Z : Finset ℂ} {m : ℂ → ℕ}
+    (hZ : ∀ z ∈ Z, starRingEnd ℂ z ∈ Z)
+    (hm_symm : ∀ z ∈ Z, m (starRingEnd ℂ z) = m z)
+    {z₀ : ℂ} (hz₀ : z₀ ∈ Z) (him_ne : z₀.im ≠ 0) :
+    ∃ (δ : ℝ) (P : Polynomial ℂ), 0 < δ ∧
+      let f : ℝ → ℂ := gaussianCombo δ P
+      AdmissibleL1All f ∧
+      ∑ z ∈ Z, (m z : ℂ) * mellinTransform (weilConv f (weilInvol f)) z =
+        -4 * (Real.pi : ℂ) * (m z₀ : ℂ) := by
+  classical
+  let z₀c : ℂ := starRingEnd ℂ z₀
+  have hz₀c : z₀c ∈ Z := hZ z₀ hz₀
+  have hne : z₀c ≠ z₀ := by
+    intro hEq
+    have him := congrArg Complex.im hEq
+    simp only [z₀c, Complex.conj_im] at him
+    exact him_ne (by linarith)
+  obtain ⟨δ, hδ_pos, hInj⟩ := exists_delta_exp_injOn Z
+  let node : { z : ℂ // z ∈ Z } → ℂ := fun z => Complex.exp (Complex.I * z.1 * (δ : ℂ))
+  have hNodeInj : Set.InjOn node ((Finset.univ : Finset { z : ℂ // z ∈ Z }) : Set { z : ℂ // z ∈ Z }) := by
+    intro a _ b _ hEq
+    exact Subtype.ext (hInj a.2 b.2 hEq)
+  let r : { z : ℂ // z ∈ Z } → ℂ := fun z =>
+    if z.1 = z₀ then Complex.exp (z₀ ^ 2 / 2)
+    else if z.1 = z₀c then -Complex.exp (z₀c ^ 2 / 2)
+    else 0
+  let P : Polynomial ℂ := Lagrange.interpolate Finset.univ node r
+  refine ⟨δ, P, hδ_pos, admissibleL1All_gaussianCombo δ P, ?_⟩
+  let f : ℝ → ℂ := gaussianCombo δ P
+  have hf_adm : AdmissibleL1 Z f := fun z _ => integrable_gaussianCombo_mul_cexp δ P z
+  let C0 : ℂ := (Real.pi / (1 / 2 : ℂ)) ^ (1 / 2 : ℂ)
+  have hC0_sq : C0 * starRingEnd ℂ C0 = ((2 * Real.pi : ℝ) : ℂ) := by
+    have hpos : (0 : ℝ) < 2 * Real.pi := by positivity
+    have hC0_real : C0 = ((Real.sqrt (2 * Real.pi) : ℝ) : ℂ) := by
+      dsimp [C0]
+      rw [show (Real.pi : ℂ) / (1 / 2 : ℂ) = ((2 * Real.pi : ℝ) : ℂ) by push_cast; ring,
+        show (1 / 2 : ℂ) = ((1 / 2 : ℝ) : ℂ) by norm_num,
+        ← Complex.ofReal_cpow hpos.le, Real.sqrt_eq_rpow]
+    rw [hC0_real, Complex.conj_ofReal]
+    norm_cast
+    exact Real.mul_self_sqrt hpos.le
+  have hMf : ∀ z ∈ Z, mellinTransform f z =
+      if z = z₀ then C0 else if z = z₀c then -C0 else 0 := by
+    intro z hz
+    dsimp [f]
+    rw [mellinTransform_gaussianCombo δ P z]
+    have heval : P.eval (node ⟨z, hz⟩) = r ⟨z, hz⟩ :=
+      Lagrange.eval_interpolate_at_node r hNodeInj (Finset.mem_univ (⟨z, hz⟩ : { z : ℂ // z ∈ Z }))
+    change C0 * Complex.exp (-z ^ 2 / 2) * P.eval (node ⟨z, hz⟩) = _
+    rw [heval]
+    dsimp [r]
+    by_cases h1 : z = z₀
+    · subst h1
+      simp only [↓reduceIte]
+      rw [mul_assoc, ← Complex.exp_add]
+      have : -z ^ 2 / 2 + z ^ 2 / 2 = 0 := by ring
+      rw [this, Complex.exp_zero, mul_one]
+    · simp only [h1, ↓reduceIte]
+      by_cases h2 : z = z₀c
+      · subst h2
+        simp only [↓reduceIte, mul_neg]
+        rw [mul_assoc, ← Complex.exp_add]
+        have : -z₀c ^ 2 / 2 + z₀c ^ 2 / 2 = 0 := by ring
+        rw [this, Complex.exp_zero, mul_one]
+      · simp only [h2, ↓reduceIte, mul_zero]
+  have hconv : ∀ z ∈ Z, mellinTransform (weilConv f (weilInvol f)) z =
+      mellinTransform f z * starRingEnd ℂ (mellinTransform f (starRingEnd ℂ z)) := fun z hz =>
+    mellinTransform_weilConv_invol (hf_adm z hz) (hf_adm (starRingEnd ℂ z) (hZ z hz))
+  rw [Finset.sum_congr rfl fun z hz => by rw [hconv z hz]]
+  have hSub : ({z₀, z₀c} : Finset ℂ) ⊆ Z := by
+    intro w hw; simp only [Finset.mem_insert, Finset.mem_singleton] at hw
+    rcases hw with rfl | rfl <;> assumption
+  rw [← Finset.sum_subset hSub]
+  · rw [Finset.sum_pair hne.symm]
+    have hcc : starRingEnd ℂ z₀c = z₀ := Complex.conj_conj z₀
+    rw [hMf z₀ hz₀, hMf z₀c hz₀c, hcc, hMf z₀ hz₀, hm_symm z₀ hz₀]
+    simp only [↓reduceIte, hne, map_neg]
+    calc (m z₀ : ℂ) * (C0 * -starRingEnd ℂ C0) + (m z₀ : ℂ) * (-C0 * starRingEnd ℂ C0)
+        = -2 * (m z₀ : ℂ) * (C0 * starRingEnd ℂ C0) := by ring
+      _ = -2 * (m z₀ : ℂ) * ((2 * Real.pi : ℝ) : ℂ) := by rw [hC0_sq]
+      _ = -4 * (Real.pi : ℂ) * (m z₀ : ℂ) := by push_cast; ring
+  · intro w hw hnot
+    simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hnot
+    rw [hMf w hw]
+    simp only [hnot.1, hnot.2, ↓reduceIte, zero_mul, mul_zero]
+
 /-- **Theorem 3.2 (Upgraded Weil Positivity Criterion on Genuine `L¹(ℝ)` Test Functions):**
 For any finite conjugation-invariant zero set `Z ⊂ ℂ` with positive symmetric multiplicities `m`,
 every zero in `Z` is real **if and only if**
@@ -197,87 +337,123 @@ theorem weilPositivity_L1_iff_allRealZeros {Z : Finset ℂ} {m : ℂ → ℕ}
     exact mul_nonneg (Nat.cast_nonneg _) (sq_nonneg _)
   · intro hPos z₀ hz₀
     by_contra him_ne
-    let z₀c : ℂ := starRingEnd ℂ z₀
-    have hz₀c : z₀c ∈ Z := hZ z₀ hz₀
-    have hne : z₀c ≠ z₀ := by
-      intro hEq
-      have him := congrArg Complex.im hEq
-      simp only [z₀c, Complex.conj_im] at him
-      exact him_ne (by linarith)
-    obtain ⟨δ, _, hInj⟩ := exists_delta_exp_injOn Z
-    let node : { z : ℂ // z ∈ Z } → ℂ := fun z => Complex.exp (Complex.I * z.1 * (δ : ℂ))
-    have hNodeInj : Set.InjOn node ((Finset.univ : Finset { z : ℂ // z ∈ Z }) : Set { z : ℂ // z ∈ Z }) := by
-      intro a _ b _ hEq
-      exact Subtype.ext (hInj a.2 b.2 hEq)
-    let r : { z : ℂ // z ∈ Z } → ℂ := fun z =>
-      if z.1 = z₀ then Complex.exp (z₀ ^ 2 / 2)
-      else if z.1 = z₀c then -Complex.exp (z₀c ^ 2 / 2)
-      else 0
-    let P : Polynomial ℂ := Lagrange.interpolate Finset.univ node r
-    let f : ℝ → ℂ := gaussianCombo δ P
-    have hf_adm : AdmissibleL1 Z f := fun z _ => integrable_gaussianCombo_mul_cexp δ P z
-    let C0 : ℂ := (Real.pi / (1 / 2 : ℂ)) ^ (1 / 2 : ℂ)
-    have hC0_sq : C0 * starRingEnd ℂ C0 = ((2 * Real.pi : ℝ) : ℂ) := by
-      have hpos : (0 : ℝ) < 2 * Real.pi := by positivity
-      have hC0_real : C0 = ((Real.sqrt (2 * Real.pi) : ℝ) : ℂ) := by
-        dsimp [C0]
-        rw [show (Real.pi : ℂ) / (1 / 2 : ℂ) = ((2 * Real.pi : ℝ) : ℂ) by push_cast; ring,
-          show (1 / 2 : ℂ) = ((1 / 2 : ℝ) : ℂ) by norm_num,
-          ← Complex.ofReal_cpow hpos.le, Real.sqrt_eq_rpow]
-      rw [hC0_real, Complex.conj_ofReal]
-      norm_cast
-      exact Real.mul_self_sqrt hpos.le
-    have hMf : ∀ z ∈ Z, mellinTransform f z =
-        if z = z₀ then C0 else if z = z₀c then -C0 else 0 := by
-      intro z hz
-      dsimp [f]
-      rw [mellinTransform_gaussianCombo δ P z]
-      have heval : P.eval (node ⟨z, hz⟩) = r ⟨z, hz⟩ :=
-        Lagrange.eval_interpolate_at_node r hNodeInj (Finset.mem_univ (⟨z, hz⟩ : { z : ℂ // z ∈ Z }))
-      change C0 * Complex.exp (-z ^ 2 / 2) * P.eval (node ⟨z, hz⟩) = _
-      rw [heval]
-      dsimp [r]
-      by_cases h1 : z = z₀
-      · subst h1
-        simp only [↓reduceIte]
-        rw [mul_assoc, ← Complex.exp_add]
-        have : -z ^ 2 / 2 + z ^ 2 / 2 = 0 := by ring
-        rw [this, Complex.exp_zero, mul_one]
-      · simp only [h1, ↓reduceIte]
-        by_cases h2 : z = z₀c
-        · subst h2
-          simp only [↓reduceIte, mul_neg]
-          rw [mul_assoc, ← Complex.exp_add]
-          have : -z₀c ^ 2 / 2 + z₀c ^ 2 / 2 = 0 := by ring
-          rw [this, Complex.exp_zero, mul_one]
-        · simp only [h2, ↓reduceIte, mul_zero]
-    have hSum : ∑ z ∈ Z, (m z : ℂ) * mellinTransform (weilConv f (weilInvol f)) z =
-        -4 * (Real.pi : ℂ) * (m z₀ : ℂ) := by
-      have hconv : ∀ z ∈ Z, mellinTransform (weilConv f (weilInvol f)) z =
-          mellinTransform f z * starRingEnd ℂ (mellinTransform f (starRingEnd ℂ z)) := fun z hz =>
-        mellinTransform_weilConv_invol (hf_adm z hz) (hf_adm (starRingEnd ℂ z) (hZ z hz))
-      rw [Finset.sum_congr rfl fun z hz => by rw [hconv z hz]]
-      have hSub : ({z₀, z₀c} : Finset ℂ) ⊆ Z := by
-        intro w hw; simp only [Finset.mem_insert, Finset.mem_singleton] at hw
-        rcases hw with rfl | rfl <;> assumption
-      rw [← Finset.sum_subset hSub]
-      · rw [Finset.sum_pair hne.symm]
-        have hcc : starRingEnd ℂ z₀c = z₀ := Complex.conj_conj z₀
-        rw [hMf z₀ hz₀, hMf z₀c hz₀c, hcc, hMf z₀ hz₀, hm_symm z₀ hz₀]
-        simp only [↓reduceIte, hne, map_neg]
-        calc (m z₀ : ℂ) * (C0 * -starRingEnd ℂ C0) + (m z₀ : ℂ) * (-C0 * starRingEnd ℂ C0)
-            = -2 * (m z₀ : ℂ) * (C0 * starRingEnd ℂ C0) := by ring
-          _ = -2 * (m z₀ : ℂ) * ((2 * Real.pi : ℝ) : ℂ) := by rw [hC0_sq]
-          _ = -4 * (Real.pi : ℂ) * (m z₀ : ℂ) := by push_cast; ring
-      · intro w hw hnot
-        simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hnot
-        rw [hMf w hw]
-        simp only [hnot.1, hnot.2, ↓reduceIte, zero_mul, mul_zero]
-    have hNonneg := hPos f hf_adm
+    obtain ⟨δ, P, _, hf_all, hSum⟩ :=
+      exists_gaussianCombo_offline_finite_witness hZ hm_symm hz₀ him_ne
+    have hNonneg := hPos (gaussianCombo δ P) (fun z _ => hf_all z)
     rw [hSum] at hNonneg
     have hre : (-4 * (Real.pi : ℂ) * (m z₀ : ℂ)).re = -4 * Real.pi * (m z₀ : ℝ) := by norm_cast
     rw [hre] at hNonneg
     have hpos_m : (0 : ℝ) < (m z₀ : ℝ) := by exact_mod_cast hm_pos z₀ hz₀
     nlinarith [Real.pi_pos]
+
+/-- Infinite-series Weil quadratic form over a countably infinite zero sequence `(z, m)`. -/
+noncomputable def weilInfiniteSum (z : ℕ → ℂ) (m : ℕ → ℕ) (f : ℝ → ℂ) : ℂ :=
+  ∑' n : ℕ, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)
+
+/-- **Theorem 3.3 (Infinite-Zero Critical-Line Weil Positivity):**
+For any countably infinite zero sequence `z : ℕ → ℂ` lying entirely on `ℝ` (`∀ n, (z n).im = 0`)
+and any globally admissible `L¹(ℝ)` function `f` whose Weil series converges, the infinite Weil
+sum is real and nonnegative. -/
+theorem weilInfiniteSum_nonneg_of_allRealZeros (z : ℕ → ℂ) (m : ℕ → ℕ)
+    (hReal : ∀ n : ℕ, (z n).im = 0) {f : ℝ → ℂ} (hf : AdmissibleL1All f)
+    (hSumm : Summable (fun n : ℕ => (m n : ℝ) * ‖mellinTransform f (z n)‖ ^ 2)) :
+    0 ≤ (weilInfiniteSum z m f).re ∧ (weilInfiniteSum z m f).im = 0 := by
+  have hterm : (fun n : ℕ => (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)) =
+      fun n : ℕ => (((m n : ℝ) * ‖mellinTransform f (z n)‖ ^ 2 : ℝ) : ℂ) := by
+    funext n
+    have hzR : z n = ((z n).re : ℂ) := Complex.ext rfl (by simp [hReal n])
+    have hfR : Integrable (fun y : ℝ => f y * Complex.exp (Complex.I * ((z n).re : ℂ) * (y : ℂ))) volume := by
+      simpa [← hzR] using hf (z n)
+    rw [hzR, mellinTransform_weilConv_invol_real (z n).re hfR]
+    push_cast
+    rfl
+  have hSummC : Summable (fun n : ℕ => (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)) := by
+    rw [hterm]
+    exact Complex.summable_ofReal.mpr hSumm
+  unfold weilInfiniteSum
+  rw [Complex.re_tsum hSummC, Complex.im_tsum hSummC]
+  have hre : (fun n : ℕ => ((m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)).re) =
+      fun n : ℕ => (m n : ℝ) * ‖mellinTransform f (z n)‖ ^ 2 := by
+    funext n
+    rw [congrFun hterm n, Complex.ofReal_re]
+  have him : (fun n : ℕ => ((m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)).im) =
+      fun _ => (0 : ℝ) := by
+    funext n
+    rw [congrFun hterm n, Complex.ofReal_im]
+  rw [hre, him, tsum_zero]
+  exact ⟨tsum_nonneg fun n => mul_nonneg (Nat.cast_nonneg _) (sq_nonneg _), rfl⟩
+
+/-- **Theorem 3.4 (Tail-Dominated Infinite-Zero Off-Line Weil Disproof Witness):**
+For any countably infinite zero sequence `(z : ℕ → ℂ, m : ℕ → ℕ)` containing an injective,
+conjugation-invariant finite core `F : Finset ℕ` with an off-line zero `n₀ ∈ F` (`(z n₀).im ≠ 0`,
+`0 < m n₀`), there exists an explicit globally admissible shifted-Gaussian `L¹(ℝ)` test function
+`f = gaussianCombo δ P` whose core Weil sum equals `-4π m(n₀)`, and whenever the infinite tail
+sum has real part `< 4π m(n₀)`, the full infinite Weil sum `weilInfiniteSum z m f` is strictly
+negative (`< 0`). -/
+theorem weilInfiniteSum_neg_of_offline_pair_tail_lt
+    (z : ℕ → ℂ) (m : ℕ → ℕ) (F : Finset ℕ)
+    (hInj : Set.InjOn z (F : Set ℕ))
+    (hConj : ∀ n ∈ F, ∃ k ∈ F, z k = starRingEnd ℂ (z n) ∧ m k = m n)
+    {n₀ : ℕ} (hn₀ : n₀ ∈ F) (him_ne : (z n₀).im ≠ 0) :
+    ∃ f : ℝ → ℂ,
+      AdmissibleL1All f ∧
+      (∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) =
+        -4 * (Real.pi : ℂ) * (m n₀ : ℂ)) ∧
+      (Summable (fun n : ℕ => (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)) →
+        (∑' k : ↑(F : Set ℕ)ᶜ,
+          ((m k.1 : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z k.1)).re) <
+            4 * Real.pi * (m n₀ : ℝ) →
+        (weilInfiniteSum z m f).re < 0) := by
+  classical
+  let Z : Finset ℂ := F.image z
+  let mZ : ℂ → ℕ := fun w => ∑ n ∈ F, if z n = w then m n else 0
+  have hZ_conj : ∀ w ∈ Z, starRingEnd ℂ w ∈ Z := by
+    intro w hw
+    obtain ⟨n, hn, rfl⟩ := Finset.mem_image.mp hw
+    obtain ⟨k, hk, hzk, _⟩ := hConj n hn
+    exact Finset.mem_image.mpr ⟨k, hk, hzk⟩
+  have hmZ_at : ∀ n ∈ F, mZ (z n) = m n := by
+    intro n hn
+    dsimp [mZ]
+    rw [Finset.sum_eq_single n]
+    · simp
+    · intro k hk hkn
+      simp only [ite_eq_right_iff]
+      intro heq
+      exact absurd (hInj hk hn heq) hkn
+    · intro hnot; exact absurd hn hnot
+  have hmZ_symm : ∀ w ∈ Z, mZ (starRingEnd ℂ w) = mZ w := by
+    intro w hw
+    obtain ⟨n, hn, rfl⟩ := Finset.mem_image.mp hw
+    obtain ⟨k, hk, hzk, hmk⟩ := hConj n hn
+    rw [← hzk, hmZ_at k hk, hmZ_at n hn, hmk]
+  have hz₀_mem : z n₀ ∈ Z := Finset.mem_image.mpr ⟨n₀, hn₀, rfl⟩
+  obtain ⟨δ, P, _, hf_all, hSumZ⟩ :=
+    exists_gaussianCombo_offline_finite_witness hZ_conj hmZ_symm hz₀_mem him_ne
+  let f : ℝ → ℂ := gaussianCombo δ P
+  have hSumF : ∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) =
+      -4 * (Real.pi : ℂ) * (m n₀ : ℂ) := by
+    have hImg : ∑ w ∈ Z, (mZ w : ℂ) * mellinTransform (weilConv f (weilInvol f)) w =
+        ∑ n ∈ F, (mZ (z n) : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) :=
+      Finset.sum_image (fun a ha b hb hab => hInj ha hb hab)
+    have hEqF : ∑ n ∈ F, (mZ (z n) : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) =
+        ∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n) :=
+      Finset.sum_congr rfl fun n hn => by rw [hmZ_at n hn]
+    rw [← hEqF, ← hImg, hSumZ, hmZ_at n₀ hn₀]
+  refine ⟨f, hf_all, hSumF, fun hSumm hTail => ?_⟩
+  unfold weilInfiniteSum
+  have hSplit := hSumm.sum_add_tsum_compl (s := F)
+  have hReSplit :
+      (∑' n : ℕ, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)).re =
+      (∑ n ∈ F, (m n : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z n)).re +
+      (∑' k : ↑(F : Set ℕ)ᶜ, (m k.1 : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z k.1)).re := by
+    rw [← hSplit, Complex.add_re]
+  have hTailSumm : Summable (fun k : ↑(F : Set ℕ)ᶜ =>
+      (m k.1 : ℂ) * mellinTransform (weilConv f (weilInvol f)) (z k.1)) :=
+    hSumm.subtype _
+  rw [hReSplit, hSumF, Complex.re_tsum hTailSumm]
+  have hCoreRe : (-4 * (Real.pi : ℂ) * (m n₀ : ℂ)).re = -4 * Real.pi * (m n₀ : ℝ) := by norm_cast
+  rw [hCoreRe]
+  linarith
 
 end Signals.SatoGrassmannian.WeilGaussianL1

@@ -9779,4 +9779,37 @@ example {m r : ℕ} (weights energies : Fin m → ℝ) (times : Fin r → ℝ) (
     dCoeff eCoeff lamT t0 tc he hlam htc
   exact ⟨h1.2.1, h2l.2, h2.2.1, h2.2.2.2.2, h3.2.2.1, h4.2.2.2, (h5.2.1 hDeg).2.2, h5.2.2.2⟩
 
+/-! Constructive Finite-Dimensional `FredholmDetTheory`, `det₃` Critical-Line Anomaly,
+& Infinite-Zero `L¹(ℝ)` Weil / Evanescent QFIM Bridge Checks. -/
+example {ιP ιM : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    [FiniteDimensional ℂ P.HPlus]
+    (i₀ : ιP) (c : ℂ) :
+    Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr
+      ⟨Signals.SatoGrassmannian.DeterminantBundle.rankOneScale P eP i₀ c,
+        Signals.SatoGrassmannian.DeterminantBundle.rankOneScale_mem_monoid P eP eM i₀ c⟩ = c :=
+  Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr_rankOne i₀ c
+
+example (t : ℝ) (z : ℕ → ℂ) (m : ℕ → ℕ) (hReal : ∀ n : ℕ, (z n).im = 0)
+    {f : ℝ → ℂ} (hf : Signals.SatoGrassmannian.WeilGaussianL1.AdmissibleL1All f)
+    (hSumm : Summable (fun n : ℕ =>
+      (m n : ℝ) * ‖Signals.SatoGrassmannian.WeilPositivity.mellinTransform f (z n)‖ ^ 2)) :
+    let s : ℂ := (1 / 2 : ℂ) + (t : ℂ) * Complex.I
+    let lam : Nat.Primes → ℂ := fun p => -(((p : ℕ) : ℂ) ^ (-s))
+    let μ : Nat.Primes → ℂ := fun p => (1 / 2 : ℂ) * lam p
+    ‖Signals.SatoGrassmannian.RHGaps.cayley s‖ ^ 2 = 1 ∧
+      Signals.SatoGrassmannian.CarlemanWeierstrass.detKDiag 3 lam ≠ 0 ∧
+      Signals.SatoGrassmannian.CarlemanWeierstrass.det3Diag (fun p => lam p + μ p + lam p * μ p) =
+        Signals.SatoGrassmannian.CarlemanWeierstrass.det3Diag lam *
+          Signals.SatoGrassmannian.CarlemanWeierstrass.det3Diag μ *
+          Complex.exp (∑' p : Nat.Primes, lam p * μ p * (lam p + μ p + (1 / 2 : ℂ) * lam p * μ p)) ∧
+      0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m f).re ∧
+      (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m f).im = 0 := by
+  have h1 := Signals.SatoGrassmannian.RiemannSpectralBridge.det3_critical_line_and_li_cayley_bridge t
+  have h2 := Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_nonneg_of_allRealZeros
+    z m hReal hf hSumm
+  exact ⟨h1.1, h1.2.2.1, h1.2.2.2, h2.1, h2.2⟩
+
 end SignalsTests

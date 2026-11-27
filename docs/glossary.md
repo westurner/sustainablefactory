@@ -81,9 +81,9 @@ RDF
    knowledge graphs.
 
    - **Also known as:**
-     - *resource description framework*
+     - *Resource Description Framework*
      - *semantic web*
-     - *linked data*
+     - *\{term\}\`Linked Data\`*
    - **abbreviation:** RDF
    - **category:** Knowledge Representation
    - **See also:**
@@ -95,6 +95,8 @@ RDF-star
    An extension of RDF that allows triples to be used as the subject or object
    of another triple, enabling metadata (such as confidence scores or
    provenance) to be attached directly to individual statements.
+
+   RDF-star is now part of {term}`RDF` 1.2.
 
    - **category:** Knowledge Representation
    - **See also:**
@@ -603,6 +605,11 @@ LIG
    - **Also known as:**
      - *Laser\-Induced Graphene*
    - **wikipedia:** <https://en.wikipedia.org/wiki/Graphene_production_techniques#Laser-Induced_Graphene_(LIG)>
+
+Linked Data
+   - https://5stardata.info/
+
+   - **wikipedia:** <https://en.wikipedia.org/wiki/Linked_data>
 
 Madelung equations
    Equations of quantum hydrodynamics

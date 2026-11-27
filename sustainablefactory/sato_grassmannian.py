@@ -220,6 +220,30 @@ def verify_symbolic_sato_pde_identities() -> Dict[str, bool]:
         sp.simplify(sp.expand(veff_lhs.rewrite(sp.exp) - veff_rhs.rewrite(sp.exp))) == 0
     )
 
+    # 10. Order-3 Carleman anomaly polynomial cancellation (`det3Diag_mul_anomaly`):
+    #     P_3(a) + P_3(b) + a*b*(a + b + a*b/2) == P_3(a + b + a*b), where P_3(z) = -z + z²/2.
+    a_s, b_s = sp.symbols("a_s b_s")
+    p3 = lambda u: -u + sp.Rational(1, 2) * u**2
+    c_s = a_s + b_s + a_s * b_s
+    anom3 = a_s * b_s * (a_s + b_s + sp.Rational(1, 2) * a_s * b_s)
+    results["det3_anomaly_polynomial_identity"] = (
+        sp.expand(p3(a_s) + p3(b_s) + anom3 - p3(c_s)) == 0
+    )
+
+    # 11. Finite-dimensional FredholmDetTheory matrix identities (`DeterminantBundle.lean`):
+    #     det(I + N) = 1 for nilpotent shear, and det(Q * M * Q^{-1}) = det(M).
+    m00, m01, m10, m11, sh_s, q00, q01, q10, q11 = sp.symbols(
+        "m00 m01 m10 m11 sh_s q00 q01 q10 q11"
+    )
+    I2 = sp.eye(2)
+    N_nilp = sp.Matrix([[0, 0], [sh_s, 0]])
+    M_mat = sp.Matrix([[m00, m01], [m10, m11]])
+    Q_mat = sp.Matrix([[q00, q01], [q10, q11]])
+    results["finite_dim_fredholm_det_symbolic"] = (
+        sp.simplify((I2 + N_nilp).det() - 1) == 0
+        and sp.simplify((Q_mat * M_mat * Q_mat.inv()).det() - M_mat.det()) == 0
+    )
+
     return results
 
 
@@ -294,4 +318,89 @@ def audit_riemann_spectral_bridge_on_true_zeros(count: int = 10) -> Dict[str, fl
         "weil_off_line_witness": float(weil["off_line_witness_value"]),
         "weil_neg_4pi_bound": float(weil["theoretical_neg_4pi_bound"]),
         "det3_at_first_zero_abs": float(c3_at_gamma1["det3_abs"]),
+    }
+
+
+def audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust(
+    prime_limit: int = 1500,
+    dps: int = 80,
+) -> Dict[str, float]:
+    """Cross-verify critical-line `det₃` multiplicative anomaly (`det3Diag_mul_anomaly`),
+    strip `det₁` multiplicativity (`det1Diag_mul`), finite-dim `FredholmDetTheory`, and
+    infinite-zero `L¹(ℝ)` Weil tail-dominated disproof witness between Rust/PyO3 and 80-digit `mpmath`."""
+    mp.mp.dps = dps
+    zeros_raw = sna.py_find_first_n_riemann_zeros(30)
+    gammas = [float(z["gamma"]) for z in zeros_raw]
+    gamma1 = gammas[0]
+
+    # 1. Critical-line det3 anomaly at s = 1/2 + i*gamma1 vs. mpmath
+    primes = _sieve_primes(prime_limit)
+    s_crit = mp.mpc("0.5", mp.mpf(repr(gamma1)))
+    det3_a = mp.mpc(1)
+    det3_b = mp.mpc(1)
+    det3_ab = mp.mpc(1)
+    tr3 = mp.mpc(0)
+    for p in primes:
+        a = -mp.power(p, -s_crit)
+        b = mp.mpf("0.5") * a
+        ab = a * b
+        c = a + b + ab
+        det3_a *= (1 + a) * mp.exp(-a + mp.mpf("0.5") * a**2)
+        det3_b *= (1 + b) * mp.exp(-b + mp.mpf("0.5") * b**2)
+        det3_ab *= (1 + c) * mp.exp(-c + mp.mpf("0.5") * c**2)
+        tr3 += ab * (a + b + mp.mpf("0.5") * ab)
+
+    mp_det3_anom_res = float(abs(det3_ab - det3_a * det3_b * mp.exp(tr3)))
+    rust_d3 = sna.py_audit_carleman_det3_anomaly(0.5, gamma1, prime_limit)
+    rust_d1 = sna.py_audit_carleman_det3_anomaly(2.0, 5.0, prime_limit)
+
+    # 2. Rust low-height off-line infinite-tail audit across 30 true zeros
+    rust_wtail = sna.py_audit_weil_infinite_tail(gammas, 1.5, 0.15)
+
+    # 3. 80-digit mpmath high-height Lagrange core at z0 = gamma1 + 0.15i zeroing {±gamma1}
+    #    with tail over gammas[1:] = [gamma2 .. gamma30]
+    z0 = mp.mpc(mp.mpf(repr(gamma1)), mp.mpf("0.15"))
+    z0_bar = mp.conj(z0)
+    core_nodes = [z0, z0_bar, mp.mpc(mp.mpf(repr(gamma1)), 0), mp.mpc(-mp.mpf(repr(gamma1)), 0)]
+    delta = mp.mpf("0.05")
+    sqrt_pi = mp.sqrt(mp.pi)
+
+    def _mellin_g(shift: mp.mpf, z: mp.mpc) -> mp.mpc:
+        return sqrt_pi * mp.exp(mp.j * shift * z - z**2 / 4)
+
+    A_mat = mp.matrix([[_mellin_g(j * delta, zk) for j in range(4)] for zk in core_nodes])
+    rhs_vec = mp.matrix([2 * sqrt_pi, -2 * sqrt_pi, mp.mpc(0), mp.mpc(0)])
+    c_vec = mp.lu_solve(A_mat, rhs_vec)
+
+    def _eval_phi(z: mp.mpc) -> mp.mpc:
+        return sum(c_vec[j] * _mellin_g(j * delta, z) for j in range(4))
+
+    mp_core_re = float(
+        mp.re(_eval_phi(z0) * mp.conj(_eval_phi(z0_bar)) + _eval_phi(z0_bar) * mp.conj(_eval_phi(z0)))
+    )
+    mp_core_zero_resid = float(max(abs(_eval_phi(core_nodes[2])), abs(_eval_phi(core_nodes[3]))))
+    mp_tail_abs = float(
+        sum(
+            abs(_eval_phi(mp.mpc(mp.mpf(repr(g)), 0))) ** 2
+            + abs(_eval_phi(mp.mpc(-mp.mpf(repr(g)), 0))) ** 2
+            for g in gammas[1:]
+        )
+    )
+
+    # 4. Finite-dimensional FredholmDetTheory matrix audit
+    rust_fdet = sna.py_audit_finite_dim_fredholm_det(2.5, -0.7, 1.3, 4.1, 3.25, 0.6)
+
+    return {
+        "mp_det3_anom_res": mp_det3_anom_res,
+        "rust_det3_anom_res": float(rust_d3["det3_anomaly_residual"]),
+        "det3_ab_abs_diff": float(abs(abs(det3_ab) - rust_d3["det3_ab_abs"])),
+        "rust_det1_mul_res": float(rust_d1["det1_mul_residual"]),
+        "rust_wtail_abs": float(rust_wtail["tail_abs_sum"]),
+        "rust_wfull_re": float(rust_wtail["full_sum_re"]),
+        "mp_core_re": mp_core_re,
+        "mp_core_zero_resid": mp_core_zero_resid,
+        "mp_tail_abs": mp_tail_abs,
+        "fdet_nilp_err": float(rust_fdet["nilpotent_shear_err"]),
+        "fdet_blk_err": float(rust_fdet["block_lower_err"]),
+        "fdet_conj_err": float(rust_fdet["conj_invariance_err"]),
     }

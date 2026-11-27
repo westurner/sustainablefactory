@@ -946,6 +946,187 @@ pub fn evaluate_riemann_spectral_bridge(
     }
 }
 
+/// Order-1 (`ℓ¹`) and Order-3 (`ℓ³`) Carleman–Weierstrass multiplicative anomaly audit
+/// matching `det1Diag_mul` and `det3Diag_mul_anomaly` (`CarlemanWeierstrass.lean`).
+#[derive(Debug, Clone, Copy)]
+pub struct CarlemanDet3AnomalyAudit {
+    pub prime_count: usize,
+    pub det1_mul_residual: f64,
+    pub det3_anomaly_residual: f64,
+    pub det3_a_abs: f64,
+    pub det3_b_abs: f64,
+    pub det3_ab_abs: f64,
+    pub anomaly_exp_abs: f64,
+}
+
+pub fn evaluate_carleman_det3_anomaly(
+    sigma: f64,
+    t: f64,
+    prime_limit: usize,
+) -> CarlemanDet3AnomalyAudit {
+    let primes = sieve_primes(prime_limit);
+    let s = C64::new(sigma, t);
+    let mut det1_a = C64::from_re(1.0);
+    let mut det1_b = C64::from_re(1.0);
+    let mut det1_ab = C64::from_re(1.0);
+    let mut det3_a = C64::from_re(1.0);
+    let mut det3_b = C64::from_re(1.0);
+    let mut det3_ab = C64::from_re(1.0);
+    let mut tr3 = C64::from_re(0.0);
+
+    for &p in &primes {
+        let a = C64::pow_neg_s(p as f64, s).scale(-1.0);
+        let b = a.scale(0.5);
+        let ab = a.mul(b);
+        let c = a.add(b).add(ab);
+
+        det1_a = det1_a.mul(C64::from_re(1.0).add(a));
+        det1_b = det1_b.mul(C64::from_re(1.0).add(b));
+        det1_ab = det1_ab.mul(C64::from_re(1.0).add(c));
+
+        let e3 = |z: C64| {
+            let z2 = z.mul(z);
+            C64::from_re(1.0)
+                .add(z)
+                .mul(z.scale(-1.0).add(z2.scale(0.5)).exp())
+        };
+        det3_a = det3_a.mul(e3(a));
+        det3_b = det3_b.mul(e3(b));
+        det3_ab = det3_ab.mul(e3(c));
+        tr3 = tr3.add(ab.mul(a.add(b).add(ab.scale(0.5))));
+    }
+
+    let det1_res = det1_ab.sub(det1_a.mul(det1_b)).norm();
+    let exp_tr3 = tr3.exp();
+    let det3_res = det3_ab.sub(det3_a.mul(det3_b).mul(exp_tr3)).norm();
+
+    CarlemanDet3AnomalyAudit {
+        prime_count: primes.len(),
+        det1_mul_residual: det1_res,
+        det3_anomaly_residual: det3_res,
+        det3_a_abs: det3_a.norm(),
+        det3_b_abs: det3_b.norm(),
+        det3_ab_abs: det3_ab.norm(),
+        anomaly_exp_abs: exp_tr3.norm(),
+    }
+}
+
+/// Tail-dominated infinite-zero `L¹(ℝ)` Weil audit (`WeilGaussianL1.lean`):
+/// builds the shifted-Gaussian witness on `{z₀, z̄₀}` giving core `-8π`, then evaluates the
+/// tail sum over the supplied critical-line zeros `{±γ_n}` to check `full_sum_re < 0`.
+#[derive(Debug, Clone, Copy)]
+pub struct WeilInfiniteTailAudit {
+    pub core_witness_re: f64,
+    pub tail_abs_sum: f64,
+    pub tail_re_sum: f64,
+    pub full_sum_re: f64,
+    pub theoretical_neg_4pi_bound: f64,
+}
+
+pub fn evaluate_weil_infinite_tail_audit(
+    gammas: &[f64],
+    off_line_gamma: f64,
+    off_line_eta: f64,
+) -> WeilInfiniteTailAudit {
+    let z0 = C64::new(off_line_gamma, off_line_eta);
+    let z0_bar = z0.conj();
+    let delta = 1.0_f64;
+    let a0 = eval_gaussian_combo_mellin(&[1.0], &[0.0], z0);
+    let a1 = eval_gaussian_combo_mellin(&[1.0], &[delta], z0);
+    let b0 = eval_gaussian_combo_mellin(&[1.0], &[0.0], z0_bar);
+    let b1 = eval_gaussian_combo_mellin(&[1.0], &[delta], z0_bar);
+    let det = a0.mul(b1).sub(a1.mul(b0));
+    let target0 = C64::from_re(2.0 * PI.sqrt());
+    let target1 = C64::from_re(-2.0 * PI.sqrt());
+    let c0 = target0.mul(b1).sub(a1.mul(target1)).div(det);
+    let c1 = a0.mul(target1).sub(target0.mul(b0)).div(det);
+
+    let phi_w0 = a0.mul(c0).add(a1.mul(c1));
+    let phi_w1 = b0.mul(c0).add(b1.mul(c1));
+    let core_re = phi_w0.mul(phi_w1.conj()).add(phi_w1.mul(phi_w0.conj())).re;
+
+    let mut tail_abs = 0.0_f64;
+    let mut tail_re = 0.0_f64;
+    for &g in gammas {
+        for &signed_g in &[g, -g] {
+            let z = C64::new(signed_g, 0.0);
+            let m0 = eval_gaussian_combo_mellin(&[1.0], &[0.0], z);
+            let m1 = eval_gaussian_combo_mellin(&[1.0], &[delta], z);
+            let phi_z = m0.mul(c0).add(m1.mul(c1));
+            let val = phi_z.norm_sq();
+            tail_abs += val;
+            tail_re += val;
+        }
+    }
+
+    WeilInfiniteTailAudit {
+        core_witness_re: core_re,
+        tail_abs_sum: tail_abs,
+        tail_re_sum: tail_re,
+        full_sum_re: core_re + tail_re,
+        theoretical_neg_4pi_bound: -4.0 * PI,
+    }
+}
+
+/// Finite-dimensional `FredholmDetTheory` matrix verification (`DeterminantBundle.lean`):
+/// audits `detFr_rankOne_nilpotent_eq_one`, `detFr_blockLowerTriangular_two`, and `detFr_conj`
+/// on concrete `2×2` complex matrices matching `instFredholmDetTheoryOfFiniteDimensional`.
+#[derive(Debug, Clone, Copy)]
+pub struct FiniteDimFredholmDetAudit {
+    pub nilpotent_shear_det_re: f64,
+    pub nilpotent_shear_err: f64,
+    pub block_lower_det_re: f64,
+    pub expected_ad_minus_bc: f64,
+    pub block_lower_err: f64,
+    pub conj_invariance_err: f64,
+}
+
+pub fn evaluate_finite_dim_fredholm_det(
+    a: f64,
+    b: f64,
+    c: f64,
+    d: f64,
+    shear: f64,
+    rot_theta: f64,
+) -> FiniteDimFredholmDetAudit {
+    let det2 = |m: [[f64; 2]; 2]| m[0][0] * m[1][1] - m[0][1] * m[1][0];
+    let mul2 = |x: [[f64; 2]; 2], y: [[f64; 2]; 2]| {
+        [
+            [
+                x[0][0] * y[0][0] + x[0][1] * y[1][0],
+                x[0][0] * y[0][1] + x[0][1] * y[1][1],
+            ],
+            [
+                x[1][0] * y[0][0] + x[1][1] * y[1][0],
+                x[1][0] * y[0][1] + x[1][1] * y[1][1],
+            ],
+        ]
+    };
+
+    let nilp = [[1.0, 0.0], [shear, 1.0]];
+    let nilp_det = det2(nilp);
+
+    let blk = [[a, b], [c, d]];
+    let blk_det = det2(blk);
+    let expected = a * d - b * c;
+
+    let ct = rot_theta.cos();
+    let st = rot_theta.sin();
+    let q = [[ct, -st], [st, ct]];
+    let q_inv = [[ct, st], [-st, ct]];
+    let conj_blk = mul2(mul2(q, blk), q_inv);
+    let conj_err = (det2(conj_blk) - blk_det).abs();
+
+    FiniteDimFredholmDetAudit {
+        nilpotent_shear_det_re: nilp_det,
+        nilpotent_shear_err: (nilp_det - 1.0).abs(),
+        block_lower_det_re: blk_det,
+        expected_ad_minus_bc: expected,
+        block_lower_err: (blk_det - expected).abs(),
+        conj_invariance_err: conj_err,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1051,5 +1232,23 @@ mod tests {
         assert!(br.li_cayley_mismatch < 1e-14);
         assert!(br.dbn_mismatch < 1e-14);
         assert!(br.jensen_mismatch < 1e-14);
+
+        let d1a = evaluate_carleman_det3_anomaly(2.0, 5.0, 1500);
+        assert!(d1a.det1_mul_residual < 1e-14, "det1 mul={}", d1a.det1_mul_residual);
+        let d3a = evaluate_carleman_det3_anomaly(0.5, 14.1347251417, 1500);
+        assert!(d3a.det3_anomaly_residual < 1e-13, "det3 anom={}", d3a.det3_anomaly_residual);
+
+        let wtail = evaluate_weil_infinite_tail_audit(
+            &[14.134725, 21.022040, 25.010858, 30.424876],
+            1.5,
+            0.15,
+        );
+        assert!(wtail.tail_abs_sum < 1e-30, "tail={}", wtail.tail_abs_sum);
+        assert!(wtail.full_sum_re < wtail.theoretical_neg_4pi_bound);
+
+        let fdet = evaluate_finite_dim_fredholm_det(2.5, -0.7, 1.3, 4.1, 3.25, 0.6);
+        assert!(fdet.nilpotent_shear_err < 1e-15);
+        assert!(fdet.block_lower_err < 1e-14);
+        assert!(fdet.conj_invariance_err < 1e-14);
     }
 }

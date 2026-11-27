@@ -2,7 +2,9 @@ import Mathlib.Analysis.InnerProductSpace.Adjoint
 import Mathlib.Analysis.InnerProductSpace.GramSchmidtOrtho
 import Mathlib.Analysis.InnerProductSpace.Projection.Basic
 import Mathlib.GroupTheory.QuotientGroup.Basic
+import Mathlib.LinearAlgebra.Determinant
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Signals.SatoGrassmannian.Base
 import Signals.SatoGrassmannian.RieszSchauder
 import Signals.SatoGrassmannian.KPFlow
@@ -1652,5 +1654,126 @@ theorem segalWilson_tau_bigCell (P : PolarizedHilbertSpace ℂ H)
   rw [mul_one]
 
 end EquivariantActionAndTau
+
+/-! ============================================================================
+## Section 6: Axiom-Free Finite-Dimensional `FredholmDetTheory` Instance
+============================================================================ -/
+
+section FiniteDimensionalFredholmDet
+
+variable {ιP ιM : Type*} {H : Type*}
+  [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+
+/-- **Constructive Axiom-Free `FredholmDetTheory` Instance on Finite-Dimensional Subspaces:**
+Whenever `P.HPlus` is finite-dimensional (covering all finite-rank Fourier/mode truncations
+of `L²(S¹)`), Mathlib's `LinearMap.det` discharges all four axioms of `FredholmDetTheory`
+(`detFr` monoid homomorphism, conjugation invariance, `rankOneScale` normalization, and
+non-vanishing iff bijectivity) with zero `sorry` and zero extra axioms. -/
+noncomputable instance instFredholmDetTheoryOfFiniteDimensional
+    (P : PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    [FiniteDimensional ℂ P.HPlus] :
+    FredholmDetTheory P eP eM where
+  detFr :=
+    { toFun := fun A => LinearMap.det A.1.toLinearMap
+      map_one' := (LinearMap.det : (P.HPlus →ₗ[ℂ] P.HPlus) →* ℂ).map_one
+      map_mul' := fun A B => LinearMap.det_comp A.1.toLinearMap B.1.toLinearMap }
+  detFr_conj := fun q A => by
+    change LinearMap.det
+      (q.toLinearEquiv.toLinearMap ∘ₗ A.1.toLinearMap ∘ₗ q.toLinearEquiv.symm.toLinearMap) =
+      LinearMap.det A.1.toLinearMap
+    exact LinearMap.det_conj A.1.toLinearMap q.toLinearEquiv
+  detFr_rankOne := fun i₀ c => by
+    classical
+    let S : Submodule ℂ P.HPlus := Submodule.span ℂ ({eP i₀} : Set P.HPlus)
+    have hne : eP i₀ ≠ 0 := by
+      intro h0
+      have hn : ‖eP i₀‖ = 1 := eP.orthonormal.1 i₀
+      rw [h0, norm_zero] at hn; norm_num at hn
+    let v₀ : S := ⟨eP i₀, Submodule.subset_span rfl⟩
+    let bS : Module.Basis (Fin 1) ℂ S :=
+      Module.Basis.mk (v := fun _ : Fin 1 => v₀)
+        (by
+          rw [linearIndependent_unique_iff]
+          intro h0
+          exact hne (congrArg Subtype.val h0))
+        (by
+          intro ⟨y, hy⟩ _
+          rw [Set.range_const, Submodule.mem_span_singleton]
+          rw [Submodule.mem_span_singleton] at hy
+          obtain ⟨k, hk⟩ := hy
+          exact ⟨k, Subtype.ext hk⟩)
+    let bP : Module.Basis (Fin (Module.finrank ℂ Sᗮ)) ℂ Sᗮ := Module.finBasis ℂ Sᗮ
+    let eqv : (S × Sᗮ) ≃ₗ[ℂ] P.HPlus :=
+      Submodule.prodEquivOfIsCompl S Sᗮ S.isCompl_orthogonal
+    let b : Module.Basis (Fin 1 ⊕ Fin (Module.finrank ℂ Sᗮ)) ℂ P.HPlus :=
+      (bS.prod bP).map eqv
+    let R := rankOneScale P eP i₀ c
+    have hself : ⟪eP i₀, eP i₀⟫_ℂ = 1 := by
+      rw [inner_self_eq_norm_sq_to_K, eP.orthonormal.1 i₀]; norm_num
+    have hRS : R (eP i₀) = c • eP i₀ := by
+      simp only [R, rankOneScale, add_apply, ContinuousLinearMap.id_apply, smul_apply,
+        ContinuousLinearMap.smulRight_apply, innerSL_apply_apply, hself]
+      module
+    have hRP : ∀ y : Sᗮ, R (y : P.HPlus) = (y : P.HPlus) := by
+      intro y
+      have horth : ⟪eP i₀, (y : P.HPlus)⟫_ℂ = 0 :=
+        y.2 (eP i₀) (Submodule.subset_span rfl)
+      simp [R, rankOneScale, horth]
+    have hb_inl : b (Sum.inl 0) = eP i₀ := by
+      have heqv : ∀ x : S × Sᗮ, eqv x = (S.subtype.coprod Sᗮ.subtype) x := fun x =>
+        congrArg (fun f : S × Sᗮ →ₗ[ℂ] P.HPlus => f x)
+          (Submodule.coe_prodEquivOfIsCompl S Sᗮ S.isCompl_orthogonal)
+      simp only [b, Module.Basis.map_apply, Module.Basis.prod_apply, LinearMap.coe_inl,
+        Sum.elim_inl, Function.comp_apply, bS, Module.Basis.mk_apply, heqv,
+        LinearMap.coprod_apply, Submodule.coe_subtype, Submodule.coe_zero, add_zero, v₀]
+    have hb_inr : ∀ j, b (Sum.inr j) = (bP j : P.HPlus) := by
+      intro j
+      have heqv : ∀ x : S × Sᗮ, eqv x = (S.subtype.coprod Sᗮ.subtype) x := fun x =>
+        congrArg (fun f : S × Sᗮ →ₗ[ℂ] P.HPlus => f x)
+          (Submodule.coe_prodEquivOfIsCompl S Sᗮ S.isCompl_orthogonal)
+      simp only [b, Module.Basis.map_apply, Module.Basis.prod_apply, LinearMap.coe_inr,
+        Sum.elim_inr, Function.comp_apply, heqv, LinearMap.coprod_apply, Submodule.coe_subtype,
+        Submodule.coe_zero, zero_add]
+    have hMat : LinearMap.toMatrix b b R.toLinearMap =
+        Matrix.diagonal (Sum.elim (fun _ => c) (fun _ => 1)) := by
+      ext i j
+      rw [LinearMap.toMatrix_apply, Matrix.diagonal_apply]
+      rcases j with j | j
+      · have hj0 : j = 0 := Fin.eq_zero j
+        subst hj0
+        change (b.repr (R (b (Sum.inl 0)))) i = _
+        rw [hb_inl, hRS, ← hb_inl, map_smul, b.repr_self]
+        rcases i with i | i
+        · have hi0 : i = 0 := Fin.eq_zero i
+          subst hi0; simp
+        · simp
+      · change (b.repr (R (b (Sum.inr j)))) i = _
+        rw [hb_inr j, hRP (bP j), ← hb_inr j, b.repr_self]
+        rcases i with i | i
+        · simp
+        · by_cases hij : i = j
+          · subst hij; simp
+          · simp [hij]
+    change LinearMap.det R.toLinearMap = c
+    rw [← LinearMap.det_toMatrix b R.toLinearMap, hMat, Matrix.det_diagonal]
+    simp
+  detFr_ne_zero_iff := fun A => by
+    classical
+    let b := Module.finBasis ℂ P.HPlus
+    let E := LinearMap.toMatrixAlgEquiv b
+    change LinearMap.det A.1.toLinearMap ≠ 0 ↔ Function.Bijective A.1
+    rw [← LinearMap.det_toMatrix b A.1.toLinearMap]
+    have h1 : (LinearMap.toMatrix b b A.1.toLinearMap).det ≠ 0 ↔
+        IsUnit (LinearMap.toMatrix b b A.1.toLinearMap).det := isUnit_iff_ne_zero.symm
+    rw [h1, ← Matrix.isUnit_iff_isUnit_det]
+    have hE : IsUnit (E A.1.toLinearMap) ↔ IsUnit A.1.toLinearMap :=
+      MulEquiv.isUnit_map E
+    change IsUnit (E A.1.toLinearMap) ↔ Function.Bijective A.1
+    rw [hE, LinearMap.isUnit_iff_ker_eq_bot, LinearMap.ker_eq_bot]
+    exact ⟨fun h => ⟨h, (LinearMap.injective_iff_surjective_of_finrank_eq_finrank rfl).mp h⟩,
+      fun h => h.1⟩
+
+end FiniteDimensionalFredholmDet
 
 end Signals.SatoGrassmannian.DeterminantBundle

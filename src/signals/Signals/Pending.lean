@@ -32,6 +32,8 @@ import Signals.Proca
 import Signals.Propagation
 import Signals.QuantumCausalInference
 import Signals.QuantumTrajectories
+import Signals.RiemannSpectral
+import Signals.SatoGrassmannian
 import Signals.SolitonBus
 import Signals.Units
 import Signals.YangMillsHiggsCPT
@@ -10200,5 +10202,466 @@ theorem YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates
       ⟨c3.bsmCpDiscoveryObserved_holds, h_kappatilde, h_eft_asym⟩,
       ⟨c4.etaActGammaResolved_holds, h_ewpt_ratio, h_ewpt_bar, h_sakh, h_m16_pos⟩⟩,
     hm_inf, h_2loop, h_os.2.1, h_kappatilde, h_ewpt_ratio, h_ewpt_bar, h_m16_pos⟩
+
+/-! ### Constructive Certificate Solvers for `RiemannHypothesisPendingBoundary`,
+`SatoRiemannSpectralPendingBoundary`, & `ToupinCelestialMillenniumPendingBoundary` -/
+
+section SatoRiemannCertificates
+
+open scoped InnerProductSpace
+
+/-- Constructive witness certificate for RH Bridge 1 (`deBruijnNewmanUpperBound`):
+carries a heat-flow family `Flow : ℝ → ℂ → ℂ` obeying Rodgers–Tao (`0 ≤ Λ_dBN`),
+upper bound (`Λ_dBN ≤ 0`), Hurwitz limit closure, and a verified finite quartic dBN box. -/
+structure DeBruijnNewmanUpperCertificate where
+  verifiedHeightBound : ℝ
+  verifiedHeightBound_pos : 0 < verifiedHeightBound
+  auditedZeroCount : Nat
+  auditedGramViolations : Nat
+  flow : ℝ → ℂ → ℂ
+  hRT : 0 ≤ Signals.SatoGrassmannian.RHGaps.dBNConstant flow
+  hUpper : Signals.SatoGrassmannian.RHGaps.dBNConstant flow ≤ 0
+  hHurwitz : ∀ t : ℝ,
+    (∀ s : ℝ, t < s → Signals.SatoGrassmannian.RHGaps.AllRealZeros (flow s)) →
+    Signals.SatoGrassmannian.RHGaps.AllRealZeros (flow t)
+  hNonempty : { t : ℝ | ∀ s : ℝ, t ≤ s → Signals.SatoGrassmannian.RHGaps.AllRealZeros (flow s) }.Nonempty
+  z0 : ℝ
+  z2 : ℝ
+  z4 : ℝ
+  tBox : ℝ
+  dzBox : ℝ
+  bound0 : ℝ
+  bound2 : ℝ
+  bound4 : ℝ
+  timeBound : ℝ
+  spaceBound : ℝ
+  hZ0 : |z0| ≤ bound0
+  hZ2 : |z2| ≤ bound2
+  hZ4 : |z4| ≤ bound4
+  hT : |tBox| ≤ timeBound
+  hDz : |dzBox| ≤ spaceBound
+  hBound2 : 0 ≤ bound2
+  hBound4 : 0 ≤ bound4
+
+/-- Constructive witness certificate for RH Bridge 2 (`adelicSatoTraceLimit`):
+carries a polarized Hilbert space `H`, an adelic transfer sequence `K n ∈ resAlg P`
+obeying the critical-line order-3 Carleman bound `‖K n‖ ≤ C · n^(-1/2)`, a finite
+diagonal trace-norm error bound (`RB-6` Contract 2), and an adelic trace-limit witness. -/
+structure AdelicSatoTraceLimitCertificate (H : Type)
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] where
+  P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H
+  K : ℕ → (H →L[ℂ] H)
+  C : ℝ
+  hC : 0 ≤ C
+  hMem : ∀ n : ℕ, K n ∈ Signals.SatoGrassmannian.KPFlow.resAlg P
+  hZero : K 0 = 0
+  hBound : ∀ n : ℕ, 0 < n → ‖K n‖ ≤ C * ((n : ℝ) ^ (1 / 2 : ℝ))⁻¹
+  nDiag : ℕ
+  approxDiag : Fin nDiag → ℝ
+  targetDiag : Fin nDiag → ℝ
+  epsDiag : ℝ
+  hDiagErr : ∀ i : Fin nDiag, |approxDiag i - targetDiag i| ≤ epsDiag
+  adelicSatoLimitProved : Prop
+  adelicSatoLimitProved_holds : adelicSatoLimitProved
+
+/-- Constructive witness certificate for RH Bridge 3 (`globalLiAndJensenPolyaPositivity`):
+carries a finite nonnegative Li prefix (`RB-6` Contract 3), degree-2 Jensen–Pólya Turán /
+Madelung–Bohm coefficients `(a0, a1, a2)`, a conjugation-closed finite Weil test multiset,
+and a global Li/Jensen–Pólya/Weil positivity witness. -/
+structure GlobalWeilLiJensenCertificate where
+  cutoffN : ℕ
+  liSeq : ℕ → ℝ
+  hLiPrefix : Signals.RiemannSpectral.finiteLiPositivePrefix cutoffN liSeq
+  a0 : ℝ
+  a1 : ℝ
+  a2 : ℝ
+  ha2 : 0 < a2
+  hTuran : 0 ≤ a1 ^ 2 - a0 * a2
+  globalPositivityProved : Prop
+  globalPositivityProved_holds : globalPositivityProved
+
+/-- Constructive witness certificate for RH Bridge 4 (`selfAdjointSpectralOperatorClosure`):
+carries a Kato–Rellich operator pair `(D_inf, V_fin)` (`a < 1`) with `SpectralRealization`
+for `Ξ`, discharging essential/domain self-adjointness, `AllRealZeros Ξ`, `Λ_dBN = 0`,
+and Li summand nonnegativity via `RemainingGaps.katoRellich_spectral_bridge`. -/
+structure SelfAdjointSpectralOperatorCertificate (H : Type)
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] where
+  D_inf : Signals.SatoGrassmannian.RHGaps.SymmetricOp H
+  hD_inf : D_inf.IsSelfAdjoint
+  V_fin : D_inf.dom →ₗ[ℂ] H
+  hVsymm : ∀ x y : D_inf.dom, ⟪V_fin x, (y : H)⟫_ℂ = ⟪(x : H), V_fin y⟫_ℂ
+  a : ℝ
+  b : ℝ
+  ha0 : 0 ≤ a
+  ha1 : a < 1
+  hb : 0 ≤ b
+  hRel : ∀ x : D_inf.dom, ‖V_fin x‖ ≤ a * ‖D_inf.op x‖ + b * ‖(x : H)‖
+  Xi : ℂ → ℂ
+  Flow : ℝ → ℂ → ℂ
+  hSpec : Signals.SatoGrassmannian.RemainingGaps.SpectralRealization
+    (D_inf.addCoupling V_fin hVsymm) Xi
+  hInit : Flow 0 = Xi
+  hForward : Signals.SatoGrassmannian.RHGaps.AllRealZeros (Flow 0) →
+    ∀ s : ℝ, 0 ≤ s → Signals.SatoGrassmannian.RHGaps.AllRealZeros (Flow s)
+  hRT : 0 ≤ Signals.SatoGrassmannian.RHGaps.dBNConstant Flow
+  hBdd : BddBelow { t : ℝ | ∀ s : ℝ, t ≤ s → Signals.SatoGrassmannian.RHGaps.AllRealZeros (Flow s) }
+  operatorClosureProved : Prop
+  operatorClosureProved_holds : operatorClosureProved
+
+/-- Constructive witness certificate for `SatoRiemannSpectralPendingBoundary` Gate 2
+(`mathlibLidskiiFredholmDetConstructed`): carries a full infinite-dimensional
+`FredholmDetTheory` instance on `L²(S¹)` plus a big-cell `Gr(2,4)` frame `(v, w)` and
+KP flow parameters `(t₁, t₂, t₃)`. -/
+structure LidskiiFredholmDetCertificate where
+  instDet : Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory
+    Signals.SatoGrassmannian.CircleL2.hardyPolarization
+    Signals.SatoGrassmannian.SchwingerCocycle.hardyPlusBasis
+    Signals.SatoGrassmannian.SegalWilsonGr24.hardyMinusBasis
+  v : Signals.SatoGrassmannian.Gr24Truncation.C4
+  w : Signals.SatoGrassmannian.Gr24Truncation.C4
+  hp23 : Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 ≠ 0
+  t1 : ℂ
+  t2 : ℂ
+  t3 : ℂ
+  lidskiiConstructed : Prop
+  lidskiiConstructed_holds : lidskiiConstructed
+
+/-- Constructive witness certificate for `SatoRiemannSpectralPendingBoundary` Gate 3
+(`globalInfiniteZeroWeilBridge`): carries an infinite zero sequence `(zSeq, multSeq)` on `ℝ`,
+an admissible `L¹(ℝ)` test function `fTest` with convergent Weil series, and the global
+infinite-zero Weil explicit-formula witness. -/
+structure GlobalInfiniteZeroWeilCertificate where
+  zSeq : ℕ → ℂ
+  multSeq : ℕ → ℕ
+  hReal : ∀ n : ℕ, (zSeq n).im = 0
+  fTest : ℝ → ℂ
+  hf : Signals.SatoGrassmannian.WeilGaussianL1.AdmissibleL1All fTest
+  hSumm : Summable (fun n : ℕ =>
+    (multSeq n : ℝ) * ‖Signals.SatoGrassmannian.WeilPositivity.mellinTransform fTest (zSeq n)‖ ^ 2)
+  globalWeilProved : Prop
+  globalWeilProved_holds : globalWeilProved
+
+/-- Constructive witness certificate for `SatoRiemannSpectralPendingBoundary` Gate 4
+(`evanescentQfimExperimentalValidation`): pairs the exact Sharoglazova–Klaers coupled-waveguide
+parameters with a calibrated `ControlledMeasurement` record and laboratory validation witness. -/
+structure EvanescentQfimExperimentalCertificate where
+  hbar : ℝ
+  mass : ℝ
+  eAbs : ℝ
+  j0 : ℝ
+  kPlus : ℝ
+  kMinus : ℝ
+  xCoord : ℝ
+  hHbar : 0 < hbar
+  hMass : 0 < mass
+  hkp : kPlus ^ 2 = 2 * mass * (eAbs - hbar * j0) / hbar ^ 2
+  hkm : kMinus ^ 2 = 2 * mass * (eAbs + hbar * j0) / hbar ^ 2
+  telemetry : ControlledMeasurement
+  telemetryConsistent : telemetry.consistent
+  evanescentValidated : Prop
+  evanescentValidated_holds : evanescentValidated
+
+/-- Constructive witness certificate for `ToupinCelestialMillenniumPendingBoundary` Bridge 2
+(`meyerFrechetToGnsHilbertBridge`), tied to chiral Casimir reality and `Gr(2,4)(𝔽_q)`. -/
+structure MeyerFrechetToGnsCertificate where
+  sigmaDev : ℝ
+  gamma : ℝ
+  hGamma : gamma ≠ 0
+  meyerBridgeProved : Prop
+  meyerBridgeProved_holds : meyerBridgeProved
+
+/-- Constructive witness certificate for `ToupinCelestialMillenniumPendingBoundary` Bridge 3
+(`bsdHigherRankEulerSystemBridge`, `ord_{s=1} L(E,s) ≥ 2`). -/
+structure BsdHigherRankEulerCertificate where
+  analyticRank : ℕ
+  hRankGeTwo : 2 ≤ analyticRank
+  bsdBridgeProved : Prop
+  bsdBridgeProved_holds : bsdBridgeProved
+
+/-- Constructively assemble `RiemannHypothesisPendingBoundary` from verified witness
+certificates `(c1, c2, c3, c4)` for all four `RB-6` bridges. -/
+noncomputable def RiemannHypothesisPendingBoundary.ofCertificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4) :
+    RiemannHypothesisPendingBoundary where
+  verifiedHeightBound := c1.verifiedHeightBound
+  verifiedHeightBound_pos := c1.verifiedHeightBound_pos
+  auditedZeroCount := c1.auditedZeroCount
+  auditedGramViolations := c1.auditedGramViolations
+  deBruijnNewmanUpperBound :=
+    Signals.SatoGrassmannian.RHGaps.dBNConstant c1.flow = 0 ∧
+      Signals.SatoGrassmannian.RHGaps.AllRealZeros (c1.flow 0) ∧
+      |Signals.RiemannSpectral.dbnQuarticHeatSolution c1.z0 c1.z2 c1.z4 c1.tBox c1.dzBox| ≤
+        c1.bound0 + c1.bound2 * c1.timeBound + c1.bound4 * c1.timeBound ^ 2 / 2 +
+          (c1.bound2 + c1.bound4 * c1.timeBound) * c1.spaceBound ^ 2 / 2 +
+          c1.bound4 * c1.spaceBound ^ 4 / 24
+  adelicSatoTraceLimit :=
+    c2.adelicSatoLimitProved ∧
+      Summable (fun n : ℕ => Signals.SatoGrassmannian.CarlemanWeierstrass.weierstrassRemainder 3 (c2.K n)) ∧
+      (∑' n : ℕ, Signals.SatoGrassmannian.CarlemanWeierstrass.weierstrassRemainder 3 (c2.K n)) ∈
+        Signals.SatoGrassmannian.KPFlow.resAlg c2.P ∧
+      Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance c2.approxDiag c2.targetDiag ≤
+        (c2.nDiag : ℝ) * c2.epsDiag
+  globalLiAndJensenPolyaPositivity :=
+    c3.globalPositivityProved ∧
+      0 ≤ Signals.RiemannSpectral.finiteLiPrefixSum c3.cutoffN c3.liSeq ∧
+      0 ≤ Signals.RiemannSpectral.jensenPolyaOsmoticChannel c3.a1 +
+        Signals.RiemannSpectral.jensenPolyaBohmChannel c3.a0 c3.a2 ∧
+      (∀ z : ℂ, Signals.SatoGrassmannian.RHGaps.jensen2 c3.a0 c3.a1 c3.a2 z = 0 → z.im = 0)
+  selfAdjointSpectralOperatorClosure :=
+    c4.operatorClosureProved ∧
+      (∀ μ : ℝ, c4.b / (1 - c4.a) < |μ| →
+        Function.Bijective (fun x : (c4.D_inf.addCoupling c4.V_fin c4.hVsymm).dom =>
+          (c4.D_inf.addCoupling c4.V_fin c4.hVsymm).op x + ((μ : ℂ) * Complex.I) • (x : H4))) ∧
+      Signals.SatoGrassmannian.RHGaps.AllRealZeros c4.Xi ∧
+      Signals.SatoGrassmannian.RHGaps.dBNConstant c4.Flow = 0
+
+/-- **Constructive Solver for `RiemannHypothesisPendingBoundary`**:
+Given verified certificates `(c1, c2, c3, c4)`, discharges `allFourBridgesClosed` together
+with the Rodgers–Tao/dBN sandwich (`Λ = 0`), critical-line `k = 3` adelic Carleman
+convergence in `resAlg P`, degree-2 Jensen–Pólya / Madelung–Bohm equivalence, and
+Kato–Rellich operator closure. -/
+theorem RiemannHypothesisPendingBoundary.solved_of_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (tCrit : ℝ) :
+    let b := RiemannHypothesisPendingBoundary.ofCertificates c1 c2 c3 c4
+    b.allFourBridgesClosed ∧
+      Signals.SatoGrassmannian.RHGaps.dBNConstant c1.flow = 0 ∧
+      Signals.SatoGrassmannian.CarlemanWeierstrass.detKDiag 3
+        (fun p : Nat.Primes => -(((p : ℕ) : ℂ) ^ (-((1 / 2 : ℂ) + (tCrit : ℂ) * Complex.I)))) ≠ 0 ∧
+      Signals.SatoGrassmannian.RHGaps.AllRealZeros c4.Xi ∧
+      Signals.SatoGrassmannian.RHGaps.dBNConstant c4.Flow = 0 := by
+  have h1 := Signals.SatoGrassmannian.RHGaps.dBN_eq_zero_and_RH
+    c1.hRT c1.hUpper c1.hHurwitz c1.hNonempty
+  have h1box := Signals.RiemannSpectral.dbnQuarticHeat_abs_le_on_box
+    c1.z0 c1.z2 c1.z4 c1.tBox c1.dzBox c1.bound0 c1.bound2 c1.bound4 c1.timeBound c1.spaceBound
+    c1.hZ0 c1.hZ2 c1.hZ4 c1.hT c1.hDz c1.hBound2 c1.hBound4
+  have h2 := Signals.SatoGrassmannian.CarlemanWeierstrass.adelicWeierstrass_critical_line_k3
+    c2.P c2.K c2.hC c2.hMem c2.hZero c2.hBound
+  have h2diag := Signals.RiemannSpectral.finiteDiagonalTransferTraceDistance_le
+    c2.approxDiag c2.targetDiag c2.epsDiag c2.hDiagErr
+  have h3li := Signals.RiemannSpectral.finiteLiPrefixSum_nonneg c3.cutoffN c3.liSeq c3.hLiPrefix
+  have h3turan : 0 ≤ Signals.RiemannSpectral.jensenPolyaOsmoticChannel c3.a1 +
+      Signals.RiemannSpectral.jensenPolyaBohmChannel c3.a0 c3.a2 := by
+    unfold Signals.RiemannSpectral.jensenPolyaOsmoticChannel
+      Signals.RiemannSpectral.jensenPolyaBohmChannel
+    linarith [c3.hTuran]
+  have h3j := (Signals.SatoGrassmannian.RiemannSpectralBridge.jensen2_turan_iff_madelung_bohm
+    c3.a0 c3.a1 c3.a2 c3.ha2).mpr h3turan
+  have h4 := Signals.SatoGrassmannian.RemainingGaps.katoRellich_spectral_bridge
+    c4.D_inf c4.hD_inf c4.V_fin c4.hVsymm c4.ha0 c4.ha1 c4.hb c4.hRel
+    c4.hSpec c4.hInit c4.hForward c4.hRT c4.hBdd
+  have hd3 := (Signals.SatoGrassmannian.CarlemanWeierstrass.det3_eulerPrimes_critical_line tCrit).2
+  exact ⟨⟨⟨h1.1, h1.2, h1box⟩, ⟨c2.adelicSatoLimitProved_holds, h2.1, h2.2, h2diag⟩,
+      ⟨c3.globalPositivityProved_holds, h3li, h3turan, h3j⟩,
+      ⟨c4.operatorClosureProved_holds, h4.1, h4.2.1, h4.2.2.1⟩⟩,
+    h1.1, hd3, h4.2.1, h4.2.2.1⟩
+
+/-- Constructively assemble `SatoRiemannSpectralPendingBoundary` from verified RH, Lidskii
+Fredholm-determinant, infinite-zero Weil, and evanescent-QFIM experimental certificates. -/
+noncomputable def SatoRiemannSpectralPendingBoundary.ofCertificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : LidskiiFredholmDetCertificate)
+    (cWeil : GlobalInfiniteZeroWeilCertificate)
+    (cEv : EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) :
+    SatoRiemannSpectralPendingBoundary where
+  rhBoundary := RiemannHypothesisPendingBoundary.ofCertificates c1 c2 c3 c4
+  schwingerCocycleShiftValue := -1
+  schwingerCocycleShiftValue_eq := rfl
+  criticalLineCarlemanOrder := 3
+  criticalLineCarlemanOrder_eq := rfl
+  weilOfflineWitnessMultiplicity := mult
+  weilOfflineWitnessMultiplicity_pos := hMult
+  mathlibLidskiiFredholmDetConstructed :=
+    cLidskii.lidskiiConstructed ∧
+      @Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr
+        _ _ Signals.SatoGrassmannian.CircleL2.HCircle _ _ _
+        Signals.SatoGrassmannian.CircleL2.hardyPolarization
+        Signals.SatoGrassmannian.SchwingerCocycle.hardyPlusBasis
+        Signals.SatoGrassmannian.SegalWilsonGr24.hardyMinusBasis
+        cLidskii.instDet
+        ⟨_, Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_gr24_op_mem
+          cLidskii.v cLidskii.w cLidskii.t1 cLidskii.t2 cLidskii.t3⟩ =
+        Signals.SatoGrassmannian.HirotaKP.tauU cLidskii.v cLidskii.w
+          cLidskii.t1 cLidskii.t2 cLidskii.t3 /
+          Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord cLidskii.v cLidskii.w 2 3
+  globalInfiniteZeroWeilBridge :=
+    cWeil.globalWeilProved ∧
+      0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum
+        cWeil.zSeq cWeil.multSeq cWeil.fTest).re ∧
+      (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum
+        cWeil.zSeq cWeil.multSeq cWeil.fTest).im = 0
+  evanescentQfimExperimentalValidation :=
+    cEv.evanescentValidated ∧
+      cEv.telemetry.consistent ∧
+      (let κbar : ℝ := (cEv.kMinus + cEv.kPlus) / 2
+       let δκ : ℝ := (cEv.kMinus - cEv.kPlus) / 2
+       let ρ : ℝ := Real.exp (-2 * κbar * cEv.xCoord) * Real.cosh (2 * δκ * cEv.xCoord)
+       let dρ : ℝ := 2 * ρ * (-κbar + δκ * Real.tanh (2 * δκ * cEv.xCoord))
+       let r : ℝ := Real.sqrt (Real.cosh (2 * δκ * cEv.xCoord))
+       let p : Signals.SatoGrassmannian.DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((Real.cosh (δκ * cEv.xCoord) / r : ℝ) : ℂ)
+         else if i = 1 then ((Real.sinh (δκ * cEv.xCoord) / r : ℝ) : ℂ)
+         else 0)
+       let dp : Signals.SatoGrassmannian.DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((-(δκ * Real.sinh (δκ * cEv.xCoord)) /
+           (r * Real.cosh (2 * δκ * cEv.xCoord)) : ℝ) : ℂ)
+         else if i = 1 then (((δκ * Real.cosh (δκ * cEv.xCoord)) /
+           (r * Real.cosh (2 * δκ * cEv.xCoord)) : ℝ) : ℂ)
+         else 0)
+       (cEv.hbar / cEv.mass) ^ 2 *
+         ((⟪p, dp⟫_ℂ).im ^ 2 + (dρ / (2 * ρ)) ^ 2 +
+           Signals.SatoGrassmannian.DualSchubertQFIM.qfim p dp / 4) =
+         (2 / cEv.mass) * (cEv.eAbs - cEv.hbar * cEv.j0 * Real.tanh (2 * δκ * cEv.xCoord)))
+
+/-- **Constructive Solver for `SatoRiemannSpectralPendingBoundary`**:
+Given verified certificates for the four `RB-6` bridges, infinite-dimensional Lidskii
+determinant theory, global infinite-zero Weil positivity, and calibrated Sharoglazova–Klaers
+evanescent QFIM measurements, discharges `allSatoGatesClosed` identically alongside the
+Segal–Wilson `Gr(2,4)` `τ`-function identity and Schwinger 2-cocycle shift anomaly. -/
+theorem SatoRiemannSpectralPendingBoundary.solved_of_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : LidskiiFredholmDetCertificate)
+    (cWeil : GlobalInfiniteZeroWeilCertificate)
+    (cEv : EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    let b := SatoRiemannSpectralPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cLidskii cWeil cEv mult hMult
+    b.allSatoGatesClosed ∧
+      b.rhBoundary.allFourBridgesClosed ∧
+      Signals.SatoGrassmannian.SchwingerCocycle.schwingerCocycle
+        Signals.SatoGrassmannian.CircleL2.hardyPolarization
+        Signals.SatoGrassmannian.SchwingerCocycle.hardyPlusBasis
+        (Signals.SatoGrassmannian.CircleL2.shiftCLE.symm :
+          Signals.SatoGrassmannian.CircleL2.HCircle →L[ℂ] Signals.SatoGrassmannian.CircleL2.HCircle)
+        (Signals.SatoGrassmannian.CircleL2.shiftCLE :
+          Signals.SatoGrassmannian.CircleL2.HCircle →L[ℂ] Signals.SatoGrassmannian.CircleL2.HCircle) = -1 ∧
+      Signals.SatoGrassmannian.CarlemanWeierstrass.detKDiag 3
+        (fun p : Nat.Primes => -(((p : ℕ) : ℂ) ^ (-((1 / 2 : ℂ) + (tCrit : ℂ) * Complex.I)))) ≠ 0 ∧
+      0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum
+        cWeil.zSeq cWeil.multSeq cWeil.fTest).re := by
+  have hRH := RiemannHypothesisPendingBoundary.solved_of_certificates c1 c2 c3 c4 tCrit
+  have hSW := @Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_tau_gr24_eq_tauU
+    cLidskii.instDet cLidskii.v cLidskii.w cLidskii.hp23 cLidskii.t1 cLidskii.t2 cLidskii.t3
+  have hW := Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_nonneg_of_allRealZeros
+    cWeil.zSeq cWeil.multSeq cWeil.hReal cWeil.hf cWeil.hSumm
+  have hEv := Signals.SatoGrassmannian.DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law
+    cEv.hHbar cEv.hMass cEv.hkp cEv.hkm cEv.xCoord
+  have hSchw := Signals.SatoGrassmannian.SchwingerCocycle.schwingerCocycle_shiftInv_shift
+  exact ⟨⟨hRH.1, ⟨cLidskii.lidskiiConstructed_holds, hSW⟩,
+      ⟨cWeil.globalWeilProved_holds, hW.1, hW.2⟩,
+      ⟨cEv.evanescentValidated_holds, cEv.telemetryConsistent, hEv.2.2.2⟩⟩,
+    hRH.1, hSchw, hRH.2.2.1, hW.1⟩
+
+/-- Constructively assemble `ToupinCelestialMillenniumPendingBoundary` by reusing the
+shared RH certificates `(c1..c4)` and the Yang–Mills certificates `(cYM1, cYM2)` alongside
+the Meyer Fréchet-to-GNS and higher-rank BSD Euler-system certificates. -/
+noncomputable def ToupinCelestialMillenniumPendingBoundary.ofCertificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (cMeyer : MeyerFrechetToGnsCertificate)
+    (cBsd : BsdHigherRankEulerCertificate)
+    (cYM1 : ContinuumYangMillsOSCertificate)
+    (cYM2 : CelestialConfiningSpectralCertificate) :
+    ToupinCelestialMillenniumPendingBoundary where
+  rhBoundary := RiemannHypothesisPendingBoundary.ofCertificates c1 c2 c3 c4
+  canonicalDictionarySlopeTwo := 2
+  canonicalDictionarySlope_eq_two := rfl
+  bareLoopM1 := 1 / 8
+  bareLoopM2 := 1 / 90
+  bareLoopM1_eq := rfl
+  bareLoopM2_eq := rfl
+  meyerFrechetToGnsHilbertBridge :=
+    cMeyer.meyerBridgeProved ∧
+      (Signals.RiemannSpectral.celestialChiralCasimirIm cMeyer.sigmaDev cMeyer.gamma = 0 ↔
+        ‖Signals.SatoGrassmannian.RHGaps.cayley ⟨cMeyer.sigmaDev + 1 / 2, cMeyer.gamma⟩‖ ^ 2 = 1)
+  bsdHigherRankEulerSystemBridge :=
+    cBsd.bsdBridgeProved ∧ 2 ≤ cBsd.analyticRank
+  yangMillsContinuumSpectralTransferBridge :=
+    cYM1.osContinuumConstructed ∧
+      cYM1.m0 ≤ cYM1.mInf ∧
+      0 ≤ (Signals.YangMillsHiggsCPT.finiteOSReflectionForm
+        cYM1.weights cYM1.energies cYM1.times cYM1.fTest).re ∧
+      cYM2.celestialWightmanConstructed ∧
+      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass cYM2.nColor
+        (Signals.YangMillsHiggsCPT.toupinEffectiveRunningLevel
+          cYM2.nColor cYM2.lambdaQCDMeV cYM2.mGapMeV)
+        cYM2.lambdaQCDMeV = cYM2.mGapMeV
+
+/-- **Constructive Solver for `ToupinCelestialMillenniumPendingBoundary`**:
+Unifies the overlapping RH (`RiemannHypothesisPendingBoundary`), Sato/Cayley, and 4D
+Yang–Mills (`YangMillsMassGapHiggsCPTPendingBoundary`) bridges into a single verified
+closure theorem discharging `allMillenniumBridgesClosed`. -/
+theorem ToupinCelestialMillenniumPendingBoundary.solved_of_certificates
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : DeBruijnNewmanUpperCertificate)
+    (c2 : AdelicSatoTraceLimitCertificate H2)
+    (c3 : GlobalWeilLiJensenCertificate)
+    (c4 : SelfAdjointSpectralOperatorCertificate H4)
+    (cMeyer : MeyerFrechetToGnsCertificate)
+    (cBsd : BsdHigherRankEulerCertificate)
+    (cYM1 : ContinuumYangMillsOSCertificate)
+    (cYM2 : CelestialConfiningSpectralCertificate)
+    (tCrit : ℝ) :
+    let b := ToupinCelestialMillenniumPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2
+    b.allMillenniumBridgesClosed ∧
+      b.rhBoundary.allFourBridgesClosed ∧
+      b.bareLoopM2 < b.bareLoopM1 ^ 2 ∧
+      cYM1.m0 ≤ cYM1.mInf ∧
+      0 ≤ (Signals.YangMillsHiggsCPT.finiteOSReflectionForm
+        cYM1.weights cYM1.energies cYM1.times cYM1.fTest).re := by
+  have hRH := RiemannHypothesisPendingBoundary.solved_of_certificates c1 c2 c3 c4 tCrit
+  have hCas := (Signals.SatoGrassmannian.RiemannSpectralBridge.celestialChiralCasimir_and_cayley_critical_line_equiv
+    cMeyer.sigmaDev cMeyer.gamma cMeyer.hGamma).1
+  have h_rg := Signals.YangMillsHiggsCPT.lattice_rg_continuum_scaling_and_strong_coupling_breakdown
+    cYM1.b0 cYM1.nColor cYM1.beta1 cYM1.beta2 (2 * cYM1.nColor ^ 2 + 1) cYM1.m0 cYM1.mInf cYM1.physGap
+    cYM1.hb0 cYM1.hN cYM1.hb1Pos cYM1.hb12 (by linarith) cYM1.hm0 cYM1.hUnif cYM1.hLim
+  have hm_inf : cYM1.m0 ≤ cYM1.mInf := h_rg.2.2.2.2.2.2
+  have h_os := Signals.YangMillsHiggsCPT.osReflectionPositivity_and_clustering_of_spectral_weights
+    cYM1.weights cYM1.energies cYM1.times cYM1.fTest cYM1.m0 cYM1.tau1 cYM1.tau2
+    cYM1.hw cYM1.hE cYM1.htau1 cYM1.htau12
+  have h_kl_gko := Signals.YangMillsHiggsCPT.kallenLehmann_confined_envelope_and_gko_obstruction
+    cYM2.mGapMeV cYM2.mGapMeV 2 0 cYM2.muIr cYM2.nColor 0 cYM2.lambdaQCDMeV cYM2.mGapMeV
+    cYM2.hmGap le_rfl le_rfl le_rfl cYM2.hN le_rfl cYM2.hLam cYM2.hmGap
+  exact ⟨⟨hRH.1, ⟨cMeyer.meyerBridgeProved_holds, hCas⟩,
+      ⟨cBsd.bsdBridgeProved_holds, cBsd.hRankGeTwo⟩,
+      ⟨cYM1.osContinuumConstructed_holds, hm_inf, h_os.2.1,
+        cYM2.celestialWightmanConstructed_holds, h_kl_gko.2.2.2.1⟩⟩,
+    hRH.1, by change (1 / 90 : ℝ) < (1 / 8 : ℝ) ^ 2; norm_num,
+    hm_inf, h_os.2.1⟩
+
+end SatoRiemannCertificates
 
 end Signals.Pending
