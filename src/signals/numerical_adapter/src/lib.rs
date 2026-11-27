@@ -1527,6 +1527,113 @@ fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, Py
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_qci_one_shot_sysid<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let (cb_gram_det, cb_plucker_sq) = quantum_causal_inference::osid_cauchy_binet_2x3_gram_and_plucker(
+        [1.2, -0.5, 2.3],
+        [0.4, 1.7, -0.9],
+    );
+    let ac = quantum_causal_inference::audit_osid_allen_cahn_pde();
+    let lor = quantum_causal_inference::audit_osid_lorenz_ode();
+    let mat = quantum_causal_inference::audit_osid_matrix_circulant_hankel_and_switch();
+    let qjl = quantum_causal_inference::audit_osid_noisy_jeffrey_qfim_landauer();
+    let d = PyDict::new(py);
+    d.set_item("cb_gram_det", cb_gram_det)?;
+    d.set_item("cb_plucker_sq", cb_plucker_sq)?;
+    d.set_item("ac_generic_rank", ac.generic_rank)?;
+    d.set_item("ac_generic_coeffs", ac.generic_coeffs.to_vec())?;
+    d.set_item("ac_generic_max_coeff_err", ac.generic_max_coeff_err)?;
+    d.set_item("ac_generic_sigma_min", ac.generic_sigma_min)?;
+    d.set_item("ac_generic_gram_det", ac.generic_gram_det)?;
+    d.set_item("ac_degenerate_rank", ac.degenerate_rank)?;
+    d.set_item("ac_degenerate_sigma_min", ac.degenerate_sigma_min)?;
+    d.set_item("ac_degenerate_gram_det", ac.degenerate_gram_det)?;
+    d.set_item("ac_cross_lag_q4_residual", ac.cross_lag_q4_residual)?;
+    d.set_item("lorenz_rank", lor.rank)?;
+    d.set_item("lorenz_recovered_sigma", lor.recovered_sigma)?;
+    d.set_item("lorenz_recovered_rho", lor.recovered_rho)?;
+    d.set_item("lorenz_recovered_beta", lor.recovered_beta)?;
+    d.set_item("lorenz_max_param_err", lor.max_param_err)?;
+    d.set_item("lorenz_sigma_min", lor.sigma_min)?;
+    d.set_item("lorenz_obs_confounded_slope", lor.obs_confounded_slope)?;
+    d.set_item("lorenz_do_deconfounded_slope", lor.do_deconfounded_slope)?;
+    d.set_item("lorenz_abduced_exogenous_u", lor.abduced_exogenous_u)?;
+    d.set_item("circulant_rank_1shot", mat.circulant_rank_1shot)?;
+    d.set_item("circulant_max_err", mat.circulant_max_err)?;
+    d.set_item("circulant_gram_det", mat.circulant_gram_det)?;
+    d.set_item("hankel_1shot_rows", mat.hankel_1shot_rows)?;
+    d.set_item("hankel_1shot_cols", mat.hankel_1shot_cols)?;
+    d.set_item("hankel_1shot_rank", mat.hankel_1shot_rank)?;
+    d.set_item("hankel_2shot_rank", mat.hankel_2shot_rank)?;
+    d.set_item("hankel_2shot_max_err", mat.hankel_2shot_max_err)?;
+    d.set_item("hankel_2x2_two_probe_det", mat.hankel_2x2_two_probe_det)?;
+    d.set_item("switch_e_sym", mat.switch_e_sym)?;
+    d.set_item("switch_e_anti", mat.switch_e_anti)?;
+    d.set_item("switch_plucker_ratio", mat.switch_plucker_ratio)?;
+    d.set_item("vrc_destructive_minor", mat.vrc_destructive_minor)?;
+    d.set_item("jeffrey_do_estimate", qjl.jeffrey_do_estimate)?;
+    d.set_item("quantum_jeffrey_phase_avg", qjl.quantum_jeffrey_phase_avg)?;
+    d.set_item("qfim", qjl.qfim)?;
+    d.set_item("qcrb_1shot_var_bound", qjl.qcrb_1shot_var_bound)?;
+    d.set_item("qcrb_4shot_var_bound", qjl.qcrb_4shot_var_bound)?;
+    d.set_item("landauer_1shot_closed_heat", qjl.landauer_1shot_closed_heat)?;
+    d.set_item("landauer_10shot_closed_heat", qjl.landauer_10shot_closed_heat)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_qci_one_shot_sysid_literature_benchmarks<'py>(
+    py: Python<'py>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let duf = quantum_causal_inference::audit_osid_duffing_oscillator();
+    let pdes = quantum_causal_inference::audit_osid_2d_pdes_allen_cahn_elliptic_ns();
+    let qr = quantum_causal_inference::audit_osid_qi_ranard_hamiltonian();
+    let zg = quantum_causal_inference::audit_osid_zhao_and_goswami_literature_benchmarks();
+    let d = PyDict::new(py);
+    d.set_item("duffing_rank", duf.rank)?;
+    d.set_item("duffing_theta_udd", duf.theta_udd)?;
+    d.set_item("duffing_alpha", duf.recovered_alpha)?;
+    d.set_item("duffing_delta", duf.recovered_delta)?;
+    d.set_item("duffing_beta", duf.recovered_beta)?;
+    d.set_item("duffing_gamma", duf.recovered_gamma)?;
+    d.set_item("duffing_max_coeff_err", duf.max_coeff_err)?;
+    d.set_item("duffing_sigma_min", duf.sigma_min)?;
+    d.set_item("allen_cahn_2d_rank", pdes.allen_cahn_2d_rank)?;
+    d.set_item("allen_cahn_2d_max_coeff_err", pdes.allen_cahn_2d_max_coeff_err)?;
+    d.set_item("elliptic_coprime_rank", pdes.elliptic_coprime_rank)?;
+    d.set_item("elliptic_coprime_gram_det", pdes.elliptic_coprime_gram_det)?;
+    d.set_item("elliptic_coprime_ray_residual", pdes.elliptic_coprime_ray_residual)?;
+    d.set_item("elliptic_multimode_rank", pdes.elliptic_multimode_rank)?;
+    d.set_item("elliptic_multimode_max_err", pdes.elliptic_multimode_max_err)?;
+    d.set_item("ns_continuity_rank", pdes.ns_continuity_rank)?;
+    d.set_item("ns_continuity_sigma4", pdes.ns_continuity_sigma4)?;
+    d.set_item("ns_continuity_max_coeff_err", pdes.ns_continuity_max_coeff_err)?;
+    d.set_item("qi_ranard_num_qubits", qr.num_qubits)?;
+    d.set_item("qi_ranard_local_basis_dim", qr.local_basis_dim)?;
+    d.set_item("qi_ranard_hilbert_dim", qr.hilbert_dim)?;
+    d.set_item("qi_ranard_lambda1", qr.correlation_lambda1)?;
+    d.set_item("qi_ranard_lambda2", qr.correlation_lambda2)?;
+    d.set_item("qi_ranard_angle_err_rad", qr.projective_angle_err_rad)?;
+    d.set_item("qi_ranard_max_scaled_coeff_err", qr.max_scaled_coeff_err)?;
+    d.set_item("bairey_commutator_residual", qr.bairey_commutator_residual)?;
+    d.set_item("zhao_n5_switch_fisher", zg.zhao_n5_switch_fisher)?;
+    d.set_item("zhao_n5_switch_rmse_ideal", zg.zhao_n5_switch_rmse_ideal)?;
+    d.set_item("zhao_n5_switch_rmse_het", zg.zhao_n5_switch_rmse_het)?;
+    d.set_item("zhao_n5_fixed_heisenberg_bound", zg.zhao_n5_fixed_heisenberg_bound)?;
+    d.set_item("zhao_n15_switch_fisher", zg.zhao_n15_switch_fisher)?;
+    d.set_item("zhao_n15_switch_rmse_ideal", zg.zhao_n15_switch_rmse_ideal)?;
+    d.set_item("zhao_n15_fixed_heisenberg_bound", zg.zhao_n15_fixed_heisenberg_bound)?;
+    d.set_item("zhao_n15_advantage_ratio", zg.zhao_n15_advantage_ratio)?;
+    d.set_item("goswami_ideal_witness", zg.goswami_ideal_witness)?;
+    d.set_item("goswami_exp_witness", zg.goswami_exp_witness)?;
+    d.set_item("goswami_sigma", zg.goswami_sigma)?;
+    d.set_item("goswami_z_ideal_bound", zg.goswami_z_ideal_bound)?;
+    d.set_item("goswami_z_misaligned_bound", zg.goswami_z_misaligned_bound)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -1634,6 +1741,11 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(py_audit_yang_mills_higgs_cpt, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_qci_one_shot_sysid, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_qci_one_shot_sysid_literature_benchmarks,
+        m
+    )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;

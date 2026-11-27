@@ -1783,6 +1783,1232 @@ pub extern "C" fn signals_ncm_pressed_two_scale_steered_latent(
     )
 }
 
+// ---------------------------------------------------------------------------
+// 11. Quantum-Causal Grassmannian One-Shot System Identification (`QCI-OSID`)
+//     Reimplementing Boullé, Halikias, Otto, & Townsend (2026, PNAS 123(47))
+//     with Plabic/LGV Minors, Pearl do-Surgery, Gr_C(2,4) Quantum Switch,
+//     Jeffrey's Kinematic Engine, QFIM = 4 g_FS, & Closed-Loop Landauer Heat
+// ---------------------------------------------------------------------------
+
+/// Result of rank-revealing column-pivoted Householder QR (`G P = Q R`) on an `m x n`
+/// tested dictionary recovery matrix `G` (`Boullé et al. 2026` Algorithm 1 / `WIAS`).
+#[derive(Clone, Debug)]
+pub struct WiasQrAudit {
+    pub rows: usize,
+    pub cols: usize,
+    pub rank: usize,
+    pub sigma_min_est: f64,
+    pub sigma_max_est: f64,
+    pub cond_est: f64,
+    pub gram_det: f64,
+    pub coeffs: Vec<f64>,
+    pub residual_norm: f64,
+}
+
+/// Exact Cauchy–Binet / Plücker 3x2 Gram determinant identity:
+/// `det(G^T G) == Δ_01^2 + Δ_02^2 + Δ_12^2`.
+pub fn osid_cauchy_binet_2x3_gram_and_plucker(a: [f64; 3], b: [f64; 3]) -> (f64, f64) {
+    let norm_a_sq = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
+    let norm_b_sq = b[0] * b[0] + b[1] * b[1] + b[2] * b[2];
+    let dot_ab = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    let gram_det = norm_a_sq * norm_b_sq - dot_ab * dot_ab;
+    let d01 = plucker_2d_coord(a[0], a[1], b[0], b[1]);
+    let d02 = plucker_2d_coord(a[0], a[2], b[0], b[2]);
+    let d12 = plucker_2d_coord(a[1], a[2], b[1], b[2]);
+    let plucker_norm_sq = d01 * d01 + d02 * d02 + d12 * d12;
+    (gram_det, plucker_norm_sq)
+}
+
+/// Compute `det(G^T G)` via Gaussian elimination on the `n x n` normal matrix `G^T G`.
+pub fn matrix_gram_det(g_rows: &[Vec<f64>]) -> f64 {
+    if g_rows.is_empty() {
+        return 0.0;
+    }
+    let n = g_rows[0].len();
+    if n == 0 {
+        return 1.0;
+    }
+    let mut gram = vec![vec![0.0; n]; n];
+    for row in g_rows {
+        for i in 0..n {
+            for j in 0..n {
+                gram[i][j] += row[i] * row[j];
+            }
+        }
+    }
+    let mut det = 1.0;
+    for k in 0..n {
+        let mut piv_row = k;
+        let mut piv_val = gram[k][k].abs();
+        for r in (k + 1)..n {
+            if gram[r][k].abs() > piv_val {
+                piv_val = gram[r][k].abs();
+                piv_row = r;
+            }
+        }
+        if piv_val <= 1e-18 {
+            return 0.0;
+        }
+        if piv_row != k {
+            gram.swap(k, piv_row);
+            det = -det;
+        }
+        let diag = gram[k][k];
+        det *= diag;
+        for r in (k + 1)..n {
+            let factor = gram[r][k] / diag;
+            for c in k..n {
+                gram[r][c] -= factor * gram[k][c];
+            }
+        }
+    }
+    det
+}
+
+/// Rank-revealing column-pivoted Householder QR (`G P = Q R`) and least-squares solver
+/// for `G c = rhs`.
+pub fn wias_column_pivoted_qr_solve(
+    g_rows: &[Vec<f64>],
+    rhs: &[f64],
+    rank_tol: f64,
+) -> Result<WiasQrAudit, &'static str> {
+    let m = g_rows.len();
+    if m == 0 || rhs.len() != m {
+        return Err("mismatched row dimensions in wias_column_pivoted_qr_solve");
+    }
+    let n = g_rows[0].len();
+    if n == 0 || g_rows.iter().any(|r| r.len() != n) {
+        return Err("invalid column dimensions in wias_column_pivoted_qr_solve");
+    }
+
+    let mut r_mat = vec![vec![0.0; n]; m];
+    for i in 0..m {
+        for j in 0..n {
+            r_mat[i][j] = g_rows[i][j];
+        }
+    }
+    let mut qtb = rhs.to_vec();
+    let mut perm: Vec<usize> = (0..n).collect();
+    let steps = m.min(n);
+
+    for k in 0..steps {
+        // Choose remaining column with largest residual 2-norm
+        let mut best_col = k;
+        let mut best_norm_sq = -1.0;
+        for j in k..n {
+            let mut s = 0.0;
+            for i in k..m {
+                s += r_mat[i][j] * r_mat[i][j];
+            }
+            if s > best_norm_sq {
+                best_norm_sq = s;
+                best_col = j;
+            }
+        }
+        if best_col != k {
+            for i in 0..m {
+                r_mat[i].swap(k, best_col);
+            }
+            perm.swap(k, best_col);
+        }
+
+        let norm_x = (k..m).map(|i| r_mat[i][k] * r_mat[i][k]).sum::<f64>().sqrt();
+        if norm_x <= 1e-15 {
+            continue;
+        }
+        let x0 = r_mat[k][k];
+        let alpha = if x0 >= 0.0 { -norm_x } else { norm_x };
+        let v0 = x0 - alpha;
+        let mut v = vec![0.0; m - k];
+        v[0] = 1.0;
+        for i in 1..(m - k) {
+            v[i] = r_mat[k + i][k] / v0;
+        }
+        let beta = 2.0 / v.iter().map(|x| x * x).sum::<f64>();
+
+        for j in k..n {
+            let dot: f64 = (0..(m - k)).map(|i| v[i] * r_mat[k + i][j]).sum();
+            for i in 0..(m - k) {
+                r_mat[k + i][j] -= beta * dot * v[i];
+            }
+        }
+        let dot_rhs: f64 = (0..(m - k)).map(|i| v[i] * qtb[k + i]).sum();
+        for i in 0..(m - k) {
+            qtb[k + i] -= beta * dot_rhs * v[i];
+        }
+        r_mat[k][k] = alpha;
+        for i in (k + 1)..m {
+            r_mat[i][k] = 0.0;
+        }
+    }
+
+    let r_diag: Vec<f64> = (0..steps).map(|i| r_mat[i][i].abs()).collect();
+    let sigma_max_est = r_diag.iter().copied().fold(0.0_f64, f64::max);
+    let thresh = rank_tol * sigma_max_est.max(1.0);
+    let rank = r_diag.iter().filter(|&&d| d > thresh).count();
+    let sigma_min_est = if steps < n {
+        0.0
+    } else {
+        r_diag.iter().copied().fold(f64::INFINITY, f64::min)
+    };
+    let cond_est = if sigma_min_est > 1e-15 {
+        sigma_max_est / sigma_min_est
+    } else {
+        f64::INFINITY
+    };
+
+    // Back-substitution on the first `rank` pivoted columns
+    let mut c_perm = vec![0.0; n];
+    for idx in (0..rank).rev() {
+        let mut s = qtb[idx];
+        for j in (idx + 1)..rank {
+            s -= r_mat[idx][j] * c_perm[j];
+        }
+        c_perm[idx] = s / r_mat[idx][idx];
+    }
+    let mut coeffs = vec![0.0; n];
+    for (p_idx, &orig_idx) in perm.iter().enumerate() {
+        coeffs[orig_idx] = c_perm[p_idx];
+    }
+
+    let mut res_sq = 0.0;
+    for i in 0..m {
+        let pred: f64 = (0..n).map(|j| g_rows[i][j] * coeffs[j]).sum();
+        let diff = pred - rhs[i];
+        res_sq += diff * diff;
+    }
+
+    Ok(WiasQrAudit {
+        rows: m,
+        cols: n,
+        rank,
+        sigma_min_est,
+        sigma_max_est,
+        cond_est,
+        gram_det: matrix_gram_det(g_rows),
+        coeffs,
+        residual_norm: res_sq.sqrt(),
+    })
+}
+
+/// Benchmark 1: 1D Allen–Cahn / Ginzburg–Landau PDE one-shot recovery
+/// `c_1 u_xx + c_2 u + c_3 u^3 = f` on `(0, 1)` (`c^* = [-0.01, -1.0, 1.0]`).
+/// Compares a generic multi-mode Gaussian-seeded probe (`rank == 3`) against a
+/// single-mode harmonic degenerate state `u(x) = sin(pi x)` (`rank == 2 < 3`,
+/// Example 30 of `arXiv:2611.30470`).
+#[derive(Clone, Debug)]
+pub struct OsidAllenCahnAudit {
+    pub generic_rank: usize,
+    pub generic_coeffs: [f64; 3],
+    pub generic_max_coeff_err: f64,
+    pub generic_sigma_min: f64,
+    pub generic_gram_det: f64,
+    pub degenerate_rank: usize,
+    pub degenerate_sigma_min: f64,
+    pub degenerate_gram_det: f64,
+    pub cross_lag_q4_residual: f64,
+}
+
+pub fn audit_osid_allen_cahn_pde() -> OsidAllenCahnAudit {
+    let c_true = [-0.01_f64, -1.0_f64, 1.0_f64];
+    let n_grid = 256usize;
+    let dx = 1.0 / (n_grid as f64);
+    let r0 = 8usize;
+
+    // Generic multi-mode state sampled from deterministic Gaussian-like modal weights
+    let modal_weights = [0.85_f64, -0.62, 0.41, -0.33, 0.27, -0.19];
+
+    let assemble_allen_cahn = |weights: &[f64]| -> (Vec<Vec<f64>>, Vec<f64>) {
+        let mut g_mat = vec![vec![0.0_f64; 3]; r0];
+        let mut rhs = vec![0.0_f64; r0];
+        for p in 1..n_grid {
+            let x = (p as f64) * dx;
+            let mut u = 0.0;
+            let mut u_xx = 0.0;
+            for (m_idx, &w) in weights.iter().enumerate() {
+                let k = (m_idx + 1) as f64 * std::f64::consts::PI;
+                let s = (k * x).sin();
+                u += w * s;
+                u_xx -= w * k * k * s;
+            }
+            let u3 = u * u * u;
+            let f_val = c_true[0] * u_xx + c_true[1] * u + c_true[2] * u3;
+            for test_idx in 0..r0 {
+                let k_test = (test_idx + 1) as f64 * std::f64::consts::PI;
+                let psi = (k_test * x).sin() * dx;
+                g_mat[test_idx][0] += u_xx * psi;
+                g_mat[test_idx][1] += u * psi;
+                g_mat[test_idx][2] += u3 * psi;
+                rhs[test_idx] += f_val * psi;
+            }
+        }
+        (g_mat, rhs)
+    };
+
+    let (g_gen, rhs_gen) = assemble_allen_cahn(&modal_weights);
+    let qr_gen = wias_column_pivoted_qr_solve(&g_gen, &rhs_gen, 1e-10).unwrap();
+    let max_err = (0..3)
+        .map(|i| (qr_gen.coeffs[i] - c_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    // Degenerate single-harmonic state: u = sin(pi x) => u_xx = -pi^2 u (linearly dependent!)
+    // Use 2-term sub-dictionary {u_xx, u} to show exact harmonic rank collapse
+    let (g_deg_3, rhs_deg_3) = assemble_allen_cahn(&[1.0]);
+    let g_deg_2: Vec<Vec<f64>> = g_deg_3.iter().map(|row| vec![row[0], row[1]]).collect();
+    let rhs_deg_2: Vec<f64> = g_deg_3
+        .iter()
+        .map(|row| c_true[0] * row[0] + c_true[1] * row[1])
+        .collect();
+    let _ = rhs_deg_3;
+    let qr_deg = wias_column_pivoted_qr_solve(&g_deg_2, &rhs_deg_2, 1e-10).unwrap();
+
+    // Cross-lag 4D Klein quadric check escaping shared-anchor collapse
+    let cross_q4 = plucker_quadric_4d_residual(0.85, 0.0, 0.0, 0.0, 0.0, -0.62);
+
+    OsidAllenCahnAudit {
+        generic_rank: qr_gen.rank,
+        generic_coeffs: [qr_gen.coeffs[0], qr_gen.coeffs[1], qr_gen.coeffs[2]],
+        generic_max_coeff_err: max_err,
+        generic_sigma_min: qr_gen.sigma_min_est,
+        generic_gram_det: qr_gen.gram_det,
+        degenerate_rank: qr_deg.rank,
+        degenerate_sigma_min: qr_deg.sigma_min_est,
+        degenerate_gram_det: qr_deg.gram_det,
+        cross_lag_q4_residual: cross_q4,
+    }
+}
+
+/// Benchmark 2: Chaotic Lorenz ODE one-shot recovery from a single RK4 trajectory
+/// plus Pearl `do`-deconfounding vs. observational confounding bias & Giarmatzi–Costa
+/// abduction.
+#[derive(Clone, Debug)]
+pub struct OsidLorenzAudit {
+    pub rank: usize,
+    pub recovered_sigma: f64,
+    pub recovered_rho: f64,
+    pub recovered_beta: f64,
+    pub max_param_err: f64,
+    pub sigma_min: f64,
+    pub obs_confounded_slope: f64,
+    pub do_deconfounded_slope: f64,
+    pub abduced_exogenous_u: f64,
+}
+
+pub fn audit_osid_lorenz_ode() -> OsidLorenzAudit {
+    let sigma_true = 10.0_f64;
+    let rho_true = 28.0_f64;
+    let beta_true = 8.0_f64 / 3.0_f64;
+
+    let rhs_lorenz = |s: [f64; 3]| -> [f64; 3] {
+        [
+            sigma_true * (s[1] - s[0]),
+            s[0] * (rho_true - s[2]) - s[1],
+            s[0] * s[1] - beta_true * s[2],
+        ]
+    };
+
+    let n_steps = 3600usize;
+    let dt = 0.001_f64;
+    let mut traj = Vec::with_capacity(n_steps + 1);
+    let mut state = [1.0_f64, 1.0_f64, 1.0_f64];
+    traj.push(state);
+    for _ in 0..n_steps {
+        let k1 = rhs_lorenz(state);
+        let k2 = rhs_lorenz([
+            state[0] + 0.5 * dt * k1[0],
+            state[1] + 0.5 * dt * k1[1],
+            state[2] + 0.5 * dt * k1[2],
+        ]);
+        let k3 = rhs_lorenz([
+            state[0] + 0.5 * dt * k2[0],
+            state[1] + 0.5 * dt * k2[1],
+            state[2] + 0.5 * dt * k2[2],
+        ]);
+        let k4 = rhs_lorenz([
+            state[0] + dt * k3[0],
+            state[1] + dt * k3[1],
+            state[2] + dt * k3[2],
+        ]);
+        state = [
+            state[0] + (dt / 6.0) * (k1[0] + 2.0 * k2[0] + 2.0 * k3[0] + k4[0]),
+            state[1] + (dt / 6.0) * (k1[1] + 2.0 * k2[1] + 2.0 * k3[1] + k4[1]),
+            state[2] + (dt / 6.0) * (k1[2] + 2.0 * k2[2] + 2.0 * k3[2] + k4[2]),
+        ];
+        traj.push(state);
+    }
+
+    // Weak-form dictionary D(s) = [x, y, z, x*y, x*z, y*z] on 12 sub-windows with Simpson 1/3 quadrature
+    let n_windows = 12usize;
+    let win_len = n_steps / n_windows; // 300 steps (even)
+    let mut g_mat = vec![vec![0.0_f64; 6]; n_windows];
+    let mut b_x = vec![0.0_f64; n_windows];
+    let mut b_y = vec![0.0_f64; n_windows];
+    let mut b_z = vec![0.0_f64; n_windows];
+
+    for w in 0..n_windows {
+        let i0 = w * win_len;
+        let i1 = i0 + win_len;
+        let dur = (win_len as f64) * dt;
+        // Smooth C^1 compactly supported test function φ(τ) = sin^2(π τ) on [0, 1]:
+        // φ(0)=φ(1)=0, φ'(τ) = π sin(2π τ) / dur
+        for step in i0..=i1 {
+            let rel = step - i0;
+            let simp = if rel == 0 || rel == win_len {
+                1.0
+            } else if rel % 2 == 1 {
+                4.0
+            } else {
+                2.0
+            };
+            let wt = simp * (dt / 3.0);
+            let tau = (rel as f64) / (win_len as f64);
+            let phi = (std::f64::consts::PI * tau).sin().powi(2);
+            let dphi_dt = std::f64::consts::PI * (2.0 * std::f64::consts::PI * tau).sin() / dur;
+            let [x, y, z] = traj[step];
+            let terms = [x, y, z, x * y, x * z, y * z];
+            for j in 0..6 {
+                g_mat[w][j] += wt * phi * terms[j];
+            }
+            // Integration by parts: ∫ φ(t) u'(t) dt = -∫ φ'(t) u(t) dt
+            b_x[w] -= wt * dphi_dt * x;
+            b_y[w] -= wt * dphi_dt * y;
+            b_z[w] -= wt * dphi_dt * z;
+        }
+    }
+
+    let qr_x = wias_column_pivoted_qr_solve(&g_mat, &b_x, 1e-10).unwrap();
+    let qr_y = wias_column_pivoted_qr_solve(&g_mat, &b_y, 1e-10).unwrap();
+    let qr_z = wias_column_pivoted_qr_solve(&g_mat, &b_z, 1e-10).unwrap();
+
+    let rec_sigma = qr_x.coeffs[1]; // coefficient of y in x' = sigma*(y - x)
+    let rec_rho = qr_y.coeffs[0]; // coefficient of x in y' = rho*x - y - x*z
+    let rec_beta = -qr_z.coeffs[2]; // -coefficient of z in z' = x*y - beta*z
+    let err_vec = [
+        (qr_x.coeffs[0] + sigma_true).abs(),
+        (rec_sigma - sigma_true).abs(),
+        (rec_rho - rho_true).abs(),
+        (qr_y.coeffs[1] + 1.0).abs(),
+        (qr_y.coeffs[4] + 1.0).abs(),
+        (qr_z.coeffs[3] - 1.0).abs(),
+        (rec_beta - beta_true).abs(),
+    ];
+    let max_param_err = err_vec.iter().copied().fold(0.0_f64, f64::max);
+
+    // Pearl do-deconfounding & Giarmatzi-Costa abduction audit
+    let obs_slope = causal_observational_transfer(sigma_true, 0.45);
+    let do_slope = causal_interventional_do_transfer(sigma_true, 0.45);
+    let u_abduced = abduced_exogenous_state(sigma_true, 2.0, 21.5);
+
+    OsidLorenzAudit {
+        rank: qr_x.rank.min(qr_y.rank).min(qr_z.rank),
+        recovered_sigma: rec_sigma,
+        recovered_rho: rec_rho,
+        recovered_beta: rec_beta,
+        max_param_err,
+        sigma_min: qr_x.sigma_min_est,
+        obs_confounded_slope: obs_slope,
+        do_deconfounded_slope: do_slope,
+        abduced_exogenous_u: u_abduced,
+    }
+}
+
+/// Benchmark 3: Structured matrix families (`Circulant` 1-shot vs. `Hankel` 1-probe deficit
+/// & 2-probe recovery) + Coherent `Gr_C(2,4)` Quantum Switch & Pole-Free `VRC` 1-shot probe.
+#[derive(Clone, Debug)]
+pub struct OsidMatrixAndSwitchAudit {
+    pub circulant_rank_1shot: usize,
+    pub circulant_max_err: f64,
+    pub circulant_gram_det: f64,
+    pub hankel_1shot_rows: usize,
+    pub hankel_1shot_cols: usize,
+    pub hankel_1shot_rank: usize,
+    pub hankel_2shot_rank: usize,
+    pub hankel_2shot_max_err: f64,
+    pub hankel_2x2_two_probe_det: f64,
+    pub switch_e_sym: f64,
+    pub switch_e_anti: f64,
+    pub switch_plucker_ratio: f64,
+    pub vrc_destructive_minor: f64,
+}
+
+pub fn audit_osid_matrix_circulant_hankel_and_switch() -> OsidMatrixAndSwitchAudit {
+    // A. 4x4 Circulant matrix (N = 4): 1 random probe f = [1.2, -0.7, 0.5, 2.1]
+    let c_circ_true = [2.0_f64, -1.0, 0.5, 3.0];
+    let f_circ = [1.2_f64, -0.7, 0.5, 2.1];
+    let mut g_circ = vec![vec![0.0_f64; 4]; 4];
+    let mut u_circ = vec![0.0_f64; 4];
+    for row in 0..4 {
+        for basis_k in 0..4 {
+            let val = f_circ[(row + 4 - basis_k) % 4];
+            g_circ[row][basis_k] = val;
+            u_circ[row] += c_circ_true[basis_k] * val;
+        }
+    }
+    let qr_circ = wias_column_pivoted_qr_solve(&g_circ, &u_circ, 1e-10).unwrap();
+    let circ_err = (0..4)
+        .map(|i| (qr_circ.coeffs[i] - c_circ_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    // B. 3x3 Hankel matrix (N = 5 = 2*3 - 1): H_{ij} = c_{i+j}
+    let c_hank_true = [1.5_f64, -0.8, 2.2, 0.4, -1.1];
+    let f_h1 = [1.0_f64, 0.7, -0.4];
+    let f_h2 = [-0.5_f64, 1.3, 0.9];
+    let assemble_hankel_probe = |probe: &[f64; 3]| -> (Vec<Vec<f64>>, Vec<f64>) {
+        let mut g = vec![vec![0.0_f64; 5]; 3];
+        let mut u = vec![0.0_f64; 3];
+        for r in 0..3 {
+            for col in 0..3 {
+                let k = r + col;
+                g[r][k] += probe[col];
+                u[r] += c_hank_true[k] * probe[col];
+            }
+        }
+        (g, u)
+    };
+    let (g_h1, u_h1) = assemble_hankel_probe(&f_h1);
+    let qr_h1 = wias_column_pivoted_qr_solve(&g_h1, &u_h1, 1e-10).unwrap();
+    let (g_h2, u_h2) = assemble_hankel_probe(&f_h2);
+    let mut g_h_both = g_h1.clone();
+    g_h_both.extend(g_h2);
+    let mut u_h_both = u_h1.clone();
+    u_h_both.extend(u_h2);
+    let qr_h2 = wias_column_pivoted_qr_solve(&g_h_both, &u_h_both, 1e-10).unwrap();
+    let hank_err = (0..5)
+        .map(|i| (qr_h2.coeffs[i] - c_hank_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    // Exact 2x2 Hankel 2-probe analytic determinant: -f1 * (f0*g1 - f1*g0)
+    let h2_det = -f_h1[1] * plucker_2d_coord(f_h1[0], f_h1[1], f_h2[0], f_h2[1]);
+
+    // C. Coherent Quantum Switch 1-shot non-commuting probe:
+    // U_A = cos(theta)*I + i*sin(theta)*X at theta = pi/6, U_B = Z on |0>
+    let theta = std::f64::consts::FRAC_PI_6;
+    let ua = [
+        [(theta.cos(), 0.0), (0.0, theta.sin())],
+        [(0.0, theta.sin()), (theta.cos(), 0.0)],
+    ];
+    let ub = [[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (-1.0, 0.0)]];
+    let psi0 = [(1.0, 0.0), (0.0, 0.0)];
+    let (e_sym, e_anti, _) = evaluate_quantum_switch_2x2(&ua, &ub, &psi0);
+    let (_, _, sw_ratio) = quantum_switch_gr24_plucker_channels(e_sym, e_anti);
+
+    // Pole-free VRC destructive constraint cancellation at x_X = -1
+    let vrc_dest = qci_ncm_coherent_pairwise_code_prob(0.75, 0.25, -0.75, -0.25);
+
+    OsidMatrixAndSwitchAudit {
+        circulant_rank_1shot: qr_circ.rank,
+        circulant_max_err: circ_err,
+        circulant_gram_det: qr_circ.gram_det,
+        hankel_1shot_rows: 3,
+        hankel_1shot_cols: 5,
+        hankel_1shot_rank: qr_h1.rank,
+        hankel_2shot_rank: qr_h2.rank,
+        hankel_2shot_max_err: hank_err,
+        hankel_2x2_two_probe_det: h2_det,
+        switch_e_sym: e_sym,
+        switch_e_anti: e_anti,
+        switch_plucker_ratio: sw_ratio,
+        vrc_destructive_minor: vrc_dest,
+    }
+}
+
+/// Benchmark 4: Soft-partition noisy `Jeffrey's Kinematic Engine`, `QFIM = 4 g_FS` QCRB,
+/// and 1-shot vs. `M`-shot closed-loop Landauer heat.
+#[derive(Clone, Debug)]
+pub struct OsidNoisyJeffreyQfimLandauerAudit {
+    pub jeffrey_do_estimate: f64,
+    pub quantum_jeffrey_phase_avg: f64,
+    pub qfim: f64,
+    pub qcrb_1shot_var_bound: f64,
+    pub qcrb_4shot_var_bound: f64,
+    pub landauer_1shot_closed_heat: f64,
+    pub landauer_10shot_closed_heat: f64,
+}
+
+pub fn audit_osid_noisy_jeffrey_qfim_landauer() -> OsidNoisyJeffreyQfimLandauerAudit {
+    let q1 = 0.78_f64;
+    let q2 = 0.22_f64;
+    let c1_do = 10.0_f64;
+    let c2_do = 2.0_f64;
+    let j_do = jeffrey_kinematic_update(q1, q2, c1_do, c2_do);
+    let qj_plus = quantum_jeffrey_plucker_kinematic_update(q1, q2, c1_do, c2_do, 0.5, 0.6, 0.2, 0.4, -0.3);
+    let qj_minus =
+        quantum_jeffrey_plucker_kinematic_update(q1, q2, c1_do, c2_do, 0.5, 0.6, 0.2, -0.4, 0.3);
+    let phase_avg = 0.5 * (qj_plus + qj_minus);
+
+    let g_fs = 1.25_f64;
+    let qfim = 4.0 * g_fs;
+    let qcrb_1 = 1.0 / qfim;
+    let qcrb_4 = 1.0 / (4.0 * qfim);
+
+    let kbt_ln2 = 1.0_f64;
+    let fidelity = 0.99_f64;
+    let q_oh = 0.25_f64;
+    let h1 = closed_loop_erasure_and_memory_reset_heat(kbt_ln2, fidelity, q_oh);
+    let h10 = 10.0 * h1;
+
+    OsidNoisyJeffreyQfimLandauerAudit {
+        jeffrey_do_estimate: j_do,
+        quantum_jeffrey_phase_avg: phase_avg,
+        qfim,
+        qcrb_1shot_var_bound: qcrb_1,
+        qcrb_4shot_var_bound: qcrb_4,
+        landauer_1shot_closed_heat: h1,
+        landauer_10shot_closed_heat: h10,
+    }
+}
+
+/// Classical Jacobi eigenvalue decomposition for a small $n \times n$ real symmetric matrix,
+/// returning `(sorted_eigenvalues_asc, column_eigenvectors)` in row-major `[n][n]`.
+fn jacobi_symmetric_eigen(n: usize, a_in: &[f64]) -> (Vec<f64>, Vec<f64>) {
+    let mut a = a_in.to_vec();
+    let mut v = vec![0.0_f64; n * n];
+    for i in 0..n {
+        v[i * n + i] = 1.0;
+    }
+    for _sweep in 0..80 {
+        let mut max_off = 0.0_f64;
+        for p in 0..n {
+            for q in (p + 1)..n {
+                max_off = max_off.max(a[p * n + q].abs());
+            }
+        }
+        if max_off < 1e-15 {
+            break;
+        }
+        for p in 0..n {
+            for q in (p + 1)..n {
+                let apq = a[p * n + q];
+                if apq.abs() < 1e-16 {
+                    continue;
+                }
+                let app = a[p * n + p];
+                let aqq = a[q * n + q];
+                let tau = (aqq - app) / (2.0 * apq);
+                let t = if tau >= 0.0 {
+                    1.0 / (tau + (1.0 + tau * tau).sqrt())
+                } else {
+                    -1.0 / (-tau + (1.0 + tau * tau).sqrt())
+                };
+                let c = 1.0 / (1.0 + t * t).sqrt();
+                let s = t * c;
+                let h = s / (1.0 + c);
+
+                a[p * n + p] = app - t * apq;
+                a[q * n + q] = aqq + t * apq;
+                a[p * n + q] = 0.0;
+                a[q * n + p] = 0.0;
+
+                for r in 0..n {
+                    if r != p && r != q {
+                        let arp = a[r * n + p];
+                        let arq = a[r * n + q];
+                        let new_rp = arp - s * (arq + h * arp);
+                        let new_rq = arq + s * (arp - h * arq);
+                        a[r * n + p] = new_rp;
+                        a[p * n + r] = new_rp;
+                        a[r * n + q] = new_rq;
+                        a[q * n + r] = new_rq;
+                    }
+                }
+                for r in 0..n {
+                    let vrp = v[r * n + p];
+                    let vrq = v[r * n + q];
+                    v[r * n + p] = c * vrp - s * vrq;
+                    v[r * n + q] = s * vrp + c * vrq;
+                }
+            }
+        }
+    }
+    let mut order: Vec<usize> = (0..n).collect();
+    order.sort_by(|&i, &j| {
+        a[i * n + i]
+            .partial_cmp(&a[j * n + j])
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+    let evals: Vec<f64> = order.iter().map(|&idx| a[idx * n + idx]).collect();
+    let mut evecs = vec![0.0_f64; n * n];
+    for (col_new, &col_old) in order.iter().enumerate() {
+        for r in 0..n {
+            evecs[r * n + col_new] = v[r * n + col_old];
+        }
+    }
+    (evals, evecs)
+}
+
+/// Literature Benchmark 5 (`NBoulle/wias/examples/02_duffing.ipynb`, Fig. 1D):
+/// Forced Duffing oscillator `u'' + δ u' + α u + β u^3 = γ cos(ω t)`
+/// (`α=1, β=5, δ=0.02, γ=8, ω=0.5`, `u(0)=0.49671415, v(0)=0`)
+/// with 11-term polynomial dictionary `[u'', 1, u, v, u^2, uv, v^2, u^3, u^2v, uv^2, v^3]`
+/// and second-order weak integration by parts using compactly supported `sin^4(π τ)` test windows.
+#[derive(Clone, Debug)]
+pub struct OsidDuffingAudit {
+    pub rank: usize,
+    pub theta_udd: f64,
+    pub recovered_alpha: f64,
+    pub recovered_delta: f64,
+    pub recovered_beta: f64,
+    pub recovered_gamma: f64,
+    pub max_coeff_err: f64,
+    pub sigma_min: f64,
+}
+
+pub fn audit_osid_duffing_oscillator() -> OsidDuffingAudit {
+    let alpha = 1.0_f64;
+    let beta = 5.0_f64;
+    let delta = 0.02_f64;
+    let gamma = 8.0_f64;
+    let omega = 0.5_f64;
+
+    let dt = 0.001_f64;
+    let n_steps = 32_000_usize;
+    let mut us = Vec::with_capacity(n_steps + 1);
+    let mut vs = Vec::with_capacity(n_steps + 1);
+    let mut ts = Vec::with_capacity(n_steps + 1);
+    let mut u = 0.49671415_f64;
+    let mut v = 0.0_f64;
+
+    let rhs = |t_val: f64, u_val: f64, v_val: f64| -> (f64, f64) {
+        let du = v_val;
+        let dv = -delta * v_val - alpha * u_val - beta * u_val * u_val * u_val
+            + gamma * (omega * t_val).cos();
+        (du, dv)
+    };
+
+    for step in 0..=n_steps {
+        let t = step as f64 * dt;
+        ts.push(t);
+        us.push(u);
+        vs.push(v);
+        if step < n_steps {
+            let (k1u, k1v) = rhs(t, u, v);
+            let (k2u, k2v) = rhs(t + 0.5 * dt, u + 0.5 * dt * k1u, v + 0.5 * dt * k1v);
+            let (k3u, k3v) = rhs(t + 0.5 * dt, u + 0.5 * dt * k2u, v + 0.5 * dt * k2v);
+            let (k4u, k4v) = rhs(t + dt, u + dt * k3u, v + dt * k3v);
+            u += (dt / 6.0) * (k1u + 2.0 * k2u + 2.0 * k3u + k4u);
+            v += (dt / 6.0) * (k1v + 2.0 * k2v + 2.0 * k3v + k4v);
+        }
+    }
+
+    // 28 overlapping sub-windows of length 4000 steps (4.0 s) on [0, 32]
+    let n_rows = 28_usize;
+    let n_cols = 11_usize; // [u'', 1, u, v, u^2, uv, v^2, u^3, u^2v, uv^2, v^3]
+    let win_steps = 4_000_usize; // even for Simpson 1/3
+    let stride = 1_000_usize;
+    let win_dur = win_steps as f64 * dt;
+    let pi = std::f64::consts::PI;
+
+    let mut a_rows = Vec::with_capacity(n_rows);
+    let mut b_rhs = Vec::with_capacity(n_rows);
+
+    for k in 0..n_rows {
+        let i0 = k * stride;
+        let mut row = vec![0.0_f64; n_cols];
+        let mut rhs_int = 0.0_f64;
+        for m in 0..=win_steps {
+            let simp = if m == 0 || m == win_steps {
+                1.0
+            } else if m % 2 == 1 {
+                4.0
+            } else {
+                2.0
+            };
+            let w_simp = simp * dt / 3.0;
+            let tau = m as f64 / win_steps as f64;
+            let s = (pi * tau).sin();
+            let c = (pi * tau).cos();
+            let s2 = s * s;
+            let phi = s2 * s2; // sin^4(pi tau)
+            let dphi_dtau = 4.0 * pi * s2 * s * c;
+            let d2phi_dtau2 = 4.0 * pi * pi * s2 * (3.0 * c * c - s2);
+            let dphi = dphi_dtau / win_dur;
+            let d2phi = d2phi_dtau2 / (win_dur * win_dur);
+
+            let idx = i0 + m;
+            let uk = us[idx];
+            let vk = vs[idx];
+            let tk = ts[idx];
+
+            // Integration by parts: int phi u'' dt = int phi'' u dt (boundary = 0)
+            row[0] += w_simp * d2phi * uk;
+            row[1] += w_simp * phi * 1.0;
+            row[2] += w_simp * phi * uk;
+            row[3] += w_simp * (-dphi * uk); // weak velocity int phi u' = -int phi' u
+            row[4] += w_simp * phi * (uk * uk);
+            row[5] += w_simp * phi * (uk * vk);
+            row[6] += w_simp * phi * (vk * vk);
+            row[7] += w_simp * phi * (uk * uk * uk);
+            row[8] += w_simp * phi * (uk * uk * vk);
+            row[9] += w_simp * phi * (uk * vk * vk);
+            row[10] += w_simp * phi * (vk * vk * vk);
+            rhs_int += w_simp * phi * (gamma * (omega * tk).cos());
+        }
+        a_rows.push(row);
+        b_rhs.push(rhs_int);
+    }
+
+    let qr = wias_column_pivoted_qr_solve(&a_rows, &b_rhs, 1e-10)
+        .expect("Duffing weak system solve should succeed");
+    let theta_udd = qr.coeffs[0];
+    // Weak system: theta_0 * u'' + theta_1 * 1 + theta_2 * u + theta_3 * v + ... + theta_7 * u^3 = gamma cos(omega t)
+    // True coefficients in normalized form u'' = sum_k c_k lib_k + gamma_rec cos(omega t)
+    let norm_coeffs: Vec<f64> = qr.coeffs[1..].iter().map(|&c| -c / theta_udd).collect();
+    let recovered_alpha = -norm_coeffs[1]; // -(-alpha)
+    let recovered_delta = -norm_coeffs[2]; // -(-delta)
+    let recovered_beta = -norm_coeffs[6]; // -(-beta)
+    let recovered_gamma = gamma / theta_udd;
+
+    let true_norm = [0.0, -alpha, -delta, 0.0, 0.0, 0.0, -beta, 0.0, 0.0, 0.0];
+    let mut max_err = (recovered_gamma - gamma).abs();
+    for j in 0..10 {
+        max_err = max_err.max((norm_coeffs[j] - true_norm[j]).abs());
+    }
+
+    OsidDuffingAudit {
+        rank: qr.rank,
+        theta_udd,
+        recovered_alpha,
+        recovered_delta,
+        recovered_beta,
+        recovered_gamma,
+        max_coeff_err: max_err,
+        sigma_min: qr.sigma_min_est,
+    }
+}
+
+/// Literature Benchmark 6 (`NBoulle/wias/examples/03_allen_cahn.ipynb`, `04_navier_stokes.ipynb`,
+/// & `arXiv:2611.30470v1` Proposition 36):
+/// 2D Quintic Allen–Cahn (`0.25 Δu - 5 u - u^3 + u^5 = f`), 2D Elliptic coprime ray
+/// `(m, n) = (2, 3)` kernel collapse `ker = span{(9, -4)}`, and 2D Navier–Stokes continuity
+/// nullspace (`Dx ux + Dy uy = 0`).
+#[derive(Clone, Debug)]
+pub struct Osid2dPdesAudit {
+    pub allen_cahn_2d_rank: usize,
+    pub allen_cahn_2d_max_coeff_err: f64,
+    pub elliptic_coprime_rank: usize,
+    pub elliptic_coprime_gram_det: f64,
+    pub elliptic_coprime_ray_residual: f64,
+    pub elliptic_multimode_rank: usize,
+    pub elliptic_multimode_max_err: f64,
+    pub ns_continuity_rank: usize,
+    pub ns_continuity_sigma4: f64,
+    pub ns_continuity_max_coeff_err: f64,
+}
+
+pub fn audit_osid_2d_pdes_allen_cahn_elliptic_ns() -> Osid2dPdesAudit {
+    let pi = std::f64::consts::PI;
+    let n_grid = 32_usize;
+    let h = 1.0 / n_grid as f64;
+
+    // 1. 2D Quintic Allen–Cahn: 0.25 (u_xx + u_yy) - 5 u - u^3 + u^5 = f on (0,1)^2
+    let mut ac_rows = Vec::new();
+    let mut ac_rhs = Vec::new();
+    let modes = [
+        (1, 1), (2, 1), (1, 2), (2, 2),
+        (3, 1), (1, 3), (3, 2), (2, 3),
+        (3, 3), (4, 1), (1, 4), (4, 2),
+        (2, 4), (4, 3), (3, 4), (4, 4),
+    ];
+    // Use 4x4 overlapping localized compactly-supported test patches on (0,1)^2
+    // so {1, u, u^2, u^3, u^4, u^5} are well-conditioned across varying local amplitudes.
+    let patch_w = 0.4_f64;
+    for px in 0..4_usize {
+        for py in 0..4_usize {
+            let x0 = 0.05 + 0.16 * px as f64;
+            let y0 = 0.05 + 0.16 * py as f64;
+            let mut row = vec![0.0_f64; 9]; // {u_xx, u_xy, u_yy, 1, u, u^2, u^3, u^4, u^5}
+            let mut b_val = 0.0_f64;
+            for ix in 0..=n_grid {
+                let wx = if ix == 0 || ix == n_grid { 1.0 } else if ix % 2 == 1 { 4.0 } else { 2.0 };
+                let x = ix as f64 * h;
+                if x <= x0 || x >= x0 + patch_w {
+                    continue;
+                }
+                let vx = (pi * (x - x0) / patch_w).sin().powi(2);
+                for iy in 0..=n_grid {
+                    let wy = if iy == 0 || iy == n_grid { 1.0 } else if iy % 2 == 1 { 4.0 } else { 2.0 };
+                    let y = iy as f64 * h;
+                    if y <= y0 || y >= y0 + patch_w {
+                        continue;
+                    }
+                    let vy = (pi * (y - y0) / patch_w).sin().powi(2);
+                    let w = (wx * h / 3.0) * (wy * h / 3.0);
+
+                    // Smooth asymmetric Dirichlet state: u(x,y) = sin(pi x)sin(pi y) * g(x,y)
+                    let sx = (pi * x).sin();
+                    let sy = (pi * y).sin();
+                    let cx = (pi * x).cos();
+                    let cy = (pi * y).cos();
+                    let g = 1.0 + 0.6 * x + 0.5 * y * y + 0.3 * x * y;
+                    let gx = 0.6 + 0.3 * y;
+                    let gy = y + 0.3 * x;
+                    let gxx = 0.0;
+                    let gyy = 1.0;
+                    let gxy = 0.3;
+
+                    let u = sx * sy * g;
+                    let u_xx = sy * (-pi * pi * sx * g + 2.0 * pi * cx * gx + sx * gxx);
+                    let u_yy = sx * (-pi * pi * sy * g + 2.0 * pi * cy * gy + sy * gyy);
+                    let u_xy = pi * pi * cx * cy * g + pi * cx * sy * gy + pi * sx * cy * gx + sx * sy * gxy;
+                    let f = 0.25 * (u_xx + u_yy) - 5.0 * u - u * u * u + u.powi(5);
+
+                    let v = vx * vy;
+                    row[0] += w * v * u_xx;
+                    row[1] += w * v * u_xy;
+                    row[2] += w * v * u_yy;
+                    row[3] += w * v * 1.0;
+                    row[4] += w * v * u;
+                    row[5] += w * v * (u * u);
+                    row[6] += w * v * (u * u * u);
+                    row[7] += w * v * u.powi(4);
+                    row[8] += w * v * u.powi(5);
+                    b_val += w * v * f;
+                }
+            }
+            ac_rows.push(row);
+            ac_rhs.push(b_val);
+        }
+    }
+    let qr_ac = wias_column_pivoted_qr_solve(&ac_rows, &ac_rhs, 1e-11)
+        .expect("2D Allen-Cahn weak system solve should succeed");
+    let ac_true = [0.25, 0.0, 0.25, 0.0, -5.0, 0.0, -1.0, 0.0, 1.0];
+    let mut ac_err = 0.0_f64;
+    for j in 0..9 {
+        ac_err = ac_err.max((qr_ac.coeffs[j] - ac_true[j]).abs());
+    }
+
+    // 2. 2D Elliptic coprime ray (m=2, n=3) Proposition 36 degeneracy vs. multi-mode recovery
+    let ell_tests = [(1, 1), (2, 3), (4, 6), (1, 2)];
+    let mut deg_rows = Vec::new();
+    let mut deg_rhs = Vec::new();
+    let mut mul_rows = Vec::new();
+    let mut mul_rhs = Vec::new();
+    for &(kx, ky) in &ell_tests {
+        let mut r_deg = vec![0.0_f64; 2];
+        let mut b_deg = 0.0_f64;
+        let mut r_mul = vec![0.0_f64; 2];
+        let mut b_mul = 0.0_f64;
+        for ix in 0..=n_grid {
+            let wx = if ix == 0 || ix == n_grid { 1.0 } else if ix % 2 == 1 { 4.0 } else { 2.0 };
+            let x = ix as f64 * h;
+            for iy in 0..=n_grid {
+                let wy = if iy == 0 || iy == n_grid { 1.0 } else if iy % 2 == 1 { 4.0 } else { 2.0 };
+                let y = iy as f64 * h;
+                let w = (wx * h / 3.0) * (wy * h / 3.0);
+                let v = (kx as f64 * pi * x).sin() * (ky as f64 * pi * y).sin();
+
+                // Coprime ray (m=2, n=3): k=1 and k=2
+                let u_ray_xx = -pi * pi
+                    * (4.0 * (2.0 * pi * x).sin() * (3.0 * pi * y).sin()
+                        + 0.5 * 16.0 * (4.0 * pi * x).sin() * (6.0 * pi * y).sin());
+                let u_ray_yy = -pi * pi
+                    * (9.0 * (2.0 * pi * x).sin() * (3.0 * pi * y).sin()
+                        + 0.5 * 36.0 * (4.0 * pi * x).sin() * (6.0 * pi * y).sin());
+                r_deg[0] += w * v * u_ray_xx;
+                r_deg[1] += w * v * u_ray_yy;
+                b_deg += w * v * (2.0 * u_ray_xx + 3.0 * u_ray_yy);
+
+                // Off-ray multi-mode: add sin(pi x)sin(2 pi y)
+                let u_m_xx = u_ray_xx - pi * pi * (pi * x).sin() * (2.0 * pi * y).sin();
+                let u_m_yy = u_ray_yy - 4.0 * pi * pi * (pi * x).sin() * (2.0 * pi * y).sin();
+                r_mul[0] += w * v * u_m_xx;
+                r_mul[1] += w * v * u_m_yy;
+                b_mul += w * v * (2.0 * u_m_xx + 3.0 * u_m_yy);
+            }
+        }
+        deg_rows.push(r_deg);
+        deg_rhs.push(b_deg);
+        mul_rows.push(r_mul);
+        mul_rhs.push(b_mul);
+    }
+    let qr_deg = wias_column_pivoted_qr_solve(&deg_rows, &deg_rhs, 1e-10)
+        .expect("2D elliptic coprime system solve should succeed");
+    let qr_mul = wias_column_pivoted_qr_solve(&mul_rows, &mul_rhs, 1e-10)
+        .expect("2D elliptic multimode system solve should succeed");
+    let mul_err = (qr_mul.coeffs[0] - 2.0).abs().max((qr_mul.coeffs[1] - 3.0).abs());
+    let mut ray_res = 0.0_f64;
+    for r in &deg_rows {
+        ray_res = ray_res.max((9.0 * r[0] - 4.0 * r[1]).abs());
+    }
+
+    // 3. 2D Navier–Stokes divergence-free continuity nullspace: {Dx ux, Dy uy, Dx uy, Dy ux}
+    let mut ns_rows = Vec::new();
+    for &(kx, ky) in &modes {
+        let mut row = [0.0_f64; 4];
+        for ix in 0..=n_grid {
+            let wx = if ix == 0 || ix == n_grid { 1.0 } else if ix % 2 == 1 { 4.0 } else { 2.0 };
+            let x = ix as f64 * h;
+            for iy in 0..=n_grid {
+                let wy = if iy == 0 || iy == n_grid { 1.0 } else if iy % 2 == 1 { 4.0 } else { 2.0 };
+                let y = iy as f64 * h;
+                let w = (wx * h / 3.0) * (wy * h / 3.0);
+                // Streamfunction psi = sin^2(pi x) sin^2(pi y) -> u_x = psi_y, u_y = -psi_x
+                let sx = (pi * x).sin();
+                let _cx = (pi * x).cos();
+                let sy = (pi * y).sin();
+                let _cy = (pi * y).cos();
+                let s2x = (2.0 * pi * x).sin();
+                let c2x = (2.0 * pi * x).cos();
+                let s2y = (2.0 * pi * y).sin();
+                let c2y = (2.0 * pi * y).cos();
+
+                let dx_ux = pi * pi * s2x * s2y;
+                let dy_uy = -pi * pi * s2x * s2y;
+                let dx_uy = -2.0 * pi * pi * c2x * sy * sy;
+                let dy_ux = 2.0 * pi * pi * sx * sx * c2y;
+                let q_test = (kx as f64 * pi * x).sin() * (ky as f64 * pi * y).sin();
+                row[0] += w * q_test * dx_ux;
+                row[1] += w * q_test * dy_uy;
+                row[2] += w * q_test * dx_uy;
+                row[3] += w * q_test * dy_ux;
+            }
+        }
+        ns_rows.push(row);
+    }
+    let mut ns_gram = vec![0.0_f64; 16];
+    for r in &ns_rows {
+        for i in 0..4 {
+            for j in 0..4 {
+                ns_gram[i * 4 + j] += r[i] * r[j];
+            }
+        }
+    }
+    let (ns_evals, ns_evecs) = jacobi_symmetric_eigen(4, &ns_gram);
+    let sigma4 = ns_evals[0].max(0.0).sqrt();
+    let ns_rank = ns_evals.iter().filter(|&&ev| ev > 1e-18).count();
+    let v0 = ns_evecs[0]; // row 0, col 0
+    let scale = if v0.abs() > 1e-12 { 1.0 / v0 } else { 1.0 };
+    let rec_c = [
+        ns_evecs[0] * scale,
+        ns_evecs[4] * scale,
+        ns_evecs[8] * scale,
+        ns_evecs[12] * scale,
+    ];
+    let ns_true = [1.0, 1.0, 0.0, 0.0];
+    let mut ns_err = 0.0_f64;
+    for j in 0..4 {
+        ns_err = ns_err.max((rec_c[j] - ns_true[j]).abs());
+    }
+
+    Osid2dPdesAudit {
+        allen_cahn_2d_rank: qr_ac.rank,
+        allen_cahn_2d_max_coeff_err: ac_err,
+        elliptic_coprime_rank: qr_deg.rank,
+        elliptic_coprime_gram_det: qr_deg.gram_det,
+        elliptic_coprime_ray_residual: ray_res,
+        elliptic_multimode_rank: qr_mul.rank,
+        elliptic_multimode_max_err: mul_err,
+        ns_continuity_rank: ns_rank,
+        ns_continuity_sigma4: sigma4,
+        ns_continuity_max_coeff_err: ns_err,
+    }
+}
+
+/// Literature Benchmark 7 (`Qi & Ranard 2019`, *Quantum* 3, 159, `arXiv:1712.01850v2` &
+/// `Bairey, Arad, & Lindner 2019`, *PRL* 122, 020504, `arXiv:1807.04564v2`):
+/// Exact 4-qubit ($d = 16$) disordered transverse + longitudinal Ising spin chain,
+/// recovering all $N = 8$ Hamiltonian couplings up to scale from **one single ground eigenstate**
+/// via Qi–Ranard's $k$-correlation matrix `M_{ij}(v) = (1/2)⟨{L_i, L_j}⟩ - ⟨L_i⟩⟨L_j⟩`,
+/// and verifying Bairey–Arad–Lindner's commutator kernel `K c_true = 0`.
+#[derive(Clone, Debug)]
+pub struct OsidQiRanardHamiltonianAudit {
+    pub num_qubits: usize,
+    pub local_basis_dim: usize,
+    pub hilbert_dim: usize,
+    pub correlation_lambda1: f64,
+    pub correlation_lambda2: f64,
+    pub projective_angle_err_rad: f64,
+    pub max_scaled_coeff_err: f64,
+    pub bairey_commutator_residual: f64,
+}
+
+pub fn audit_osid_qi_ranard_hamiltonian() -> OsidQiRanardHamiltonianAudit {
+    let n_qubits = 4_usize;
+    let dim = 16_usize;
+    // Build real symmetric 16x16 Pauli operators on 4 qubits:
+    // L_0..L_2 = Z_i Z_{i+1}, L_3..L_6 = X_i, L_7 = Z_0 (breaks Z2 parity)
+    let pauli_z_at = |q: usize, basis: usize| -> f64 {
+        let bit = (basis >> (n_qubits - 1 - q)) & 1;
+        if bit == 0 { 1.0 } else { -1.0 }
+    };
+    let mut basis_ops: Vec<Vec<f64>> = Vec::with_capacity(8);
+    // Z_i Z_{i+1}
+    for i in 0..3 {
+        let mut mat = vec![0.0_f64; dim * dim];
+        for b in 0..dim {
+            mat[b * dim + b] = pauli_z_at(i, b) * pauli_z_at(i + 1, b);
+        }
+        basis_ops.push(mat);
+    }
+    // X_i
+    for i in 0..4 {
+        let mut mat = vec![0.0_f64; dim * dim];
+        let flip = 1_usize << (n_qubits - 1 - i);
+        for b in 0..dim {
+            mat[b * dim + (b ^ flip)] = 1.0;
+        }
+        basis_ops.push(mat);
+    }
+    // Z_0
+    {
+        let mut mat = vec![0.0_f64; dim * dim];
+        for b in 0..dim {
+            mat[b * dim + b] = pauli_z_at(0, b);
+        }
+        basis_ops.push(mat);
+    }
+
+    let c_true = [1.10_f64, -0.80, 1.30, 0.70, -0.50, 0.90, -0.40, 0.35];
+    let n_basis = basis_ops.len();
+    let mut h_mat = vec![0.0_f64; dim * dim];
+    for (k, op) in basis_ops.iter().enumerate() {
+        for idx in 0..(dim * dim) {
+            h_mat[idx] += c_true[k] * op[idx];
+        }
+    }
+
+    // Exact ground state |v0> via Jacobi eigensolver
+    let (_evals_h, evecs_h) = jacobi_symmetric_eigen(dim, &h_mat);
+    let v0: Vec<f64> = (0..dim).map(|r| evecs_h[r * dim]).collect();
+
+    let matvec = |m: &[f64], vec: &[f64]| -> Vec<f64> {
+        let mut out = vec![0.0_f64; dim];
+        for r in 0..dim {
+            let mut sum = 0.0;
+            for c in 0..dim {
+                sum += m[r * dim + c] * vec[c];
+            }
+            out[r] = sum;
+        }
+        out
+    };
+    let dot = |a: &[f64], b: &[f64]| -> f64 { a.iter().zip(b.iter()).map(|(&x, &y)| x * y).sum() };
+
+    let lv: Vec<Vec<f64>> = basis_ops.iter().map(|op| matvec(op, &v0)).collect();
+    let exp_l: Vec<f64> = lv.iter().map(|vec| dot(&v0, vec)).collect();
+
+    let mut corr_m = vec![0.0_f64; n_basis * n_basis];
+    for i in 0..n_basis {
+        for j in i..n_basis {
+            // (1/2)<v0|{L_i, L_j}|v0> = <L_i v0 | L_j v0> because L_i, L_j are Hermitian & real!
+            let val = dot(&lv[i], &lv[j]) - exp_l[i] * exp_l[j];
+            corr_m[i * n_basis + j] = val;
+            corr_m[j * n_basis + i] = val;
+        }
+    }
+
+    let (m_evals, m_evecs) = jacobi_symmetric_eigen(n_basis, &corr_m);
+    let w_rec: Vec<f64> = (0..n_basis).map(|r| m_evecs[r * n_basis]).collect();
+    let c_norm = dot(&c_true, &c_true).sqrt();
+    let c_unit: Vec<f64> = c_true.iter().map(|&x| x / c_norm).collect();
+    let raw_overlap = dot(&w_rec, &c_unit);
+    let sign = if raw_overlap >= 0.0 { 1.0 } else { -1.0 };
+    let overlap = raw_overlap.abs().min(1.0);
+    let angle_err = overlap.acos();
+
+    let mut max_scaled_err = 0.0_f64;
+    for i in 0..n_basis {
+        let rec_i = sign * w_rec[i] * c_norm;
+        max_scaled_err = max_scaled_err.max((rec_i - c_true[i]).abs());
+    }
+
+    // Bairey-Arad-Lindner commutator check: i[L_m, O_j] for real-antisymmetric O_j = i Y_q (q=0..3)
+    // Action of (i Y_q) on basis state b: bit_q == 0 -> -|b^flip>, bit_q == 1 -> +|b^flip>
+    let mut bairey_res = 0.0_f64;
+    let hv = matvec(&h_mat, &v0);
+    for q in 0..4 {
+        let flip = 1_usize << (n_qubits - 1 - q);
+        let mut oy_mat = vec![0.0_f64; dim * dim];
+        for b in 0..dim {
+            let bit = (b >> (n_qubits - 1 - q)) & 1;
+            let sgn = if bit == 0 { 1.0 } else { -1.0 };
+            oy_mat[(b ^ flip) * dim + b] = sgn;
+        }
+        let oyv = matvec(&oy_mat, &v0);
+        // <v0| [H, O_y] |v0> = <Hv | O_y v> - <O_y^T v | H v> = <Hv | Oy v> + <Oy v | Hv>
+        // Wait: (i Y_q)^T = -(i Y_q), so <v | H (i Y_q) - (i Y_q) H | v> = <Hv | Oy v> + <Oy v | Hv>
+        let comm_val = dot(&hv, &oyv) + dot(&oyv, &hv);
+        bairey_res = bairey_res.max(comm_val.abs());
+    }
+
+    OsidQiRanardHamiltonianAudit {
+        num_qubits: n_qubits,
+        local_basis_dim: n_basis,
+        hilbert_dim: dim,
+        correlation_lambda1: m_evals[0],
+        correlation_lambda2: m_evals[1],
+        projective_angle_err_rad: angle_err,
+        max_scaled_coeff_err: max_scaled_err,
+        bairey_commutator_residual: bairey_res,
+    }
+}
+
+/// Literature Benchmark 8 (`Zhao, Yang, & Chiribella 2020`, *PRL* 124, 190503, `arXiv:1912.02449v4`,
+/// `Goswami et al. 2018`, *PRL* 121, 090503, & `Rubino et al. 2017`, *Sci. Adv.* 3, e1602589):
+/// Quantum Switch $1/N^2$ super-Heisenberg metrology (`Eqs. 5–7`, `Fig. 3` parameters) and
+/// photonic experimental causal witness significance margins.
+#[derive(Clone, Debug)]
+pub struct OsidZhaoGoswamiBenchmarksAudit {
+    pub zhao_n5_switch_fisher: f64,
+    pub zhao_n5_switch_rmse_ideal: f64,
+    pub zhao_n5_switch_rmse_het: f64,
+    pub zhao_n5_fixed_heisenberg_bound: f64,
+    pub zhao_n15_switch_fisher: f64,
+    pub zhao_n15_switch_rmse_ideal: f64,
+    pub zhao_n15_fixed_heisenberg_bound: f64,
+    pub zhao_n15_advantage_ratio: f64,
+    pub goswami_ideal_witness: f64,
+    pub goswami_exp_witness: f64,
+    pub goswami_sigma: f64,
+    pub goswami_z_ideal_bound: f64,
+    pub goswami_z_misaligned_bound: f64,
+}
+
+pub fn audit_osid_zhao_and_goswami_literature_benchmarks() -> OsidZhaoGoswamiBenchmarksAudit {
+    let nu = 10.0_f64;
+    let x_bar = 0.25_f64;
+    let p_bar = 0.25_f64;
+    let z_min = x_bar.abs().min(p_bar.abs());
+    let zp_sq = x_bar * x_bar + p_bar * p_bar;
+
+    let n5 = 5.0_f64;
+    let e5 = 0.5_f64;
+    let f5 = n5.powi(4);
+    let rmse5_ideal = 1.0 / (nu.sqrt() * n5 * n5);
+    let rmse5_het = rmse5_ideal * (zp_sq / (zp_sq + 1.0 / (n5 * n5))).sqrt();
+    let fixed5 = z_min / (n5 * (8.0 * nu * e5).sqrt());
+
+    let n15 = 15.0_f64;
+    let e15 = 1.0_f64;
+    let f15 = n15.powi(4);
+    let rmse15_ideal = 1.0 / (nu.sqrt() * n15 * n15);
+    let fixed15 = z_min / (n15 * (8.0 * nu * e15).sqrt());
+    let ratio15 = fixed15 / rmse15_ideal;
+
+    let g_ideal = -0.248_f64;
+    let g_exp = -0.171_f64;
+    let g_sig = 0.009_f64;
+    let g_mis = -0.038_f64;
+    let z_ideal = (0.0 - g_exp) / g_sig;
+    let z_mis = (g_mis - g_exp) / g_sig;
+
+    OsidZhaoGoswamiBenchmarksAudit {
+        zhao_n5_switch_fisher: f5,
+        zhao_n5_switch_rmse_ideal: rmse5_ideal,
+        zhao_n5_switch_rmse_het: rmse5_het,
+        zhao_n5_fixed_heisenberg_bound: fixed5,
+        zhao_n15_switch_fisher: f15,
+        zhao_n15_switch_rmse_ideal: rmse15_ideal,
+        zhao_n15_fixed_heisenberg_bound: fixed15,
+        zhao_n15_advantage_ratio: ratio15,
+        goswami_ideal_witness: g_ideal,
+        goswami_exp_witness: g_exp,
+        goswami_sigma: g_sig,
+        goswami_z_ideal_bound: z_ideal,
+        goswami_z_misaligned_bound: z_mis,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2501,5 +3727,115 @@ mod tests {
         assert!(oam_cfg_wmt < seq_cfg_wmt);
         assert_eq!(ncm_nested_dropout_active_bragg_layers(5, 12), 5);
         assert!(ncm_nested_dropout_active_bragg_layers(20, 12) <= 12);
+    }
+
+    #[test]
+    fn qci_osid_one_shot_system_identification_audits_hold() {
+        // 1. Cauchy-Binet Plücker Gram identity on Gr_R(2, 3):
+        let (gram_det, plucker_sq) =
+            osid_cauchy_binet_2x3_gram_and_plucker([1.2, -0.5, 2.3], [0.4, 1.7, -0.9]);
+        assert!(gram_det > 0.0);
+        assert!((gram_det - plucker_sq).abs() < 1e-12);
+        let (deg_det, deg_plucker) =
+            osid_cauchy_binet_2x3_gram_and_plucker([1.2, -0.5, 2.3], [2.4, -1.0, 4.6]);
+        assert!(deg_det.abs() < 1e-12);
+        assert!(deg_plucker.abs() < 1e-12);
+
+        // 2. Benchmark 1: 1D Allen-Cahn PDE 1-shot recovery vs harmonic degeneracy:
+        let ac = audit_osid_allen_cahn_pde();
+        assert_eq!(ac.generic_rank, 3);
+        assert!(ac.generic_max_coeff_err < 1e-12);
+        assert!(ac.generic_sigma_min > 1e-5);
+        assert!(ac.generic_gram_det > 0.0);
+        assert_eq!(ac.degenerate_rank, 1);
+        assert!(ac.degenerate_sigma_min < 1e-12);
+        assert!(ac.degenerate_gram_det.abs() < 1e-24);
+        assert!(ac.cross_lag_q4_residual < 0.0);
+        assert!(ac.cross_lag_q4_residual.abs() > 0.5);
+
+        // 3. Benchmark 2: Chaotic Lorenz ODE 1-shot recovery + Pearl do-surgery:
+        let lor = audit_osid_lorenz_ode();
+        assert_eq!(lor.rank, 6, "{lor:?}");
+        assert!(lor.max_param_err < 1e-6, "{lor:?}");
+        assert!(lor.sigma_min > 1e-6);
+        assert!((lor.obs_confounded_slope - 10.45).abs() < 1e-12);
+        assert!((lor.do_deconfounded_slope - 10.0).abs() < 1e-12);
+        assert!((lor.abduced_exogenous_u - 1.5).abs() < 1e-12);
+
+        // 4. Benchmark 3: Circulant (1-shot) vs Hankel (1-probe deficit -> 2-probe) & Quantum Switch:
+        let mat = audit_osid_matrix_circulant_hankel_and_switch();
+        assert_eq!(mat.circulant_rank_1shot, 4);
+        assert!(mat.circulant_max_err < 1e-12);
+        assert!(mat.circulant_gram_det > 1.0);
+        assert_eq!(mat.hankel_1shot_rows, 3);
+        assert_eq!(mat.hankel_1shot_cols, 5);
+        assert_eq!(mat.hankel_1shot_rank, 3);
+        assert_eq!(mat.hankel_2shot_rank, 5);
+        assert!(mat.hankel_2shot_max_err < 1e-12);
+        assert!(mat.hankel_2x2_two_probe_det.abs() > 0.5);
+        assert!((mat.switch_e_sym + mat.switch_e_anti - 1.0).abs() < 1e-12);
+        assert!((mat.switch_e_sym - 0.75).abs() < 1e-12);
+        assert!((mat.switch_e_anti - 0.25).abs() < 1e-12);
+        assert!((mat.switch_plucker_ratio - (1.0 / 3.0)).abs() < 1e-12);
+        assert!(mat.vrc_destructive_minor.abs() < 1e-12);
+
+        // 5. Benchmark 4: Jeffrey's Kinematic Engine + QFIM = 4 g_FS QCRB + Landauer:
+        let qjl = audit_osid_noisy_jeffrey_qfim_landauer();
+        assert!((qjl.jeffrey_do_estimate - 8.24).abs() < 1e-12);
+        assert!((qjl.quantum_jeffrey_phase_avg - qjl.jeffrey_do_estimate).abs() < 1e-12);
+        assert!((qjl.qfim - 5.0).abs() < 1e-12);
+        assert!((qjl.qcrb_1shot_var_bound - 0.2).abs() < 1e-12);
+        assert!((qjl.qcrb_4shot_var_bound - 0.05).abs() < 1e-12);
+        assert!((qjl.landauer_1shot_closed_heat - 1.25).abs() < 1e-12);
+        assert!((qjl.landauer_10shot_closed_heat - 12.5).abs() < 1e-12);
+    }
+
+    #[test]
+    fn qci_osid_literature_check_figures_hold() {
+        // 1. Forced Duffing (NBoulle/wias/examples/02_duffing.ipynb, Fig. 1D)
+        let duf = audit_osid_duffing_oscillator();
+        assert_eq!(duf.rank, 11);
+        assert!((duf.recovered_alpha - 1.0).abs() < 1e-6);
+        assert!((duf.recovered_delta - 0.02).abs() < 1e-6);
+        assert!((duf.recovered_beta - 5.0).abs() < 1e-6);
+        assert!((duf.recovered_gamma - 8.0).abs() < 1e-6);
+        assert!(duf.max_coeff_err < 1e-6);
+
+        // 2. 2D Quintic Allen-Cahn, Elliptic Prop. 36 degeneracy, & Navier-Stokes continuity
+        let pdes = audit_osid_2d_pdes_allen_cahn_elliptic_ns();
+        assert_eq!(pdes.allen_cahn_2d_rank, 9);
+        assert!(pdes.allen_cahn_2d_max_coeff_err < 1e-10);
+        assert_eq!(pdes.elliptic_coprime_rank, 1);
+        assert!(pdes.elliptic_coprime_gram_det.abs() < 1e-6);
+        assert!(pdes.elliptic_coprime_ray_residual < 1e-12);
+        assert_eq!(pdes.elliptic_multimode_rank, 2);
+        assert!(pdes.elliptic_multimode_max_err < 1e-11);
+        assert_eq!(pdes.ns_continuity_rank, 3);
+        assert!(pdes.ns_continuity_sigma4 < 1e-12);
+        assert!(pdes.ns_continuity_max_coeff_err < 1e-12);
+
+        // 3. Qi & Ranard (2019) single-eigenstate 4-qubit Hamiltonian & Bairey et al. (2019) commutator
+        let qr = audit_osid_qi_ranard_hamiltonian();
+        assert_eq!(qr.num_qubits, 4);
+        assert_eq!(qr.local_basis_dim, 8);
+        assert_eq!(qr.hilbert_dim, 16);
+        assert!(qr.correlation_lambda1.abs() < 1e-12);
+        assert!(qr.correlation_lambda2 > 1e-3);
+        assert!(qr.projective_angle_err_rad < 1e-10);
+        assert!(qr.max_scaled_coeff_err < 1e-10);
+        assert!(qr.bairey_commutator_residual < 1e-12);
+
+        // 4. Zhao et al. (2020) super-Heisenberg Switch metrology & Goswami et al. (2018) witness
+        let zg = audit_osid_zhao_and_goswami_literature_benchmarks();
+        assert!((zg.zhao_n5_switch_fisher - 625.0).abs() < 1e-12);
+        assert!(zg.zhao_n5_switch_rmse_het < zg.zhao_n5_switch_rmse_ideal);
+        // At x_bar = p_bar = 0.25, E = 0.5, the 1/N^2 crossover occurs at N > sqrt(8E)/0.25 = 8;
+        // at N = 15 (E = 1.0, threshold 11.31), the Quantum Switch strictly beats fixed causal order.
+        assert!(zg.zhao_n5_fixed_heisenberg_bound < zg.zhao_n5_switch_rmse_ideal);
+        assert!((zg.zhao_n15_switch_fisher - 50_625.0).abs() < 1e-12);
+        assert!(zg.zhao_n15_switch_rmse_ideal < zg.zhao_n15_fixed_heisenberg_bound);
+        assert!(zg.zhao_n15_advantage_ratio > 1.3);
+        assert!(zg.goswami_z_ideal_bound >= 18.0);
+        assert!(zg.goswami_z_misaligned_bound > 14.0);
     }
 }

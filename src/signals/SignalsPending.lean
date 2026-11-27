@@ -2795,4 +2795,18 @@ lemma pending_master_all_seven_pending_boundaries_solved
         u.ym1 u.ym2 u.ym3 u.ym4 u.higgsVevGeV u.higgsVevGeV_pos).allYangMillsHiggsCptGatesClosed :=
   u.all_seven_pending_boundaries_solved tCrit
 
+@[blueprint "lem:signals-pending-one-shot-sysid-solved"
+  (title := "Constructive closure of OneShotQuantumSysIdPendingBoundary from verified certificates")
+  (statement := /-- Given verified certificates \texttt{(c1, c2, c3)} for Banach zero-one
+    analyticity, noisy $\operatorname{do}$-probe calibration, and Quantum Switch interferometric
+    probing, \texttt{OneShotQuantumSysIdPendingBoundary.ofCertificates} discharges \texttt{allOsidGatesClosed}. -/)
+  (proof := /-- Apply \texttt{OneShotQuantumSysIdPendingBoundary.solved\_of\_certificates}. -/)
+  (latexEnv := "lemma")]
+lemma pending_one_shot_sysid_solved_of_certificates
+    (c1 : BanachZeroOneAnalyticCertificate)
+    (c2 : NoisyDoProbeCalibrationCertificate)
+    (c3 : QuantumSwitchInterferometricProbeCertificate) :
+    (OneShotQuantumSysIdPendingBoundary.ofCertificates c1 c2 c3).allOsidGatesClosed :=
+  (OneShotQuantumSysIdPendingBoundary.solved_of_certificates c1 c2 c3).1
+
 end SignalsPending

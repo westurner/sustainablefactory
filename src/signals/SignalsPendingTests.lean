@@ -7826,4 +7826,22 @@ example
     (Signals.Pending.GlobalInfiniteZeroWeilCertificate.ofStripGaussian cStrip)
     cEv mult hMult tCrit
 
+example (dictSize : Nat) (hDict : 0 < dictSize) (gFs : ℝ) (hg : 0 < gFs) :
+    ¬ ({ dictionarySize := dictSize
+         dictionarySize_pos := hDict
+         fubiniStudyMetric := gFs
+         fubiniStudyMetric_pos := hg
+         banachZeroOneAnalyticClosed := False
+         noisyDoProbeCalibrated := False
+         quantumSwitchProbeValidated := False } :
+        Signals.Pending.OneShotQuantumSysIdPendingBoundary).allOsidGatesClosed :=
+  (Signals.Pending.osid_finite_certs_do_not_close_banach_or_lab_gates dictSize hDict gFs hg).2.2
+
+example
+    (c1 : Signals.Pending.BanachZeroOneAnalyticCertificate)
+    (c2 : Signals.Pending.NoisyDoProbeCalibrationCertificate)
+    (c3 : Signals.Pending.QuantumSwitchInterferometricProbeCertificate) :
+    (Signals.Pending.OneShotQuantumSysIdPendingBoundary.ofCertificates c1 c2 c3).allOsidGatesClosed :=
+  SignalsPending.pending_one_shot_sysid_solved_of_certificates c1 c2 c3
+
 end SignalsPendingTests

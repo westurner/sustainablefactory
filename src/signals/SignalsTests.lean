@@ -9868,4 +9868,47 @@ example (z : ℕ → ℂ) (m : ℕ → ℕ)
   Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros
     z m hReal hGauss δ P
 
+example (a0 a1 a2 b0 b1 b2 lam c1 c2 f0 f1 g0 g1 c_true b_conf alpha x_obs y_obs x_cf : ℝ)
+    (g_fs m_shots kBT_ln2 fidelity q_overhead : ℝ)
+    (hg_fs : 0 < g_fs) (hm : 1 < m_shots) (hk : 0 < kBT_ln2) (hq : 0 ≤ q_overhead) :
+    Signals.QuantumCausalInference.osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 =
+        Signals.QuantumCausalInference.osidPlucker2x3NormSq a0 a1 a2 b0 b1 b2 ∧
+      Signals.QuantumCausalInference.osidRecovery2x3GramDet a0 a1 a2 (lam * a0) (lam * a1) (lam * a2) = 0 ∧
+      Signals.QuantumCausalInference.osidCirculantParamCount 4 ≤
+        Signals.QuantumCausalInference.osidMultiProbeEquationCount 1 4 ∧
+      Signals.QuantumCausalInference.osidMultiProbeEquationCount 1 3 <
+        Signals.QuantumCausalInference.osidHankelParamCount 3 ∧
+      Signals.QuantumCausalInference.osidHankelParamCount 3 ≤
+        Signals.QuantumCausalInference.osidMultiProbeEquationCount 2 3 ∧
+      Signals.QuantumCausalInference.osidObservationalSlope c_true b_conf -
+          Signals.QuantumCausalInference.osidDoInterventionalSlope c_true b_conf = b_conf ∧
+      Signals.QuantumCausalInference.osidQcrbVarianceLowerBound 1 g_fs = (4 * g_fs)⁻¹ ∧
+      Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead <
+        Signals.QuantumCausalInference.osidMultiShotClosedLoopHeat m_shots kBT_ln2 fidelity q_overhead := by
+  have h := Signals.QuantumCausalInference.qci_osid_cauchy_binet_hankel_do_qfim_and_landauer_identities
+    a0 a1 a2 b0 b1 b2 lam c1 c2 3 (by decide) (by decide) f0 f1 g0 g1
+    c_true b_conf alpha x_obs y_obs x_cf g_fs m_shots kBT_ln2 fidelity q_overhead
+    hg_fs hm hk hq
+  exact ⟨h.1, h.2.2.1, by unfold Signals.QuantumCausalInference.osidCirculantParamCount Signals.QuantumCausalInference.osidMultiProbeEquationCount; omega,
+    h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
+example (theta_j theta_udd lam a b w0 w1 eps delta_m lam2_lo lam2_hi : ℝ)
+    (hudd : theta_udd ≠ 0) (hlam : lam ≠ 0)
+    (heps : 0 ≤ eps) (hdm : 0 ≤ delta_m) (hl2_pos : 0 < lam2_lo) (hl2_le : lam2_lo ≤ lam2_hi)
+    (k m n : ℕ) :
+    Signals.QuantumCausalInference.osidDuffingNormalizedCoeff (lam * theta_j) (lam * theta_udd) =
+        Signals.QuantumCausalInference.osidDuffingNormalizedCoeff theta_j theta_udd ∧
+      Signals.QuantumCausalInference.osidEllipticModeKernelResidual ((n : ℝ) ^ 2) (-((m : ℝ) ^ 2)) k m n = 0 ∧
+      Signals.QuantumCausalInference.osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) b (-a) = 0 ∧
+      Signals.QuantumCausalInference.osidQiRanardDavisKahanBound eps delta_m lam2_hi ≤
+        Signals.QuantumCausalInference.osidQiRanardDavisKahanBound eps delta_m lam2_lo ∧
+      Signals.QuantumCausalInference.osidZhaoSwitchRmseSq 10 15 <
+        Signals.QuantumCausalInference.osidZhaoFixedOrderRmseSq 1 10 1 15 ∧
+      (18 : ℝ) ≤ Signals.QuantumCausalInference.osidGoswamiWitnessSigmaMargin 0 (-171 / 1000) (9 / 1000) := by
+  have h := Signals.QuantumCausalInference.qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_identities
+    theta_j theta_udd lam hudd hlam k m n a b w0 w1 eps delta_m lam2_lo lam2_hi
+    heps hdm hl2_pos hl2_le
+  exact ⟨h.1, h.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests
