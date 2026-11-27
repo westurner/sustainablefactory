@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Unified Pending Boundary Closure Plan: Cross-Domain Certificate Architecture Across All Seven PendingBoundary Gates" href="unified-pending-closure-roadmap-plan.html" />
+    <link rel="prev" title="Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary" href="yang-mills-higgs-cpt-pending-closure-plan.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#unified-architecture-from-yangmills-higgs-mass-generation-to-jost-cpt-sakharov-baryogenesis">1. Unified Architecture: From Yang–Mills &amp; Higgs Mass Generation to Jost CPT &amp; Sakharov Baryogenesis</a></li>
+<li><a class="reference internal" href="#the-yangmills-mass-gap-audit-of-toupins-celestial-haar-construction">2. The Yang–Mills Mass Gap &amp; Audit of Toupin’s Celestial/Haar Construction</a><ul>
+<li><a class="reference internal" href="#rigorously-verified-lattice-transmutation-haar-projection-structures">2.1 Rigorously Verified Lattice, Transmutation, &amp; Haar Projection Structures</a></li>
+<li><a class="reference internal" href="#why-the-clay-millennium-continuum-mass-gap-remains-open-yangmillsmassgaphiggscptpendingboundary">2.2 Why the Clay Millennium Continuum Mass Gap Remains Open (<code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code>)</a></li>
+<li><a class="reference internal" href="#constructive-gap-closure-contracts-certificate-solver-signals-yangmillshiggscpt-sec-7-signals-pending">2.3 Constructive Gap-Closure Contracts &amp; Certificate Solver (<code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code> Sec. 7 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#electroweak-higgs-symmetry-breaking-cp-violation-sakharovs-equilibrium-theorem">3. Electroweak Higgs Symmetry Breaking, CP Violation, &amp; Sakharov’s Equilibrium Theorem</a><ul>
+<li><a class="reference internal" href="#mexican-hat-unitary-gauge-self-conjugacy-higgs-ssb-electroweak-masses-and-self-conjugacy">3.1 Mexican-Hat Unitary Gauge &amp; Self-Conjugacy (<code class="docutils literal notranslate"><span class="pre">higgs_ssb_electroweak_masses_and_self_conjugacy</span></code>)</a></li>
+<li><a class="reference internal" href="#higgs-cp-mixing-asymmetry-sakharov-equilibrium-null-theorem">3.2 Higgs CP-Mixing Asymmetry &amp; Sakharov Equilibrium Null Theorem</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#josts-axiomatic-anti-unitary-cpt-involution-theta-cpt">4. Jost’s Axiomatic Anti-Unitary CPT Involution (<span class="math notranslate nohighlight">\(\Theta = CPT\)</span>)</a></li>
+<li><a class="reference internal" href="#reproducible-verification-provenance-metadata">5. Reproducible Verification &amp; Provenance Metadata</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="yang-mills-higgs-cpt-pending-closure-plan.html" title="Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary" accesskey="P">previous </a></li>
+              <li><a href="unified-pending-closure-roadmap-plan.html" title="Unified Pending Boundary Closure Plan: Cross-Domain Certificate Architecture Across All Seven PendingBoundary Gates" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#unified-architecture-from-yangmills-higgs-mass-generation-to-jost-cpt-sakharov-baryogenesis">1. Unified Architecture: From Yang–Mills &amp; Higgs Mass Generation to Jost CPT &amp; Sakharov Baryogenesis</a></li>
+<li><a class="reference internal" href="#the-yangmills-mass-gap-audit-of-toupins-celestial-haar-construction">2. The Yang–Mills Mass Gap &amp; Audit of Toupin’s Celestial/Haar Construction</a><ul>
+<li><a class="reference internal" href="#rigorously-verified-lattice-transmutation-haar-projection-structures">2.1 Rigorously Verified Lattice, Transmutation, &amp; Haar Projection Structures</a></li>
+<li><a class="reference internal" href="#why-the-clay-millennium-continuum-mass-gap-remains-open-yangmillsmassgaphiggscptpendingboundary">2.2 Why the Clay Millennium Continuum Mass Gap Remains Open (<code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code>)</a></li>
+<li><a class="reference internal" href="#constructive-gap-closure-contracts-certificate-solver-signals-yangmillshiggscpt-sec-7-signals-pending">2.3 Constructive Gap-Closure Contracts &amp; Certificate Solver (<code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code> Sec. 7 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#electroweak-higgs-symmetry-breaking-cp-violation-sakharovs-equilibrium-theorem">3. Electroweak Higgs Symmetry Breaking, CP Violation, &amp; Sakharov’s Equilibrium Theorem</a><ul>
+<li><a class="reference internal" href="#mexican-hat-unitary-gauge-self-conjugacy-higgs-ssb-electroweak-masses-and-self-conjugacy">3.1 Mexican-Hat Unitary Gauge &amp; Self-Conjugacy (<code class="docutils literal notranslate"><span class="pre">higgs_ssb_electroweak_masses_and_self_conjugacy</span></code>)</a></li>
+<li><a class="reference internal" href="#higgs-cp-mixing-asymmetry-sakharov-equilibrium-null-theorem">3.2 Higgs CP-Mixing Asymmetry &amp; Sakharov Equilibrium Null Theorem</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#josts-axiomatic-anti-unitary-cpt-involution-theta-cpt">4. Jost’s Axiomatic Anti-Unitary CPT Involution (<span class="math notranslate nohighlight">\(\Theta = CPT\)</span>)</a></li>
+<li><a class="reference internal" href="#reproducible-verification-provenance-metadata">5. Reproducible Verification &amp; Provenance Metadata</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="yang-mills-higgs-cpt-pending-closure-plan.html"
+                          title="previous chapter">Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="unified-pending-closure-roadmap-plan.html"
+                          title="next chapter">Unified Pending Boundary Closure Plan: Cross-Domain Certificate Architecture Across All Seven <code class="docutils literal notranslate"><span class="pre">PendingBoundary</span></code> Gates</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="yangmills-mass-gap-electroweak-higgs-symmetry-breaking-cp-violation-sakharov-thermal-equilibrium-nullity-and-josts-anti-unitary-cpt-involution-in-lean-4-rust-pyo3-and-sympy">
+<span id="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper"></span><h1>Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy<a class="headerlink" href="#yangmills-mass-gap-electroweak-higgs-symmetry-breaking-cp-violation-sakharov-thermal-equilibrium-nullity-and-josts-anti-unitary-cpt-involution-in-lean-4-rust-pyo3-and-sympy" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>High Energy Physics - Theory (<code class="docutils literal notranslate"><span class="pre">hep-th</span></code>); High Energy Physics - Phenomenology (<code class="docutils literal notranslate"><span class="pre">hep-ph</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Logic &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Verified Mathematical &amp; Computational Core (<code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code>, Rust/PyO3, SymPy, 45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>):</strong> We prove with zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> axioms in <a class="reference download internal" download="" href="_downloads/0905ed7b6c83058884493c695ae55bb4/YangMillsHiggsCPT.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/YangMillsHiggsCPT.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">3,837</span></code> Lake jobs via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>), cross-checked in <a class="reference download internal" download="" href="_downloads/b9e6a9c2cbc2773ba69fc49fd5f0e78d/yang_mills_higgs_cpt.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/yang_mills_higgs_cpt.rs</span></code></a> and <a class="reference download internal" download="" href="_downloads/73a1c0320d47fa482f4953054f65db2e/yang_mills_higgs_cpt.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/yang_mills_higgs_cpt.py</span></code></a> / <a class="reference download internal" download="" href="_downloads/5de3c8ac05bc3558520fa24ed85ed175/test_yang_mills_higgs_cpt.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_yang_mills_higgs_cpt.py</span></code></a>: <strong>(1)</strong> lattice Euclidean transfer-matrix spectral gap <span class="math notranslate nohighlight">\(\Delta_{\mathrm{lat}} = \ln(\lambda_0/\lambda_1) &gt; 0\)</span> with exponential Schwinger decay <span class="math notranslate nohighlight">\((\lambda_1/\lambda_0)^t = e^{-t\Delta_{\mathrm{lat}}}\)</span>, strong-coupling Casimir heat-kernel suppression <span class="math notranslate nohighlight">\(c_\lambda(\beta) = e^{-C_2(\lambda)/\beta}\)</span> and gap bound <span class="math notranslate nohighlight">\(1 - (\beta/(2N^2))^{d_{\min}}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{SU}(3)\)</span> asymptotic freedom <span class="math notranslate nohighlight">\(b_0 = 11\)</span>, dimensional transmutation <span class="math notranslate nohighlight">\(0 &lt; \Lambda_{\mathrm{YM}}(\mu) &lt; \mu\)</span>, Haar singlet projection idempotence, and Toupin’s GKO coset mass formula <span class="math notranslate nohighlight">\(M_k = \frac{2N}{k+N}\Lambda_{\mathrm{QCD}}\)</span> (<code class="docutils literal notranslate"><span class="pre">TOUTYM</span></code> 2026 / <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> Eq. 11.70 vs. Sugawara Eq. 11.75), <strong>(2)</strong> electroweak <span class="math notranslate nohighlight">\(\mathrm{SU}(2)_L\times\mathrm{U}(1)_Y\to\mathrm{U}(1)_{\mathrm{EM}}\)</span> Higgs spontaneous symmetry breaking (<code class="docutils literal notranslate"><span class="pre">higgs_ssb_electroweak_masses_and_self_conjugacy</span></code>: zero linear tadpole, <span class="math notranslate nohighlight">\(m_H^2 = 2\mu^2 = 2\lambda v^2\)</span>, <span class="math notranslate nohighlight">\(\rho_{\mathrm{EW}} = 1\)</span>, <span class="math notranslate nohighlight">\(m_W &lt; m_Z\)</span>, <span class="math notranslate nohighlight">\(Q_H = 0 \implies \bar{H} = H\)</span>), <strong>(3)</strong> mixed CP-even/CP-odd Higgs decay asymmetry <span class="math notranslate nohighlight">\(\mathcal{A}_{\mathrm{CP}} = \kappa\tilde{\kappa}\sin(2\alpha_{\mathrm{CP}})\)</span> and the <strong>Sakharov Equilibrium Null Theorem</strong> (<span class="math notranslate nohighlight">\(\langle B\rangle_\beta = 0\)</span> identically under CPT mass equality), and <strong>(4)</strong> Jost’s axiomatic anti-unitary CPT involution <span class="math notranslate nohighlight">\(\Theta = CPT\)</span> (<code class="docutils literal notranslate"><span class="pre">jost_cpt_antiunitary_involution_and_cp_t_equivalence</span></code>: anti-linearity, <span class="math notranslate nohighlight">\(\langle\Theta\psi,\Theta\phi\rangle = \langle\phi,\psi\rangle\)</span>, <span class="math notranslate nohighlight">\(\Theta^2 = \pm I\)</span>, exact particle/antiparticle mass degeneracy, and exact <span class="math notranslate nohighlight">\(CP\)</span> violation <span class="math notranslate nohighlight">\(\iff\)</span> <span class="math notranslate nohighlight">\(T\)</span> violation).</p></li>
+<li><p><strong>Open Millennium, Collider, &amp; Cosmological Boundary (<code class="docutils literal notranslate"><span class="pre">Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary</span></code>):</strong> Isolated in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> and <a class="reference download internal" download="" href="_downloads/8ee158010b46f17d7bf83573a9c4cdb2/SignalsPending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/SignalsPending.lean</span></code></a>. This paper explicitly does <strong>not</strong> claim to close the Clay Mathematics Institute 4D continuum Yang–Mills existence and mass-gap Millennium Prize problem <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id580" title="Arthur Jaffe and Edward Witten. Quantum Yang–Mills theory. In James Carlson, Arthur Jaffe, and Andrew Wiles, editors, The Millennium Prize Problems, pages 129–152. Clay Mathematics Institute / American Mathematical Society, 2006.">Jaffe and Witten, 2006</a>]</span>; it preserves exact epistemic boundaries for continuum <span class="math notranslate nohighlight">\(a\to 0, V\to\infty\)</span> Osterwalder–Schrader reconstruction, non-perturbative celestial-QCD reconstruction <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id575" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>]</span>, BSM Higgs CP discovery at ATLAS/CMS, and first-order electroweak baryogenesis.</p></li>
+</ul>
+</li>
+<li><p><strong>Primary Chat &amp; Scholarly Provenance:</strong></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/ec04a54a57eabc885ed3e4d145e5b529/Google-Search_higgs-boson-and-antimatter_20261126-1551.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md</span></code></a> (lines 13–84: Higgs self-conjugacy, ATLAS/CMS CP-violating Higgs decays, Jost’s CPT theorem, Sakharov non-equilibrium constraint, and Yang–Mills Mass Gap comparison) <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id578" title="Wesley Turner and Google Search AI. Higgs boson and antimatter, cp violation, cpt/jost t-involution, and the yang–mills mass gap. AI chat log, 2026. Source: data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md, lines 1–187.">Turner and AI, 2026</a>]</span>.</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Google</span> <span class="pre">Search</span> <span class="pre">AI</span> <span class="pre">-</span> <span class="pre">Review</span> <span class="pre">Toupin's</span> <span class="pre">Mass</span> <span class="pre">Gap</span> <span class="pre">solution</span> <span class="pre">-</span> <span class="pre">Google</span> <span class="pre">Search</span> <span class="pre">-</span> <span class="pre">2026-11-26_15-52.md</span></code></a> (lines 13–45, 60–90: audit of Toupin’s <code class="docutils literal notranslate"><span class="pre">TOUTYM</span></code> 2026 preprint, celestial CFT rigor, IR soft-gluon tension, <span class="math notranslate nohighlight">\(k\)</span> vs. <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>, and CPT/Jost/Higgs synthesis) <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id577" title="Wesley Turner and Google Search AI. Review toupin's mass gap solution, celestial ir divergences, and models 16a &amp; 16b. AI chat log, 2026. Source: data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 1–204.">Turner and AI, 2026</a>]</span>.</p></li>
+<li><p>Toupin’s primary works audited: <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id575" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>]</span>, <span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id576" title="Daniel Toupin. The reason the Riemann hypothesis is true: $\re (\delta ) = d/2$. PhilPapers preprint, 2026. PDF: https://philpapers.org/archive/TOUTRR.pdf; companion to TOUQGA-2.pdf Section 7.3.4. URL: https://philpapers.org/rec/TOUTRR.">Toupin, 2026</a>]</span>, and <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id533" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (<a class="reference download internal" download="" href="_downloads/50d7d29d5a476f336f360151c4d17754/TOUQGA-2.pdf"><code class="xref download docutils literal notranslate"><span class="pre">data/papers/TOUQGA-2.pdf</span></code></a>, Ch. 11, pp. 613–658).</p></li>
+<li><p>Companion repository plans &amp; papers:</p>
+<ul>
+<li><p><a class="reference internal" href="yang-mills-higgs-cpt-pending-closure-plan.html"><span class="std std-doc">Constructive Gap-Closure Plan &amp; Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html"><span class="std std-doc">Infrared Divergence Resolution in Celestial Holography, <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span> Bridging, and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"><span class="std std-doc">Celestial Holography, Plancherel–Unruh Loop Weights, &amp; Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">15a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">15b</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html"><span class="std std-doc">Antimatter Annihilation, Photonic Deflection, &amp; CERN <code class="docutils literal notranslate"><span class="pre">ALPHA-g</span></code> Evaluation</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"><span class="std std-doc">Adelic Carleman–Weierstrass Determinants, Schwinger 2-Cocycle, &amp; <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Bridges</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Fundamental particle physics rests on two distinct mass-generation mechanisms anchored in a single axiomatic quantum field theory (QFT) symmetry bedrock: <strong>(1)</strong> the <strong>electroweak Higgs mechanism</strong> <span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id587" title="Peter W. Higgs. Broken symmetries and the masses of gauge bosons. Physical Review Letters, 13(16):508–509, 1964. URL: https://doi.org/10.1103/PhysRevLett.13.508, doi:10.1103/PhysRevLett.13.508.">Higgs, 1964</a>, <a class="reference internal" href="#id588" title="F. Englert and R. Brout. Broken symmetry and the mass of gauge vector mesons. Physical Review Letters, 13(9):321–323, 1964. URL: https://doi.org/10.1103/PhysRevLett.13.321, doi:10.1103/PhysRevLett.13.321.">Englert and Brout, 1964</a>, <a class="reference internal" href="#id589" title="G. S. Guralnik, C. R. Hagen, and T. W. B. Kibble. Global conservation laws and massless particles. Physical Review Letters, 13(20):585–587, 1964. URL: https://doi.org/10.1103/PhysRevLett.13.585, doi:10.1103/PhysRevLett.13.585.">Guralnik <em>et al.</em>, 1964</a>, <a class="reference internal" href="#id590" title="Steven Weinberg. A model of leptons. Physical Review Letters, 19(21):1264–1266, 1967. URL: https://doi.org/10.1103/PhysRevLett.19.1264, doi:10.1103/PhysRevLett.19.1264.">Weinberg, 1967</a>]</span>, which generates masses for <span class="math notranslate nohighlight">\(W^\pm\)</span>, <span class="math notranslate nohighlight">\(Z\)</span>, and charged fermions via spontaneous symmetry breaking (<span class="math notranslate nohighlight">\(v \approx 246.22\text{ GeV}\)</span>) while leaving the neutral CP-even Higgs boson <span class="math notranslate nohighlight">\(H\)</span> as its own antiparticle (<span class="math notranslate nohighlight">\(\bar{H} = H\)</span>), and <strong>(2)</strong> the <strong>non-Abelian Yang–Mills Mass Gap</strong> <span class="bibtex-citation" id="id9">[<a class="reference internal" href="#id580" title="Arthur Jaffe and Edward Witten. Quantum Yang–Mills theory. In James Carlson, Arthur Jaffe, and Andrew Wiles, editors, The Millennium Prize Problems, pages 129–152. Clay Mathematics Institute / American Mathematical Society, 2006.">Jaffe and Witten, 2006</a>, <a class="reference internal" href="#id579" title="C. N. Yang and R. L. Mills. Conservation of isotopic spin and isotopic gauge invariance. Physical Review, 96(1):191–195, 1954. URL: https://doi.org/10.1103/PhysRev.96.191, doi:10.1103/PhysRev.96.191.">Yang and Mills, 1954</a>]</span>, where pure gauge self-interaction and dimensional transmutation generate <span class="math notranslate nohighlight">\(\sim 99\%\)</span> of visible baryonic mass and glueball excitations (<span class="math notranslate nohighlight">\(\Delta \approx 1.6\text{ GeV}\)</span>) without a background scalar field. Governing both mechanisms are <strong>Jost’s axiomatic CPT theorem</strong> (<span class="math notranslate nohighlight">\(\Theta = CPT\)</span> anti-unitary involution) <span class="bibtex-citation" id="id10">[<a class="reference internal" href="#id538" title="Res Jost. Eine Bemerkung zum CTP-Theorem. Helvetica Physica Acta, 30:409–416, 1957.">Jost, 1957</a>]</span> and <strong>Sakharov’s baryogenesis conditions</strong> <span class="bibtex-citation" id="id11">[<a class="reference internal" href="#id591" title="A. D. Sakharov. Violation of $CP$ invariance, $C$ asymmetry, and baryon asymmetry of the universe. JETP Letters, 5:24–27, 1967.">Sakharov, 1967</a>]</span>: because <span class="math notranslate nohighlight">\(\Theta\)</span> commutes with any local Lorentz-invariant Hamiltonian, particles and antiparticles must share exact equilibrium rest masses, <span class="math notranslate nohighlight">\(CP\)</span> violation is strictly equivalent to <span class="math notranslate nohighlight">\(T\)</span> violation, and any matter–antimatter asymmetry produced via CP-violating Higgs interactions must occur out of thermal equilibrium.</p>
+<p>We formalize this entire chain in Lean 4 (<code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code>), Rust/PyO3 (<code class="docutils literal notranslate"><span class="pre">yang_mills_higgs_cpt.rs</span></code>), and SymPy/45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>, while conducting an explicit epistemic audit of Daniel Toupin’s 2026 PhilArchive preprint <span class="bibtex-citation" id="id12">[<a class="reference internal" href="#id575" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>]</span> and monograph Chapter 11 <span class="bibtex-citation" id="id13">[<a class="reference internal" href="#id533" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> alongside our <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.RHGaps</span></code> and <code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge</span></code> framework.</p>
+</section>
+<hr class="docutils" />
+<section id="unified-architecture-from-yangmills-higgs-mass-generation-to-jost-cpt-sakharov-baryogenesis">
+<h2>1. Unified Architecture: From Yang–Mills &amp; Higgs Mass Generation to Jost CPT &amp; Sakharov Baryogenesis<a class="headerlink" href="#unified-architecture-from-yangmills-higgs-mass-generation-to-jost-cpt-sakharov-baryogenesis" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    YM[&quot;1. Yang–Mills Mass Gap (Pure Gauge, No Scalar)\n• Asymptotic freedom b_0 = 11 &gt; 0, Λ_YM &lt; μ\n• Strong-coupling OS2 + Casimir suppression e^{-C_2/β}\n• Haar singlet projection P²=P (Elitzur confinement)\n• Open Clay Millennium: a→0, V→∞ continuum OS limit&quot;]
+    HIGGS[&quot;2. Electroweak Higgs SSB (SU(2)_L × U(1)_Y → U(1)_EM)\n• V(Φ) = -μ²\|Φ\|² + λ\|Φ\|⁴, v = √(μ²/λ) ≈ 246.22 GeV\n• Zero tadpole, m_H = 125.25 GeV, ρ_EW = 1\n• Self-conjugate neutral scalar: Q_H = 0 ⇒ H̄ = H&quot;]
+    CP[&quot;3. CP Violation &amp; Higgs Decay Probes\n• SM CKM Jarlskog invariant J_CP ≈ 3.1 × 10⁻⁵\n• BSM Higgs CP-mixing A_CP = κ κ̃ sin(2α_CP)\n• Probed in H → τ⁺τ⁻, ZZ* → 4ℓ, γγ&quot;]
+    JOST[&quot;4. Jost Anti-Unitary CPT Involution (Θ = CPT)\n• Θ(cψ) = c̄ Θ(ψ), ⟨Θψ, Θφ⟩ = ⟨φ, ψ⟩, Θ² = ±I\n• [H, Θ] = 0 ⇒ H(Θψ) = E(Θψ) (exact m = m̄)\n• [H, U_CP] = 0 ⇔ [H, T] = 0 (CP viol. ⇔ T viol.)&quot;]
+    SAKH[&quot;5. Sakharov Equilibrium Null Theorem\n• E_k⁺ = E_k⁻ &amp; B_k⁻ = -B_k⁺ ⇒ ⟨B⟩_β = 0 identically\n• Forces non-equilibrium electroweak phase transition\n• Connects to Model 16a/16b &amp; ALPHA-g (χ²=25/17)&quot;]
+
+    YM --&gt; JOST
+    HIGGS --&gt; CP --&gt; JOST --&gt; SAKH
+    </pre></section>
+<hr class="docutils" />
+<section id="the-yangmills-mass-gap-audit-of-toupins-celestial-haar-construction">
+<h2>2. The Yang–Mills Mass Gap &amp; Audit of Toupin’s Celestial/Haar Construction<a class="headerlink" href="#the-yangmills-mass-gap-audit-of-toupins-celestial-haar-construction" title="Link to this heading">¶</a></h2>
+<section id="rigorously-verified-lattice-transmutation-haar-projection-structures">
+<h3>2.1 Rigorously Verified Lattice, Transmutation, &amp; Haar Projection Structures<a class="headerlink" href="#rigorously-verified-lattice-transmutation-haar-projection-structures" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT.yang_mills_mass_gap_and_transmutation_identities</span></code> and <code class="docutils literal notranslate"><span class="pre">toupin_strong_coupling_casimir_and_gko_ratio_identities</span></code>, we prove five foundational structures shared by constructive lattice gauge theory <span class="bibtex-citation" id="id14">[<a class="reference internal" href="#id582" title="Konrad Osterwalder and Erhard Seiler. Gauge field theories on a lattice. Annals of Physics, 110(2):440–471, 1978. URL: https://doi.org/10.1016/0003-4916(78)90039-8, doi:10.1016/0003-4916(78)90039-8.">Osterwalder and Seiler, 1978</a>, <a class="reference internal" href="#id583" title="Erhard Seiler. Gauge Theories as a Problem of Constructive Quantum Field Theory and Statistical Mechanics. Volume 159 of Lecture Notes in Physics. Springer, 1982. URL: https://doi.org/10.1007/3-540-11559-5, doi:10.1007/3-540-11559-5.">Seiler, 1982</a>, <a class="reference internal" href="#id584" title="S. Elitzur. Impossibility of spontaneously breaking local symmetries. Physical Review D, 12(12):3978–3982, 1975. URL: https://doi.org/10.1103/PhysRevD.12.3978, doi:10.1103/PhysRevD.12.3978.">Elitzur, 1975</a>]</span> and Chapter 11 of <span class="bibtex-citation" id="id15">[<a class="reference internal" href="#id533" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (pp. 613–658):</p>
+<ol class="arabic simple">
+<li><p><strong>Asymptotic Freedom &amp; Dimensional Transmutation (<span class="bibtex-citation" id="id16">[<a class="reference internal" href="#id585" title="David J. Gross and Frank Wilczek. Ultraviolet behavior of non-abelian gauge theories. Physical Review Letters, 30(26):1343–1346, 1973. URL: https://doi.org/10.1103/PhysRevLett.30.1343, doi:10.1103/PhysRevLett.30.1343.">Gross and Wilczek, 1973</a>, <a class="reference internal" href="#id586" title="H. David Politzer. Reliable perturbative results for strong interactions? Physical Review Letters, 30(26):1346–1349, 1973. URL: https://doi.org/10.1103/PhysRevLett.30.1346, doi:10.1103/PhysRevLett.30.1346.">Politzer, 1973</a>]</span>):</strong>
+For <span class="math notranslate nohighlight">\(\mathrm{SU}(N_c)\)</span> with <span class="math notranslate nohighlight">\(n_f\)</span> quark flavors, <span class="math notranslate nohighlight">\(b_0 = (11 N_c - 2 n_f)/3\)</span> equals <span class="math notranslate nohighlight">\(11 &gt; 0\)</span> in pure <span class="math notranslate nohighlight">\(\mathrm{SU}(3)\)</span>, yielding <span class="math notranslate nohighlight">\(0 &lt; \Lambda_{\mathrm{YM}}(\mu) = \mu \exp(-8\pi^2/(b_0 g^2)) &lt; \mu\)</span> (<code class="docutils literal notranslate"><span class="pre">0.0887</span> <span class="pre">GeV</span></code> at <span class="math notranslate nohighlight">\(\mu = M_Z, \alpha_s = 0.118, n_f = 5\)</span> in Rust/45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>).</p></li>
+<li><p><strong>Lattice Osterwalder–Schrader Transfer Gap &amp; Exponential Decay:</strong>
+For <span class="math notranslate nohighlight">\(0 &lt; \lambda_1 &lt; \lambda_0\)</span>, the Euclidean transfer matrix <span class="math notranslate nohighlight">\(T = e^{-aH}\)</span> establishes <span class="math notranslate nohighlight">\(\Delta_{\mathrm{lat}} = \ln(\lambda_0/\lambda_1) &gt; 0\)</span> and exponential Schwinger clustering <span class="math notranslate nohighlight">\((\lambda_1/\lambda_0)^t = \exp(-t\Delta_{\mathrm{lat}})\)</span>, bounded at strong coupling (<span class="math notranslate nohighlight">\(\beta &lt; 2N^2\)</span>) by <code class="docutils literal notranslate"><span class="pre">strongCouplingTransferGapLowerBound</span></code> <span class="math notranslate nohighlight">\(1 - (\beta/(2N^2))^{d_{\min}} \in (0, 1)\)</span> (<code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> Theorem 11.19, Eq. 11.29) and Peter–Weyl Casimir heat-kernel suppression <span class="math notranslate nohighlight">\(c_\lambda(\beta) = e^{-C_2(\lambda)/\beta}\)</span> (<code class="docutils literal notranslate"><span class="pre">Lemma</span> <span class="pre">11.18</span></code>, Eq. 11.27).</p></li>
+<li><p><strong>Haar Singlet Projection &amp; Elitzur Confinement (Abelian &amp; Non-Abelian):</strong>
+The normalized group-averaging projector <span class="math notranslate nohighlight">\(P_{\mathrm{singlet}} = \frac{1}{|G|}\sum_{g \in G} U_g\)</span> satisfies left/right gauge invariance (<span class="math notranslate nohighlight">\(U_h P = P U_h = P\)</span>), idempotence (<span class="math notranslate nohighlight">\(P^2 = P\)</span>), Hermiticity (<span class="math notranslate nohighlight">\(P^\dagger = P\)</span>), and exact annihilation of every zero-sum colored state, verified in Lean 4 both for <code class="docutils literal notranslate"><span class="pre">ZMod</span> <span class="pre">n</span></code> (<code class="docutils literal notranslate"><span class="pre">finiteGroupHaarSingletProjector</span></code>) and for <strong>arbitrary finite-group unitary representations</strong> (<code class="docutils literal notranslate"><span class="pre">FiniteGroupUnitaryRep.haarProjector</span></code> in Section 6, <code class="docutils literal notranslate"><span class="pre">finiteGroup_haarProjector_properties</span></code>). In Rust (<code class="docutils literal notranslate"><span class="pre">verify_zn_haar_singlet_projector</span></code>, <code class="docutils literal notranslate"><span class="pre">verify_s3_nonabelian_haar_singlet_projector</span></code>) and SymPy, we explicitly sum all group permutation matrices for both <span class="math notranslate nohighlight">\(Z_4\)</span> and the non-Abelian symmetric group <span class="math notranslate nohighlight">\(S_3\)</span> (<span class="math notranslate nohighlight">\(|S_3| = 6\)</span>) acting on <span class="math notranslate nohighlight">\(\mathbb{C}^3 = \mathbf{1}_{\mathrm{triv}} \oplus \mathbf{2}_{\mathrm{std}}\)</span>, confirming <span class="math notranslate nohighlight">\(\operatorname{Tr}(P_{S_3}) = 1\)</span>, <span class="math notranslate nohighlight">\(P_{S_3}^2 = P_{S_3}\)</span>, and annihilation of the 2D standard representation (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-15</span></code>).</p></li>
+<li><p><strong>Toupin’s Tree-Level GKO / Sugawara Glueball Formula (<code class="docutils literal notranslate"><span class="pre">TOUTYM</span></code> vs. <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code>):</strong>
+We record and audit the exact algebraic discrepancy between Toupin’s 2026 preprint <span class="bibtex-citation" id="id17">[<a class="reference internal" href="#id575" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>]</span> (<a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">chat</span> <span class="pre">log</span></code></a>, line 24: <span class="math notranslate nohighlight">\(M_k = \frac{2N}{k+N}\Lambda_{\mathrm{QCD}}\)</span>, giving <span class="math notranslate nohighlight">\(300\text{ MeV}\)</span> for <span class="math notranslate nohighlight">\(N=3, k=1, \Lambda_{\mathrm{QCD}} = 200\text{ MeV}\)</span>) and Eq. (11.70) vs. Eq. (11.75) of <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> (p. 640, where Eq. 11.70 states <span class="math notranslate nohighlight">\(\frac{2N}{k+N}\Lambda_{\mathrm{QCD}}\)</span> while Eq. 11.75 and p. 641 evaluate <span class="math notranslate nohighlight">\(\frac{N}{k+N}\Lambda_{\mathrm{QCD}} = \frac{3}{4}\Lambda_{\mathrm{QCD}} \approx 165\text{ MeV}\)</span>—both below lattice QCD’s <span class="math notranslate nohighlight">\(m_{0^{++}} \approx 1.61\text{ GeV}\)</span> by a factor of <span class="math notranslate nohighlight">\(5\text{–}10\)</span>).</p></li>
+</ol>
+</section>
+<section id="why-the-clay-millennium-continuum-mass-gap-remains-open-yangmillsmassgaphiggscptpendingboundary">
+<h3>2.2 Why the Clay Millennium Continuum Mass Gap Remains Open (<code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code>)<a class="headerlink" href="#why-the-clay-millennium-continuum-mass-gap-remains-open-yangmillsmassgaphiggscptpendingboundary" title="Link to this heading">¶</a></h3>
+<p>Following our chat audit (<a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">chat</span> <span class="pre">log</span></code></a>, lines 32–37, 60–90) and Toupin’s own Remark 11.47 (<code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code>, pp. 642–643), four obstructions keep the continuum problem in <code class="docutils literal notranslate"><span class="pre">Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary</span></code>:</p>
+<ol class="arabic simple">
+<li><p><strong>Joint Continuum &amp; Infinite-Volume Limit (<span class="math notranslate nohighlight">\(a \to 0, V \to \infty\)</span>):</strong> Strong-coupling cluster expansions converge only for <span class="math notranslate nohighlight">\(\beta &lt; \beta_c\)</span>, whereas the continuum limit requires <span class="math notranslate nohighlight">\(\beta \to \infty\)</span> while keeping a uniform spectral gap <span class="math notranslate nohighlight">\(M &gt; 0\)</span> <span class="bibtex-citation" id="id18">[<a class="reference internal" href="#id580" title="Arthur Jaffe and Edward Witten. Quantum Yang–Mills theory. In James Carlson, Arthur Jaffe, and Andrew Wiles, editors, The Millennium Prize Problems, pages 129–152. Clay Mathematics Institute / American Mathematical Society, 2006.">Jaffe and Witten, 2006</a>, <a class="reference internal" href="#id581" title="Konrad Osterwalder and Robert Schrader. Axioms for Euclidean Green's functions. Communications in Mathematical Physics, 31(2):83–112, 1973. URL: https://doi.org/10.1007/BF01645738, doi:10.1007/BF01645738.">Osterwalder and Schrader, 1973</a>]</span>.</p></li>
+<li><p><strong>Celestial Soft-Gluon vs. Confinement Tension:</strong> Celestial Kac–Moody Ward identities rely on massless soft gluons at <span class="math notranslate nohighlight">\(\mathcal{I}^\pm\)</span>, which do not exist as asymptotic LSZ states in a confining theory with <span class="math notranslate nohighlight">\(\Delta &gt; 0\)</span> (remediated in our <a class="reference internal" href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html"><span class="std std-doc">IR Regularization &amp; Models <code class="docutils literal notranslate"><span class="pre">16a</span></code>/<code class="docutils literal notranslate"><span class="pre">16b</span></code> paper</span></a> via Källén–Lehmann thresholding).</p></li>
+<li><p><strong>Kac–Moody Level <span class="math notranslate nohighlight">\(k\)</span> vs. Dimensional Transmutation:</strong> Pure Yang–Mills trades its dimensionless coupling <span class="math notranslate nohighlight">\(g^2\)</span> for <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>, leaving no independent integer level <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+<li><p><strong>Unverified Peer-Review Status:</strong> <span class="bibtex-citation" id="id19">[<a class="reference internal" href="#id575" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>]</span> is an unrefereed PhilArchive preprint and does not establish 4D Osterwalder–Schrader reflection positivity or temperedness from 2D WZW/KZ correlators (<code class="docutils literal notranslate"><span class="pre">Spectral</span> <span class="pre">Transfer</span> <span class="pre">Conjecture</span> <span class="pre">11.32</span></code>).</p></li>
+</ol>
+</section>
+<section id="constructive-gap-closure-contracts-certificate-solver-signals-yangmillshiggscpt-sec-7-signals-pending">
+<h3>2.3 Constructive Gap-Closure Contracts &amp; Certificate Solver (<code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code> Sec. 7 &amp; <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>)<a class="headerlink" href="#constructive-gap-closure-contracts-certificate-solver-signals-yangmillshiggscpt-sec-7-signals-pending" title="Link to this heading">¶</a></h3>
+<p>Following our <a class="reference internal" href="yang-mills-higgs-cpt-pending-closure-plan.html"><span class="std std-doc">Gap-Closure Plan</span></a>, we close every finite, asymptotic-scaling, and conditional contract attached to the four gates of <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code>:</p>
+<ol class="arabic">
+<li><p><strong>Continuum 1-Loop / 2-Loop RG Scaling, Strong-Coupling Breakdown, &amp; Finite OS Reflection Positivity (Gate 1):</strong>
+Theorems <code class="docutils literal notranslate"><span class="pre">lattice_rg_continuum_scaling_and_strong_coupling_breakdown</span></code> and <code class="docutils literal notranslate"><span class="pre">kallenLehmann_critical_soft_pole_and_two_loop_rg</span></code> prove that 1-loop asymptotic freedom <span class="math notranslate nohighlight">\(a(\beta)\Lambda_{\mathrm{YM}} = \exp(-4\pi^2\beta/(b_0 N_c))\)</span> contracts monotonically to <span class="math notranslate nohighlight">\(0\)</span> as <span class="math notranslate nohighlight">\(\beta \to \infty\)</span> (paired with positive 2-loop scaling <code class="docutils literal notranslate"><span class="pre">latticeAsymptoticSpacingTwoLoop</span></code>, <span class="math notranslate nohighlight">\(b_1 = 34 N_c^2/3\)</span>), while the strong-coupling gap bound <span class="math notranslate nohighlight">\(-\ln(\beta/(2N_c^2))\)</span> vanishes at <span class="math notranslate nohighlight">\(\beta = 2N_c^2\)</span> (<code class="docutils literal notranslate"><span class="pre">18</span></code> for <span class="math notranslate nohighlight">\(\mathrm{SU}(3)\)</span>) and turns negative above it. Under a uniform physical scaling bound <span class="math notranslate nohighlight">\(0 &lt; M_0 \le \Delta_{\mathrm{lat}}(i)/a_i\)</span>, any continuum limit obeys <span class="math notranslate nohighlight">\(M_\infty \ge M_0 &gt; 0\)</span>. Theorem <code class="docutils literal notranslate"><span class="pre">osReflectionPositivity_and_clustering_of_spectral_weights</span></code> proves exact Euclidean Osterwalder–Schrader reflection positivity and two-time effective-mass clustering:</p>
+<div class="math notranslate nohighlight">
+\[
+   \sum_{i,j=1}^r \overline{f_i}\,f_j\,S_2(t_i + t_j) = \sum_{k=0}^{m-1} w_k \left|\sum_{i=1}^r f_i e^{-E_k t_i}\right|^2 \ge 0, \qquad S_2(\tau_2) \le S_2(\tau_1)\,e^{-E_{\mathrm{gap}}(\tau_2 - \tau_1)} \qquad (w_k \ge 0),
+   \]</div>
+<p>verified on a full-rank 4-state glueball spectrum Gram matrix in Rust and SymPy (<code class="docutils literal notranslate"><span class="pre">os_reflection_factorization_err</span> <span class="pre">&lt;</span> <span class="pre">1e-15</span></code>, all four Sylvester leading principal minors <span class="math notranslate nohighlight">\(&gt; 0\)</span>, <span class="math notranslate nohighlight">\(m_{\mathrm{eff}} = 1.849\text{ GeV} \ge 1.61\text{ GeV}\)</span>).</p>
+</li>
+<li><p><strong>Confined Källén–Lehmann Integrability (<span class="math notranslate nohighlight">\(\Delta \ge 1\)</span>) &amp; Tree-Level GKO Obstruction (Gaps 2 &amp; 3 / Gate 2):</strong>
+Theorems <code class="docutils literal notranslate"><span class="pre">kallenLehmann_confined_envelope_and_gko_obstruction</span></code> and <code class="docutils literal notranslate"><span class="pre">kallenLehmann_critical_soft_pole_and_two_loop_rg</span></code> prove that on <span class="math notranslate nohighlight">\([m_{\mathrm{gap}}, \infty)\)</span> (<span class="math notranslate nohighlight">\(m_{\mathrm{gap}} &gt; 0\)</span>), massless soft-gluon poles (<span class="math notranslate nohighlight">\(\omega = 0\)</span>) are excluded and both the <span class="math notranslate nohighlight">\(\Delta \ge 2\)</span> exponential tails and the critical <span class="math notranslate nohighlight">\(\Delta = 1\)</span> soft-pole integrand (<span class="math notranslate nohighlight">\(\le (2 m_{\mathrm{gap}}(\omega - m_{\mathrm{gap}}))^{-1/2} e^{-\mu m_{\mathrm{gap}}}\)</span>) are integrable. Simultaneously, we prove the exact algebraic obstruction <span class="math notranslate nohighlight">\(M_k(N_c, 220\text{ MeV}) \le 440\text{ MeV} &lt; 1610\text{ MeV}\)</span> for <strong>every</strong> nonnegative integer level <span class="math notranslate nohighlight">\(k \ge 0\)</span> relative to lattice QCD <span class="bibtex-citation" id="id20">[<a class="reference internal" href="#id595" title="Colin J. Morningstar and Mike Peardon. Glueball spectrum from an anisotropic lattice study. Physical Review D, 60(3):034509, 1999. URL: https://doi.org/10.1103/PhysRevD.60.034509, doi:10.1103/PhysRevD.60.034509.">Morningstar and Peardon, 1999</a>]</span>, fixing the continuous effective level <span class="math notranslate nohighlight">\(k_{\mathrm{eff}} = N_c(2\Lambda_{\mathrm{QCD}}/M_{\mathrm{phys}} - 1) &lt; 0\)</span>.</p></li>
+<li><p><strong>ATLAS/CMS Higgs CP Exclusion Envelope &amp; First-Order Double-Well EWPT Sphaleron Washout (Gates 3 &amp; 4):</strong>
+Theorem <code class="docutils literal notranslate"><span class="pre">higgsCpEftExclusion_envelope</span></code> proves <span class="math notranslate nohighlight">\(\kappa_f^2 + \tilde{\kappa}_f^2 = \mu_{\mathrm{sig}}\)</span>, bridges the EFT convention (<code class="docutils literal notranslate"><span class="pre">higgsCpEftSignedAsymmetry</span></code> <span class="math notranslate nohighlight">\(= 2\kappa_f\tilde{\kappa}_f = \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}}) = \mathcal{A}_{\mathrm{CP}}(1,\mu_{\mathrm{sig}},\alpha_{\mathrm{CP}})\)</span>), and establishes <span class="math notranslate nohighlight">\(|\tilde{\kappa}_f| \le \sqrt{\mu_{\max}}\sin\alpha_{\max}\)</span> (<code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">0.4695</span></code> at ATLAS/CMS <span class="math notranslate nohighlight">\(|\alpha_{\mathrm{CP}}| \le 28^\circ, \mu_{\max}=1\)</span> <span class="bibtex-citation" id="id21">[<a class="reference internal" href="#id598" title="ATLAS Collaboration. Measurement of the $CP$ properties of higgs boson interactions with τ-leptons with the ATLAS detector. The European Physical Journal C, 83:563, 2023. URL: https://doi.org/10.1140/epjc/s10052-023-11583-y, doi:10.1140/epjc/s10052-023-11583-y.">ATLAS Collaboration, 2023</a>]</span>). Theorem <code class="docutils literal notranslate"><span class="pre">electroweak_first_order_washout_criterion</span></code> proves that at <span class="math notranslate nohighlight">\(V_{\mathrm{eff}}(\phi_c, T_c) = 0\)</span>, the effective potential factors globally into the exact double-well <span class="math notranslate nohighlight">\(V_{\mathrm{eff}}(\phi, T_c) = \frac{\lambda_T}{4}\phi^2(\phi - \phi_c)^2 \ge 0\)</span> with positive barrier height <span class="math notranslate nohighlight">\(E^4 T_c^4 / (4\lambda_T^3) &gt; 0\)</span> at <span class="math notranslate nohighlight">\(\phi_c/2\)</span> and sphaleron-washout ratio <span class="math notranslate nohighlight">\(\phi_c/T_c = 2E/\lambda_T \ge 1 \iff \lambda_T \le 2E\)</span>—quantifying why the pure SM (<span class="math notranslate nohighlight">\(m_H = 125.25\text{ GeV}\)</span>, <span class="math notranslate nohighlight">\(2E_{\mathrm{SM}}/\lambda_{\mathrm{SM}} \approx 0.149 &lt; 1\)</span>) is a smooth crossover <span class="bibtex-citation" id="id22">[<a class="reference internal" href="#id596" title="K. Kajantie, M. Laine, K. Rummukainen, and M. Shaposhnikov. Is there a hot electroweak phase transition at $m_h \gtrsim m_w$? Physical Review Letters, 77(14):2887–2890, 1996. URL: https://doi.org/10.1103/PhysRevLett.77.2887, doi:10.1103/PhysRevLett.77.2887.">Kajantie <em>et al.</em>, 1996</a>, <a class="reference internal" href="#id597" title="V. A. Kuzmin, V. A. Rubakov, and M. E. Shaposhnikov. On the anomalous electroweak baryon number nonconservation in the early universe. Physics Letters B, 155(1–2):36–42, 1985. URL: https://doi.org/10.1016/0370-2693(85)91028-7, doi:10.1016/0370-2693(85)91028-7.">Kuzmin <em>et al.</em>, 1985</a>]</span> while BSM barrier extensions (<span class="math notranslate nohighlight">\(2E/\lambda_T \ge 1\)</span>, e.g. <span class="math notranslate nohighlight">\(1.25\)</span>) enable electroweak baryogenesis.</p></li>
+<li><p><strong>Constructive Certificate Solver (<code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates</span></code>):</strong>
+In <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>, four verified witness certificates (<code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">BsmHiggsCpDiscoveryCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">ElectroweakBaryogenesisModel16Certificate</span></code>) enforce all RG-scaling, OS clustering, GKO sign, Higgs CP EFT, EWPT double-well barrier, out-of-equilibrium Sakharov bias, and Model <code class="docutils literal notranslate"><span class="pre">16</span></code> transfer invariants and constructively discharge <code class="docutils literal notranslate"><span class="pre">allYangMillsHiggsCptGatesClosed</span></code> whenever external continuum and experimental witnesses are supplied, while <code class="docutils literal notranslate"><span class="pre">yang_mills_higgs_cpt_identities_do_not_close_pending_gates</span></code> preserves the negative epistemic witness in their absence.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="electroweak-higgs-symmetry-breaking-cp-violation-sakharovs-equilibrium-theorem">
+<h2>3. Electroweak Higgs Symmetry Breaking, CP Violation, &amp; Sakharov’s Equilibrium Theorem<a class="headerlink" href="#electroweak-higgs-symmetry-breaking-cp-violation-sakharovs-equilibrium-theorem" title="Link to this heading">¶</a></h2>
+<section id="mexican-hat-unitary-gauge-self-conjugacy-higgs-ssb-electroweak-masses-and-self-conjugacy">
+<h3>3.1 Mexican-Hat Unitary Gauge &amp; Self-Conjugacy (<code class="docutils literal notranslate"><span class="pre">higgs_ssb_electroweak_masses_and_self_conjugacy</span></code>)<a class="headerlink" href="#mexican-hat-unitary-gauge-self-conjugacy-higgs-ssb-electroweak-masses-and-self-conjugacy" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code> Section 2, for the <span class="math notranslate nohighlight">\(\mathrm{SU}(2)_L \times \mathrm{U}(1)_Y\)</span> Higgs potential <span class="math notranslate nohighlight">\(V(\Phi) = -\mu^2|\Phi|^2 + \lambda|\Phi|^4\)</span> expanded around <span class="math notranslate nohighlight">\(\Phi = (0, (v+h)/\sqrt{2})^T\)</span> with <span class="math notranslate nohighlight">\(v = \sqrt{\mu^2/\lambda}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+V\!\left(\frac{(v+h)^2}{2}\right) = -\frac{\mu^4}{4\lambda} + \mu^2 h^2 + \lambda v h^3 + \frac{\lambda}{4} h^4, \qquad m_H^2 = 2\mu^2 = 2\lambda v^2 &gt; 0,
+\]</div>
+<p>with exact cancellation of the linear tadpole, custodial ratio <span class="math notranslate nohighlight">\(\rho_{\mathrm{EW}} = \frac{m_W^2}{m_Z^2 \cos^2\theta_W} = 1\)</span>, <span class="math notranslate nohighlight">\(m_W &lt; m_Z\)</span> for <span class="math notranslate nohighlight">\(g_1 \ne 0\)</span>, and neutrality <span class="math notranslate nohighlight">\(Q_H = -Q_H = 0\)</span> confirming that the Higgs boson is its own antiparticle (<a class="reference download internal" download="" href="_downloads/ec04a54a57eabc885ed3e4d145e5b529/Google-Search_higgs-boson-and-antimatter_20261126-1551.md"><code class="xref download docutils literal notranslate"><span class="pre">Higgs</span> <span class="pre">chat</span> <span class="pre">log</span></code></a>, line 17).</p>
+</section>
+<section id="higgs-cp-mixing-asymmetry-sakharov-equilibrium-null-theorem">
+<h3>3.2 Higgs CP-Mixing Asymmetry &amp; Sakharov Equilibrium Null Theorem<a class="headerlink" href="#higgs-cp-mixing-asymmetry-sakharov-equilibrium-null-theorem" title="Link to this heading">¶</a></h3>
+<p>For a mixed CP-even/CP-odd Higgs coupling <span class="math notranslate nohighlight">\((\kappa, \tilde{\kappa}, \alpha_{\mathrm{CP}})\)</span> probed in <span class="math notranslate nohighlight">\(H \to \tau^+\tau^-\)</span>, <span class="math notranslate nohighlight">\(H \to ZZ^* \to 4\ell\)</span>, and <span class="math notranslate nohighlight">\(H \to \gamma\gamma\)</span> (<a class="reference download internal" download="" href="_downloads/ec04a54a57eabc885ed3e4d145e5b529/Google-Search_higgs-boson-and-antimatter_20261126-1551.md"><code class="xref download docutils literal notranslate"><span class="pre">Higgs</span> <span class="pre">chat</span> <span class="pre">log</span></code></a>, lines 51–52), theorem <code class="docutils literal notranslate"><span class="pre">higgs_cp_asymmetry_and_sakharov_equilibrium_zero</span></code> proves:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{A}_{\mathrm{CP}}(\kappa, \tilde{\kappa}, \alpha_{\mathrm{CP}}) = 2\kappa\tilde{\kappa}\sin\alpha_{\mathrm{CP}}\cos\alpha_{\mathrm{CP}} = \kappa\tilde{\kappa}\sin(2\alpha_{\mathrm{CP}}),
+\]</div>
+<p>which vanishes identically for the Standard Model CP-even Higgs (<span class="math notranslate nohighlight">\(\tilde{\kappa} = 0\)</span> or <span class="math notranslate nohighlight">\(\alpha_{\mathrm{CP}} = 0\)</span>) and pure CP-odd pseudoscalar (<span class="math notranslate nohighlight">\(\alpha_{\mathrm{CP}} = \pi/2\)</span>), alongside the CKM Jarlskog invariant <span class="math notranslate nohighlight">\(J_{\mathrm{CP}} \approx 2.996 \times 10^{-5}\)</span> at our benchmark angles <span class="math notranslate nohighlight">\((\theta_{12}=0.227, \theta_{23}=0.0418, \theta_{13}=0.0037, \delta=1.144)\)</span> (consistent with the global PDG fit <span class="math notranslate nohighlight">\(J_{\mathrm{CP}} = (3.08^{+0.15}_{-0.13}) \times 10^{-5}\)</span>) <span class="bibtex-citation" id="id23">[<a class="reference internal" href="#id592" title="J. H. Christenson, J. W. Cronin, V. L. Fitch, and R. Turlay. Evidence for the $2\pi $ decay of the $K_2^0$ meson. Physical Review Letters, 13(4):138–140, 1964. URL: https://doi.org/10.1103/PhysRevLett.13.138, doi:10.1103/PhysRevLett.13.138.">Christenson <em>et al.</em>, 1964</a>, <a class="reference internal" href="#id593" title="Makoto Kobayashi and Toshihide Maskawa. $CP$-violation in the renormalizable theory of weak interaction. Progress of Theoretical Physics, 49(2):652–657, 1973. URL: https://doi.org/10.1143/PTP.49.652, doi:10.1143/PTP.49.652.">Kobayashi and Maskawa, 1973</a>, <a class="reference internal" href="#id594" title="C. Jarlskog. Commutator of the quark mass matrices in the standard electroweak model and a measure of maximal $CP$ nonconservation. Physical Review Letters, 55(10):1039–1042, 1985. URL: https://doi.org/10.1103/PhysRevLett.55.1039, doi:10.1103/PhysRevLett.55.1039.">Jarlskog, 1985</a>]</span>. Including the full basis-invariant Jarlskog determinant factor <span class="math notranslate nohighlight">\(\prod_{i&lt;j}(m_{u,i}^2 - m_{u,j}^2)\prod_{i&lt;j}(m_{d,i}^2 - m_{d,j}^2) \approx 3.77 \times 10^9\text{ GeV}^{12}\)</span> (<code class="docutils literal notranslate"><span class="pre">jarlskogQuarkMassSplitting</span></code> in Lean Section 6, <code class="docutils literal notranslate"><span class="pre">jarlskog_quark_mass_splitting</span></code> in Rust/SymPy) proves that weak CP violation vanishes identically whenever any two like-charge quarks become mass-degenerate (<code class="docutils literal notranslate"><span class="pre">jarlskog_degenerate_zero</span> <span class="pre">=</span> <span class="pre">0</span></code>).</p>
+<p>Crucially, under Jost CPT mass equality (<span class="math notranslate nohighlight">\(E_k^+ = E_k^-\)</span>) and conjugate baryon charges (<span class="math notranslate nohighlight">\(B_k^- = -B_k^+\)</span>), <strong>the thermal equilibrium baryon trace vanishes identically</strong> for every inverse temperature <span class="math notranslate nohighlight">\(\beta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\langle B\rangle_\beta = \sum_{k=1}^n \Bigl(B_k^+ e^{-\beta E_k^+} + (-B_k^+) e^{-\beta E_k^-}\Bigr) = 0,
+\]</div>
+<p>proving Sakharov’s third condition <span class="bibtex-citation" id="id24">[<a class="reference internal" href="#id591" title="A. D. Sakharov. Violation of $CP$ invariance, $C$ asymmetry, and baryon asymmetry of the universe. JETP Letters, 5:24–27, 1967.">Sakharov, 1967</a>]</span>: CP violation and baryon-number violation cannot generate a net matter excess in thermal equilibrium—requiring an out-of-equilibrium cosmological phase transition (<a class="reference download internal" download="" href="_downloads/ec04a54a57eabc885ed3e4d145e5b529/Google-Search_higgs-boson-and-antimatter_20261126-1551.md"><code class="xref download docutils literal notranslate"><span class="pre">Higgs</span> <span class="pre">chat</span> <span class="pre">log</span></code></a>, lines 61, 82). Conversely, theorem <code class="docutils literal notranslate"><span class="pre">jarlskog_degeneracy_and_sakharov_out_of_equilibrium_nonzero</span></code> proves that any positive transient energy bias <span class="math notranslate nohighlight">\(\Delta E &gt; 0\)</span> at <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span> breaks the cancellation and produces <span class="math notranslate nohighlight">\(\langle B\rangle_{\mathrm{neq}} = B(e^{-\beta E} - e^{-\beta(E+\Delta E)}) \ne 0\)</span> (<code class="docutils literal notranslate"><span class="pre">sakharov_out_of_equilibrium_baryon_trace</span></code>).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="josts-axiomatic-anti-unitary-cpt-involution-theta-cpt">
+<h2>4. Jost’s Axiomatic Anti-Unitary CPT Involution (<span class="math notranslate nohighlight">\(\Theta = CPT\)</span>)<a class="headerlink" href="#josts-axiomatic-anti-unitary-cpt-involution-theta-cpt" title="Link to this heading">¶</a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code> Section 4 (<code class="docutils literal notranslate"><span class="pre">AntiUnitaryCPT</span></code>, <code class="docutils literal notranslate"><span class="pre">jost_cpt_antiunitary_involution_and_cp_t_equivalence</span></code>), we formalize Res Jost’s axiomatic CPT operator <span class="bibtex-citation" id="id25">[<a class="reference internal" href="#id538" title="Res Jost. Eine Bemerkung zum CTP-Theorem. Helvetica Physica Acta, 30:409–416, 1957.">Jost, 1957</a>]</span> on <span class="math notranslate nohighlight">\(\mathbb{C}^n\)</span> via <span class="math notranslate nohighlight">\(\Theta(\psi) = U\overline{\psi}\)</span> with <span class="math notranslate nohighlight">\(U^\dagger U = I_n\)</span> and <span class="math notranslate nohighlight">\(U\overline{U} = \epsilon I_n\)</span> (<span class="math notranslate nohighlight">\(\epsilon = \pm 1\)</span>), proving five exact theorems:</p>
+<ol class="arabic">
+<li><p><strong>Anti-linearity:</strong> <span class="math notranslate nohighlight">\(\Theta(c\psi) = \overline{c}\,\Theta(\psi)\)</span>;</p></li>
+<li><p><strong>Anti-unitarity:</strong> <span class="math notranslate nohighlight">\(\langle \Theta\psi, \Theta\phi\rangle = \langle \phi, \psi\rangle\)</span>;</p></li>
+<li><p><strong>Involution:</strong> <span class="math notranslate nohighlight">\(\Theta(\Theta(\psi)) = \epsilon\psi\)</span> (<span class="math notranslate nohighlight">\(\epsilon = +1\)</span> bosonic / flavor, <span class="math notranslate nohighlight">\(\epsilon = -1\)</span> fermionic Kramers);</p></li>
+<li><p><strong>Spectral Particle/Antiparticle Degeneracy:</strong> If <span class="math notranslate nohighlight">\([H, \Theta] = 0\)</span> (<span class="math notranslate nohighlight">\(U\overline{H} = H U\)</span>) and <span class="math notranslate nohighlight">\(H\psi = E\psi\)</span> (<span class="math notranslate nohighlight">\(E \in \mathbb{R}\)</span>), then <span class="math notranslate nohighlight">\(H(\Theta\psi) = E(\Theta\psi)\)</span>;</p></li>
+<li><p><strong>Exact <span class="math notranslate nohighlight">\(CP\)</span> Violation <span class="math notranslate nohighlight">\(\iff\)</span> <span class="math notranslate nohighlight">\(T\)</span> Violation:</strong> Decomposing <span class="math notranslate nohighlight">\(\Theta = U_{CP} \circ \mathcal{T}\)</span> (<span class="math notranslate nohighlight">\(U = U_{CP} V_T\)</span>) with <span class="math notranslate nohighlight">\([H, \Theta] = 0\)</span>, we prove:</p>
+<div class="math notranslate nohighlight">
+\[
+   U_{CP} H = H U_{CP} \iff V_T \overline{H} = H V_T.
+   \]</div>
+</li>
+</ol>
+<p>Our <span class="math notranslate nohighlight">\(4\times 4\)</span> Rust/SymPy benchmark (<code class="docutils literal notranslate"><span class="pre">audit_yang_mills_higgs_cpt</span></code>) confirms anti-unitarity (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-14</span></code>), <span class="math notranslate nohighlight">\(\Theta_{\mathrm{ferm}}^2 = -I_4\)</span> and <span class="math notranslate nohighlight">\(\Theta_{\mathrm{bos}}^2 = +I_4\)</span> (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-14</span></code>), exact CPT spectral degeneracy on both the bosonic (<span class="math notranslate nohighlight">\(\Theta_{\mathrm{bos}}^2 = +I_4\)</span>) and fermionic Kramers (<span class="math notranslate nohighlight">\(\Theta_{\mathrm{ferm}}^2 = -I_4\)</span>, <span class="math notranslate nohighlight">\(H_{\mathrm{lower}} = V_2\overline{H_{\mathrm{upper}}}V_2^T\)</span>, <code class="docutils literal notranslate"><span class="pre">jost_fermionic_kramers_mass_err</span> <span class="pre">&lt;</span> <span class="pre">1e-14</span></code>) Hamiltonians, and exact equality of <span class="math notranslate nohighlight">\(CP\)</span>- and <span class="math notranslate nohighlight">\(T\)</span>-commutator violation norms (<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0.1</span></code> for <span class="math notranslate nohighlight">\(\delta = 0.7\)</span>, <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-15</span></code> for <span class="math notranslate nohighlight">\(\delta = 0\)</span>).</p>
+</section>
+<hr class="docutils" />
+<section id="reproducible-verification-provenance-metadata">
+<h2>5. Reproducible Verification &amp; Provenance Metadata<a class="headerlink" href="#reproducible-verification-provenance-metadata" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-C<span class="w"> </span>/workspaces/sustainablefactory<span class="w"> </span>signals_build
+cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--manifest-path<span class="w"> </span>/workspaces/sustainablefactory/src/signals/numerical_adapter/Cargo.toml
+pytest<span class="w"> </span>-q<span class="w"> </span>/workspaces/sustainablefactory/tests/test_yang_mills_higgs_cpt.py
+</pre></div>
+</div>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">turner2026ym_higgs_cp_cpt</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wesley}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Yang--Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost's Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Technical Monograph \&amp; Formal Verification Suite}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Signals.YangMillsHiggsCPT and Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost's Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/papers/TOUQGA-2.pdf"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/YangMillsHiggsCPT.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/Pending.lean"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-26"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<div class="docutils container" id="id26">
+<div role="list" class="citation-list">
+<div class="citation" id="id533" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id7">1</a>,<a role="doc-backlink" href="#id13">2</a>,<a role="doc-backlink" href="#id15">3</a>)</span>
+<p>Daniel Toupin. <em>On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory</em>. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: <a class="reference external" href="https://philpapers.org/archive/TOUQGA-2.pdf">https://philpapers.org/archive/TOUQGA-2.pdf</a>; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: <a class="reference external" href="https://philpapers.org/rec/TOUQGA-2">https://philpapers.org/rec/TOUQGA-2</a>.</p>
+</div>
+<div class="citation" id="id538" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id25">2</a>)</span>
+<p>Res Jost. Eine Bemerkung zum CTP-Theorem. <em>Helvetica Physica Acta</em>, 30:409–416, 1957.</p>
+</div>
+<div class="citation" id="id577" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Wesley Turner and Google Search AI. Review toupin's mass gap solution, celestial ir divergences, and models 16a &amp; 16b. AI chat log, 2026. Source: data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 1–204.</p>
+</div>
+<div class="citation" id="id575" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id12">3</a>,<a role="doc-backlink" href="#id17">4</a>,<a role="doc-backlink" href="#id19">5</a>)</span>
+<p>Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: <a class="reference external" href="https://philarchive.org/archive/TOUTYM">https://philarchive.org/archive/TOUTYM</a>; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: <a class="reference external" href="https://philarchive.org/rec/TOUTYM">https://philarchive.org/rec/TOUTYM</a>.</p>
+</div>
+<div class="citation" id="id576" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">5</a><span class="fn-bracket">]</span></span>
+<p>Daniel Toupin. The reason the Riemann hypothesis is true: $\re (\delta ) = d/2$. PhilPapers preprint, 2026. PDF: <a class="reference external" href="https://philpapers.org/archive/TOUTRR.pdf">https://philpapers.org/archive/TOUTRR.pdf</a>; companion to TOUQGA-2.pdf Section 7.3.4. URL: <a class="reference external" href="https://philpapers.org/rec/TOUTRR">https://philpapers.org/rec/TOUTRR</a>.</p>
+</div>
+<div class="citation" id="id580" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id9">2</a>,<a role="doc-backlink" href="#id18">3</a>)</span>
+<p>Arthur Jaffe and Edward Witten. Quantum Yang–Mills theory. In James Carlson, Arthur Jaffe, and Andrew Wiles, editors, <em>The Millennium Prize Problems</em>, pages 129–152. Clay Mathematics Institute / American Mathematical Society, 2006.</p>
+</div>
+<div class="citation" id="id581" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">7</a><span class="fn-bracket">]</span></span>
+<p>Konrad Osterwalder and Robert Schrader. Axioms for Euclidean Green's functions. <em>Communications in Mathematical Physics</em>, 31(2):83–112, 1973. URL: <a class="reference external" href="https://doi.org/10.1007/BF01645738">https://doi.org/10.1007/BF01645738</a>, <a class="reference external" href="https://doi.org/10.1007/BF01645738">doi:10.1007/BF01645738</a>.</p>
+</div>
+<div class="citation" id="id595" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">8</a><span class="fn-bracket">]</span></span>
+<p>Colin J. Morningstar and Mike Peardon. Glueball spectrum from an anisotropic lattice study. <em>Physical Review D</em>, 60(3):034509, 1999. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevD.60.034509">https://doi.org/10.1103/PhysRevD.60.034509</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevD.60.034509">doi:10.1103/PhysRevD.60.034509</a>.</p>
+</div>
+<div class="citation" id="id598" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id21">9</a><span class="fn-bracket">]</span></span>
+<p>ATLAS Collaboration. Measurement of the $CP$ properties of higgs boson interactions with τ-leptons with the ATLAS detector. <em>The European Physical Journal C</em>, 83:563, 2023. URL: <a class="reference external" href="https://doi.org/10.1140/epjc/s10052-023-11583-y">https://doi.org/10.1140/epjc/s10052-023-11583-y</a>, <a class="reference external" href="https://doi.org/10.1140/epjc/s10052-023-11583-y">doi:10.1140/epjc/s10052-023-11583-y</a>.</p>
+</div>
+<div class="citation" id="id596" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id22">10</a><span class="fn-bracket">]</span></span>
+<p>K. Kajantie, M. Laine, K. Rummukainen, and M. Shaposhnikov. Is there a hot electroweak phase transition at $m_h \gtrsim m_w$? <em>Physical Review Letters</em>, 77(14):2887–2890, 1996. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.77.2887">https://doi.org/10.1103/PhysRevLett.77.2887</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.77.2887">doi:10.1103/PhysRevLett.77.2887</a>.</p>
+</div>
+<div class="citation" id="id597" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id22">11</a><span class="fn-bracket">]</span></span>
+<p>V. A. Kuzmin, V. A. Rubakov, and M. E. Shaposhnikov. On the anomalous electroweak baryon number nonconservation in the early universe. <em>Physics Letters B</em>, 155(1–2):36–42, 1985. URL: <a class="reference external" href="https://doi.org/10.1016/0370-2693(85)91028-7">https://doi.org/10.1016/0370-2693(85)91028-7</a>, <a class="reference external" href="https://doi.org/10.1016/0370-2693(85)91028-7">doi:10.1016/0370-2693(85)91028-7</a>.</p>
+</div>
+<div class="citation" id="id578" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">12</a><span class="fn-bracket">]</span></span>
+<p>Wesley Turner and Google Search AI. Higgs boson and antimatter, cp violation, cpt/jost t-involution, and the yang–mills mass gap. AI chat log, 2026. Source: data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md, lines 1–187.</p>
+</div>
+<div class="citation" id="id587" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">13</a><span class="fn-bracket">]</span></span>
+<p>Peter W. Higgs. Broken symmetries and the masses of gauge bosons. <em>Physical Review Letters</em>, 13(16):508–509, 1964. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.508">https://doi.org/10.1103/PhysRevLett.13.508</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.508">doi:10.1103/PhysRevLett.13.508</a>.</p>
+</div>
+<div class="citation" id="id588" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">14</a><span class="fn-bracket">]</span></span>
+<p>F. Englert and R. Brout. Broken symmetry and the mass of gauge vector mesons. <em>Physical Review Letters</em>, 13(9):321–323, 1964. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.321">https://doi.org/10.1103/PhysRevLett.13.321</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.321">doi:10.1103/PhysRevLett.13.321</a>.</p>
+</div>
+<div class="citation" id="id589" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">15</a><span class="fn-bracket">]</span></span>
+<p>G. S. Guralnik, C. R. Hagen, and T. W. B. Kibble. Global conservation laws and massless particles. <em>Physical Review Letters</em>, 13(20):585–587, 1964. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.585">https://doi.org/10.1103/PhysRevLett.13.585</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.585">doi:10.1103/PhysRevLett.13.585</a>.</p>
+</div>
+<div class="citation" id="id590" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">16</a><span class="fn-bracket">]</span></span>
+<p>Steven Weinberg. A model of leptons. <em>Physical Review Letters</em>, 19(21):1264–1266, 1967. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.19.1264">https://doi.org/10.1103/PhysRevLett.19.1264</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.19.1264">doi:10.1103/PhysRevLett.19.1264</a>.</p>
+</div>
+<div class="citation" id="id579" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">17</a><span class="fn-bracket">]</span></span>
+<p>C. N. Yang and R. L. Mills. Conservation of isotopic spin and isotopic gauge invariance. <em>Physical Review</em>, 96(1):191–195, 1954. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRev.96.191">https://doi.org/10.1103/PhysRev.96.191</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRev.96.191">doi:10.1103/PhysRev.96.191</a>.</p>
+</div>
+<div class="citation" id="id591" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>18<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id24">2</a>)</span>
+<p>A. D. Sakharov. Violation of $CP$ invariance, $C$ asymmetry, and baryon asymmetry of the universe. <em>JETP Letters</em>, 5:24–27, 1967.</p>
+</div>
+<div class="citation" id="id582" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">19</a><span class="fn-bracket">]</span></span>
+<p>Konrad Osterwalder and Erhard Seiler. Gauge field theories on a lattice. <em>Annals of Physics</em>, 110(2):440–471, 1978. URL: <a class="reference external" href="https://doi.org/10.1016/0003-4916(78)90039-8">https://doi.org/10.1016/0003-4916(78)90039-8</a>, <a class="reference external" href="https://doi.org/10.1016/0003-4916(78)90039-8">doi:10.1016/0003-4916(78)90039-8</a>.</p>
+</div>
+<div class="citation" id="id583" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">20</a><span class="fn-bracket">]</span></span>
+<p>Erhard Seiler. <em>Gauge Theories as a Problem of Constructive Quantum Field Theory and Statistical Mechanics</em>. Volume 159 of Lecture Notes in Physics. Springer, 1982. URL: <a class="reference external" href="https://doi.org/10.1007/3-540-11559-5">https://doi.org/10.1007/3-540-11559-5</a>, <a class="reference external" href="https://doi.org/10.1007/3-540-11559-5">doi:10.1007/3-540-11559-5</a>.</p>
+</div>
+<div class="citation" id="id584" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">21</a><span class="fn-bracket">]</span></span>
+<p>S. Elitzur. Impossibility of spontaneously breaking local symmetries. <em>Physical Review D</em>, 12(12):3978–3982, 1975. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevD.12.3978">https://doi.org/10.1103/PhysRevD.12.3978</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevD.12.3978">doi:10.1103/PhysRevD.12.3978</a>.</p>
+</div>
+<div class="citation" id="id585" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">22</a><span class="fn-bracket">]</span></span>
+<p>David J. Gross and Frank Wilczek. Ultraviolet behavior of non-abelian gauge theories. <em>Physical Review Letters</em>, 30(26):1343–1346, 1973. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.30.1343">https://doi.org/10.1103/PhysRevLett.30.1343</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.30.1343">doi:10.1103/PhysRevLett.30.1343</a>.</p>
+</div>
+<div class="citation" id="id586" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">23</a><span class="fn-bracket">]</span></span>
+<p>H. David Politzer. Reliable perturbative results for strong interactions? <em>Physical Review Letters</em>, 30(26):1346–1349, 1973. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.30.1346">https://doi.org/10.1103/PhysRevLett.30.1346</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.30.1346">doi:10.1103/PhysRevLett.30.1346</a>.</p>
+</div>
+<div class="citation" id="id592" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">24</a><span class="fn-bracket">]</span></span>
+<p>J. H. Christenson, J. W. Cronin, V. L. Fitch, and R. Turlay. Evidence for the $2\pi $ decay of the $K_2^0$ meson. <em>Physical Review Letters</em>, 13(4):138–140, 1964. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.138">https://doi.org/10.1103/PhysRevLett.13.138</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.13.138">doi:10.1103/PhysRevLett.13.138</a>.</p>
+</div>
+<div class="citation" id="id593" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">25</a><span class="fn-bracket">]</span></span>
+<p>Makoto Kobayashi and Toshihide Maskawa. $CP$-violation in the renormalizable theory of weak interaction. <em>Progress of Theoretical Physics</em>, 49(2):652–657, 1973. URL: <a class="reference external" href="https://doi.org/10.1143/PTP.49.652">https://doi.org/10.1143/PTP.49.652</a>, <a class="reference external" href="https://doi.org/10.1143/PTP.49.652">doi:10.1143/PTP.49.652</a>.</p>
+</div>
+<div class="citation" id="id594" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">26</a><span class="fn-bracket">]</span></span>
+<p>C. Jarlskog. Commutator of the quark mass matrices in the standard electroweak model and a measure of maximal $CP$ nonconservation. <em>Physical Review Letters</em>, 55(10):1039–1042, 1985. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.55.1039">https://doi.org/10.1103/PhysRevLett.55.1039</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.55.1039">doi:10.1103/PhysRevLett.55.1039</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="yang-mills-higgs-cpt-pending-closure-plan.html" title="Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary" >previous</a></li>
+        <li><a href="unified-pending-closure-roadmap-plan.html" title="Unified Pending Boundary Closure Plan: Cross-Domain Certificate Architecture Across All Seven PendingBoundary Gates" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

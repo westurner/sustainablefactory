@@ -10173,4 +10173,370 @@ theorem turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_ide
     positivity
   · exact ddf_photon_deflection_null re.G_phi sub.c beamEnergy impactParam kernel
 
+/-! ### 30.8 Turner Models 16a (Without DDF) & 16b (With DDF): IR-Screened, Cayley-Shadowed, Plancherel-Resummed Holographic Graviton Models
+
+Promotes Integrated Turner Models 15a & 15b (`Section 30.7`) to solve infrared (IR) soft divergences
+in confining gauge sectors (`m_gap > 0`) and DDF superfluid backgrounds (`ξ_φ > 0`):
+1. **IR Screening Factor (`celestialIrScreeningFactor`)**:
+   $\mathcal{S}_{\mathrm{IR}}(\kappa_{\mathrm{IR}}) = (1 + \kappa_{\mathrm{IR}})e^{-\kappa_{\mathrm{IR}}} \in (0, 1]$ for all $\kappa_{\mathrm{IR}} \ge 0$,
+   with $\kappa_{\mathrm{IR}} = m_{\mathrm{gap}} a / (\hbar c)$ in Model 16a (confining / Yukawa gap) and
+   $\kappa_{\mathrm{IR}} = \xi_\phi / a$ in Model 16b (DDF superfluid healing length).
+2. **Unconditionally Positive Transfer Factor (`celestialTransferFactor16`)**:
+   $\mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}}) = \mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}})\cdot\mathcal{F}_{\mathrm{loop}}(\alpha_{\mathrm{QG}})\cdot\mathcal{S}_{\mathrm{IR}}(\kappa_{\mathrm{IR}}) > 0$
+   for **all** $\sigma_{\mathrm{dev}} \in \mathbb{R}$, $\alpha_{\mathrm{QG}} \ge 0$, and $\kappa_{\mathrm{IR}} \ge 0$
+   (fixing the $|\sigma_{\mathrm{dev}}| > 1/2$ sign flip of Model 15's bare $1 - 4\sigma_{\mathrm{dev}}^2$).
+3. **2.5PN GW Mass-Gap Threshold (`gwMassGapStep`)**:
+   $\Theta(2\Omega_{\mathrm{orb}} - \omega_{\mathrm{gap}})$ suppresses quadrupolar GW emission below the
+   hard mass gap $\omega_{\mathrm{gap}} = m_{\mathrm{gap}} c^2 / \hbar$ in Model 16a, whereas Model 16b's
+   long-wavelength DDF phonons remain gapless ($\omega_{\mathrm{gap}} = 0$).
+4. **Exact Reduction & Active Photon–Photon Discriminator**:
+   At $(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}}) = (0, 0, 0)$ with $\delta_{\mathrm{Jos}} = 0$,
+   both Models 16a & 16b recover Models 15a & 15b and classical GR / binary-pulsar / 1PN solar light
+   deflection identically ($\varepsilon_{\mathrm{rel}} = 0$), while preserving $\eta_{\mathrm{act}}^\gamma = 1$ (16a) vs. $0$ (16b). -/
+
+/-- Dimensionless IR confinement / healing-length Yukawa screening factor
+`S_IR(κ_IR) = (1 + κ_IR) exp(-κ_IR) ∈ (0, 1]` for `κ_IR ≥ 0`. -/
+@[blueprint "def:signals-ddf-celestial-ir-screening-factor"
+  (title := "IR confinement / healing-length Yukawa screening factor (1 + κ_IR) exp(-κ_IR)")
+  (statement := /-- Define $\mathcal{S}_{\mathrm{IR}}(\kappa_{\mathrm{IR}}) = (1 + \kappa_{\mathrm{IR}}) e^{-\kappa_{\mathrm{IR}}}$. -/)]
+noncomputable def celestialIrScreeningFactor (kappaIR : ℝ) : ℝ :=
+  (1 + kappaIR) * Real.exp (-kappaIR)
+
+/-- Combined IR-screened, Cayley-shadowed, Plancherel-resummed transfer factor
+`G_16(σ_dev, α_QG, κ_IR) = W_grav^Cayley(σ_dev) * F_loop(α_QG) * S_IR(κ_IR)`. -/
+@[blueprint "def:signals-ddf-celestial-transfer-factor-16"
+  (title := "Model 16 IR-screened Cayley-Plancherel gravitational transfer factor G_16")
+  (statement := /-- Define $\mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}})
+    = \frac{1}{1 + 4\sigma_{\mathrm{dev}}^2}\left(1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\right)
+      (1 + \kappa_{\mathrm{IR}})e^{-\kappa_{\mathrm{IR}}}$. -/)]
+noncomputable def celestialTransferFactor16 (sigmaDev alphaQG kappaIR : ℝ) : ℝ :=
+  celestialSpinTwoCayleyShadowFactor sigmaDev *
+    celestialPlancherelLoopCorrectionFactor alphaQG *
+    celestialIrScreeningFactor kappaIR
+
+/-- Heaviside threshold step `Θ(2 Ω_orb - ω_gap)` equal to `1` when `ω_gap ≤ 2 Ω_orb` and `0` otherwise. -/
+noncomputable def gwMassGapStep (twoOmegaOrb omegaGap : ℝ) : ℝ :=
+  if omegaGap ≤ twoOmegaOrb then 1 else 0
+
+/-- **Model 16a (Gravity, Without DDF, `η_act^γ = 1`)**: IR-screened (`κ_IR = m_gap a / (ħ c)`),
+Cayley-shadowed, Plancherel-resummed 1PN perihelion precession. -/
+noncomputable def PlanetaryOrbit.turnerModel16aPrecessionRad
+    (orb : PlanetaryOrbit) (G sourceMass c deltaVarpi sigmaDev alphaQG kappaIR deltaJos : ℝ) : ℝ :=
+  celestialTransferFactor16 sigmaDev alphaQG kappaIR *
+    PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb G sourceMass c deltaVarpi 0 + deltaJos
+
+/-- **Model 16b (Gravity, With DDF, `η_act^γ = 0`)**: DDF healing-length screened (`κ_IR = ξ_φ / a`),
+Cayley-shadowed, Plancherel-resummed 1PN perihelion precession. -/
+noncomputable def RiverExterior.turnerModel16bPrecessionRad
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (deltaVarpi sigmaDev alphaQG kappaIR deltaJos : ℝ) : ℝ :=
+  celestialTransferFactor16 sigmaDev alphaQG kappaIR *
+    re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0 + deltaJos
+
+/-- **Model 16a (Gravitational Waves, Without DDF)**: 2.5PN quadrupole luminosity weighted by
+`G_16` and the hard mass-gap kinematic threshold `Θ(2 Ω_orb - ω_gap)`. -/
+noncomputable def PlanetaryOrbit.turnerModel16aGWLuminosity
+    (orb : PlanetaryOrbit) (G m1 m2 c orbitalPhase deltaVarpi
+      sigmaDev alphaQG kappaIR twoOmegaOrb omegaGap deltaPJos : ℝ) : ℝ :=
+  celestialTransferFactor16 sigmaDev alphaQG kappaIR *
+    PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb G m1 m2 c orbitalPhase deltaVarpi 0 *
+    gwMassGapStep twoOmegaOrb omegaGap + deltaPJos
+
+/-- **Model 16b (Gravitational Waves, With DDF)**: 2.5PN luminosity weighted by `G_16`
+(gapless long-wavelength DDF phonon emission `ω_gap = 0`, `Θ = 1`). -/
+noncomputable def RiverExterior.turnerModel16bGWLuminosity
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (m2 sigmaDev alphaQG kappaIR deltaPJos : ℝ) : ℝ :=
+  celestialTransferFactor16 sigmaDev alphaQG kappaIR *
+    re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0 + deltaPJos
+
+/-- **Model 16a (1PN Light Deflection, Without DDF)**: IR-screened Cayley–Plancherel solar light deflection. -/
+noncomputable def PlanetaryOrbit.turnerModel16aLightDeflection
+    (orb : PlanetaryOrbit) (deltaThetaGR deltaVarpi sigmaDev alphaQG kappaIR deltaThetaJos : ℝ) : ℝ :=
+  celestialTransferFactor16 sigmaDev alphaQG kappaIR *
+    (deltaThetaGR * (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3) /
+      (1 - orb.eccentricity ^ 2)) + deltaThetaJos
+
+/-- **Model 16b (1PN Light Deflection, With DDF)**: Healing-length screened Cayley–Plancherel solar light deflection. -/
+noncomputable def RiverExterior.turnerModel16bLightDeflection
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (impactParam deltaVarpi sigmaDev alphaQG kappaIR deltaThetaJos : ℝ) : ℝ :=
+  celestialTransferFactor16 sigmaDev alphaQG kappaIR *
+    ((4 * re.G_phi * re.sourceMass * (sub.rho_max_varphi * sub.j_min_varphi) / impactParam) *
+      (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3) /
+      (1 - orb.eccentricity ^ 2)) + deltaThetaJos
+
+/-- **Master Theorem for Integrated Turner Models 16a & 16b**:
+Certifies:
+1. **IR Screening Bounds**: `celestialIrScreeningFactor 0 = 1`, and for all `0 ≤ κ_IR`,
+   `0 < celestialIrScreeningFactor κ_IR ≤ 1` (proved via `1 + κ_IR ≤ exp κ_IR`).
+2. **All-Regime Positivity of `G_16`**: For **all** `σ_dev ∈ ℝ`, `0 ≤ α_QG`, `0 ≤ κ_IR`,
+   `0 < celestialTransferFactor16 σ_dev α_QG κ_IR`, and `celestialTransferFactor16 0 0 0 = 1`.
+3. **Exact Reduction to Models 15a & 15b and Classical GR (`ε_rel = 0`)**:
+   At `(σ_dev, α_QG, κ_IR, δ_Jos) = (0, 0, 0, 0)`, both Models 16a and 16b match `Δϖ_GR`,
+   `P_GW^GR` (above threshold `0 ≤ twoOmegaOrb`), and `Δθ_GR` identically (`ε_rel = 0`).
+4. **Confined GW Threshold vs. Gapless DDF Phonon & Active Laser Discriminator**:
+   For `twoOmegaOrb < omegaGap` with `δP_Jos = 0`, Model 16a emits zero GW luminosity (`= 0`)
+   while Model 16b retains positive emission (`0 < turnerModel16bGWLuminosity`), and
+   `ActiveRadiationSourcing.generalRelativity` (`16a`) vs. `dilatantDarkFluid` (`16b`)
+   preserve `mutualPhotonDeflection > 0` vs. `= 0`. -/
+@[blueprint "thm:signals-ddf-turner-model-16-ir-regularized-unification"
+  (title := "Master theorem for Integrated Turner Models 16a and 16b: IR-screened Cayley-Plancherel graviton unification")
+  (statement := /-- Certifies $0 < \mathcal{S}_{\mathrm{IR}}(\kappa_{\mathrm{IR}}) \le 1$, unconditional
+    positivity $\mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}}) > 0$,
+    exact reduction to Models 15a/15b and GR ($\varepsilon_{\mathrm{rel}} = 0$) at $(0,0,0,0)$,
+    Model 16a mass-gap GW cutoff vs. gapless Model 16b emission, and $\eta_{\mathrm{act}}^\gamma \in \{0, 1\}$. -/)
+  (proof := /-- Use \texttt{Real.add\_one\_le\_exp}, \texttt{turner\_model\_15\_celestial\_plucker\_ddf\_graviton\_unification},
+    and \texttt{turner\_model\_15\_critique\_cayley\_shadow\_all\_loop\_and\_light\_deflection\_identities}. -/)]
+theorem turner_model_16_ir_regularized_celestial_ddf_graviton_unification
+    {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (orb : PlanetaryOrbit) (s_pl : PluckerMadelungState)
+    (orbitalPhase deltaVarpi m2 sigmaDev alphaQG kappaIR twoOmegaOrb omegaGap
+      impactParam beamEnergy kernel : ℝ)
+    (hm2 : 0 < m2) (h_alpha_nn : 0 ≤ alphaQG) (h_kappa_nn : 0 ≤ kappaIR)
+    (h_orb_pos : 0 ≤ twoOmegaOrb) (h_below_gap : twoOmegaOrb < omegaGap)
+    (hb : 0 < impactParam) (hE : 0 < beamEnergy) (hK : 0 < kernel) :
+    let Δϖ_GR := re.perihelionPrecessionRad orb
+    let P_GR := re.petersMathewsLuminosity orb m2
+    let Δθ_GR := 4 * re.G_phi * re.sourceMass / (sub.c ^ 2 * impactParam)
+    (celestialIrScreeningFactor 0 = 1 ∧
+      0 < celestialIrScreeningFactor kappaIR ∧
+      celestialIrScreeningFactor kappaIR ≤ 1) ∧
+    (celestialTransferFactor16 0 0 0 = 1 ∧
+      0 < celestialTransferFactor16 sigmaDev alphaQG kappaIR) ∧
+    (PlanetaryOrbit.turnerModel16aPrecessionRad
+        orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 0 = Δϖ_GR ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerModel16aPrecessionRad
+          orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 0) Δϖ_GR = 0 ∧
+      re.turnerModel16bPrecessionRad orb deltaVarpi 0 0 0 0 = Δϖ_GR ∧
+      relativePredictiveError
+        (re.turnerModel16bPrecessionRad orb deltaVarpi 0 0 0 0) Δϖ_GR = 0) ∧
+    (PlanetaryOrbit.turnerModel16aGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 0 0 twoOmegaOrb 0 0 = P_GR ∧
+      PlanetaryOrbit.turnerModel16aGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi sigmaDev alphaQG kappaIR
+        twoOmegaOrb omegaGap 0 = 0 ∧
+      re.turnerModel16bGWLuminosity orb m2 0 0 0 0 = P_GR ∧
+      0 < re.turnerModel16bGWLuminosity orb m2 sigmaDev alphaQG kappaIR 0) ∧
+    (PlanetaryOrbit.turnerModel16aLightDeflection orb Δθ_GR deltaVarpi 0 0 0 0 = Δθ_GR ∧
+      re.turnerModel16bLightDeflection orb impactParam deltaVarpi 0 0 0 0 = Δθ_GR ∧
+      0 < mutualPhotonDeflection ActiveRadiationSourcing.generalRelativity
+            re.G_phi sub.c beamEnergy impactParam kernel ∧
+      mutualPhotonDeflection ActiveRadiationSourcing.dilatantDarkFluid
+        re.G_phi sub.c beamEnergy impactParam kernel = 0) := by
+  intro Δϖ_GR P_GR Δθ_GR
+  rcases turner_model_15_celestial_plucker_ddf_graviton_unification
+    s re orb s_pl orbitalPhase deltaVarpi m2 1 1 hm2 one_ne_zero zero_lt_one with
+    ⟨_, _, ⟨h_15a_prec, _, h_15b_prec, _, _⟩, ⟨h_15a_gw, _, h_15b_gw, _⟩⟩
+  have h_14a_prec :
+      PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0 = Δϖ_GR := by
+    unfold PlanetaryOrbit.turnerCelestialPluckerGravitonPrecessionRad
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor at h_15a_prec
+    linarith
+  have h_14b_prec :
+      re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0 = Δϖ_GR := by
+    unfold RiverExterior.turnerCelestialDualGr24DDFGravitonPrecessionRad
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor at h_15b_prec
+    linarith
+  have h_14a_gw :
+      PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 = P_GR := by
+    unfold PlanetaryOrbit.turnerCelestialPluckerGravitonGWLuminosity
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor at h_15a_gw
+    linarith
+  have h_14b_gw :
+      re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0 = P_GR := by
+    unfold RiverExterior.turnerCelestialDualGr24DDFGravitonGWLuminosity
+      celestialSpinTwoShadowNormFactor celestialPlancherelLoopCorrectionFactor at h_15b_gw
+    linarith
+  have h_pgr_pos : 0 < P_GR := by
+    dsimp [P_GR, RiverExterior.petersMathewsLuminosity]
+    exact (orb.qed_gravitational_wave_without_ddf_identities
+      orbitalPhase deltaVarpi 0 re.G_phi re.sourceMass m2 sub.c 1
+      re.G_phi_pos re.sourceMass_pos hm2 sub.c_pos zero_lt_one 1 1 1 1).2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  have h_ir_0 : celestialIrScreeningFactor 0 = 1 := by
+    unfold celestialIrScreeningFactor
+    simp
+  have h_ir_pos : 0 < celestialIrScreeningFactor kappaIR := by
+    unfold celestialIrScreeningFactor
+    have h_1pk : 0 < 1 + kappaIR := by linarith
+    have h_exp : 0 < Real.exp (-kappaIR) := Real.exp_pos (-kappaIR)
+    exact mul_pos h_1pk h_exp
+  have h_ir_le : celestialIrScreeningFactor kappaIR ≤ 1 := by
+    unfold celestialIrScreeningFactor
+    have h_le_exp : 1 + kappaIR ≤ Real.exp kappaIR := by
+      linarith [Real.add_one_le_exp kappaIR]
+    calc
+      (1 + kappaIR) * Real.exp (-kappaIR) ≤ Real.exp kappaIR * Real.exp (-kappaIR) :=
+        mul_le_mul_of_nonneg_right h_le_exp (le_of_lt (Real.exp_pos (-kappaIR)))
+      _ = 1 := by rw [← Real.exp_add, add_neg_cancel, Real.exp_zero]
+  have h_g16_0 : celestialTransferFactor16 0 0 0 = 1 := by
+    unfold celestialTransferFactor16 celestialSpinTwoCayleyShadowFactor
+      celestialPlancherelLoopCorrectionFactor
+    rw [h_ir_0]
+    norm_num
+  have h_cay_pos : 0 < celestialSpinTwoCayleyShadowFactor sigmaDev := by
+    unfold celestialSpinTwoCayleyShadowFactor
+    positivity
+  have h_loop_pos : 0 < celestialPlancherelLoopCorrectionFactor alphaQG := by
+    unfold celestialPlancherelLoopCorrectionFactor
+    positivity
+  have h_g16_pos : 0 < celestialTransferFactor16 sigmaDev alphaQG kappaIR := by
+    unfold celestialTransferFactor16
+    exact mul_pos (mul_pos h_cay_pos h_loop_pos) h_ir_pos
+  have h_light := turner_model_15_critique_cayley_shadow_all_loop_and_light_deflection_identities
+    re orb sigmaDev 1 deltaVarpi impactParam beamEnergy kernel
+    one_pos (by norm_num) hb hE hK
+  have h_16a_prec :
+      PlanetaryOrbit.turnerModel16aPrecessionRad
+        orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 0 = Δϖ_GR := by
+    unfold PlanetaryOrbit.turnerModel16aPrecessionRad
+    rw [h_g16_0, h_14a_prec]
+    ring
+  have h_16b_prec :
+      re.turnerModel16bPrecessionRad orb deltaVarpi 0 0 0 0 = Δϖ_GR := by
+    unfold RiverExterior.turnerModel16bPrecessionRad
+    rw [h_g16_0, h_14b_prec]
+    ring
+  have h_16a_gw_0 :
+      PlanetaryOrbit.turnerModel16aGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 0 0 twoOmegaOrb 0 0 = P_GR := by
+    unfold PlanetaryOrbit.turnerModel16aGWLuminosity gwMassGapStep
+    rw [h_g16_0, h_14a_gw, ite_eq_left_iff.mpr (fun h => False.elim (h h_orb_pos))]
+    ring
+  have h_16a_gw_cut :
+      PlanetaryOrbit.turnerModel16aGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi sigmaDev alphaQG kappaIR
+        twoOmegaOrb omegaGap 0 = 0 := by
+    unfold PlanetaryOrbit.turnerModel16aGWLuminosity gwMassGapStep
+    have h_not_le : ¬ omegaGap ≤ twoOmegaOrb := not_le.mpr h_below_gap
+    rw [ite_eq_right_iff.mpr (fun h => False.elim (h_not_le h))]
+    ring
+  have h_16b_gw_0 :
+      re.turnerModel16bGWLuminosity orb m2 0 0 0 0 = P_GR := by
+    unfold RiverExterior.turnerModel16bGWLuminosity
+    rw [h_g16_0, h_14b_gw]
+    ring
+  have h_16b_gw_pos :
+      0 < re.turnerModel16bGWLuminosity orb m2 sigmaDev alphaQG kappaIR 0 := by
+    unfold RiverExterior.turnerModel16bGWLuminosity
+    rw [h_14b_gw, add_zero]
+    exact mul_pos h_g16_pos h_pgr_pos
+  have h_16a_light :
+      PlanetaryOrbit.turnerModel16aLightDeflection orb Δθ_GR deltaVarpi 0 0 0 0 = Δθ_GR := by
+    have h_m15_l := h_light.2.2.1
+    unfold PlanetaryOrbit.turnerCelestialPluckerGravitonLightDeflection
+      celestialSpinTwoCayleyShadowFactor celestialPlancherelLoopCorrectionFactor at h_m15_l
+    unfold PlanetaryOrbit.turnerModel16aLightDeflection
+    rw [h_g16_0]
+    linarith
+  have h_16b_light :
+      re.turnerModel16bLightDeflection orb impactParam deltaVarpi 0 0 0 0 = Δθ_GR := by
+    have h_m15_l := h_light.2.2.2.1
+    unfold RiverExterior.turnerCelestialDualGr24DDFGravitonLightDeflection
+      celestialSpinTwoCayleyShadowFactor celestialPlancherelLoopCorrectionFactor at h_m15_l
+    unfold RiverExterior.turnerModel16bLightDeflection
+    rw [h_g16_0]
+    linarith
+  refine ⟨⟨h_ir_0, h_ir_pos, h_ir_le⟩, ⟨h_g16_0, h_g16_pos⟩,
+    ⟨h_16a_prec, by rw [h_16a_prec]; simp [relativePredictiveError],
+     h_16b_prec, by rw [h_16b_prec]; simp [relativePredictiveError]⟩,
+    ⟨h_16a_gw_0, h_16a_gw_cut, h_16b_gw_0, h_16b_gw_pos⟩,
+    ⟨h_16a_light, h_16b_light, h_light.2.2.2.2.1, h_light.2.2.2.2.2⟩⟩
+
+/-- Dimensionless Model 16a long-distance IR Yukawa screening parameter `κ_IR^{(16a)} = a / λ_gap`,
+which increases with orbital scale `a` (`a → ∞` gives exponential Yukawa suppression). -/
+noncomputable def model16aIrYukawaParam (semiMajorAxis lambdaGap : ℝ) : ℝ :=
+  semiMajorAxis / lambdaGap
+
+/-- Dimensionless Model 16b short-distance DDF healing-length core parameter `κ_core^{(16b)} = ξ_φ / a`,
+which decreases with orbital scale `a` (`a → ∞` recovers unscreened `1/r` gravity while `a ≲ ξ_φ`
+regulates short-distance core singularities). -/
+noncomputable def model16bCoreRegularizationParam (healingLength semiMajorAxis : ℝ) : ℝ :=
+  healingLength / semiMajorAxis
+
+/-- **Critique & Gap-Closure Theorem for Models 16a & 16b**:
+1. **Strict Anti-Monotonicity of `S_IR(κ)`**: For `0 ≤ κ₁ < κ₂`,
+   `celestialIrScreeningFactor κ₂ < celestialIrScreeningFactor κ₁`.
+2. **Quadratic Solar-System Ephemeris Safety (`1 - κ² / 2 ≤ S_IR(κ) ≤ 1`)**:
+   Proves zero linear `O(κ)` deviation in `S_IR(κ) = (1 + κ) e^{-κ}` for all `κ ≥ 0`.
+3. **Opposite Asymptotic Scaling of Model 16a (`a / λ_gap`) vs. Model 16b (`ξ_φ / a`)**:
+   Increasing `a₁ < a₂` strictly *decreases* `S_IR(a / λ_gap)` (IR screening at large scales)
+   while strictly *increasing* `S_IR(ξ_φ / a)` toward `1` (unscreened `1/r` long-range gravity
+   in gapless DDF superfluid backgrounds, with core regularization active only at `a ≲ ξ_φ`). -/
+@[blueprint "thm:signals-ddf-turner-model-16-critique-uv-core-vs-ir-gap"
+  (title := "Critique & gap-closure theorem for Models 16a & 16b: S_IR strict monotonicity, quadratic bound 1 - κ²/2 ≤ S_IR(κ), and IR Yukawa vs. UV core scaling")
+  (statement := /-- Certifies strict anti-monotonicity of $\mathcal{S}_{\mathrm{IR}}(\kappa)$,
+    the sharp quadratic lower bound $1 - \kappa^2/2 \le \mathcal{S}_{\mathrm{IR}}(\kappa) \le 1$,
+    and opposite asymptotic orbital-radius scaling of Model 16a ($a/\lambda_{\mathrm{gap}}$) vs.
+    Model 16b ($\xi_\phi/a$). -/)]
+theorem turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities
+    (kappa1 kappa2 kappa a1 a2 lambdaGap xiPhi : ℝ)
+    (hk1 : 0 ≤ kappa1) (hk12 : kappa1 < kappa2) (hk : 0 ≤ kappa)
+    (ha1 : 0 < a1) (ha12 : a1 < a2) (hlam : 0 < lambdaGap) (hxi : 0 < xiPhi) :
+    (celestialIrScreeningFactor kappa2 < celestialIrScreeningFactor kappa1) ∧
+      (1 - kappa ^ 2 / 2 ≤ celestialIrScreeningFactor kappa) ∧
+      (celestialIrScreeningFactor (model16aIrYukawaParam a2 lambdaGap) <
+        celestialIrScreeningFactor (model16aIrYukawaParam a1 lambdaGap)) ∧
+      (celestialIrScreeningFactor (model16bCoreRegularizationParam xiPhi a1) <
+        celestialIrScreeningFactor (model16bCoreRegularizationParam xiPhi a2)) := by
+  have h_strict_anti : ∀ x y : ℝ, 0 ≤ x → x < y →
+      celestialIrScreeningFactor y < celestialIrScreeningFactor x := by
+    intro x y hx hxy
+    unfold celestialIrScreeningFactor
+    have hd_pos : 0 < y - x := sub_pos.mpr hxy
+    have h_mul : (1 + y) * Real.exp (-y) < (1 + x) * Real.exp (-x) ↔
+        1 + y < (1 + x) * Real.exp (y - x) := by
+      rw [show y - x = -x - (-y) by ring, Real.exp_sub, mul_div_assoc',
+        lt_div_iff₀ (Real.exp_pos (-y))]
+    rw [h_mul]
+    have h_exp_gt : 1 + (y - x) < Real.exp (y - x) := by
+      linarith [Real.add_one_lt_exp (ne_of_gt hd_pos)]
+    have h_1px_pos : 0 < 1 + x := by linarith
+    have h_prod : (1 + x) * (1 + (y - x)) < (1 + x) * Real.exp (y - x) :=
+      mul_lt_mul_of_pos_left h_exp_gt h_1px_pos
+    have h_alg : 1 + y ≤ (1 + x) * (1 + (y - x)) := by nlinarith
+    linarith
+  have h_quad : 1 - kappa ^ 2 / 2 ≤ celestialIrScreeningFactor kappa := by
+    let g : ℝ → ℝ := fun t => (1 + t) * Real.exp (-t) - (1 - t ^ 2 / 2)
+    have h_deriv : ∀ t : ℝ, HasDerivAt g (t * (1 - Real.exp (-t))) t := by
+      intro t
+      have h1 : HasDerivAt (fun u : ℝ => 1 + u) 1 t := (hasDerivAt_id t).const_add 1
+      have h2 : HasDerivAt (fun u : ℝ => Real.exp (-u)) (Real.exp (-t) * (-1)) t :=
+        HasDerivAt.comp t (Real.hasDerivAt_exp (-t)) (hasDerivAt_neg t)
+      have hprod := h1.mul h2
+      have h3 : HasDerivAt (fun u : ℝ => 1 - u ^ 2 / 2) (-t) t := by
+        have hp := (hasDerivAt_pow 2 t).div_const 2
+        have hp' : HasDerivAt (fun u : ℝ => u ^ 2 / 2) t t := by
+          convert hp using 1; ring
+        convert (hasDerivAt_const t (1 : ℝ)).sub hp' using 1; ring
+      convert hprod.sub h3 using 1
+      ring
+    have h_mono : MonotoneOn g (Set.Ici 0) := by
+      apply monotoneOn_of_deriv_nonneg (convex_Ici 0)
+      · exact ((continuous_const.add continuous_id).mul (Real.continuous_exp.comp continuous_neg)).sub
+          (continuous_const.sub ((continuous_pow 2).div_const 2)) |>.continuousOn
+      · exact fun t _ => (h_deriv t).differentiableAt.differentiableWithinAt
+      · intro t ht
+        have ht0 : 0 ≤ t := interior_subset ht
+        rw [(h_deriv t).deriv]
+        have hexp : Real.exp (-t) ≤ 1 := Real.exp_le_one_iff.mpr (by linarith)
+        exact mul_nonneg ht0 (sub_nonneg.mpr hexp)
+    have h0 : g 0 = 0 := by simp [g]
+    have hle : g 0 ≤ g kappa := h_mono (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr hk) hk
+    rw [h0] at hle
+    dsimp [g] at hle
+    unfold celestialIrScreeningFactor
+    linarith
+  have ha2_pos : 0 < a2 := lt_trans ha1 ha12
+  refine ⟨h_strict_anti kappa1 kappa2 hk1 hk12, h_quad, ?_, ?_⟩
+  · apply h_strict_anti (model16aIrYukawaParam a1 lambdaGap) (model16aIrYukawaParam a2 lambdaGap)
+    · unfold model16aIrYukawaParam; positivity
+    · unfold model16aIrYukawaParam
+      exact div_lt_div_of_pos_right ha12 hlam
+  · apply h_strict_anti (model16bCoreRegularizationParam xiPhi a2) (model16bCoreRegularizationParam xiPhi a1)
+    · unfold model16bCoreRegularizationParam; exact div_nonneg (le_of_lt hxi) (le_of_lt ha2_pos)
+    · unfold model16bCoreRegularizationParam
+      exact div_lt_div_of_pos_left hxi ha1 ha12
+
 end Signals.DDF

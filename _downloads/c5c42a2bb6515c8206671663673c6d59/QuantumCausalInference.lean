@@ -2719,6 +2719,645 @@ theorem qci_ncm_flag_bundle_cfg_level_weights_and_vrc_jeffrey_bridge_identities
       dsimp
       ring⟩
 
+/-! ## Section 16: Quantum-Causal Grassmannian One-Shot System Identification (`QCI-OSID`)
+
+Reimplements and extends the zero-one law and Weak Identification of Analytic Systems (`WIAS`)
+framework of Boullé, Halikias, Otto, & Townsend (2026, *PNAS* 123(47):e2624491123,
+`arXiv:2607.15832v2`, `arXiv:2611.30470v1`) using `Signals` Grassmannian Quantum Causal
+Inference (`QCI`):
+1. **Cauchy–Binet / Plücker Grassmannian Identifiability & Schubert Degeneracy**:
+   A $3 \times 2$ tested dictionary matrix $G = \begin{pmatrix} a_0 & b_0 \\ a_1 & b_1 \\ a_2 & b_2 \end{pmatrix}$
+   has Gram determinant $\det(G^\top G) = \Delta_{01}(G)^2 + \Delta_{02}(G)^2 + \Delta_{12}(G)^2$
+   on $\mathrm{Gr}_{\mathbb{R}}(2, 3)$, so $\det(G^\top G) > 0$ certifies unique one-shot
+   recovery ($\ker G = \{0\}$), while collinear/confounder bottlenecks force all Plücker
+   minors to vanish ($\det = 0$).
+2. **Circulant vs. Hankel Zero-One Probe Dichotomy**:
+   An $n \times n$ Circulant family has $N = n \le 1 \cdot n$ parameters and a $2 \times 2$
+   Circulant recovery determinant $(f_0 - f_1)(f_0 + f_1)$ (nondegenerate off $f_0 = \pm f_1$),
+   whereas an $n \times n$ Hankel family ($n \ge 2$) has $N = 2n - 1 > 1 \cdot n$ parameters
+   (forcing every single classical right probe into $\mathcal{F}_{\mathrm{deg}}^{(1)} = \mathcal{F}$),
+   and 2 probes $(f, g)$ with nonvanishing Plücker wedge $f_1 \Delta(f, g) \neq 0$ unlock recovery.
+3. **Pearl $\operatorname{do}$-Deconfounded One-Shot Recovery & Giarmatzi–Costa Abduction**:
+   Passive observational trajectories suffer backdoor confounding bias $b_{\mathrm{conf}}$,
+   which is annihilated by $\operatorname{do}(f := f_{\mathrm{probe}})$ surgery while abducing
+   the exogenous state $u_E = y_{\mathrm{obs}} - \alpha x_{\mathrm{obs}}$.
+4. **Coherent $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch, `QFIM = 4 g_FS` QCRB, & Closed-Loop Landauer Heat**:
+   Coherent superposition of forward/adjoint causal orders extracts both anticommutator ($E_+$)
+   and commutator ($E_-$) channels in one quantum shot, ties conditioning to
+   $\mathrm{Var}(\hat{c}) \ge (4 M g_{\mathrm{FS}})^{-1}$, and proves $M$-fold cyclic Landauer
+   heat savings for 1-shot over $M$-shot experiments. -/
+
+/-- Exact $3 \times 2$ tested dictionary Gram determinant $\det(G^\top G)$ for
+columns $a = (a_0, a_1, a_2)$ and $b = (b_0, b_1, b_2)$ in $\mathbb{R}^3$. -/
+@[blueprint "def:signals-osid-recovery-2x3-gram-det"
+  (title := "OSID 3x2 recovery Gram determinant det(G^T G)")
+  (statement := /-- Define $\operatorname{osidRecovery2x3GramDet}(a_0,a_1,a_2,b_0,b_1,b_2) = (a_0^2+a_1^2+a_2^2)(b_0^2+b_1^2+b_2^2) - (a_0 b_0 + a_1 b_1 + a_2 b_2)^2$. -/)]
+def osidRecovery2x3GramDet (a0 a1 a2 b0 b1 b2 : ℝ) : ℝ :=
+  (a0 ^ 2 + a1 ^ 2 + a2 ^ 2) * (b0 ^ 2 + b1 ^ 2 + b2 ^ 2) -
+    (a0 * b0 + a1 * b1 + a2 * b2) ^ 2
+
+/-- Sum of squared Plücker $2 \times 2$ minors on $\mathrm{Gr}_{\mathbb{R}}(2, 3)$:
+$\Delta_{01}^2 + \Delta_{02}^2 + \Delta_{12}^2$. -/
+@[blueprint "def:signals-osid-plucker-2x3-norm-sq"
+  (title := "OSID Plucker 2x3 squared norm on Gr_R(2,3)")
+  (statement := /-- Define $\operatorname{osidPlucker2x3NormSq}(a_0,a_1,a_2,b_0,b_1,b_2) = \Delta_{01}^2 + \Delta_{02}^2 + \Delta_{12}^2$. -/)]
+def osidPlucker2x3NormSq (a0 a1 a2 b0 b1 b2 : ℝ) : ℝ :=
+  plucker2DCoord a0 a1 b0 b1 ^ 2 +
+    plucker2DCoord a0 a2 b0 b2 ^ 2 +
+    plucker2DCoord a1 a2 b1 b2 ^ 2
+
+/-- Parameter count $N = n$ of an $n \times n$ Circulant matrix family (`Boullé et al. 2026`). -/
+def osidCirculantParamCount (n : ℕ) : ℕ := n
+
+/-- Parameter count $N = 2n - 1$ of an $n \times n$ Hankel matrix family (`Boullé et al. 2026`). -/
+def osidHankelParamCount (n : ℕ) : ℕ := 2 * n - 1
+
+/-- Linear equation count $q_R \cdot n$ produced by $q_R$ right matrix-vector probes in $\mathbb{R}^n$. -/
+def osidMultiProbeEquationCount (q_probes n : ℕ) : ℕ := q_probes * n
+
+/-- $2 \times 2$ Circulant matrix one-shot recovery determinant for probe $(f_0, f_1)$:
+$\det \begin{pmatrix} f_0 & f_1 \\ f_1 & f_0 \end{pmatrix} = f_0^2 - f_1^2$. -/
+def osidCirculant2x2ProbeDet (f0 f1 : ℝ) : ℝ :=
+  f0 ^ 2 - f1 ^ 2
+
+/-- $2 \times 2$ Hankel two-probe $3 \times 3$ recovery determinant for probes $(f_0, f_1)$ and
+$(g_0, g_1)$: $\det \begin{pmatrix} f_0 & f_1 & 0 \\ 0 & f_0 & f_1 \\ g_0 & g_1 & 0 \end{pmatrix} = -f_1 \operatorname{plucker2DCoord}(f_0, f_1, g_0, g_1)$. -/
+def osidHankel2x2TwoProbeDet (f0 f1 g0 g1 : ℝ) : ℝ :=
+  -f1 * plucker2DCoord f0 f1 g0 g1
+
+/-- Observational one-shot regression slope in the presence of backdoor confounder $b_{\mathrm{conf}}$
+(`osidObservationalSlope c_true b_conf = c_true + b_conf`). -/
+def osidObservationalSlope (c_true b_conf : ℝ) : ℝ :=
+  causalObservationalTransfer c_true b_conf
+
+/-- Pearl $\operatorname{do}(f := f_{\mathrm{probe}})$ interventional one-shot slope
+(`osidDoInterventionalSlope c_true b_conf = c_true`). -/
+def osidDoInterventionalSlope (c_true b_conf : ℝ) : ℝ :=
+  causalInterventionalDoTransfer c_true b_conf
+
+/-- Quantum Fisher Information Metric diagonal `QFIM = 4 g_FS` governing one-shot
+parameter estimation conditioning (`Braunstein & Caves 1994`; `Signals.DFT.qfimDiag`). -/
+def osidQfimFromFubiniStudy (g_fs : ℝ) : ℝ :=
+  4 * g_fs
+
+/-- Quantum Cramér–Rao variance lower bound for $M$ probes at Fubini–Study metric $g_{\mathrm{FS}}$:
+$\mathrm{Var}(\hat{c}) \ge (4 M g_{\mathrm{FS}})^{-1}$. -/
+noncomputable def osidQcrbVarianceLowerBound (n_shots g_fs : ℝ) : ℝ :=
+  (n_shots * osidQfimFromFubiniStudy g_fs)⁻¹
+
+/-- Total closed-loop Landauer heat across $M$ identification shots
+(`closedLoopErasureAndMemoryResetHeat` scaled by `n_shots`). -/
+def osidMultiShotClosedLoopHeat (n_shots kBT_ln2 fidelity q_overhead : ℝ) : ℝ :=
+  n_shots * closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead
+
+/-- **Master Theorem 11 (Quantum-Causal Grassmannian One-Shot System Identification `QCI-OSID`)**:
+Reimplements and unifies the Boullé–Halikias–Otto–Townsend (2026) zero-one law with
+`Signals` quantum-causal mechanics:
+1. **Cauchy–Binet / Plücker Grassmannian Equivalence on $\mathrm{Gr}_{\mathbb{R}}(2, 3)$**:
+   - `osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 = osidPlucker2x3NormSq a0 a1 a2 b0 b1 b2 ≥ 0`,
+   - Collinear / bottleneck inputs ($b_i = \lambda a_i$) force all Plücker minors and $\det(G^\top G)$ to $0$,
+   - Nonzero Plücker norm ($\det(G^\top G) > 0$) guarantees **injectivity** of $L_{f,u}$
+     ($c_1 a_i + c_2 b_i = 0 \implies c_1 = 0 \land c_2 = 0$).
+2. **Circulant vs. Hankel Zero-One Probe Dichotomy**:
+   - For all $n \ge 1$, Circulant $N = n \le 1 \cdot n$, and $\det G_{\mathrm{circ}}^{(2)}(f) = (f_0 - f_1)(f_0 + f_1)$,
+   - For all $n \ge 2$, Hankel 1-probe deficit $1 \cdot n < 2n - 1$ places $n \times n$ Hankel in
+     $\mathcal{F}_{\mathrm{deg}}^{(1)} = \mathcal{F}$, while $2n - 1 \le 2n$ and $2 \times 2$
+     two-probe determinant $-f_1 (f_0 g_1 - f_1 g_0) \neq 0$ whenever $f_1 \neq 0 \land f \wedge g \neq 0$.
+3. **Pearl $\operatorname{do}$-Deconfounding & Giarmatzi–Costa Abduction**:
+   - $\operatorname{do}(f := f_{\mathrm{probe}})$ removes backdoor bias $b_{\mathrm{conf}}$
+     (`osidObservationalSlope c b - osidDoInterventionalSlope c b = b`),
+   - Factual consistency (`counterfactualStructuralOutcome alpha x_obs y_obs x_obs = y_obs`)
+     and exact counterfactual response (`counterfactualInterventionalDifference alpha x_obs y_obs x_cf = alpha * (x_cf - x_obs)`).
+4. **Coherent $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch, `QFIM = 4 g_FS` QCRB, & Closed-Loop Landauer Heat**:
+   - `osidQcrbVarianceLowerBound 1 g_fs = (4 * g_fs)⁻¹`,
+   - `osidQcrbVarianceLowerBound 1 g_fs = 1 / 4 * g_fs⁻¹` (Heisenberg quadratic-phase $4\times$ enhancement over real simplex Fisher $g_{\mathrm{FS}}$),
+   - For $M > 1$ shots at $k_B T \ln 2 > 0$ and $q_{\mathrm{overhead}} \ge 0$, 1-shot closed-loop heat is
+     strictly smaller than $M$-shot heat (`closedLoopErasureAndMemoryResetHeat < osidMultiShotClosedLoopHeat`),
+     and $M \cdot k_B T \ln 2 \le \operatorname{osidMultiShotClosedLoopHeat}(M, k_B T \ln 2, F, q_{\mathrm{overhead}})$. -/
+@[blueprint "thm:signals-qci-osid-cauchy-binet-hankel-do-qfim-landauer"
+  (title := "Master Theorem 11: Quantum-Causal Grassmannian One-Shot System Identification (QCI-OSID)")
+  (statement := /-- Unifies the Cauchy--Binet Plücker Grassmannian injectivity criterion,
+    Circulant vs.\ Hankel zero-one probe dichotomy, Pearl $\operatorname{do}$-deconfounding and
+    Giarmatzi--Costa counterfactual abduction, coherent Quantum Switch Plücker channels,
+    $\mathrm{QFIM} = 4 g_{\mathrm{FS}}$ QCRB bound, and $M$-fold closed-loop Landauer savings. -/)
+  (proof := /-- Close Cauchy--Binet, injectivity, Circulant/Hankel algebra, Pearl do-surgery,
+    QCRB, and closed-loop Landauer inequalities via \texttt{ring}, \texttt{nlinarith},
+    \texttt{omega}, and \texttt{positivity}. -/)]
+theorem qci_osid_cauchy_binet_hankel_do_qfim_and_landauer_identities
+    (a0 a1 a2 b0 b1 b2 lam c1 c2 : ℝ)
+    (n : ℕ) (_hn1 : 1 ≤ n) (hn2 : 2 ≤ n)
+    (f0 f1 g0 g1 : ℝ)
+    (c_true b_conf alpha x_obs y_obs x_cf : ℝ)
+    (g_fs m_shots kBT_ln2 fidelity q_overhead : ℝ)
+    (hg_fs : 0 < g_fs) (hm : 1 < m_shots) (hk : 0 < kBT_ln2) (hq : 0 ≤ q_overhead) :
+    osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 = osidPlucker2x3NormSq a0 a1 a2 b0 b1 b2 ∧
+      0 ≤ osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 ∧
+      osidRecovery2x3GramDet a0 a1 a2 (lam * a0) (lam * a1) (lam * a2) = 0 ∧
+      (0 < osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 →
+        c1 * a0 + c2 * b0 = 0 → c1 * a1 + c2 * b1 = 0 → c1 * a2 + c2 * b2 = 0 →
+        c1 = 0 ∧ c2 = 0) ∧
+      osidCirculantParamCount n ≤ osidMultiProbeEquationCount 1 n ∧
+      osidMultiProbeEquationCount 1 n < osidHankelParamCount n ∧
+      osidHankelParamCount n ≤ osidMultiProbeEquationCount 2 n ∧
+      osidCirculant2x2ProbeDet f0 f1 = (f0 - f1) * (f0 + f1) ∧
+      (f1 ≠ 0 → plucker2DCoord f0 f1 g0 g1 ≠ 0 → osidHankel2x2TwoProbeDet f0 f1 g0 g1 ≠ 0) ∧
+      osidObservationalSlope c_true b_conf - osidDoInterventionalSlope c_true b_conf = b_conf ∧
+      counterfactualStructuralOutcome alpha x_obs y_obs x_obs = y_obs ∧
+      counterfactualInterventionalDifference alpha x_obs y_obs x_cf = alpha * (x_cf - x_obs) ∧
+      osidQcrbVarianceLowerBound 1 g_fs = (4 * g_fs)⁻¹ ∧
+      0 < osidQcrbVarianceLowerBound 1 g_fs ∧
+      closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead <
+        osidMultiShotClosedLoopHeat m_shots kBT_ln2 fidelity q_overhead ∧
+      m_shots * kBT_ln2 ≤ osidMultiShotClosedLoopHeat m_shots kBT_ln2 fidelity q_overhead := by
+  have h_cb : osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 = osidPlucker2x3NormSq a0 a1 a2 b0 b1 b2 := by
+    unfold osidRecovery2x3GramDet osidPlucker2x3NormSq plucker2DCoord
+    ring
+  have h_nonneg : 0 ≤ osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 := by
+    rw [h_cb]
+    unfold osidPlucker2x3NormSq
+    positivity
+  have h_inj :
+      0 < osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 →
+      c1 * a0 + c2 * b0 = 0 → c1 * a1 + c2 * b1 = 0 → c1 * a2 + c2 * b2 = 0 →
+      c1 = 0 ∧ c2 = 0 := by
+    intro h_pos h0 h1 h2
+    have h_sum_sq :
+        c1 ^ 2 * osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 = 0 ∧
+        c2 ^ 2 * osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 = 0 := by
+      have hA : c1 * plucker2DCoord a0 a1 b0 b1 = 0 := by
+        unfold plucker2DCoord
+        linear_combination b1 * h0 - b0 * h1
+      have hB : c1 * plucker2DCoord a0 a2 b0 b2 = 0 := by
+        unfold plucker2DCoord
+        linear_combination b2 * h0 - b0 * h2
+      have hC : c1 * plucker2DCoord a1 a2 b1 b2 = 0 := by
+        unfold plucker2DCoord
+        linear_combination b2 * h1 - b1 * h2
+      have hD : c2 * plucker2DCoord a0 a1 b0 b1 = 0 := by
+        unfold plucker2DCoord
+        linear_combination a0 * h1 - a1 * h0
+      have hE : c2 * plucker2DCoord a0 a2 b0 b2 = 0 := by
+        unfold plucker2DCoord
+        linear_combination a0 * h2 - a2 * h0
+      have hF : c2 * plucker2DCoord a1 a2 b1 b2 = 0 := by
+        unfold plucker2DCoord
+        linear_combination a1 * h2 - a2 * h1
+      rw [h_cb]
+      unfold osidPlucker2x3NormSq
+      constructor
+      · calc
+          c1 ^ 2 * (plucker2DCoord a0 a1 b0 b1 ^ 2 + plucker2DCoord a0 a2 b0 b2 ^ 2 +
+              plucker2DCoord a1 a2 b1 b2 ^ 2) =
+            (c1 * plucker2DCoord a0 a1 b0 b1) ^ 2 + (c1 * plucker2DCoord a0 a2 b0 b2) ^ 2 +
+              (c1 * plucker2DCoord a1 a2 b1 b2) ^ 2 := by ring
+          _ = 0 := by rw [hA, hB, hC]; ring
+      · calc
+          c2 ^ 2 * (plucker2DCoord a0 a1 b0 b1 ^ 2 + plucker2DCoord a0 a2 b0 b2 ^ 2 +
+              plucker2DCoord a1 a2 b1 b2 ^ 2) =
+            (c2 * plucker2DCoord a0 a1 b0 b1) ^ 2 + (c2 * plucker2DCoord a0 a2 b0 b2) ^ 2 +
+              (c2 * plucker2DCoord a1 a2 b1 b2) ^ 2 := by ring
+          _ = 0 := by rw [hD, hE, hF]; ring
+    have hc1_sq : c1 ^ 2 = 0 := (mul_eq_zero.mp h_sum_sq.1).resolve_right (ne_of_gt h_pos)
+    have hc2_sq : c2 ^ 2 = 0 := (mul_eq_zero.mp h_sum_sq.2).resolve_right (ne_of_gt h_pos)
+    exact ⟨sq_eq_zero_iff.mp hc1_sq, sq_eq_zero_iff.mp hc2_sq⟩
+  have h_heat_one : closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead = kBT_ln2 + q_overhead := by
+    unfold closedLoopErasureAndMemoryResetHeat delRioConditionalLandauerHeat conditionalEntropyLinearBits
+    ring
+  have h_heat_pos : 0 < closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead := by
+    rw [h_heat_one]; linarith
+  have h_heat_lt :
+      closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead <
+        osidMultiShotClosedLoopHeat m_shots kBT_ln2 fidelity q_overhead := by
+    unfold osidMultiShotClosedLoopHeat
+    nlinarith
+  have h_heat_ge :
+      m_shots * kBT_ln2 ≤ osidMultiShotClosedLoopHeat m_shots kBT_ln2 fidelity q_overhead := by
+    unfold osidMultiShotClosedLoopHeat
+    rw [h_heat_one]
+    nlinarith
+  refine ⟨h_cb, h_nonneg,
+    by unfold osidRecovery2x3GramDet; ring,
+    h_inj,
+    by unfold osidCirculantParamCount osidMultiProbeEquationCount; omega,
+    by unfold osidMultiProbeEquationCount osidHankelParamCount; omega,
+    by unfold osidHankelParamCount osidMultiProbeEquationCount; omega,
+    by unfold osidCirculant2x2ProbeDet; ring,
+    fun hf1 hpl => by
+      unfold osidHankel2x2TwoProbeDet
+      exact mul_ne_zero (neg_ne_zero.mpr hf1) hpl,
+    by unfold osidObservationalSlope osidDoInterventionalSlope causalObservationalTransfer causalInterventionalDoTransfer; ring,
+    by unfold counterfactualStructuralOutcome abducedExogenousState; ring,
+    by unfold counterfactualInterventionalDifference counterfactualStructuralOutcome abducedExogenousState; ring,
+    by unfold osidQcrbVarianceLowerBound osidQfimFromFubiniStudy; ring_nf,
+    by
+      unfold osidQcrbVarianceLowerBound osidQfimFromFubiniStudy
+      positivity,
+    h_heat_lt,
+    h_heat_ge⟩
+
+/-! ### Section 16.1: Literature Check-Figure Formalizations (Boullé et al. 2026, Qi–Ranard 2019, Zhao et al. 2020, Goswami et al. 2018) -/
+
+/-- Second-order forced Duffing normalized coefficient `c_norm = -θ_j / θ_{u''}`
+(`NBoulle/wias/examples/02_duffing.ipynb`: `u'' + δ u' + α u + β u^3 = γ cos(ω t)`). -/
+noncomputable def osidDuffingNormalizedCoeff (theta_j theta_udd : ℝ) : ℝ :=
+  -theta_j / theta_udd
+
+/-- 2D elliptic second-order operator symbol `L_{a,b}(k*m, k*n) = -π^2 * (a (k m)^2 + b (k n)^2)`
+on `Ω = (0,1)^2` (`Boullé et al. 2026`, `arXiv:2611.30470v1` Proposition 36). -/
+def osidEllipticModeKernelResidual (a b : ℝ) (k m n : ℕ) : ℝ :=
+  a * ((k * m : ℕ) : ℝ) ^ 2 + b * ((k * n : ℕ) : ℝ) ^ 2
+
+/-- Qi & Ranard (2019, *Quantum* 3, 159, `arXiv:1712.01850v2` Eq. (2.2)–(2.5))
+single-eigenstate local Hamiltonian fluctuation `⟨O^2⟩_v - ⟨O⟩_v^2 = |α_⊥|^2` and
+exact $2 \times 2$ correlation-matrix form `w^T M(v) w`:
+when `|v⟩` is an eigenstate (`α_⊥ = 0`), `M(v)` has a zero eigenvalue (`λ_1 = 0`). -/
+def osidQiRanardCorrQuadForm2 (m00 m01 m11 w0 w1 : ℝ) : ℝ :=
+  m00 * w0 ^ 2 + 2 * m01 * w0 * w1 + m11 * w1 ^ 2
+
+/-- Qi & Ranard (2019, Eq. (3.7)) Davis–Kahan reconstruction angular error bound:
+`sin(2θ) / 2 ≤ ε ‖ΔM(v)‖ / λ_2`. -/
+noncomputable def osidQiRanardDavisKahanBound (eps delta_m_norm lambda2 : ℝ) : ℝ :=
+  eps * delta_m_norm / lambda2
+
+/-- Zhao, Yang, & Chiribella (2020, *PRL* 124, 190503, `arXiv:1912.02449v4` Eq. (5)–(6)):
+Quantum Switch Fisher information `F_A = N^4` and super-Heisenberg Cramér–Rao
+RMSE `ΔA_switch = 1 / (√ν N^2)` vs. fixed-order Heisenberg limit `1 / (N √(8 ν E))`. -/
+def osidZhaoSwitchFisher (n_boxes : ℝ) : ℝ :=
+  n_boxes ^ 4
+
+noncomputable def osidZhaoSwitchRmseSq (nu_reps n_boxes : ℝ) : ℝ :=
+  (nu_reps * osidZhaoSwitchFisher n_boxes)⁻¹
+
+/-- Zhao, Yang, & Chiribella (2020, Eq. (7)) heterodyne-readout Quantum Switch
+variance `ΔA'_switch^2 = ΔA_switch^2 * ((x̄^2 + p̄^2) / (x̄^2 + p̄^2 + 1/N^2))`. -/
+noncomputable def osidZhaoSwitchHeterodyneRmseSq (nu_reps n_boxes zp_sq : ℝ) : ℝ :=
+  osidZhaoSwitchRmseSq nu_reps n_boxes * (zp_sq / (zp_sq + (n_boxes ^ 2)⁻¹))
+
+noncomputable def osidZhaoFixedOrderRmseSq (z_min nu_reps energy n_boxes : ℝ) : ℝ :=
+  z_min ^ 2 / (8 * nu_reps * energy * n_boxes ^ 2)
+
+/-- Qi & Ranard (2019, Section 2.1): 1D periodic `k = 2`-local spin-chain
+Hamiltonian parameter dimension `12 * n` vs. real Hilbert dimension `2^(n + 1)`. -/
+def osidQiRanardSpinChainParamDim (n_qubits : ℕ) : ℕ :=
+  12 * n_qubits
+
+def osidQiRanardHilbertRealDim (n_qubits : ℕ) : ℕ :=
+  2 ^ (n_qubits + 1)
+
+/-- Qi & Ranard (2019) exponential compression lemma: for every 1D qubit spin chain
+of length `n ≥ 10`, the `k = 2`-local Hamiltonian dimension `12 * n` is strictly
+smaller than the real Hilbert space dimension `2^(n + 1)` (`120 < 2048` at `n = 10`). -/
+lemma osidQiRanard_spin_chain_dim_lt_hilbert (n : ℕ) (hn : 10 ≤ n) :
+    osidQiRanardSpinChainParamDim n < osidQiRanardHilbertRealDim n := by
+  unfold osidQiRanardSpinChainParamDim osidQiRanardHilbertRealDim
+  induction n, hn using Nat.le_induction with
+  | base => decide
+  | succ k hk ih =>
+      have hk1 : 1 ≤ k := by omega
+      calc
+        12 * (k + 1) = 12 * k + 12 := by ring
+        _ < 12 * k + 12 * k := by omega
+        _ = 2 * (12 * k) := by ring
+        _ < 2 * 2 ^ (k + 1) := by omega
+        _ = 2 ^ ((k + 1) + 1) := by ring
+
+/-- Goswami et al. (2018, *PRL* 121, 090503, `arXiv:1803.04302v2`):
+Causal witness z-score `(bound - ⟨S⟩_exp) / σ_S` quantifying standard deviations beyond
+the definite-causal-order bound (`⟨S⟩_exp = -0.171 ± 0.009` vs. `0` and `-0.038`). -/
+noncomputable def osidGoswamiWitnessSigmaMargin (bound s_exp sigma_s : ℝ) : ℝ :=
+  (bound - s_exp) / sigma_s
+
+/-- **Master Theorem 11.1 (Literature Benchmark Check Figures Across Boullé et al. 2026, Qi–Ranard 2019, Zhao et al. 2020, & Goswami et al. 2018)**:
+Proves simultaneously:
+1. **Duffing Homogeneous Scaling Invariance (`02_duffing.ipynb`)**: Scaling all linear
+   weak-form coefficients by `λ ≠ 0` preserves `osidDuffingNormalizedCoeff (λ * θ_j) (λ * θ_udd)`.
+2. **2D Elliptic Coprime Degeneracy (`arXiv:2611.30470v1` Proposition 36)**: For any coprime
+   mode ratio `(m, n)` and any harmonic `k`, the coefficient pair `(a, b) = (n^2, -m^2)`
+   annihilates `osidEllipticModeKernelResidual (n^2) (-m^2) k m n = 0` identically.
+3. **Qi–Ranard (2019) Correlation-Matrix Rank-1 Kernel, Exponential Compression, & Davis–Kahan Conditioning**:
+   For any pure outer-product fluctuation matrix `m00 = a^2, m01 = a*b, m11 = b^2`,
+   `osidQiRanardCorrQuadForm2 (a^2) (a*b) (b^2) w0 w1 = (a*w0 + b*w1)^2 ≥ 0` and
+   vanishes along the Hamiltonian eigenvector `(w0, w1) = (b, -a)`;
+   `osidQiRanardSpinChainParamDim n < osidQiRanardHilbertRealDim n` for all `n ≥ 10`; and
+   `osidQiRanardDavisKahanBound` decreases monotonically as `λ_2` grows.
+4. **Zhao–Yang–Chiribella (2020) Universal Super-Heisenberg $1/N^2$ Crossover & Heterodyne Dominance**:
+   For all `n_boxes > 0, nu_reps > 0, energy > 0, zp_sq > 0` satisfying `8 * energy < z_min^2 * n_boxes^2`,
+   `osidZhaoSwitchHeterodyneRmseSq < osidZhaoSwitchRmseSq < osidZhaoFixedOrderRmseSq`,
+   plus exact `osidZhaoSwitchFisher 15 = 50625`.
+5. **Goswami et al. (2018) Photonic Quantum Switch Causal Witness**:
+   At `⟨S⟩_exp = -0.171`, `σ_S = 0.009`: `osidGoswamiWitnessSigmaMargin 0 (-0.171) 0.009 = 19 ≥ 18`
+   against the ideal definite-order bound `0`, and `osidGoswamiWitnessSigmaMargin (-0.038) (-0.171) 0.009 = 133/9 > 14`
+   against the misalignment-corrected bound `-0.038`. -/
+@[blueprint "thm:signals-qci-osid-literature-benchmarks"
+  (title := "Literature Check-Figure Identities: Duffing, Elliptic Proposition 36, Qi-Ranard, Zhao-Yang-Chiribella, & Goswami")
+  (statement := /-- Proves Duffing scale invariance, 2D elliptic Proposition 36 coprime kernel
+    vanishing, Qi--Ranard correlation-matrix rank-1 kernel, $12n < 2^{n+1}$ ($n \ge 10$)
+    compression, \& Davis--Kahan monotonicity, Zhao--Yang--Chiribella universal $1/N^2$
+    crossover \& heterodyne improvement, and Goswami et al.\ $19\sigma \ge 18\sigma$ / $> 14\sigma$
+    causal witness margins. -/)
+  (proof := /-- Unfold Section 16.1 definitions, invoke \texttt{osidQiRanard\_spin\_chain\_dim\_lt\_hilbert},
+    and close algebraic inequalities by \texttt{ring}, \texttt{field\_simp}, \texttt{nlinarith},
+    \texttt{positivity}, and \texttt{norm\_num}. -/)]
+theorem qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_identities
+    (theta_j theta_udd lam : ℝ) (hudd : theta_udd ≠ 0) (hlam : lam ≠ 0)
+    (k m n n_chain : ℕ) (hn_chain : 10 ≤ n_chain)
+    (a b w0 w1 eps delta_m lam2_lo lam2_hi : ℝ)
+    (heps : 0 ≤ eps) (hdm : 0 ≤ delta_m) (hl2_pos : 0 < lam2_lo) (hl2_le : lam2_lo ≤ lam2_hi)
+    (n_boxes nu_reps energy z_min zp_sq : ℝ)
+    (hnb : 0 < n_boxes) (hnu : 0 < nu_reps) (hen : 0 < energy) (hzp : 0 < zp_sq)
+    (hcross : 8 * energy < z_min ^ 2 * n_boxes ^ 2) :
+    osidDuffingNormalizedCoeff (lam * theta_j) (lam * theta_udd) =
+        osidDuffingNormalizedCoeff theta_j theta_udd ∧
+      osidEllipticModeKernelResidual ((n : ℝ) ^ 2) (-((m : ℝ) ^ 2)) k m n = 0 ∧
+      osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) w0 w1 = (a * w0 + b * w1) ^ 2 ∧
+      0 ≤ osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) w0 w1 ∧
+      osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) b (-a) = 0 ∧
+      osidQiRanardSpinChainParamDim n_chain < osidQiRanardHilbertRealDim n_chain ∧
+      osidQiRanardDavisKahanBound eps delta_m lam2_hi ≤
+        osidQiRanardDavisKahanBound eps delta_m lam2_lo ∧
+      osidZhaoSwitchFisher 15 = 50625 ∧
+      osidZhaoSwitchRmseSq nu_reps n_boxes <
+        osidZhaoFixedOrderRmseSq z_min nu_reps energy n_boxes ∧
+      osidZhaoSwitchHeterodyneRmseSq nu_reps n_boxes zp_sq <
+        osidZhaoSwitchRmseSq nu_reps n_boxes ∧
+      (18 : ℝ) ≤ osidGoswamiWitnessSigmaMargin 0 (-171 / 1000) (9 / 1000) ∧
+      (14 : ℝ) < osidGoswamiWitnessSigmaMargin (-38 / 1000) (-171 / 1000) (9 / 1000) := by
+  have h_dk :
+      osidQiRanardDavisKahanBound eps delta_m lam2_hi ≤
+        osidQiRanardDavisKahanBound eps delta_m lam2_lo := by
+    unfold osidQiRanardDavisKahanBound
+    exact div_le_div_of_nonneg_left (mul_nonneg heps hdm) hl2_pos hl2_le
+  have h_zhao_cross :
+      osidZhaoSwitchRmseSq nu_reps n_boxes <
+        osidZhaoFixedOrderRmseSq z_min nu_reps energy n_boxes := by
+    unfold osidZhaoSwitchRmseSq osidZhaoFixedOrderRmseSq osidZhaoSwitchFisher
+    rw [inv_eq_one_div, div_lt_div_iff₀ (mul_pos hnu (pow_pos hnb 4))
+      (mul_pos (mul_pos (mul_pos (by norm_num) hnu) hen) (pow_pos hnb 2))]
+    have h_mul : 8 * energy * (nu_reps * n_boxes ^ 2) < (z_min ^ 2 * n_boxes ^ 2) * (nu_reps * n_boxes ^ 2) :=
+      mul_lt_mul_of_pos_right hcross (mul_pos hnu (pow_pos hnb 2))
+    linarith
+  have h_zhao_het :
+      osidZhaoSwitchHeterodyneRmseSq nu_reps n_boxes zp_sq <
+        osidZhaoSwitchRmseSq nu_reps n_boxes := by
+    unfold osidZhaoSwitchHeterodyneRmseSq osidZhaoSwitchRmseSq osidZhaoSwitchFisher
+    have h_sw_pos : 0 < (nu_reps * n_boxes ^ 4)⁻¹ := inv_pos.mpr (mul_pos hnu (pow_pos hnb 4))
+    have h_inv_pos : 0 < (n_boxes ^ 2)⁻¹ := inv_pos.mpr (pow_pos hnb 2)
+    have h_frac_lt : zp_sq / (zp_sq + (n_boxes ^ 2)⁻¹) < 1 := by
+      rw [div_lt_one (add_pos hzp h_inv_pos)]
+      linarith
+    calc
+      (nu_reps * n_boxes ^ 4)⁻¹ * (zp_sq / (zp_sq + (n_boxes ^ 2)⁻¹)) <
+          (nu_reps * n_boxes ^ 4)⁻¹ * 1 := mul_lt_mul_of_pos_left h_frac_lt h_sw_pos
+      _ = (nu_reps * n_boxes ^ 4)⁻¹ := mul_one _
+  refine ⟨
+    by
+      unfold osidDuffingNormalizedCoeff
+      field_simp [hudd, hlam],
+    by
+      unfold osidEllipticModeKernelResidual
+      push_cast
+      ring,
+    by
+      unfold osidQiRanardCorrQuadForm2
+      ring,
+    by
+      unfold osidQiRanardCorrQuadForm2
+      have h_sq : a ^ 2 * w0 ^ 2 + 2 * (a * b) * w0 * w1 + b ^ 2 * w1 ^ 2 = (a * w0 + b * w1) ^ 2 := by
+        ring
+      rw [h_sq]
+      positivity,
+    by
+      unfold osidQiRanardCorrQuadForm2
+      ring,
+    osidQiRanard_spin_chain_dim_lt_hilbert n_chain hn_chain,
+    h_dk,
+    by
+      unfold osidZhaoSwitchFisher
+      norm_num,
+    h_zhao_cross,
+    h_zhao_het,
+    by
+      unfold osidGoswamiWitnessSigmaMargin
+      norm_num,
+    by
+      unfold osidGoswamiWitnessSigmaMargin
+      norm_num⟩
+
+/-! ### Section 16.2: Tequila & `signals` / `grassmann` Backend Integration — Advantages & Disadvantages Bounds -/
+
+/-- Tequila dense statevector memory footprint `16 * 2^n` bytes (for `Complex64` entries). -/
+def osidTequilaStatevectorBytes (n_qubits : ℕ) : ℕ :=
+  16 * 2 ^ n_qubits
+
+/-- Tequila dense Kraus density-matrix memory footprint `16 * 4^n` bytes. -/
+def osidTequilaDensityMatrixBytes (n_qubits : ℕ) : ℕ :=
+  16 * 4 ^ n_qubits
+
+/-- Tequila 128-bit sparse Plücker `HCB-SPA` memory footprint `16 * 2^n_occ` bytes
+(independent of total orbital count `n_orb ≤ 126`). -/
+def osidTequilaSparsePluckerBytes (n_occ : ℕ) : ℕ :=
+  16 * 2 ^ n_occ
+
+/-- Born-rule shot-noise amplification under Qi–Ranard Davis–Kahan recovery:
+if `S` shots produce per-entry fluctuation `sigma_1 / √S` over `N` local observables,
+the angular error bound scales as `(sigma_1 * N) / (√S * λ_2)`. -/
+noncomputable def osidTequilaShotNoiseDavisKahanBound
+    (sigma_1 dim_basis lambda2 n_shots : ℝ) : ℝ :=
+  sigma_1 * dim_basis / (Real.sqrt n_shots * lambda2)
+
+/-- Required shot count `S_req = (sigma_1 * N / (λ_2 * θ_target))^2` to achieve angular
+error `≤ θ_target`: quadratic $O(λ_2^{-2} θ_{\mathrm{target}}^{-2})$ sampling cost
+(a primary disadvantage of shot-sampled circuits vs. deterministic weak quadrature). -/
+noncomputable def osidTequilaShotCountRequired
+    (sigma_1 dim_basis lambda2 theta_target : ℝ) : ℝ :=
+  (sigma_1 * dim_basis / (lambda2 * theta_target)) ^ 2
+
+/-- McWeeny cubic purification polynomial `3 * p^2 - 2 * p^3` governing pure vs. mixed
+state eigenvalues inside `BackendCircuitSignals.do_simulate_density(..., mcweeny_passes=...)`. -/
+def osidTequilaMcWeenyPoly (p : ℝ) : ℝ :=
+  3 * p ^ 2 - 2 * p ^ 3
+
+/-- **Master Theorem 11.2 (Tequila & `signals` / `grassmann` Backend Advantages & Disadvantages)**:
+Formalizes both sides of integrating `QCI-OSID` with `Tequila` and our Rust/PyO3 backend:
+1. **Advantage — Sparse 128-Bit Plücker vs. Dense Memory Wall**:
+   Whenever `n_occ < n_orb`, `osidTequilaSparsePluckerBytes n_occ < osidTequilaStatevectorBytes n_orb`
+   and `osidTequilaStatevectorBytes n_orb < osidTequilaDensityMatrixBytes n_orb` (`n_orb ≥ 1`),
+   allowing `n_orb = 126` (`n_occ = 8`) sparse `HCB-SPA` identification in `4096` bytes while
+   dense statevectors (`16 * 2^126`) and density matrices (`16 * 4^126`) are intractable.
+2. **Advantage — McWeeny Purification Healing for Noisy Pure Eigenstates (`p ∈ (1/2, 1)`)**:
+   For `1/2 < p < 1`, `p < osidTequilaMcWeenyPoly p < 1` and `1 - osidTequilaMcWeenyPoly p < 1 - p`,
+   driving a weakly depolarized pure eigenstate back toward rank-1 purity (`p = 0.90 ↦ 0.972`).
+3. **Disadvantage — McWeeny Spectral Distortion on Mixed Thermal/Gibbs States (`p ∈ (0, 1/2)`)**:
+   For `0 < p < 1/2`, `0 < osidTequilaMcWeenyPoly p < p`, while `osidTequilaMcWeenyPoly (1/2) = 1/2`,
+   suppressing minor thermal Boltzmann populations and corrupting mixed-state `OSID`.
+4. **Disadvantage — Shot-Noise Amplification by Spectral Gap `1 / λ_2`**:
+   At `n_shots = osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target`,
+   `osidTequilaShotNoiseDavisKahanBound` equals `theta_target`, while halving `lambda2`
+   quadruples the required shot count `osidTequilaShotCountRequired` (`4×` cost penalty). -/
+@[blueprint "thm:signals-qci-osid-tequila-advantages-disadvantages"
+  (title := "Tequila & signals/grassmann Backend Advantages and Disadvantages Bounds")
+  (statement := /-- Proves sparse 128-bit Plücker memory dominance over dense statevectors
+    and $4^n$ density matrices, McWeeny pure-eigenstate healing on $(1/2, 1)$ vs.\ thermal
+    mixed-state distortion on $(0, 1/2)$, exact shot-count inversion at
+    $S_{\mathrm{req}} = (\sigma_1 N / (\lambda_2 \theta_{\mathrm{target}}))^2$, and $4\times$
+    shot inflation when $\lambda_2 \mapsto \lambda_2 / 2$. -/)
+  (proof := /-- Close power monotonicity by \texttt{Nat.pow\_lt\_pow\_right}, McWeeny cubic
+    identities by factoring $p(1-p)(2p-1)$, and shot-count inversion by \texttt{Real.sqrt\_sq}
+    and \texttt{field\_simp}. -/)]
+theorem qci_osid_tequila_backend_advantages_and_disadvantages_identities
+    (n_occ n_orb : ℕ) (h_occ_lt : n_occ < n_orb) (h_orb_pos : 0 < n_orb)
+    (p_pure p_mix : ℝ)
+    (hp_pure_lo : (1 / 2 : ℝ) < p_pure) (hp_pure_hi : p_pure < 1)
+    (hp_mix_lo : 0 < p_mix) (hp_mix_hi : p_mix < (1 / 2 : ℝ))
+    (sigma_1 dim_basis lambda2 theta_target : ℝ)
+    (hsig : 0 < sigma_1) (hdim : 0 < dim_basis) (hl2 : 0 < lambda2) (hth : 0 < theta_target) :
+    osidTequilaSparsePluckerBytes n_occ < osidTequilaStatevectorBytes n_orb ∧
+      osidTequilaStatevectorBytes n_orb < osidTequilaDensityMatrixBytes n_orb ∧
+      p_pure < osidTequilaMcWeenyPoly p_pure ∧
+      osidTequilaMcWeenyPoly p_pure < 1 ∧
+      1 - osidTequilaMcWeenyPoly p_pure < 1 - p_pure ∧
+      0 < osidTequilaMcWeenyPoly p_mix ∧
+      osidTequilaMcWeenyPoly p_mix < p_mix ∧
+      osidTequilaMcWeenyPoly (1 / 2) = 1 / 2 ∧
+      osidTequilaShotNoiseDavisKahanBound sigma_1 dim_basis lambda2
+        (osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target) = theta_target ∧
+      osidTequilaShotCountRequired sigma_1 dim_basis (lambda2 / 2) theta_target =
+        4 * osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target := by
+  have h_mem1 : osidTequilaSparsePluckerBytes n_occ < osidTequilaStatevectorBytes n_orb := by
+    unfold osidTequilaSparsePluckerBytes osidTequilaStatevectorBytes
+    have hpow : 2 ^ n_occ < 2 ^ n_orb := Nat.pow_lt_pow_right (by decide : 1 < 2) h_occ_lt
+    omega
+  have h_mem2 : osidTequilaStatevectorBytes n_orb < osidTequilaDensityMatrixBytes n_orb := by
+    unfold osidTequilaStatevectorBytes osidTequilaDensityMatrixBytes
+    have hpow : 2 ^ n_orb < 4 ^ n_orb := Nat.pow_lt_pow_left (by decide : 2 < 4) (Nat.ne_of_gt h_orb_pos)
+    omega
+  have h_pure_gt : p_pure < osidTequilaMcWeenyPoly p_pure := by
+    unfold osidTequilaMcWeenyPoly
+    have h_diff : (3 * p_pure ^ 2 - 2 * p_pure ^ 3) - p_pure =
+        p_pure * (1 - p_pure) * (2 * p_pure - 1) := by ring
+    have h_pos : 0 < p_pure * (1 - p_pure) * (2 * p_pure - 1) := by
+      have hp0 : 0 < p_pure := by linarith
+      have h1mp : 0 < 1 - p_pure := by linarith
+      have h2pm1 : 0 < 2 * p_pure - 1 := by linarith
+      positivity
+    linarith
+  have h_pure_lt1 : osidTequilaMcWeenyPoly p_pure < 1 := by
+    unfold osidTequilaMcWeenyPoly
+    have h_diff : 1 - (3 * p_pure ^ 2 - 2 * p_pure ^ 3) =
+        (1 - p_pure) ^ 2 * (1 + 2 * p_pure) := by ring
+    have h_pos : 0 < (1 - p_pure) ^ 2 * (1 + 2 * p_pure) := by
+      have h1mp : 0 < 1 - p_pure := by linarith
+      have h1p2 : 0 < 1 + 2 * p_pure := by linarith
+      positivity
+    linarith
+  have h_mix_pos : 0 < osidTequilaMcWeenyPoly p_mix := by
+    unfold osidTequilaMcWeenyPoly
+    have h_fac : 3 * p_mix ^ 2 - 2 * p_mix ^ 3 = p_mix ^ 2 * (3 - 2 * p_mix) := by ring
+    rw [h_fac]
+    have h3m : 0 < 3 - 2 * p_mix := by linarith
+    positivity
+  have h_mix_lt : osidTequilaMcWeenyPoly p_mix < p_mix := by
+    unfold osidTequilaMcWeenyPoly
+    have h_diff : p_mix - (3 * p_mix ^ 2 - 2 * p_mix ^ 3) =
+        p_mix * (1 - p_mix) * (1 - 2 * p_mix) := by ring
+    have h_pos : 0 < p_mix * (1 - p_mix) * (1 - 2 * p_mix) := by
+      have h1mp : 0 < 1 - p_mix := by linarith
+      have h1m2 : 0 < 1 - 2 * p_mix := by linarith
+      positivity
+    linarith
+  have h_shot_inv :
+      osidTequilaShotNoiseDavisKahanBound sigma_1 dim_basis lambda2
+        (osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target) = theta_target := by
+    unfold osidTequilaShotNoiseDavisKahanBound osidTequilaShotCountRequired
+    have h_inner_pos : 0 < sigma_1 * dim_basis / (lambda2 * theta_target) := by positivity
+    rw [Real.sqrt_sq (le_of_lt h_inner_pos)]
+    field_simp [hsig.ne', hdim.ne', hl2.ne', hth.ne']
+  have h_shot_quad :
+      osidTequilaShotCountRequired sigma_1 dim_basis (lambda2 / 2) theta_target =
+        4 * osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target := by
+    unfold osidTequilaShotCountRequired
+    field_simp [hl2.ne', hth.ne']
+    ring
+  refine ⟨h_mem1, h_mem2, h_pure_gt, h_pure_lt1, by linarith,
+    h_mix_pos, h_mix_lt, by unfold osidTequilaMcWeenyPoly; norm_num,
+    h_shot_inv, h_shot_quad⟩
+
+/-! ### Section 16.3: Sato Grassmannian $\mathrm{Gr}_{\ge 0}(2,4)$ Positroid Zero-One Dichotomy, AKNS Sign Separation, & 6-Channel Dual-Schubert `QFIM` QCRB Conditioning -/
+
+/-- Weak-form KP-II PDE linear combination normalized by `4 u_xt`:
+`4 * (u_xt + c_xxxx * u_xxxx + c_u2xx * u2_xx + c_yy * u_yy)` equals
+`4 * u_xt - u_xxxx - 3 * u2_xx - 3 * u_yy` at `(c_xxxx, c_u2xx, c_yy) = (-1/4, -3/4, -3/4)`. -/
+def osidSatoKp2WeakOperatorCombination
+    (u_xt u_xxxx u2_xx u_yy c_xxxx c_u2xx c_yy : ℝ) : ℝ :=
+  u_xt + c_xxxx * u_xxxx + c_u2xx * u2_xx + c_yy * u_yy
+
+/-- Traveling-wave Galilean collinearity residual on a KdV 1-soliton `u(x,t) = f(x + c t)`:
+any multiple `α (u_t - c u_x) = 0` introduces a 1-parameter Galilean kernel direction
+alongside the KdV equation `4 u_t - u_xxx - 6 u u_x = 0`, dropping rank on `{u_t, u_x, u_xxx, u u_x}`
+to `2 < 4` (`F_deg`). -/
+def osidSatoKdv1SolitonGalileanKernel (alpha c_wave u_x : ℝ) : ℝ :=
+  alpha * (c_wave * u_x) - (alpha * c_wave) * u_x
+
+/-- Combined forward + dual-Schubert 6-channel Quantum Fisher Information Metric
+(`Signals.SatoGrassmannian.DualSchubertQFIM`: `F_Q = 4 g_FS_fwd + 4 g_FS_dual`). -/
+def osidSatoDualSchubertTotalQfim (g_fs_fwd g_fs_dual : ℝ) : ℝ :=
+  osidQfimFromFubiniStudy g_fs_fwd + osidQfimFromFubiniStudy g_fs_dual
+
+/-- **Master Theorem 11.3 (Sato Grassmannian $\mathrm{Gr}_{\ge 0}(2,4)$ Positroid Zero-One Dichotomy, AKNS Focusing/Defocusing Sign Separation, & 6-Channel Dual-Schubert QCRB Conditioning)**:
+Bridges `Signals.SatoGrassmannian` (`PlabicGr24Solver`, `AKNS`, `DualSchubertQFIM`) to `QCI-OSID`:
+1. **KP-II Top-Cell Positroid Recovery**: Normalized weak-form KP-II coefficients
+   `(-1/4, -3/4, -3/4)` satisfy
+   `4 * osidSatoKp2WeakOperatorCombination u_xt u_xxxx u2_xx u_yy (-1/4) (-3/4) (-3/4) = 4 * u_xt - u_xxxx - 3 * u2_xx - 3 * u_yy`,
+   while KdV 2-soliton $y$-invariance (`u_y = u_yy = 0`) collapses the KP-II `u_yy` column
+   to `0` (`F_deg` of KP-II) while keeping the `(1+1)`-D KdV sub-dictionary nondegenerate.
+2. **KdV 1-Soliton Galilean Degeneracy (`F_deg`)**: On any 1-soliton traveling wave
+   `u_t = c_wave u_x`, `osidSatoKdv1SolitonGalileanKernel alpha c_wave u_x = 0` identically
+   for every `alpha`, yielding a 2D nullspace (`rank 2 < 4`) on `{u_t, u_x, u_xxx, u u_x}`.
+3. **AKNS Focusing vs. Defocusing Gap**: Weak-form NLS (`g = +2`) vs. GPE (`g = -2`)
+   couplings are separated by an exact gap of `4`.
+4. **6-Channel Dual-Schubert `QFIM = 4 g_FS` QCRB Tightening**: Adding dual-Schubert
+   Fisher information (`0 < g_fs_dual`) strictly reduces the `QCI-OSID` Quantum Cramér–Rao
+   variance floor `((m_shots : ℝ) * osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual)⁻¹`
+   below the single-channel floor `osidQcrbVarianceLowerBound m_shots g_fs_fwd`. -/
+@[blueprint "thm:signals-qci-osid-sato-positroid-akns-qfim"
+  (title := "Sato Positroid Zero-One Dichotomy, AKNS Sign Separation, and 6-Channel Dual-Schubert QCRB Conditioning")
+  (statement := /-- Proves normalized KP-II top-cell operator equivalence, KdV 1-soliton
+    Galilean degeneracy, AKNS focusing/defocusing separation, and strict 6-channel
+    Dual-Schubert QCRB variance tightening. -/)
+  (proof := /-- Unfold Section 16.3 definitions and close by \texttt{ring}, \texttt{norm\_num},
+    and \texttt{inv\_strictAnti₀}. -/)]
+theorem qci_osid_sato_positroid_akns_and_qfim_bridge_identities
+    (u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual : ℝ)
+    (m_shots : ℕ) (hm : 0 < m_shots)
+    (hfwd : 0 < g_fs_fwd) (hdual : 0 < g_fs_dual) :
+    4 * osidSatoKp2WeakOperatorCombination u_xt u_xxxx u2_xx u_yy (-1 / 4) (-3 / 4) (-3 / 4) =
+        4 * u_xt - u_xxxx - 3 * u2_xx - 3 * u_yy ∧
+      osidSatoKdv1SolitonGalileanKernel alpha c_wave u_x = 0 ∧
+      ((2 : ℝ) - (-2)) = 4 ∧
+      osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual = 4 * (g_fs_fwd + g_fs_dual) ∧
+      ((m_shots : ℝ) * osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual)⁻¹ <
+        osidQcrbVarianceLowerBound m_shots g_fs_fwd := by
+  have h_qfim_eq :
+      osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual = 4 * (g_fs_fwd + g_fs_dual) := by
+    unfold osidSatoDualSchubertTotalQfim osidQfimFromFubiniStudy
+    ring
+  have h_qcrb_lt :
+      ((m_shots : ℝ) * osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual)⁻¹ <
+        osidQcrbVarianceLowerBound m_shots g_fs_fwd := by
+    unfold osidQcrbVarianceLowerBound osidSatoDualSchubertTotalQfim osidQfimFromFubiniStudy
+    have hm_pos : (0 : ℝ) < (m_shots : ℝ) := Nat.cast_pos.mpr hm
+    have h_lhs_pos : 0 < (m_shots : ℝ) * (4 * g_fs_fwd) := by positivity
+    have h_lt : (m_shots : ℝ) * (4 * g_fs_fwd) <
+        (m_shots : ℝ) * (4 * g_fs_fwd + 4 * g_fs_dual) := by
+      nlinarith
+    exact inv_strictAnti₀ h_lhs_pos h_lt
+  refine ⟨
+    by unfold osidSatoKp2WeakOperatorCombination; ring,
+    by unfold osidSatoKdv1SolitonGalileanKernel; ring,
+    by norm_num,
+    h_qfim_eq,
+    h_qcrb_lt⟩
+
 end
 
 end Signals.QuantumCausalInference

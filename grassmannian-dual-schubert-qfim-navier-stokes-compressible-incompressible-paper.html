@@ -49,9 +49,9 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-+W2HYfGsoQSbk4uZ7WfBx2VkqSTWEejU134VStGYIvmqaYLglH8YLz0pWZiPIq5j"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
   
-  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-+gYOjN53lYuO7V7EWpB2vLG1P9Qq9/Sk3bwzS9rn1uGGIc928a3wXVxgTv/GMzbM"  />
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
 
   
@@ -454,7 +454,7 @@ window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     
   
-  <script src="_static/js/local.js" integrity="sha384-fTErbIma1lgoiqjzliuI1bvxcqGTulFTSATfD9kxQ64wQBJ7cbIjs1nh8caY1ThS" ></script>
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
   </head>
@@ -1016,6 +1016,7 @@ maturin<span class="w"> </span>develop<span class="w"> </span>--manifest-path<sp
 pytest<span class="w"> </span>-q<span class="w"> </span>tests/test_navier_stokes_dual_schubert_qfim.py
 </pre></div>
 </div>
+<p><strong>Constructive Pending-Gate Closure:</strong> <code class="docutils literal notranslate"><span class="pre">DualSchubertNavierStokesPendingBoundary.ofCertificates</span></code> and <code class="docutils literal notranslate"><span class="pre">.solved_of_certificates</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> (paired with <code class="docutils literal notranslate"><span class="pre">MasterUnifiedPendingClosure.all_seven_pending_boundaries_solved</span></code>; see <a class="reference internal" href="unified-pending-closure-roadmap-plan.html"><span class="std std-doc">unified-pending-closure-roadmap-plan.md</span></a>) connect <code class="docutils literal notranslate"><span class="pre">NavierStokes3DRegularityCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">NavierStokes3DHirotaLinearizabilityCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">TurbulenceSubgridClosureCertificate</span></code>, and <code class="docutils literal notranslate"><span class="pre">ExperimentalFluidTelemetryCertificate</span></code> directly to <code class="docutils literal notranslate"><span class="pre">compressible_viscous_dissipation_nonneg</span></code>, <code class="docutils literal notranslate"><span class="pre">stiefel4x2_klein_quadric</span></code>, <code class="docutils literal notranslate"><span class="pre">taylorGreen2D_solves_incompressible_ns</span></code>, <code class="docutils literal notranslate"><span class="pre">burgers_tanh_shock_solves_pde</span></code>, <code class="docutils literal notranslate"><span class="pre">breschDesjardins_dual_schubert_qfim_split</span></code>, <code class="docutils literal notranslate"><span class="pre">ControlledMeasurement</span></code>, and <code class="docutils literal notranslate"><span class="pre">FlowBoundaryObservation</span></code>, while preserving the negative baseline <code class="docutils literal notranslate"><span class="pre">dual_schubert_ns_identities_do_not_close_millennium_or_physical_claims</span></code>.</p>
 </section>
 <hr class="docutils" />
 <section id="references">

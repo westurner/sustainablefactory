@@ -8,6 +8,7 @@ import Signals.SatoGrassmannian.CarlemanWeierstrass
 import Signals.SatoGrassmannian.WeilPositivity
 import Signals.SatoGrassmannian.WeilGaussianL1
 import Signals.SatoGrassmannian.SegalWilsonGr24
+import Signals.SatoGrassmannian.DualSchubertQFIM
 
 /-!
 # Formal Bridge Between `Signals.RiemannSpectral` and `Signals.SatoGrassmannian`
@@ -223,5 +224,163 @@ theorem celestialChiralCasimir_and_cayley_critical_line_equiv
     rw [← hcas.2.1]; exact hcas.2.2.1
   have hcay := (li_cayley_critical_line_bridge sigmaDev gamma h_rho_ne).1
   exact ⟨hcas_iff.trans hcay.symm, hcay⟩
+
+/-- **Dimensional Transmutation RG Shift & Cayley Contraction Bridge**:
+Connects `Signals.RiemannSpectral.celestialDimTransmutationDev`, `toupin_re_delta_eq_d_cft_half_bridge`,
+and `RHGaps.norm_cayley_le_one_iff` / `liSummand_nonneg_of_re_ge_half` / `cayley_pow_unbounded_of_re_lt_half`:
+1. In an asymptotically free gauge theory (`b0 > 0, g ≠ 0`), `σ_rg = celestialDimTransmutationDev b0 g > 0`,
+   so `s_rg = (1/2 + σ_rg) + i γ` satisfies `Re(s_rg) > 1/2`, `‖cayley s_rg‖ < 1` (contractive interior
+   of the Cayley disk), and `0 ≤ liSummand s_rg n` for all `n`, while breaking chiral Casimir reality
+   (`celestialChiralCasimirIm σ_rg γ ≠ 0`) and shifting `Δ_re = d_CFT * (1/2 + σ_rg) > d_CFT / 2`.
+2. Conversely, any negative shift `σ_neg < 0` gives `Re(s) < 1/2`, triggering exponential blowup
+   `‖(cayley s)^n‖ → ∞` (`RHGaps.cayley_pow_unbounded_of_re_lt_half`). -/
+theorem celestialDimTransmutation_cayley_contraction_and_ir_bridge
+    (b0 gCoupling gamma dBulk sigmaNeg : ℝ)
+    (hb0 : 0 < b0) (hg : gCoupling ≠ 0) (hgam : gamma ≠ 0)
+    (hd : 2 < dBulk) (h_neg : sigmaNeg < 0) :
+    let σ_rg := celestialDimTransmutationDev b0 gCoupling
+    let s_rg : ℂ := ⟨1 / 2 + σ_rg, gamma⟩
+    let s_neg : ℂ := ⟨1 / 2 + sigmaNeg, gamma⟩
+    let dCft := dBulk - 2
+    0 < σ_rg ∧
+      celestialChiralCasimirIm σ_rg gamma ≠ 0 ∧
+      dCft / 2 < dCft * s_rg.re ∧
+      ‖cayley s_rg‖ ≤ 1 ∧
+      ‖cayley s_rg‖ ≠ 1 ∧
+      (∀ n : ℕ, 0 ≤ liSummand s_rg n) ∧
+      Filter.Tendsto (fun n : ℕ => ‖(cayley s_neg) ^ n‖) Filter.atTop Filter.atTop := by
+  intro σ_rg s_rg s_neg dCft
+  have h_rg_pos : 0 < σ_rg := by
+    dsimp [σ_rg, celestialDimTransmutationDev]
+    have hg2 : 0 < gCoupling ^ 2 := sq_pos_of_ne_zero hg
+    have hpi : 0 < Real.pi := Real.pi_pos
+    positivity
+  have h_cas_ne : celestialChiralCasimirIm σ_rg gamma ≠ 0 := by
+    unfold celestialChiralCasimirIm
+    exact mul_ne_zero (mul_ne_zero two_ne_zero (ne_of_gt h_rg_pos)) hgam
+  have h_dcft_pos : 0 < dCft := by dsimp [dCft]; linarith
+  have h_srg_re : (1 / 2 : ℝ) < s_rg.re := by simp [s_rg]; linarith
+  have h_delta_gt : dCft / 2 < dCft * s_rg.re := by
+    calc
+      dCft / 2 = dCft * (1 / 2 : ℝ) := by ring
+      _ < dCft * s_rg.re := mul_lt_mul_of_pos_left h_srg_re h_dcft_pos
+  have h_srg_ne : s_rg ≠ 0 := by
+    intro h0
+    have him : gamma = 0 := congrArg Complex.im h0
+    exact hgam him
+  have h_sneg_ne : s_neg ≠ 0 := by
+    intro h0
+    have him : gamma = 0 := congrArg Complex.im h0
+    exact hgam him
+  have h_cay_le : ‖cayley s_rg‖ ≤ 1 :=
+    (norm_cayley_le_one_iff h_srg_ne).mpr (le_of_lt h_srg_re)
+  have h_cay_ne1 : ‖cayley s_rg‖ ≠ 1 := by
+    intro h1
+    have hre := (norm_cayley_eq_one_iff h_srg_ne).mp h1
+    linarith
+  have h_li_nn : ∀ n : ℕ, 0 ≤ liSummand s_rg n :=
+    liSummand_nonneg_of_re_ge_half h_srg_ne (le_of_lt h_srg_re)
+  have h_sneg_lt : s_neg.re < 1 / 2 := by simp [s_neg]; linarith
+  have h_blowup := cayley_pow_unbounded_of_re_lt_half h_sneg_ne h_sneg_lt
+  exact ⟨h_rg_pos, h_cas_ne, h_delta_gt, h_cay_le, h_cay_ne1, h_li_nn, h_blowup⟩
+
+/-! ### 7. Critical-Line `det₃` Anomaly & Infinite-Zero Weil / Evanescent QFIM Bridges -/
+
+/-- **Critical-Line `det₃` Anomaly & Li/Cayley Bridge**:
+Directly on the critical line `ρ = 1/2 + i t`, `‖cayley ρ‖² = 1`, every Li summand is
+nonnegative, and the order-3 Carleman–Weierstrass prime product `det3Diag` both converges
+non-vanishingly (`det₃ ≠ 0`) and obeys the exact `ℓ³` multiplicative trace anomaly. -/
+theorem det3_critical_line_and_li_cayley_bridge (t : ℝ) :
+    let s : ℂ := (1 / 2 : ℂ) + (t : ℂ) * Complex.I
+    let lam : Nat.Primes → ℂ := fun p => -(((p : ℕ) : ℂ) ^ (-s))
+    let μ : Nat.Primes → ℂ := fun p => (1 / 2 : ℂ) * lam p
+    ‖cayley s‖ ^ 2 = 1 ∧
+      (∀ n : ℕ, 0 ≤ liSummand s n) ∧
+      CarlemanWeierstrass.detKDiag 3 lam ≠ 0 ∧
+      CarlemanWeierstrass.det3Diag (fun p => lam p + μ p + lam p * μ p) =
+        CarlemanWeierstrass.det3Diag lam * CarlemanWeierstrass.det3Diag μ *
+          Complex.exp (∑' p : Nat.Primes, lam p * μ p * (lam p + μ p + (1 / 2 : ℂ) * lam p * μ p)) := by
+  intro s lam μ
+  have hs_eq : s = ⟨0 + 1 / 2, t⟩ := by
+    apply Complex.ext <;> simp [s]
+  have h_rho_pos : 0 < (0 + 1 / 2 : ℝ) ^ 2 + t ^ 2 := by positivity
+  have hli := li_cayley_critical_line_bridge 0 t h_rho_pos
+  have hcay : ‖cayley s‖ ^ 2 = 1 := by
+    rw [hs_eq]
+    exact hli.1.mpr rfl
+  have hlinn : ∀ n : ℕ, 0 ≤ liSummand s n := by
+    intro n
+    rw [hs_eq]
+    exact hli.2.2 rfl n
+  have hd3 := CarlemanWeierstrass.det3_eulerPrimes_critical_line t
+  have hanom := CarlemanWeierstrass.det3_eulerPrimes_critical_line_anomaly t
+  exact ⟨hcay, hlinn, hd3.2, hanom.2⟩
+
+/-- **Infinite-Zero `L¹(ℝ)` Weil Positivity & Evanescent QFIM Bridge**:
+Pairs real-axis infinite-zero `L¹(ℝ)` Weil positivity (`weilInfiniteSum_nonneg_of_allRealZeros`)
+with the exact Sharoglazova–Klaers evanescent speed law (`DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law`),
+keeping finite/analytic QFIM verification distinct from physical calibration gates. -/
+theorem weil_infinite_real_vs_evanescent_qfim_bridge
+    (z : ℕ → ℂ) (m : ℕ → ℕ) (hReal : ∀ n : ℕ, (z n).im = 0)
+    {f : ℝ → ℂ} (hf : AdmissibleL1All f)
+    (hSumm : Summable (fun n : ℕ => (m n : ℝ) * ‖mellinTransform f (z n)‖ ^ 2))
+    {ℏ mass eAbs j0 kPlus kMinus : ℝ} (hℏ : 0 < ℏ) (hm : 0 < mass)
+    (hkp : kPlus ^ 2 = 2 * mass * (eAbs - ℏ * j0) / ℏ ^ 2)
+    (hkm : kMinus ^ 2 = 2 * mass * (eAbs + ℏ * j0) / ℏ ^ 2) (x : ℝ) :
+    0 ≤ (weilInfiniteSum z m f).re ∧
+      (weilInfiniteSum z m f).im = 0 ∧
+      (let κbar : ℝ := (kMinus + kPlus) / 2
+       let δκ : ℝ := (kMinus - kPlus) / 2
+       let ρ : ℝ := Real.exp (-2 * κbar * x) * Real.cosh (2 * δκ * x)
+       let dρ : ℝ := 2 * ρ * (-κbar + δκ * Real.tanh (2 * δκ * x))
+       let r : ℝ := Real.sqrt (Real.cosh (2 * δκ * x))
+       let p : DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((Real.cosh (δκ * x) / r : ℝ) : ℂ)
+         else if i = 1 then ((Real.sinh (δκ * x) / r : ℝ) : ℂ)
+         else 0)
+       let dp : DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((-(δκ * Real.sinh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+         else if i = 1 then (((δκ * Real.cosh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+         else 0)
+       DualSchubertQFIM.fubiniStudy p dp = δκ ^ 2 / Real.cosh (2 * δκ * x) ^ 2 ∧
+       (ℏ / mass) ^ 2 * ((⟪p, dp⟫_ℂ).im ^ 2 + (dρ / (2 * ρ)) ^ 2 + DualSchubertQFIM.qfim p dp / 4) =
+         (2 / mass) * (eAbs - ℏ * j0 * Real.tanh (2 * δκ * x))) := by
+  have hweil := weilInfiniteSum_nonneg_of_allRealZeros z m hReal hf hSumm
+  have hsk := DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law hℏ hm hkp hkm x
+  exact ⟨hweil.1, hweil.2, hsk.2.2.1, hsk.2.2.2⟩
+
+/-- **Upgraded Strip-Automatic `L¹(ℝ)` Weil Positivity & Evanescent QFIM Bridge**:
+Replaces the per-test-function `hSumm` hypothesis with the intrinsic sub-Gaussian zero-density
+condition `Summable (fun n => (m n : ℝ) * Real.exp (-((z n).re ^ 2)))`, proving `Re ≥ 0, Im = 0`
+for every `gaussianCombo δ P` automatically while pairing with the Sharoglazova–Klaers QFIM
+evanescent speed law. -/
+theorem weil_infinite_gaussianCombo_strip_vs_evanescent_qfim_bridge
+    (z : ℕ → ℂ) (m : ℕ → ℕ) (hReal : ∀ n : ℕ, (z n).im = 0)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ)
+    {ℏ mass eAbs j0 kPlus kMinus : ℝ} (hℏ : 0 < ℏ) (hm : 0 < mass)
+    (hkp : kPlus ^ 2 = 2 * mass * (eAbs - ℏ * j0) / ℏ ^ 2)
+    (hkm : kMinus ^ 2 = 2 * mass * (eAbs + ℏ * j0) / ℏ ^ 2) (x : ℝ) :
+    0 ≤ (weilInfiniteSum z m (gaussianCombo δ P)).re ∧
+      (weilInfiniteSum z m (gaussianCombo δ P)).im = 0 ∧
+      (let κbar : ℝ := (kMinus + kPlus) / 2
+       let δκ : ℝ := (kMinus - kPlus) / 2
+       let ρ : ℝ := Real.exp (-2 * κbar * x) * Real.cosh (2 * δκ * x)
+       let dρ : ℝ := 2 * ρ * (-κbar + δκ * Real.tanh (2 * δκ * x))
+       let r : ℝ := Real.sqrt (Real.cosh (2 * δκ * x))
+       let p : DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((Real.cosh (δκ * x) / r : ℝ) : ℂ)
+         else if i = 1 then ((Real.sinh (δκ * x) / r : ℝ) : ℂ)
+         else 0)
+       let dp : DualSchubertQFIM.Plucker6 := WithLp.toLp 2 (fun i : Fin 6 =>
+         if i = 0 then ((-(δκ * Real.sinh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+         else if i = 1 then (((δκ * Real.cosh (δκ * x)) / (r * Real.cosh (2 * δκ * x)) : ℝ) : ℂ)
+         else 0)
+       DualSchubertQFIM.fubiniStudy p dp = δκ ^ 2 / Real.cosh (2 * δκ * x) ^ 2 ∧
+       (ℏ / mass) ^ 2 * ((⟪p, dp⟫_ℂ).im ^ 2 + (dρ / (2 * ρ)) ^ 2 + DualSchubertQFIM.qfim p dp / 4) =
+         (2 / mass) * (eAbs - ℏ * j0 * Real.tanh (2 * δκ * x))) := by
+  have hweil := weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros z m hReal hGauss δ P
+  have hsk := DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law hℏ hm hkp hkm x
+  exact ⟨hweil.1, hweil.2, hsk.2.2.1, hsk.2.2.2⟩
 
 end Signals.SatoGrassmannian.RiemannSpectralBridge

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html" />
+    <link rel="prev" title="Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, \(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\) Bridging, and Integrated Turner Models 16a &amp; 16b in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></a><ul>
+<li><a class="reference internal" href="#epistemic-scope-attached-gaps-vs-constructive-closure">1. Epistemic Scope: Attached Gaps vs. Constructive Closure</a></li>
+<li><a class="reference internal" href="#phased-workstreams-ym-1-through-ym-5">2. Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">YM-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">YM-5</span></code>)</a><ul>
+<li><a class="reference internal" href="#ym-1-constructive-gap-closure-theorems-in-signals-yangmillshiggscpt"><code class="docutils literal notranslate"><span class="pre">YM-1</span></code>: Constructive Gap-Closure Theorems in <code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code></a></li>
+<li><a class="reference internal" href="#ym-2-constructive-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary"><code class="docutils literal notranslate"><span class="pre">YM-2</span></code>: Constructive Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></a></li>
+<li><a class="reference internal" href="#ym-3-rust-pyo3-numerical-audits-for-lattice-rg-os-positivity-gko-obstruction-atlas-cms-cp-bounds-ewpt-washout"><code class="docutils literal notranslate"><span class="pre">YM-3</span></code>: Rust + PyO3 Numerical Audits for Lattice RG/OS Positivity, GKO Obstruction, ATLAS/CMS CP Bounds, &amp; EWPT Washout</a></li>
+<li><a class="reference internal" href="#ym-4-sympy-mpmath-symbolic-precision-cross-verification"><code class="docutils literal notranslate"><span class="pre">YM-4</span></code>: SymPy / <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Symbolic &amp; Precision Cross-Verification</a></li>
+<li><a class="reference internal" href="#ym-5-documentation-integration-html-verification-commit"><code class="docutils literal notranslate"><span class="pre">YM-5</span></code>: Documentation Integration, HTML Verification, &amp; Commit</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html" title="Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, \(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\) Bridging, and Integrated Turner Models 16a &amp; 16b in Lean 4, Rust/PyO3, and SymPy" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html" title="Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/yang-mills-higgs-cpt-pending-closure-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></a><ul>
+<li><a class="reference internal" href="#epistemic-scope-attached-gaps-vs-constructive-closure">1. Epistemic Scope: Attached Gaps vs. Constructive Closure</a></li>
+<li><a class="reference internal" href="#phased-workstreams-ym-1-through-ym-5">2. Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">YM-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">YM-5</span></code>)</a><ul>
+<li><a class="reference internal" href="#ym-1-constructive-gap-closure-theorems-in-signals-yangmillshiggscpt"><code class="docutils literal notranslate"><span class="pre">YM-1</span></code>: Constructive Gap-Closure Theorems in <code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code></a></li>
+<li><a class="reference internal" href="#ym-2-constructive-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary"><code class="docutils literal notranslate"><span class="pre">YM-2</span></code>: Constructive Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></a></li>
+<li><a class="reference internal" href="#ym-3-rust-pyo3-numerical-audits-for-lattice-rg-os-positivity-gko-obstruction-atlas-cms-cp-bounds-ewpt-washout"><code class="docutils literal notranslate"><span class="pre">YM-3</span></code>: Rust + PyO3 Numerical Audits for Lattice RG/OS Positivity, GKO Obstruction, ATLAS/CMS CP Bounds, &amp; EWPT Washout</a></li>
+<li><a class="reference internal" href="#ym-4-sympy-mpmath-symbolic-precision-cross-verification"><code class="docutils literal notranslate"><span class="pre">YM-4</span></code>: SymPy / <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Symbolic &amp; Precision Cross-Verification</a></li>
+<li><a class="reference internal" href="#ym-5-documentation-integration-html-verification-commit"><code class="docutils literal notranslate"><span class="pre">YM-5</span></code>: Documentation Integration, HTML Verification, &amp; Commit</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html"
+                          title="previous chapter">Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span> Bridging, and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html"
+                          title="next chapter">Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/yang-mills-higgs-cpt-pending-closure-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-constructive-gap-closure-contracts-and-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary">
+<span id="yang-mills-higgs-cpt-pending-closure-plan"></span><h1>Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code><a class="headerlink" href="#written-plan-constructive-gap-closure-contracts-and-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Author:</strong> Wes Turner</p></li>
+<li><p><strong>Owning Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html"><span class="std std-doc">Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy</span></a> (Section 2.2)</p></li>
+<li><p><a class="reference internal" href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html"><span class="std std-doc">Infrared Divergence Resolution in Celestial Holography, <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span> Bridging, and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code></span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers Reused:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"><span class="std std-doc">Celestial Holography, the Canonical Dictionary (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>), Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">15a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">15b</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html"><span class="std std-doc">Antimatter Annihilation, Electron &amp; Gravity Mechanics Across GR, Cachazo–Witten Twistor Strings, QED Scattering Gravity, DDF, and Turner Models <code class="docutils literal notranslate"><span class="pre">3</span></code>–<code class="docutils literal notranslate"><span class="pre">15b</span></code> Tested Against CERN <code class="docutils literal notranslate"><span class="pre">ALPHA-g</span></code></span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Primary Source Provenance:</strong></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Google</span> <span class="pre">Search</span> <span class="pre">AI</span> <span class="pre">-</span> <span class="pre">Review</span> <span class="pre">Toupin's</span> <span class="pre">Mass</span> <span class="pre">Gap</span> <span class="pre">solution</span> <span class="pre">-</span> <span class="pre">Google</span> <span class="pre">Search</span> <span class="pre">-</span> <span class="pre">2026-11-26_15-52.md</span></code></a> (lines 13–45, 60–90)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/ec04a54a57eabc885ed3e4d145e5b529/Google-Search_higgs-boson-and-antimatter_20261126-1551.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Google-Search_higgs-boson-and-antimatter_20261126-1551.md</span></code></a> (lines 13–84)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/50d7d29d5a476f336f360151c4d17754/TOUQGA-2.pdf"><code class="xref download docutils literal notranslate"><span class="pre">data/papers/TOUQGA-2.pdf</span></code></a> (Ch. 11, pp. 613–658)</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="epistemic-scope-attached-gaps-vs-constructive-closure">
+<h2>1. Epistemic Scope: Attached Gaps vs. Constructive Closure<a class="headerlink" href="#epistemic-scope-attached-gaps-vs-constructive-closure" title="Link to this heading">¶</a></h2>
+<p>In Section 2.2 of <a class="reference internal" href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html"><span class="std std-doc">grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.md</span></a> and <code class="docutils literal notranslate"><span class="pre">Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary</span></code> (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a>), four coupled mathematical and experimental gaps separate our verified finite/lattice/algebraic core (<code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Sec. 12, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Sec. 30.8) from closing <code class="docutils literal notranslate"><span class="pre">allYangMillsHiggsCptGatesClosed</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attached Gap / Pending Gate</p></th>
+<th class="head"><p>Root Obstruction Identified in Section 2.2 &amp; <code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code></p></th>
+<th class="head"><p>Constructive Solution &amp; Formal Contract Implemented in This Plan (<code class="docutils literal notranslate"><span class="pre">YM-1</span></code>–<code class="docutils literal notranslate"><span class="pre">YM-5</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Gap 1 / Gate 1 (<code class="docutils literal notranslate"><span class="pre">continuum4DYangMillsOSConstructed</span></code>)</strong></p></td>
+<td><p>Strong-coupling cluster expansions (<span class="math notranslate nohighlight">\(\beta &lt; 2N^2\)</span>) break down before <span class="math notranslate nohighlight">\(\beta \to \infty\)</span> (<span class="math notranslate nohighlight">\(a \to 0, V \to \infty\)</span>), leaving 4D continuum OS reflection positivity, clustering, and a uniform physical mass gap <span class="math notranslate nohighlight">\(M_{\mathrm{phys}} &gt; 0\)</span> open <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id559" title="Arthur Jaffe and Edward Witten. Quantum Yang–Mills theory. In James Carlson, Arthur Jaffe, and Andrew Wiles, editors, The Millennium Prize Problems, pages 129–152. Clay Mathematics Institute / American Mathematical Society, 2006.">Jaffe and Witten, 2006</a>, <a class="reference internal" href="#id560" title="Konrad Osterwalder and Robert Schrader. Axioms for Euclidean Green's functions. Communications in Mathematical Physics, 31(2):83–112, 1973. URL: https://doi.org/10.1007/BF01645738, doi:10.1007/BF01645738.">Osterwalder and Schrader, 1973</a>]</span>.</p></td>
+<td><p><strong>1.</strong> Prove 1-loop (<span class="math notranslate nohighlight">\(a(\beta)\Lambda_{\mathrm{YM}} = \exp(-4\pi^2\beta/(b_0 N))\)</span>) and 2-loop (<code class="docutils literal notranslate"><span class="pre">latticeAsymptoticSpacingTwoLoop</span></code>, <span class="math notranslate nohighlight">\(b_1 = 34 N^2/3\)</span>) asymptotic scaling contraction as <span class="math notranslate nohighlight">\(\beta \to \infty\)</span>, while strong-coupling <span class="math notranslate nohighlight">\(\Delta_{\mathrm{sc}}(\beta) = -\ln(\beta/(2N^2))\)</span> turns non-positive at <span class="math notranslate nohighlight">\(\beta \ge 2N^2\)</span>.<br><strong>2.</strong> Prove the <strong>Conditional Continuum Uniform-Gap Theorem</strong> (<span class="math notranslate nohighlight">\(0 &lt; M_0 \le \Delta_{\mathrm{lat}}(a)/a \implies M_\infty \ge M_0 &gt; 0\)</span>).<br><strong>3.</strong> Prove <strong>Finite OS Reflection Positivity</strong> <span class="math notranslate nohighlight">\(\sum_{i,j}\overline{f_i}f_j S_2(t_i+t_j) = \sum_k w_k \lvert\sum_i f_i e^{-E_k t_i}\rvert^2 \ge 0\)</span>, two-time effective-mass clustering <span class="math notranslate nohighlight">\(S_2(\tau_2) \le S_2(\tau_1)e^{-E_{\mathrm{gap}}(\tau_2-\tau_1)}\)</span>, and 4-state Sylvester principal minors <span class="math notranslate nohighlight">\(&gt; 0\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Gap 2 &amp; Gap 3 / Gate 2 (<code class="docutils literal notranslate"><span class="pre">celestialConfiningWightmanReconstructed</span></code>)</strong></p></td>
+<td><p>Celestial Kac–Moody Ward identities assume massless soft gluons absent from a confining LSZ spectrum; pure Yang–Mills trades <span class="math notranslate nohighlight">\(g^2\)</span> for <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>, leaving no independent integer level <span class="math notranslate nohighlight">\(k\)</span>; Toupin’s GKO formula yields <span class="math notranslate nohighlight">\(165\text{–}300\text{ MeV}\)</span> vs. lattice <span class="math notranslate nohighlight">\(m_{0^{++}} \approx 1.61\text{–}1.73\text{ GeV}\)</span> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id574" title="Colin J. Morningstar and Mike Peardon. Glueball spectrum from an anisotropic lattice study. Physical Review D, 60(3):034509, 1999. URL: https://doi.org/10.1103/PhysRevD.60.034509, doi:10.1103/PhysRevD.60.034509.">Morningstar and Peardon, 1999</a>]</span>.</p></td>
+<td><p><strong>1.</strong> Prove <strong>Källén–Lehmann Confined Spectral Support &amp; Integrability</strong>: <span class="math notranslate nohighlight">\(\omega \ge m_{\mathrm{gap}} &gt; 0\)</span> excludes massless soft poles and bounds both <span class="math notranslate nohighlight">\(\Delta \ge 2\)</span> exponential tails and the critical <span class="math notranslate nohighlight">\(\Delta = 1\)</span> square-root endpoint (<code class="docutils literal notranslate"><span class="pre">kallenLehmann_critical_soft_pole_and_two_loop_rg</span></code>).<br><strong>2.</strong> Prove the <strong>Tree-Level GKO Integer-Level Obstruction</strong>: for <span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}} = 0.22\text{ GeV}\)</span> and <span class="math notranslate nohighlight">\(m_{0^{++}} = 1.61\text{ GeV}\)</span>, <span class="math notranslate nohighlight">\(M_k(N, \Lambda_{\mathrm{QCD}}) \le 2\Lambda_{\mathrm{QCD}} &lt; m_{0^{++}}\)</span> for every <span class="math notranslate nohighlight">\(k \ge 0\)</span>, and solve uniquely for the running effective level <span class="math notranslate nohighlight">\(k_{\mathrm{eff}} = N(2\Lambda_{\mathrm{QCD}}/M_{\mathrm{phys}} - 1) &lt; 0\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gate 3 (<code class="docutils literal notranslate"><span class="pre">bsmHiggsCpViolationObserved</span></code>)</strong></p></td>
+<td><p>Standard Model CKM <span class="math notranslate nohighlight">\(J_{\mathrm{CP}}\)</span> is too small for baryogenesis, and ATLAS/CMS BSM Higgs CP-mixing (<span class="math notranslate nohighlight">\(\tilde{\kappa}\sin(2\alpha_{\mathrm{CP}}) \ne 0\)</span>) has not yet been observed above zero <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id577" title="ATLAS Collaboration. Measurement of the $CP$ properties of higgs boson interactions with τ-leptons with the ATLAS detector. The European Physical Journal C, 83:563, 2023. URL: https://doi.org/10.1140/epjc/s10052-023-11583-y, doi:10.1140/epjc/s10052-023-11583-y.">ATLAS Collaboration, 2023</a>]</span>.</p></td>
+<td><p>Formalize the physical Higgs–fermion EFT parameterization <span class="math notranslate nohighlight">\(\mu_{\mathrm{sig}} = \kappa_f^2 + \tilde{\kappa}_f^2\)</span>, <span class="math notranslate nohighlight">\(\kappa_f = \sqrt{\mu_{\mathrm{sig}}}\cos\alpha_{\mathrm{CP}}\)</span>, <span class="math notranslate nohighlight">\(\tilde{\kappa}_f = \sqrt{\mu_{\mathrm{sig}}}\sin\alpha_{\mathrm{CP}}\)</span>, proving <code class="docutils literal notranslate"><span class="pre">higgsCpEftSignedAsymmetry</span></code> <span class="math notranslate nohighlight">\(= 2\kappa_f\tilde{\kappa}_f = \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}}) = \mathcal{A}_{\mathrm{CP}}(1,\mu_{\mathrm{sig}},\alpha_{\mathrm{CP}})\)</span> and the <strong>ATLAS/CMS Exclusion-Envelope Bound</strong> <span class="math notranslate nohighlight">\(\lvert\tilde{\kappa}_f\rvert \le \sqrt{\mu_{\max}}\sin\alpha_{\max}\)</span> when <span class="math notranslate nohighlight">\(\lvert\alpha_{\mathrm{CP}}\rvert \le \alpha_{\max} \le \pi/2\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Gate 4 (<code class="docutils literal notranslate"><span class="pre">electroweakBaryogenesisAndModel16Resolved</span></code>)</strong></p></td>
+<td><p>Pure SM (<span class="math notranslate nohighlight">\(m_H = 125.25\text{ GeV}\)</span>) gives a smooth crossover rather than a strong first-order phase transition (<span class="math notranslate nohighlight">\(v(T_c)/T_c \ge 1\)</span>) <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id575" title="K. Kajantie, M. Laine, K. Rummukainen, and M. Shaposhnikov. Is there a hot electroweak phase transition at $m_h \gtrsim m_w$? Physical Review Letters, 77(14):2887–2890, 1996. URL: https://doi.org/10.1103/PhysRevLett.77.2887, doi:10.1103/PhysRevLett.77.2887.">Kajantie <em>et al.</em>, 1996</a>, <a class="reference internal" href="#id576" title="V. A. Kuzmin, V. A. Rubakov, and M. E. Shaposhnikov. On the anomalous electroweak baryon number nonconservation in the early universe. Physics Letters B, 155(1–2):36–42, 1985. URL: https://doi.org/10.1016/0370-2693(85)91028-7, doi:10.1016/0370-2693(85)91028-7.">Kuzmin <em>et al.</em>, 1985</a>]</span>; Model <code class="docutils literal notranslate"><span class="pre">16a</span></code>/<code class="docutils literal notranslate"><span class="pre">16b</span></code> (<span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma \in \{0,1\}\)</span>, <span class="math notranslate nohighlight">\(\kappa_{\mathrm{IR}}\)</span>) requires discriminator data.</p></td>
+<td><p><strong>1.</strong> Prove the exact finite-temperature effective potential double-well factorization at <span class="math notranslate nohighlight">\(T_c\)</span>: <span class="math notranslate nohighlight">\(V_{\mathrm{eff}}(\phi, T_c) = \frac{\lambda_T}{4}\phi^2(\phi-\phi_c)^2 \ge 0\)</span> with positive barrier height <span class="math notranslate nohighlight">\(E^4 T_c^4/(4\lambda_T^3) &gt; 0\)</span> at <span class="math notranslate nohighlight">\(\phi_c/2\)</span> and <span class="math notranslate nohighlight">\(\phi_c/T_c = 2E/\lambda_T\)</span>, proving pure SM failure (<span class="math notranslate nohighlight">\(2E_{\mathrm{SM}}/\lambda_{\mathrm{SM}} &lt; 1\)</span>) vs. BSM barrier restoration (<span class="math notranslate nohighlight">\(2E \ge \lambda_T\)</span>).<br><strong>2.</strong> Formalize explicit certificate structures (<code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">BsmHiggsCpDiscoveryCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">ElectroweakBaryogenesisModel16Certificate</span></code>) and prove the constructive solver <strong><code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates</span></code></strong> discharging <code class="docutils literal notranslate"><span class="pre">allYangMillsHiggsCptGatesClosed</span></code> alongside OS clustering, out-of-equilibrium Sakharov bias, and positive Model <code class="docutils literal notranslate"><span class="pre">16</span></code> transfer.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="phased-workstreams-ym-1-through-ym-5">
+<h2>2. Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">YM-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">YM-5</span></code>)<a class="headerlink" href="#phased-workstreams-ym-1-through-ym-5" title="Link to this heading">¶</a></h2>
+<section id="ym-1-constructive-gap-closure-theorems-in-signals-yangmillshiggscpt">
+<h3><code class="docutils literal notranslate"><span class="pre">YM-1</span></code>: Constructive Gap-Closure Theorems in <code class="docutils literal notranslate"><span class="pre">Signals.YangMillsHiggsCPT</span></code><a class="headerlink" href="#ym-1-constructive-gap-closure-theorems-in-signals-yangmillshiggscpt" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/YangMillsHiggsCPT.lean</span></code> (Section 7)</p></li>
+<li><p><strong>Deliverables (Zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">latticeAsymptoticSpacing</span></code>, <code class="docutils literal notranslate"><span class="pre">suNTwoLoopBeta1PureYM</span></code>, <code class="docutils literal notranslate"><span class="pre">latticeAsymptoticSpacingTwoLoop</span></code>, <code class="docutils literal notranslate"><span class="pre">strongCouplingLogGap</span></code>, <code class="docutils literal notranslate"><span class="pre">lattice_rg_continuum_scaling_and_strong_coupling_breakdown</span></code>: prove strict monotonic continuum contraction <span class="math notranslate nohighlight">\(0 &lt; a(\beta_2) &lt; a(\beta_1)\)</span> as <span class="math notranslate nohighlight">\(\beta_1 &lt; \beta_2\)</span>, 2-loop spacing positivity, exact vanishing/sign-flip of the strong-coupling lower bound at <span class="math notranslate nohighlight">\(\beta \ge 2N^2\)</span>, and uniform physical gap preservation <span class="math notranslate nohighlight">\(0 &lt; M_0 \le M_{\mathrm{phys}}(i) \implies M_\infty \ge M_0 &gt; 0\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finiteOSSchwingerTwoPoint</span></code>, <code class="docutils literal notranslate"><span class="pre">finiteOSReflectionForm</span></code>, <code class="docutils literal notranslate"><span class="pre">osReflectionPositivity_and_clustering_of_spectral_weights</span></code>: prove exact <strong>Osterwalder–Schrader reflection positivity</strong> <span class="math notranslate nohighlight">\(\sum_{i,j} \overline{f_i} f_j S_2(t_i + t_j) \ge 0\)</span>, two-time effective-mass clustering <span class="math notranslate nohighlight">\(S_2(\tau_2) \le S_2(\tau_1) e^{-E_{\mathrm{gap}}(\tau_2-\tau_1)}\)</span>, and exponential decay <span class="math notranslate nohighlight">\(0 \le S_2(\tau) \le (\sum_k w_k) e^{-E_{\mathrm{gap}}\tau}\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kallenLehmann_confined_envelope_and_gko_obstruction</span></code>, <code class="docutils literal notranslate"><span class="pre">kallenLehmann_critical_soft_pole_and_two_loop_rg</span></code>: prove soft-pole exclusion on <span class="math notranslate nohighlight">\([m_{\mathrm{gap}}, \infty)\)</span> for both <span class="math notranslate nohighlight">\(\Delta \ge 2\)</span> and critical <span class="math notranslate nohighlight">\(\Delta = 1\)</span> (<span class="math notranslate nohighlight">\(\le (2 m_{\mathrm{gap}}(\omega - m_{\mathrm{gap}}))^{-1/2} e^{-\mu m_{\mathrm{gap}}}\)</span>), plus the exact algebraic obstruction <span class="math notranslate nohighlight">\(M_k(N_c, 220) \le 440 &lt; 1610\text{ MeV}\)</span> for all <span class="math notranslate nohighlight">\(k \ge 0\)</span> and unique continuous level <code class="docutils literal notranslate"><span class="pre">toupinEffectiveRunningLevel</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">higgsCpKappa</span></code>, <code class="docutils literal notranslate"><span class="pre">higgsCpKappaTilde</span></code>, <code class="docutils literal notranslate"><span class="pre">higgsCpEftSignedAsymmetry</span></code>, <code class="docutils literal notranslate"><span class="pre">higgsCpEftExclusion_envelope</span></code>: prove <span class="math notranslate nohighlight">\(\kappa_f^2 + \tilde{\kappa}_f^2 = \mu_{\mathrm{sig}}\)</span>, <code class="docutils literal notranslate"><span class="pre">higgsCpEftSignedAsymmetry</span></code> <span class="math notranslate nohighlight">\(= \mu_{\mathrm{sig}}\sin(2\alpha_{\mathrm{CP}}) = \mathcal{A}_{\mathrm{CP}}(1, \mu_{\mathrm{sig}}, \alpha_{\mathrm{CP}})\)</span>, and <span class="math notranslate nohighlight">\(|\tilde{\kappa}_f| \le \sqrt{\mu_{\max}}\sin\alpha_{\max}\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">electroweakEffPotential</span></code>, <code class="docutils literal notranslate"><span class="pre">electroweakCriticalVev</span></code>, <code class="docutils literal notranslate"><span class="pre">electroweak_first_order_washout_criterion</span></code>: prove <span class="math notranslate nohighlight">\(\phi_c/T_c = 2E/\lambda_T\)</span> at <span class="math notranslate nohighlight">\(V_{\mathrm{eff}}(\phi_c, T_c) = 0\)</span>, global double-well factorization <span class="math notranslate nohighlight">\(V_{\mathrm{eff}}(\phi, T_c) = \frac{\lambda_T}{4}\phi^2(\phi-\phi_c)^2 \ge 0\)</span>, positive barrier height <span class="math notranslate nohighlight">\(E^4 T_c^4/(4\lambda_T^3) &gt; 0\)</span> at <span class="math notranslate nohighlight">\(\phi_c/2\)</span>, and exact washout criterion <span class="math notranslate nohighlight">\(2E \ge \lambda_T \iff \phi_c/T_c \ge 1\)</span>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> passes with zero errors and zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p></li>
+</ul>
+</section>
+<section id="ym-2-constructive-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary">
+<h3><code class="docutils literal notranslate"><span class="pre">YM-2</span></code>: Constructive Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code><a class="headerlink" href="#ym-2-constructive-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsPending.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></p></li>
+<li><p><strong>Deliverables:</strong></p>
+<ol class="arabic simple">
+<li><p>Define <code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">BsmHiggsCpDiscoveryCertificate</span></code>, and <code class="docutils literal notranslate"><span class="pre">ElectroweakBaryogenesisModel16Certificate</span></code> in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>.</p></li>
+<li><p>Define <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates</span></code> and prove <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary.solved_of_certificates</span></code>, discharging <code class="docutils literal notranslate"><span class="pre">allYangMillsHiggsCptGatesClosed</span></code> constructively whenever all four verified witness certificates are supplied (enforcing RG contraction, OS reflection positivity &amp; clustering, GKO sign, EFT CP asymmetry, EWPT double-well barrier, out-of-equilibrium Sakharov bias, and positive Model <code class="docutils literal notranslate"><span class="pre">16</span></code> transfer), while retaining <code class="docutils literal notranslate"><span class="pre">yang_mills_higgs_cpt_identities_do_not_close_pending_gates</span></code> as the negative epistemic witness when certificates are absent.</p></li>
+<li><p>Add blueprint lemma <code class="docutils literal notranslate"><span class="pre">pending_yang_mills_higgs_cpt_solved_of_certificates</span></code> in <code class="docutils literal notranslate"><span class="pre">SignalsPending.lean</span></code> and regression examples in <code class="docutils literal notranslate"><span class="pre">SignalsPendingTests.lean</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> succeeds with zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p></li>
+</ul>
+</section>
+<section id="ym-3-rust-pyo3-numerical-audits-for-lattice-rg-os-positivity-gko-obstruction-atlas-cms-cp-bounds-ewpt-washout">
+<h3><code class="docutils literal notranslate"><span class="pre">YM-3</span></code>: Rust + PyO3 Numerical Audits for Lattice RG/OS Positivity, GKO Obstruction, ATLAS/CMS CP Bounds, &amp; EWPT Washout<a class="headerlink" href="#ym-3-rust-pyo3-numerical-audits-for-lattice-rg-os-positivity-gko-obstruction-atlas-cms-cp-bounds-ewpt-washout" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/yang_mills_higgs_cpt.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code></p></li>
+<li><p><strong>Deliverables:</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">audit_os_reflection_positivity_gram</span></code>: construct a full-rank <span class="math notranslate nohighlight">\(4\times 4\)</span> Euclidean Schwinger matrix <span class="math notranslate nohighlight">\(G_{ij} = S_2(t_i + t_j)\)</span> from a positive 4-state glueball spectrum (<span class="math notranslate nohighlight">\(E_1 = 1.61\text{ GeV}\)</span> plus excited states <span class="math notranslate nohighlight">\(2.22, 2.60, 3.10\text{ GeV}\)</span>), verify exact factorization (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-15</span></code>), all four Sylvester leading principal minors <span class="math notranslate nohighlight">\(&gt; 0\)</span>, effective mass <span class="math notranslate nohighlight">\(m_{\mathrm{eff}} \ge 1.61\text{ GeV}\)</span>, and exponential clustering.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lattice_asymptotic_spacing</span></code>, <code class="docutils literal notranslate"><span class="pre">lattice_asymptotic_spacing_two_loop</span></code>, <code class="docutils literal notranslate"><span class="pre">strong_coupling_log_gap</span></code>, <code class="docutils literal notranslate"><span class="pre">toupin_effective_running_level</span></code>: verify <span class="math notranslate nohighlight">\(a(\beta_2) &lt; a(\beta_1)\)</span> along 1-loop/2-loop <span class="math notranslate nohighlight">\(\mathrm{SU}(3)\)</span> scaling, confirm <span class="math notranslate nohighlight">\(\Delta_{\mathrm{sc}}(18) = 0\)</span>, and compute <code class="docutils literal notranslate"><span class="pre">k_eff</span></code> vs. <code class="docutils literal notranslate"><span class="pre">max_{k&gt;=0}</span> <span class="pre">M_k</span> <span class="pre">=</span> <span class="pre">440</span> <span class="pre">MeV</span> <span class="pre">&lt;</span> <span class="pre">1610</span> <span class="pre">MeV</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">audit_ewpt_sphaleron_washout</span></code> &amp; ATLAS/CMS EFT envelope: verify SM crossover (<span class="math notranslate nohighlight">\(\phi_c/T_c &lt; 1\)</span>) vs. BSM strong first-order EWPT (<span class="math notranslate nohighlight">\(\phi_c/T_c \ge 1\)</span>, positive barrier height <span class="math notranslate nohighlight">\(V_{\mathrm{eff}}(\phi_c/2, T_c)/T_c^4\)</span>) and ATLAS/CMS <span class="math notranslate nohighlight">\(|\alpha_{\mathrm{CP}}| \le 28^\circ\)</span> <span class="math notranslate nohighlight">\(|\tilde{\kappa}_f|\)</span> envelope.</p></li>
+<li><p>Expose all fields via <code class="docutils literal notranslate"><span class="pre">py_audit_yang_mills_higgs_cpt</span></code>, pass <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, and rebuild the wheel with <code class="docutils literal notranslate"><span class="pre">maturin</span> <span class="pre">develop</span> <span class="pre">--release</span></code>.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="ym-4-sympy-mpmath-symbolic-precision-cross-verification">
+<h3><code class="docutils literal notranslate"><span class="pre">YM-4</span></code>: SymPy / <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Symbolic &amp; Precision Cross-Verification<a class="headerlink" href="#ym-4-sympy-mpmath-symbolic-precision-cross-verification" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">sustainablefactory/yang_mills_higgs_cpt.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tests/test_yang_mills_higgs_cpt.py</span></code></p></li>
+<li><p><strong>Deliverables:</strong></p>
+<ol class="arabic simple">
+<li><p>Symbolic SymPy proofs of OS reflection positivity (<code class="docutils literal notranslate"><span class="pre">f^T</span> <span class="pre">G</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">sum</span> <span class="pre">w_k</span> <span class="pre">(sum</span> <span class="pre">f_i</span> <span class="pre">e^{-E_k</span> <span class="pre">t_i})^2</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>), asymptotic spacing, GKO ceiling <span class="math notranslate nohighlight">\(M_k \le 2\Lambda_{\mathrm{QCD}}\)</span>, EFT CP-angle envelope + Section 3 convention bridge, and EWPT double-well factorization, stationary derivatives (<span class="math notranslate nohighlight">\(\partial_\phi V = 0, \partial_\phi^2 V &gt; 0\)</span>), and barrier height at <span class="math notranslate nohighlight">\(\phi_c/2\)</span>.</p></li>
+<li><p>Cross-check Rust/PyO3 values (<code class="docutils literal notranslate"><span class="pre">lattice_spacing_beta62</span></code>, <code class="docutils literal notranslate"><span class="pre">lattice_spacing_two_loop_beta62</span></code>, <code class="docutils literal notranslate"><span class="pre">os_effective_mass_gev</span></code>, <code class="docutils literal notranslate"><span class="pre">atlas_higgs_cp_max_kappatilde</span></code>, <code class="docutils literal notranslate"><span class="pre">ewpt_bsm_phic_over_tc</span></code>, <code class="docutils literal notranslate"><span class="pre">ewpt_bsm_barrier_height_over_tc4</span></code>) against 45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> in <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="ym-5-documentation-integration-html-verification-commit">
+<h3><code class="docutils literal notranslate"><span class="pre">YM-5</span></code>: Documentation Integration, HTML Verification, &amp; Commit<a class="headerlink" href="#ym-5-documentation-integration-html-verification-commit" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">docs/grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/plan-index.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/citations.bib</span></code></p></li>
+<li><p><strong>Gate:</strong> Zero Markdown scanner findings, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">docs</span> <span class="pre">html</span></code> clean, browser inspection confirms MathJax rendering and zero <code class="docutils literal notranslate"><span class="pre">mjx-merror</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code> clean.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<div class="docutils container" id="id5">
+<div role="list" class="citation-list">
+<div class="citation" id="id559" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Arthur Jaffe and Edward Witten. Quantum Yang–Mills theory. In James Carlson, Arthur Jaffe, and Andrew Wiles, editors, <em>The Millennium Prize Problems</em>, pages 129–152. Clay Mathematics Institute / American Mathematical Society, 2006.</p>
+</div>
+<div class="citation" id="id560" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">2</a><span class="fn-bracket">]</span></span>
+<p>Konrad Osterwalder and Robert Schrader. Axioms for Euclidean Green's functions. <em>Communications in Mathematical Physics</em>, 31(2):83–112, 1973. URL: <a class="reference external" href="https://doi.org/10.1007/BF01645738">https://doi.org/10.1007/BF01645738</a>, <a class="reference external" href="https://doi.org/10.1007/BF01645738">doi:10.1007/BF01645738</a>.</p>
+</div>
+<div class="citation" id="id574" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">3</a><span class="fn-bracket">]</span></span>
+<p>Colin J. Morningstar and Mike Peardon. Glueball spectrum from an anisotropic lattice study. <em>Physical Review D</em>, 60(3):034509, 1999. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevD.60.034509">https://doi.org/10.1103/PhysRevD.60.034509</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevD.60.034509">doi:10.1103/PhysRevD.60.034509</a>.</p>
+</div>
+<div class="citation" id="id577" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">4</a><span class="fn-bracket">]</span></span>
+<p>ATLAS Collaboration. Measurement of the $CP$ properties of higgs boson interactions with τ-leptons with the ATLAS detector. <em>The European Physical Journal C</em>, 83:563, 2023. URL: <a class="reference external" href="https://doi.org/10.1140/epjc/s10052-023-11583-y">https://doi.org/10.1140/epjc/s10052-023-11583-y</a>, <a class="reference external" href="https://doi.org/10.1140/epjc/s10052-023-11583-y">doi:10.1140/epjc/s10052-023-11583-y</a>.</p>
+</div>
+<div class="citation" id="id575" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">5</a><span class="fn-bracket">]</span></span>
+<p>K. Kajantie, M. Laine, K. Rummukainen, and M. Shaposhnikov. Is there a hot electroweak phase transition at $m_h \gtrsim m_w$? <em>Physical Review Letters</em>, 77(14):2887–2890, 1996. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.77.2887">https://doi.org/10.1103/PhysRevLett.77.2887</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.77.2887">doi:10.1103/PhysRevLett.77.2887</a>.</p>
+</div>
+<div class="citation" id="id576" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">6</a><span class="fn-bracket">]</span></span>
+<p>V. A. Kuzmin, V. A. Rubakov, and M. E. Shaposhnikov. On the anomalous electroweak baryon number nonconservation in the early universe. <em>Physics Letters B</em>, 155(1–2):36–42, 1985. URL: <a class="reference external" href="https://doi.org/10.1016/0370-2693(85)91028-7">https://doi.org/10.1016/0370-2693(85)91028-7</a>, <a class="reference external" href="https://doi.org/10.1016/0370-2693(85)91028-7">doi:10.1016/0370-2693(85)91028-7</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html" title="Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, \(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\) Bridging, and Integrated Turner Models 16a &amp; 16b in Lean 4, Rust/PyO3, and SymPy" >previous</a></li>
+        <li><a href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html" title="Yang–Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost’s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

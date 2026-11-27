@@ -26,6 +26,7 @@
       "grassmannian-ads-cft-ddf-paper",
       "grassmannian-antimatter-annihilation-alpha-g-models-paper",
       "grassmannian-celestial-holography-graviton-turner-riemann-paper",
+      "grassmannian-celestial-ir-regularization-turner-models-16ab-paper",
       "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
       "grassmannian-cuprate-superconductivity-paper",
       "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
@@ -60,6 +61,7 @@
       "grassmannian-quantum-causal-inference-mpemba-paper",
       "grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper",
       "grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper",
+      "grassmannian-quantum-causal-one-shot-system-identification-paper",
       "grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper",
       "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
       "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
@@ -82,6 +84,7 @@
       "grassmannian-unification-applications-roadmap-paper",
       "grassmannian-vectorial-longitudinal-polarization-paper",
       "grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper",
+      "grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper",
       "huygens-grassmannian-amplituhedron-plan",
       "interfacial-electrical-properties-plan",
       "interfacial-heat-transport-plan",
@@ -92,11 +95,13 @@
       "paper-model-review",
       "papers",
       "plan-index",
+      "quantum-causal-one-shot-system-identification-plan",
       "readme",
       "references",
       "research_brief_carbothermic_ultrasonic",
       "rhombohedral-graphene-superconductivity-plan",
       "riemann-spectral-bridges-plan",
+      "sato-riemann-spectral-pending-closure-plan",
       "schema",
       "search",
       "signals-blueprint",
@@ -105,10 +110,12 @@
       "sphinx-meilisearch-architecture",
       "tools",
       "tuning-materials-with-light-plan",
+      "unified-pending-closure-roadmap-plan",
       "visualization",
       "water",
       "wiki",
-      "workflow-performance-plan"
+      "workflow-performance-plan",
+      "yang-mills-higgs-cpt-pending-closure-plan"
     ],
     "root": "index"
   },
@@ -820,6 +827,13 @@
             ],
             "level": 3,
             "title": "AG-4: MyST Markdown Paper & Documentation Integration"
+          },
+          {
+            "ids": [
+              "ag-5-constructive-certificate-closure-cross-boundary-unification-antimatterannihilationalphagpendingboundary"
+            ],
+            "level": 3,
+            "title": "AG-5: Constructive Certificate Closure & Cross-Boundary Unification (AntimatterAnnihilationAlphaGPendingBoundary)"
           }
         ]
       },
@@ -199339,6 +199353,13 @@
             ],
             "level": 3,
             "title": "NS-5: Commit Sequence"
+          },
+          {
+            "ids": [
+              "ns-6-constructive-certificate-closure-cross-boundary-unification-dualschubertnavierstokespendingboundary"
+            ],
+            "level": 3,
+            "title": "NS-6: Constructive Certificate Closure & Cross-Boundary Unification (DualSchubertNavierStokesPendingBoundary)"
           }
         ]
       },
@@ -200106,6 +200127,13 @@
             ],
             "level": 2,
             "title": "Formats & Serializations"
+          },
+          {
+            "ids": [
+              "other"
+            ],
+            "level": 2,
+            "title": "Other"
           }
         ]
       },
@@ -200519,6 +200547,116 @@
       "source": "grassmannian-celestial-holography-graviton-turner-riemann-paper.md",
       "title": "Celestial Holography, the Canonical Dictionary (\\Delta = 2s), Plancherel\u2013Unruh Graviton Loop Weights (M_1 = 1/8, M_2 = 1/90), and Integrated Turner Models 15a & 15b for Gravitons and Riemann Spectral Bridges in Lean 4, Rust/PyO3, and SymPy",
       "url": "grassmannian-celestial-holography-graviton-turner-riemann-paper.html"
+    },
+    {
+      "children": [],
+      "docname": "grassmannian-celestial-ir-regularization-turner-models-16ab-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "infrared-divergence-resolution-in-celestial-holography-dimensional-transmutation-operatorname-re-delta-d-mathrm-cft-2-bridging-and-integrated-turner-models-16a-16b-in-lean-4-rust-pyo3-and-sympy",
+              "grassmannian-celestial-ir-regularization-turner-models-16ab-paper"
+            ],
+            "level": 1,
+            "title": "Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, \\operatorname{Re}(\\Delta) = d_{\\mathrm{CFT}}/2 Bridging, and Integrated Turner Models 16a & 16b in Lean 4, Rust/PyO3, and SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "dimensional-transmutation-lambda-mathrm-qcd-rhgaps-cayley-contraction-toutrr-operatorname-re-delta-d-mathrm-cft-2"
+            ],
+            "level": 2,
+            "title": "1. Dimensional Transmutation (\\Lambda_{\\mathrm{QCD}}), RHGaps Cayley Contraction, & TOUTRR \\operatorname{Re}(\\Delta) = d_{\\mathrm{CFT}}/2"
+          },
+          {
+            "ids": [
+              "breaking-of-mathrm-sl-2-mathbb-c-dilatation-and-the-rhgaps-cayley-contraction-theorem"
+            ],
+            "level": 3,
+            "title": "1.1 Breaking of \\mathrm{SL}(2, \\mathbb{C}) Dilatation and the RHGaps Cayley Contraction Theorem"
+          },
+          {
+            "ids": [
+              "reconciling-toupins-touqga-2-pdf-delta-2s-and-toutrr-operatorname-re-delta-d-2-conventions"
+            ],
+            "level": 3,
+            "title": "1.2 Reconciling Toupin\u2019s TOUQGA-2.pdf (\\Delta = 2s) and TOUTRR (\\operatorname{Re}(\\Delta) = d/2) Conventions"
+          },
+          {
+            "ids": [
+              "two-exact-solutions-to-celestial-ir-divergences"
+            ],
+            "level": 2,
+            "title": "2. Two Exact Solutions to Celestial IR Divergences"
+          },
+          {
+            "ids": [
+              "solution-a-hard-gap-kallenlehmann-thresholded-mellin-transform"
+            ],
+            "level": 3,
+            "title": "2.1 Solution A: Hard-Gap K\u00e4ll\u00e9n\u2013Lehmann Thresholded Mellin Transform"
+          },
+          {
+            "ids": [
+              "solution-b-yukawamellin-transform-cayleyplancherel-ir-uv-kernel-mathcal-k-mathrm-ir-uv"
+            ],
+            "level": 3,
+            "title": "2.2 Solution B: Yukawa\u2013Mellin Transform & Cayley\u2013Plancherel IR/UV Kernel \\mathcal{K}_{\\mathrm{IR/UV}}"
+          },
+          {
+            "ids": [
+              "integrated-turner-models-16a-without-ddf-16b-with-ddf"
+            ],
+            "level": 2,
+            "title": "3. Integrated Turner Models 16a (Without DDF) & 16b (With DDF)"
+          },
+          {
+            "ids": [
+              "master-equations-predictions-of-models-16a-16b"
+            ],
+            "level": 3,
+            "title": "Master Equations & Predictions of Models 16a & 16b"
+          },
+          {
+            "ids": [
+              "critique-physical-distinction-ir-yukawa-screening-16a-vs-uv-core-saturation-16b"
+            ],
+            "level": 3,
+            "title": "3.1 Critique & Physical Distinction: IR Yukawa Screening (16a) vs. UV Core Saturation (16b)"
+          },
+          {
+            "ids": [
+              "reproducible-verification-commands"
+            ],
+            "level": 2,
+            "title": "4. Reproducible Verification Commands"
+          },
+          {
+            "ids": [
+              "provenance-metadata-bibtex-json-ld"
+            ],
+            "level": 2,
+            "title": "5. Provenance Metadata (BibTeX & JSON-LD)"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "grassmannian-celestial-ir-regularization-turner-models-16ab-paper.md",
+      "title": "Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, \\operatorname{Re}(\\Delta) = d_{\\mathrm{CFT}}/2 Bridging, and Integrated Turner Models 16a & 16b in Lean 4, Rust/PyO3, and SymPy",
+      "url": "grassmannian-celestial-ir-regularization-turner-models-16ab-paper.html"
     },
     {
       "children": [],
@@ -205439,6 +205577,144 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-quantum-causal-one-shot-system-identification-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "quantum-causal-grassmannian-one-shot-system-identification-qci-osid-reimplementing-the-zero-one-law-of-boulle-halikias-otto-townsend-2026-in-lean-4-and-rust-pyo3",
+              "grassmannian-quantum-causal-one-shot-system-identification-paper"
+            ],
+            "level": 1,
+            "title": "Quantum-Causal Grassmannian One-Shot System Identification (QCI-OSID): Reimplementing the Zero-One Law of Boull\u00e9, Halikias, Otto, & Townsend (2026) in Lean 4 and Rust/PyO3"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "from-classical-wias-boulle-et-al-2026-to-quantum-causal-qci-osid"
+            ],
+            "level": 2,
+            "title": "1. From Classical WIAS (Boull\u00e9 et al. 2026) to Quantum-Causal QCI-OSID"
+          },
+          {
+            "ids": [
+              "cauchybinet-plucker-grassmannian-injectivity-and-the-hankelcirculant-dichotomy"
+            ],
+            "level": 2,
+            "title": "2. Cauchy\u2013Binet Pl\u00fccker Grassmannian Injectivity and the Hankel\u2013Circulant Dichotomy"
+          },
+          {
+            "ids": [
+              "plucker-sum-of-squares-injectivity-on-mathrm-gr-mathbb-r-2-3"
+            ],
+            "level": 3,
+            "title": "2.1 Pl\u00fccker Sum-of-Squares Injectivity on \\mathrm{Gr}_{\\mathbb{R}}(2, 3)"
+          },
+          {
+            "ids": [
+              "circulant-1-shot-vs-hankel-1-probe-deficit-2-probe-plucker-recovery"
+            ],
+            "level": 3,
+            "title": "2.2 Circulant (1-Shot) vs. Hankel (1-Probe Deficit & 2-Probe Pl\u00fccker Recovery)"
+          },
+          {
+            "ids": [
+              "pearl-operatorname-do-surgery-quantum-switch-super-resolution-soft-noise-jeffrey-qfim-landauer-bounds"
+            ],
+            "level": 2,
+            "title": "3. Pearl \\operatorname{do}-Surgery, Quantum Switch Super-Resolution, & Soft-Noise Jeffrey/QFIM/Landauer Bounds"
+          },
+          {
+            "ids": [
+              "eliminating-closed-loop-confounding-abducing-exogenous-state-do-calculus-giarmatzicosta"
+            ],
+            "level": 3,
+            "title": "3.1 Eliminating Closed-Loop Confounding & Abducing Exogenous State (do-Calculus + Giarmatzi\u2013Costa)"
+          },
+          {
+            "ids": [
+              "coherent-mathrm-gr-mathbb-c-2-4-quantum-switch-pole-free-vrc-1-shot-operator-probing"
+            ],
+            "level": 3,
+            "title": "3.2 Coherent \\mathrm{Gr}_{\\mathbb{C}}(2,4) Quantum Switch & Pole-Free VRC 1-Shot Operator Probing"
+          },
+          {
+            "ids": [
+              "soft-partition-jeffrey-kinematics-qfim-4-g-fs-qcrb-closed-loop-landauer-heat"
+            ],
+            "level": 3,
+            "title": "3.3 Soft-Partition Jeffrey Kinematics, QFIM = 4 g_FS QCRB, & Closed-Loop Landauer Heat"
+          },
+          {
+            "ids": [
+              "tri-language-verification-ledger-lean-4-rust-pyo3-sympy-45-digit-mpmath"
+            ],
+            "level": 2,
+            "title": "4. Tri-Language Verification Ledger (Lean 4, Rust/PyO3, SymPy, & 45-Digit mpmath)"
+          },
+          {
+            "ids": [
+              "cross-literature-check-figures-experimental-benchmarks-master-theorem-11-1"
+            ],
+            "level": 3,
+            "title": "4.1 Cross-Literature Check Figures & Experimental Benchmarks (Master Theorem 11.1)"
+          },
+          {
+            "ids": [
+              "tequila-signals-grassmann-backend-integration-osid-tq-architecture-trade-offs-empirical-benchmarks"
+            ],
+            "level": 2,
+            "title": "5. Tequila & signals / grassmann Backend Integration (OSID-TQ): Architecture, Trade-Offs, & Empirical Benchmarks"
+          },
+          {
+            "ids": [
+              "formal-advantages-vs-disadvantages-trade-offs-master-theorem-11-2"
+            ],
+            "level": 3,
+            "title": "5.1 Formal Advantages vs. Disadvantages Trade-Offs (Master Theorem 11.2)"
+          },
+          {
+            "ids": [
+              "empirical-tequila-osid-verification-ledger-7-7-7-7-pytest-passing"
+            ],
+            "level": 3,
+            "title": "5.2 Empirical Tequila-OSID Verification Ledger (7/7 + 7/7 Pytest Passing)"
+          },
+          {
+            "ids": [
+              "sato-grassmannian-mathrm-gr-ge-0-k-n-arbitrary-n-soliton-pde-solvers-kp-ii-kdv-akns-6-channel-qfim-conditioning-in-qci-osid"
+            ],
+            "level": 2,
+            "title": "6. Sato Grassmannian \\mathrm{Gr}_{\\ge 0}(k,n) & Arbitrary N-Soliton PDE Solvers (KP-II, KdV, AKNS) + 6-Channel QFIM Conditioning in QCI-OSID"
+          },
+          {
+            "ids": [
+              "epistemic-boundary-signals-pending-oneshotquantumsysidpendingboundary"
+            ],
+            "level": 2,
+            "title": "7. Epistemic Boundary (Signals.Pending.OneShotQuantumSysIdPendingBoundary)"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "grassmannian-quantum-causal-one-shot-system-identification-paper.md",
+      "title": "Quantum-Causal Grassmannian One-Shot System Identification (QCI-OSID): Reimplementing the Zero-One Law of Boull\u00e9, Halikias, Otto, & Townsend (2026) in Lean 4 and Rust/PyO3",
+      "url": "grassmannian-quantum-causal-one-shot-system-identification-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper",
       "doctree": {
         "headings": [
@@ -206471,17 +206747,10 @@
           },
           {
             "ids": [
-              "tri-language-numerical-verification-mpmath-40-digit-vs-rust-pyo3"
+              "tri-language-numerical-verification-mpmath-4080-digit-vs-rust-pyo3"
             ],
             "level": 2,
-            "title": "6. Tri-Language Numerical Verification (mpmath 40-Digit vs. Rust/PyO3)"
-          },
-          {
-            "ids": [
-              "open-boundaries-recorded-in-signals-pending-satoriemannspectralpendingboundary"
-            ],
-            "level": 2,
-            "title": "7. Open Boundaries Recorded in Signals.Pending.SatoRiemannSpectralPendingBoundary"
+            "title": "6. Tri-Language Numerical Verification (mpmath 40\u201380-Digit vs. Rust/PyO3)"
           },
           {
             "ids": [
@@ -208456,6 +208725,109 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "yangmills-mass-gap-electroweak-higgs-symmetry-breaking-cp-violation-sakharov-thermal-equilibrium-nullity-and-josts-anti-unitary-cpt-involution-in-lean-4-rust-pyo3-and-sympy",
+              "grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper"
+            ],
+            "level": 1,
+            "title": "Yang\u2013Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost\u2019s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "unified-architecture-from-yangmills-higgs-mass-generation-to-jost-cpt-sakharov-baryogenesis"
+            ],
+            "level": 2,
+            "title": "1. Unified Architecture: From Yang\u2013Mills & Higgs Mass Generation to Jost CPT & Sakharov Baryogenesis"
+          },
+          {
+            "ids": [
+              "the-yangmills-mass-gap-audit-of-toupins-celestial-haar-construction"
+            ],
+            "level": 2,
+            "title": "2. The Yang\u2013Mills Mass Gap & Audit of Toupin\u2019s Celestial/Haar Construction"
+          },
+          {
+            "ids": [
+              "rigorously-verified-lattice-transmutation-haar-projection-structures"
+            ],
+            "level": 3,
+            "title": "2.1 Rigorously Verified Lattice, Transmutation, & Haar Projection Structures"
+          },
+          {
+            "ids": [
+              "why-the-clay-millennium-continuum-mass-gap-remains-open-yangmillsmassgaphiggscptpendingboundary"
+            ],
+            "level": 3,
+            "title": "2.2 Why the Clay Millennium Continuum Mass Gap Remains Open (YangMillsMassGapHiggsCPTPendingBoundary)"
+          },
+          {
+            "ids": [
+              "constructive-gap-closure-contracts-certificate-solver-signals-yangmillshiggscpt-sec-7-signals-pending"
+            ],
+            "level": 3,
+            "title": "2.3 Constructive Gap-Closure Contracts & Certificate Solver (Signals.YangMillsHiggsCPT Sec. 7 & Signals.Pending)"
+          },
+          {
+            "ids": [
+              "electroweak-higgs-symmetry-breaking-cp-violation-sakharovs-equilibrium-theorem"
+            ],
+            "level": 2,
+            "title": "3. Electroweak Higgs Symmetry Breaking, CP Violation, & Sakharov\u2019s Equilibrium Theorem"
+          },
+          {
+            "ids": [
+              "mexican-hat-unitary-gauge-self-conjugacy-higgs-ssb-electroweak-masses-and-self-conjugacy"
+            ],
+            "level": 3,
+            "title": "3.1 Mexican-Hat Unitary Gauge & Self-Conjugacy (higgs_ssb_electroweak_masses_and_self_conjugacy)"
+          },
+          {
+            "ids": [
+              "higgs-cp-mixing-asymmetry-sakharov-equilibrium-null-theorem"
+            ],
+            "level": 3,
+            "title": "3.2 Higgs CP-Mixing Asymmetry & Sakharov Equilibrium Null Theorem"
+          },
+          {
+            "ids": [
+              "josts-axiomatic-anti-unitary-cpt-involution-theta-cpt"
+            ],
+            "level": 2,
+            "title": "4. Jost\u2019s Axiomatic Anti-Unitary CPT Involution (\\Theta = CPT)"
+          },
+          {
+            "ids": [
+              "reproducible-verification-provenance-metadata"
+            ],
+            "level": 2,
+            "title": "5. Reproducible Verification & Provenance Metadata"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.md",
+      "title": "Yang\u2013Mills Mass Gap, Electroweak Higgs Symmetry Breaking, CP Violation, Sakharov Thermal Equilibrium Nullity, and Jost\u2019s Anti-Unitary CPT Involution in Lean 4, Rust/PyO3, and SymPy",
+      "url": "grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html"
+    },
+    {
+      "children": [],
       "docname": "gravity-from-qed-scattering-with-amplituhedron-geometry",
       "doctree": {
         "headings": []
@@ -208914,6 +209286,7 @@
         "grassmannian-ads-cft-ddf-paper",
         "grassmannian-antimatter-annihilation-alpha-g-models-paper",
         "grassmannian-celestial-holography-graviton-turner-riemann-paper",
+        "grassmannian-celestial-ir-regularization-turner-models-16ab-paper",
         "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
         "grassmannian-cuprate-superconductivity-paper",
         "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
@@ -208948,6 +209321,7 @@
         "grassmannian-quantum-causal-inference-mpemba-paper",
         "grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper",
         "grassmannian-quantum-causal-next-concept-modeling-pressed-llm-kicad-paper",
+        "grassmannian-quantum-causal-one-shot-system-identification-paper",
         "grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper",
         "grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper",
         "grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper",
@@ -208970,6 +209344,7 @@
         "grassmannian-unification-applications-roadmap-paper",
         "grassmannian-vectorial-longitudinal-polarization-paper",
         "grassmannian-vortex-vias-shg-opa-aqm-nanolithography-kicad-paper",
+        "grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper",
         "huygens-grassmannian-amplituhedron-plan",
         "interfacial-electrical-properties-plan",
         "interfacial-heat-transport-plan",
@@ -208980,11 +209355,13 @@
         "paper-model-review",
         "papers",
         "plan-index",
+        "quantum-causal-one-shot-system-identification-plan",
         "readme",
         "references",
         "research_brief_carbothermic_ultrasonic",
         "rhombohedral-graphene-superconductivity-plan",
         "riemann-spectral-bridges-plan",
+        "sato-riemann-spectral-pending-closure-plan",
         "schema",
         "search",
         "signals-blueprint",
@@ -208993,10 +209370,12 @@
         "sphinx-meilisearch-architecture",
         "tools",
         "tuning-materials-with-light-plan",
+        "unified-pending-closure-roadmap-plan",
         "visualization",
         "water",
         "wiki",
-        "workflow-performance-plan"
+        "workflow-performance-plan",
+        "yang-mills-higgs-cpt-pending-closure-plan"
       ],
       "docname": "index",
       "doctree": {
@@ -210160,16 +210539,133 @@
           },
           {
             "ids": [
-              "summary-of-all-fifteen-project-plan-documents"
+              "summary-of-all-twenty-three-project-plan-documents"
             ],
             "level": 2,
-            "title": "2. Summary of All Fifteen Project Plan Documents"
+            "title": "2. Summary of All Twenty-Three Project Plan Documents"
           }
         ]
       },
       "source": "plan-index.md",
       "title": "Plan Index: Research, Validation, and Implementation Roadmaps",
       "url": "plan-index.html"
+    },
+    {
+      "children": [],
+      "docname": "quantum-causal-one-shot-system-identification-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "written-plan-quantum-causal-grassmannian-one-shot-system-identification-qci-osid",
+              "quantum-causal-one-shot-system-identification-plan"
+            ],
+            "level": 1,
+            "title": "Written Plan: Quantum-Causal Grassmannian One-Shot System Identification (QCI-OSID)"
+          },
+          {
+            "ids": [
+              "scientific-motivation-architectural-mapping"
+            ],
+            "level": 2,
+            "title": "1. Scientific Motivation & Architectural Mapping"
+          },
+          {
+            "ids": [
+              "phased-workstreams-osid-1-through-osid-6"
+            ],
+            "level": 2,
+            "title": "2. Phased Workstreams (OSID-1 Through OSID-6)"
+          },
+          {
+            "ids": [
+              "osid-1-bibtex-attribution-written-plan-registration"
+            ],
+            "level": 3,
+            "title": "OSID-1: BibTeX Attribution & Written Plan Registration"
+          },
+          {
+            "ids": [
+              "osid-2-lean-4-formalization-signals-quantumcausalinference-sec-16-signals-pending"
+            ],
+            "level": 3,
+            "title": "OSID-2: Lean 4 Formalization (Signals.QuantumCausalInference Sec. 16 & Signals.Pending)"
+          },
+          {
+            "ids": [
+              "osid-3-rust-wasm-pyo3-numerical-implementation-quantum-causal-inference-rs-lib-rs"
+            ],
+            "level": 3,
+            "title": "OSID-3: Rust / WASM / PyO3 Numerical Implementation (quantum_causal_inference.rs & lib.rs)"
+          },
+          {
+            "ids": [
+              "osid-4-sympy-45-digit-mpmath-pyo3-cross-verification-literature-check-figures"
+            ],
+            "level": 3,
+            "title": "OSID-4: SymPy + 45-Digit mpmath + PyO3 Cross-Verification & Literature Check Figures"
+          },
+          {
+            "ids": [
+              "osid-5-myst-paper-documentation-integration"
+            ],
+            "level": 3,
+            "title": "OSID-5: MyST Paper & Documentation Integration"
+          },
+          {
+            "ids": [
+              "osid-6-full-validation-loop"
+            ],
+            "level": 3,
+            "title": "OSID-6: Full Validation Loop"
+          },
+          {
+            "ids": [
+              "part-ii-integrating-qci-osid-with-tequila-and-our-signals-grassmann-backend-osid-tq"
+            ],
+            "level": 2,
+            "title": "3. Part II: Integrating QCI-OSID with Tequila and Our signals / grassmann Backend (OSID-TQ)"
+          },
+          {
+            "ids": [
+              "motivation"
+            ],
+            "level": 3,
+            "title": "3.1 Motivation"
+          },
+          {
+            "ids": [
+              "advantages-vs-disadvantages-trade-off-analysis"
+            ],
+            "level": 3,
+            "title": "3.2 Advantages vs. Disadvantages Trade-Off Analysis"
+          },
+          {
+            "ids": [
+              "phased-tequila-integration-workstreams-osid-tq-1osid-tq-5"
+            ],
+            "level": 3,
+            "title": "3.3 Phased Tequila Integration Workstreams (OSID-TQ-1\u2013OSID-TQ-5)"
+          },
+          {
+            "ids": [
+              "part-iii-sato-grassmannian-mathrm-gr-ge-0-k-n-arbitrary-n-soliton-integration-osid-sato"
+            ],
+            "level": 2,
+            "title": "4. Part III: Sato Grassmannian \\mathrm{Gr}_{\\ge 0}(k, n) & Arbitrary N-Soliton Integration (OSID-SATO)"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "quantum-causal-one-shot-system-identification-plan.md",
+      "title": "Written Plan: Quantum-Causal Grassmannian One-Shot System Identification (QCI-OSID)",
+      "url": "quantum-causal-one-shot-system-identification-plan.html"
     },
     {
       "children": [],
@@ -210755,6 +211251,88 @@
       "source": "riemann-spectral-bridges-plan.md",
       "title": "Written Plan: Error Minimization, Mpemba\u2013Trajectory Synthesis, and Phased Workstreams (RB-1\u2013RB-6) for the Remaining Riemann Hypothesis Analytical Bridges",
       "url": "riemann-spectral-bridges-plan.html"
+    },
+    {
+      "children": [],
+      "docname": "sato-riemann-spectral-pending-closure-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "written-plan-constructive-gap-closure-contracts-and-unified-certificate-solvers-for-satoriemannspectralpendingboundary",
+              "sato-riemann-spectral-pending-closure-plan"
+            ],
+            "level": 1,
+            "title": "Written Plan: Constructive Gap-Closure Contracts and Unified Certificate Solvers for SatoRiemannSpectralPendingBoundary"
+          },
+          {
+            "ids": [
+              "epistemic-scope-overlapping-signals-pending-boundaries"
+            ],
+            "level": 2,
+            "title": "1. Epistemic Scope & Overlapping Signals.Pending Boundaries"
+          },
+          {
+            "ids": [
+              "phased-workstreams-srs-1-through-srs-5"
+            ],
+            "level": 2,
+            "title": "2. Phased Workstreams (SRS-1 Through SRS-5)"
+          },
+          {
+            "ids": [
+              "srs-1-axiom-free-finite-dimensional-fredholmdettheory-critical-line-det3-anomaly"
+            ],
+            "level": 3,
+            "title": "SRS-1: Axiom-Free Finite-Dimensional FredholmDetTheory & Critical-Line det\u2083 Anomaly"
+          },
+          {
+            "ids": [
+              "srs-2-infinite-series-l-1-mathbb-r-weil-positivity-bridge-theorems"
+            ],
+            "level": 3,
+            "title": "SRS-2: Infinite-Series L^1(\\mathbb{R}) Weil Positivity & Bridge Theorems"
+          },
+          {
+            "ids": [
+              "srs-3-unified-constructive-certificate-solvers-in-signals-pending"
+            ],
+            "level": 3,
+            "title": "SRS-3: Unified Constructive Certificate Solvers in Signals.Pending"
+          },
+          {
+            "ids": [
+              "srs-4-rust-pyo3-sympy-mpmath-audits"
+            ],
+            "level": 3,
+            "title": "SRS-4: Rust/PyO3 & SymPy/mpmath Audits"
+          },
+          {
+            "ids": [
+              "srs-5-documentation-integration-sphinx-html-check-commit"
+            ],
+            "level": 3,
+            "title": "SRS-5: Documentation Integration, Sphinx HTML Check, & Commit"
+          },
+          {
+            "ids": [
+              "srs-6-srs-7-unified-extension-finite-rank-axiom-free-finiterankdet-strip-sub-gaussian-weilgaussianl1"
+            ],
+            "level": 3,
+            "title": "SRS-6 & SRS-7: Unified Extension (Finite-Rank Axiom-Free finiteRankDet & Strip Sub-Gaussian WeilGaussianL1)"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "sato-riemann-spectral-pending-closure-plan.md",
+      "title": "Written Plan: Constructive Gap-Closure Contracts and Unified Certificate Solvers for SatoRiemannSpectralPendingBoundary",
+      "url": "sato-riemann-spectral-pending-closure-plan.html"
     },
     {
       "children": [],
@@ -211470,6 +212048,67 @@
     },
     {
       "children": [],
+      "docname": "unified-pending-closure-roadmap-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "unified-pending-boundary-closure-plan-cross-domain-certificate-architecture-across-all-seven-pendingboundary-gates",
+              "unified-pending-closure-roadmap-plan"
+            ],
+            "level": 1,
+            "title": "Unified Pending Boundary Closure Plan: Cross-Domain Certificate Architecture Across All Seven PendingBoundary Gates"
+          },
+          {
+            "ids": [
+              "cross-plan-overlap-audit-in-signals-pending"
+            ],
+            "level": 2,
+            "title": "1. Cross-Plan Overlap Audit in Signals.Pending"
+          },
+          {
+            "ids": [
+              "workstreams-up-1-through-up-5"
+            ],
+            "level": 2,
+            "title": "2. Workstreams (UP-1 Through UP-5)"
+          },
+          {
+            "ids": [
+              "up-1-axiom-free-finite-rank-determinant-on-arbitrary-infinite-dimensional-hilbert-spaces-determinantbundle-lean-segalwilsongr24-lean"
+            ],
+            "level": 3,
+            "title": "UP-1: Axiom-Free Finite-Rank Determinant on Arbitrary Infinite-Dimensional Hilbert Spaces (DeterminantBundle.lean & SegalWilsonGr24.lean)"
+          },
+          {
+            "ids": [
+              "up-2-automatic-strip-sub-gaussian-weilgaussianl1-summability-weilgaussianl1-lean-riemannspectralbridge-lean"
+            ],
+            "level": 3,
+            "title": "UP-2: Automatic Strip Sub-Gaussian WeilGaussianL1 Summability (WeilGaussianL1.lean & RiemannSpectralBridge.lean)"
+          },
+          {
+            "ids": [
+              "up-3-up-4-complete-certificate-solvers-for-navierstokes-photoelectric-antimatter-master-cross-boundary-unification-pending-lean-signalspending-lean-tests"
+            ],
+            "level": 3,
+            "title": "UP-3 & UP-4: Complete Certificate Solvers for NavierStokes, Photoelectric, Antimatter, & Master Cross-Boundary Unification (Pending.lean, SignalsPending.lean, Tests)"
+          },
+          {
+            "ids": [
+              "up-5-rust-pyo3-sympy-mpmath-plan-paper-integration-commit"
+            ],
+            "level": 3,
+            "title": "UP-5: Rust/PyO3, SymPy/mpmath, Plan/Paper Integration, & Commit"
+          }
+        ]
+      },
+      "source": "unified-pending-closure-roadmap-plan.md",
+      "title": "Unified Pending Boundary Closure Plan: Cross-Domain Certificate Architecture Across All Seven PendingBoundary Gates",
+      "url": "unified-pending-closure-roadmap-plan.html"
+    },
+    {
+      "children": [],
       "docname": "visualization",
       "doctree": {
         "headings": [
@@ -211714,6 +212353,81 @@
       "source": "workflow-performance-plan.md",
       "title": "Workflow Simplification and Performance Plan",
       "url": "workflow-performance-plan.html"
+    },
+    {
+      "children": [],
+      "docname": "yang-mills-higgs-cpt-pending-closure-plan",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "written-plan-constructive-gap-closure-contracts-and-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary",
+              "yang-mills-higgs-cpt-pending-closure-plan"
+            ],
+            "level": 1,
+            "title": "Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary"
+          },
+          {
+            "ids": [
+              "epistemic-scope-attached-gaps-vs-constructive-closure"
+            ],
+            "level": 2,
+            "title": "1. Epistemic Scope: Attached Gaps vs. Constructive Closure"
+          },
+          {
+            "ids": [
+              "phased-workstreams-ym-1-through-ym-5"
+            ],
+            "level": 2,
+            "title": "2. Phased Workstreams (YM-1 Through YM-5)"
+          },
+          {
+            "ids": [
+              "ym-1-constructive-gap-closure-theorems-in-signals-yangmillshiggscpt"
+            ],
+            "level": 3,
+            "title": "YM-1: Constructive Gap-Closure Theorems in Signals.YangMillsHiggsCPT"
+          },
+          {
+            "ids": [
+              "ym-2-constructive-certificate-solver-for-yangmillsmassgaphiggscptpendingboundary"
+            ],
+            "level": 3,
+            "title": "YM-2: Constructive Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary"
+          },
+          {
+            "ids": [
+              "ym-3-rust-pyo3-numerical-audits-for-lattice-rg-os-positivity-gko-obstruction-atlas-cms-cp-bounds-ewpt-washout"
+            ],
+            "level": 3,
+            "title": "YM-3: Rust + PyO3 Numerical Audits for Lattice RG/OS Positivity, GKO Obstruction, ATLAS/CMS CP Bounds, & EWPT Washout"
+          },
+          {
+            "ids": [
+              "ym-4-sympy-mpmath-symbolic-precision-cross-verification"
+            ],
+            "level": 3,
+            "title": "YM-4: SymPy / mpmath Symbolic & Precision Cross-Verification"
+          },
+          {
+            "ids": [
+              "ym-5-documentation-integration-html-verification-commit"
+            ],
+            "level": 3,
+            "title": "YM-5: Documentation Integration, HTML Verification, & Commit"
+          },
+          {
+            "ids": [
+              "references"
+            ],
+            "level": 2,
+            "title": "References"
+          }
+        ]
+      },
+      "source": "yang-mills-higgs-cpt-pending-closure-plan.md",
+      "title": "Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary",
+      "url": "yang-mills-higgs-cpt-pending-closure-plan.html"
     }
   ],
   "project": "Sustainable Factory",

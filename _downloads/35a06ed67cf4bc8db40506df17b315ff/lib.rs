@@ -26,6 +26,7 @@ pub mod sato_grassmannian;
 pub mod slavnov_dpp;
 pub mod tequila_simulator;
 pub mod thermal_inelastic;
+pub mod yang_mills_higgs_cpt;
 
 #[cfg(feature = "python")]
 use pyo3::exceptions::PyValueError;
@@ -687,6 +688,115 @@ fn py_audit_riemann_spectral_bridge<'py>(
 
 #[cfg(feature = "python")]
 #[pyfunction]
+fn py_audit_carleman_det3_anomaly<'py>(
+    py: Python<'py>,
+    sigma: f64,
+    t: f64,
+    prime_limit: usize,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_carleman_det3_anomaly(sigma, t, prime_limit);
+    let d = PyDict::new(py);
+    d.set_item("prime_count", a.prime_count)?;
+    d.set_item("det1_mul_residual", a.det1_mul_residual)?;
+    d.set_item("det3_anomaly_residual", a.det3_anomaly_residual)?;
+    d.set_item("det3_a_abs", a.det3_a_abs)?;
+    d.set_item("det3_b_abs", a.det3_b_abs)?;
+    d.set_item("det3_ab_abs", a.det3_ab_abs)?;
+    d.set_item("anomaly_exp_abs", a.anomaly_exp_abs)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_weil_infinite_tail<'py>(
+    py: Python<'py>,
+    gammas: Vec<f64>,
+    off_line_gamma: f64,
+    off_line_eta: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let a = sato_grassmannian::evaluate_weil_infinite_tail_audit(
+        &gammas,
+        off_line_gamma,
+        off_line_eta,
+    );
+    let d = PyDict::new(py);
+    d.set_item("core_witness_re", a.core_witness_re)?;
+    d.set_item("tail_abs_sum", a.tail_abs_sum)?;
+    d.set_item("tail_re_sum", a.tail_re_sum)?;
+    d.set_item("full_sum_re", a.full_sum_re)?;
+    d.set_item("theoretical_neg_4pi_bound", a.theoretical_neg_4pi_bound)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_finite_dim_fredholm_det<'py>(
+    py: Python<'py>,
+    a: f64,
+    b: f64,
+    c: f64,
+    d_val: f64,
+    shear: f64,
+    rot_theta: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = sato_grassmannian::evaluate_finite_dim_fredholm_det(a, b, c, d_val, shear, rot_theta);
+    let d = PyDict::new(py);
+    d.set_item("nilpotent_shear_det_re", r.nilpotent_shear_det_re)?;
+    d.set_item("nilpotent_shear_err", r.nilpotent_shear_err)?;
+    d.set_item("block_lower_det_re", r.block_lower_det_re)?;
+    d.set_item("expected_ad_minus_bc", r.expected_ad_minus_bc)?;
+    d.set_item("block_lower_err", r.block_lower_err)?;
+    d.set_item("conj_invariance_err", r.conj_invariance_err)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_finite_rank_invariant_det<'py>(
+    py: Python<'py>,
+    v: [f64; 4],
+    w: [f64; 4],
+    t1: f64,
+    t2: f64,
+    t3: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = sato_grassmannian::evaluate_finite_rank_invariant_det(v, w, t1, t2, t3)
+        .map_err(PyValueError::new_err)?;
+    let d = PyDict::new(py);
+    d.set_item("ambient_dim", r.ambient_dim)?;
+    d.set_item("invariant_dim", r.invariant_dim)?;
+    d.set_item("invariance_residual", r.invariance_residual)?;
+    d.set_item("orth_ker_residual", r.orth_ker_residual)?;
+    d.set_item("det_v_re", r.det_v_re)?;
+    d.set_item("det_w_re", r.det_w_re)?;
+    d.set_item("tau_over_p23_re", r.tau_over_p23_re)?;
+    d.set_item("subspace_indep_err", r.subspace_indep_err)?;
+    d.set_item("det_vs_tau_err", r.det_vs_tau_err)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_strip_gaussian_combo_decay<'py>(
+    py: Python<'py>,
+    gammas: Vec<f64>,
+    coeffs: Vec<f64>,
+    delta: f64,
+    strip_b: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let r = sato_grassmannian::evaluate_strip_gaussian_combo_decay(
+        &gammas, &coeffs, delta, strip_b,
+    );
+    let d = PyDict::new(py);
+    d.set_item("strip_constant", r.strip_constant)?;
+    d.set_item("max_bound_ratio", r.max_bound_ratio)?;
+    d.set_item("subgaussian_density_sum", r.subgaussian_density_sum)?;
+    d.set_item("weil_strip_re", r.weil_strip_re)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
 fn py_audit_schubert_chart_transition_vortex<'py>(
     py: Python<'py>,
     eps: f64,
@@ -1241,6 +1351,344 @@ fn py_audit_antimatter_alpha_g<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDi
 }
 
 #[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_celestial_ir_and_turner_model16<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let rep = riemann_spectral::audit_celestial_ir_and_turner_model16();
+    let d = PyDict::new(py);
+    d.set_item("rg_sigma_dev_su3", rep.rg_sigma_dev_su3)?;
+    d.set_item("rg_casimir_im_nonzero", rep.rg_casimir_im_nonzero)?;
+    d.set_item("k_ir_uv_at_zero", rep.k_ir_uv_at_zero)?;
+    d.set_item("k_ir_uv_at_one", rep.k_ir_uv_at_one)?;
+    d.set_item("k_ir_uv_unreg_limit_diff", rep.k_ir_uv_unreg_limit_diff)?;
+    d.set_item("kl_mellin_mgap_1", rep.kl_mellin_mgap_1)?;
+    d.set_item("kl_mellin_mgap_0_vs_gamma", rep.kl_mellin_mgap_0_vs_gamma)?;
+    d.set_item("kl_mellin_delta1_mgap_half", rep.kl_mellin_delta1_mgap_half)?;
+    d.set_item(
+        "yukawa_mellin_quad_vs_gamma_diff",
+        rep.yukawa_mellin_quad_vs_gamma_diff,
+    )?;
+    d.set_item("s_ir_zero", rep.s_ir_zero)?;
+    d.set_item("s_ir_half", rep.s_ir_half)?;
+    d.set_item(
+        "s_ir_quadratic_margin_half",
+        rep.s_ir_quadratic_margin_half,
+    )?;
+    d.set_item(
+        "model16_uv_core_vs_ir_gap_ordering",
+        rep.model16_uv_core_vs_ir_gap_ordering,
+    )?;
+    d.set_item("g16_classical", rep.g16_classical)?;
+    d.set_item("g16_off_line_positive", rep.g16_off_line_positive)?;
+    d.set_item(
+        "model16a_mercury_arcsec_cy",
+        rep.model16a_mercury_arcsec_cy,
+    )?;
+    d.set_item(
+        "model16b_mercury_arcsec_cy",
+        rep.model16b_mercury_arcsec_cy,
+    )?;
+    d.set_item("model16_rel_err_vs_gr", rep.model16_rel_err_vs_gr)?;
+    d.set_item(
+        "model16_solar_light_bending_arcsec",
+        rep.model16_solar_light_bending_arcsec,
+    )?;
+    d.set_item("model16a_gw_below_gap", rep.model16a_gw_below_gap)?;
+    d.set_item("model16b_gw_gapless_ratio", rep.model16b_gw_gapless_ratio)?;
+    d.set_item(
+        "model16a_active_laser_deflection",
+        rep.model16a_active_laser_deflection,
+    )?;
+    d.set_item(
+        "model16b_active_laser_deflection",
+        rep.model16b_active_laser_deflection,
+    )?;
+    d.set_item("d_cft_4d_re_delta", rep.d_cft_4d_re_delta)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_yang_mills_higgs_cpt<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let rep = yang_mills_higgs_cpt::audit_yang_mills_higgs_cpt();
+    let d = PyDict::new(py);
+    d.set_item("su3_beta0", rep.su3_beta0)?;
+    d.set_item("lambda_ym_gev", rep.lambda_ym_gev)?;
+    d.set_item("toupin_m1_mev", rep.toupin_m1_mev)?;
+    d.set_item("toupin_sugawara_m1_mev", rep.toupin_sugawara_m1_mev)?;
+    d.set_item(
+        "casimir_suppression_c2_3_over_c2_0",
+        rep.casimir_suppression_c2_3_over_c2_0,
+    )?;
+    d.set_item(
+        "strong_coupling_gap_lower_bound",
+        rep.strong_coupling_gap_lower_bound,
+    )?;
+    d.set_item("haar_projector_idemp_err", rep.haar_projector_idemp_err)?;
+    d.set_item("haar_projector_herm_err", rep.haar_projector_herm_err)?;
+    d.set_item(
+        "haar_projector_nonsinglet_max",
+        rep.haar_projector_nonsinglet_max,
+    )?;
+    d.set_item(
+        "s3_haar_projector_idemp_err",
+        rep.s3_haar_projector_idemp_err,
+    )?;
+    d.set_item("s3_haar_projector_trace", rep.s3_haar_projector_trace)?;
+    d.set_item(
+        "s3_haar_projector_2d_irrep_res",
+        rep.s3_haar_projector_2d_irrep_res,
+    )?;
+    d.set_item("vev_gev", rep.higgs_ssb.vev_gev)?;
+    d.set_item("m_h_gev", rep.higgs_ssb.m_h_gev)?;
+    d.set_item("m_w_gev", rep.higgs_ssb.m_w_gev)?;
+    d.set_item("m_z_gev", rep.higgs_ssb.m_z_gev)?;
+    d.set_item("sin_sq_theta_w", rep.higgs_ssb.sin_sq_theta_w)?;
+    d.set_item("rho_ew", rep.higgs_ssb.rho_ew)?;
+    d.set_item(
+        "tadpole_expansion_residual",
+        rep.higgs_ssb.tadpole_expansion_residual,
+    )?;
+    d.set_item("jarlskog_sm", rep.jarlskog_sm)?;
+    d.set_item("jarlskog_degenerate_zero", rep.jarlskog_degenerate_zero)?;
+    d.set_item(
+        "jarlskog_physical_splitting_nonzero",
+        rep.jarlskog_physical_splitting_nonzero,
+    )?;
+    d.set_item("higgs_cp_asym_sm", rep.higgs_cp_asym_sm)?;
+    d.set_item("higgs_cp_asym_bsm", rep.higgs_cp_asym_bsm)?;
+    d.set_item(
+        "sakharov_equilibrium_baryon_trace",
+        rep.sakharov_equilibrium_baryon_trace,
+    )?;
+    d.set_item(
+        "sakharov_out_of_equilibrium_baryon_trace",
+        rep.sakharov_out_of_equilibrium_baryon_trace,
+    )?;
+    d.set_item("jost_antiunitary_err", rep.jost_antiunitary_err)?;
+    d.set_item("jost_involution_sign", rep.jost_involution_sign)?;
+    d.set_item("jost_involution_err", rep.jost_involution_err)?;
+    d.set_item("jost_cpt_commutator_err", rep.jost_cpt_commutator_err)?;
+    d.set_item("jost_mass_equality_err", rep.jost_mass_equality_err)?;
+    d.set_item(
+        "jost_fermionic_kramers_mass_err",
+        rep.jost_fermionic_kramers_mass_err,
+    )?;
+    d.set_item(
+        "cp_violation_norm_when_delta_nonzero",
+        rep.cp_violation_norm_when_delta_nonzero,
+    )?;
+    d.set_item(
+        "t_violation_norm_when_delta_nonzero",
+        rep.t_violation_norm_when_delta_nonzero,
+    )?;
+    d.set_item(
+        "cp_t_commutator_zero_when_delta_zero",
+        rep.cp_t_commutator_zero_when_delta_zero,
+    )?;
+    d.set_item("lattice_spacing_beta58", rep.lattice_spacing_beta58)?;
+    d.set_item("lattice_spacing_beta62", rep.lattice_spacing_beta62)?;
+    d.set_item(
+        "lattice_spacing_two_loop_beta62",
+        rep.lattice_spacing_two_loop_beta62,
+    )?;
+    d.set_item(
+        "strong_coupling_breakdown_at_18",
+        rep.strong_coupling_breakdown_at_18,
+    )?;
+    d.set_item(
+        "os_reflection_factorization_err",
+        rep.os_reflection_factorization_err,
+    )?;
+    d.set_item("os_reflection_min_quad", rep.os_reflection_min_quad)?;
+    d.set_item("os_min_principal_minor", rep.os_min_principal_minor)?;
+    d.set_item("os_effective_mass_gev", rep.os_effective_mass_gev)?;
+    d.set_item("os_clustering_excess", rep.os_clustering_excess)?;
+    d.set_item(
+        "toupin_gko_max_mev_at_220",
+        rep.toupin_gko_max_mev_at_220,
+    )?;
+    d.set_item(
+        "toupin_k_eff_for_lattice_1610",
+        rep.toupin_k_eff_for_lattice_1610,
+    )?;
+    d.set_item("toupin_k_eff_mass_err", rep.toupin_k_eff_mass_err)?;
+    d.set_item(
+        "atlas_higgs_cp_max_kappatilde",
+        rep.atlas_higgs_cp_max_kappatilde,
+    )?;
+    d.set_item("ewpt_sm_phic_over_tc", rep.ewpt_sm_phic_over_tc)?;
+    d.set_item("ewpt_bsm_phic_over_tc", rep.ewpt_bsm_phic_over_tc)?;
+    d.set_item("ewpt_bsm_degeneracy_err", rep.ewpt_bsm_degeneracy_err)?;
+    d.set_item(
+        "ewpt_bsm_barrier_height_over_tc4",
+        rep.ewpt_bsm_barrier_height_over_tc4,
+    )?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_qci_one_shot_sysid<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let (cb_gram_det, cb_plucker_sq) = quantum_causal_inference::osid_cauchy_binet_2x3_gram_and_plucker(
+        [1.2, -0.5, 2.3],
+        [0.4, 1.7, -0.9],
+    );
+    let ac = quantum_causal_inference::audit_osid_allen_cahn_pde();
+    let lor = quantum_causal_inference::audit_osid_lorenz_ode();
+    let mat = quantum_causal_inference::audit_osid_matrix_circulant_hankel_and_switch();
+    let qjl = quantum_causal_inference::audit_osid_noisy_jeffrey_qfim_landauer();
+    let d = PyDict::new(py);
+    d.set_item("cb_gram_det", cb_gram_det)?;
+    d.set_item("cb_plucker_sq", cb_plucker_sq)?;
+    d.set_item("ac_generic_rank", ac.generic_rank)?;
+    d.set_item("ac_generic_coeffs", ac.generic_coeffs.to_vec())?;
+    d.set_item("ac_generic_max_coeff_err", ac.generic_max_coeff_err)?;
+    d.set_item("ac_generic_sigma_min", ac.generic_sigma_min)?;
+    d.set_item("ac_generic_gram_det", ac.generic_gram_det)?;
+    d.set_item("ac_degenerate_rank", ac.degenerate_rank)?;
+    d.set_item("ac_degenerate_sigma_min", ac.degenerate_sigma_min)?;
+    d.set_item("ac_degenerate_gram_det", ac.degenerate_gram_det)?;
+    d.set_item("ac_cross_lag_q4_residual", ac.cross_lag_q4_residual)?;
+    d.set_item("lorenz_rank", lor.rank)?;
+    d.set_item("lorenz_recovered_sigma", lor.recovered_sigma)?;
+    d.set_item("lorenz_recovered_rho", lor.recovered_rho)?;
+    d.set_item("lorenz_recovered_beta", lor.recovered_beta)?;
+    d.set_item("lorenz_max_param_err", lor.max_param_err)?;
+    d.set_item("lorenz_sigma_min", lor.sigma_min)?;
+    d.set_item("lorenz_obs_confounded_slope", lor.obs_confounded_slope)?;
+    d.set_item("lorenz_do_deconfounded_slope", lor.do_deconfounded_slope)?;
+    d.set_item("lorenz_abduced_exogenous_u", lor.abduced_exogenous_u)?;
+    d.set_item("circulant_rank_1shot", mat.circulant_rank_1shot)?;
+    d.set_item("circulant_max_err", mat.circulant_max_err)?;
+    d.set_item("circulant_gram_det", mat.circulant_gram_det)?;
+    d.set_item("circulant_n40_rank", mat.circulant_n40_rank)?;
+    d.set_item("circulant_n40_max_err", mat.circulant_n40_max_err)?;
+    d.set_item("hankel_1shot_rows", mat.hankel_1shot_rows)?;
+    d.set_item("hankel_1shot_cols", mat.hankel_1shot_cols)?;
+    d.set_item("hankel_1shot_rank", mat.hankel_1shot_rank)?;
+    d.set_item("hankel_2shot_rank", mat.hankel_2shot_rank)?;
+    d.set_item("hankel_2shot_max_err", mat.hankel_2shot_max_err)?;
+    d.set_item("hankel_n40_1shot_rank", mat.hankel_n40_1shot_rank)?;
+    d.set_item("hankel_n40_2shot_rank", mat.hankel_n40_2shot_rank)?;
+    d.set_item("hankel_n40_2shot_max_err", mat.hankel_n40_2shot_max_err)?;
+    d.set_item("hankel_2x2_two_probe_det", mat.hankel_2x2_two_probe_det)?;
+    d.set_item("switch_e_sym", mat.switch_e_sym)?;
+    d.set_item("switch_e_anti", mat.switch_e_anti)?;
+    d.set_item("switch_plucker_ratio", mat.switch_plucker_ratio)?;
+    d.set_item("vrc_destructive_minor", mat.vrc_destructive_minor)?;
+    d.set_item("jeffrey_do_estimate", qjl.jeffrey_do_estimate)?;
+    d.set_item("quantum_jeffrey_phase_avg", qjl.quantum_jeffrey_phase_avg)?;
+    d.set_item("qfim", qjl.qfim)?;
+    d.set_item("qcrb_1shot_var_bound", qjl.qcrb_1shot_var_bound)?;
+    d.set_item("qcrb_4shot_var_bound", qjl.qcrb_4shot_var_bound)?;
+    d.set_item("landauer_1shot_closed_heat", qjl.landauer_1shot_closed_heat)?;
+    d.set_item("landauer_10shot_closed_heat", qjl.landauer_10shot_closed_heat)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_qci_one_shot_sysid_literature_benchmarks<'py>(
+    py: Python<'py>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let duf = quantum_causal_inference::audit_osid_duffing_oscillator();
+    let pdes = quantum_causal_inference::audit_osid_2d_pdes_allen_cahn_elliptic_ns();
+    let qr = quantum_causal_inference::audit_osid_qi_ranard_hamiltonian();
+    let zg = quantum_causal_inference::audit_osid_zhao_and_goswami_literature_benchmarks();
+    let d = PyDict::new(py);
+    d.set_item("duffing_rank", duf.rank)?;
+    d.set_item("duffing_theta_udd", duf.theta_udd)?;
+    d.set_item("duffing_alpha", duf.recovered_alpha)?;
+    d.set_item("duffing_delta", duf.recovered_delta)?;
+    d.set_item("duffing_beta", duf.recovered_beta)?;
+    d.set_item("duffing_gamma", duf.recovered_gamma)?;
+    d.set_item("duffing_max_coeff_err", duf.max_coeff_err)?;
+    d.set_item("duffing_sigma_min", duf.sigma_min)?;
+    d.set_item("allen_cahn_2d_rank", pdes.allen_cahn_2d_rank)?;
+    d.set_item("allen_cahn_2d_max_coeff_err", pdes.allen_cahn_2d_max_coeff_err)?;
+    d.set_item("elliptic_coprime_rank", pdes.elliptic_coprime_rank)?;
+    d.set_item("elliptic_coprime_gram_det", pdes.elliptic_coprime_gram_det)?;
+    d.set_item("elliptic_coprime_ray_residual", pdes.elliptic_coprime_ray_residual)?;
+    d.set_item("elliptic_multimode_rank", pdes.elliptic_multimode_rank)?;
+    d.set_item("elliptic_multimode_max_err", pdes.elliptic_multimode_max_err)?;
+    d.set_item("ns_continuity_rank", pdes.ns_continuity_rank)?;
+    d.set_item("ns_continuity_sigma4", pdes.ns_continuity_sigma4)?;
+    d.set_item("ns_continuity_max_coeff_err", pdes.ns_continuity_max_coeff_err)?;
+    d.set_item("ns_momentum_rank", pdes.ns_momentum_rank)?;
+    d.set_item("ns_momentum_recovered_nu", pdes.ns_momentum_recovered_nu)?;
+    d.set_item("ns_momentum_max_coeff_err", pdes.ns_momentum_max_coeff_err)?;
+    d.set_item("qi_ranard_num_qubits", qr.num_qubits)?;
+    d.set_item("qi_ranard_local_basis_dim", qr.local_basis_dim)?;
+    d.set_item("qi_ranard_hilbert_dim", qr.hilbert_dim)?;
+    d.set_item("qi_ranard_lambda1", qr.correlation_lambda1)?;
+    d.set_item("qi_ranard_lambda2", qr.correlation_lambda2)?;
+    d.set_item("qi_ranard_angle_err_rad", qr.projective_angle_err_rad)?;
+    d.set_item("qi_ranard_max_scaled_coeff_err", qr.max_scaled_coeff_err)?;
+    d.set_item("qi_ranard_dk_lhs", qr.qi_ranard_dk_lhs)?;
+    d.set_item("qi_ranard_dk_rhs", qr.qi_ranard_dk_rhs)?;
+    d.set_item("bairey_commutator_residual", qr.bairey_commutator_residual)?;
+    d.set_item("bairey_ktk_lambda1", qr.bairey_ktk_lambda1)?;
+    d.set_item("bairey_ktk_lambda2", qr.bairey_ktk_lambda2)?;
+    d.set_item("bairey_recovered_max_err", qr.bairey_recovered_max_err)?;
+    d.set_item("zhao_n5_switch_fisher", zg.zhao_n5_switch_fisher)?;
+    d.set_item("zhao_n5_switch_rmse_ideal", zg.zhao_n5_switch_rmse_ideal)?;
+    d.set_item("zhao_n5_switch_rmse_het", zg.zhao_n5_switch_rmse_het)?;
+    d.set_item("zhao_n5_fixed_heisenberg_bound", zg.zhao_n5_fixed_heisenberg_bound)?;
+    d.set_item("zhao_n15_switch_fisher", zg.zhao_n15_switch_fisher)?;
+    d.set_item("zhao_n15_switch_rmse_ideal", zg.zhao_n15_switch_rmse_ideal)?;
+    d.set_item("zhao_n15_fixed_heisenberg_bound", zg.zhao_n15_fixed_heisenberg_bound)?;
+    d.set_item("zhao_n15_advantage_ratio", zg.zhao_n15_advantage_ratio)?;
+    d.set_item("goswami_ideal_witness", zg.goswami_ideal_witness)?;
+    d.set_item("goswami_exp_witness", zg.goswami_exp_witness)?;
+    d.set_item("goswami_sigma", zg.goswami_sigma)?;
+    d.set_item("goswami_z_ideal_bound", zg.goswami_z_ideal_bound)?;
+    d.set_item("goswami_z_misaligned_bound", zg.goswami_z_misaligned_bound)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
+#[pyfunction]
+fn py_audit_qci_one_shot_sysid_sato_pdes<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
+    let s = quantum_causal_inference::audit_osid_sato_kp2_kdv_akns_solitons();
+    let d = PyDict::new(py);
+    d.set_item("kp2_top_cell_rank", s.kp2_top_cell_rank)?;
+    d.set_item("kp2_top_cell_sigma_min", s.kp2_top_cell_sigma_min)?;
+    d.set_item("kp2_top_cell_max_coeff_err", s.kp2_top_cell_max_coeff_err)?;
+    d.set_item("kp2_far_field_u", s.kp2_far_field_u)?;
+    d.set_item("kp2_far_field_residual", s.kp2_far_field_residual)?;
+    d.set_item("kdv2_on_kp2_dict_rank", s.kdv2_on_kp2_dict_rank)?;
+    d.set_item("kdv2_on_kp2_dict_sigma_min", s.kdv2_on_kp2_dict_sigma_min)?;
+    d.set_item("kdv2_subdict_rank", s.kdv2_subdict_rank)?;
+    d.set_item("kdv2_subdict_max_coeff_err", s.kdv2_subdict_max_coeff_err)?;
+    d.set_item("kdv1_traveling_wave_rank", s.kdv1_traveling_wave_rank)?;
+    d.set_item("kdv1_on_3term_kdv_rank", s.kdv1_on_3term_kdv_rank)?;
+    d.set_item("kdv1_on_3term_sigma_min", s.kdv1_on_3term_sigma_min)?;
+    d.set_item("kdv3_on_kp2_dict_rank", s.kdv3_on_kp2_dict_rank)?;
+    d.set_item("kdv3_on_3term_kdv_rank", s.kdv3_on_3term_kdv_rank)?;
+    d.set_item("kdv3_max_coeff_err", s.kdv3_max_coeff_err)?;
+    d.set_item("kdv3_far_field_residual", s.kdv3_far_field_residual)?;
+    d.set_item("kdv4_on_3term_kdv_rank", s.kdv4_on_3term_kdv_rank)?;
+    d.set_item("kdv4_max_coeff_err", s.kdv4_max_coeff_err)?;
+    d.set_item("gr25_kp2_rank", s.gr25_kp2_rank)?;
+    d.set_item("gr25_kp2_max_coeff_err", s.gr25_kp2_max_coeff_err)?;
+    d.set_item("gr36_kp2_rank", s.gr36_kp2_rank)?;
+    d.set_item("gr36_kp2_max_coeff_err", s.gr36_kp2_max_coeff_err)?;
+    d.set_item("akns_bright_rank", s.akns_bright_rank)?;
+    d.set_item("akns_bright_cxx", s.akns_bright_cxx)?;
+    d.set_item("akns_bright_g", s.akns_bright_g)?;
+    d.set_item("akns_bright_max_err", s.akns_bright_max_err)?;
+    d.set_item("akns_dark_rank", s.akns_dark_rank)?;
+    d.set_item("akns_dark_cxx", s.akns_dark_cxx)?;
+    d.set_item("akns_dark_g", s.akns_dark_g)?;
+    d.set_item("akns_dark_max_err", s.akns_dark_max_err)?;
+    d.set_item("qfim_forward_only", s.qfim_forward_only)?;
+    d.set_item("qfim_six_channel_total", s.qfim_six_channel_total)?;
+    d.set_item("qcrb_forward_only_1shot", s.qcrb_forward_only_1shot)?;
+    d.set_item("qcrb_six_channel_1shot", s.qcrb_six_channel_1shot)?;
+    Ok(d)
+}
+
+#[cfg(feature = "python")]
 #[pymodule]
 fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(
@@ -1307,6 +1755,11 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_audit_weil_gaussian_quad_form, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_segal_wilson_gr24_tau, m)?)?;
     m.add_function(wrap_pyfunction!(py_audit_riemann_spectral_bridge, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_carleman_det3_anomaly, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_weil_infinite_tail, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_finite_dim_fredholm_det, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_finite_rank_invariant_det, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_strip_gaussian_combo_decay, m)?)?;
     m.add_function(wrap_pyfunction!(
         py_audit_schubert_chart_transition_vortex,
         m
@@ -1338,10 +1791,25 @@ fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(py_audit_antimatter_alpha_g, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_celestial_ir_and_turner_model16,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(py_audit_yang_mills_higgs_cpt, m)?)?;
+    m.add_function(wrap_pyfunction!(py_audit_qci_one_shot_sysid, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_qci_one_shot_sysid_literature_benchmarks,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        py_audit_qci_one_shot_sysid_sato_pdes,
+        m
+    )?)?;
     m.add_class::<tequila_simulator::RustFastCircuit>()?;
     m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
     m.add_class::<sato_grassmannian::Kp2Jet>()?;
     m.add_class::<sato_grassmannian::PlabicGr24Solver>()?;
+    m.add_class::<sato_grassmannian::PlabicGrKNSolver>()?;
     m.add_class::<navier_stokes::IncompressibleSnapshot2D>()?;
     m.add_class::<navier_stokes::IncompressibleDualSchubertSolver2D>()?;
     m.add_class::<navier_stokes::CompressibleSnapshot1D>()?;

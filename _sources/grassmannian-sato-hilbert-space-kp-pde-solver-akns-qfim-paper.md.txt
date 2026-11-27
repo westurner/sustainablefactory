@@ -10,8 +10,8 @@ description: "An arXiv-ready MyST Markdown formal verification paper presenting 
 - **Subjects:**
   - Exactly Solvable and Integrable Systems (`nlin.SI`); Mathematical Physics (`math-ph`); Functional Analysis (`math.FA`); Logic & Formal Verification (`cs.LO`)
 - **Epistemic Status & Scope Declaration:**
-  - **Verified Mathematical & Computational Core (Machine-Checked in Lean 4, Rust/PyO3, and SymPy):** We formalize 11 zero-`sorry` Lean 4 modules under `Signals.SatoGrassmannian` (`Base`, `RieszSchauder`, `CircleL2`, `Gr24Truncation`, `KPFlow`, `HirotaKP`, `KP2Nonlinear`, `PDESolver`, `LaxPair`, `AKNS`, `DualSchubertQFIM`), building the infinite-dimensional polarized Hilbert-space Sato Grassmannian $\mathrm{Gr}_p(H)$ {cite:p}`qcb-sato1981,qcb-segal1985,pressley1986loop`, Hardy polarization on $L^2(S^1)$, exact Klein-quadric truncation $\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}_2(L^2(S^1))$, KP flows, Hirota bilinear KP-II identity {cite:p}`hirota2004direct`, Kodama–Williams $\mathrm{Gr}_{\ge 0}(2,4)$ totally nonnegative soliton webs {cite:p}`kodama2014kp,postnikov2006plabic`, explicit KdV 1- and 2-soliton PDE proofs, Baker–Akhiezer $B_2$/$B_3$ Lax equations, AKNS focusing NLS bright soliton and defocusing GPE dark soliton PDEs {cite:p}`ablowitz1974inverse`, and the 6-channel Dual-Schubert Quantum Fisher Information Metric (QFIM) decomposition ($F_Q = 4\,g_{\mathrm{FS}}$). Every algebraic and differential identity is cross-checked by 13 exact SymPy symbolic proofs and a compiled Rust/PyO3 `PlabicGr24Solver` extension (`kp2_residual = 3.11e-15`).
-  - **Open Experimental & Axiom Boundary (`Signals.Pending.SatoRiemannSpectralPendingBoundary`):** Checked PDE identities and QFIM decompositions prove exact consequences of the underlying integrable equations and projective Kähler geometry. They do **not** experimentally validate Sharoglazova–Klaers evanescent tunneling velocities {cite:p}`sharoglazova_energyspeed_2025`, massive Proca photons, or physical laboratory realizations without independent measurement data.
+  - **Verified Mathematical & Computational Core (Machine-Checked in Lean 4, Rust/PyO3, and SymPy):** We formalize 11 zero-`sorry` Lean 4 modules under `Signals.SatoGrassmannian` (`Base`, `RieszSchauder`, `CircleL2`, `Gr24Truncation`, `KPFlow`, `HirotaKP`, `KP2Nonlinear`, `PDESolver`, `LaxPair`, `AKNS`, `DualSchubertQFIM`), building the infinite-dimensional polarized Hilbert-space Sato Grassmannian $\mathrm{Gr}_p(H)$ {cite:p}`qcb-sato1981,qcb-segal1985,pressley1986loop`, Hardy polarization on $L^2(S^1)$, exact Klein-quadric truncation $\mathrm{Gr}_{\mathbb{C}}(2,4) \hookrightarrow \mathrm{Gr}_2(L^2(S^1))$, KP flows, Hirota bilinear KP-II identity {cite:p}`hirota2004direct`, Kodama–Williams $\mathrm{Gr}_{\ge 0}(k,n)$ totally nonnegative $N$-soliton webs {cite:p}`kodama2014kp,postnikov2006plabic`, explicit KdV 1-, 2-, 3-, and arbitrary $N$-soliton proofs, Baker–Akhiezer $B_2$/$B_3$ Lax equations, AKNS focusing NLS bright soliton and defocusing GPE dark soliton PDEs {cite:p}`ablowitz1974inverse`, and the 6-channel Dual-Schubert Quantum Fisher Information Metric (QFIM) decomposition ($F_Q = 4\,g_{\mathrm{FS}}$). Every algebraic and differential identity is cross-checked by 17 exact SymPy symbolic proofs and compiled Rust/PyO3 `PlabicGr24Solver` and `PlabicGrKNSolver` extensions (`kp2_residual = 3.11e-15`).
+  - **Open Experimental & Axiom Boundary (`Signals.Pending.SatoRiemannSpectralPendingBoundary`):** Checked PDE identities and QFIM decompositions prove exact consequences of the underlying integrable equations and projective Kähler geometry. They do **not** experimentally validate Sharoglazova–Klaers evanescent tunneling velocities {cite:p}`sharoglazova_energyspeed_2025`, massive Proca photons, or physical laboratory realizations without independent measurement data (see [sato-riemann-spectral-pending-closure-plan.md](sato-riemann-spectral-pending-closure-plan.md) for the constructive `EvanescentQfimExperimentalCertificate` and `SatoRiemannSpectralPendingBoundary.solved_of_certificates` closure contract).
 - **Primary Source Chat Provenance:**
   - {download}`data/chats/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md <../data/chats/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md>` (`13,272` lines, `sha256: c8eb7b93d618846add0564db6fd4df248aff7a12a6e63d1808712a6673f1a6ab`), specifically Blocks 001–007 (lines 73–4227), Block 012 (lines 7410–7748), Blocks 018–022 (lines 11446–13254).
 - **Companion Papers:**
@@ -19,14 +19,14 @@ description: "An arXiv-ready MyST Markdown formal verification paper presenting 
   - [Why the Quantum Fisher Information Metric Is Four Times the Fubini–Study Kähler Metric ($F_{\mu\nu} = 4\,g_{\mu\nu}^{\mathrm{FS}}$)](grassmannian-qfim-fubini-study-kahler-madelung-unification-paper.md)
   - [Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics, and Revised Turner (2026) Models](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
 - **Formal Verification & Computational Artifacts:**
-  - `Signals` Lean 4 Library (`3,830` Lake jobs via `make signals_build`, zero `sorry`):
+  - `Signals` Lean 4 Library (`3,837` Lake jobs via `make signals_build`, zero `sorry`):
     - {download}`src/signals/Signals/SatoGrassmannian.lean <../src/signals/Signals/SatoGrassmannian.lean>`
     - {download}`src/signals/Signals/SatoGrassmannian/Base.lean <../src/signals/Signals/SatoGrassmannian/Base.lean>` through {download}`src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean <../src/signals/Signals/SatoGrassmannian/DualSchubertQFIM.lean>`
     - {download}`src/signals/Signals/Pending.lean <../src/signals/Signals/Pending.lean>` (`SatoRiemannSpectralPendingBoundary`)
     - {download}`src/signals/SignalsTests.lean <../src/signals/SignalsTests.lean>` & {download}`src/signals/SignalsPendingTests.lean <../src/signals/SignalsPendingTests.lean>`
-  - `signals-numerical-adapter` Rust + PyO3 (`maturin`) Extension (`7/7` `sato_grassmannian` Rust unit tests passing):
-    - {download}`src/signals/numerical_adapter/src/sato_grassmannian.rs <../src/signals/numerical_adapter/src/sato_grassmannian.rs>` (`PlabicGr24Solver`, `Kp2Jet`, `evaluate_ba_lax_pair`, `evaluate_akns_solitons`, `evaluate_dual_schubert_qfim`)
-  - Python + SymPy + PyO3 Verification Suite (`8/8` `pytest` tests passing):
+  - `signals-numerical-adapter` Rust + PyO3 (`maturin`) Extension (`8/8` `sato_grassmannian` Rust unit tests passing):
+    - {download}`src/signals/numerical_adapter/src/sato_grassmannian.rs <../src/signals/numerical_adapter/src/sato_grassmannian.rs>` (`PlabicGr24Solver`, `PlabicGrKNSolver`, `Kp2Jet`, `evaluate_ba_lax_pair`, `evaluate_akns_solitons`, `evaluate_dual_schubert_qfim`)
+  - Python + SymPy + PyO3 Verification Suite (`9/9` `pytest` tests passing):
     - {download}`sustainablefactory/sato_grassmannian.py <../sustainablefactory/sato_grassmannian.py>`
     - {download}`tests/test_sato_grassmannian_sympy_pyo3.py <../tests/test_sato_grassmannian_sympy_pyo3.py>`
 
@@ -34,16 +34,16 @@ description: "An arXiv-ready MyST Markdown formal verification paper presenting 
 
 ## Abstract
 
-Finite-dimensional Grassmannians $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and positive Plabic parametrizations $\mathrm{Gr}_{\ge 0}(2,4)$ capture single-soliton and two-soliton interactions, but the full Kadomtsev–Petviashvili (KP) hierarchy lives on the infinite-dimensional Sato–Segal–Wilson Grassmannian $\mathrm{Gr}_p(H)$ of a polarized Hilbert space $H = H_+ \oplus H_-$. We present a complete, zero-`sorry` Lean 4 formalization of the infinite-dimensional Sato Grassmannian and its integrable PDE hierarchy inside the `Signals` library (`Signals.SatoGrassmannian.*`), paired with a compiled Rust/PyO3 `PlabicGr24Solver` and exact SymPy symbolic verification.
+Finite-dimensional Grassmannians $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and positive Plabic parametrizations $\mathrm{Gr}_{\ge 0}(2,4)$ capture single-soliton and two-soliton interactions, but the full Kadomtsev–Petviashvili (KP) hierarchy lives on the infinite-dimensional Sato–Segal–Wilson Grassmannian $\mathrm{Gr}_p(H)$ of a polarized Hilbert space $H = H_+ \oplus H_-$. We present a complete, zero-`sorry` Lean 4 formalization of the infinite-dimensional Sato Grassmannian and its integrable PDE hierarchy inside the `Signals` library (`Signals.SatoGrassmannian.*`), paired with compiled Rust/PyO3 `PlabicGr24Solver` and arbitrary $N$-soliton `PlabicGrKNSolver` extensions and exact SymPy symbolic verification.
 
 Our formalization establishes six main results:
 
 1. **Infinite-Dimensional Polarized Hilbert-Space Grassmannian & Riesz–Schauder Fredholm Theory (`Base.lean`, `RieszSchauder.lean`, `CircleL2.lean`):** We formalize `PolarizedHilbertSpace`, Fredholm projections `IsFredholm`, the Riesz–Schauder theorem (`isFredholm_id_add_compact`, index zero for compact perturbations of the identity), the Hardy space polarization on $H = L^2(S^1, \mathbb{C})$ with unilateral shift $S = M_z$ (`shiftCLE`), and the restricted general linear group $\mathrm{GL}_{\mathrm{res}}(H)$ preserving $\mathrm{Gr}(H)$ with additive Fredholm virtual dimension.
 2. **Exact $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Truncation, Klein Quadric, and Two Formalization Bug Fixes (`Gr24Truncation.lean`, `LaxPair.lean`):** Embedding $\mathbb{C}^4 \cong \operatorname{span}\{z^{-2}, z^{-1}, 1, z\} \subset L^2(S^1)$ yields an explicit isomorphism onto the big cell of $\mathrm{Gr}_{\mathbb{C}}(2,4)$ cut out by the Klein quadric $p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0$. Formalizing the chat transcript caught and proved **two genuine algebraic errors** in the source derivation: (i) a sign inversion in the big-cell frame reconstruction `kleinQuadric_reconstruct_bigCell` (Block 005, lines 2475–2995), and (ii) a coefficient error in the third spatial derivative $\partial_x^3 \psi$ of the Baker–Akhiezer wave function (`baWave_lax_equations`, Block 019, lines 12135–12380), where the true term is $+6 z k^3 S_2 T - 4 k^4 S_2 T^2$ rather than $+4 k^3 S_2 T (z - k T)$.
-3. **Hirota Bilinear KP-II Identity, Nonlinear $u = 2\partial_x^2\log\tau$, and Smooth Kodama–Williams $\mathrm{Gr}_{\ge 0}(2,4)$ Soliton Webs (`KPFlow.lean`, `HirotaKP.lean`, `KP2Nonlinear.lean`, `PDESolver.lean`):** We prove `hirotaKP_tauU_eq_zero` identically via the Klein quadric, `hirotaKP_eq_zero_iff_kp2` (equivalence between Hirota's bilinear form and the nonlinear $(2+1)$-D KP-II PDE $\partial_x(4 u_t - u_{xxx} - 6 u u_x) - 3 u_{yy} = 0$), strict positivity and global smoothness of $\tau(x,y,t) > 0$ on the totally nonnegative cell $\mathrm{Gr}_{\ge 0}(2,4)$ (`solitonTau_pos_of_totallyNonneg`), $y$-invariance of KdV 2-solitons (`kdv2Soliton_y_invariant_and_smooth`), and the exact KdV 1-soliton PDE (`kdv_oneSoliton_pde`).
+3. **Hirota Bilinear KP-II Identity, Nonlinear $u = 2\partial_x^2\log\tau$, and Smooth Kodama–Williams $\mathrm{Gr}_{\ge 0}(k,n)$ & Hirota KdV $N$-Soliton Webs (`KPFlow.lean`, `HirotaKP.lean`, `KP2Nonlinear.lean`, `PDESolver.lean`):** We prove `hirotaKP_tauU_eq_zero` identically via the Klein quadric, `hirotaKP_eq_zero_iff_kp2` (equivalence between Hirota's bilinear form and the nonlinear $(2+1)$-D KP-II PDE $\partial_x(4 u_t - u_{xxx} - 6 u u_x) - 3 u_{yy} = 0$), strict positivity and global smoothness of $\tau(x,y,t) > 0$ on arbitrary $\mathrm{Gr}_{\ge 0}(k,n)$ webs (`solitonTau_pos_of_totallyNonneg`, `solitonTauKN_pos_of_totallyNonneg`), $y$-invariance and global positivity of arbitrary $N$-soliton Hirota KdV (`kdv2Soliton_y_invariant_and_smooth`, `kdvNSolitonTau_pos_and_y_invariant`, plus exact 3-soliton Hirota cancellation `hirotaKP_kdv3SolitonTau_eq_zero`), and the exact KdV 1-soliton PDE (`kdv_oneSoliton_pde`).
 4. **Baker–Akhiezer Lax Pair & AKNS Focusing NLS / Defocusing GPE Solitons (`LaxPair.lean`, `AKNS.lean`):** We prove both the $B_2$ ($\partial_y \psi = (\partial_x^2 + u)\psi$) and $B_3$ ($\partial_t \psi = (\partial_x^3 + \tfrac{3}{2}u\partial_x + w)\psi$) Lax equations for the KdV 1-soliton, the $2\times 2$ AKNS zero-curvature equivalence `akns_zero_curvature_iff`, the focusing NLS bright soliton `brightSoliton_nls_pde`, and the defocusing GPE dark soliton `darkSoliton_gpe_pde`.
 5. **3-Channel Plücker–Madelung & 6-Channel Dual-Schubert QFIM (`DualSchubertQFIM.lean`):** We prove $F_Q = 4\,g_{\mathrm{FS}}$ (`qfim_eq_four_fubiniStudy`), the 3-channel Plücker–Madelung decomposition (`three_channel_plucker_madelung_qfim`), and the additive 6-channel $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(2,4)^\vee$ decomposition (`dual_schubert_six_channel_decomposition`).
-6. **Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solver (`sato_grassmannian.rs`):** Using normalized Boltzmann weights $w_r = c_r e^{\theta_r - M}/Z$ and central cumulants up to 6th order, `PlabicGr24Solver` evaluates arbitrary $\mathrm{Gr}_{\ge 0}(2,4)$ KP-II soliton webs even at $(x, y, t) = (100, -50, 20)$ without floating-point overflow, achieving `kp2_residual = 3.11e-15`, `lax_b2 = 1.11e-16`, `lax_b3 = 4.97e-16`, `akns_bright = 2.48e-16`, `akns_dark = 2.29e-16`, and `qfim_res = 0.0`.
+6. **Overflow-Proof Log-Sum-Exp Rust/PyO3 PDE Solvers (`sato_grassmannian.rs`):** Using normalized Boltzmann weights $w_r = c_r e^{\theta_r - M}/Z$ and central cumulants up to 6th order, `PlabicGr24Solver` and `PlabicGrKNSolver` evaluate arbitrary $\mathrm{Gr}_{\ge 0}(k,n)$ KP-II and Hirota KdV $N$-soliton webs even at $(x, y, t) = (100, -50, 20)$ without floating-point overflow, achieving `kp2_residual = 3.11e-15` (and $< 5\times 10^{-15}$ for $\mathrm{Gr}_{>0}(2,5)$ / $\mathrm{Gr}_{>0}(3,6)$ / KdV $N=3,4,5$), `lax_b2 = 1.11e-16`, `lax_b3 = 4.97e-16`, `akns_bright = 2.48e-16`, `akns_dark = 2.29e-16`, and `qfim_res = 0.0`.
 
 ---
 
@@ -60,21 +60,21 @@ flowchart TB
 
     subgraph PDE["Integrable PDE Hierarchy & Lax/AKNS/QFIM"]
         P1["KPFlow.lean & HirotaKP.lean\n(Blocks 006–007)\nexp(∑ t_n z^n), schurTau,\nhirotaKP_tauU_eq_zero"]
-        P2["KP2Nonlinear.lean & PDESolver.lean\n(Blocks 012, 018)\nu = 2 ∂_x² log τ, Gr_≥0(2,4) > 0,\nKdV 1- & 2-solitons"]
+        P2["KP2Nonlinear.lean & PDESolver.lean\n(Blocks 012, 018, Sec. 5)\nu = 2 ∂_x² log τ, Gr_≥0(k,n) > 0,\nKdV 1-, 2-, 3-, & N-solitons"]
         P3["LaxPair.lean & AKNS.lean\n(Blocks 019–020)\nFixed B_2/B_3 Lax pair,\nNLS bright & GPE dark solitons"]
         P4["DualSchubertQFIM.lean (Block 022)\nF_Q = 4 g_FS, 3-channel Madelung,\n6-channel Gr(2,4) × Gr(2,4)^∨"]
     end
 
     subgraph Runtime["Compiled Rust/PyO3 + SymPy Verification"]
-        R1["sato_grassmannian.rs (Block 021+)\nLog-sum-exp PlabicGr24Solver,\nBA Lax, AKNS, Dual-Schubert QFIM"]
-        R2["sato_grassmannian.py & pytest\n13 SymPy exact proofs +\nPyO3 residual audits (< 10^-14)"]
+        R1["sato_grassmannian.rs (Block 021+)\nLog-sum-exp PlabicGr24Solver & PlabicGrKNSolver,\nBA Lax, AKNS, Dual-Schubert QFIM"]
+        R2["sato_grassmannian.py & pytest\n17 SymPy exact proofs +\nPyO3 residual audits (< 10^-14)"]
     end
 
     B1 --> B2 --> B3 --> B4 --> P1 --> P2 --> P3 --> R1
     B4 --> P4 --> R1 --> R2
 ```
 
-Every theorem in the 11 Lean 4 modules compiles under Lean `v4.35.0-rc3` and Mathlib with zero `sorry`, zero `admit`, and zero module-level warnings, integrated into the repository's top-level `Signals` library (`3,830` Lake jobs via `make signals_build`).
+Every theorem in the 11 Lean 4 modules compiles under Lean `v4.35.0-rc3` and Mathlib with zero `sorry`, zero `admit`, and zero module-level warnings, integrated into the repository's top-level `Signals` library (`3,837` Lake jobs via `make signals_build`).
 
 ---
 
@@ -160,7 +160,7 @@ $$
 
 is strictly positive on all of $\mathbb{R}^3$, guaranteeing global smooth, blowup-free $(2+1)$-D resonant soliton webs {cite:p}`kodama2014kp`.
 
-3. **KdV Reduction (`kdv2Soliton_y_invariant_and_smooth`, `kdv_oneSoliton_pde`):** Choosing symmetric wavenumbers $(-\kappa_2, -\kappa_1, \kappa_1, \kappa_2)$ and the KdV positroid cell annihilates the $y$-dependence ($\partial_y u = \partial_{yy} u = 0$), yielding exact smooth KdV 1- and 2-solitons solving $4 u_t - u_{xxx} - 6 u u_x = 0$.
+3. **KdV Reduction & Arbitrary $N$-Solitons (`kdv2Soliton_y_invariant_and_smooth`, `kdv_oneSoliton_pde`, `solitonTauKN_pos_of_totallyNonneg`, `kdvNSolitonTau_pos_and_y_invariant`, `hirotaKP_kdv3SolitonTau_eq_zero`):** Choosing symmetric wavenumbers $(-\kappa_2, -\kappa_1, \kappa_1, \kappa_2)$ and the KdV positroid cell annihilates the $y$-dependence ($\partial_y u = \partial_{yy} u = 0$), yielding exact smooth KdV 1- and 2-solitons solving $4 u_t - u_{xxx} - 6 u u_x = 0$. Section 5 of `PDESolver.lean` generalizes global positivity to arbitrary $\mathrm{Gr}_{\ge 0}(k, n)$ Wronskian $N$-soliton webs (`solitonTauKN`) and arbitrary $2^N$-term Hirota KdV $N$-solitons (`kdvNSolitonTau` with exact dispersion cancellation verified for $N=3$), backed in Rust/PyO3 by `PlabicGrKNSolver` (`from_frame`, `from_totally_positive_vandermonde`, `from_kdv_n_soliton`) and tested for KdV $N=3,4,5$ plus $\mathrm{Gr}_{>0}(2,5)$ and $\mathrm{Gr}_{>0}(3,6)$ KP-II webs (`kp2_residual < 5e-15`).
 
 4. **AKNS Hierarchy (`AKNS.lean`, lines 12388–12739):** Passing to $2\times 2$ matrix Lax pairs {cite:p}`ablowitz1974inverse`, we prove `akns_zero_curvature_iff` together with the focusing NLS bright soliton `brightSoliton_nls_pde` ($q(x,t) = A\operatorname{sech}(Ax)e^{i A^2 t}$ solving $i q_t + q_{xx} + 2|q|^2 q = 0$) and the defocusing GPE dark soliton `darkSoliton_gpe_pde` ($q(x,t) = A\tanh(Ax)e^{-2 i A^2 t}$ solving $i q_t + q_{xx} - 2|q|^2 q = 0$).
 
@@ -203,6 +203,7 @@ $$
 | KP-II top-cell resonant web | $\kappa=(-2,-0.5,0.7,1.8)$, $(1.3,-2.4,0.9)$ | `hirotaKP_solitonTau_eq_zero` | `hirota_kp_eq_24_times_klein` | $u = 1.162107$, residual $3.11 \times 10^{-15}$ |
 | KP-II extreme-coordinate stability | $\kappa=(-1,0,1,2)$, $(100,-50,20)$ | `solitonTau_pos_of_totallyNonneg` | Exact cumulant invariance | No overflow, residual $< 10^{-11}$ |
 | KdV 2-soliton $y$-invariance | $k_1=0.6, k_2=1.3$, $y=0$ vs. $y=17.5$ | `kdv2Soliton_y_invariant_and_smooth` | Exact $\beta_r$ symmetry | $\|u(y=0)-u(y=17.5)\| < 10^{-13}$ |
+| Arbitrary $(k,n)$ & KdV $N$-solitons (`PlabicGrKNSolver`) | KdV $N=3,4,5$; $\mathrm{Gr}_{>0}(2,5)$ ($10$ terms), $\mathrm{Gr}_{>0}(3,6)$ ($20$ terms) | `solitonTauKN_pos_of_totallyNonneg`, `kdvNSolitonTau_pos_and_y_invariant`, `hirotaKP_kdv3SolitonTau_eq_zero` | `hirota_kdv3_soliton_sym_ok` (`mpmath` $6.18\times 10^{-16}$) | KP-II residual $< 5\times 10^{-15}$; KdV $N=3,4,5$ $u_y = 0$ |
 | Baker–Akhiezer $B_2$ & $B_3$ Lax pair | $k=0.8, z=0.3+1.1i$, $(0.4,-0.2,0.5)$ | `baWave_lax_equations` | `ba_lax_b2_exact`, `ba_lax_b3_exact` | $B_2$: $1.11 \times 10^{-16}$; $B_3$: $4.97 \times 10^{-16}$ |
 | AKNS bright NLS & dark GPE solitons | $A=1.3$, $(x,t)=(0.7,-0.4)$ | `brightSoliton_nls_pde`, `darkSoliton_gpe_pde` | `akns_bright_nls_exact`, `akns_dark_gpe_exact` | NLS: $2.48 \times 10^{-16}$; GPE: $2.29 \times 10^{-16}$ |
 | 6-channel Dual-Schubert QFIM | Normalized 6+6 Plücker densities | `dual_schubert_six_channel_decomposition` | `dual_schubert_three_channel_plucker_madelung_qfim` | $F_Q^{\mathrm{tot}} = 0.988767$, residual $< 10^{-15}$ |
@@ -213,14 +214,14 @@ $$
 ## 7. Reproducibility Commands
 
 ```bash
-# 1. Verify all 21 Signals.SatoGrassmannian modules, SignalsTests, and SignalsPendingTests
+# 1. Verify all Signals.SatoGrassmannian modules, SignalsTests, and SignalsPendingTests
 make signals_build
 
 # 2. Run Rust unit tests and build/install the PyO3 extension
 cargo test --manifest-path src/signals/numerical_adapter/Cargo.toml sato_grassmannian
 maturin develop --manifest-path src/signals/numerical_adapter/Cargo.toml --release --features extension-module
 
-# 3. Run the SymPy + mpmath + PyO3 cross-verification test suite (15 symbolic proofs + PyO3/mpmath)
+# 3. Run the SymPy + mpmath + PyO3 cross-verification test suite (17 symbolic proofs + PyO3/mpmath)
 pytest -q tests/test_sato_grassmannian_sympy_pyo3.py
 ```
 

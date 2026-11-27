@@ -128,11 +128,18 @@ chapters:
   - file: grassmannian-riemann-spectral-ihara-jensen-polya-paper
   - file: grassmannian-celestial-holography-graviton-turner-riemann-paper
   - file: grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper
+  - file: sato-riemann-spectral-pending-closure-plan
   - file: grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper
   - file: dual-schubert-qfim-navier-stokes-plan
   - file: grassmannian-dual-schubert-qfim-navier-stokes-compressible-incompressible-paper
   - file: grassmannian-photoelectric-effect-qci-gxc-twistors-solitons-qfim-paper
   - file: antimatter-annihilation-alpha-g-plan
   - file: grassmannian-antimatter-annihilation-alpha-g-models-paper
+  - file: grassmannian-celestial-ir-regularization-turner-models-16ab-paper
+  - file: yang-mills-higgs-cpt-pending-closure-plan
+  - file: grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper
+  - file: unified-pending-closure-roadmap-plan
+  - file: quantum-causal-one-shot-system-identification-plan
+  - file: grassmannian-quantum-causal-one-shot-system-identification-paper
 - file: references
 

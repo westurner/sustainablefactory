@@ -9615,4 +9615,365 @@ example {sub : Signals.DDF.DDFSubstrate} (re : Signals.DDF.RiverExterior sub)
     re orb m_e impactParam beamEnergy kernel gamma_conf deltaVarpi hm hb hE hK
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.1⟩
 
+/-! ### Regression Tests: Celestial IR Regularization (`RiemannSpectral` Sec. 12), Models `16a` & `16b` (`DDF` Sec. 30.8), & `Signals.YangMillsHiggsCPT` -/
+
+example (b0 gCoupling gamma omega mGap lambda irScaleProd plancherelVal sigmaDevVal : ℝ)
+    (hb0 : 0 < b0) (hg : gCoupling ≠ 0) (hgam : gamma ≠ 0)
+    (hm_nn : 0 ≤ mGap) (h_om : mGap ≤ omega)
+    (h_lam : lambda ≠ 0) (hp_nn : 0 ≤ plancherelVal) (hp_le : plancherelVal ≤ 1) :
+    0 < Signals.RiemannSpectral.celestialDimTransmutationDev b0 gCoupling ∧
+      0 ≤ Signals.RiemannSpectral.kallenLehmannThresholdSq omega mGap ∧
+      Signals.RiemannSpectral.celestialIrRegulatorFactor 0 irScaleProd = 0 ∧
+      Signals.RiemannSpectral.celestialIrRegulatorFactor lambda 0 = 1 ∧
+      Signals.RiemannSpectral.celestialCayleyPlancherelIRUVKernel
+        sigmaDevVal plancherelVal 0 irScaleProd = 0 := by
+  rcases Signals.RiemannSpectral.celestial_ir_divergence_regularization_identities
+    b0 gCoupling gamma omega mGap lambda irScaleProd plancherelVal sigmaDevVal
+    hb0 hg hgam hm_nn h_om h_lam hp_nn hp_le with ⟨⟨h1, _, _⟩, ⟨h2, _, _⟩, ⟨h3, _, _, h4, h5, _, _⟩⟩
+  exact ⟨h1, h2, h3, h4, h5⟩
+
+example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
+    (re : Signals.DDF.RiverExterior sub) (orb : Signals.QEDGravity.PlanetaryOrbit)
+    (s_pl : Signals.DDF.PluckerMadelungState)
+    (orbitalPhase deltaVarpi m2 sigmaDev alphaQG kappaIR twoOmegaOrb omegaGap
+      impactParam beamEnergy kernel : ℝ)
+    (hm2 : 0 < m2) (h_alpha_nn : 0 ≤ alphaQG) (h_kappa_nn : 0 ≤ kappaIR)
+    (h_orb_pos : 0 ≤ twoOmegaOrb) (h_below_gap : twoOmegaOrb < omegaGap)
+    (hb : 0 < impactParam) (hE : 0 < beamEnergy) (hK : 0 < kernel) :
+    Signals.DDF.celestialIrScreeningFactor 0 = 1 ∧
+      0 < Signals.DDF.celestialTransferFactor16 sigmaDev alphaQG kappaIR ∧
+      Signals.DDF.PlanetaryOrbit.turnerModel16aPrecessionRad
+        orb re.G_phi re.sourceMass sub.c deltaVarpi 0 0 0 0 = re.perihelionPrecessionRad orb ∧
+      re.turnerModel16bPrecessionRad orb deltaVarpi 0 0 0 0 = re.perihelionPrecessionRad orb ∧
+      Signals.DDF.PlanetaryOrbit.turnerModel16aGWLuminosity
+        orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi sigmaDev alphaQG kappaIR
+        twoOmegaOrb omegaGap 0 = 0 ∧
+      0 < re.turnerModel16bGWLuminosity orb m2 sigmaDev alphaQG kappaIR 0 := by
+  rcases Signals.DDF.turner_model_16_ir_regularized_celestial_ddf_graviton_unification
+    s re orb s_pl orbitalPhase deltaVarpi m2 sigmaDev alphaQG kappaIR twoOmegaOrb omegaGap
+    impactParam beamEnergy kernel hm2 h_alpha_nn h_kappa_nn h_orb_pos h_below_gap hb hE hK with
+    ⟨⟨h_ir0, _, _⟩, ⟨_, h_g16⟩, ⟨h_p16a, _, h_p16b, _⟩, ⟨_, h_gw_cut, _, h_gw_pos⟩, _⟩
+  exact ⟨h_ir0, h_g16, h_p16a, h_p16b, h_gw_cut, h_gw_pos⟩
+
+example (muSq lam hField g1 g2 kappa kappaTilde alphaCP beta : ℝ)
+    (h_mu : 0 < muSq) (h_lam : 0 < lam) (hg1 : g1 ≠ 0) (hg2 : 0 < g2)
+    (energy baryonCharge : Fin 2 → ℝ) :
+    Signals.YangMillsHiggsCPT.suNOneLoopBeta0 3 0 = 11 ∧
+      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass 3 1 200 = 300 ∧
+      Signals.YangMillsHiggsCPT.electroweakRhoParam g1 g2
+        (Signals.YangMillsHiggsCPT.higgsVev muSq lam) = 1 ∧
+      Signals.YangMillsHiggsCPT.chargeConjugateElectricCharge 0 = 0 ∧
+      Signals.YangMillsHiggsCPT.higgsCpMixedDecayAsymmetry kappa kappaTilde 0 = 0 ∧
+      Signals.YangMillsHiggsCPT.thermalEquilibriumBaryonTrace beta energy energy baryonCharge = 0 := by
+  have hym := Signals.YangMillsHiggsCPT.yang_mills_mass_gap_and_transmutation_identities
+    1000 11 1 1 (1 / 2) 1 3 1 2 200 0 1 1 1 0
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have hhiggs := Signals.YangMillsHiggsCPT.higgs_ssb_electroweak_masses_and_self_conjugacy
+    muSq lam hField g1 g2 h_mu h_lam hg1 hg2
+  have hcp := Signals.YangMillsHiggsCPT.higgs_cp_asymmetry_and_sakharov_equilibrium_zero
+    kappa kappaTilde alphaCP beta energy energy baryonCharge (fun _ => rfl)
+  exact ⟨hym.1, hym.2.2.2.2.2.1, hhiggs.2.2.2.2.2.2.1, hhiggs.2.2.2.2.2.2.2,
+    hcp.2.2.1, hcp.2.2.2.2.2⟩
+
+example (sRe lambdaQCD : ℝ) :
+    (4 - 2) * (1 - sRe) = (4 - 2) - (4 - 2) * sRe ∧
+      ((4 - 2 : ℝ) * sRe = (4 - 2) / 2 ↔ sRe = 1 / 2) ∧
+      0 < Signals.YangMillsHiggsCPT.strongCouplingCasimirWeight 3 1 ∧
+      0 < Signals.YangMillsHiggsCPT.strongCouplingTransferGapLowerBound 1 3 4 ∧
+      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass 3 1 lambdaQCD =
+        2 * ((3 / (1 + 3 : ℝ)) * lambdaQCD) := by
+  have h_rr := Signals.RiemannSpectral.toupin_re_delta_eq_d_cft_half_bridge 4 sRe (by norm_num)
+  have h_sc := Signals.YangMillsHiggsCPT.toupin_strong_coupling_casimir_and_gko_ratio_identities
+    1 3 1 3 lambdaQCD 4 (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_rr.1.symm, h_rr.2.1, h_sc.1, h_sc.2.2.2.1, h_sc.2.2.2.2.2⟩
+
+example (b0 gCoupling gamma dBulk sigmaNeg : ℝ)
+    (hb0 : 0 < b0) (hg : gCoupling ≠ 0) (hgam : gamma ≠ 0)
+    (hd : 2 < dBulk) (h_neg : sigmaNeg < 0) :
+    let σ_rg := Signals.RiemannSpectral.celestialDimTransmutationDev b0 gCoupling
+    let s_rg : ℂ := ⟨1 / 2 + σ_rg, gamma⟩
+    let s_neg : ℂ := ⟨1 / 2 + sigmaNeg, gamma⟩
+    0 < σ_rg ∧
+      ‖Signals.SatoGrassmannian.RHGaps.cayley s_rg‖ ≤ 1 ∧
+      ‖Signals.SatoGrassmannian.RHGaps.cayley s_rg‖ ≠ 1 ∧
+      Filter.Tendsto (fun n : ℕ => ‖(Signals.SatoGrassmannian.RHGaps.cayley s_neg) ^ n‖)
+        Filter.atTop Filter.atTop := by
+  rcases Signals.SatoGrassmannian.RiemannSpectralBridge.celestialDimTransmutation_cayley_contraction_and_ir_bridge
+    b0 gCoupling gamma dBulk sigmaNeg hb0 hg hgam hd h_neg with
+    ⟨h1, _, _, h4, h5, _, h7⟩
+  exact ⟨h1, h4, h5, h7⟩
+
+example (kappa1 kappa2 kappa a1 a2 lambdaGap xiPhi : ℝ)
+    (hk1 : 0 ≤ kappa1) (hk12 : kappa1 < kappa2) (hk : 0 ≤ kappa)
+    (ha1 : 0 < a1) (ha12 : a1 < a2) (hlam : 0 < lambdaGap) (hxi : 0 < xiPhi) :
+    Signals.DDF.celestialIrScreeningFactor kappa2 <
+        Signals.DDF.celestialIrScreeningFactor kappa1 ∧
+      1 - kappa ^ 2 / 2 ≤ Signals.DDF.celestialIrScreeningFactor kappa ∧
+      Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16aIrYukawaParam a2 lambdaGap) <
+        Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16aIrYukawaParam a1 lambdaGap) ∧
+      Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16bCoreRegularizationParam xiPhi a1) <
+        Signals.DDF.celestialIrScreeningFactor (Signals.DDF.model16bCoreRegularizationParam xiPhi a2) :=
+  Signals.DDF.turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities
+    kappa1 kappa2 kappa a1 a2 lambdaGap xiPhi hk1 hk12 hk ha1 ha12 hlam hxi
+
+example {G : Type*} [Group G] [Fintype G] [Nonempty G] {m : ℕ}
+    (rho : Signals.YangMillsHiggsCPT.FiniteGroupUnitaryRep G m) (h : G) (v : Fin m → ℂ)
+    (h_colored : ∑ g : G, (rho.rep g).mulVec v = 0)
+    (mu mc mt md ms mb beta ePlus eMinus bCharge : ℝ)
+    (h_beta : 0 < beta) (h_neq : ePlus ≠ eMinus) (hb : bCharge ≠ 0) :
+    rho.haarProjector * rho.haarProjector = rho.haarProjector ∧
+      rho.haarProjector.conjTranspose = rho.haarProjector ∧
+      rho.haarProjector.mulVec v = 0 ∧
+      Signals.YangMillsHiggsCPT.jarlskogQuarkMassSplitting mu mu mt md ms mb = 0 ∧
+      Signals.YangMillsHiggsCPT.thermalEquilibriumBaryonTrace beta
+        (fun _ : Fin 1 => ePlus) (fun _ : Fin 1 => eMinus) (fun _ : Fin 1 => bCharge) ≠ 0 := by
+  rcases Signals.YangMillsHiggsCPT.finiteGroup_haarProjector_properties rho h v h_colored with
+    ⟨_, _, h_idem, h_herm, h_ann⟩
+  rcases Signals.YangMillsHiggsCPT.jarlskog_degeneracy_and_sakharov_out_of_equilibrium_nonzero
+    mu mc mt md ms mb beta ePlus eMinus bCharge h_beta h_neq hb with ⟨h_jar, _, _, h_sakh⟩
+  exact ⟨h_idem, h_herm, h_ann, h_jar, h_sakh⟩
+
+example {m r : ℕ} (weights energies : Fin m → ℝ) (times : Fin r → ℝ) (fTest : Fin r → ℂ)
+    (b0 b1 nColor beta1 beta2 betaHigh eGap tau1 tau2 mGap omega delta ampBound muIr kLevel lamQ mPhys : ℝ)
+    (muSig muMax alphaCP alphaMax dCoeff eCoeff lamT t0 tc : ℝ)
+    (physGap : ℕ → ℝ)
+    (hb0 : 0 < b0) (hN : 0 < nColor) (hb1 : 0 < beta1) (hb12 : beta1 < beta2)
+    (hhigh : 2 * nColor ^ 2 < betaHigh) (hm0 : 0 < eGap)
+    (h_unif : ∀ i : ℕ, eGap ≤ physGap i)
+    (h_lim : ∀ eps : ℝ, 0 < eps → ∃ i : ℕ, |mPhys - physGap i| < eps)
+    (hw : ∀ k : Fin m, 0 ≤ weights k) (hE : ∀ k : Fin m, eGap ≤ energies k)
+    (htau1 : 0 ≤ tau1) (htau12 : tau1 ≤ tau2)
+    (hmGap : 0 < mGap) (homega : mGap < omega) (hdelta : 2 ≤ delta) (hA : 0 ≤ ampBound) (hMuIr : 0 ≤ muIr)
+    (hk : 0 ≤ kLevel) (hL : 0 < lamQ) (hmp : 0 < mPhys)
+    (hMu : 0 ≤ muSig) (hMuLe : muSig ≤ muMax) (hAl : |alphaCP| ≤ alphaMax) (hAlLe : alphaMax ≤ Real.pi / 2)
+    (he : 0 < eCoeff) (hlam : 0 < lamT) (htc : 0 < tc)
+    (hDeg : dCoeff * (tc ^ 2 - t0 ^ 2) = eCoeff ^ 2 * tc ^ 2 / lamT) :
+    Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing b0 nColor beta2 <
+        Signals.YangMillsHiggsCPT.latticeAsymptoticSpacing b0 nColor beta1 ∧
+      0 < Signals.YangMillsHiggsCPT.latticeAsymptoticSpacingTwoLoop b0 b1 nColor beta2 ∧
+      0 ≤ (Signals.YangMillsHiggsCPT.finiteOSReflectionForm weights energies times fTest).re ∧
+      Signals.YangMillsHiggsCPT.finiteOSSchwingerTwoPoint weights energies tau2 ≤
+        Signals.YangMillsHiggsCPT.finiteOSSchwingerTwoPoint weights energies tau1 *
+          Real.exp (-eGap * (tau2 - tau1)) ∧
+      Signals.YangMillsHiggsCPT.toupinTreeGlueballMass nColor kLevel 220 < 1610 ∧
+      |Signals.YangMillsHiggsCPT.higgsCpKappaTilde muSig alphaCP| ≤
+        Real.sqrt muMax * Real.sin alphaMax ∧
+      0 < Signals.YangMillsHiggsCPT.electroweakEffPotential dCoeff eCoeff lamT t0 tc
+        (Signals.YangMillsHiggsCPT.electroweakCriticalVev eCoeff lamT tc / 2) ∧
+      (1 ≤ Signals.YangMillsHiggsCPT.electroweakCriticalVev eCoeff lamT tc / tc ↔
+        lamT ≤ 2 * eCoeff) := by
+  have h1 := Signals.YangMillsHiggsCPT.lattice_rg_continuum_scaling_and_strong_coupling_breakdown
+    b0 nColor beta1 beta2 betaHigh eGap mPhys physGap hb0 hN hb1 hb12 hhigh hm0 h_unif h_lim
+  have h2 := Signals.YangMillsHiggsCPT.osReflectionPositivity_and_clustering_of_spectral_weights
+    weights energies times fTest eGap tau1 tau2 hw hE htau1 htau12
+  have h2l := Signals.YangMillsHiggsCPT.kallenLehmann_critical_soft_pole_and_two_loop_rg
+    mGap omega muIr b0 b1 nColor beta2 hmGap homega hMuIr hb0 hN (lt_trans hb1 hb12)
+  have h3 := Signals.YangMillsHiggsCPT.kallenLehmann_confined_envelope_and_gko_obstruction
+    mGap omega delta ampBound muIr nColor kLevel lamQ mPhys hmGap (le_of_lt homega) hdelta hA hN hk hL hmp
+  have h4 := Signals.YangMillsHiggsCPT.higgsCpEftExclusion_envelope
+    muSig muMax alphaCP alphaMax hMu hMuLe hAl hAlLe
+  have h5 := Signals.YangMillsHiggsCPT.electroweak_first_order_washout_criterion
+    dCoeff eCoeff lamT t0 tc he hlam htc
+  exact ⟨h1.2.1, h2l.2, h2.2.1, h2.2.2.2.2, h3.2.2.1, h4.2.2.2, (h5.2.1 hDeg).2.2, h5.2.2.2⟩
+
+/-! Constructive Finite-Dimensional `FredholmDetTheory`, `det₃` Critical-Line Anomaly,
+& Infinite-Zero `L¹(ℝ)` Weil / Evanescent QFIM Bridge Checks. -/
+example {ιP ιM : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    [FiniteDimensional ℂ P.HPlus]
+    (i₀ : ιP) (c : ℂ) :
+    Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr
+      ⟨Signals.SatoGrassmannian.DeterminantBundle.rankOneScale P eP i₀ c,
+        Signals.SatoGrassmannian.DeterminantBundle.rankOneScale_mem_monoid P eP eM i₀ c⟩ = c :=
+  Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr_rankOne i₀ c
+
+example (t : ℝ) (z : ℕ → ℂ) (m : ℕ → ℕ) (hReal : ∀ n : ℕ, (z n).im = 0)
+    {f : ℝ → ℂ} (hf : Signals.SatoGrassmannian.WeilGaussianL1.AdmissibleL1All f)
+    (hSumm : Summable (fun n : ℕ =>
+      (m n : ℝ) * ‖Signals.SatoGrassmannian.WeilPositivity.mellinTransform f (z n)‖ ^ 2)) :
+    let s : ℂ := (1 / 2 : ℂ) + (t : ℂ) * Complex.I
+    let lam : Nat.Primes → ℂ := fun p => -(((p : ℕ) : ℂ) ^ (-s))
+    let μ : Nat.Primes → ℂ := fun p => (1 / 2 : ℂ) * lam p
+    ‖Signals.SatoGrassmannian.RHGaps.cayley s‖ ^ 2 = 1 ∧
+      Signals.SatoGrassmannian.CarlemanWeierstrass.detKDiag 3 lam ≠ 0 ∧
+      Signals.SatoGrassmannian.CarlemanWeierstrass.det3Diag (fun p => lam p + μ p + lam p * μ p) =
+        Signals.SatoGrassmannian.CarlemanWeierstrass.det3Diag lam *
+          Signals.SatoGrassmannian.CarlemanWeierstrass.det3Diag μ *
+          Complex.exp (∑' p : Nat.Primes, lam p * μ p * (lam p + μ p + (1 / 2 : ℂ) * lam p * μ p)) ∧
+      0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m f).re ∧
+      (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m f).im = 0 := by
+  have h1 := Signals.SatoGrassmannian.RiemannSpectralBridge.det3_critical_line_and_li_cayley_bridge t
+  have h2 := Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_nonneg_of_allRealZeros
+    z m hReal hf hSumm
+  exact ⟨h1.1, h1.2.2.1, h1.2.2.2, h2.1, h2.2⟩
+
+/-! Axiom-Free Infinite-Dimensional `finiteRankDet`, `segalWilson_tau_gr24_eq_tauU_axiomFree`,
+and Automatic Strip Sub-Gaussian `WeilGaussianL1` Checks. -/
+example {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (i₀ : ιP) (c : ℂ) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+      ⟨Signals.SatoGrassmannian.DeterminantBundle.rankOneScale P eP i₀ c,
+        Signals.SatoGrassmannian.DeterminantBundle.rankOneScale_mem_finiteRankMonoid P eP i₀ c⟩ = c :=
+  Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet_rankOneScale P eP i₀ c
+
+example (v w : Signals.SatoGrassmannian.Gr24Truncation.C4)
+    (hp23 : Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 ≠ 0)
+    (t₁ t₂ t₃ : ℂ) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+        ⟨_, Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_gr24_op_mem_finiteRank
+          v w t₁ t₂ t₃⟩ =
+      Signals.SatoGrassmannian.HirotaKP.tauU v w t₁ t₂ t₃ /
+        Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 :=
+  Signals.SatoGrassmannian.SegalWilsonGr24.segalWilson_tau_gr24_eq_tauU_axiomFree
+    v w hp23 t₁ t₂ t₃
+
+example {ιP ιM : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (eM : HilbertBasis ιM ℂ P.HMinus)
+    [FiniteDimensional ℂ P.HPlus]
+    (A : Signals.SatoGrassmannian.DeterminantBundle.FiniteRankMonoid P.HPlus) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet A =
+      @Signals.SatoGrassmannian.DeterminantBundle.FredholmDetTheory.detFr _ _ H _ _ _ P eP eM
+        (Signals.SatoGrassmannian.DeterminantBundle.instFredholmDetTheoryOfFiniteDimensional P eP eM)
+        ⟨A.1, Signals.SatoGrassmannian.DeterminantBundle.finiteRankMonoid_le_traceClassMonoid
+          P eP eM A.2⟩ :=
+  Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet_eq_detFr_of_finiteDimensional
+    P eP eM A
+
+example {ιP : Type*} {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : Signals.SatoGrassmannian.PolarizedHilbertSpace ℂ H)
+    (eP : HilbertBasis ιP ℂ P.HPlus) (l : List (ιP × ℂ)) :
+    Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet
+        (Signals.SatoGrassmannian.DeterminantBundle.rankOneScaleProd P eP l) =
+      (l.map Prod.snd).prod :=
+  Signals.SatoGrassmannian.DeterminantBundle.finiteRankDet_rankOneScaleProd P eP l
+
+example (z : ℕ → ℂ) (m : ℕ → ℕ)
+    (hReal : ∀ n : ℕ, (z n).im = 0)
+    (hGauss : Summable (fun n : ℕ => (m n : ℝ) * Real.exp (-((z n).re ^ 2))))
+    (δ : ℝ) (P : Polynomial ℂ) :
+    0 ≤ (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m
+      (Signals.SatoGrassmannian.WeilGaussianL1.gaussianCombo δ P)).re ∧
+      (Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum z m
+        (Signals.SatoGrassmannian.WeilGaussianL1.gaussianCombo δ P)).im = 0 :=
+  Signals.SatoGrassmannian.WeilGaussianL1.weilInfiniteSum_gaussianCombo_nonneg_of_allRealZeros
+    z m hReal hGauss δ P
+
+example (a0 a1 a2 b0 b1 b2 lam c1 c2 f0 f1 g0 g1 c_true b_conf alpha x_obs y_obs x_cf : ℝ)
+    (g_fs m_shots kBT_ln2 fidelity q_overhead : ℝ)
+    (hg_fs : 0 < g_fs) (hm : 1 < m_shots) (hk : 0 < kBT_ln2) (hq : 0 ≤ q_overhead) :
+    Signals.QuantumCausalInference.osidRecovery2x3GramDet a0 a1 a2 b0 b1 b2 =
+        Signals.QuantumCausalInference.osidPlucker2x3NormSq a0 a1 a2 b0 b1 b2 ∧
+      Signals.QuantumCausalInference.osidRecovery2x3GramDet a0 a1 a2 (lam * a0) (lam * a1) (lam * a2) = 0 ∧
+      Signals.QuantumCausalInference.osidCirculantParamCount 4 ≤
+        Signals.QuantumCausalInference.osidMultiProbeEquationCount 1 4 ∧
+      Signals.QuantumCausalInference.osidMultiProbeEquationCount 1 3 <
+        Signals.QuantumCausalInference.osidHankelParamCount 3 ∧
+      Signals.QuantumCausalInference.osidHankelParamCount 3 ≤
+        Signals.QuantumCausalInference.osidMultiProbeEquationCount 2 3 ∧
+      Signals.QuantumCausalInference.osidObservationalSlope c_true b_conf -
+          Signals.QuantumCausalInference.osidDoInterventionalSlope c_true b_conf = b_conf ∧
+      Signals.QuantumCausalInference.osidQcrbVarianceLowerBound 1 g_fs = (4 * g_fs)⁻¹ ∧
+      Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat kBT_ln2 fidelity q_overhead <
+        Signals.QuantumCausalInference.osidMultiShotClosedLoopHeat m_shots kBT_ln2 fidelity q_overhead := by
+  have h := Signals.QuantumCausalInference.qci_osid_cauchy_binet_hankel_do_qfim_and_landauer_identities
+    a0 a1 a2 b0 b1 b2 lam c1 c2 3 (by decide) (by decide) f0 f1 g0 g1
+    c_true b_conf alpha x_obs y_obs x_cf g_fs m_shots kBT_ln2 fidelity q_overhead
+    hg_fs hm hk hq
+  exact ⟨h.1, h.2.2.1, by unfold Signals.QuantumCausalInference.osidCirculantParamCount Signals.QuantumCausalInference.osidMultiProbeEquationCount; omega,
+    h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
+example (theta_j theta_udd lam a b w0 w1 eps delta_m lam2_lo lam2_hi : ℝ)
+    (hudd : theta_udd ≠ 0) (hlam : lam ≠ 0)
+    (heps : 0 ≤ eps) (hdm : 0 ≤ delta_m) (hl2_pos : 0 < lam2_lo) (hl2_le : lam2_lo ≤ lam2_hi)
+    (k m n n_chain : ℕ) (hn_chain : 10 ≤ n_chain)
+    (n_boxes nu_reps energy z_min zp_sq : ℝ)
+    (hnb : 0 < n_boxes) (hnu : 0 < nu_reps) (hen : 0 < energy) (hzp : 0 < zp_sq)
+    (hcross : 8 * energy < z_min ^ 2 * n_boxes ^ 2) :
+    Signals.QuantumCausalInference.osidDuffingNormalizedCoeff (lam * theta_j) (lam * theta_udd) =
+        Signals.QuantumCausalInference.osidDuffingNormalizedCoeff theta_j theta_udd ∧
+      Signals.QuantumCausalInference.osidEllipticModeKernelResidual ((n : ℝ) ^ 2) (-((m : ℝ) ^ 2)) k m n = 0 ∧
+      Signals.QuantumCausalInference.osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) b (-a) = 0 ∧
+      Signals.QuantumCausalInference.osidQiRanardSpinChainParamDim n_chain <
+        Signals.QuantumCausalInference.osidQiRanardHilbertRealDim n_chain ∧
+      Signals.QuantumCausalInference.osidQiRanardDavisKahanBound eps delta_m lam2_hi ≤
+        Signals.QuantumCausalInference.osidQiRanardDavisKahanBound eps delta_m lam2_lo ∧
+      Signals.QuantumCausalInference.osidZhaoSwitchRmseSq nu_reps n_boxes <
+        Signals.QuantumCausalInference.osidZhaoFixedOrderRmseSq z_min nu_reps energy n_boxes ∧
+      Signals.QuantumCausalInference.osidZhaoSwitchHeterodyneRmseSq nu_reps n_boxes zp_sq <
+        Signals.QuantumCausalInference.osidZhaoSwitchRmseSq nu_reps n_boxes ∧
+      (18 : ℝ) ≤ Signals.QuantumCausalInference.osidGoswamiWitnessSigmaMargin 0 (-171 / 1000) (9 / 1000) := by
+  have h := Signals.QuantumCausalInference.qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_identities
+    theta_j theta_udd lam hudd hlam k m n n_chain hn_chain a b w0 w1 eps delta_m lam2_lo lam2_hi
+    heps hdm hl2_pos hl2_le n_boxes nu_reps energy z_min zp_sq hnb hnu hen hzp hcross
+  exact ⟨h.1, h.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1⟩
+
+example (n_occ n_orb : ℕ) (h_occ_lt : n_occ < n_orb) (h_orb_pos : 0 < n_orb)
+    (p_pure p_mix : ℝ)
+    (hp_pure_lo : (1 / 2 : ℝ) < p_pure) (hp_pure_hi : p_pure < 1)
+    (hp_mix_lo : 0 < p_mix) (hp_mix_hi : p_mix < (1 / 2 : ℝ))
+    (sigma_1 dim_basis lambda2 theta_target : ℝ)
+    (hsig : 0 < sigma_1) (hdim : 0 < dim_basis) (hl2 : 0 < lambda2) (hth : 0 < theta_target) :
+    Signals.QuantumCausalInference.osidTequilaSparsePluckerBytes n_occ <
+        Signals.QuantumCausalInference.osidTequilaStatevectorBytes n_orb ∧
+      Signals.QuantumCausalInference.osidTequilaStatevectorBytes n_orb <
+        Signals.QuantumCausalInference.osidTequilaDensityMatrixBytes n_orb ∧
+      p_pure < Signals.QuantumCausalInference.osidTequilaMcWeenyPoly p_pure ∧
+      Signals.QuantumCausalInference.osidTequilaMcWeenyPoly p_mix < p_mix ∧
+      Signals.QuantumCausalInference.osidTequilaShotNoiseDavisKahanBound sigma_1 dim_basis lambda2
+        (Signals.QuantumCausalInference.osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target) =
+          theta_target ∧
+      Signals.QuantumCausalInference.osidTequilaShotCountRequired sigma_1 dim_basis (lambda2 / 2) theta_target =
+        4 * Signals.QuantumCausalInference.osidTequilaShotCountRequired sigma_1 dim_basis lambda2 theta_target := by
+  have h := Signals.QuantumCausalInference.qci_osid_tequila_backend_advantages_and_disadvantages_identities
+    n_occ n_orb h_occ_lt h_orb_pos p_pure p_mix hp_pure_lo hp_pure_hi hp_mix_lo hp_mix_hi
+    sigma_1 dim_basis lambda2 theta_target hsig hdim hl2 hth
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2⟩
+
+example (u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual : ℝ)
+    (m_shots : ℕ) (hm : 0 < m_shots)
+    (hfwd : 0 < g_fs_fwd) (hdual : 0 < g_fs_dual) :
+    4 * Signals.QuantumCausalInference.osidSatoKp2WeakOperatorCombination
+          u_xt u_xxxx u2_xx u_yy (-1 / 4) (-3 / 4) (-3 / 4) =
+        4 * u_xt - u_xxxx - 3 * u2_xx - 3 * u_yy ∧
+      Signals.QuantumCausalInference.osidSatoKdv1SolitonGalileanKernel alpha c_wave u_x = 0 ∧
+      Signals.QuantumCausalInference.osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual =
+        4 * (g_fs_fwd + g_fs_dual) ∧
+      ((m_shots : ℝ) * Signals.QuantumCausalInference.osidSatoDualSchubertTotalQfim g_fs_fwd g_fs_dual)⁻¹ <
+        Signals.QuantumCausalInference.osidQcrbVarianceLowerBound m_shots g_fs_fwd := by
+  have h := Signals.QuantumCausalInference.qci_osid_sato_positroid_akns_and_qfim_bridge_identities
+    u_xt u_xxxx u2_xx u_yy alpha c_wave u_x g_fs_fwd g_fs_dual m_shots hm hfwd hdual
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2⟩
+
+example {N : ℕ} (k_amps δ : Fin N → ℝ) (k3 δ3 : Fin 3 → ℝ)
+    (h01 : k3 0 + k3 1 ≠ 0) (h02 : k3 0 + k3 2 ≠ 0) (h12 : k3 1 + k3 2 ≠ 0)
+    (k_kn n_kn : ℕ) (κ : Fin n_kn → ℝ) (p : Finset (Fin n_kn) → ℝ)
+    (hκ : StrictMono κ)
+    (hNN : ∀ I ∈ Finset.univ.powersetCard k_kn, 0 ≤ p I)
+    (hPos : ∃ I ∈ Finset.univ.powersetCard k_kn, 0 < p I)
+    (x y t : ℝ) :
+    0 < (Signals.SatoGrassmannian.PDESolver.solitonTauKN k_kn n_kn κ p (x : ℂ) (y : ℂ) (t : ℂ)).re ∧
+      0 < (Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k_amps δ (x : ℂ) (y : ℂ) (t : ℂ)).re ∧
+      Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k_amps δ (x : ℂ) (y : ℂ) (t : ℂ) =
+        Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k_amps δ (x : ℂ) 0 (t : ℂ) ∧
+      Signals.SatoGrassmannian.HirotaKP.hirotaKP
+        (Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau k3 δ3) (x : ℂ) (y : ℂ) (t : ℂ) = 0 := by
+  have hkn := Signals.SatoGrassmannian.PDESolver.solitonTauKN_pos_of_totallyNonneg
+    k_kn n_kn κ p hκ hNN hPos x y t
+  have hkdv := Signals.SatoGrassmannian.PDESolver.kdvNSolitonTau_pos_and_y_invariant k_amps δ
+  have h3 := Signals.SatoGrassmannian.PDESolver.hirotaKP_kdv3SolitonTau_eq_zero
+    k3 δ3 h01 h02 h12 (x : ℂ) (y : ℂ) (t : ℂ)
+  exact ⟨hkn.1, (hkdv.1 x y t).1, hkdv.2 (x : ℂ) (y : ℂ) (t : ℂ), h3⟩
+
 end SignalsTests

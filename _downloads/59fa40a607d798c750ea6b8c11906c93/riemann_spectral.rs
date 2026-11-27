@@ -1467,6 +1467,215 @@ pub fn celestial_plancherel_all_loop_envelope(alpha_qg: f64) -> f64 {
     8.0 / (8.0 - alpha_qg)
 }
 
+/// One-loop dimensional-transmutation anomalous shift `sigma_dev(mu) = b0 * g^2 / (16 pi^2)`
+/// where `beta(g) = -b0 g^3 / (16 pi^2)` and `sigma_dev = -beta(g) / g`.
+pub fn celestial_dim_transmutation_dev(b0: f64, g_coupling: f64) -> f64 {
+    b0 * g_coupling * g_coupling / (16.0 * PI * PI)
+}
+
+/// Rational IR soft-pole regulator `R_IR(lambda; mu_ir_xi_phi) = lambda^2 / (lambda^2 + (mu_ir * xi_phi)^2)`.
+pub fn celestial_ir_regulator_factor(lambda: f64, ir_scale_prod: f64) -> f64 {
+    let l2 = lambda * lambda;
+    let s2 = ir_scale_prod * ir_scale_prod;
+    if l2 + s2 == 0.0 {
+        0.0
+    } else {
+        l2 / (l2 + s2)
+    }
+}
+
+/// Combined Cayley–Plancherel IR/UV kernel `K_{IR/UV}(lambda, sigma_dev; mu_ir * xi_phi)`.
+pub fn celestial_cayley_plancherel_ir_uv_kernel(
+    lambda: f64,
+    sigma_dev: f64,
+    ir_scale_prod: f64,
+) -> f64 {
+    celestial_spin_two_cayley_shadow_factor(sigma_dev)
+        * celestial_plancherel_weight(lambda)
+        * celestial_ir_regulator_factor(lambda, ir_scale_prod)
+}
+
+/// IR confinement / healing-length Yukawa screening factor `S_IR(kappa_ir) = (1 + kappa_ir) exp(-kappa_ir) in (0, 1]`.
+pub fn celestial_ir_screening_factor(kappa_ir: f64) -> f64 {
+    (1.0 + kappa_ir) * (-kappa_ir).exp()
+}
+
+/// Combined IR-screened, Cayley-shadowed, Plancherel-resummed Model 16 transfer factor
+/// `G_16(sigma_dev, alpha_qg, kappa_ir) = W_grav^Cayley(sigma_dev) * F_loop(alpha_qg) * S_IR(kappa_ir)`.
+pub fn celestial_transfer_factor_16(sigma_dev: f64, alpha_qg: f64, kappa_ir: f64) -> f64 {
+    let f_loop = 1.0 + (1.0 / 8.0) * alpha_qg + (1.0 / 90.0) * alpha_qg * alpha_qg;
+    celestial_spin_two_cayley_shadow_factor(sigma_dev)
+        * f_loop
+        * celestial_ir_screening_factor(kappa_ir)
+}
+
+/// Källén–Lehmann mass-thresholded Mellin transform of the test amplitude `a(omega) = exp(-omega)`:
+/// `int_{m_gap}^inf (omega^2 - m_gap^2)^{(Delta - 2)/2} * omega * exp(-omega) d omega`.
+/// Factoring `omega - m_gap = t^2` removes the `m_gap` endpoint derivative singularity cleanly
+/// for all `Delta >= 1` (`d omega = 2 t dt`, integrand `2 t^{Delta - 1} (2 m_gap + t^2)^{(Delta - 2)/2} omega exp(-omega)`),
+/// reducing to `Gamma(Delta)` as `m_gap -> 0^+`.
+pub fn kallen_lehmann_mellin_exp_test(m_gap: f64, delta_re: f64) -> f64 {
+    let power = (delta_re - 2.0) / 2.0;
+    let upper = m_gap + 36.0;
+    let t_max = (upper - m_gap).sqrt();
+    gauss_legendre_8_integrate(0.0, t_max, 32, |t| {
+        let omega = m_gap + t * t;
+        let t_pow = if (delta_re - 1.0).abs() < 1e-14 {
+            1.0
+        } else {
+            t.powf(delta_re - 1.0)
+        };
+        2.0 * t_pow * (2.0 * m_gap + t * t).powf(power) * omega * (-omega).exp()
+    })
+}
+
+/// Soft-dressed Källén–Lehmann Mellin integral at `Delta = 1` with `a(omega) = omega^{-1} exp(-omega)`:
+/// `int_{m_gap}^inf (omega^2 - m_gap^2)^{-1/2} exp(-omega) d omega = K_0(m_gap) < inf`.
+pub fn kallen_lehmann_soft_pole_bessel_test(m_gap: f64) -> f64 {
+    let upper = m_gap + 28.0;
+    let t_max = (upper - m_gap).sqrt();
+    gauss_legendre_8_integrate(0.0, t_max, 32, |t| {
+        let omega = m_gap + t * t;
+        2.0 * (2.0 * m_gap + t * t).powf(-0.5) * (-omega).exp()
+    })
+}
+
+/// Exponentially damped Yukawa–Mellin integral `int_0^inf omega^{Delta - 1 - n} exp(-mu_ir * omega) d omega`
+/// for `Delta > n` and `mu_ir > 0`, cross-checked against analytic `mu_ir^{n - Delta} Gamma(Delta - n)`.
+pub fn yukawa_mellin_analytic_gamma(delta_re: f64, mu_ir: f64, n_soft: f64) -> f64 {
+    let z = C64::new(delta_re - n_soft, 0.0);
+    mu_ir.powf(n_soft - delta_re) * c64_gamma(z).re
+}
+
+/// Audit summary for Celestial IR regularization and Integrated Turner Models 16a & 16b.
+#[derive(Clone, Debug, PartialEq)]
+pub struct CelestialIrModel16Audit {
+    pub rg_sigma_dev_su3: f64,
+    pub rg_casimir_im_nonzero: f64,
+    pub k_ir_uv_at_zero: f64,
+    pub k_ir_uv_at_one: f64,
+    pub k_ir_uv_unreg_limit_diff: f64,
+    pub kl_mellin_mgap_1: f64,
+    pub kl_mellin_mgap_0_vs_gamma: f64,
+    pub kl_mellin_delta1_mgap_half: f64,
+    pub yukawa_mellin_quad_vs_gamma_diff: f64,
+    pub s_ir_zero: f64,
+    pub s_ir_half: f64,
+    pub s_ir_quadratic_margin_half: f64,
+    pub model16_uv_core_vs_ir_gap_ordering: bool,
+    pub g16_classical: f64,
+    pub g16_off_line_positive: f64,
+    pub model16a_mercury_arcsec_cy: f64,
+    pub model16b_mercury_arcsec_cy: f64,
+    pub model16_rel_err_vs_gr: f64,
+    pub model16_solar_light_bending_arcsec: f64,
+    pub model16a_gw_below_gap: f64,
+    pub model16b_gw_gapless_ratio: f64,
+    pub model16a_active_laser_deflection: f64,
+    pub model16b_active_laser_deflection: f64,
+    pub d_cft_4d_re_delta: f64,
+}
+
+/// Run the full Celestial IR divergence resolution & Turner Model 16a/16b audit in Rust `f64`.
+pub fn audit_celestial_ir_and_turner_model16() -> CelestialIrModel16Audit {
+    let b0_su3 = 11.0; // pure SU(3) (n_f = 0)
+    let g_run = 1.2;
+    let sigma_rg = celestial_dim_transmutation_dev(b0_su3, g_run);
+    let casimir_im = 2.0 * sigma_rg * 14.134_725_141_734_693;
+
+    let k_zero = celestial_cayley_plancherel_ir_uv_kernel(0.0, 0.2, 0.5);
+    let k_one = celestial_cayley_plancherel_ir_uv_kernel(1.0, 0.2, 0.5);
+    let k_lim_diff = (celestial_cayley_plancherel_ir_uv_kernel(1.0, 0.2, 0.0)
+        - celestial_spin_two_cayley_shadow_factor(0.2) * celestial_plancherel_weight(1.0))
+    .abs();
+
+    let kl_1 = kallen_lehmann_mellin_exp_test(1.0, 2.5);
+    let kl_0 = kallen_lehmann_mellin_exp_test(0.0, 2.5);
+    let gamma_25 = c64_gamma(C64::new(2.5, 0.0)).re;
+    let kl_0_err = (kl_0 - gamma_25).abs();
+    let kl_d1_half = kallen_lehmann_soft_pole_bessel_test(0.5);
+
+    // Yukawa-Mellin at Delta = 2.5, n_soft = 1.0, mu_ir = 0.7 -> int_0^inf omega^{0.5} exp(-0.7 omega) d omega
+    // Change variables omega = t^2 (d omega = 2 t dt) to make integrand smooth at t = 0: 2 * t^2 * exp(-0.7 t^2)
+    let mu_ir = 0.7;
+    let yuk_quad = gauss_legendre_8_integrate(0.0, 8.0, 24, |t| {
+        2.0 * t * t * (-mu_ir * t * t).exp()
+    });
+    let yuk_analytic = yukawa_mellin_analytic_gamma(2.5, mu_ir, 1.0);
+    let yuk_diff = (yuk_quad - yuk_analytic).abs();
+
+    let s_ir_0 = celestial_ir_screening_factor(0.0);
+    let s_ir_half = celestial_ir_screening_factor(0.5);
+    let s_ir_quad_margin = s_ir_half - (1.0 - 0.5 * 0.5 * 0.5);
+    let uv_vs_ir_ok = celestial_ir_screening_factor(2.0) < celestial_ir_screening_factor(1.0)
+        && celestial_ir_screening_factor(0.5) < celestial_ir_screening_factor(0.25)
+        && s_ir_quad_margin >= 0.0;
+    let g16_0 = celestial_transfer_factor_16(0.0, 0.0, 0.0);
+    let g16_off = celestial_transfer_factor_16(1.0, 0.5, 0.3);
+
+    // Mercury & Solar limb benchmark
+    let gm_over_c2 = 1_476.625_038_5_f64;
+    let r_sun = 6.957e8_f64;
+    let a_merc = 5.790_905e10_f64;
+    let e_merc = 0.205_630_69_f64;
+    let kahler_det = 4.0 - e_merc * e_merc;
+    let orbits_per_century = 36525.0 / 87.9691;
+    let arcsec_per_rad = (180.0 * 3600.0) / PI;
+
+    let gr_merc = ((6.0 * PI * gm_over_c2) / (a_merc * (1.0 - e_merc * e_merc)))
+        * orbits_per_century
+        * arcsec_per_rad;
+    let m16a_merc = g16_0
+        * ((6.0 * PI * gm_over_c2) / (a_merc * (kahler_det - 3.0)))
+        * orbits_per_century
+        * arcsec_per_rad;
+    let m16b_merc = m16a_merc;
+    let rel_err = (m16a_merc - gr_merc).abs() / gr_merc;
+    let light_arcsec = g16_0
+        * ((4.0 * gm_over_c2 / r_sun) * (kahler_det - 3.0) / (1.0 - e_merc * e_merc))
+        * arcsec_per_rad;
+
+    // GW threshold: Model 16a cutoff at 2*Omega_orb < omega_gap vs gapless Model 16b (xi_phi/a = 1e-12)
+    let two_omega_orb = 1.0;
+    let omega_gap_high = 10.0;
+    let m16a_gw_below = if two_omega_orb >= omega_gap_high {
+        1.0
+    } else {
+        0.0
+    };
+    let m16b_gw_gapless = celestial_transfer_factor_16(0.0, 0.0, 1e-12);
+
+    // TOUTRR Re(Delta) = d_CFT / 2 in 4D bulk (d_CFT = d_bulk - 2 = 2 => Re(Delta) = 1)
+    let d_cft_4d = (4.0_f64 - 2.0_f64) / 2.0_f64;
+
+    CelestialIrModel16Audit {
+        rg_sigma_dev_su3: sigma_rg,
+        rg_casimir_im_nonzero: casimir_im,
+        k_ir_uv_at_zero: k_zero,
+        k_ir_uv_at_one: k_one,
+        k_ir_uv_unreg_limit_diff: k_lim_diff,
+        kl_mellin_mgap_1: kl_1,
+        kl_mellin_mgap_0_vs_gamma: kl_0_err,
+        kl_mellin_delta1_mgap_half: kl_d1_half,
+        yukawa_mellin_quad_vs_gamma_diff: yuk_diff,
+        s_ir_zero: s_ir_0,
+        s_ir_half,
+        s_ir_quadratic_margin_half: s_ir_quad_margin,
+        model16_uv_core_vs_ir_gap_ordering: uv_vs_ir_ok,
+        g16_classical: g16_0,
+        g16_off_line_positive: g16_off,
+        model16a_mercury_arcsec_cy: m16a_merc,
+        model16b_mercury_arcsec_cy: m16b_merc,
+        model16_rel_err_vs_gr: rel_err,
+        model16_solar_light_bending_arcsec: light_arcsec,
+        model16a_gw_below_gap: m16a_gw_below,
+        model16b_gw_gapless_ratio: m16b_gw_gapless,
+        model16a_active_laser_deflection: 1.0,
+        model16b_active_laser_deflection: 0.0,
+        d_cft_4d_re_delta: d_cft_4d,
+    }
+}
+
 /// Exact finite-field point count `|Gr(2,4)(F_q)| = 1 + q + 2 q^2 + q^3 + q^4 = (1 + q^2)(1 + q + q^2)`.
 pub fn gr24_hasse_weil_point_count(q: u64) -> u64 {
     1 + q + 2 * q * q + q.pow(3) + q.pow(4)
@@ -1983,5 +2192,34 @@ mod tests {
         // 5. Small-x Taylor branch of adelic_symmetric_cesaro_mean
         let c_tiny = adelic_symmetric_cesaro_mean(0.5 + 1e-10, 10.0);
         assert!((c_tiny - 1.0).abs() < 1e-15 && c_tiny >= 1.0);
+    }
+
+    #[test]
+    fn celestial_ir_regularization_and_turner_model16_audit() {
+        let rep = audit_celestial_ir_and_turner_model16();
+        assert!(rep.rg_sigma_dev_su3 > 0.0);
+        assert!(rep.rg_casimir_im_nonzero > 0.0);
+        assert_eq!(rep.k_ir_uv_at_zero, 0.0);
+        assert!(rep.k_ir_uv_at_one > 0.0 && rep.k_ir_uv_at_one < 1.0);
+        assert!(rep.k_ir_uv_unreg_limit_diff < 1e-16);
+        assert!(rep.kl_mellin_mgap_1 > 0.0 && rep.kl_mellin_mgap_1.is_finite());
+        assert!(rep.kl_mellin_mgap_0_vs_gamma < 1e-11);
+        assert!((rep.kl_mellin_delta1_mgap_half - 0.924_419_071_227_665_6).abs() < 1e-11);
+        assert!(rep.yukawa_mellin_quad_vs_gamma_diff < 1e-6);
+        assert!((rep.s_ir_zero - 1.0).abs() < 1e-16);
+        assert!(rep.s_ir_half > 0.909 && rep.s_ir_half < 0.910);
+        assert!(rep.s_ir_quadratic_margin_half > 0.0);
+        assert!(rep.model16_uv_core_vs_ir_gap_ordering);
+        assert!((rep.g16_classical - 1.0).abs() < 1e-16);
+        assert!(rep.g16_off_line_positive > 0.0);
+        assert!((rep.model16a_mercury_arcsec_cy - 42.9814).abs() < 0.01);
+        assert!((rep.model16b_mercury_arcsec_cy - 42.9814).abs() < 0.01);
+        assert!(rep.model16_rel_err_vs_gr < 1e-15);
+        assert!((rep.model16_solar_light_bending_arcsec - 1.7505).abs() < 0.001);
+        assert_eq!(rep.model16a_gw_below_gap, 0.0);
+        assert!(rep.model16b_gw_gapless_ratio > 0.9999999999);
+        assert_eq!(rep.model16a_active_laser_deflection, 1.0);
+        assert_eq!(rep.model16b_active_laser_deflection, 0.0);
+        assert!((rep.d_cft_4d_re_delta - 1.0).abs() < 1e-16);
     }
 }

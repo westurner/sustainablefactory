@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Written Plan: Constructive Gap-Closure Contracts and Unified Certificate Solvers for SatoRiemannSpectralPendingBoundary &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" />
+    <link rel="prev" title="Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Written Plan: Constructive Gap-Closure Contracts and Unified Certificate Solvers for <code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code></a><ul>
+<li><a class="reference internal" href="#epistemic-scope-overlapping-signals-pending-boundaries">1. Epistemic Scope &amp; Overlapping <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Boundaries</a></li>
+<li><a class="reference internal" href="#phased-workstreams-srs-1-through-srs-5">2. Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">SRS-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>)</a><ul>
+<li><a class="reference internal" href="#srs-1-axiom-free-finite-dimensional-fredholmdettheory-critical-line-det3-anomaly"><code class="docutils literal notranslate"><span class="pre">SRS-1</span></code>: Axiom-Free Finite-Dimensional <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> &amp; Critical-Line <code class="docutils literal notranslate"><span class="pre">det₃</span></code> Anomaly</a></li>
+<li><a class="reference internal" href="#srs-2-infinite-series-l-1-mathbb-r-weil-positivity-bridge-theorems"><code class="docutils literal notranslate"><span class="pre">SRS-2</span></code>: Infinite-Series <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity &amp; Bridge Theorems</a></li>
+<li><a class="reference internal" href="#srs-3-unified-constructive-certificate-solvers-in-signals-pending"><code class="docutils literal notranslate"><span class="pre">SRS-3</span></code>: Unified Constructive Certificate Solvers in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code></a></li>
+<li><a class="reference internal" href="#srs-4-rust-pyo3-sympy-mpmath-audits"><code class="docutils literal notranslate"><span class="pre">SRS-4</span></code>: Rust/PyO3 &amp; SymPy/<code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Audits</a></li>
+<li><a class="reference internal" href="#srs-5-documentation-integration-sphinx-html-check-commit"><code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>: Documentation Integration, Sphinx HTML Check, &amp; Commit</a></li>
+<li><a class="reference internal" href="#srs-6-srs-7-unified-extension-finite-rank-axiom-free-finiterankdet-strip-sub-gaussian-weilgaussianl1"><code class="docutils literal notranslate"><span class="pre">SRS-6</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">SRS-7</span></code>: Unified Extension (Finite-Rank Axiom-Free <code class="docutils literal notranslate"><span class="pre">finiteRankDet</span></code> &amp; Strip Sub-Gaussian <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html" title="Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy" accesskey="P">previous </a></li>
+              <li><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/sato-riemann-spectral-pending-closure-plan.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Written Plan: Constructive Gap-Closure Contracts and Unified Certificate Solvers for <code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code></a><ul>
+<li><a class="reference internal" href="#epistemic-scope-overlapping-signals-pending-boundaries">1. Epistemic Scope &amp; Overlapping <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Boundaries</a></li>
+<li><a class="reference internal" href="#phased-workstreams-srs-1-through-srs-5">2. Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">SRS-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>)</a><ul>
+<li><a class="reference internal" href="#srs-1-axiom-free-finite-dimensional-fredholmdettheory-critical-line-det3-anomaly"><code class="docutils literal notranslate"><span class="pre">SRS-1</span></code>: Axiom-Free Finite-Dimensional <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> &amp; Critical-Line <code class="docutils literal notranslate"><span class="pre">det₃</span></code> Anomaly</a></li>
+<li><a class="reference internal" href="#srs-2-infinite-series-l-1-mathbb-r-weil-positivity-bridge-theorems"><code class="docutils literal notranslate"><span class="pre">SRS-2</span></code>: Infinite-Series <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity &amp; Bridge Theorems</a></li>
+<li><a class="reference internal" href="#srs-3-unified-constructive-certificate-solvers-in-signals-pending"><code class="docutils literal notranslate"><span class="pre">SRS-3</span></code>: Unified Constructive Certificate Solvers in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code></a></li>
+<li><a class="reference internal" href="#srs-4-rust-pyo3-sympy-mpmath-audits"><code class="docutils literal notranslate"><span class="pre">SRS-4</span></code>: Rust/PyO3 &amp; SymPy/<code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Audits</a></li>
+<li><a class="reference internal" href="#srs-5-documentation-integration-sphinx-html-check-commit"><code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>: Documentation Integration, Sphinx HTML Check, &amp; Commit</a></li>
+<li><a class="reference internal" href="#srs-6-srs-7-unified-extension-finite-rank-axiom-free-finiterankdet-strip-sub-gaussian-weilgaussianl1"><code class="docutils literal notranslate"><span class="pre">SRS-6</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">SRS-7</span></code>: Unified Extension (Finite-Rank Axiom-Free <code class="docutils literal notranslate"><span class="pre">finiteRankDet</span></code> &amp; Strip Sub-Gaussian <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"
+                          title="previous chapter">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"
+                          title="next chapter">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> in Lean 4, Rust/PyO3, and <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sato-riemann-spectral-pending-closure-plan.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="written-plan-constructive-gap-closure-contracts-and-unified-certificate-solvers-for-satoriemannspectralpendingboundary">
+<span id="sato-riemann-spectral-pending-closure-plan"></span><h1>Written Plan: Constructive Gap-Closure Contracts and Unified Certificate Solvers for <code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code><a class="headerlink" href="#written-plan-constructive-gap-closure-contracts-and-unified-certificate-solvers-for-satoriemannspectralpendingboundary" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Author:</strong> Wes Turner</p></li>
+<li><p><strong>Owning Papers:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"><span class="std std-doc">Adelic Carleman–Weierstrass Regularized Determinants (<span class="math notranslate nohighlight">\(\det_2, \det_3\)</span>), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, and Formal Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code></span></a> (Section 7)</p></li>
+<li><p><a class="reference internal" href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html"><span class="std std-doc">Formalizing the Infinite-Dimensional Sato Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_p(H)\)</span>, Plabic <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\ge 0}(2,4)\)</span> KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Companion Papers &amp; Overlapping Pending Boundaries Integrated:</strong></p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"><span class="std std-doc">Finite Spectral Contracts for Riemann Hypothesis Approaches (<code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>)</span></a> &amp; <a class="reference internal" href="riemann-spectral-bridges-plan.html"><span class="std std-doc">RH Analytical Bridges Plan</span></a> (<code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary</span></code>)</p></li>
+<li><p><a class="reference internal" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"><span class="std std-doc">Celestial Holography, Plancherel–Unruh Graviton Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), &amp; Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">15a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">15b</span></code></span></a> (<code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code>)</p></li>
+<li><p><a class="reference internal" href="yang-mills-higgs-cpt-pending-closure-plan.html"><span class="std std-doc">Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></span></a> (<code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code>)</p></li>
+<li><p><a class="reference internal" href="grassmannian-quantum-trajectories-bohmian-weak-nonlinear-optics-paper.html"><span class="std std-doc">Quantum Trajectories in Complex Grassmannian <span class="math notranslate nohighlight">\(\mathrm{Gr}_{\mathbb{C}}(k,n)\)</span>, Three-Channel Plücker–Madelung–QFIM, &amp; DDF Mechanics</span></a> (<code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law</span></code>, <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Primary Source Provenance:</strong></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/81119aa9c644349562afd944c47272db/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Formalizing-Sato-Grassmannian-in-Lean_20261120-2337.md</span></code></a> (Blocks 008–017, lines 4336–11306)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/199253dbeb058a5aa5d9092f77030d8c/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Gemini_Quantum-Causal-Grassmannian-Monograph-Review_20261118-1629.md</span></code></a> (lines 2348–5728)</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="epistemic-scope-overlapping-signals-pending-boundaries">
+<h2>1. Epistemic Scope &amp; Overlapping <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> Boundaries<a class="headerlink" href="#epistemic-scope-overlapping-signals-pending-boundaries" title="Link to this heading">¶</a></h2>
+<p>In Section 7 of <a class="reference internal" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"><span class="std std-doc">grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.md</span></a> and <code class="docutils literal notranslate"><span class="pre">Signals.Pending.SatoRiemannSpectralPendingBoundary</span></code> (<a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a>), four open gates separate our verified 21-module <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian</span></code> stack from closing <code class="docutils literal notranslate"><span class="pre">allSatoGatesClosed</span></code>. Moreover, inspecting <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code> reveals <strong>direct structural overlaps</strong> across four related boundaries:</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary</span></code></strong> is embedded simultaneously inside <strong><code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code></strong> (<code class="docutils literal notranslate"><span class="pre">rhBoundary</span></code>) and <strong><code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code></strong> (<code class="docutils literal notranslate"><span class="pre">rhBoundary</span></code>), yet neither <code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary</span></code>, <code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code>, nor <code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code> previously possessed constructive certificate types or <code class="docutils literal notranslate"><span class="pre">ofCertificates</span></code> / <code class="docutils literal notranslate"><span class="pre">solved_of_certificates</span></code> solvers.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary.yangMillsContinuumSpectralTransferBridge</span></code></strong> overlaps directly with Gates 1 and 2 (<code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code> and <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code>) already formalized for <strong><code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></strong>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary.mathlibLidskiiFredholmDetConstructed</span></code></strong> (<code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> in <code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code>) lacked both a concrete axiom-free <code class="docutils literal notranslate"><span class="pre">FiniteDimensional</span></code> instance via Mathlib <code class="docutils literal notranslate"><span class="pre">LinearMap.det</span></code> and the order-3 critical-line multiplicative anomaly <code class="docutils literal notranslate"><span class="pre">det3Diag_mul_anomaly</span></code> on <span class="math notranslate nohighlight">\(\ell^3\)</span> (<span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span>, where <code class="docutils literal notranslate"><span class="pre">det2Diag</span></code> diverges).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary.globalInfiniteZeroWeilBridge</span></code></strong> (<code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code>) handled only finite <code class="docutils literal notranslate"><span class="pre">Finset</span> <span class="pre">ℂ</span></code> zero sets rather than countably infinite strip-bounded zero sequences <code class="docutils literal notranslate"><span class="pre">(z</span> <span class="pre">:</span> <span class="pre">ℕ</span> <span class="pre">→</span> <span class="pre">ℂ,</span> <span class="pre">m</span> <span class="pre">:</span> <span class="pre">ℕ</span> <span class="pre">→</span> <span class="pre">ℕ)</span></code> with explicit <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> super-Gaussian decay and tail-dominated off-line disproof bounds.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary.evanescentQfimExperimentalValidation</span></code></strong> overlaps with <code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law</span></code>, <code class="docutils literal notranslate"><span class="pre">DDFFractureCommunicationEvidence</span></code>, <code class="docutils literal notranslate"><span class="pre">ComplexGrassmannianGPEAndPluckerMadelungHypothesis</span></code>, and <code class="docutils literal notranslate"><span class="pre">ControlledMeasurement</span></code> telemetry records in <code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code>.</p></li>
+</ol>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Open Gate / Overlapping Boundary</p></th>
+<th class="head"><p>Root Obstruction in Section 7 &amp; <code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code></p></th>
+<th class="head"><p>Constructive Solution &amp; Formal Contract Implemented (<code class="docutils literal notranslate"><span class="pre">SRS-1</span></code>–<code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Gate 1 (<code class="docutils literal notranslate"><span class="pre">rhBoundary</span> <span class="pre">:</span> <span class="pre">RiemannHypothesisPendingBoundary</span></code>)</strong></p></td>
+<td><p>Four global RH bridges (<span class="math notranslate nohighlight">\(\Lambda \le 0\)</span>, adelic Sato trace limit, global Weil/Li/Jensen–Pólya positivity, Hilbert–Pólya self-adjoint operator closure) lacked constructive certificate types and <code class="docutils literal notranslate"><span class="pre">solved_of_certificates</span></code> linking <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code>, <code class="docutils literal notranslate"><span class="pre">RemainingGaps</span></code>, <code class="docutils literal notranslate"><span class="pre">CarlemanWeierstrass</span></code>, <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1</span></code>, and <code class="docutils literal notranslate"><span class="pre">RiemannSpectral</span></code>.</p></td>
+<td><p>Define <code class="docutils literal notranslate"><span class="pre">DeBruijnNewmanUpperCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">AdelicSatoTraceLimitCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">GlobalWeilLiJensenCertificate</span></code>, and <code class="docutils literal notranslate"><span class="pre">SelfAdjointSpectralOperatorCertificate</span></code>; prove <strong><code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary.solved_of_certificates</span></code></strong>, discharging <code class="docutils literal notranslate"><span class="pre">allFourBridgesClosed</span></code>, <code class="docutils literal notranslate"><span class="pre">dBNConstant</span> <span class="pre">Flow</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">AllRealZeros</span> <span class="pre">Ξ</span></code>, adelic <span class="math notranslate nohighlight">\(k=3\)</span> convergence on <code class="docutils literal notranslate"><span class="pre">Re(s)</span> <span class="pre">=</span> <span class="pre">1/2</span></code>, and finite Li/Jensen–Pólya/quartic-dBN bounds.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Gate 2 (<code class="docutils literal notranslate"><span class="pre">mathlibLidskiiFredholmDetConstructed</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code> axiomatized <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> without any concrete axiom-free instance; <code class="docutils literal notranslate"><span class="pre">CarlemanWeierstrass.lean</span></code> proved <code class="docutils literal notranslate"><span class="pre">det2Diag_mul_anomaly</span></code> (<span class="math notranslate nohighlight">\(\sigma &gt; 1/2\)</span>) but lacked <code class="docutils literal notranslate"><span class="pre">det1Diag_mul</span></code> (<span class="math notranslate nohighlight">\(\ell^1\)</span>) and <code class="docutils literal notranslate"><span class="pre">det3Diag_mul_anomaly</span></code> on <span class="math notranslate nohighlight">\(\sigma = 1/2\)</span>.</p></td>
+<td><p><strong>1.</strong> Prove <strong><code class="docutils literal notranslate"><span class="pre">instFredholmDetTheoryOfFiniteDimensional</span></code></strong> in <code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code> using Mathlib <code class="docutils literal notranslate"><span class="pre">LinearMap.det</span></code>, discharging all four <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> axioms with zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> on finite-dimensional truncations.<br><strong>2.</strong> Prove <code class="docutils literal notranslate"><span class="pre">det1Diag_mul</span></code>, <code class="docutils literal notranslate"><span class="pre">det1Diag_single</span></code>, and <strong><code class="docutils literal notranslate"><span class="pre">det3Diag_mul_anomaly</span></code></strong> (via <span class="math notranslate nohighlight">\(P_3(a)+P_3(b)-P_3(a+b+ab) = -ab(a+b+\tfrac{1}{2}ab)\)</span> on <span class="math notranslate nohighlight">\(\ell^3\)</span>) on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span>.<br><strong>3.</strong> Add <code class="docutils literal notranslate"><span class="pre">LidskiiFredholmDetCertificate</span></code> for <code class="docutils literal notranslate"><span class="pre">hardyPolarization</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Gate 3 (<code class="docutils literal notranslate"><span class="pre">globalInfiniteZeroWeilBridge</span></code>)</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code> proved <code class="docutils literal notranslate"><span class="pre">weilPositivity_L1_iff_allRealZeros</span></code> only for finite <code class="docutils literal notranslate"><span class="pre">Finset</span> <span class="pre">ℂ</span></code>.</p></td>
+<td><p>Upgrade <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code> with <strong><code class="docutils literal notranslate"><span class="pre">norm_mellinTransform_shiftedGaussian_strip</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">weilInfiniteSum_nonneg_of_allRealZeros</span></code></strong>, and <strong><code class="docutils literal notranslate"><span class="pre">weilInfiniteSum_neg_of_offline_pair_tail_lt</span></code></strong> for countably infinite strip-bounded zero sequences <code class="docutils literal notranslate"><span class="pre">(z</span> <span class="pre">:</span> <span class="pre">ℕ</span> <span class="pre">→</span> <span class="pre">ℂ,</span> <span class="pre">m</span> <span class="pre">:</span> <span class="pre">ℕ</span> <span class="pre">→</span> <span class="pre">ℕ)</span></code> under explicit tail convergence, plus <code class="docutils literal notranslate"><span class="pre">GlobalInfiniteZeroWeilCertificate</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Gate 4 (<code class="docutils literal notranslate"><span class="pre">evanescentQfimExperimentalValidation</span></code>)</strong></p></td>
+<td><p>Physical Sharoglazova–Klaers evanescent speed and Dual-Schubert QFIM claims lacked a dedicated certificate bridging <code class="docutils literal notranslate"><span class="pre">DualSchubertQFIM.sharoglazova_klaers_evanescent_speed_law</span></code> and <code class="docutils literal notranslate"><span class="pre">ControlledMeasurement</span></code>.</p></td>
+<td><p>Define <code class="docutils literal notranslate"><span class="pre">EvanescentQfimExperimentalCertificate</span></code> tying <code class="docutils literal notranslate"><span class="pre">(ℏ,</span> <span class="pre">m,</span> <span class="pre">E_abs,</span> <span class="pre">J₀,</span> <span class="pre">x)</span></code> and <code class="docutils literal notranslate"><span class="pre">ControlledMeasurement</span></code> calibration to <code class="docutils literal notranslate"><span class="pre">sharoglazova_klaers_evanescent_speed_law</span></code>, and prove <strong><code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary.solved_of_certificates</span></code></strong>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Overlap Closure (<code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code>)</strong></p></td>
+<td><p>Embedded <code class="docutils literal notranslate"><span class="pre">rhBoundary</span></code> and <code class="docutils literal notranslate"><span class="pre">yangMillsContinuumSpectralTransferBridge</span></code> independently of <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code> and <code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary</span></code>.</p></td>
+<td><p>Define <code class="docutils literal notranslate"><span class="pre">MeyerFrechetToGnsCertificate</span></code> and <code class="docutils literal notranslate"><span class="pre">BsdHigherRankEulerCertificate</span></code>; reuse <code class="docutils literal notranslate"><span class="pre">RiemannHypothesisCertificates</span></code>, <code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code>, and <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code> to prove <strong><code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary.solved_of_certificates</span></code></strong>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="phased-workstreams-srs-1-through-srs-5">
+<h2>2. Phased Workstreams (<code class="docutils literal notranslate"><span class="pre">SRS-1</span></code> Through <code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>)<a class="headerlink" href="#phased-workstreams-srs-1-through-srs-5" title="Link to this heading">¶</a></h2>
+<section id="srs-1-axiom-free-finite-dimensional-fredholmdettheory-critical-line-det3-anomaly">
+<h3><code class="docutils literal notranslate"><span class="pre">SRS-1</span></code>: Axiom-Free Finite-Dimensional <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span></code> &amp; Critical-Line <code class="docutils literal notranslate"><span class="pre">det₃</span></code> Anomaly<a class="headerlink" href="#srs-1-axiom-free-finite-dimensional-fredholmdettheory-critical-line-det3-anomaly" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/CarlemanWeierstrass.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/DeterminantBundle.lean</span></code></p></li>
+<li><p><strong>Deliverables (Zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">det1Diag_mul</span></code>, <code class="docutils literal notranslate"><span class="pre">det1Diag_single</span></code>: prove exact <span class="math notranslate nohighlight">\(\ell^1\)</span> trace-class multiplicativity and rank-1 scaling for <code class="docutils literal notranslate"><span class="pre">detKDiag</span> <span class="pre">1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">det3Diag_mul_anomaly</span></code>, <code class="docutils literal notranslate"><span class="pre">det3_eulerPrimes_critical_line_anomaly</span></code>: prove cubic <span class="math notranslate nohighlight">\(\ell^3\)</span> summability of <span class="math notranslate nohighlight">\(ab(a+b+\tfrac{1}{2}ab)\)</span> and the exact order-3 Carleman multiplicative anomaly directly on <span class="math notranslate nohighlight">\(\operatorname{Re}(s) = 1/2\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">instFredholmDetTheoryOfFiniteDimensional</span></code>: construct an axiom-free <code class="docutils literal notranslate"><span class="pre">FredholmDetTheory</span> <span class="pre">P</span> <span class="pre">eP</span> <span class="pre">eM</span></code> instance whenever <code class="docutils literal notranslate"><span class="pre">[FiniteDimensional</span> <span class="pre">ℂ</span> <span class="pre">P.HPlus]</span></code> via <code class="docutils literal notranslate"><span class="pre">LinearMap.det</span></code> and <code class="docutils literal notranslate"><span class="pre">Matrix.det_diagonal</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> passes with zero errors and zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p></li>
+</ul>
+</section>
+<section id="srs-2-infinite-series-l-1-mathbb-r-weil-positivity-bridge-theorems">
+<h3><code class="docutils literal notranslate"><span class="pre">SRS-2</span></code>: Infinite-Series <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity &amp; Bridge Theorems<a class="headerlink" href="#srs-2-infinite-series-l-1-mathbb-r-weil-positivity-bridge-theorems" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/WeilGaussianL1.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/RiemannSpectralBridge.lean</span></code></p></li>
+<li><p><strong>Deliverables (Zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AdmissibleL1All</span></code>, <code class="docutils literal notranslate"><span class="pre">admissibleL1All_gaussianCombo</span></code>, <code class="docutils literal notranslate"><span class="pre">norm_mellinTransform_shiftedGaussian_strip</span></code>: prove uniform super-Gaussian decay <span class="math notranslate nohighlight">\(\lVert\mathcal{M}_{g_a}(z)\rVert \le \sqrt{2\pi}\exp(-\operatorname{Re}(z)^2/2 + B^2/2 + |a|B)\)</span> on horizontal strips <span class="math notranslate nohighlight">\(\lvert\operatorname{Im}(z)\rvert \le B\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weilInfiniteSum</span></code>, <code class="docutils literal notranslate"><span class="pre">weilInfiniteSum_nonneg_of_allRealZeros</span></code>, <code class="docutils literal notranslate"><span class="pre">weilInfiniteSum_neg_of_offline_pair_tail_lt</span></code>: prove infinite-series critical-line nonnegativity and tail-dominated off-line negativity for countably infinite zero sequences <code class="docutils literal notranslate"><span class="pre">(z</span> <span class="pre">:</span> <span class="pre">ℕ</span> <span class="pre">→</span> <span class="pre">ℂ,</span> <span class="pre">m</span> <span class="pre">:</span> <span class="pre">ℕ</span> <span class="pre">→</span> <span class="pre">ℕ)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">det3_critical_line_and_li_cayley_bridge</span></code> and <code class="docutils literal notranslate"><span class="pre">weil_infinite_real_vs_evanescent_qfim_bridge</span></code> in <code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> passes with zero errors and zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p></li>
+</ul>
+</section>
+<section id="srs-3-unified-constructive-certificate-solvers-in-signals-pending">
+<h3><code class="docutils literal notranslate"><span class="pre">SRS-3</span></code>: Unified Constructive Certificate Solvers in <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code><a class="headerlink" href="#srs-3-unified-constructive-certificate-solvers-in-signals-pending" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsPending.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsTests.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/SignalsPendingTests.lean</span></code></p></li>
+<li><p><strong>Deliverables (Zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>):</strong></p>
+<ol class="arabic simple">
+<li><p>Define <code class="docutils literal notranslate"><span class="pre">DeBruijnNewmanUpperCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">AdelicSatoTraceLimitCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">GlobalWeilLiJensenCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">SelfAdjointSpectralOperatorCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary.ofCertificates</span></code>, and <strong><code class="docutils literal notranslate"><span class="pre">RiemannHypothesisPendingBoundary.solved_of_certificates</span></code></strong>.</p></li>
+<li><p>Define <code class="docutils literal notranslate"><span class="pre">LidskiiFredholmDetCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">GlobalInfiniteZeroWeilCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">EvanescentQfimExperimentalCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary.ofCertificates</span></code>, and <strong><code class="docutils literal notranslate"><span class="pre">SatoRiemannSpectralPendingBoundary.solved_of_certificates</span></code></strong>.</p></li>
+<li><p>Define <code class="docutils literal notranslate"><span class="pre">MeyerFrechetToGnsCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">BsdHigherRankEulerCertificate</span></code>, <code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary.ofCertificates</span></code>, and <strong><code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary.solved_of_certificates</span></code></strong> (reusing <code class="docutils literal notranslate"><span class="pre">ContinuumYangMillsOSCertificate</span></code> and <code class="docutils literal notranslate"><span class="pre">CelestialConfiningSpectralCertificate</span></code>).</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">&#64;[blueprint]</span></code> lemmas in <code class="docutils literal notranslate"><span class="pre">SignalsPending.lean</span></code> and regression examples in <code class="docutils literal notranslate"><span class="pre">SignalsTests.lean</span></code> and <code class="docutils literal notranslate"><span class="pre">SignalsPendingTests.lean</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code> succeeds with zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p></li>
+</ul>
+</section>
+<section id="srs-4-rust-pyo3-sympy-mpmath-audits">
+<h3><code class="docutils literal notranslate"><span class="pre">SRS-4</span></code>: Rust/PyO3 &amp; SymPy/<code class="docutils literal notranslate"><span class="pre">mpmath</span></code> Audits<a class="headerlink" href="#srs-4-rust-pyo3-sympy-mpmath-audits" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/sato_grassmannian.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code>, <code class="docutils literal notranslate"><span class="pre">sustainablefactory/sato_grassmannian.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tests/test_sato_grassmannian_sympy_pyo3.py</span></code></p></li>
+<li><p><strong>Deliverables:</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">evaluate_carleman_det3_anomaly</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">py_audit_carleman_det3_anomaly</span></code>: audit <code class="docutils literal notranslate"><span class="pre">det3Diag_mul_anomaly</span></code> at <span class="math notranslate nohighlight">\(\sigma = 1/2, t = \gamma_1\)</span> and <code class="docutils literal notranslate"><span class="pre">det1Diag_mul</span></code> at <span class="math notranslate nohighlight">\(\sigma = 2.0\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">evaluate_weil_infinite_tail_audit</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">py_audit_weil_infinite_tail</span></code>: verify infinite-tail Weil convergence on the first 30 true Riemann zeros plus off-line witness dominance below <span class="math notranslate nohighlight">\(-4\pi\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">evaluate_finite_dim_fredholm_det</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">py_audit_finite_dim_fredholm_det</span></code>: cross-check <code class="docutils literal notranslate"><span class="pre">detFr_rankOne_nilpotent_eq_one</span></code>, <code class="docutils literal notranslate"><span class="pre">detFr_blockLowerTriangular_two</span></code>, and similarity invariance on a truncated Hardy matrix.</p></li>
+<li><p>Exact SymPy proofs + 40-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> cross-checks in <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Gate:</strong> <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">maturin</span> <span class="pre">develop</span> <span class="pre">--release</span></code>, and <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-q</span> <span class="pre">tests/test_sato_grassmannian_sympy_pyo3.py</span></code> all pass.</p></li>
+</ul>
+</section>
+<section id="srs-5-documentation-integration-sphinx-html-check-commit">
+<h3><code class="docutils literal notranslate"><span class="pre">SRS-5</span></code>: Documentation Integration, Sphinx HTML Check, &amp; Commit<a class="headerlink" href="#srs-5-documentation-integration-sphinx-html-check-commit" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Files:</strong> <code class="docutils literal notranslate"><span class="pre">docs/grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/grassmannian-celestial-holography-graviton-turner-riemann-paper.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/plan-index.md</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code></p></li>
+<li><p><strong>Gate:</strong> Zero Markdown scanner findings, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">docs</span> <span class="pre">html</span></code> clean, browser inspection confirms MathJax rendering and zero <code class="docutils literal notranslate"><span class="pre">mjx-merror</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--check</span></code> clean.</p></li>
+</ul>
+</section>
+<section id="srs-6-srs-7-unified-extension-finite-rank-axiom-free-finiterankdet-strip-sub-gaussian-weilgaussianl1">
+<h3><code class="docutils literal notranslate"><span class="pre">SRS-6</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">SRS-7</span></code>: Unified Extension (Finite-Rank Axiom-Free <code class="docutils literal notranslate"><span class="pre">finiteRankDet</span></code> &amp; Strip Sub-Gaussian <code class="docutils literal notranslate"><span class="pre">WeilGaussianL1</span></code>)<a class="headerlink" href="#srs-6-srs-7-unified-extension-finite-rank-axiom-free-finiterankdet-strip-sub-gaussian-weilgaussianl1" title="Link to this heading">¶</a></h3>
+<p>Integrated with <a class="reference internal" href="unified-pending-closure-roadmap-plan.html"><span class="std std-doc">unified-pending-closure-roadmap-plan.md</span></a>:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SRS-6</span></code> (<code class="docutils literal notranslate"><span class="pre">DeterminantBundle.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">SegalWilsonGr24.lean</span></code>):</strong> Prove <code class="docutils literal notranslate"><span class="pre">finiteRankDet</span></code> on arbitrary infinite-dimensional <code class="docutils literal notranslate"><span class="pre">HPlus</span></code> via <span class="math notranslate nohighlight">\(V(F) = \operatorname{range} F \sqcup (\ker F)^\perp\)</span>, prove agreement with <code class="docutils literal notranslate"><span class="pre">instFredholmDetTheoryOfFiniteDimensional</span></code> (<code class="docutils literal notranslate"><span class="pre">finiteRankDet_eq_detFr_of_finiteDimensional</span></code>), and discharge <code class="docutils literal notranslate"><span class="pre">segalWilson_tau_gr24_eq_tauU_axiomFree</span></code> without <code class="docutils literal notranslate"><span class="pre">[FredholmDetTheory]</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SRS-7</span></code> (<code class="docutils literal notranslate"><span class="pre">WeilGaussianL1.lean</span></code>, <code class="docutils literal notranslate"><span class="pre">Pending.lean</span></code>):</strong> Prove <code class="docutils literal notranslate"><span class="pre">norm_mellinTransform_gaussianCombo_strip</span></code> and <code class="docutils literal notranslate"><span class="pre">summable_weilInfinite_gaussianCombo_of_strip</span></code> so <code class="docutils literal notranslate"><span class="pre">StripGaussianWeilCertificate</span></code> / <code class="docutils literal notranslate"><span class="pre">GlobalInfiniteZeroWeilCertificate.ofStripGaussian</span></code> drops per-function <code class="docutils literal notranslate"><span class="pre">hSumm</span></code> and joins <code class="docutils literal notranslate"><span class="pre">MasterUnifiedPendingClosure</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<span class="target" id="id1"></span></section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-sato-hilbert-space-kp-pde-solver-akns-qfim-paper.html" title="Formalizing the Infinite-Dimensional Sato Grassmannian \(\mathrm{Gr}_p(H)\), Plabic \(\mathrm{Gr}_{\ge 0}(2,4)\) KP-II / KdV / AKNS Soliton PDE Solvers, Baker–Akhiezer Lax Pairs, and 6-Channel Dual-Schubert QFIM in Lean 4, Rust/PyO3, and SymPy" >previous</a></li>
+        <li><a href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html" title="Adelic Carleman–Weierstrass Regularized Determinants (\(\det_2, \det_3\)), Schwinger 2-Cocycle Central Extensions, Segal–Wilson Determinant Bundles, \(L^1(\mathbb{R})\) Weil Positivity, and Formal Bridges to Signals.RiemannSpectral in Lean 4, Rust/PyO3, and mpmath" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

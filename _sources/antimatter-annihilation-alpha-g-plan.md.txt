@@ -116,3 +116,8 @@ All unmeasured experimental gates will be explicitly isolated in `Signals.Pendin
   - `docs/citations.bib` (verified BibTeX entries for Anderson et al. 2023 `ALPHA-g`, Ahmadi et al. 2016 `ALPHA`, Borchert et al. 2022 `BASE`, Dirac 1928/1930, plus existing keys `witten2004twistor`, `cachazo2013gravity`, `partanen2025gravity`, `fedi2026ddf`, etc.)
   - `docs/_toc.yml` and `docs/plan-index.md`
 - **Gate:** Zero findings from `fix_markdown_table_math_pipes.py` and `fix_markdown_display_math_spacing.py`, zero Sphinx warnings on plan & paper, `git diff --check` clean, and browser inspection confirms clean MathJax rendering and zero console errors.
+
+### `AG-5`: Constructive Certificate Closure & Cross-Boundary Unification (`AntimatterAnnihilationAlphaGPendingBoundary`)
+Integrated with [unified-pending-closure-roadmap-plan.md](unified-pending-closure-roadmap-plan.md):
+- Add `AlphaGWepPrecisionCertificate`, `PositroniumFreeFallCertificate`, `ActivePhotonSourcingCertificate` (shared with Model `16a`/`16b` in `YangMillsMassGapHiggsCPTPendingBoundary`), and `PlancherelLoopMeasurementCertificate` (shared with `M_1 = 1/8, M_2 = 1/90` in `ToupinCelestialMillenniumPendingBoundary`).
+- Prove `AntimatterAnnihilationAlphaGPendingBoundary.solved_of_certificates`, discharging `allAntimatterGatesClosed` alongside `Signals.AntimatterGravity` and `Signals.DDF.ActiveRadiationSourcing` bounds.

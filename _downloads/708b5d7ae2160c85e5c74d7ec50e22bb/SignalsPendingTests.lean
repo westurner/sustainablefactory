@@ -7648,4 +7648,200 @@ example :
       ¬ b.allAntimatterGatesClosed :=
   Signals.Pending.antimatter_alpha_g_identities_do_not_close_pending_gates
 
+/-! ### Regression Tests: `YangMillsMassGapHiggsCPTPendingBoundary` -/
+
+example (b : Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary)
+    (h : ¬ b.continuum4DYangMillsOSConstructed) :
+    ¬ b.allYangMillsHiggsCptGatesClosed :=
+  SignalsPending.pending_yang_mills_higgs_cpt_gate_boundary b (Or.inl h)
+
+example :
+    let b : Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary :=
+      { finiteGapMeV := 300
+        finiteGapMeV_pos := by norm_num
+        higgsVevGeV := 246
+        higgsVevGeV_pos := by norm_num
+        continuum4DYangMillsOSConstructed := False
+        celestialConfiningWightmanReconstructed := False
+        bsmHiggsCpViolationObserved := False
+        electroweakBaryogenesisAndModel16Resolved := False }
+    0 < b.finiteGapMeV ∧
+      0 < b.higgsVevGeV ∧
+      ¬ b.allYangMillsHiggsCptGatesClosed :=
+  Signals.Pending.yang_mills_higgs_cpt_identities_do_not_close_pending_gates
+
+example
+    (c1 : Signals.Pending.ContinuumYangMillsOSCertificate)
+    (c2 : Signals.Pending.CelestialConfiningSpectralCertificate)
+    (c3 : Signals.Pending.BsmHiggsCpDiscoveryCertificate)
+    (c4 : Signals.Pending.ElectroweakBaryogenesisModel16Certificate)
+    (vGeV : ℝ) (hv : 0 < vGeV) :
+    (Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates
+      c1 c2 c3 c4 vGeV hv).allYangMillsHiggsCptGatesClosed :=
+  SignalsPending.pending_yang_mills_higgs_cpt_solved_of_certificates c1 c2 c3 c4 vGeV hv
+
+/-! ### Regression Tests: Unified RH / Sato / Toupin Certificate Solvers -/
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (tCrit : ℝ) :
+    (Signals.Pending.RiemannHypothesisPendingBoundary.ofCertificates
+      c1 c2 c3 c4).allFourBridgesClosed :=
+  SignalsPending.pending_rh_solved_of_certificates c1 c2 c3 c4 tCrit
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : Signals.Pending.LidskiiFredholmDetCertificate)
+    (cWeil : Signals.Pending.GlobalInfiniteZeroWeilCertificate)
+    (cEv : Signals.Pending.EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (Signals.Pending.SatoRiemannSpectralPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cLidskii cWeil cEv mult hMult).allSatoGatesClosed :=
+  SignalsPending.pending_sato_riemann_spectral_solved_of_certificates
+    c1 c2 c3 c4 cLidskii cWeil cEv mult hMult tCrit
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (cMeyer : Signals.Pending.MeyerFrechetToGnsCertificate)
+    (cBsd : Signals.Pending.BsdHigherRankEulerCertificate)
+    (cYM1 : Signals.Pending.ContinuumYangMillsOSCertificate)
+    (cYM2 : Signals.Pending.CelestialConfiningSpectralCertificate)
+    (tCrit : ℝ) :
+    (Signals.Pending.ToupinCelestialMillenniumPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2).allMillenniumBridgesClosed :=
+  SignalsPending.pending_toupin_celestial_millennium_solved_of_certificates
+    c1 c2 c3 c4 cMeyer cBsd cYM1 cYM2 tCrit
+
+/-! ### Regression Tests: Axiom-Free Finite-Rank + Strip Sato, NS, Photoelectric, Antimatter, & Master Unified Closure -/
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (v w : Signals.SatoGrassmannian.Gr24Truncation.C4)
+    (hp23 : Signals.SatoGrassmannian.Gr24Truncation.pluckerCoord v w 2 3 ≠ 0)
+    (t1 t2 t3 : ℂ)
+    (cStrip : Signals.Pending.StripGaussianWeilCertificate)
+    (cEv : Signals.Pending.EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (Signals.Pending.SatoRiemannSpectralPendingBoundary.ofAxiomFreeFiniteRankAndStripCertificates
+      c1 c2 c3 c4 v w hp23 t1 t2 t3 cStrip cEv mult hMult).allSatoGatesClosed :=
+  SignalsPending.pending_sato_riemann_spectral_solved_of_axiomFree_finiteRank_and_strip_certificates
+    c1 c2 c3 c4 v w hp23 t1 t2 t3 cStrip cEv mult hMult tCrit
+
+example
+    (c1 : Signals.Pending.NavierStokes3DRegularityCertificate)
+    (c2 : Signals.Pending.NavierStokes3DHirotaLinearizabilityCertificate)
+    (c3 : Signals.Pending.TurbulenceSubgridClosureCertificate)
+    (c4 : Signals.Pending.ExperimentalFluidTelemetryCertificate) :
+    (Signals.Pending.DualSchubertNavierStokesPendingBoundary.ofCertificates
+      c1 c2 c3 c4).allNavierStokesGatesClosed :=
+  SignalsPending.pending_dual_schubert_navier_stokes_solved_of_certificates c1 c2 c3 c4
+
+example
+    (c1 : Signals.Pending.WorkFunctionCalibrationCertificate)
+    (c2 : Signals.Pending.KeldyshYieldCertificate)
+    (c3 : Signals.Pending.EnzOamLossCertificate)
+    (c4 : Signals.Pending.AttosecondTimingCertificate)
+    (hGap : c2.hbar * c2.j0 ≤ Signals.Photoelectric.kohnShamWorkFunction c1.eVac c1.eFermi) :
+    (Signals.Pending.PhotoelectricEmissionPendingBoundary.ofCertificates
+      c1 c2 c3 c4).allPhotoelectricGatesClosed :=
+  SignalsPending.pending_photoelectric_emission_solved_of_certificates c1 c2 c3 c4 hGap
+
+example
+    (c1 : Signals.Pending.AlphaGWepPrecisionCertificate)
+    (c2 : Signals.Pending.PositroniumFreeFallCertificate)
+    (c3 : Signals.Pending.ActivePhotonSourcingCertificate)
+    (c4 : Signals.Pending.PlancherelLoopMeasurementCertificate) :
+    (Signals.Pending.AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates
+      c1 c2 c3 c4).allAntimatterGatesClosed :=
+  SignalsPending.pending_antimatter_alpha_g_solved_of_certificates c1 c2 c3 c4
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (u : Signals.Pending.MasterUnifiedPendingClosure H2 H4) (tCrit : ℝ) :
+    (Signals.Pending.RiemannHypothesisPendingBoundary.ofCertificates
+        u.rh1 u.rh2 u.rh3 u.rh4).allFourBridgesClosed ∧
+      (Signals.Pending.SatoRiemannSpectralPendingBoundary.ofAxiomFreeFiniteRankAndStripCertificates
+        u.rh1 u.rh2 u.rh3 u.rh4 u.satoV u.satoW u.satoHp23 u.satoT1 u.satoT2 u.satoT3
+        u.satoStripWeil u.sharedEvanescent u.satoMult u.satoMult_pos).allSatoGatesClosed ∧
+      (Signals.Pending.ToupinCelestialMillenniumPendingBoundary.ofCertificates
+        u.rh1 u.rh2 u.rh3 u.rh4 u.meyer u.bsd u.ym1 u.ym2).allMillenniumBridgesClosed ∧
+      (Signals.Pending.DualSchubertNavierStokesPendingBoundary.ofCertificates
+        u.ns1 u.ns2 u.ns3 u.ns4).allNavierStokesGatesClosed ∧
+      (Signals.Pending.PhotoelectricEmissionPendingBoundary.ofCertificates u.pe1 u.pe2 u.pe3
+        { omegaIr := u.pe4OmegaIr
+          hOmegaIr := u.pe4OmegaIr_ne
+          evanescentCert := u.sharedEvanescent
+          attosecondValidated := u.pe4AttoValidated
+          attosecondValidated_holds := u.pe4AttoValidated_holds }).allPhotoelectricGatesClosed ∧
+      (Signals.Pending.AntimatterAnnihilationAlphaGPendingBoundary.ofCertificates
+        u.ag1 u.ag2 u.sharedActivePhoton u.sharedPlancherel).allAntimatterGatesClosed ∧
+      (Signals.Pending.YangMillsMassGapHiggsCPTPendingBoundary.ofCertificates
+        u.ym1 u.ym2 u.ym3 u.ym4 u.higgsVevGeV u.higgsVevGeV_pos).allYangMillsHiggsCptGatesClosed :=
+  SignalsPending.pending_master_all_seven_pending_boundaries_solved u tCrit
+
+example
+    {H2 H4 : Type}
+    [NormedAddCommGroup H2] [InnerProductSpace ℂ H2] [CompleteSpace H2]
+    [NormedAddCommGroup H4] [InnerProductSpace ℂ H4] [CompleteSpace H4]
+    (c1 : Signals.Pending.DeBruijnNewmanUpperCertificate)
+    (c2 : Signals.Pending.AdelicSatoTraceLimitCertificate H2)
+    (c3 : Signals.Pending.GlobalWeilLiJensenCertificate)
+    (c4 : Signals.Pending.SelfAdjointSpectralOperatorCertificate H4)
+    (cLidskii : Signals.Pending.LidskiiFredholmDetCertificate)
+    (cStrip : Signals.Pending.StripGaussianWeilCertificate)
+    (cEv : Signals.Pending.EvanescentQfimExperimentalCertificate)
+    (mult : Nat) (hMult : 0 < mult) (tCrit : ℝ) :
+    (Signals.Pending.SatoRiemannSpectralPendingBoundary.ofCertificates
+      c1 c2 c3 c4 cLidskii
+      (Signals.Pending.GlobalInfiniteZeroWeilCertificate.ofStripGaussian cStrip)
+      cEv mult hMult).allSatoGatesClosed :=
+  SignalsPending.pending_sato_riemann_spectral_solved_of_certificates
+    c1 c2 c3 c4 cLidskii
+    (Signals.Pending.GlobalInfiniteZeroWeilCertificate.ofStripGaussian cStrip)
+    cEv mult hMult tCrit
+
+example (dictSize : Nat) (hDict : 0 < dictSize) (gFs : ℝ) (hg : 0 < gFs) :
+    ¬ ({ dictionarySize := dictSize
+         dictionarySize_pos := hDict
+         fubiniStudyMetric := gFs
+         fubiniStudyMetric_pos := hg
+         banachZeroOneAnalyticClosed := False
+         noisyDoProbeCalibrated := False
+         quantumSwitchProbeValidated := False } :
+        Signals.Pending.OneShotQuantumSysIdPendingBoundary).allOsidGatesClosed :=
+  (Signals.Pending.osid_finite_certs_do_not_close_banach_or_lab_gates dictSize hDict gFs hg).2.2
+
+example
+    (c1 : Signals.Pending.BanachZeroOneAnalyticCertificate)
+    (c2 : Signals.Pending.NoisyDoProbeCalibrationCertificate)
+    (c3 : Signals.Pending.QuantumSwitchInterferometricProbeCertificate) :
+    (Signals.Pending.OneShotQuantumSysIdPendingBoundary.ofCertificates c1 c2 c3).allOsidGatesClosed :=
+  SignalsPending.pending_one_shot_sysid_solved_of_certificates c1 c2 c3
+
 end SignalsPendingTests

@@ -8,14 +8,16 @@ import signals_numerical_adapter as sna
 
 from sustainablefactory.sato_grassmannian import (
     audit_carleman_mpmath_vs_rust,
+    audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust,
     audit_riemann_spectral_bridge_on_true_zeros,
+    audit_unified_pending_closures_mpmath_vs_rust,
     verify_symbolic_sato_pde_identities,
 )
 
 
 def test_symbolic_sato_pde_and_bridge_identities():
     res = verify_symbolic_sato_pde_identities()
-    assert len(res) == 15
+    assert len(res) == 17
     for name, ok in res.items():
         assert ok, f"Symbolic identity failed: {name}"
 
@@ -110,3 +112,77 @@ def test_riemann_spectral_bridge_on_first_10_true_zeros():
     assert abs(rep["weil_critical_line_im"]) < 1e-12
     assert rep["weil_off_line_witness"] < rep["weil_neg_4pi_bound"]
     assert rep["det3_at_first_zero_abs"] > 0.0
+
+
+def test_det3_anomaly_weil_infinite_tail_and_finite_fredholm_det():
+    res = audit_det3_anomaly_and_weil_infinite_tail_mpmath_vs_rust(prime_limit=1500, dps=80)
+    assert res["mp_det3_anom_res"] < 1e-70
+    assert res["rust_det3_anom_res"] < 1e-13
+    assert res["det3_ab_abs_diff"] < 1e-13
+    assert res["rust_det1_mul_res"] < 1e-14
+    assert res["rust_wtail_abs"] < 1e-35
+    assert res["rust_wfull_re"] < -4.0 * math.pi
+    assert res["mp_core_re"] < -4.0 * math.pi
+    assert res["mp_core_zero_resid"] < 1e-60
+    assert res["mp_tail_abs"] < 1e-40
+    assert res["fdet_nilp_err"] < 1e-15
+    assert res["fdet_blk_err"] < 1e-14
+    assert res["fdet_conj_err"] < 1e-14
+
+
+def test_unified_finite_rank_invariant_det_strip_weil_and_seven_boundaries():
+    u = audit_unified_pending_closures_mpmath_vs_rust(dps=60)
+    assert u["inv_ambient_dim"] == 12.0
+    assert u["inv_subspace_dim"] <= 4.0
+    assert u["inv_invariance_residual"] < 1e-14
+    assert u["inv_orth_ker_residual"] < 1e-14
+    assert u["inv_subspace_indep_err"] < 1e-14
+    assert u["inv_det_vs_tau_err"] < 1e-13
+    assert u["strip_max_bound_ratio"] <= 1.0 + 1e-14
+    assert u["strip_constant_diff"] < 1e-14
+    assert u["strip_weil_re_diff"] < 1e-55
+    assert u["strip_subgauss_log10"] < -80.0
+    assert u["strip_weil_re"] >= 0.0
+    assert u["ns_tg_energy_diss_err"] < 1e-13
+    assert math.isclose(u["pe_enz_gain"], 400.0, rel_tol=1e-13)
+    assert math.isclose(u["pe_oam_qfim_ratio"], 4.0, rel_tol=1e-14)
+    assert u["ag_gr_chi2_err"] < 1e-13
+    assert u["ym_jost_err"] < 1e-14
+
+
+def test_pyo3_plabic_grkn_arbitrary_n_soliton_solver():
+    # 1. KdV N = 3, 4, 5 exact Hirota N-solitons (y-invariant, overflow-proof Boltzmann cumulants)
+    for amps, shifts, pt in [
+        ([0.4, 0.8, 1.3], [0.2, -0.3, 0.1], (0.5, 9.0, -0.4)),
+        ([0.35, 0.7, 1.05, 1.45], [0.1, -0.2, 0.3, -0.1], (-0.7, -4.0, 0.3)),
+        ([0.3, 0.6, 0.9, 1.2, 1.5], [0.0] * 5, (80.0, 0.0, 15.0)),
+    ]:
+        s_kdv = sna.PlabicGrKNSolver.from_kdv_n_soliton(amps, shifts)
+        assert s_kdv.num_terms == 1 << len(amps)
+        j = s_kdv.eval_jet(*pt)
+        assert j.u >= 0.0 and math.isfinite(j.u)
+        assert abs(j.u_y) < 1e-14
+        assert abs(j.u_yy) < 1e-14
+        assert abs(j.kp2_residual) < 1e-11
+
+    # 2. Totally positive Gr_>0(2, 5) (10 terms) & Gr_>0(3, 6) (20 terms) KP-II N-soliton webs
+    s25 = sna.PlabicGrKNSolver.from_totally_positive_vandermonde(
+        [-1.6, -0.8, 0.1, 0.9, 1.7], [-0.4, 0.5]
+    )
+    assert s25.k == 2 and s25.n == 5 and s25.num_terms == 10
+    j25 = s25.eval_jet(0.6, -0.4, 0.3)
+    assert j25.u > 0.0 and abs(j25.kp2_residual) < 1e-11
+
+    s36 = sna.PlabicGrKNSolver.from_totally_positive_vandermonde(
+        [-1.8, -1.0, -0.2, 0.5, 1.2, 1.9], [-0.5, 0.1, 0.6]
+    )
+    assert s36.k == 3 and s36.n == 6 and s36.num_terms == 20
+    j36 = s36.eval_jet(-0.3, 0.7, -0.2)
+    assert j36.u > 0.0 and abs(j36.kp2_residual) < 1e-11
+
+    # 3. Negative Plücker minor must be rejected cleanly
+    with pytest.raises(ValueError):
+        sna.PlabicGrKNSolver.from_frame(
+            [-1.0, 0.0, 1.0, 2.0],
+            [[0.0, 1.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]],
+        )

@@ -346,3 +346,49 @@ def test_celestial_holography_toupin_and_turner_model15_sympy_mpmath_pyo3():
     assert abs(rust_cel["m3_quadrature"] - py_cel["m3_value"]) < 1e-12
     assert abs(rust_cel["m3_even_part"] - py_cel["m3_even_chamber_part"]) < 1e-12
     assert abs(rust_cel["m3_odd_excess"] - py_cel["m3_odd_chamber_excess"]) < 1e-12
+
+
+def test_celestial_ir_regularization_and_turner_model16_sympy_mpmath_pyo3():
+    from sustainablefactory.riemann_rh_bridges import (
+        audit_celestial_ir_and_turner_model16,
+    )
+
+    rust_16 = sna.py_audit_celestial_ir_and_turner_model16()
+    assert rust_16["rg_sigma_dev_su3"] > 0.0
+    assert rust_16["rg_casimir_im_nonzero"] > 0.0
+    assert rust_16["k_ir_uv_at_zero"] == 0.0
+    assert 0.0 < rust_16["k_ir_uv_at_one"] < 1.0
+    assert rust_16["k_ir_uv_unreg_limit_diff"] < 1e-16
+    assert rust_16["kl_mellin_mgap_1"] > 0.0
+    assert rust_16["kl_mellin_mgap_0_vs_gamma"] < 1e-11
+    assert rust_16["yukawa_mellin_quad_vs_gamma_diff"] < 1e-11
+    assert abs(rust_16["s_ir_zero"] - 1.0) < 1e-16
+    assert rust_16["s_ir_quadratic_margin_half"] > 0.0
+    assert rust_16["model16_uv_core_vs_ir_gap_ordering"] is True
+    assert abs(rust_16["g16_classical"] - 1.0) < 1e-16
+    assert rust_16["g16_off_line_positive"] > 0.0
+    assert abs(rust_16["model16a_mercury_arcsec_cy"] - 42.9814) < 0.01
+    assert abs(rust_16["model16b_mercury_arcsec_cy"] - 42.9814) < 0.01
+    assert rust_16["model16_rel_err_vs_gr"] < 1e-15
+    assert abs(rust_16["model16_solar_light_bending_arcsec"] - 1.7505) < 0.001
+    assert rust_16["model16a_gw_below_gap"] == 0.0
+    assert rust_16["model16b_gw_gapless_ratio"] > 0.9999999999
+    assert rust_16["model16a_active_laser_deflection"] == 1.0
+    assert rust_16["model16b_active_laser_deflection"] == 0.0
+    assert abs(rust_16["d_cft_4d_re_delta"] - 1.0) < 1e-16
+
+    py_16 = audit_celestial_ir_and_turner_model16(dps=45)
+    assert py_16["rg_casimir_ok"]
+    assert py_16["toutrr_intertwine_ok"]
+    assert py_16["ir_kernel_sym_ok"]
+    assert py_16["s_ir_taylor_ok"]
+    assert py_16["s_ir_deriv_ok"]
+    assert py_16["model16_opposite_a_scaling_ok"]
+    assert py_16["g16_reduction_ok"]
+    assert py_16["kl_crit_soft_finite_abs"] > 0.0
+    assert py_16["kl_crit_bessel_err"] < 1e-35
+    assert abs(rust_16["kl_mellin_delta1_mgap_half"] - py_16["kl_crit_bessel_val"]) < 1e-11
+    assert abs(rust_16["s_ir_half"] - py_16["s_ir_half"]) < 1e-15
+    assert py_16["kl_m0_gamma_err"] < 1e-25
+    assert py_16["yukawa_complex_gamma_err"] < 1e-25
+    assert abs(rust_16["g16_off_line_positive"] - py_16["g16_off_line"]) < 1e-15

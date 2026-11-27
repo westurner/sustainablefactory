@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, \(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\) Bridging, and Integrated Turner Models 16a &amp; 16b in Lean 4, Rust/PyO3, and SymPy &mdash; Sustainable Factory 0.1.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Sustainable Factory 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary" href="yang-mills-higgs-cpt-pending-closure-plan.html" />
+    <link rel="prev" title="Antimatter Annihilation, Electron &amp; Gravity Mechanics Across General Relativity, Cachazo–Witten Twistor Strings, QED Scattering Gravity, Dilatant Dark Fluid (DDF), and Turner Models 3–15b: Tested Against CERN ALPHA-g Data" href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
+  <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
+
+  
+    
+    
+    
+      <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/docindex-search.js" integrity="sha384-Q/jpK0gWCpPNpv3N5nvJHumPTrluzfy7wGBbsEjZ/udbtKI/kHCGTByulBRf+y5F" type="module" ></script>
+    
+  
+    
+    
+    
+      <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script >window.MathJax = {"tex": {"macros": {"llbracket": "\\mathopen{[\\![}", "rrbracket": "\\mathclose{]\\!]}"}}, "output": {"fontPath": "_static/mathjax-fonts"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="_static/mathjax/tex-mml-chtml.js" integrity="sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC" defer="defer" ></script>
+    
+  
+    
+    
+    
+      <script type="module" >import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    
+  
+  <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
+  <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Sustainable Factory 0.1.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span> Bridging, and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#dimensional-transmutation-lambda-mathrm-qcd-rhgaps-cayley-contraction-toutrr-operatorname-re-delta-d-mathrm-cft-2">1. Dimensional Transmutation (<span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>), <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code> Cayley Contraction, &amp; <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span></a><ul>
+<li><a class="reference internal" href="#breaking-of-mathrm-sl-2-mathbb-c-dilatation-and-the-rhgaps-cayley-contraction-theorem">1.1 Breaking of <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> Dilatation and the <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code> Cayley Contraction Theorem</a></li>
+<li><a class="reference internal" href="#reconciling-toupins-touqga-2-pdf-delta-2s-and-toutrr-operatorname-re-delta-d-2-conventions">1.2 Reconciling Toupin’s <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>) and <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> (<span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d/2\)</span>) Conventions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#two-exact-solutions-to-celestial-ir-divergences">2. Two Exact Solutions to Celestial IR Divergences</a><ul>
+<li><a class="reference internal" href="#solution-a-hard-gap-kallenlehmann-thresholded-mellin-transform">2.1 Solution A: Hard-Gap Källén–Lehmann Thresholded Mellin Transform</a></li>
+<li><a class="reference internal" href="#solution-b-yukawamellin-transform-cayleyplancherel-ir-uv-kernel-mathcal-k-mathrm-ir-uv">2.2 Solution B: Yukawa–Mellin Transform &amp; Cayley–Plancherel IR/UV Kernel <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{IR/UV}}\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integrated-turner-models-16a-without-ddf-16b-with-ddf">3. Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> (Without DDF) &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> (With DDF)</a><ul>
+<li><a class="reference internal" href="#master-equations-predictions-of-models-16a-16b">Master Equations &amp; Predictions of Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code></a></li>
+<li><a class="reference internal" href="#critique-physical-distinction-ir-yukawa-screening-16a-vs-uv-core-saturation-16b">3.1 Critique &amp; Physical Distinction: IR Yukawa Screening (<code class="docutils literal notranslate"><span class="pre">16a</span></code>) vs. UV Core Saturation (<code class="docutils literal notranslate"><span class="pre">16b</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-verification-commands">4. Reproducible Verification Commands</a></li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">5. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html" title="Antimatter Annihilation, Electron &amp; Gravity Mechanics Across General Relativity, Cachazo–Witten Twistor Strings, QED Scattering Gravity, Dilatant Dark Fluid (DDF), and Turner Models 3–15b: Tested Against CERN ALPHA-g Data" accesskey="P">previous </a></li>
+              <li><a href="yang-mills-higgs-cpt-pending-closure-plan.html" title="Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary" accesskey="N">next </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/grassmannian-celestial-ir-regularization-turner-models-16ab-paper.md.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span> Bridging, and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> in Lean 4, Rust/PyO3, and SymPy</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#dimensional-transmutation-lambda-mathrm-qcd-rhgaps-cayley-contraction-toutrr-operatorname-re-delta-d-mathrm-cft-2">1. Dimensional Transmutation (<span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>), <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code> Cayley Contraction, &amp; <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span></a><ul>
+<li><a class="reference internal" href="#breaking-of-mathrm-sl-2-mathbb-c-dilatation-and-the-rhgaps-cayley-contraction-theorem">1.1 Breaking of <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> Dilatation and the <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code> Cayley Contraction Theorem</a></li>
+<li><a class="reference internal" href="#reconciling-toupins-touqga-2-pdf-delta-2s-and-toutrr-operatorname-re-delta-d-2-conventions">1.2 Reconciling Toupin’s <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>) and <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> (<span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d/2\)</span>) Conventions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#two-exact-solutions-to-celestial-ir-divergences">2. Two Exact Solutions to Celestial IR Divergences</a><ul>
+<li><a class="reference internal" href="#solution-a-hard-gap-kallenlehmann-thresholded-mellin-transform">2.1 Solution A: Hard-Gap Källén–Lehmann Thresholded Mellin Transform</a></li>
+<li><a class="reference internal" href="#solution-b-yukawamellin-transform-cayleyplancherel-ir-uv-kernel-mathcal-k-mathrm-ir-uv">2.2 Solution B: Yukawa–Mellin Transform &amp; Cayley–Plancherel IR/UV Kernel <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{IR/UV}}\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integrated-turner-models-16a-without-ddf-16b-with-ddf">3. Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> (Without DDF) &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> (With DDF)</a><ul>
+<li><a class="reference internal" href="#master-equations-predictions-of-models-16a-16b">Master Equations &amp; Predictions of Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code></a></li>
+<li><a class="reference internal" href="#critique-physical-distinction-ir-yukawa-screening-16a-vs-uv-core-saturation-16b">3.1 Critique &amp; Physical Distinction: IR Yukawa Screening (<code class="docutils literal notranslate"><span class="pre">16a</span></code>) vs. UV Core Saturation (<code class="docutils literal notranslate"><span class="pre">16b</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducible-verification-commands">4. Reproducible Verification Commands</a></li>
+<li><a class="reference internal" href="#provenance-metadata-bibtex-json-ld">5. Provenance Metadata (BibTeX &amp; JSON-LD)</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html"
+                          title="previous chapter">Antimatter Annihilation, Electron &amp; Gravity Mechanics Across General Relativity, Cachazo–Witten Twistor Strings, QED Scattering Gravity, Dilatant Dark Fluid (<code class="docutils literal notranslate"><span class="pre">DDF</span></code>), and Turner Models <code class="docutils literal notranslate"><span class="pre">3</span></code>–<code class="docutils literal notranslate"><span class="pre">15b</span></code>: Tested Against CERN <code class="docutils literal notranslate"><span class="pre">ALPHA-g</span></code> Data</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="yang-mills-higgs-cpt-pending-closure-plan.html"
+                          title="next chapter">Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code></a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grassmannian-celestial-ir-regularization-turner-models-16ab-paper.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="infrared-divergence-resolution-in-celestial-holography-dimensional-transmutation-operatorname-re-delta-d-mathrm-cft-2-bridging-and-integrated-turner-models-16a-16b-in-lean-4-rust-pyo3-and-sympy">
+<span id="grassmannian-celestial-ir-regularization-turner-models-16ab-paper"></span><h1>Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span> Bridging, and Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> in Lean 4, Rust/PyO3, and SymPy<a class="headerlink" href="#infrared-divergence-resolution-in-celestial-holography-dimensional-transmutation-operatorname-re-delta-d-mathrm-cft-2-bridging-and-integrated-turner-models-16a-16b-in-lean-4-rust-pyo3-and-sympy" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Authors:</strong> Wes Turner</p></li>
+<li><p><strong>Subjects:</strong></p>
+<ul>
+<li><p>High Energy Physics - Theory (<code class="docutils literal notranslate"><span class="pre">hep-th</span></code>); General Relativity and Quantum Cosmology (<code class="docutils literal notranslate"><span class="pre">gr-qc</span></code>); Mathematical Physics (<code class="docutils literal notranslate"><span class="pre">math-ph</span></code>); Number Theory (<code class="docutils literal notranslate"><span class="pre">math.NT</span></code>); Logic &amp; Formal Verification (<code class="docutils literal notranslate"><span class="pre">cs.LO</span></code>)</p></li>
+</ul>
+</li>
+<li><p><strong>Epistemic Status &amp; Scope Declaration:</strong></p>
+<ul>
+<li><p><strong>Verified Mathematical &amp; Computational Core (Lean 4, Rust/PyO3, SymPy, 45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>):</strong> We verify and formalize in <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> (Section 12), <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.RiemannSpectralBridge</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> (Section 30.8): <strong>(1)</strong> how non-Abelian dimensional transmutation <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}}(\mu) = b_0 g^2 / (16\pi^2) &gt; 0\)</span> breaks <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> chiral Casimir reality (<span class="math notranslate nohighlight">\(\operatorname{Im}(s(s-1)) = 2\sigma_{\mathrm{dev}}\gamma \ne 0\)</span>), drives <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &gt; 1/2\)</span> into the contractive interior <span class="math notranslate nohighlight">\(\lVert\mathrm{cayley}(s)\rVert &lt; 1\)</span> of <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.RHGaps</span></code> (<code class="docutils literal notranslate"><span class="pre">celestialDimTransmutation_cayley_contraction_and_ir_bridge</span></code>), and lifts <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) &gt; d_{\mathrm{CFT}}/2\)</span> under Toupin’s <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> convention <span class="math notranslate nohighlight">\(\Delta = d_{\mathrm{CFT}}\,s\)</span> (<code class="docutils literal notranslate"><span class="pre">toupin_re_delta_eq_d_cft_half_bridge</span></code>), <strong>(2)</strong> exact IR finiteness of the hard-gap Källén–Lehmann thresholded Mellin transform (evaluated analytically at <span class="math notranslate nohighlight">\(\Delta = 1\)</span> with soft <span class="math notranslate nohighlight">\(1/\omega\)</span> dressing to Bessel <span class="math notranslate nohighlight">\(K_0(m_{\mathrm{gap}})\)</span>, matching 45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> to <span class="math notranslate nohighlight">\(&lt; 10^{-35}\)</span>, and recovering <span class="math notranslate nohighlight">\(\Gamma(\Delta)\)</span> as <span class="math notranslate nohighlight">\(m_{\mathrm{gap}} \to 0^+\)</span>), <strong>(3)</strong> exact Gamma-pole regularization of the exponentially damped Yukawa–Mellin transform paired with the Cayley–Plancherel IR/UV kernel <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{IR/UV}}(\lambda, \sigma_{\mathrm{dev}}; \mu_{\mathrm{IR}}, \xi_\phi)\)</span>, and <strong>(4)</strong> <strong>Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> (Without DDF, <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1\)</span>) &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> (With DDF, <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>)</strong> (<code class="docutils literal notranslate"><span class="pre">turner_model_16_ir_regularized_celestial_ddf_graviton_unification</span></code>).</p></li>
+<li><p><strong>Open Millennium &amp; Experimental Gates (<code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>):</strong> Isolated in <code class="docutils literal notranslate"><span class="pre">ToupinCelestialMillenniumPendingBoundary</span></code> and <code class="docutils literal notranslate"><span class="pre">YangMillsMassGapHiggsCPTPendingBoundary</span></code> in <a class="reference download internal" download="" href="_downloads/b0a270e571457b02ce6871fa29d98b5d/Pending.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/Pending.lean</span></code></a> for non-perturbative 4D continuum Yang–Mills Wightman reconstruction from 2D celestial WZW/KZ correlators and laboratory discrimination of <span class="math notranslate nohighlight">\(\kappa_{\mathrm{IR}}\)</span> and <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma \in \{0, 1\}\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Primary Chat &amp; Scholarly Provenance:</strong></p>
+<ul>
+<li><p>Chat export audited with file-and-line provenance: <a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">data/chats/Google</span> <span class="pre">Search</span> <span class="pre">AI</span> <span class="pre">-</span> <span class="pre">Review</span> <span class="pre">Toupin's</span> <span class="pre">Mass</span> <span class="pre">Gap</span> <span class="pre">solution</span> <span class="pre">-</span> <span class="pre">Google</span> <span class="pre">Search</span> <span class="pre">-</span> <span class="pre">2026-11-26_15-52.md</span></code></a> (lines 58–204) <span class="bibtex-citation" id="id1">[<a class="reference internal" href="#id560" title="Wesley Turner and Google Search AI. Review toupin's mass gap solution, celestial ir divergences, and models 16a &amp; 16b. AI chat log, 2026. Source: data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 1–204.">Turner and AI, 2026</a>]</span>.</p></li>
+<li><p>Audited preprints &amp; monograph by Daniel Toupin: <span class="bibtex-citation" id="id2">[<a class="reference internal" href="#id516" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (<a class="reference download internal" download="" href="_downloads/50d7d29d5a476f336f360151c4d17754/TOUQGA-2.pdf"><code class="xref download docutils literal notranslate"><span class="pre">data/papers/TOUQGA-2.pdf</span></code></a>, pp. 342–369, 613–658), <span class="bibtex-citation" id="id3">[<a class="reference internal" href="#id558" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>]</span>, and <span class="bibtex-citation" id="id4">[<a class="reference internal" href="#id559" title="Daniel Toupin. The reason the Riemann hypothesis is true: $\re (\delta ) = d/2$. PhilPapers preprint, 2026. PDF: https://philpapers.org/archive/TOUTRR.pdf; companion to TOUQGA-2.pdf Section 7.3.4. URL: https://philpapers.org/rec/TOUTRR.">Toupin, 2026</a>]</span>.</p></li>
+<li><p>Companion repository papers integrated:</p>
+<ul>
+<li><p><a class="reference internal" href="grassmannian-celestial-holography-graviton-turner-riemann-paper.html"><span class="std std-doc">Celestial Holography, Plancherel–Unruh Loop Weights (<span class="math notranslate nohighlight">\(M_1 = 1/8, M_2 = 1/90\)</span>), &amp; Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">15a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">15b</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-sato-adelic-carleman-weierstrass-weil-rh-gaps-paper.html"><span class="std std-doc">Adelic Carleman–Weierstrass Determinants, Schwinger 2-Cocycle, <span class="math notranslate nohighlight">\(L^1(\mathbb{R})\)</span> Weil Positivity, &amp; Bridges to <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-riemann-spectral-ihara-jensen-polya-paper.html"><span class="std std-doc">Finite Spectral Contracts for RH Approaches (<code class="docutils literal notranslate"><span class="pre">RB-1</span></code>–<code class="docutils literal notranslate"><span class="pre">RB-6</span></code>)</span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html"><span class="std std-doc">Antimatter Annihilation, Photonic Deflection, &amp; Gravity Models <code class="docutils literal notranslate"><span class="pre">3</span></code>–<code class="docutils literal notranslate"><span class="pre">15b</span></code> Tested Against CERN <code class="docutils literal notranslate"><span class="pre">ALPHA-g</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="grassmannian-yang-mills-mass-gap-higgs-cp-cpt-paper.html"><span class="std std-doc">Yang–Mills Mass Gap, Higgs Symmetry Breaking, CP Violation, and Jost’s CPT Involution</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Formal Verification &amp; Computational Artifacts:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Signals</span></code> Lean 4 Library (<code class="docutils literal notranslate"><span class="pre">3,837</span></code> Lake jobs via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">signals_build</span></code>, zero <code class="docutils literal notranslate"><span class="pre">sorry</span></code> axioms):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/3cdeb207d020b1acb915b2dc771c3245/RiemannSpectral.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/RiemannSpectral.lean</span></code></a> (Section 12: <code class="docutils literal notranslate"><span class="pre">celestialDimTransmutationDev</span></code>, <code class="docutils literal notranslate"><span class="pre">kallenLehmannThresholdSq</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialIrRegulatorFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialCayleyPlancherelIRUVKernel</span></code>, <code class="docutils literal notranslate"><span class="pre">celestial_ir_divergence_regularization_identities</span></code>, <code class="docutils literal notranslate"><span class="pre">toupin_re_delta_eq_d_cft_half_bridge</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/a732de144e628848075016c4793000bd/RHGaps.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/RHGaps.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">cayley</span></code>, <code class="docutils literal notranslate"><span class="pre">norm_cayley_le_one_iff</span></code>, <code class="docutils literal notranslate"><span class="pre">liSummand_nonneg_of_re_ge_half</span></code>, <code class="docutils literal notranslate"><span class="pre">cayley_pow_unbounded_of_re_lt_half</span></code>) &amp; <a class="reference download internal" download="" href="_downloads/61ba86115daf04b6f738dba5b21c5e65/RiemannSpectralBridge.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/SatoGrassmannian/RiemannSpectralBridge.lean</span></code></a> (<code class="docutils literal notranslate"><span class="pre">celestialDimTransmutation_cayley_contraction_and_ir_bridge</span></code>)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/Signals/DDF.lean</span></code></a> (Section 30.8: <code class="docutils literal notranslate"><span class="pre">celestialIrScreeningFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">celestialTransferFactor16</span></code>, <code class="docutils literal notranslate"><span class="pre">gwMassGapStep</span></code>, <code class="docutils literal notranslate"><span class="pre">model16aIrYukawaParam</span></code>, <code class="docutils literal notranslate"><span class="pre">model16bCoreRegularizationParam</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerModel16aPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerModel16bPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerModel16aGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerModel16bGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerModel16aLightDeflection</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerModel16bLightDeflection</span></code>, <code class="docutils literal notranslate"><span class="pre">turner_model_16_ir_regularized_celestial_ddf_graviton_unification</span></code>, <code class="docutils literal notranslate"><span class="pre">turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities</span></code>)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">signals-numerical-adapter</span></code> Rust + PyO3 (<code class="docutils literal notranslate"><span class="pre">maturin</span></code>) Extension (<code class="docutils literal notranslate"><span class="pre">175</span></code> passing unit tests):</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/59fa40a607d798c750ea6b8c11906c93/riemann_spectral.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/riemann_spectral.rs</span></code></a> (<code class="docutils literal notranslate"><span class="pre">audit_celestial_ir_and_turner_model16</span></code>) &amp; <a class="reference download internal" download="" href="_downloads/35a06ed67cf4bc8db40506df17b315ff/lib.rs"><code class="xref download docutils literal notranslate"><span class="pre">src/signals/numerical_adapter/src/lib.rs</span></code></a> (<code class="docutils literal notranslate"><span class="pre">py_audit_celestial_ir_and_turner_model16</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Python + SymPy + 45-Digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> + PyO3 Verification Suite:</p>
+<ul>
+<li><p><a class="reference download internal" download="" href="_downloads/67a8c89d31e6cb415894bc6113435851/riemann_rh_bridges.py"><code class="xref download docutils literal notranslate"><span class="pre">sustainablefactory/riemann_rh_bridges.py</span></code></a> (<code class="docutils literal notranslate"><span class="pre">audit_celestial_ir_and_turner_model16</span></code>) &amp; <a class="reference download internal" download="" href="_downloads/82532ddf8753307b1d85bb12d88f5c35/test_riemann_spectral_sympy_pyo3.py"><code class="xref download docutils literal notranslate"><span class="pre">tests/test_riemann_spectral_sympy_pyo3.py</span></code></a> (<code class="docutils literal notranslate"><span class="pre">test_celestial_ir_regularization_and_turner_model16_sympy_mpmath_pyo3</span></code>)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>Celestial holography <span class="bibtex-citation" id="id5">[<a class="reference internal" href="#id410" title="A Strominger. Lectures on the infrared structure of gravity and gauge theory. 2018. Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: https://arxiv.org/abs/1703.05448, arXiv:1703.05448.">Strominger, 2018</a>, <a class="reference internal" href="#id517" title="Sabrina Pasterski, Shu-Heng Shao, and Andrew Strominger. Flat space amplitudes and conformal symmetry of the celestial sphere. Physical Review D, 96(6):065026, 2017. arXiv:1701.00049, doi:10.1103/PhysRevD.96.065026.">Pasterski <em>et al.</em>, 2017</a>]</span> constructs 2D celestial CFT correlation functions via a Mellin transform over all massless light-cone energies <span class="math notranslate nohighlight">\(\omega \in (0, \infty)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+O_\Delta^J(z, \bar{z}) = \int_0^\infty d\omega\,\omega^{\Delta - 1}\,a_\omega^J(z, \bar{z}).
+\]</div>
+<p>As surfaced in our review of Daniel Toupin’s recent Yang–Mills mass-gap and celestial-holography preprints (<span class="bibtex-citation" id="id6">[<a class="reference internal" href="#id516" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>, <a class="reference internal" href="#id558" title="Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: https://philarchive.org/archive/TOUTYM; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: https://philarchive.org/rec/TOUTYM.">Toupin, 2026</a>, <a class="reference internal" href="#id559" title="Daniel Toupin. The reason the Riemann hypothesis is true: $\re (\delta ) = d/2$. PhilPapers preprint, 2026. PDF: https://philpapers.org/archive/TOUTRR.pdf; companion to TOUQGA-2.pdf Section 7.3.4. URL: https://philpapers.org/rec/TOUTRR.">Toupin, 2026</a>]</span>; <a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">chat</span> <span class="pre">log</span></code></a>, lines 60–90), this massless dictionary encounters a fundamental <strong>infrared (IR) obstruction</strong> in confining gauge theories: a positive mass gap <span class="math notranslate nohighlight">\(m_{\mathrm{gap}} &gt; 0\)</span> removes asymptotic massless colored gluons from the physical LSZ Hilbert space, dimensional transmutation (<span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>) breaks exact <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> boost/dilatation covariance, and the bare Plancherel–Unruh weight <span class="math notranslate nohighlight">\(P(\lambda) = \pi\lambda/\sinh(\pi\lambda)\)</span> reaches its global maximum <span class="math notranslate nohighlight">\(P(0) = 1\)</span> at the soft IR point <span class="math notranslate nohighlight">\(\lambda = 0\)</span> rather than suppressing it.</p>
+<p>In this paper, we resolve both the gauge-sector IR obstruction and the gravitational/DDF IR boundary, unify Toupin’s <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> (<span class="math notranslate nohighlight">\(\Delta = (d_{\mathrm{bulk}} - 2)s = 2s\)</span>) and <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> (<span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span>) dimension conventions with <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.RHGaps</span></code> and <code class="docutils literal notranslate"><span class="pre">RiemannSpectralBridge</span></code>, and construct <strong>Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> (Without DDF, <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1\)</span>) &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> (With DDF, <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span>)</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="dimensional-transmutation-lambda-mathrm-qcd-rhgaps-cayley-contraction-toutrr-operatorname-re-delta-d-mathrm-cft-2">
+<h2>1. Dimensional Transmutation (<span class="math notranslate nohighlight">\(\Lambda_{\mathrm{QCD}}\)</span>), <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code> Cayley Contraction, &amp; <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span><a class="headerlink" href="#dimensional-transmutation-lambda-mathrm-qcd-rhgaps-cayley-contraction-toutrr-operatorname-re-delta-d-mathrm-cft-2" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    DT[&quot;Dimensional Transmutation (Λ_QCD &gt; 0)\n• Trace anomaly β(g) = -b_0 g³/(16π²) &lt; 0\n• σ_dev(μ) = -β(g)/g = b_0 g²/(16π²) &gt; 0&quot;]
+    RG1[&quot;1. Broken SL(2,C) Casimir Reality\n• Δ_re(μ) = 1 + 2σ_dev(μ) &gt; 1\n• Im(s(s-1)) = 2σ_dev(μ)γ ≠ 0\n• Breaks Googly shadow conjugation&quot;]
+    RG2[&quot;2. RHGaps Cayley Contraction Bridge\n• Re(s) = 1/2 + σ_dev &gt; 1/2 ⇒ ‖cayley(s)‖ &lt; 1\n• σ_neg &lt; 0 ⇒ ‖cayley(s)^n‖ → ∞\n  (RiemannSpectralBridge.lean)&quot;]
+    IR1[&quot;3A. Confining Hard-Gap Mellin\n• ∫_{m_gap}^∞ (ω²-m_gap²)^{(Δ-2)/2} ω a_ω dω\n• At Δ=1, a_ω=ω⁻¹e^{-ω} ⇒ K_0(m_gap) &lt; ∞\n• Limit m_gap → 0⁺ recovers Γ(Δ)&quot;]
+    IR2[&quot;3B. Yukawa–Mellin &amp; Cayley–Plancherel K_{IR/UV}\n• e^{-μ_IR ω} ⇒ μ_IR^{n-Δ} Γ(Δ-n)\n• R_IR(λ) = λ²/(λ² + (μ_IR ξ_φ)²) zeros λ=0&quot;]
+    M16[&quot;4. Integrated Turner Models 16a &amp; 16b\n• G_16 = W^Cayley(σ_dev) · F_loop(α_QG) · (1+κ_IR)e^{-κ_IR} &gt; 0\n• 16a: m_gap GW cutoff Θ(2Ω_orb - ω_gap), η_act^γ = 1\n• 16b: Gapless DDF phonons (ω_gap=0), η_act^γ = 0&quot;]
+
+    DT --&gt; RG1 --&gt; RG2
+    RG1 --&gt; IR1 --&gt; M16
+    RG1 --&gt; IR2 --&gt; M16
+    RG2 --&gt; M16
+    </pre><section id="breaking-of-mathrm-sl-2-mathbb-c-dilatation-and-the-rhgaps-cayley-contraction-theorem">
+<h3>1.1 Breaking of <span class="math notranslate nohighlight">\(\mathrm{SL}(2, \mathbb{C})\)</span> Dilatation and the <code class="docutils literal notranslate"><span class="pre">RHGaps</span></code> Cayley Contraction Theorem<a class="headerlink" href="#breaking-of-mathrm-sl-2-mathbb-c-dilatation-and-the-rhgaps-cayley-contraction-theorem" title="Link to this heading">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 12 (<code class="docutils literal notranslate"><span class="pre">celestialDimTransmutationDev</span></code>, lines 1538–1640) and our chat synthesis (<a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">chat</span> <span class="pre">log</span></code></a>, lines 112–128), an asymptotically free non-Abelian gauge theory (<span class="math notranslate nohighlight">\(b_0 = (11 N_c - 2 n_f)/3 &gt; 0\)</span>, <span class="math notranslate nohighlight">\(b_0 = 11\)</span> for pure <span class="math notranslate nohighlight">\(\mathrm{SU}(3)\)</span>) generates a nonzero running shift off the principal series:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_{\mathrm{dev}}(\mu) = -\frac{\beta(g(\mu))}{g(\mu)} = \frac{b_0\,g(\mu)^2}{16\pi^2} &gt; 0, \qquad \Delta(\mu) = 1 + i\lambda + 2\sigma_{\mathrm{dev}}(\mu).
+\]</div>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">celestial_ir_divergence_regularization_identities</span></code> proves that <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}}(\mu) &gt; 0 \implies \Delta_{\mathrm{re}}(\mu) &gt; 1\)</span>, injecting a nonzero imaginary part <span class="math notranslate nohighlight">\(\operatorname{Im}\bigl(s(s-1)\bigr) = 2\sigma_{\mathrm{dev}}(\mu)\gamma \ne 0\)</span> into the chiral <span class="math notranslate nohighlight">\(\mathfrak{sl}(2, \mathbb{C})\)</span> Casimir for every <span class="math notranslate nohighlight">\(\gamma \ne 0\)</span>.</p>
+<p>Connecting directly to <code class="docutils literal notranslate"><span class="pre">Signals.SatoGrassmannian.RHGaps</span></code> (<a class="reference download internal" download="" href="_downloads/a732de144e628848075016c4793000bd/RHGaps.lean"><code class="xref download docutils literal notranslate"><span class="pre">RHGaps.lean</span></code></a>, <code class="docutils literal notranslate"><span class="pre">norm_cayley_le_one_iff</span></code>, <code class="docutils literal notranslate"><span class="pre">liSummand_nonneg_of_re_ge_half</span></code>, <code class="docutils literal notranslate"><span class="pre">cayley_pow_unbounded_of_re_lt_half</span></code>), theorem <code class="docutils literal notranslate"><span class="pre">celestialDimTransmutation_cayley_contraction_and_ir_bridge</span></code> in <a class="reference download internal" download="" href="_downloads/61ba86115daf04b6f738dba5b21c5e65/RiemannSpectralBridge.lean"><code class="xref download docutils literal notranslate"><span class="pre">RiemannSpectralBridge.lean</span></code></a> proves a sharp asymmetry:</p>
+<ul class="simple">
+<li><p><strong>Physical Asymptotic Freedom (<span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} &gt; 0\)</span>):</strong> Shifts <span class="math notranslate nohighlight">\(s_{\mathrm{rg}} = \tfrac{1}{2} + \sigma_{\mathrm{dev}} + i\gamma\)</span> into the right half-strip <span class="math notranslate nohighlight">\(\operatorname{Re}(s_{\mathrm{rg}}) &gt; \tfrac{1}{2}\)</span>, where the Cayley transform obeys <span class="math notranslate nohighlight">\(\lVert\mathrm{cayley}(s_{\mathrm{rg}})\rVert &lt; 1\)</span> (strictly contractive interior of the unit disk) and every Li summand remains nonnegative (<span class="math notranslate nohighlight">\(\operatorname{liSummand}(s_{\mathrm{rg}}, n) \ge 0\)</span>).</p></li>
+<li><p><strong>Wrong-Sign <span class="math notranslate nohighlight">\(\beta\)</span>-Function (<span class="math notranslate nohighlight">\(\sigma_{\mathrm{neg}} &lt; 0\)</span>):</strong> Shifts <span class="math notranslate nohighlight">\(\operatorname{Re}(s) &lt; \tfrac{1}{2}\)</span>, forcing <span class="math notranslate nohighlight">\(\lVert\mathrm{cayley}(s)^n\rVert \to \infty\)</span> exponentially (<code class="docutils literal notranslate"><span class="pre">cayley_pow_unbounded_of_re_lt_half</span></code>).</p></li>
+</ul>
+</section>
+<section id="reconciling-toupins-touqga-2-pdf-delta-2s-and-toutrr-operatorname-re-delta-d-2-conventions">
+<h3>1.2 Reconciling Toupin’s <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code> (<span class="math notranslate nohighlight">\(\Delta = 2s\)</span>) and <code class="docutils literal notranslate"><span class="pre">TOUTRR</span></code> (<span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d/2\)</span>) Conventions<a class="headerlink" href="#reconciling-toupins-touqga-2-pdf-delta-2s-and-toutrr-operatorname-re-delta-d-2-conventions" title="Link to this heading">¶</a></h3>
+<p>In Toupin’s monograph <span class="bibtex-citation" id="id7">[<a class="reference internal" href="#id516" title="Daniel Toupin. On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: https://philpapers.org/archive/TOUQGA-2.pdf; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: https://philpapers.org/rec/TOUQGA-2.">Toupin, 2025</a>]</span> (Section 7.2.7, p. 360) and his 2026 preprint <em>The Reason the Riemann Hypothesis is True: <span class="math notranslate nohighlight">\(\Re(\Delta) = d/2\)</span></em> <span class="bibtex-citation" id="id8">[<a class="reference internal" href="#id559" title="Daniel Toupin. The reason the Riemann hypothesis is true: $\re (\delta ) = d/2$. PhilPapers preprint, 2026. PDF: https://philpapers.org/archive/TOUTRR.pdf; companion to TOUQGA-2.pdf Section 7.3.4. URL: https://philpapers.org/rec/TOUTRR.">Toupin, 2026</a>]</span> (matching Section 7.3.4, p. 363 of <code class="docutils literal notranslate"><span class="pre">TOUQGA-2.pdf</span></code>), two notations appear for the conformal dimension <span class="math notranslate nohighlight">\(d\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Writing <span class="math notranslate nohighlight">\(d_{\mathrm{bulk}}\)</span> for spacetime dimension, the celestial sphere <span class="math notranslate nohighlight">\(S^{d_{\mathrm{bulk}}-2}\)</span> has boundary CFT dimension <span class="math notranslate nohighlight">\(d_{\mathrm{CFT}} = d_{\mathrm{bulk}} - 2\)</span>, principal-series axis <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = (d_{\mathrm{bulk}} - 2)/2\)</span>, and dictionary <span class="math notranslate nohighlight">\(\Delta = (d_{\mathrm{bulk}} - 2)s\)</span>;</p></li>
+<li><p>Writing <span class="math notranslate nohighlight">\(d = d_{\mathrm{CFT}}\)</span> directly as the boundary CFT dimension, shadow symmetry acts as <span class="math notranslate nohighlight">\(\Delta \mapsto d_{\mathrm{CFT}} - \Delta\)</span> with fixed locus <span class="math notranslate nohighlight">\(\operatorname{Re}(\Delta) = d_{\mathrm{CFT}}/2\)</span>, and <span class="math notranslate nohighlight">\(\Delta = d_{\mathrm{CFT}}\,s\)</span> intertwines <span class="math notranslate nohighlight">\(\Delta \mapsto d_{\mathrm{CFT}} - \Delta\)</span> with <span class="math notranslate nohighlight">\(s \mapsto 1 - s\)</span> for every <span class="math notranslate nohighlight">\(d_{\mathrm{CFT}} &gt; 0\)</span>.</p></li>
+</ol>
+<p>Theorem <code class="docutils literal notranslate"><span class="pre">toupin_re_delta_eq_d_cft_half_bridge</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.RiemannSpectral</span></code> Section 12) proves these are algebraically identical, with <span class="math notranslate nohighlight">\(d_{\mathrm{CFT}} = 2 \iff d_{\mathrm{bulk}} = 4 \iff \operatorname{Re}(\Delta) = 1 \iff \Delta = 2s\)</span>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="two-exact-solutions-to-celestial-ir-divergences">
+<h2>2. Two Exact Solutions to Celestial IR Divergences<a class="headerlink" href="#two-exact-solutions-to-celestial-ir-divergences" title="Link to this heading">¶</a></h2>
+<p>Following <a class="reference download internal" download="" href="_downloads/76ec4bd7635f141edf62843d38056f04/Google%20Search%20AI%20-%20Review%20Toupin%27s%20Mass%20Gap%20solution%20-%20Google%20Search%20-%202026-11-26_15-52.md"><code class="xref download docutils literal notranslate"><span class="pre">chat</span> <span class="pre">log</span></code></a> (lines 131–167), we contrast confining Yang–Mills mass gaps (<span class="math notranslate nohighlight">\(m_{\mathrm{gap}} \sim \Lambda_{\mathrm{QCD}}\)</span>) against the <code class="docutils literal notranslate"><span class="pre">DDF</span></code> superfluid healing length (<span class="math notranslate nohighlight">\(\xi_\phi\)</span>) and prove two exact regularizations:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Physical Feature</p></th>
+<th class="head text-left"><p>Confining Yang–Mills Gap (<span class="math notranslate nohighlight">\(m_{\mathrm{gap}} \sim \Lambda_{\mathrm{QCD}}\)</span>)</p></th>
+<th class="head text-left"><p>DDF Superfluid Healing Length (<span class="math notranslate nohighlight">\(\xi_\phi\)</span>, Models <code class="docutils literal notranslate"><span class="pre">15b</span></code> / <code class="docutils literal notranslate"><span class="pre">16b</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>IR Spectrum (<span class="math notranslate nohighlight">\(\omega \to 0^+\)</span>)</strong></p></td>
+<td class="text-left"><p><strong>Hard gap:</strong> Zero asymptotic states for <span class="math notranslate nohighlight">\(0 &lt; \omega &lt; m_{\mathrm{gap}}\)</span>; only color-singlet glueballs reach <span class="math notranslate nohighlight">\(\mathcal{I}^+\)</span>.</p></td>
+<td class="text-left"><p><strong>Gapless Goldstone phonon + gapped jamming crossover:</strong> Long-wavelength modes (<span class="math notranslate nohighlight">\(\lambda_{\mathrm{dB}} \gg \xi_\phi\)</span>) propagate at <span class="math notranslate nohighlight">\(c\)</span>; short-wavelength modes (<span class="math notranslate nohighlight">\(\lambda_{\mathrm{dB}} \lesssim \xi_\phi\)</span>) saturate.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Mechanism Curing IR Divergence</strong></p></td>
+<td class="text-left"><p><strong>Color confinement</strong> screens chromoelectric flux into flux tubes (<span class="math notranslate nohighlight">\(V(r) \sim \sigma r\)</span>).</p></td>
+<td class="text-left"><p><strong>Constitutive saturation</strong> (<span class="math notranslate nohighlight">\(\varrho \le \varrho_{\max}^\varphi\)</span>, Kähler core <span class="math notranslate nohighlight">\(\mathcal{D}_{\mathrm{core}} \ge 1\)</span>) caps core energy without removing <span class="math notranslate nohighlight">\(1/r\)</span> river gravity.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Regularized Celestial Transform</strong></p></td>
+<td class="text-left"><p><strong>Hard-Gap Källén–Lehmann Mellin transform</strong> on <span class="math notranslate nohighlight">\([m_{\mathrm{gap}}, \infty)\)</span>.</p></td>
+<td class="text-left"><p><strong>Yukawa–Mellin + Cayley–Plancherel <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{IR/UV}}\)</span></strong> preserving gapless spin-2 poles at <span class="math notranslate nohighlight">\(\omega \to 0^+\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="solution-a-hard-gap-kallenlehmann-thresholded-mellin-transform">
+<h3>2.1 Solution A: Hard-Gap Källén–Lehmann Thresholded Mellin Transform<a class="headerlink" href="#solution-a-hard-gap-kallenlehmann-thresholded-mellin-transform" title="Link to this heading">¶</a></h3>
+<p>For any gapped or confining sector with mass threshold <span class="math notranslate nohighlight">\(m_{\mathrm{gap}} &gt; 0\)</span>, we replace <span class="math notranslate nohighlight">\(\int_0^\infty d\omega\,\omega^{\Delta-1}a_\omega^J\)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{O}_{\Delta, m_{\mathrm{gap}}}^J(z, \bar{z}) := \int_{m_{\mathrm{gap}}}^\infty d\omega\,\bigl(\omega^2 - m_{\mathrm{gap}}^2\bigr)^{\frac{\Delta - 2}{2}}\,\omega\,a_\omega^J(z, \bar{z}).
+\]</div>
+<ul>
+<li><p><strong>Exact IR Finiteness at the Soft Pole (<span class="math notranslate nohighlight">\(\Delta = 1\)</span>):</strong> For a soft-dressed amplitude <span class="math notranslate nohighlight">\(a_\omega = \omega^{-1} e^{-\omega}\)</span>, the massless integral (<span class="math notranslate nohighlight">\(m_{\mathrm{gap}} = 0\)</span>) diverges logarithmically (<span class="math notranslate nohighlight">\(\int_0^\infty \omega^{-1} e^{-\omega}\,d\omega = \infty\)</span>). For any <span class="math notranslate nohighlight">\(m_{\mathrm{gap}} &gt; 0\)</span>, substituting <span class="math notranslate nohighlight">\(\omega = m_{\mathrm{gap}} \cosh x\)</span> yields the exact finite modified Bessel value:</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathcal{O}_{1, m_{\mathrm{gap}}}[\omega^{-1} e^{-\omega}] = \int_0^\infty e^{-m_{\mathrm{gap}}\cosh x}\,dx = K_0(m_{\mathrm{gap}}) &lt; \infty,
+  \]</div>
+<p>verified to <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-35</span></code> in 45-digit <code class="docutils literal notranslate"><span class="pre">mpmath</span></code> (<code class="docutils literal notranslate"><span class="pre">kl_crit_bessel_err</span></code>) and matched by Rust Gauss–Legendre quadrature (<code class="docutils literal notranslate"><span class="pre">kallen_lehmann_soft_pole_bessel_test(0.5)</span> <span class="pre">=</span> <span class="pre">0.9244190712276656</span></code> via exact endpoint change of variables <span class="math notranslate nohighlight">\(\omega - m_{\mathrm{gap}} = t^2\)</span>, eliminating endpoint derivative singularities) to <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-11</span></code>.</p>
+</li>
+<li><p><strong>Conformal Limit (<span class="math notranslate nohighlight">\(m_{\mathrm{gap}} \to 0^+\)</span>):</strong> At <span class="math notranslate nohighlight">\(a_\omega = e^{-\omega}\)</span> and <span class="math notranslate nohighlight">\(\Delta = 2.5\)</span>, <code class="docutils literal notranslate"><span class="pre">kallen_lehmann_mellin_exp_test</span></code> converges to <span class="math notranslate nohighlight">\(\Gamma(2.5) = \frac{3\sqrt{\pi}}{4}\)</span> (<code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-11</span></code> in Rust <code class="docutils literal notranslate"><span class="pre">f64</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-25</span></code> in <code class="docutils literal notranslate"><span class="pre">mpmath</span></code>).</p></li>
+</ul>
+</section>
+<section id="solution-b-yukawamellin-transform-cayleyplancherel-ir-uv-kernel-mathcal-k-mathrm-ir-uv">
+<h3>2.2 Solution B: Yukawa–Mellin Transform &amp; Cayley–Plancherel IR/UV Kernel <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{IR/UV}}\)</span><a class="headerlink" href="#solution-b-yukawamellin-transform-cayleyplancherel-ir-uv-kernel-mathcal-k-mathrm-ir-uv" title="Link to this heading">¶</a></h3>
+<p>For massless gravitons dressed by soft BMS<span class="math notranslate nohighlight">\(_4\)</span> radiation with IR regulator <span class="math notranslate nohighlight">\(\mu_{\mathrm{IR}} &gt; 0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{O}_{\Delta, \mu_{\mathrm{IR}}}^J(z, \bar{z}) := \int_0^\infty d\omega\,\omega^{\Delta - 1}\,e^{-\mu_{\mathrm{IR}}\omega}\,a_\omega^J(z, \bar{z}) \implies \int_0^\infty d\omega\,\omega^{\Delta - 1 - n}\,e^{-\mu_{\mathrm{IR}}\omega} = \mu_{\mathrm{IR}}^{n - \Delta}\,\Gamma(\Delta - n),
+\]</div>
+<p>verified to <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1e-25</span></code> at complex <span class="math notranslate nohighlight">\(\Delta = 2.5 + 1.3i, n = 1, \mu_{\mathrm{IR}} = 0.7\)</span> (<code class="docutils literal notranslate"><span class="pre">yukawa_complex_gamma_err</span></code>). On the boost rapidity axis <span class="math notranslate nohighlight">\(\lambda \in \mathbb{R}\)</span>, we pair <span class="math notranslate nohighlight">\(\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}})\)</span> and the UV Plancherel–Unruh weight <span class="math notranslate nohighlight">\(P(\lambda) = \frac{\pi\lambda}{\sinh(\pi\lambda)}\)</span> with the rational IR soft-pole suppressor (<code class="docutils literal notranslate"><span class="pre">celestialCayleyPlancherelIRUVKernel</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{K}_{\mathrm{IR/UV}}(\lambda, \sigma_{\mathrm{dev}}; \mu_{\mathrm{IR}}, \xi_\phi) := \underbrace{\frac{1}{1 + 4\sigma_{\mathrm{dev}}^2}}_{\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}})} \cdot \underbrace{\frac{\pi\lambda}{\sinh(\pi\lambda)}}_{P(\lambda)\text{ (UV)}} \cdot \underbrace{\frac{\lambda^2}{\lambda^2 + (\mu_{\mathrm{IR}}\xi_\phi)^2}}_{\mathcal{R}_{\mathrm{IR}}(\lambda)\text{ (IR)}} \in [0, 1],
+\]</div>
+<p>which satisfies <span class="math notranslate nohighlight">\(\mathcal{K}_{\mathrm{IR/UV}}(0, \sigma_{\mathrm{dev}}) = 0\)</span> whenever <span class="math notranslate nohighlight">\(\mu_{\mathrm{IR}}\xi_\phi &gt; 0\)</span> and recovers <span class="math notranslate nohighlight">\(P(\lambda)/(1 + 4\sigma_{\mathrm{dev}}^2)\)</span> pointwise as <span class="math notranslate nohighlight">\(\mu_{\mathrm{IR}}\xi_\phi \to 0^+\)</span> (<code class="docutils literal notranslate"><span class="pre">celestial_ir_divergence_regularization_identities</span></code>).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="integrated-turner-models-16a-without-ddf-16b-with-ddf">
+<h2>3. Integrated Turner Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> (Without DDF) &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code> (With DDF)<a class="headerlink" href="#integrated-turner-models-16a-without-ddf-16b-with-ddf" title="Link to this heading">¶</a></h2>
+<p>Building directly on Models <code class="docutils literal notranslate"><span class="pre">15a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">15b</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30.7), we define in <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30.8 (<a class="reference download internal" download="" href="_downloads/ee08b0c63df8e625eb21057e79a11b0e/DDF.lean"><code class="xref download docutils literal notranslate"><span class="pre">DDF.lean</span></code></a>, <code class="docutils literal notranslate"><span class="pre">turner_model_16_ir_regularized_celestial_ddf_graviton_unification</span></code>) the dimensionless IR screening parameter:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\kappa_{\mathrm{IR}} := \begin{cases} m_{\mathrm{gap}}\,a / (\hbar c), &amp; \text{Model 16a (Yukawa / confining mass gap } m_{\mathrm{gap}} \ge 0,\ \eta_{\mathrm{act}}^\gamma = 1\text{)}, \\ \xi_\phi / a, &amp; \text{Model 16b (DDF superfluid healing length } \xi_\phi \ge 0,\ \eta_{\mathrm{act}}^\gamma = 0\text{)}, \end{cases}
+\end{split}\]</div>
+<p>and the <strong>unconditionally positive, IR-screened, Cayley-shadowed, Plancherel-resummed gravitational transfer factor</strong> (<code class="docutils literal notranslate"><span class="pre">celestialTransferFactor16</span></code>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}}) := \underbrace{\frac{1}{1 + 4\sigma_{\mathrm{dev}}^2}}_{\mathcal{W}_{\mathrm{grav}}^{\mathrm{Cayley}}(\sigma_{\mathrm{dev}})} \cdot \underbrace{\left(1 + \frac{1}{8}\alpha_{\mathrm{QG}} + \frac{1}{90}\alpha_{\mathrm{QG}}^2\right)}_{\mathcal{F}_{\mathrm{loop}}(\alpha_{\mathrm{QG}}) \le \frac{8}{8 - \alpha_{\mathrm{QG}}}} \cdot \underbrace{(1 + \kappa_{\mathrm{IR}})\,e^{-\kappa_{\mathrm{IR}}}}_{\mathcal{S}_{\mathrm{IR}}(\kappa_{\mathrm{IR}}) \in (0, 1]}.
+\]</div>
+<p>Note two key analytical properties proved in Lean 4 and SymPy:</p>
+<ol class="arabic simple">
+<li><p><strong>Quadratic IR Suppression at Small <span class="math notranslate nohighlight">\(\kappa_{\mathrm{IR}}\)</span>:</strong> Expanding <span class="math notranslate nohighlight">\(\mathcal{S}_{\mathrm{IR}}(\kappa_{\mathrm{IR}}) = 1 - \tfrac{1}{2}\kappa_{\mathrm{IR}}^2 + \tfrac{1}{3}\kappa_{\mathrm{IR}}^3 - \cdots\)</span> eliminates any <span class="math notranslate nohighlight">\(O(\kappa_{\mathrm{IR}})\)</span> linear deviation, preserving solar-system ephemeris bounds at <span class="math notranslate nohighlight">\(\kappa_{\mathrm{IR}} \ll 1\)</span>.</p></li>
+<li><p><strong>Unconditional All-Regime Positivity:</strong> Unlike Model <code class="docutils literal notranslate"><span class="pre">15</span></code>’s bare factor <span class="math notranslate nohighlight">\(1 - 4\sigma_{\mathrm{dev}}^2\)</span> (which turns negative for <span class="math notranslate nohighlight">\(\lvert\sigma_{\mathrm{dev}}\rvert &gt; 1/2\)</span>), <span class="math notranslate nohighlight">\(\mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}}) &gt; 0\)</span> holds unconditionally for all <span class="math notranslate nohighlight">\(\sigma_{\mathrm{dev}} \in \mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(\alpha_{\mathrm{QG}} \ge 0\)</span>, and <span class="math notranslate nohighlight">\(\kappa_{\mathrm{IR}} \ge 0\)</span> (<code class="docutils literal notranslate"><span class="pre">celestialIrScreeningFactor</span></code> bounded in <span class="math notranslate nohighlight">\((0, 1]\)</span> via <code class="docutils literal notranslate"><span class="pre">Real.add_one_le_exp</span></code>).</p></li>
+</ol>
+<section id="master-equations-predictions-of-models-16a-16b">
+<h3>Master Equations &amp; Predictions of Models <code class="docutils literal notranslate"><span class="pre">16a</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">16b</span></code><a class="headerlink" href="#master-equations-predictions-of-models-16a-16b" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>1PN Perihelion Precession (<code class="docutils literal notranslate"><span class="pre">PlanetaryOrbit.turnerModel16aPrecessionRad</span></code>, <code class="docutils literal notranslate"><span class="pre">RiverExterior.turnerModel16bPrecessionRad</span></code>):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+   \Delta\varpi_{\mathrm{Model\,16a/b}} = \mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}})\,\frac{6\pi G_\phi M}{c^2 a\bigl(\mathcal{D}(W_{\mathrm{orb}}) - 3\bigr)} + \delta_{\mathrm{Jos}}, \qquad \mathcal{D}(W_{\mathrm{orb}}) - 3 = 1 - e^2.
+   \]</div>
+<p>At <span class="math notranslate nohighlight">\((\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}}, \delta_{\mathrm{Jos}}) = (0, 0, 0, 0)\)</span>, both <code class="docutils literal notranslate"><span class="pre">16a</span></code> and <code class="docutils literal notranslate"><span class="pre">16b</span></code> yield <span class="math notranslate nohighlight">\(42.9814''/\text{cy}\)</span> for Mercury (<span class="math notranslate nohighlight">\(\varepsilon_{\mathrm{rel}} &lt; 10^{-15}\)</span>).</p>
+</li>
+<li><p><strong>2.5PN Gravitational-Wave Luminosity (<code class="docutils literal notranslate"><span class="pre">turnerModel16aGWLuminosity</span></code>, <code class="docutils literal notranslate"><span class="pre">turnerModel16bGWLuminosity</span></code>):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+   P_{\mathrm{GW}}^{\mathrm{Model\,16a/b}} = \mathcal{G}_{16}(\sigma_{\mathrm{dev}}, \alpha_{\mathrm{QG}}, \kappa_{\mathrm{IR}})\,\frac{32 G_\phi^4 m_1^2 m_2^2 (m_1 + m_2)}{5 c^5 a^5}\,\frac{P_{\mathrm{PM}}(e)}{\bigl(\sqrt{\mathcal{D}(W_{\mathrm{orb}}) - 3}\bigr)^7}\,\Theta(2\Omega_{\mathrm{orb}} - \omega_{\mathrm{gap}}) + \delta P_{\mathrm{Jos}},
+   \]</div>
+<p>with <span class="math notranslate nohighlight">\(\omega_{\mathrm{gap}} = m_{\mathrm{gap}} c^2/\hbar\)</span> in Model <code class="docutils literal notranslate"><span class="pre">16a</span></code> (cutting off quadrupolar radiation below a hard mass gap: <code class="docutils literal notranslate"><span class="pre">turnerModel16aGWLuminosity</span> <span class="pre">...</span> <span class="pre">=</span> <span class="pre">0</span></code> when <span class="math notranslate nohighlight">\(2\Omega_{\mathrm{orb}} &lt; \omega_{\mathrm{gap}}\)</span>) vs. <span class="math notranslate nohighlight">\(\omega_{\mathrm{gap}} = 0\)</span> in Model <code class="docutils literal notranslate"><span class="pre">16b</span></code> (gapless long-wavelength DDF phonons retain positive emission <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">turnerModel16bGWLuminosity</span></code>).</p>
+</li>
+<li><p><strong>1PN Solar Light Deflection &amp; Active Laser Discriminator (<code class="docutils literal notranslate"><span class="pre">turnerModel16aLightDeflection</span></code>, <code class="docutils literal notranslate"><span class="pre">turnerModel16bLightDeflection</span></code>):</strong>
+Both recover <span class="math notranslate nohighlight">\(1.7505''\)</span> at <span class="math notranslate nohighlight">\((0,0,0,0)\)</span>, while <code class="docutils literal notranslate"><span class="pre">mutualPhotonDeflection</span></code> preserves <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 1\)</span> (<code class="docutils literal notranslate"><span class="pre">16a</span></code>) vs. <span class="math notranslate nohighlight">\(\eta_{\mathrm{act}}^\gamma = 0\)</span> (<code class="docutils literal notranslate"><span class="pre">16b</span></code>).</p></li>
+</ol>
+</section>
+<section id="critique-physical-distinction-ir-yukawa-screening-16a-vs-uv-core-saturation-16b">
+<h3>3.1 Critique &amp; Physical Distinction: IR Yukawa Screening (<code class="docutils literal notranslate"><span class="pre">16a</span></code>) vs. UV Core Saturation (<code class="docutils literal notranslate"><span class="pre">16b</span></code>)<a class="headerlink" href="#critique-physical-distinction-ir-yukawa-screening-16a-vs-uv-core-saturation-16b" title="Link to this heading">¶</a></h3>
+<p>An adversarial review of our initial Model <code class="docutils literal notranslate"><span class="pre">16a</span></code>/<code class="docutils literal notranslate"><span class="pre">16b</span></code> formulation highlights an essential physical distinction captured by <code class="docutils literal notranslate"><span class="pre">turner_model_16_critique_monotonicity_and_uv_core_vs_ir_gap_identities</span></code> (<code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code> Section 30.8) and <code class="docutils literal notranslate"><span class="pre">model16_uv_core_vs_ir_gap_ordering</span></code> in Rust/SymPy:</p>
+<ol class="arabic">
+<li><p><strong>Opposite Orbital Scaling of <span class="math notranslate nohighlight">\(\kappa_{16a}(a)\)</span> vs. <span class="math notranslate nohighlight">\(\kappa_{16b}(a)\)</span>:</strong></p>
+<ul class="simple">
+<li><p>In <strong>Model <code class="docutils literal notranslate"><span class="pre">16a</span></code> (<code class="docutils literal notranslate"><span class="pre">model16aIrYukawaParam</span></code>):</strong> <span class="math notranslate nohighlight">\(\kappa_{16a}(a) = a / \lambda_{\mathrm{gap}}\)</span> increases with orbital radius <span class="math notranslate nohighlight">\(a\)</span>. This represents true <strong>long-distance infrared (IR) Yukawa screening</strong>. Current LIGO/Virgo gravitational-wave dispersion and solar-system ephemeris bounds on the graviton Compton wavelength (<span class="math notranslate nohighlight">\(\lambda_{\mathrm{gap}} &gt; 1.5\times 10^{16}\text{ m}\)</span>, <span class="math notranslate nohighlight">\(m_g &lt; 1.3\times 10^{-23}\text{ eV}/c^2\)</span>) require <span class="math notranslate nohighlight">\(\kappa_{16a} \ll 10^{-5}\)</span> at planetary scales.</p></li>
+<li><p>In <strong>Model <code class="docutils literal notranslate"><span class="pre">16b</span></code> (<code class="docutils literal notranslate"><span class="pre">model16bCoreRegularizationParam</span></code>):</strong> <span class="math notranslate nohighlight">\(\kappa_{16b}(a) = \xi_\phi / a\)</span> <strong>decreases</strong> as <span class="math notranslate nohighlight">\(a \to \infty\)</span>. Physically, <span class="math notranslate nohighlight">\(\mathcal{S}_{\mathrm{IR}}(\xi_\phi/a)\)</span> therefore acts as a <strong>short-distance ultraviolet (UV) superfluid core regularization</strong> (vanishing rapidly at macroscopic orbital radii <span class="math notranslate nohighlight">\(a \gg \xi_\phi\)</span>) rather than an IR screening cutoff—consistent with DDF’s gapless long-wavelength phonon spectrum (<span class="math notranslate nohighlight">\(\omega_{\mathrm{gap}} = 0\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Strict Anti-Monotonicity &amp; Quadratic Solar-System Ephemeris Bound:</strong>
+Because <span class="math notranslate nohighlight">\(\mathcal{S}_{\mathrm{IR}}'(\kappa) = -\kappa e^{-\kappa} &lt; 0\)</span> for all <span class="math notranslate nohighlight">\(\kappa &gt; 0\)</span> and <span class="math notranslate nohighlight">\((\mathcal{S}_{\mathrm{IR}}(\kappa) - (1 - \kappa^2/2))' = \kappa(1 - e^{-\kappa}) \ge 0\)</span>, Lean 4 proves unconditionally:</p>
+<div class="math notranslate nohighlight">
+\[
+   0 &lt; \mathcal{S}_{\mathrm{IR}}(\kappa_2) &lt; \mathcal{S}_{\mathrm{IR}}(\kappa_1) \le 1 \quad (\forall\,0 \le \kappa_1 &lt; \kappa_2), \qquad 1 - \frac{\kappa^2}{2} \le \mathcal{S}_{\mathrm{IR}}(\kappa) \le 1 \quad (\forall\,\kappa \ge 0),
+   \]</div>
+<p>guaranteeing that any Yukawa or healing-length deviation satisfies <span class="math notranslate nohighlight">\(|\mathcal{S}_{\mathrm{IR}}(\kappa) - 1| \le \kappa^2/2\)</span> across all regimes without linear ephemeris drift.</p>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reproducible-verification-commands">
+<h2>4. Reproducible Verification Commands<a class="headerlink" href="#reproducible-verification-commands" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-C<span class="w"> </span>/workspaces/sustainablefactory<span class="w"> </span>signals_build
+cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--manifest-path<span class="w"> </span>/workspaces/sustainablefactory/src/signals/numerical_adapter/Cargo.toml
+pytest<span class="w"> </span>-q<span class="w"> </span>/workspaces/sustainablefactory/tests/test_riemann_spectral_sympy_pyo3.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>test_celestial_ir_regularization_and_turner_model16_sympy_mpmath_pyo3
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="provenance-metadata-bibtex-json-ld">
+<h2>5. Provenance Metadata (BibTeX &amp; JSON-LD)<a class="headerlink" href="#provenance-metadata-bibtex-json-ld" title="Link to this heading">¶</a></h2>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">turner2026celestial_ir_model16</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Turner, Wesley}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, Re(Delta) = d/2 Bridging, and Integrated Turner Models 16a \&amp; 16b in Lean 4, Rust/PyO3, and SymPy}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">howpublished</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Sustainable Factory Technical Monograph \&amp; Formal Verification Suite}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{Verified in Signals.RiemannSpectral Sec. 12, Signals.SatoGrassmannian.RiemannSpectralBridge, and Signals.DDF Sec. 30.8}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.org"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ScholarlyArticle"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"headline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Infrared Divergence Resolution in Celestial Holography, Dimensional Transmutation, Re(Δ) = d_CFT/2 Bridging, and Integrated Turner Models 16a &amp; 16b"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Person"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wes Turner"</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"isBasedOn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"data/papers/TOUQGA-2.pdf"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/RiemannSpectral.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/SatoGrassmannian/RHGaps.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/SatoGrassmannian/RiemannSpectralBridge.lean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"src/signals/Signals/DDF.lean"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"dateModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-26"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<div class="docutils container" id="id9">
+<div role="list" class="citation-list">
+<div class="citation" id="id410" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">1</a><span class="fn-bracket">]</span></span>
+<p>A Strominger. Lectures on the infrared structure of gravity and gauge theory. 2018. Referenced in docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md.; Referenced in docs/grassmannian-unification-applications-roadmap-paper.md. URL: <a class="reference external" href="https://arxiv.org/abs/1703.05448">https://arxiv.org/abs/1703.05448</a>, <a class="reference external" href="https://arxiv.org/abs/1703.05448">arXiv:1703.05448</a>.</p>
+</div>
+<div class="citation" id="id517" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">2</a><span class="fn-bracket">]</span></span>
+<p>Sabrina Pasterski, Shu-Heng Shao, and Andrew Strominger. Flat space amplitudes and conformal symmetry of the celestial sphere. <em>Physical Review D</em>, 96(6):065026, 2017. <a class="reference external" href="https://arxiv.org/abs/1701.00049">arXiv:1701.00049</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevD.96.065026">doi:10.1103/PhysRevD.96.065026</a>.</p>
+</div>
+<div class="citation" id="id516" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id6">2</a>,<a role="doc-backlink" href="#id7">3</a>)</span>
+<p>Daniel Toupin. <em>On the Nature of Nature: Celestial Holography to the Zeta Zeros — Quantum Gravity and Three Millennium Prize Solutions from Haar Measure Invariance via Celestial Holographic Conformal Field Theory</em>. Golden Physics Press, Cardinal, Ontario, 2025. PhilPapers TOUQGA-2; PDF: <a class="reference external" href="https://philpapers.org/archive/TOUQGA-2.pdf">https://philpapers.org/archive/TOUQGA-2.pdf</a>; local copy: data/papers/TOUQGA-2.pdf (970 pp.). URL: <a class="reference external" href="https://philpapers.org/rec/TOUQGA-2">https://philpapers.org/rec/TOUQGA-2</a>.</p>
+</div>
+<div class="citation" id="id560" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">4</a><span class="fn-bracket">]</span></span>
+<p>Wesley Turner and Google Search AI. Review toupin's mass gap solution, celestial ir divergences, and models 16a &amp; 16b. AI chat log, 2026. Source: data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 1–204.</p>
+</div>
+<div class="citation" id="id558" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Daniel Toupin. The Yang–Mills mass gap: proof via celestial holography and Haar measure. PhilArchive preprint, 2026. PDF: <a class="reference external" href="https://philarchive.org/archive/TOUTYM">https://philarchive.org/archive/TOUTYM</a>; discussed in data/chats/Google Search AI - Review Toupin's Mass Gap solution - Google Search - 2026-11-26_15-52.md, lines 13–45. URL: <a class="reference external" href="https://philarchive.org/rec/TOUTYM">https://philarchive.org/rec/TOUTYM</a>.</p>
+</div>
+<div class="citation" id="id559" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id6">2</a>,<a role="doc-backlink" href="#id8">3</a>)</span>
+<p>Daniel Toupin. The reason the Riemann hypothesis is true: $\re (\delta ) = d/2$. PhilPapers preprint, 2026. PDF: <a class="reference external" href="https://philpapers.org/archive/TOUTRR.pdf">https://philpapers.org/archive/TOUTRR.pdf</a>; companion to TOUQGA-2.pdf Section 7.3.4. URL: <a class="reference external" href="https://philpapers.org/rec/TOUTRR">https://philpapers.org/rec/TOUTRR</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">Sustainable Factory 0.1.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="grassmannian-antimatter-annihilation-alpha-g-models-paper.html" title="Antimatter Annihilation, Electron &amp; Gravity Mechanics Across General Relativity, Cachazo–Witten Twistor Strings, QED Scattering Gravity, Dilatant Dark Fluid (DDF), and Turner Models 3–15b: Tested Against CERN ALPHA-g Data" >previous</a></li>
+        <li><a href="yang-mills-higgs-cpt-pending-closure-plan.html" title="Written Plan: Constructive Gap-Closure Contracts and Certificate Solver for YangMillsMassGapHiggsCPTPendingBoundary" >next</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, @westurner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>
