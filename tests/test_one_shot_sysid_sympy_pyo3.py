@@ -60,11 +60,16 @@ def test_pyo3_and_mpmath_qci_one_shot_sysid_audit():
     # Circulant 1-shot vs Hankel 1-probe deficit / 2-probe recovery + Quantum Switch
     assert rust["circulant_rank_1shot"] == 4
     assert rust["circulant_max_err"] < 1e-12
+    assert rust["circulant_n40_rank"] == 40
+    assert rust["circulant_n40_max_err"] < 1e-12
     assert rust["hankel_1shot_rows"] == 3
     assert rust["hankel_1shot_cols"] == 5
     assert rust["hankel_1shot_rank"] == 3
     assert rust["hankel_2shot_rank"] == 5
     assert rust["hankel_2shot_max_err"] < 1e-12
+    assert rust["hankel_n40_1shot_rank"] == 40
+    assert rust["hankel_n40_2shot_rank"] == 79
+    assert rust["hankel_n40_2shot_max_err"] < 1e-11
     assert abs(rust["hankel_2x2_two_probe_det"]) > 0.5
     assert abs(rust["vrc_destructive_minor"]) < 1e-14
 
@@ -77,7 +82,7 @@ def test_pyo3_and_mpmath_qci_one_shot_sysid_audit():
 
 def test_symbolic_literature_check_figures():
     sym_res = verify_symbolic_literature_check_figures()
-    assert len(sym_res) == 6
+    assert len(sym_res) == 8
     assert all(sym_res.values()), f"Failed literature symbolic checks: {sym_res}"
 
 
@@ -87,6 +92,8 @@ def test_pyo3_and_mpmath_literature_benchmarks_audit():
     assert rep["elliptic_prop36_sym_ok"]
     assert rep["qi_ranard_quad_sym_ok"]
     assert rep["qi_ranard_2q_exact_ok"]
+    assert rep["bairey_2q_exact_ok"]
+    assert rep["qi_ranard_dim_compression_ok"]
     assert rep["zhao_scaling_sym_ok"]
     assert rep["goswami_sym_ok"]
 
@@ -110,17 +117,20 @@ def test_pyo3_and_mpmath_literature_benchmarks_audit():
     assert abs(rust["duffing_gamma"] - 8.0) < 1e-6
     assert rust["duffing_max_coeff_err"] < 1e-6
 
-    # 2D Allen-Cahn, Elliptic Prop. 36, and Navier-Stokes continuity
+    # 2D Allen-Cahn, Elliptic Prop. 36, and Navier-Stokes continuity + 16-term momentum
     assert rust["allen_cahn_2d_rank"] == 9
     assert rust["allen_cahn_2d_max_coeff_err"] < 1e-10
     assert rust["elliptic_coprime_rank"] == 1
-    assert abs(rust["elliptic_coprime_gram_det"]) < 1e-6
+    assert 0.0 <= rust["elliptic_coprime_gram_det"] < 1e-18
     assert rust["elliptic_coprime_ray_residual"] < 1e-12
     assert rust["elliptic_multimode_rank"] == 2
     assert rust["elliptic_multimode_max_err"] < 1e-11
     assert rust["ns_continuity_rank"] == 3
     assert rust["ns_continuity_sigma4"] < 1e-12
     assert rust["ns_continuity_max_coeff_err"] < 1e-12
+    assert rust["ns_momentum_rank"] == 16
+    assert abs(rust["ns_momentum_recovered_nu"] - 1e-3) < 1e-12
+    assert rust["ns_momentum_max_coeff_err"] < 1e-10
 
     # Qi & Ranard (2019) & Bairey et al. (2019) single-eigenstate 4-qubit recovery
     assert rust["qi_ranard_num_qubits"] == 4
@@ -130,7 +140,11 @@ def test_pyo3_and_mpmath_literature_benchmarks_audit():
     assert rust["qi_ranard_lambda2"] > 1e-3
     assert rust["qi_ranard_angle_err_rad"] < 1e-10
     assert rust["qi_ranard_max_scaled_coeff_err"] < 1e-10
+    assert 0.0 < rust["qi_ranard_dk_lhs"] <= rust["qi_ranard_dk_rhs"]
     assert rust["bairey_commutator_residual"] < 1e-12
+    assert abs(rust["bairey_ktk_lambda1"]) < 1e-12
+    assert rust["bairey_ktk_lambda2"] > 1e-4
+    assert rust["bairey_recovered_max_err"] < 1e-11
 
     # Zhao et al. (2020) & Goswami et al. (2018)
     assert abs(rust["zhao_n5_switch_fisher"] - 625.0) < 1e-12

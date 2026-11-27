@@ -11463,6 +11463,13 @@ structure QuantumSwitchInterferometricProbeCertificate where
   eAnti : ℝ
   hSym : 0 < eSym
   hAnti : 0 ≤ eAnti
+  causalWitnessBound : ℝ
+  causalWitnessExp : ℝ
+  causalWitnessSigma : ℝ
+  hWitnessSigmaPos : 0 < causalWitnessSigma
+  hWitnessMargin :
+    3 ≤ Signals.QuantumCausalInference.osidGoswamiWitnessSigmaMargin
+      causalWitnessBound causalWitnessExp causalWitnessSigma
   quantumSwitchValidated : Prop
   quantumSwitchValidated_holds : quantumSwitchValidated
 
@@ -11492,6 +11499,9 @@ noncomputable def OneShotQuantumSysIdPendingBoundary.ofCertificates
         c2.yObs
   quantumSwitchProbeValidated :=
     c3.quantumSwitchValidated ∧
+      0 < c3.eSym + c3.eAnti ∧
+      3 ≤ Signals.QuantumCausalInference.osidGoswamiWitnessSigmaMargin
+        c3.causalWitnessBound c3.causalWitnessExp c3.causalWitnessSigma ∧
       Signals.QuantumCausalInference.osidQcrbVarianceLowerBound 1 c3.gFs = (4 * c3.gFs)⁻¹ ∧
       Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
         c3.kBTln2 c3.fidelity c3.qOverhead <
@@ -11521,11 +11531,13 @@ theorem OneShotQuantumSysIdPendingBoundary.solved_of_certificates
     c3.hgFs c3.hmShots c3.hkBTln2 c3.hqOverhead
   have hHankel2 : Signals.QuantumCausalInference.osidHankel2x2TwoProbeDet c1.f0 c1.f1 c1.g0 c1.g1 ≠ 0 :=
     hOsid.2.2.2.2.2.2.2.2.1 c1.hf1 c1.hPluckerFg
+  have hSymSum : 0 < c3.eSym + c3.eAnti := add_pos_of_pos_of_nonneg c3.hSym c3.hAnti
   exact ⟨⟨⟨c1.banachZeroOneProved_holds, c1.hGramPos,
         hOsid.2.2.2.2.2.1, hHankel2⟩,
       ⟨c2.doProbeCalibrated_holds, c2.telemetryConsistent,
         hOsid.2.2.2.2.2.2.2.2.2.1, hOsid.2.2.2.2.2.2.2.2.2.2.1⟩,
-      ⟨c3.quantumSwitchValidated_holds, hOsid.2.2.2.2.2.2.2.2.2.2.2.2.1,
+      ⟨c3.quantumSwitchValidated_holds, hSymSum, c3.hWitnessMargin,
+        hOsid.2.2.2.2.2.2.2.2.2.2.2.2.1,
         hOsid.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩⟩,
     hOsid.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     hOsid.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩

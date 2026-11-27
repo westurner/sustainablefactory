@@ -2988,8 +2988,38 @@ def osidZhaoSwitchFisher (n_boxes : ℝ) : ℝ :=
 noncomputable def osidZhaoSwitchRmseSq (nu_reps n_boxes : ℝ) : ℝ :=
   (nu_reps * osidZhaoSwitchFisher n_boxes)⁻¹
 
+/-- Zhao, Yang, & Chiribella (2020, Eq. (7)) heterodyne-readout Quantum Switch
+variance `ΔA'_switch^2 = ΔA_switch^2 * ((x̄^2 + p̄^2) / (x̄^2 + p̄^2 + 1/N^2))`. -/
+noncomputable def osidZhaoSwitchHeterodyneRmseSq (nu_reps n_boxes zp_sq : ℝ) : ℝ :=
+  osidZhaoSwitchRmseSq nu_reps n_boxes * (zp_sq / (zp_sq + (n_boxes ^ 2)⁻¹))
+
 noncomputable def osidZhaoFixedOrderRmseSq (z_min nu_reps energy n_boxes : ℝ) : ℝ :=
   z_min ^ 2 / (8 * nu_reps * energy * n_boxes ^ 2)
+
+/-- Qi & Ranard (2019, Section 2.1): 1D periodic `k = 2`-local spin-chain
+Hamiltonian parameter dimension `12 * n` vs. real Hilbert dimension `2^(n + 1)`. -/
+def osidQiRanardSpinChainParamDim (n_qubits : ℕ) : ℕ :=
+  12 * n_qubits
+
+def osidQiRanardHilbertRealDim (n_qubits : ℕ) : ℕ :=
+  2 ^ (n_qubits + 1)
+
+/-- Qi & Ranard (2019) exponential compression lemma: for every 1D qubit spin chain
+of length `n ≥ 10`, the `k = 2`-local Hamiltonian dimension `12 * n` is strictly
+smaller than the real Hilbert space dimension `2^(n + 1)` (`120 < 2048` at `n = 10`). -/
+lemma osidQiRanard_spin_chain_dim_lt_hilbert (n : ℕ) (hn : 10 ≤ n) :
+    osidQiRanardSpinChainParamDim n < osidQiRanardHilbertRealDim n := by
+  unfold osidQiRanardSpinChainParamDim osidQiRanardHilbertRealDim
+  induction n, hn using Nat.le_induction with
+  | base => decide
+  | succ k hk ih =>
+      have hk1 : 1 ≤ k := by omega
+      calc
+        12 * (k + 1) = 12 * k + 12 := by ring
+        _ < 12 * k + 12 * k := by omega
+        _ = 2 * (12 * k) := by ring
+        _ < 2 * 2 ^ (k + 1) := by omega
+        _ = 2 ^ ((k + 1) + 1) := by ring
 
 /-- Goswami et al. (2018, *PRL* 121, 090503, `arXiv:1803.04302v2`):
 Causal witness z-score `(bound - ⟨S⟩_exp) / σ_S` quantifying standard deviations beyond
@@ -3004,14 +3034,16 @@ Proves simultaneously:
 2. **2D Elliptic Coprime Degeneracy (`arXiv:2611.30470v1` Proposition 36)**: For any coprime
    mode ratio `(m, n)` and any harmonic `k`, the coefficient pair `(a, b) = (n^2, -m^2)`
    annihilates `osidEllipticModeKernelResidual (n^2) (-m^2) k m n = 0` identically.
-3. **Qi–Ranard (2019) Correlation-Matrix Rank-1 Kernel & Davis–Kahan Conditioning**:
+3. **Qi–Ranard (2019) Correlation-Matrix Rank-1 Kernel, Exponential Compression, & Davis–Kahan Conditioning**:
    For any pure outer-product fluctuation matrix `m00 = a^2, m01 = a*b, m11 = b^2`,
    `osidQiRanardCorrQuadForm2 (a^2) (a*b) (b^2) w0 w1 = (a*w0 + b*w1)^2 ≥ 0` and
-   vanishes along the Hamiltonian eigenvector `(w0, w1) = (b, -a)`, while
+   vanishes along the Hamiltonian eigenvector `(w0, w1) = (b, -a)`;
+   `osidQiRanardSpinChainParamDim n < osidQiRanardHilbertRealDim n` for all `n ≥ 10`; and
    `osidQiRanardDavisKahanBound` decreases monotonically as `λ_2` grows.
-4. **Zhao–Yang–Chiribella (2020) Super-Heisenberg $1/N^2$ vs. $1/N$ Scaling**:
-   For `n_boxes = 15, nu_reps = 10, energy = 1, z_min = 1`, `osidZhaoSwitchFisher 15 = 50625`
-   and `osidZhaoSwitchRmseSq 10 15 < osidZhaoFixedOrderRmseSq 1 10 1 15` (`(1/N^2)^2 < (1/(N √8))^2`).
+4. **Zhao–Yang–Chiribella (2020) Universal Super-Heisenberg $1/N^2$ Crossover & Heterodyne Dominance**:
+   For all `n_boxes > 0, nu_reps > 0, energy > 0, zp_sq > 0` satisfying `8 * energy < z_min^2 * n_boxes^2`,
+   `osidZhaoSwitchHeterodyneRmseSq < osidZhaoSwitchRmseSq < osidZhaoFixedOrderRmseSq`,
+   plus exact `osidZhaoSwitchFisher 15 = 50625`.
 5. **Goswami et al. (2018) Photonic Quantum Switch Causal Witness**:
    At `⟨S⟩_exp = -0.171`, `σ_S = 0.009`: `osidGoswamiWitnessSigmaMargin 0 (-0.171) 0.009 = 19 ≥ 18`
    against the ideal definite-order bound `0`, and `osidGoswamiWitnessSigmaMargin (-0.038) (-0.171) 0.009 = 133/9 > 14`
@@ -3019,26 +3051,35 @@ Proves simultaneously:
 @[blueprint "thm:signals-qci-osid-literature-benchmarks"
   (title := "Literature Check-Figure Identities: Duffing, Elliptic Proposition 36, Qi-Ranard, Zhao-Yang-Chiribella, & Goswami")
   (statement := /-- Proves Duffing scale invariance, 2D elliptic Proposition 36 coprime kernel
-    vanishing, Qi--Ranard correlation-matrix rank-1 kernel & Davis--Kahan monotonicity,
-    Zhao--Yang--Chiribella $1/N^2$ vs.\ $1/N$ super-Heisenberg Quantum Switch dominance, and
-    Goswami et al.\ $19\sigma > 18\sigma$ / $> 14\sigma$ causal witness margins. -/)
-  (proof := /-- Unfold Section 16.1 definitions and close by \texttt{ring}, \texttt{field\_simp},
+    vanishing, Qi--Ranard correlation-matrix rank-1 kernel, $12n < 2^{n+1}$ ($n \ge 10$)
+    compression, \& Davis--Kahan monotonicity, Zhao--Yang--Chiribella universal $1/N^2$
+    crossover \& heterodyne improvement, and Goswami et al.\ $19\sigma \ge 18\sigma$ / $> 14\sigma$
+    causal witness margins. -/)
+  (proof := /-- Unfold Section 16.1 definitions, invoke \texttt{osidQiRanard\_spin\_chain\_dim\_lt\_hilbert},
+    and close algebraic inequalities by \texttt{ring}, \texttt{field\_simp}, \texttt{nlinarith},
     \texttt{positivity}, and \texttt{norm\_num}. -/)]
 theorem qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_identities
     (theta_j theta_udd lam : ℝ) (hudd : theta_udd ≠ 0) (hlam : lam ≠ 0)
-    (k m n : ℕ)
+    (k m n n_chain : ℕ) (hn_chain : 10 ≤ n_chain)
     (a b w0 w1 eps delta_m lam2_lo lam2_hi : ℝ)
-    (heps : 0 ≤ eps) (hdm : 0 ≤ delta_m) (hl2_pos : 0 < lam2_lo) (hl2_le : lam2_lo ≤ lam2_hi) :
+    (heps : 0 ≤ eps) (hdm : 0 ≤ delta_m) (hl2_pos : 0 < lam2_lo) (hl2_le : lam2_lo ≤ lam2_hi)
+    (n_boxes nu_reps energy z_min zp_sq : ℝ)
+    (hnb : 0 < n_boxes) (hnu : 0 < nu_reps) (hen : 0 < energy) (hzp : 0 < zp_sq)
+    (hcross : 8 * energy < z_min ^ 2 * n_boxes ^ 2) :
     osidDuffingNormalizedCoeff (lam * theta_j) (lam * theta_udd) =
         osidDuffingNormalizedCoeff theta_j theta_udd ∧
       osidEllipticModeKernelResidual ((n : ℝ) ^ 2) (-((m : ℝ) ^ 2)) k m n = 0 ∧
       osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) w0 w1 = (a * w0 + b * w1) ^ 2 ∧
       0 ≤ osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) w0 w1 ∧
       osidQiRanardCorrQuadForm2 (a ^ 2) (a * b) (b ^ 2) b (-a) = 0 ∧
+      osidQiRanardSpinChainParamDim n_chain < osidQiRanardHilbertRealDim n_chain ∧
       osidQiRanardDavisKahanBound eps delta_m lam2_hi ≤
         osidQiRanardDavisKahanBound eps delta_m lam2_lo ∧
       osidZhaoSwitchFisher 15 = 50625 ∧
-      osidZhaoSwitchRmseSq 10 15 < osidZhaoFixedOrderRmseSq 1 10 1 15 ∧
+      osidZhaoSwitchRmseSq nu_reps n_boxes <
+        osidZhaoFixedOrderRmseSq z_min nu_reps energy n_boxes ∧
+      osidZhaoSwitchHeterodyneRmseSq nu_reps n_boxes zp_sq <
+        osidZhaoSwitchRmseSq nu_reps n_boxes ∧
       (18 : ℝ) ≤ osidGoswamiWitnessSigmaMargin 0 (-171 / 1000) (9 / 1000) ∧
       (14 : ℝ) < osidGoswamiWitnessSigmaMargin (-38 / 1000) (-171 / 1000) (9 / 1000) := by
   have h_dk :
@@ -3046,6 +3087,28 @@ theorem qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_ide
         osidQiRanardDavisKahanBound eps delta_m lam2_lo := by
     unfold osidQiRanardDavisKahanBound
     exact div_le_div_of_nonneg_left (mul_nonneg heps hdm) hl2_pos hl2_le
+  have h_zhao_cross :
+      osidZhaoSwitchRmseSq nu_reps n_boxes <
+        osidZhaoFixedOrderRmseSq z_min nu_reps energy n_boxes := by
+    unfold osidZhaoSwitchRmseSq osidZhaoFixedOrderRmseSq osidZhaoSwitchFisher
+    rw [inv_eq_one_div, div_lt_div_iff₀ (mul_pos hnu (pow_pos hnb 4))
+      (mul_pos (mul_pos (mul_pos (by norm_num) hnu) hen) (pow_pos hnb 2))]
+    have h_mul : 8 * energy * (nu_reps * n_boxes ^ 2) < (z_min ^ 2 * n_boxes ^ 2) * (nu_reps * n_boxes ^ 2) :=
+      mul_lt_mul_of_pos_right hcross (mul_pos hnu (pow_pos hnb 2))
+    linarith
+  have h_zhao_het :
+      osidZhaoSwitchHeterodyneRmseSq nu_reps n_boxes zp_sq <
+        osidZhaoSwitchRmseSq nu_reps n_boxes := by
+    unfold osidZhaoSwitchHeterodyneRmseSq osidZhaoSwitchRmseSq osidZhaoSwitchFisher
+    have h_sw_pos : 0 < (nu_reps * n_boxes ^ 4)⁻¹ := inv_pos.mpr (mul_pos hnu (pow_pos hnb 4))
+    have h_inv_pos : 0 < (n_boxes ^ 2)⁻¹ := inv_pos.mpr (pow_pos hnb 2)
+    have h_frac_lt : zp_sq / (zp_sq + (n_boxes ^ 2)⁻¹) < 1 := by
+      rw [div_lt_one (add_pos hzp h_inv_pos)]
+      linarith
+    calc
+      (nu_reps * n_boxes ^ 4)⁻¹ * (zp_sq / (zp_sq + (n_boxes ^ 2)⁻¹)) <
+          (nu_reps * n_boxes ^ 4)⁻¹ * 1 := mul_lt_mul_of_pos_left h_frac_lt h_sw_pos
+      _ = (nu_reps * n_boxes ^ 4)⁻¹ := mul_one _
   refine ⟨
     by
       unfold osidDuffingNormalizedCoeff
@@ -3066,13 +3129,13 @@ theorem qci_osid_literature_benchmarks_duffing_elliptic_qi_ranard_and_switch_ide
     by
       unfold osidQiRanardCorrQuadForm2
       ring,
+    osidQiRanard_spin_chain_dim_lt_hilbert n_chain hn_chain,
     h_dk,
     by
       unfold osidZhaoSwitchFisher
       norm_num,
-    by
-      unfold osidZhaoSwitchRmseSq osidZhaoFixedOrderRmseSq osidZhaoSwitchFisher
-      norm_num,
+    h_zhao_cross,
+    h_zhao_het,
     by
       unfold osidGoswamiWitnessSigmaMargin
       norm_num,

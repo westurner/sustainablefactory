@@ -168,12 +168,41 @@ def verify_symbolic_literature_check_figures() -> dict[str, bool]:
     resid_norm = sp.N((corr_2q * c_vec).norm(), 30)
     qi_ranard_2q_exact_ok = float(resid_norm) < 1e-25
 
-    # 3. Zhao, Yang, & Chiribella (2020) super-Heisenberg Quantum Switch 1/N^2 vs 1/N
-    n_box, nu, energy, z_min = sp.symbols("n_box nu energy z_min", positive=True, real=True)
+    # Exact Bairey-Arad-Lindner (2019) 2-qubit commutator matrix K_{j,m} = i <v0|[L_m, O_j]|v0>
+    sy = sp.Matrix([[0, -sp.I], [sp.I, 0]])
+    bairey_ops = [
+        sp.kronecker_product(sy, i2),
+        sp.kronecker_product(i2, sy),
+        sp.kronecker_product(sy, sz),
+        sp.kronecker_product(sz, sy),
+    ]
+    k_bairey = sp.zeros(len(bairey_ops), len(l_ops))
+    for j, o_j in enumerate(bairey_ops):
+        for m_idx, l_m in enumerate(l_ops):
+            comm = l_m * o_j - o_j * l_m
+            k_bairey[j, m_idx] = sp.I * (v0.T * comm * v0)[0, 0]
+    bairey_res = float(sp.N((k_bairey * c_vec).norm(), 30))
+    # Verify non-degeneracy: K_bairey has 3 nonzero singular values and 1D kernel spanned by c_true
+    import numpy as np
+    k_np = np.array([[float(sp.re(k_bairey[r, c].evalf(30))) for c in range(4)] for r in range(4)])
+    s_vals = np.linalg.svd(k_np, compute_uv=False)
+    bairey_2q_exact_ok = (bairey_res < 1e-25) and (float(s_vals[2]) > 1e-3) and (float(s_vals[3]) < 1e-12)
+
+    # Qi-Ranard 1D periodic spin-chain parameter compression (12*n < 2^(n+1) for n=10, 12)
+    qi_ranard_dim_compression_ok = (12 * 10 < 2**11) and (12 * 12 < 2**13)
+
+    # 3. Zhao, Yang, & Chiribella (2020) super-Heisenberg Quantum Switch 1/N^2 vs 1/N + Eq. (7) heterodyne factor
+    n_box, nu, energy, z_min, zp_sq = sp.symbols(
+        "n_box nu energy z_min zp_sq", positive=True, real=True
+    )
     var_switch = 1 / (nu * n_box**4)
     var_fixed = z_min**2 / (8 * nu * energy * n_box**2)
     ratio_sq = sp.simplify(var_fixed / var_switch)
-    zhao_scaling_sym_ok = sp.simplify(ratio_sq - (z_min**2 * n_box**2) / (8 * energy)) == 0
+    het_factor = zp_sq / (zp_sq + 1 / n_box**2)
+    zhao_scaling_sym_ok = (
+        sp.simplify(ratio_sq - (z_min**2 * n_box**2) / (8 * energy)) == 0
+        and sp.simplify(1 - het_factor - (1 / (n_box**2 * zp_sq + 1))) == 0
+    )
 
     # 4. Goswami et al. (2018) exact rational causal witness margins
     s_exp = sp.Rational(-171, 1000)
@@ -187,6 +216,8 @@ def verify_symbolic_literature_check_figures() -> dict[str, bool]:
         "elliptic_prop36_sym_ok": elliptic_prop36_sym_ok,
         "qi_ranard_quad_sym_ok": qi_ranard_quad_sym_ok,
         "qi_ranard_2q_exact_ok": qi_ranard_2q_exact_ok,
+        "bairey_2q_exact_ok": bairey_2q_exact_ok,
+        "qi_ranard_dim_compression_ok": qi_ranard_dim_compression_ok,
         "zhao_scaling_sym_ok": zhao_scaling_sym_ok,
         "goswami_sym_ok": goswami_sym_ok,
     }

@@ -1944,17 +1944,27 @@ pub fn wias_column_pivoted_qr_solve(
 
     let r_diag: Vec<f64> = (0..steps).map(|i| r_mat[i][i].abs()).collect();
     let sigma_max_est = r_diag.iter().copied().fold(0.0_f64, f64::max);
-    let thresh = rank_tol * sigma_max_est.max(1.0);
+    let scale = if sigma_max_est > 0.0 {
+        sigma_max_est
+    } else {
+        1.0
+    };
+    let thresh = rank_tol * scale;
     let rank = r_diag.iter().filter(|&&d| d > thresh).count();
     let sigma_min_est = if steps < n {
         0.0
     } else {
         r_diag.iter().copied().fold(f64::INFINITY, f64::min)
     };
-    let cond_est = if sigma_min_est > 1e-15 {
+    let cond_est = if sigma_min_est > 1e-15 * scale {
         sigma_max_est / sigma_min_est
     } else {
         f64::INFINITY
+    };
+    let gram_det = if m < n {
+        0.0
+    } else {
+        r_diag.iter().map(|&d| d * d).product()
     };
 
     // Back-substitution on the first `rank` pivoted columns
@@ -1985,7 +1995,7 @@ pub fn wias_column_pivoted_qr_solve(
         sigma_min_est,
         sigma_max_est,
         cond_est,
-        gram_det: matrix_gram_det(g_rows),
+        gram_det,
         coeffs,
         residual_norm: res_sq.sqrt(),
     })
@@ -2219,11 +2229,16 @@ pub struct OsidMatrixAndSwitchAudit {
     pub circulant_rank_1shot: usize,
     pub circulant_max_err: f64,
     pub circulant_gram_det: f64,
+    pub circulant_n40_rank: usize,
+    pub circulant_n40_max_err: f64,
     pub hankel_1shot_rows: usize,
     pub hankel_1shot_cols: usize,
     pub hankel_1shot_rank: usize,
     pub hankel_2shot_rank: usize,
     pub hankel_2shot_max_err: f64,
+    pub hankel_n40_1shot_rank: usize,
+    pub hankel_n40_2shot_rank: usize,
+    pub hankel_n40_2shot_max_err: f64,
     pub hankel_2x2_two_probe_det: f64,
     pub switch_e_sym: f64,
     pub switch_e_anti: f64,
@@ -2280,6 +2295,53 @@ pub fn audit_osid_matrix_circulant_hankel_and_switch() -> OsidMatrixAndSwitchAud
     // Exact 2x2 Hankel 2-probe analytic determinant: -f1 * (f0*g1 - f1*g0)
     let h2_det = -f_h1[1] * plucker_2d_coord(f_h1[0], f_h1[1], f_h2[0], f_h2[1]);
 
+    // B2. Large-dimension scaling check (n = 40, mirroring NBoulle/wias 05 & 06):
+    // 40x40 Circulant (1-shot, N=40) vs. 40x79 Hankel (1-shot deficit -> 80x79 2-shot full rank)
+    let n40 = 40_usize;
+    let c40_true: Vec<f64> = (0..n40).map(|i| ((i as f64 + 1.0) * 0.37).sin()).collect();
+    let f40: Vec<f64> = (0..n40).map(|i| ((i as f64 + 1.0) * 1.13).cos() + 0.15 * (i == 0) as i32 as f64).collect();
+    let mut g_c40 = vec![vec![0.0_f64; n40]; n40];
+    let mut u_c40 = vec![0.0_f64; n40];
+    for r in 0..n40 {
+        for k in 0..n40 {
+            let val = f40[(r + n40 - k) % n40];
+            g_c40[r][k] = val;
+            u_c40[r] += c40_true[k] * val;
+        }
+    }
+    let qr_c40 = wias_column_pivoted_qr_solve(&g_c40, &u_c40, 1e-10).unwrap();
+    let c40_err = (0..n40)
+        .map(|i| (qr_c40.coeffs[i] - c40_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
+    let n_hank40 = 2 * n40 - 1; // 79
+    let ch40_true: Vec<f64> = (0..n_hank40).map(|i| ((i as f64 + 1.0) * 0.29).cos()).collect();
+    let fh1: Vec<f64> = (0..n40).map(|i| ((i as f64 + 1.0) * 0.71).sin()).collect();
+    let fh2: Vec<f64> = (0..n40).map(|i| ((i as f64 + 1.0) * 1.41).cos()).collect();
+    let assemble_h40 = |probe: &[f64]| -> (Vec<Vec<f64>>, Vec<f64>) {
+        let mut g = vec![vec![0.0_f64; n_hank40]; n40];
+        let mut u = vec![0.0_f64; n40];
+        for r in 0..n40 {
+            for col in 0..n40 {
+                let k = r + col;
+                g[r][k] += probe[col];
+                u[r] += ch40_true[k] * probe[col];
+            }
+        }
+        (g, u)
+    };
+    let (g_h40_1, u_h40_1) = assemble_h40(&fh1);
+    let qr_h40_1 = wias_column_pivoted_qr_solve(&g_h40_1, &u_h40_1, 1e-10).unwrap();
+    let (g_h40_2, u_h40_2) = assemble_h40(&fh2);
+    let mut g_h40_both = g_h40_1;
+    g_h40_both.extend(g_h40_2);
+    let mut u_h40_both = u_h40_1;
+    u_h40_both.extend(u_h40_2);
+    let qr_h40_2 = wias_column_pivoted_qr_solve(&g_h40_both, &u_h40_both, 1e-10).unwrap();
+    let h40_err = (0..n_hank40)
+        .map(|i| (qr_h40_2.coeffs[i] - ch40_true[i]).abs())
+        .fold(0.0_f64, f64::max);
+
     // C. Coherent Quantum Switch 1-shot non-commuting probe:
     // U_A = cos(theta)*I + i*sin(theta)*X at theta = pi/6, U_B = Z on |0>
     let theta = std::f64::consts::FRAC_PI_6;
@@ -2299,11 +2361,16 @@ pub fn audit_osid_matrix_circulant_hankel_and_switch() -> OsidMatrixAndSwitchAud
         circulant_rank_1shot: qr_circ.rank,
         circulant_max_err: circ_err,
         circulant_gram_det: qr_circ.gram_det,
+        circulant_n40_rank: qr_c40.rank,
+        circulant_n40_max_err: c40_err,
         hankel_1shot_rows: 3,
         hankel_1shot_cols: 5,
         hankel_1shot_rank: qr_h1.rank,
         hankel_2shot_rank: qr_h2.rank,
         hankel_2shot_max_err: hank_err,
+        hankel_n40_1shot_rank: qr_h40_1.rank,
+        hankel_n40_2shot_rank: qr_h40_2.rank,
+        hankel_n40_2shot_max_err: h40_err,
         hankel_2x2_two_probe_det: h2_det,
         switch_e_sym: e_sym,
         switch_e_anti: e_anti,
@@ -2593,6 +2660,9 @@ pub struct Osid2dPdesAudit {
     pub ns_continuity_rank: usize,
     pub ns_continuity_sigma4: f64,
     pub ns_continuity_max_coeff_err: f64,
+    pub ns_momentum_rank: usize,
+    pub ns_momentum_recovered_nu: f64,
+    pub ns_momentum_max_coeff_err: f64,
 }
 
 pub fn audit_osid_2d_pdes_allen_cahn_elliptic_ns() -> Osid2dPdesAudit {
@@ -2790,6 +2860,108 @@ pub fn audit_osid_2d_pdes_allen_cahn_elliptic_ns() -> Osid2dPdesAudit {
         ns_err = ns_err.max((rec_c[j] - ns_true[j]).abs());
     }
 
+    // 4. 2D Navier–Stokes 16-term momentum equation (NBoulle/wias/examples/04_navier_stokes.ipynb, nu = 1e-3):
+    // Columns 0..7: {Dx ux Dx vx, Dx ux Dy vx, Dy ux Dx vx, Dy ux Dy vx,
+    //                Dx uy Dx vy, Dx uy Dy vy, Dy uy Dx vy, Dy uy Dy vy} (true = [nu, 0, 0, nu, nu, 0, 0, nu])
+    // Columns 8..15: {ux Dx ux vx, ux Dy ux vx, uy Dx ux vx, uy Dy ux vx,
+    //                 ux Dx uy vy, ux Dy uy vy, uy Dx uy vy, uy Dy uy vy} (true = [1, 0, 0, 1, 1, 0, 0, 1])
+    let nu_true = 1e-3_f64;
+    let mom_true = [
+        nu_true, 0.0, 0.0, nu_true, nu_true, 0.0, 0.0, nu_true,
+        1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0,
+    ];
+    let mut mom_rows = Vec::with_capacity(24);
+    let mut mom_rhs = Vec::with_capacity(24);
+    // Use 24 vector test functions v = (phi_{kx, ky}, 0) and (0, phi_{kx, ky}) across 3x4 modes
+    let mom_modes = [
+        (1, 1), (2, 1), (1, 2), (2, 2),
+        (3, 1), (1, 3), (3, 2), (2, 3),
+        (3, 3), (4, 1), (1, 4), (4, 2),
+    ];
+    for comp in 0..2_usize {
+        for &(kx, ky) in &mom_modes {
+            let mut row = vec![0.0_f64; 16];
+            let mut rhs_val = 0.0_f64;
+            for ix in 0..=n_grid {
+                let wx = if ix == 0 || ix == n_grid { 1.0 } else if ix % 2 == 1 { 4.0 } else { 2.0 };
+                let x = ix as f64 * h;
+                for iy in 0..=n_grid {
+                    let wy = if iy == 0 || iy == n_grid { 1.0 } else if iy % 2 == 1 { 4.0 } else { 2.0 };
+                    let y = iy as f64 * h;
+                    let w = (wx * h / 3.0) * (wy * h / 3.0);
+
+                    // Non-symmetric divergence-free streamfunction:
+                    // psi(x, y) = sin(pi x) sin(pi y) * (1.0 + 0.7 x + 0.5 y^2)
+                    let sx = (pi * x).sin();
+                    let cx = (pi * x).cos();
+                    let sy = (pi * y).sin();
+                    let cy = (pi * y).cos();
+                    let g = 1.0 + 0.7 * x + 0.5 * y * y;
+                    let gx = 0.7;
+                    let gy = y;
+                    let gxx = 0.0;
+                    let gyy = 1.0;
+                    let gxy = 0.0;
+
+                    let ux = sx * (pi * cy * g + sy * gy);
+                    let uy = -sy * (pi * cx * g + sx * gx);
+                    let dx_ux = pi * cx * (pi * cy * g + sy * gy) + sx * (pi * cy * gx);
+                    let dy_ux = sx * (-pi * pi * sy * g + 2.0 * pi * cy * gy + sy * gyy);
+                    let dx_uy = -sy * (-pi * pi * sx * g + 2.0 * pi * cx * gx + sx * gxx);
+                    let dy_uy = -(pi * cy * (pi * cx * g + sx * gx) + sy * (pi * cx * gy + sx * gxy));
+
+                    let skx = (kx as f64 * pi * x).sin();
+                    let ckx = (kx as f64 * pi * x).cos();
+                    let sky = (ky as f64 * pi * y).sin();
+                    let cky = (ky as f64 * pi * y).cos();
+                    let v_val = skx * sky;
+                    let dv_dx = kx as f64 * pi * ckx * sky;
+                    let dv_dy = ky as f64 * pi * skx * cky;
+
+                    let (vx, dx_vx, dy_vx, vy, dx_vy, dy_vy) = if comp == 0 {
+                        (v_val, dv_dx, dv_dy, 0.0, 0.0, 0.0)
+                    } else {
+                        (0.0, 0.0, 0.0, v_val, dv_dx, dv_dy)
+                    };
+
+                    let terms = [
+                        dx_ux * dx_vx,
+                        dx_ux * dy_vx,
+                        dy_ux * dx_vx,
+                        dy_ux * dy_vx,
+                        dx_uy * dx_vy,
+                        dx_uy * dy_vy,
+                        dy_uy * dx_vy,
+                        dy_uy * dy_vy,
+                        ux * dx_ux * vx,
+                        ux * dy_ux * vx,
+                        uy * dx_ux * vx,
+                        uy * dy_ux * vx,
+                        ux * dx_uy * vy,
+                        ux * dy_uy * vy,
+                        uy * dx_uy * vy,
+                        uy * dy_uy * vy,
+                    ];
+                    let mut contrib = 0.0_f64;
+                    for j in 0..16 {
+                        row[j] += w * terms[j];
+                        contrib += mom_true[j] * terms[j];
+                    }
+                    rhs_val += w * contrib;
+                }
+            }
+            mom_rows.push(row);
+            mom_rhs.push(rhs_val);
+        }
+    }
+    let qr_mom = wias_column_pivoted_qr_solve(&mom_rows, &mom_rhs, 1e-11)
+        .expect("2D Navier-Stokes 16-term momentum solve should succeed");
+    let mut mom_err = 0.0_f64;
+    for j in 0..16 {
+        mom_err = mom_err.max((qr_mom.coeffs[j] - mom_true[j]).abs());
+    }
+    let mom_nu_rec = 0.25 * (qr_mom.coeffs[0] + qr_mom.coeffs[3] + qr_mom.coeffs[4] + qr_mom.coeffs[7]);
+
     Osid2dPdesAudit {
         allen_cahn_2d_rank: qr_ac.rank,
         allen_cahn_2d_max_coeff_err: ac_err,
@@ -2801,6 +2973,9 @@ pub fn audit_osid_2d_pdes_allen_cahn_elliptic_ns() -> Osid2dPdesAudit {
         ns_continuity_rank: ns_rank,
         ns_continuity_sigma4: sigma4,
         ns_continuity_max_coeff_err: ns_err,
+        ns_momentum_rank: qr_mom.rank,
+        ns_momentum_recovered_nu: mom_nu_rec,
+        ns_momentum_max_coeff_err: mom_err,
     }
 }
 
@@ -2819,7 +2994,12 @@ pub struct OsidQiRanardHamiltonianAudit {
     pub correlation_lambda2: f64,
     pub projective_angle_err_rad: f64,
     pub max_scaled_coeff_err: f64,
+    pub qi_ranard_dk_lhs: f64,
+    pub qi_ranard_dk_rhs: f64,
     pub bairey_commutator_residual: f64,
+    pub bairey_ktk_lambda1: f64,
+    pub bairey_ktk_lambda2: f64,
+    pub bairey_recovered_max_err: f64,
 }
 
 pub fn audit_osid_qi_ranard_hamiltonian() -> OsidQiRanardHamiltonianAudit {
@@ -2912,10 +3092,35 @@ pub fn audit_osid_qi_ranard_hamiltonian() -> OsidQiRanardHamiltonianAudit {
         max_scaled_err = max_scaled_err.max((rec_i - c_true[i]).abs());
     }
 
-    // Bairey-Arad-Lindner commutator check: i[L_m, O_j] for real-antisymmetric O_j = i Y_q (q=0..3)
-    // Action of (i Y_q) on basis state b: bit_q == 0 -> -|b^flip>, bit_q == 1 -> +|b^flip>
-    let mut bairey_res = 0.0_f64;
-    let hv = matvec(&h_mat, &v0);
+    // Davis–Kahan empirical perturbation check (Qi & Ranard Eq. 3.7):
+    // Inject deterministic perturbation ΔM of spectral norm ~ 1e-5 into M(v0)
+    // and verify (1/2) sin(2 theta_noisy) <= ||ΔM||_2 / lambda_2.
+    let mut delta_m = vec![0.0_f64; n_basis * n_basis];
+    let eps_dm = 1e-5_f64;
+    for i in 0..n_basis {
+        for j in i..n_basis {
+            let val = eps_dm * (((i + 1) * (j + 2)) as f64 * 0.73).sin();
+            delta_m[i * n_basis + j] = val;
+            delta_m[j * n_basis + i] = val;
+        }
+    }
+    let (dm_evals, _) = jacobi_symmetric_eigen(n_basis, &delta_m);
+    let dm_norm_2 = dm_evals.iter().map(|x| x.abs()).fold(0.0_f64, f64::max);
+    let corr_m_pert: Vec<f64> = corr_m.iter().zip(delta_m.iter()).map(|(&a, &b)| a + b).collect();
+    let (_, mp_evecs) = jacobi_symmetric_eigen(n_basis, &corr_m_pert);
+    let w_pert: Vec<f64> = (0..n_basis).map(|r| mp_evecs[r * n_basis]).collect();
+    let pert_overlap = dot(&w_pert, &c_unit).abs().min(1.0);
+    let theta_pert = pert_overlap.acos();
+    let dk_lhs = 0.5 * (2.0 * theta_pert).sin();
+    let dk_rhs = dm_norm_2 / m_evals[1];
+
+    // Independent Bairey–Arad–Lindner (2019) commutator matrix recovery:
+    // K_{j, m} = <v0| [L_m, A_j] |v0> where A_j are 10 real-antisymmetric local 1- & 2-body operators:
+    //   - i Y_q (q = 0..3)
+    //   - i Y_q Z_{q+1} (q = 0..2)
+    //   - i Z_q Y_{q+1} (q = 0..2)
+    let mut anti_ops: Vec<Vec<f64>> = Vec::with_capacity(10);
+    // 1. i Y_q
     for q in 0..4 {
         let flip = 1_usize << (n_qubits - 1 - q);
         let mut oy_mat = vec![0.0_f64; dim * dim];
@@ -2924,11 +3129,59 @@ pub fn audit_osid_qi_ranard_hamiltonian() -> OsidQiRanardHamiltonianAudit {
             let sgn = if bit == 0 { 1.0 } else { -1.0 };
             oy_mat[(b ^ flip) * dim + b] = sgn;
         }
-        let oyv = matvec(&oy_mat, &v0);
-        // <v0| [H, O_y] |v0> = <Hv | O_y v> - <O_y^T v | H v> = <Hv | Oy v> + <Oy v | Hv>
-        // Wait: (i Y_q)^T = -(i Y_q), so <v | H (i Y_q) - (i Y_q) H | v> = <Hv | Oy v> + <Oy v | Hv>
-        let comm_val = dot(&hv, &oyv) + dot(&oyv, &hv);
-        bairey_res = bairey_res.max(comm_val.abs());
+        anti_ops.push(oy_mat);
+    }
+    // 2. i Y_q Z_{q+1}
+    for q in 0..3 {
+        let flip = 1_usize << (n_qubits - 1 - q);
+        let mut mat = vec![0.0_f64; dim * dim];
+        for b in 0..dim {
+            let bit = (b >> (n_qubits - 1 - q)) & 1;
+            let sgn = (if bit == 0 { 1.0 } else { -1.0 }) * pauli_z_at(q + 1, b);
+            mat[(b ^ flip) * dim + b] = sgn;
+        }
+        anti_ops.push(mat);
+    }
+    // 3. i Z_q Y_{q+1}
+    for q in 0..3 {
+        let flip = 1_usize << (n_qubits - 1 - (q + 1));
+        let mut mat = vec![0.0_f64; dim * dim];
+        for b in 0..dim {
+            let bit = (b >> (n_qubits - 1 - (q + 1))) & 1;
+            let sgn = pauli_z_at(q, b) * (if bit == 0 { 1.0 } else { -1.0 });
+            mat[(b ^ flip) * dim + b] = sgn;
+        }
+        anti_ops.push(mat);
+    }
+
+    let n_anti = anti_ops.len();
+    let mut k_mat = vec![vec![0.0_f64; n_basis]; n_anti];
+    let mut bairey_res = 0.0_f64;
+    for (j, a_op) in anti_ops.iter().enumerate() {
+        let av = matvec(a_op, &v0);
+        for m_idx in 0..n_basis {
+            // <v0| (L_m A_j - A_j L_m) |v0> = <L_m v0 | A_j v0> + <A_j v0 | L_m v0>
+            // (since L_m^T = L_m and A_j^T = -A_j)
+            k_mat[j][m_idx] = dot(&lv[m_idx], &av) + dot(&av, &lv[m_idx]);
+        }
+        let comm_true: f64 = (0..n_basis).map(|m_idx| k_mat[j][m_idx] * c_true[m_idx]).sum();
+        bairey_res = bairey_res.max(comm_true.abs());
+    }
+    let mut ktk = vec![0.0_f64; n_basis * n_basis];
+    for r in 0..n_anti {
+        for p in 0..n_basis {
+            for q in 0..n_basis {
+                ktk[p * n_basis + q] += k_mat[r][p] * k_mat[r][q];
+            }
+        }
+    }
+    let (ktk_evals, ktk_evecs) = jacobi_symmetric_eigen(n_basis, &ktk);
+    let w_bairey: Vec<f64> = (0..n_basis).map(|r| ktk_evecs[r * n_basis]).collect();
+    let b_sign = if dot(&w_bairey, &c_unit) >= 0.0 { 1.0 } else { -1.0 };
+    let mut bairey_rec_err = 0.0_f64;
+    for i in 0..n_basis {
+        let rec_i = b_sign * w_bairey[i] * c_norm;
+        bairey_rec_err = bairey_rec_err.max((rec_i - c_true[i]).abs());
     }
 
     OsidQiRanardHamiltonianAudit {
@@ -2939,7 +3192,12 @@ pub fn audit_osid_qi_ranard_hamiltonian() -> OsidQiRanardHamiltonianAudit {
         correlation_lambda2: m_evals[1],
         projective_angle_err_rad: angle_err,
         max_scaled_coeff_err: max_scaled_err,
+        qi_ranard_dk_lhs: dk_lhs,
+        qi_ranard_dk_rhs: dk_rhs,
         bairey_commutator_residual: bairey_res,
+        bairey_ktk_lambda1: ktk_evals[0],
+        bairey_ktk_lambda2: ktk_evals[1],
+        bairey_recovered_max_err: bairey_rec_err,
     }
 }
 
@@ -3767,11 +4025,16 @@ mod tests {
         assert_eq!(mat.circulant_rank_1shot, 4);
         assert!(mat.circulant_max_err < 1e-12);
         assert!(mat.circulant_gram_det > 1.0);
+        assert_eq!(mat.circulant_n40_rank, 40);
+        assert!(mat.circulant_n40_max_err < 1e-12);
         assert_eq!(mat.hankel_1shot_rows, 3);
         assert_eq!(mat.hankel_1shot_cols, 5);
         assert_eq!(mat.hankel_1shot_rank, 3);
         assert_eq!(mat.hankel_2shot_rank, 5);
         assert!(mat.hankel_2shot_max_err < 1e-12);
+        assert_eq!(mat.hankel_n40_1shot_rank, 40);
+        assert_eq!(mat.hankel_n40_2shot_rank, 79);
+        assert!(mat.hankel_n40_2shot_max_err < 1e-11);
         assert!(mat.hankel_2x2_two_probe_det.abs() > 0.5);
         assert!((mat.switch_e_sym + mat.switch_e_anti - 1.0).abs() < 1e-12);
         assert!((mat.switch_e_sym - 0.75).abs() < 1e-12);
@@ -3801,20 +4064,23 @@ mod tests {
         assert!((duf.recovered_gamma - 8.0).abs() < 1e-6);
         assert!(duf.max_coeff_err < 1e-6);
 
-        // 2. 2D Quintic Allen-Cahn, Elliptic Prop. 36 degeneracy, & Navier-Stokes continuity
+        // 2. 2D Quintic Allen-Cahn, Elliptic Prop. 36 degeneracy, & Navier-Stokes continuity + 16-term momentum
         let pdes = audit_osid_2d_pdes_allen_cahn_elliptic_ns();
         assert_eq!(pdes.allen_cahn_2d_rank, 9);
         assert!(pdes.allen_cahn_2d_max_coeff_err < 1e-10);
         assert_eq!(pdes.elliptic_coprime_rank, 1);
-        assert!(pdes.elliptic_coprime_gram_det.abs() < 1e-6);
+        assert!(pdes.elliptic_coprime_gram_det >= 0.0 && pdes.elliptic_coprime_gram_det < 1e-18);
         assert!(pdes.elliptic_coprime_ray_residual < 1e-12);
         assert_eq!(pdes.elliptic_multimode_rank, 2);
         assert!(pdes.elliptic_multimode_max_err < 1e-11);
         assert_eq!(pdes.ns_continuity_rank, 3);
         assert!(pdes.ns_continuity_sigma4 < 1e-12);
         assert!(pdes.ns_continuity_max_coeff_err < 1e-12);
+        assert_eq!(pdes.ns_momentum_rank, 16);
+        assert!((pdes.ns_momentum_recovered_nu - 1e-3).abs() < 1e-12);
+        assert!(pdes.ns_momentum_max_coeff_err < 1e-10);
 
-        // 3. Qi & Ranard (2019) single-eigenstate 4-qubit Hamiltonian & Bairey et al. (2019) commutator
+        // 3. Qi & Ranard (2019) single-eigenstate 4-qubit Hamiltonian & Bairey et al. (2019) independent K*c=0
         let qr = audit_osid_qi_ranard_hamiltonian();
         assert_eq!(qr.num_qubits, 4);
         assert_eq!(qr.local_basis_dim, 8);
@@ -3823,7 +4089,12 @@ mod tests {
         assert!(qr.correlation_lambda2 > 1e-3);
         assert!(qr.projective_angle_err_rad < 1e-10);
         assert!(qr.max_scaled_coeff_err < 1e-10);
+        assert!(qr.qi_ranard_dk_lhs > 0.0);
+        assert!(qr.qi_ranard_dk_lhs <= qr.qi_ranard_dk_rhs);
         assert!(qr.bairey_commutator_residual < 1e-12);
+        assert!(qr.bairey_ktk_lambda1.abs() < 1e-12);
+        assert!(qr.bairey_ktk_lambda2 > 1e-4);
+        assert!(qr.bairey_recovered_max_err < 1e-11);
 
         // 4. Zhao et al. (2020) super-Heisenberg Switch metrology & Goswami et al. (2018) witness
         let zg = audit_osid_zhao_and_goswami_literature_benchmarks();
